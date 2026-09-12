@@ -6,6 +6,8 @@ Keep one coordinating Codex session per phase. Start a fresh focused session whe
 objective, when the current context contains several abandoned approaches, or when work needs
 independent review. Do not open a new session for every small edit. At a quota boundary, preserve
 the worktree, dirty state and next action; another allowed model may resume, or the task waits.
+GPT alternatives may share account quota windows, so switching models does not guarantee fresh
+allowance. Preserve the handoff or wait when the relevant quota is exhausted; no purchase is implied.
 
 Every task has one accountable writer, an isolated worktree and `changes/<task>/task.md`. Reserve
 its affected paths and include the necessary tests and documentation in that ownership. Only the

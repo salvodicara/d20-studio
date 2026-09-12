@@ -2,15 +2,19 @@
 
 ## Current state
 
-The new repository foundation is being prepared from the owner's 2026-09-12 steering.
-The existing production app remains in d20 Folio. The current task is
-[bootstrap](../changes/bootstrap/task.md): publish the checked foundation, record its independent
-review and enable inexpensive CI. The next task is research-01; no application implementation has
-started and the brand name remains provisional.
+The public [d20 Studio repository](https://github.com/salvodicara/d20-studio) now contains the
+foundation from the owner's 2026-09-12 steering. Its initial candidate passed separate review and
+real GitHub CI; main requires documentation checks and a review status for each candidate.
+See the [bootstrap receipt](../evidence/reviews/bootstrap.md) and
+[task record](../changes/bootstrap/task.md) for the evidence and completion boundary.
+
+When this handoff is on main with both checks passing, research-01 is ready to start. No owner
+answer blocks it. The existing production app remains in d20 Folio; no new application
+implementation has started and the brand name remains provisional.
 
 ## Next focused session
 
-After bootstrap is complete, open a new Codex task with this repository as its project. Keep this
+Open the next Codex task with this repository as its project after the handoff is integrated. Keep this
 coordinating conversation for direction; the new task receives the repository contract and a
 focused objective, rather than inheriting the entire old redesign debate. The agent can arrange
 bounded review subagents through the applicable review skill; the owner need not create one
