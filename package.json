@@ -1,0 +1,12 @@
+{
+  "name": "d20-studio",
+  "private": true,
+  "description": "Documentation tooling for the d20 Studio design project; provisional name.",
+  "scripts": {
+    "check": "prettier --check .",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "prettier": "3.8.3"
+  }
+}
