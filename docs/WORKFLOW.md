@@ -18,6 +18,31 @@ approved the actual candidate, findings are resolved or explicitly dispositioned
 coordinator has integrated it and updated the shared handoff. Requesting a review is not completion.
 An unclosed correctness defect cannot be relabeled a preference to pass a gate.
 
+## Autonomous phase handoff
+
+Owner authorization D-011 (2026-09-12) permits ordinary Codex session succession without
+manual prompt copying or renewed confirmation. The current coordinator prepares the complete
+NEXT prompt inside the reviewed candidate, with objective, files, model/effort, alternatives,
+evidence date, tools, resume path, checks, open gates and recovery state. It becomes operative
+only after that exact candidate passes both statuses and is integrated.
+
+Before dispatch, inventory tasks, branches and worktrees. Resume an existing matching task;
+otherwise create exactly one successor for the next bounded phase objective. Use the saved
+project and one isolated worktree under `~/Workspace/Codex`; identify the accountable writer.
+Set the recommended model/effort explicitly. Wait for a startup confirmation; a queued
+clientThreadId is not a real threadId. Transmit the predecessor's actual threadId and host,
+integrated SHA/check evidence and this continuing authorization. Then finish the handoff turn.
+The successor verifies the base and takes ownership before archiving that predecessor with
+the Codex archive tool, only after its handoff turn has completed; never interrupt it while
+it is starting the successor, and never archive unrelated tasks.
+
+No new task for each minor edit, no empty chains and no duplicate worktrees. If startup fails,
+retain the repository handoff and report the failure; retry/resume after inspecting actual state.
+Quota exhaustion preserves dirty work and the next action, not a false completion commit.
+The owner can steer at any time. Product/taste, first-release offline scope and all spending,
+deployment, release, real-data migration and external commitments retain their explicit gates.
+Managing Codex sessions does not authorize messages to other people.
+
 ## One-provider review
 
 The author and reviewer may both use GPT-6 Astra. The reviewer receives the task requirements,

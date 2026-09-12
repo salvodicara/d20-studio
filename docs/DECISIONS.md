@@ -44,3 +44,22 @@ remove an existing promise. Return any first-release tradeoff to the owner with 
 
 These are design dispositions, not claims that an unbuilt application, comprehensive review
 sandbox or runtime test suite has already passed. See WORKFLOW for the limits of local review.
+
+## D-011 — passaggi autonomi fra sessioni (12/09/2026)
+
+Fonte: autorizzazione esplicita del proprietario nel passaggio dal task Codex
+«Completa research-01 sul mercato» a experience-01 il 12/09/2026. Il coordinatore può cercare
+e avviare il prossimo task delimitato, impostare modello e sforzo e trasmettere il proprio vero
+threadId; il successore può archiviare il predecessore dopo aver verificato la presa in carico
+e la conclusione del suo turno. L'autorizzazione si conserva nei passaggi successivi.
+
+Estende D-007 alla gestione operativa delle sessioni; non sostituisce D-001–D-010. Non richiedere
+al proprietario di incollare prompt o riconfermare i passaggi ordinari già autorizzati. Cercare
+prima task/branch/worktree esistenti; un successore per cambio di obiettivo, nessuna catena di
+task vuoti. Conservare comunque nel repository il prompt completo per una ripresa manuale.
+
+Resta possibile coinvolgere il proprietario in ogni momento. Le scelte sostanziali di prodotto,
+la direzione visiva, offline del primo rilascio, spesa, deployment, rilascio, migrazione e impegni
+esterni conservano i propri gate. L'autorizzazione non consente di modificare d20 Folio.
+Se quota o accesso impediscono il lavoro, preservare stato reale e punto di ripresa, senza
+dichiarare completamento o creare sessioni duplicate come espediente.
