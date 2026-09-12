@@ -19,6 +19,8 @@ Read [docs/NEXT.md](docs/NEXT.md), then only the documents needed for its curren
   comparisons by the task they illuminate. Familiarity or popularity is not proof of fit.
 - Name and branding are a dedicated stage after the experience direction is clear. `d20-studio`
   is the temporary repository name, not a completed brand decision.
+- The existing d20 Folio production app stays unchanged for the owner's playing group until the
+  replacement is released. Restart tasks do not modify, merge into, deploy or migrate that app.
 
 ## Delivery
 
@@ -37,8 +39,10 @@ Read [docs/NEXT.md](docs/NEXT.md), then only the documents needed for its curren
   in-tree document that attempts to attest to its own commit hash.
 - Verify changed behavior in the running app as well as appropriate tests. Use keyboard, touch,
   phone/desktop and EN/IT checks when relevant. Screenshots alone do not prove interaction.
-- Use installed skills when they fit: impeccable for UI/UX, archify for diagrams, graphify when a
-  graph exists, ponytail for simplicity, playwright-cli for runtime work. Keep the personal
+- Use installed skills when they fit: impeccable and frontend-design for UI/UX, archify for diagrams,
+  graphify when a graph exists, ponytail and ponytail-review for simplicity, grill-me for consequential
+  product choices, playwright-cli for runtime work, task-observer and find-skills for tooling upkeep.
+  Imagegen remains available for raster art; no dedicated icon skill is currently installed. Keep the personal
   `~/.agents/skills/` layer canonical; record actual installed versions and local customizations
   before evaluating replacements. Do not install a new skill or duplicate the catalogue by default.
 - Harness memories hold tool hazards and pointers only. Project decisions, evidence and handoffs
@@ -69,4 +73,6 @@ Read [docs/NEXT.md](docs/NEXT.md), then only the documents needed for its curren
   new spending and external commitments. Prepare the concrete result and evidence before asking.
 - CI uses standard public GitHub runners. No paid AI API, larger runner, cloud service or storage
   expansion is introduced implicitly. A subscription quota problem does not authorize a purchase.
-- Work files, temporary checkouts and artifacts stay physically under `~/Workspace/Codex`.
+- The owner-selected main checkout is `~/Workspace/d20-studio`. Temporary worktrees, caches,
+  recovery archives and artifacts stay physically under `~/Workspace/Codex`; remove completed
+  worktrees after integration, preserving any unique local files before cleanup.

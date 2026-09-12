@@ -1,7 +1,7 @@
 # Decisions
 
 Dated owner direction is authoritative within its scope. New decisions explicitly identify what
-they replace. The source for D-001–D-007 is the owner's 2026-09-12 restart steering in the Codex
+they replace. The source for D-001–D-010 is the owner's 2026-09-12 restart steering and follow-ups in the Codex
 conversation; these entries paraphrase product instructions without copying personal chat history.
 
 | ID    | Decision                                                                                          | Effect                                                                                                                                                                                                                                                                 |
@@ -13,6 +13,9 @@ conversation; these entries paraphrase product instructions without copying pers
 | D-005 | Final naming, marketing position and branding happen at a defined stage once the design is clear. | `d20 Studio` is a working name. Explore alternatives, availability and positioning at ROADMAP stage 5; no domain purchases or launch announcements now.                                                                                                                |
 | D-006 | Minimize demands on DM/player availability; work autonomously wherever possible.                  | Public community evidence, documented product comparisons and agent-run interaction tests are the normal path. Recurring participant sessions no longer block every slice. Human testing remains distinct evidence, not something AI can claim to simulate faithfully. |
 | D-007 | Agents manage the project and guide a nontechnical owner in clear Italian.                        | The coordinator handles task boundaries, fresh review sessions, checks and handoffs. Ask only consequential product/taste, cost, external-authority or irreversible choices, with concrete alternatives.                                                               |
+| D-008 | Put the main clone directly at `~/Workspace/d20-studio` and remove obsolete worktrees.            | This exact owner-selected location supersedes the bootstrap location under `~/Workspace/Codex`. Temporary worktrees and recovery files still use that Codex directory. Remove completed worktrees after integration; preserve unique local material before cleanup.    |
+| D-009 | Keep the current d20 Folio site unchanged until the replacement is released.                      | The owner's group continues playing there. Restart work does not modify production code, deploy, merge into production or move its live data. Any later exception needs explicit owner steering.                                                                       |
+| D-010 | Retain useful existing skills, including Impeccable, Ponytail, Grill-me and Superpowers.          | Keep the actual installed tools and personal customizations. The wider supporting catalogue remains available as appropriate; no dedicated icon skill is currently installed, and none is added merely to fill that label.                                             |
 
 ## Retained baseline
 

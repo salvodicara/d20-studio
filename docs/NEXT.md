@@ -12,11 +12,15 @@ When this handoff is on main with both checks passing, research-01 is ready to s
 answer blocks it. The existing production app remains in d20 Folio; no new application
 implementation has started and the brand name remains provisional.
 
+The main local checkout is now `~/Workspace/d20-studio`. Obsolete legacy worktrees were removed;
+unique small local files were preserved privately. The production app remains unchanged for the
+owner's group until the replacement is released. See [the cleanup record](../changes/workspace-cleanup/task.md).
+
 ## Next focused session
 
-Open the next Codex task with this repository as its project after the handoff is integrated. Keep this
-coordinating conversation for direction; the new task receives the repository contract and a
-focused objective, rather than inheriting the entire old redesign debate. The agent can arrange
+Once this handoff is integrated, the setup conversation is complete. Add `~/Workspace/d20-studio`
+as the Codex project and open a fresh task there. The next task coordinates research from the
+repository contract and its focused objective. The agent can arrange
 bounded review subagents through the applicable review skill; the owner need not create one
 conversation for every implementation detail.
 
@@ -32,7 +36,8 @@ Alternativa disponibile: GPT-5.6 Terra, high, per un sottoinsieme delimitato del
 Base: indicazioni e limiti datati 2026-09-12 in docs/WORKFLOW.md ed evidence/SOURCES.md;
 scelta provvisoria da verificare sugli esiti. Claude non è richiesto.
 Strumenti: Git/GitHub, ricerca web e consultazione dei prodotti accessibili, nessun servizio a pagamento.
-Riparti dal repository https://github.com/salvodicara/d20-studio e dal suo origin/main aggiornato.
+Riparti da ~/Workspace/d20-studio, repository https://github.com/salvodicara/d20-studio,
+e dal suo origin/main aggiornato. d20 Folio resta intoccato in produzione fino al rilascio del nuovo prodotto.
 
 Leggi AGENTS.md, docs/NEXT.md e docs/RESEARCH_BRIEF.md. Se bootstrap è concluso, avvia research-01
 in un worktree isolato sul branch codex/research-01 e registra changes/research-01/task.md.
