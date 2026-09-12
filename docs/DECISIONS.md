@@ -63,3 +63,29 @@ la direzione visiva, offline del primo rilascio, spesa, deployment, rilascio, mi
 esterni conservano i propri gate. L'autorizzazione non consente di modificare d20 Folio.
 Se quota o accesso impediscono il lavoro, preservare stato reale e punto di ripresa, senza
 dichiarare completamento o creare sessioni duplicate come espediente.
+
+## D-012 — intervista completa prima dei mock (12/09/2026)
+
+Fonte: correzione esplicita del proprietario nel task design-01. Vuole una lunga intervista
+Grill-me su TUTTO il prodotto: feature, ruoli, percorsi, pagine concettuali, sezioni, informazioni,
+pulsanti, regole di comportamento ed eccezioni. Una domanda alla volta, nessuna durata imposta;
+risposte e punti aperti vivono nel repository. Sono ammessi documenti Markdown per descrivere le
+pagine funzionalmente. Non sono autorizzati mock, wireframe visuali, UI grafica, demo, prototipi o
+implementazione prima dell'approvazione esplicita del contratto complessivo.
+
+Supersede la sequenza precedente che passava direttamente dalla ricerca al guado e alle due
+direzioni. Le mappe scenario/accettazione e il prototipo design-01 vengono ritirati dagli input
+attivi; non costituiscono preferenze confermate. Ricerca sui prodotti, fonti/regole verificate,
+inventario dei diciannove lavori e skill con personalizzazioni restano disponibili. Non è un
+reset delle conoscenze o dell'ambizione. I diciannove lavori non sono una mappa di pagine.
+
+D-006 non esonera dall'intervista del proprietario: riguarda il reclutamento ricorrente di altri
+DM/giocatori. D-007/D-011 consentono coordinamento operativo, non decisioni di prodotto implicite
+né salti al design. Per questo passaggio il proprietario chiede un prompt per avviare la prossima
+sessione; non avviare un successore automaticamente. Eventuali sessioni successive continuano
+l'intervista dal punto registrato finché il gate rimane aperto.
+
+Dopo l'approvazione, il contratto è la baseline dei mock e non si riapre per iniziativa arbitraria
+dell'agente. Una contraddizione reale si presenta al proprietario con una proposta di modifica e
+impatti; non si nasconde e non si cambia silenziosamente. Produzione, dati, spesa e pubblicazione
+mantengono tutti i vincoli già stabiliti. Il nome resta provvisorio.

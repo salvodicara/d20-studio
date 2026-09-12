@@ -1,5 +1,9 @@
 # Research 01 — market coverage and table needs
 
+> Historical research brief, retained. D-012 now requires a separate owner product interview;
+> the exclusions of questionnaires below applied to research/recruited participants, not to that
+> requested interview. Scenario-first recommendations do not authorize prototypes before approval.
+
 ## Objective
 
 Establish what is worth designing before building the new app. Reuse the earlier research as a

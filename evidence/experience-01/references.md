@@ -1,5 +1,9 @@
 # Sequenze di riferimento per il guado
 
+> D-012, 12/09/2026: documento storico conservato. Fonti e ricerca restano utili; le proposte
+> relative al guado non sono un piano da eseguire né risposte confermate all'intervista. Le mappe
+> e i casi derivati sono ritirati. Seguire docs/NEXT.md e la nuova intervista completa di prodotto.
+
 Consultazione **12/09/2026**. Approfondimento circoscritto di research-01; nessun prodotto,
 account autenticato o videogioco provato direttamente. **P** capacità pubblicata dal produttore,
 **C** documentazione comunitaria, **I** inferenza progettuale, **G** gusto/direzione del proprietario,

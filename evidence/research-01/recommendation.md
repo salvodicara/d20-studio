@@ -1,5 +1,9 @@
 # Research 01 — da dove partire
 
+> D-012, 12/09/2026: documento storico conservato. Fonti e ricerca restano utili; le proposte
+> relative al guado non sono un piano da eseguire né risposte confermate all'intervista. Le mappe
+> e i casi derivati sono ritirati. Seguire docs/NEXT.md e la nuova intervista completa di prodotto.
+
 **Raccomandazione del 12/09/2026: progettare «L'agguato al guado», un incontro breve ma completo.** È una proposta basata sui rischi da chiarire e sull'ambizione già decisa, non il vincitore di un sondaggio. Nessuna modifica alle [decisioni del proprietario](../../docs/DECISIONS.md).
 
 ## I bisogni più solidi

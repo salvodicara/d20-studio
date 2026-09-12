@@ -1,5 +1,9 @@
 # Regole, revisioni e limiti
 
+> D-012, 12/09/2026: documento storico conservato. Fonti e ricerca restano utili; le proposte
+> relative al guado non sono un piano da eseguire né risposte confermate all'intervista. Le mappe
+> e i casi derivati sono ritirati. Seguire docs/NEXT.md e la nuova intervista completa di prodotto.
+
 Verifica documentale: **12/09/2026**, baseline regole 2024 tramite **SRD 5.2.1**.
 La [pagina ufficiale](https://www.dndbeyond.com/srd), aggiornata 02/03/2026, collega
 [EN](https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf)
@@ -45,7 +49,7 @@ non una nuova house rule. Nessuna certificazione dell’intera traduzione.
 | R12 | Incapacitato impedisce azioni, azioni bonus e reazioni e interrompe concentrazione. Danni durante concentrazione richiedono il TS previsto, CD maggiore fra 10 e metà danni (arrotondata per difetto), massimo 30.                                                     | EN p. 184 Incapacitated e p. 179 Concentration; IT p. 208 Incapacitato e p. 206 Concentrazione                                                                                                            | C07, C09            |
 | R13 | Un solo slot speso per lanciare incantesimi in ciascun turno; Scudo nel turno avversario è distinto dal proprio turno. Non importare la vecchia formulazione dell'incantesimo con azione bonus.                                                                        | EN p. 105; IT p. 118                                                                                                                                                                                      | C07                 |
 
-Esempi in [acceptance.md](acceptance.md); traccia in [scenario.md](scenario.md).
+Esempi in `acceptance.md` (ritirato); traccia in `scenario.md` (ritirato).
 Le formule non sostituiscono i testi completi: prerequisiti, componenti, gittate e condizioni
 si verificano prima dell'applicazione. Una capacità non coperta va esplicitamente gestita dal DM
 con fonte e risultato registrati; l'implementazione progressiva non cambia il default di automazione
@@ -53,7 +57,7 @@ completa del prodotto. Non dichiarare supportata tutta la scheda per aver provat
 
 ## Fonti originali e private
 
-Le decisioni originali E-001–E-003 sono in [scenario.md](scenario.md), revisione e01-v1; il loro
+Le decisioni originali E-001–E-003 sono in `scenario.md` (ritirato), revisione e01-v1; il loro
 contenuto diventa immutabile con il commit candidato approvato, che i consumatori devono fissare
 esplicitamente. Sono decisioni autoriali per la prova, non nuovi ordini del proprietario e non SRD.
 Nessuna house rule meccanica è introdotta. Nomi, testo della scena, medaglione e politica di

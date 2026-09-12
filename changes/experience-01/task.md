@@ -1,5 +1,9 @@
 # Experience 01 — contratto del guado
 
+> D-012, 12/09/2026: documento storico conservato. Fonti e ricerca restano utili; le proposte
+> relative al guado non sono un piano da eseguire né risposte confermate all'intervista. Le mappe
+> e i casi derivati sono ritirati. Seguire docs/NEXT.md e la nuova intervista completa di prodotto.
+
 Data: 12/09/2026. Coordinatore e unico autore responsabile: sessione Codex experience-01 (`01a096a7-26fd-7082-bed3-b32731579771`),
 GPT-6 Astra / high. Autore Git: identità del proprietario configurata nel repository,
 senza coautori. Base verificata: `744ab582dad86b5b3dff2cf6ab27ae0b3b036058`, su origin/main;

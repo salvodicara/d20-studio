@@ -18,6 +18,15 @@ approved the actual candidate, findings are resolved or explicitly dispositioned
 coordinator has integrated it and updated the shared handoff. Requesting a review is not completion.
 An unclosed correctness defect cannot be relabeled a preference to pass a gate.
 
+## Owner interview gate — D-012
+
+Current objective: the complete product interview, not design or implementation. Record functional
+pages in Markdown and wait for each owner answer. Routine research autonomy and the absence of a
+recruited playtest requirement do not replace this interview. No mock, prototype or code until the
+owner explicitly approves the complete contract. The owner requested a next-session prompt for
+this reset; do not dispatch that session automatically. A later handoff must continue the interview
+while the gate is open. The retained research and installed skills are inputs, not settled answers.
+
 ## Autonomous phase handoff
 
 Owner authorization D-011 (2026-09-12) permits ordinary Codex session succession without

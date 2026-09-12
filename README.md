@@ -14,13 +14,13 @@ It does not contain a playable application yet.
 - [Evidence and historical sources](evidence/SOURCES.md)
 
 The project can be developed with Codex/GPT alone. A Claude subscription is not a prerequisite.
-The owner directs the product and judges concrete visual alternatives; agents handle research,
-implementation, tests and routine technical decisions.
+The owner is now defining the whole product through a long Grill-me interview and conceptual
+Markdown pages. Mockups and prototypes wait for explicit approval of the complete contract (D-012).
+Research and installed skills are retained. Agents handle evidence and routine technical work.
 
 ## Contributing and checks
 
-Agents start at [AGENTS.md](AGENTS.md). Documentation is English; conversations with the owner are
-Italian; the eventual product supports English and Italian.
+Agents start at [AGENTS.md](AGENTS.md). Interview documents and owner conversations are in Italian; other documentation may be English; the eventual product supports English and Italian.
 
 Use Node 24.16.0, then `npm ci` and `npm run check`. These commands currently check document and
 configuration formatting only. Application checks will be added with the behavior they verify.

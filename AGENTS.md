@@ -2,12 +2,22 @@
 
 Read [docs/NEXT.md](docs/NEXT.md), then only the documents needed for its current objective.
 
+## Current owner gate — D-012 (12/09/2026)
+
+The next work is a long Grill-me interview about the WHOLE product, with the owner answering
+one concrete question at a time. Record functions, conceptual pages, contents, controls and behavior
+in Markdown. No mockups, visual wireframes, demo, prototype, images or implementation until the
+owner explicitly approves the complete product contract. Earlier scenario maps/design-01 are retired;
+never retrieve them as a default design. Preserve research and all installed skills/customizations.
+This explicit owner gate overrides earlier scenario-first sequencing, visual-probe skill defaults
+and any interpretation of D-011 that would skip the interview. See docs/interview/README.md.
+
 ## Authority and product direction
 
 - Owner decisions live in [docs/DECISIONS.md](docs/DECISIONS.md); the delivery sequence lives in
   [docs/ROADMAP.md](docs/ROADMAP.md). This repository governs the restart. Old d20 Folio documents
   are dated evidence and source material, not a second set of instructions.
-- The owner uses prompts and visual comparisons. Explain outcomes in plain Italian, with short
+- The owner currently directs the product through a detailed interview and conceptual Markdown pages. Explain outcomes in plain Italian, with short
   concrete examples. Do not ask them to read diffs, settle technical disagreements or approve
   routine implementation details. Provide filled next-session prompts and model/effort guidance.
 - Codex/GPT can perform every development role. Claude is optional, never a gate. Another session
@@ -53,8 +63,8 @@ Read [docs/NEXT.md](docs/NEXT.md), then only the documents needed for its curren
 - Separate observed behavior, published capabilities, community opinion, inference and owner taste.
   Preserve source, date, version, access limits and counter-evidence. Do not claim to have read every
   opinion, tested an inaccessible product or conducted a human playtest through simulated personas.
-- Routine research and verification run autonomously. Recurring DM/player interviews are not a
-  prerequisite. Real table feedback is welcome when available; label its absence honestly.
+- Routine research and verification run autonomously. Recurring interviews with recruited DM/player participants are not a
+  prerequisite. The owner’s requested product interview under D-012 is mandatory. Real table feedback is welcome when available; label its absence honestly.
 - Every executable rule has a source kind, edition, immutable revision and examples. Use official
   EN/IT SRD locations where applicable; original house rules cite their authored decision; permitted
   private extensions retain private provenance. Never invent an SRD citation for a custom rule.
