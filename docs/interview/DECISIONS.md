@@ -4828,3 +4828,45 @@ resta aperto e l'intervista continua una domanda alla volta.
   chiusa. Esclusioni invariate.
 - **Limiti:** nel blueprint la riservatezza resta un filtro al disegno su un solo dispositivo;
   nel prodotto reale ogni identità riceve solo la propria proiezione.
+
+## I-245 — l'owner accetta la candidata funzionale e apre la fase grafica
+
+- **Provenienza:** owner, 01/10/2026, in chat, dopo aver letto la
+  [mappa delle funzioni](FEATURE_MAP.md): «mi sembra tutto in ordine, mi sembrano
+  tante feature e va anche bene»; la collocazione delle funzioni «mi sta anche bene,
+  purché tu abbia copiato da prodotti già esistenti»; «non ho letto tutto nel
+  dettaglio, ma mi fido». Chiede di passare all'aspetto grafico («ora come ora mi fa
+  abbastanza cagare»).
+- **Esito:** accettazione della Fase B con una sola aggiunta: salvare facilmente la
+  data della sessione in Google Calendar e negli altri calendari (menu «Aggiungi al
+  calendario» sul modello Eventbrite/AddEvent/Sesh). Dopo quell'aggiunta la versione
+  funzionale si congela con manifest aggiornato e tag locale. Registrata come
+  accettazione dichiarata dall'owner; se l'owner la corregge, prevale la correzione.
+- **Fase C:** si apre in una sessione dedicata. L'owner autorizza l'installazione
+  delle migliori skill e degli strumenti di mercato per lavorare in autonomia, senza
+  reinventare nulla, scelti con le prove di find-skills (adozione, reputazione,
+  aggiornamento, sovrapposizioni); icone SVG da strumenti o raccolte dedicate; immagini
+  raster generabili con ChatGPT/Codex; riuso possibile delle immagini generate per
+  d20 Folio. Ogni scelta visiva resta copiata da un prodotto esistente (I-236, I-243).
+- **Restano aperte:** pubblicazione del branch sul repository GitHub pubblico; dadi
+  karmici (Q166); script oltre le macro dell'app (GAP-01).
+
+## I-246 — strumenti della fase grafica installati con prove
+
+- **Provenienza:** autorizzazione dell'owner del 01/10/2026 (I-245) ad installare le
+  migliori skill e i migliori strumenti di mercato; scelta del coordinatore con il
+  metodo find-skills (adozione, reputazione, aggiornamento, audit, sovrapposizioni),
+  prove in [changes/visual-01/prep](../../changes/visual-01/prep/phase-c-plan.md).
+- **Installati il 01/10/2026:** impeccable aggiornata da 4.1.1 a 4.4.0 (resta la sola
+  skill di design principale); review-animations di Emil Kowalski (solo su richiesta,
+  riferimento per le animazioni); `@playwright/cli` 0.1.22 con la skill aggiornata e la
+  sezione locale «Audit hygiene» conservata. Struttura canonica `~/.agents/skills` con
+  collegamenti da `~/.claude/skills`; backup delle skill precedenti conservato.
+- **Usati senza installare:** frontend-design (già presente), le checklist WCAG 2.2 e di
+  test visivo come riferimenti, game-icons.net (CC BY 3.0, già usata dal sistema D&D di
+  Foundry) e Lucide (ISC) come raccolte di icone da copiare nel repository con
+  attribuzione, generazione raster con l'imagegen di Codex sull'abbonamento esistente
+  (mai API a pagamento, `OPENAI_API_KEY` resta assente).
+- **Scartati:** skill che duplicano impeccable o scaricano regole non fissate a una
+  versione; nessuna spesa.
+

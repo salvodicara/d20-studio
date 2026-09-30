@@ -1,13 +1,13 @@
-# Prossimo passo — Fase B: l'owner valuta le funzioni
+# Prossimo passo — Fase C: design visivo in una sessione dedicata
 
-**Stato al 01/10/2026: candidata funzionale completa, in attesa della valutazione dell'owner
-(Fase B del [piano](ROADMAP.md)). Non è approvata.** Worktree
-`~/Workspace/Codex/d20-studio-interview-01`, branch `codex/interview-01` (commit locali sul
-branch; l'ultimo contiene le correzioni di chiusura). La versione è identificata dal
-[manifest della candidata](../changes/interview-01/blueprint-candidate-manifest.json): impronte,
-non un'approvazione. Numeri e limiti: [BLUEPRINT_STATUS](interview/BLUEPRINT_STATUS.md).
+**Stato al 01/10/2026.** Fase A (funzioni) fatta; Fase B accettata dall'owner con una sola
+aggiunta, i calendari esterni, già costruita ([I-245](interview/DECISIONS.md)). La versione
+funzionale è congelata con il tag locale `blueprint-functional-v1` sul branch
+`codex/interview-01` (worktree `~/Workspace/Codex/d20-studio-interview-01`) ed è identificata dal
+[manifest](../changes/interview-01/blueprint-candidate-manifest.json). Piano completo:
+[ROADMAP](ROADMAP.md). Mappa delle funzioni: [FEATURE_MAP](interview/FEATURE_MAP.md).
 
-## Come aprirla
+## Come aprire l'app
 
 ```sh
 cd ~/Workspace/Codex/d20-studio-interview-01
@@ -15,58 +15,55 @@ python3 changes/interview-01/blueprint-checks/serve-nocache.py
 ```
 
 Poi <http://127.0.0.1:8879/>. In alto, fuori dall'app: «Visita come» (Giocatore o DM) e
-«Ripristina esempio». Dati d'esempio, solo in quel browser.
+«Ripristina esempio».
 
-## Che cosa legge e prova l'owner
+## Fase C pronta
 
-- **[Mappa delle funzioni](interview/FEATURE_MAP.md)**: una tabella per area, 119 righe che
-  raccolgono tutte le 528 funzioni, con dove si trovano, da quale prodotto sono copiate e per chi.
-- Si giudicano **le funzioni**: che ci siano, che si trovino dove uno le cerca e che facciano
-  quello che promettono. L'aspetto non è in valutazione (Fase C).
-- Correzioni e domande si chiedono in chat; l'agente corregge e ripresenta. Visitare o non
-  rispondere non approvano. Dopo un'approvazione esplicita si congela la versione (manifest nuovo,
-  commit e tag) e si passa alla Fase C.
+- **Strumenti installati con prove** ([I-246](interview/DECISIONS.md)): impeccable 4.4.0,
+  review-animations, playwright-cli 0.1.22. All'avvio della fase si aggiungono nel worktree
+  grafico gli strumenti di test indicati nel piano (§1).
+- **Piano operativo, risorse e prove:** [changes/visual-01/prep](../changes/visual-01/prep/phase-c-plan.md)
+  (skill, icone game-icons.net e Lucide con attribuzione, caratteri con licenza OFL, generazione
+  delle immagini con l'imagegen di Codex sull'abbonamento esistente, immagini di d20 Folio
+  riusabili, materiale solo di riferimento come lo studio su BG3).
+- **Arretrato grafico già raccolto:** [visual-phase-backlog](../changes/interview-01/visual-phase-backlog.md).
 
-## Fase C: design visivo in una sessione nuova
-
-Si avvia quando l'owner lo chiede, in una sessione dedicata. Prompt pronto:
+Prompt pronto per la nuova sessione:
 
 ```text
-Progetto d20 Studio, Fase C «Design visivo» (ROADMAP, D-014, I-243). Modello e sforzo invariati
-rispetto alla sessione interview-01 (scelta dell'owner, nessun cambio). Lavora in un worktree
-nuovo sotto ~/Workspace/Codex, branch codex/visual-01, partendo dal commit integrato della
-candidata funzionale (o dalla versione congelata, se l'owner l'ha già approvata).
-Leggi nell'ordine: AGENTS.md, docs/NEXT.md, docs/ROADMAP.md, docs/interview/FEATURE_MAP.md,
-design/blueprint/DESIGN.md (solo come input provvisorio: non è approvato e si può rifare),
-changes/interview-01/visual-phase-backlog.md, design/blueprint/DEVELOPMENT.md.
-Obiettivo: una direzione e un sistema grafico copiati dai riferimenti, prodotto per prodotto
-(BG3 e Solasta per il Tavolo e la barra delle azioni, D&D Beyond per scheda e Biblioteca,
-Owlbear e Foundry per la mappa e i suoi attrezzi, Kanka e World Anvil per la campagna): per
-ogni elemento scrivi «elemento → prodotto copiato → fonte», raccogli i riferimenti, proponi
-all'owner poche direzioni concrete con immagini dell'app, poi applica quella scelta a tutto il
-blueprint. Non cambiare funzioni, percorsi, permessi o dati: suite Node e percorsi del browser
-restano verdi (un percorso che controlla solo l'aspetto si aggiorna con un commento datato).
-Contrasto WCAG AA, fuoco visibile e segni mai affidati al solo colore restano obbligatori.
-Spiega all'owner in italiano semplice; chiudi con l'approvazione esplicita dell'aspetto.
+Progetto d20 Studio, Fase C «Design visivo» (docs/ROADMAP.md, I-243, I-245, I-246). Modello e
+sforzo come nella sessione interview-01. Crea un worktree nuovo in ~/Workspace/Codex/d20-studio-visual-01
+sul branch codex/visual-01 partendo dal tag blueprint-functional-v1 (branch codex/interview-01).
+Leggi nell'ordine: AGENTS.md, docs/NEXT.md, docs/ROADMAP.md, changes/visual-01/prep/phase-c-plan.md,
+changes/visual-01/prep/asset-inventory.md, changes/interview-01/visual-phase-backlog.md,
+design/blueprint/DEVELOPMENT.md, design/blueprint/DESIGN.md (solo input provvisorio, sostituibile).
+Obiettivo: l'aspetto dell'intera app copiato dai prodotti di riferimento, superficie per
+superficie (BG3 e Solasta per Tavolo, barra delle azioni e dadi; D&D Beyond per scheda e
+Biblioteca; Owlbear e Foundry per la mappa e i suoi attrezzi; Kanka e World Anvil per campagna
+e mondo). Per ogni elemento registra «elemento → prodotto copiato → fonte». Segui il metodo del
+piano: raccolta di riferimenti per superficie, 2-3 direzioni concrete costruite sull'app vera
+(Inizio, scheda, Tavolo) da mostrare all'owner con immagini, scelta dell'owner, sistema grafico,
+applicazione a tutte le aree, controllo visivo e di accessibilità, approvazione esplicita.
+Usa impeccable come skill di design principale, review-animations per le animazioni,
+playwright-cli per le prove nel browser; icone da game-icons.net e Lucide con attribuzione;
+immagini raster con l'imagegen di Codex (prepara i prompt in file, mai API a pagamento).
+Non cambiare funzioni, percorsi, permessi o dati: la suite Node e i percorsi del browser restano
+verdi. Contrasto WCAG AA, fuoco visibile, segni mai affidati al solo colore. Mandami screenshot
+a ogni passaggio sostanziale; spiega in italiano semplice; chiedimi solo le scelte vere.
 ```
 
 ## Decisioni dell'owner ancora aperte
 
-- **Età e consenso dei genitori (SV-28):** nel blueprint è simulato; per il prodotto reale serve
-  la regola di legge per paese.
-- **Prodotto reale:** integrazioni con account esterni veri (GAP-17), assistente IA vero con costi
-  e privacy (GAP-18), aree pubbliche e moderazione (Q161); nel blueprint sono simulazioni.
-- **Codice al sicuro:** push del branch sul repository GitHub pubblico (il repository è pubblico:
-  nessun dato privato o contenuto senza licenza).
-- Sopra funzioni già visibili: tenere i dadi karmici ([Q166](interview/OPEN.md#q166--dadi-karmici),
-  raccomandazione: toglierli); script JavaScript oltre alle macro in recinto (GAP-01); Q164, Q165
-  e Q168 in [OPEN](interview/OPEN.md).
+- **Pubblicare su GitHub:** il branch `codex/interview-01` e il tag sono solo locali; il
+  repository `salvodicara/d20-studio` è pubblico.
+- **Dadi karmici** ([Q166](interview/OPEN.md#q166--dadi-karmici)): presenti, spenti di default;
+  raccomandazione: toglierli. **Script oltre le macro dell'app** (GAP-01): sconsigliati.
+- **Prodotto reale:** età e consenso per paese (SV-28), integrazioni con account veri (GAP-17),
+  assistente IA vero (GAP-18), aree pubbliche e moderazione (Q161): nel blueprint sono simulati.
 
-## Controlli di chiusura della Fase A (agenti, non l'owner)
+## Controlli per gli agenti
 
-- Regressione di chiusura del 01/10: **189/189 percorsi del browser** e **2662/2662 test Node**,
-  caricamento a 1440 e 390 senza errori ([rapporto](../changes/interview-01/final-regression.md)).
-  I tre percorsi prima rossi (`spells-plus`, `spells-plus-review`, `w2a1-shell`) sono verdi.
-- Testo «Cosa è pronto» nell'app aggiornato allo stato della candidata (01/10).
-- Ancora da fare: revisione distinta, in un'altra sessione, delle correzioni di chiusura del 01/10
-  sul candidato esatto.
+- Chiusura del 01/10: 189/189 percorsi del browser, poi calendari esterni con 3 percorsi verdi;
+  test Node nel manifest ([rapporto finale](../changes/interview-01/final-regression.md),
+  [calendari](../changes/interview-01/calendar-export.md)).
+- Da fare: una revisione distinta, in un'altra sessione, delle correzioni di chiusura del 01/10.
