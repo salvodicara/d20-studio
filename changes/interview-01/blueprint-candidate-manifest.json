@@ -5,8 +5,6 @@
   "worktree": "~/Workspace/Codex/d20-studio-interview-01",
   "branch": "codex/interview-01",
   "baseCommit": "f7ef92dcc32f82765ed9bafe6593cc4f957743e7",
-  "candidateCommit": "5b7223bbad8a5883e00edf88150e674fde27fe10",
-  "uncommittedChangesOnTop": true,
   "visit": "python3 changes/interview-01/blueprint-checks/serve-nocache.py, then http://127.0.0.1:8879/",
   "ownerReading": "docs/interview/FEATURE_MAP.md (119 rows covering all 528 census capabilities)",
   "checks": {
@@ -731,5 +729,6 @@
     "docs/interview/reference-audits/beyond.md": "c1c8d338f4cebf77c19bd3ef1b7dc591c51965fe9d18404f1c4f0b96f3f37e2e",
     "docs/interview/reference-audits/bg3-solasta.md": "1291e86c5438e3291a688dc8cd02430b2fcb9bacd910100eb3526f2429ef743f",
     "docs/interview/reference-audits/foundry.md": "efd70a17c2f491f0544e41ba3c68c4e2a528684501dd44f1407fd553c1752905"
-  }
+  },
+  "identity": "Identified by the fingerprint below; the reviewing session records the exact commit SHA it reviews (docs/WORKFLOW.md), this file does not attest its own commit."
 }
