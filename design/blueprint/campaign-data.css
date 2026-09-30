@@ -1,0 +1,327 @@
+/* Area B50 — Campaign data: copy, archive, snapshots, export and trash.
+   Linked by campaign-data.mjs through registry.registerStyles(). Only .cd-* classes and
+   the shell's tokens (DESIGN.md §2): Foundry v13 settings rows, BG3's selected option for
+   the export choices, Foundry dnd5e's dashed empty slot. */
+
+.cd-page {
+  min-width: 0;
+}
+.cd-intro {
+  max-width: 72ch;
+  margin: -12px 0 20px;
+}
+.cd-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 36px;
+}
+.cd-block {
+  min-width: 0;
+  padding-block: 20px 24px;
+  border-top: 1px solid var(--line);
+}
+.cd-block h2 {
+  margin: 0;
+  font-size: var(--text-xl);
+}
+.cd-block h3 {
+  margin: 20px 0 8px;
+  font-size: var(--text-md);
+}
+.cd-block-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  margin-bottom: 8px;
+}
+.cd-lead {
+  max-width: 68ch;
+  margin: 0 0 14px;
+}
+.cd-note {
+  margin: 10px 0 0;
+  font-size: var(--text-sm);
+}
+.cd-note + .button {
+  margin-top: 10px;
+}
+.cd-empty {
+  margin: 8px 0 0;
+  padding: 12px 14px;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius);
+  color: var(--muted);
+}
+.cd-list,
+.cd-campaigns,
+.cd-activity {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.cd-row,
+.cd-campaign {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+.cd-row:last-child,
+.cd-campaign:last-child {
+  border-bottom: 0;
+}
+.cd-row-main {
+  min-width: 0;
+  flex: 1 1 16rem;
+}
+.cd-row-title {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+  margin: 0 0 2px;
+  overflow-wrap: anywhere;
+}
+.cd-row-actions {
+  flex: 0 1 auto;
+  justify-content: flex-end;
+}
+/* A copy just made: a lit row, as Kanka's open row. */
+.cd-campaign.is-new {
+  padding-inline: 12px;
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+  box-shadow: inset 0 0 0 1px var(--accent-line);
+}
+.cd-live {
+  border-color: color-mix(in srgb, var(--positive) 60%, transparent);
+  color: var(--positive);
+}
+.cd-auto {
+  border-color: var(--accent-line);
+  color: var(--accent);
+}
+.cd-danger-badge {
+  border-color: color-mix(in srgb, var(--danger) 60%, transparent);
+  color: var(--danger);
+}
+.button.cd-danger-text {
+  color: var(--danger);
+}
+.cd-blocked {
+  margin-top: 8px;
+}
+.cd-blocked summary,
+.cd-omitted summary {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: var(--accent);
+}
+.cd-blocked ul,
+.cd-omitted ul {
+  margin: 4px 0 0;
+  padding-left: 1.2rem;
+}
+.cd-export {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+}
+.cd-formats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.cd-formats legend {
+  margin-bottom: 6px;
+  font-size: var(--text-sm);
+}
+.cd-choice,
+.cd-check {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  min-height: 48px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.cd-check {
+  border-color: transparent;
+  padding-inline: 0;
+}
+.cd-component {
+  border-color: var(--line);
+  padding-inline: 14px;
+}
+/* The chosen format as BG3's selected option: gold rim, lit tile. */
+.cd-choice:has(input:checked),
+.cd-component:has(input:checked) {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+/* An unavailable option: the box is dimmed, the words (which say why) stay readable in the
+   secondary colour (critique 29/09: 3.3:1 in the light theme at 70 % opacity). */
+.cd-check:has(input:disabled) {
+  cursor: not-allowed;
+  color: var(--muted);
+}
+.cd-check input:disabled {
+  opacity: 0.55;
+}
+.cd-choice input,
+.cd-check input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+  flex-shrink: 0;
+}
+.cd-choice small,
+.cd-check small {
+  display: block;
+  color: var(--muted);
+}
+.cd-components {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 12px;
+  padding: 0;
+  border: 0;
+}
+.cd-components legend {
+  margin-bottom: 8px;
+  font-size: var(--text-sm);
+}
+.cd-rules {
+  margin: -8px 0 14px;
+}
+.cd-transfer {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 12px;
+  align-items: end;
+}
+.cd-transfer .field {
+  margin-bottom: 12px;
+}
+.cd-transfer button {
+  grid-column: 1 / -1;
+  justify-self: start;
+}
+.cd-wide {
+  grid-column: 1 / -1;
+}
+.cd-activity li {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+  overflow-wrap: anywhere;
+}
+.cd-activity li:last-child {
+  border-bottom: 0;
+}
+/* Notice: Foundry v13's tinted notification in the theme colour. */
+.cd-alert {
+  margin: 0 0 14px;
+  padding: 12px 14px;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+}
+.cd-alert p {
+  margin: 0 0 6px;
+}
+.cd-alert ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+.cd-alert .cd-formats {
+  grid-template-columns: 1fr;
+  margin-top: 8px;
+}
+.cd-diff {
+  margin: 8px 0 0;
+  padding-left: 1.2rem;
+  max-height: 50vh;
+  overflow: auto;
+}
+.cd-diff li {
+  padding: 3px 0;
+  overflow-wrap: anywhere;
+}
+.cd-facts {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+.cd-facts div {
+  display: grid;
+  grid-template-columns: minmax(8rem, 12rem) 1fr;
+  gap: 8px;
+}
+.cd-facts dt {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+.cd-facts dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 900px) {
+  .cd-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 560px) {
+  .cd-formats,
+  .cd-transfer {
+    grid-template-columns: 1fr;
+  }
+  .cd-row-actions {
+    justify-content: flex-start;
+  }
+  .cd-row-actions .button {
+    flex: 1 1 auto;
+  }
+  .cd-facts div {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+  .cd-intro {
+    margin-top: 0;
+  }
+}
+
+/* ---- P10: import dependencies, closing the campaign in play ---- */
+.cd-deps {
+  margin: 12px 0;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.cd-deps h3 {
+  margin: 0 0 8px;
+  font-size: var(--text-md);
+}
+.cd-row.is-missing,
+.cd-row.is-outdated {
+  border-color: var(--danger);
+}
+.cd-close-current {
+  margin: 10px 0;
+}

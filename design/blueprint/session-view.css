@@ -1,0 +1,1055 @@
+/* B14 — Table: presentation, session state and presence. Linked only when the
+   session-view area registers (registry.registerStyles). Shared tokens from styles.css. */
+
+.session-view-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---- Map HUD (foreignObject above the tokens) ---- */
+.session-view-hud-fo {
+  overflow: visible;
+}
+.session-view-hud {
+  position: relative;
+  pointer-events: none;
+  font: var(--text-md) var(--font-ui);
+  color: var(--text);
+}
+.session-view-hud-bar {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  left: 76px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+}
+/* Session buttons over the map: Owlbear Rodeo's floating controls — translucent rounded
+   plates with a soft shadow, the same material as the map's tool column. */
+.session-view-hud-button {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  min-width: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--float-border);
+  border-radius: 10px;
+  background: var(--float-bg);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  color: var(--text);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  box-shadow: var(--shadow-2);
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+.session-view-hud-button:hover {
+  background: var(--raised);
+}
+.session-view-hud-button.is-icon {
+  justify-content: center;
+  padding: 0;
+  width: 40px;
+}
+.session-view-hud-button.is-on {
+  border-color: var(--accent-line);
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 14%, var(--surface));
+}
+.session-view-hud-button .icon {
+  width: 18px;
+  height: 18px;
+}
+/* Visual pass 2: Owlbear keeps one row of controls over the map, icons named by their
+   tooltips. The chips show their icon at every size (the words stay their accessible names
+   and titles); the DM's «Sessione» menu keeps its word and caret, and Show interface keeps
+   its words in the clean view. */
+.session-view-hud-bar {
+  align-items: flex-start;
+}
+.session-view-hud-bar > .session-view-hud-button > span:not(.session-view-dots),
+.session-view-hud-bar > .safety-hud-group > .session-view-hud-button > span {
+  display: none;
+}
+.session-view-clean .session-view-hud-bar > [data-sv="clean"] > span,
+.session-view-hud .session-view-menu .session-view-hud-button > span:not(.session-view-dot) {
+  display: inline-flex;
+}
+.session-view-hud-bar > .session-view-hud-button:not(.is-icon),
+.session-view-hud-bar > .safety-hud-group > .session-view-hud-button {
+  justify-content: center;
+  padding: 0 12px;
+}
+.session-view-menu-wrap {
+  position: relative;
+  display: inline-flex;
+  pointer-events: auto;
+}
+/* Critique 2: at rest the «Sessione» menu is an icon with its caret like the rest of
+   Owlbear's row (the name stays its accessible name and tooltip); while something is on
+   (paused, scene hidden, players away) the lit button spells that state out. */
+.session-view-hud-bar .session-view-menu-button:not(.is-on) > span {
+  display: none;
+}
+.session-view-hud-bar .session-view-menu-button:not(.is-on) {
+  gap: 2px;
+  padding: 0 8px;
+}
+.session-view-menu-button .session-view-caret {
+  width: 14px;
+  height: 14px;
+  margin-right: -2px;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.session-view-menu-button[aria-expanded="true"] .session-view-caret {
+  transform: rotate(180deg);
+}
+.session-view-menu-button[aria-expanded="true"] {
+  border-color: var(--accent-line);
+}
+/* The menu: the system's floating menu (Owlbear's menus in BG3's material — raised slate,
+   bronze hairline, shadow 2), one command per full-width row with its icon. */
+.session-view-menu {
+  position: absolute;
+  z-index: 3;
+  top: calc(100% + 6px);
+  right: 0;
+  display: grid;
+  gap: 2px;
+  min-width: 236px;
+  padding: 6px;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-md);
+  background: var(--raised);
+  box-shadow: var(--shadow-2);
+}
+.session-view-menu[hidden] {
+  display: none;
+}
+/* In the top layer (popover) the menu is placed under its button by session-view.mjs. */
+.session-view-menu[popover] {
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  color: var(--text);
+  font: var(--text-md) var(--font-ui);
+  overflow: visible;
+}
+/* Specific enough for the light theme's plate rule on HUD buttons (preferences.css). */
+.session-view-hud .session-view-menu-wrap .session-view-menu .session-view-hud-button {
+  width: 100%;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 0 10px;
+  border-color: transparent;
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: none;
+  font-weight: 500;
+}
+.session-view-hud .session-view-menu-wrap .session-view-menu .session-view-hud-button:hover {
+  background: var(--surface-2);
+}
+.session-view-hud .session-view-menu-wrap .session-view-menu .session-view-hud-button.is-on {
+  border-color: var(--accent-line);
+  background: var(--accent-soft);
+}
+.session-view-menu .session-view-dots {
+  margin-left: auto;
+}
+.session-view-dots {
+  display: inline-flex;
+  gap: 3px;
+}
+.session-view-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--positive);
+  flex-shrink: 0;
+}
+.session-view-dot.is-away {
+  background: transparent;
+  box-shadow: inset 0 0 0 2px var(--warning);
+}
+.session-view-hud-stack {
+  position: absolute;
+  top: 60px;
+  right: 10px;
+  max-width: min(300px, calc(100% - 86px));
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+/* Chips, timer and clock only inform: the map below keeps its taps and drags. Only the
+   pinned clock's close button takes the pointer. */
+.session-view-hud .session-view-chip,
+.session-view-hud .session-view-timer,
+.session-view-hud .session-view-clock {
+  pointer-events: none;
+  box-shadow: var(--shadow-2);
+}
+.session-view-hud .session-view-clock .session-view-icon {
+  pointer-events: auto;
+}
+/* Notices over the map: the same floating plates; their rim names the state. */
+.session-view-chip {
+  margin: 0;
+  padding: 6px 10px;
+  border: 1px solid var(--float-border);
+  border-radius: 10px;
+  background: var(--float-bg);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  font-size: var(--text-sm);
+  line-height: 1.35;
+}
+.session-view-chip.is-warn {
+  border-color: color-mix(in srgb, var(--warning) 70%, transparent);
+  background: color-mix(in srgb, var(--warning) 16%, var(--surface));
+}
+.session-view-chip.is-away {
+  border-color: var(--frame);
+}
+.session-view-chip.is-split {
+  border-color: color-mix(in srgb, var(--info) 60%, transparent);
+}
+.session-view-timer {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border: 1px solid color-mix(in srgb, var(--info) 60%, transparent);
+  border-radius: 10px;
+  background: var(--float-bg);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  font-size: var(--text-sm);
+}
+.session-view-timer strong {
+  font-size: var(--text-lg);
+  font-variant-numeric: tabular-nums;
+}
+.session-view-timer.is-expired {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+.session-view-timer .icon {
+  width: 18px;
+  height: 18px;
+}
+.session-view-timer.is-large {
+  flex-direction: column;
+  font-size: var(--text-xl);
+  padding: 18px 28px;
+  gap: 6px;
+  text-align: center;
+}
+.session-view-timer.is-large strong {
+  font-family: var(--font-display);
+  font-size: 56px;
+  line-height: 1.1;
+}
+.session-view-timer.is-large.is-words strong {
+  font-size: 32px;
+}
+.session-view-timer.is-large .icon {
+  width: 36px;
+  height: 36px;
+}
+.session-view-clock {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 4px 4px 8px;
+  border: 1px solid var(--float-border);
+  border-radius: 10px;
+  background: var(--float-bg);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+.session-view-clock > span {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+.session-view-clock small {
+  color: var(--muted);
+}
+.session-view-clock.is-large {
+  font-size: var(--text-xl);
+  padding: 16px 22px;
+  gap: 18px;
+}
+/* Progress clocks: segmented circles filled in gold (Foundry's Progress Clocks). */
+.session-view-clock-face path {
+  fill: var(--sunken);
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+.session-view-clock-face path.is-filled {
+  fill: var(--accent);
+}
+.session-view-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--muted);
+}
+.session-view-icon:hover {
+  background: var(--raised);
+  color: var(--text);
+}
+.session-view-paused {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  max-width: calc(100% - 32px);
+  padding: 14px 26px;
+  border: 2px solid var(--accent);
+  border-radius: var(--radius-lg);
+  /* Translucent, like Foundry's indicator: the tokens below stay readable. */
+  background: color-mix(in srgb, var(--surface) 66%, transparent);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  text-align: center;
+  pointer-events: none;
+  box-shadow: var(--shadow-2);
+}
+.session-view-paused strong {
+  font: 700 var(--text-2xl) var(--font-display);
+  letter-spacing: 0.04em;
+  color: var(--accent);
+}
+.session-view-paused small {
+  color: var(--muted);
+}
+
+/* ---- Hide the whole interface (Owlbear, BG3 F10) ---- */
+body:has(.session-view-clean)
+  :is(
+    .demo-strip,
+    .app-header,
+    .table-return,
+    .save-warning,
+    .table-topline,
+    .initiative,
+    .interruption-banner,
+    .map-toolbar,
+    .map-caption,
+    .table-inspector,
+    .combat-bar,
+    .table-drawer,
+    .table-sidebar-panel,
+    .table-sidebar-rail,
+    .map-zoom,
+    .action-dock,
+    .table-party
+  ) {
+  display: none !important;
+}
+body:has(.session-view-clean) .map-container {
+  position: fixed;
+  inset: 0;
+  z-index: 15;
+}
+body:has(.session-view-clean) #battle-map {
+  height: 100vh;
+  min-height: 0;
+  /* Visual pass 2: no floating controls to frame the map around (styles.css «Table HUD»). */
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* ---- Table cover: waiting screen, breakout, view as ---- */
+.table-cover {
+  min-height: calc(100vh - 170px);
+  border-top: 1px solid var(--line);
+}
+.session-view-wait {
+  display: grid;
+  place-items: center;
+  min-height: calc(100vh - 170px);
+  padding: 32px 20px;
+  background: radial-gradient(circle at 50% 30%, var(--raised) 0, var(--bg) 70%);
+}
+/* Waiting screen: a BG3 panel (bronze rim, display serif title) on the page. */
+.session-view-wait-card {
+  width: min(640px, 100%);
+  padding: 30px 32px;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  text-align: center;
+}
+.session-view-wait-card h1 {
+  margin: 4px 0 10px;
+  font: 400 var(--text-2xl) / 1.2 var(--font-display);
+}
+.session-view-kicker {
+  margin: 0;
+  color: var(--accent);
+  font-family: var(--font-label);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+.session-view-wait-message {
+  font-size: var(--text-lg);
+}
+.session-view-wait-widgets {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: 14px 0;
+}
+.session-view-tip {
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+.session-view-tip p {
+  min-height: 3em;
+  margin: 6px 0 10px;
+  color: var(--muted);
+}
+.session-view-wait-party {
+  margin-top: 20px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  text-align: left;
+}
+.session-view-wait-party h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  margin: 0 0 6px;
+}
+.session-view-members {
+  list-style: none;
+  margin: 8px 0 12px;
+  padding: 0;
+}
+.session-view-member {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--line);
+}
+.session-view-member > span:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+/* R7 CA-57: the hand-off command on a member row (Owlbear's player list menu). */
+.session-view-member {
+  flex-wrap: wrap;
+}
+.session-view-member-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-inline-start: auto;
+}
+.session-view-member-actions .button {
+  min-height: 40px;
+}
+.session-view-runner {
+  white-space: nowrap;
+}
+.session-view-status {
+  color: var(--text);
+}
+.session-view-places {
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.session-view-places .text-button {
+  min-height: 40px;
+}
+.session-view-breakout > header {
+  padding: 18px 28px 12px;
+}
+.session-view-breakout h1 {
+  margin: 2px 0 6px;
+  font: 400 var(--text-2xl) var(--font-display);
+}
+/* A split group's view: the map's own ground under it (theme-invariant, combat.css). */
+.session-view-stage {
+  position: relative;
+  background: var(--map-ground);
+}
+.session-view-map {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 70vh;
+}
+.session-view-map[data-sv-behalf-map] {
+  cursor: crosshair;
+}
+.session-view-map:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: -4px;
+}
+/* Tokens in a projection: the Table's own token colours and Owlbear rings. */
+.session-view-token circle {
+  fill: var(--token-ally-fill);
+  stroke: var(--token-ally-ring);
+  stroke-width: 3;
+}
+.session-view-token.is-hostile circle {
+  fill: var(--token-hostile-fill);
+  stroke: var(--token-hostile-ring);
+}
+.session-view-token.is-picked circle {
+  stroke: var(--map-gold-bright);
+  stroke-width: 6;
+}
+.session-view-token[data-sv-behalf-actor] {
+  cursor: pointer;
+}
+.session-view-token[data-sv-behalf-actor]:focus-visible circle {
+  stroke: var(--focus);
+  stroke-width: 6;
+}
+.session-view-token text {
+  fill: var(--token-initial);
+  font: 21px var(--font-display);
+  pointer-events: none;
+}
+.session-view-token .session-view-token-name {
+  font: 600 13px var(--font-ui);
+  fill: var(--token-label);
+  paint-order: stroke;
+  stroke: var(--token-label-halo);
+  stroke-width: 3px;
+}
+/* Other areas' map layers inside a projection are pictures only. */
+.session-view-layer,
+.session-view-layer * {
+  pointer-events: none !important;
+}
+.session-view-path {
+  stroke: var(--map-gold-bright);
+  stroke-width: 4;
+  stroke-dasharray: 10 6;
+  fill: none;
+}
+.session-view-path.is-blocked {
+  stroke: var(--map-danger);
+}
+.session-view-target {
+  fill: none;
+  stroke: var(--map-gold-bright);
+  stroke-width: 3;
+}
+.session-view-overlay {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+/* «Vedi come» / breakout banner: a gold-trimmed strip, as the interruption banner. */
+.session-view-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 28px;
+  border-bottom: 2px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, var(--surface));
+}
+.session-view-banner > span {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  min-width: 0;
+}
+.session-view-banner small {
+  flex-basis: 100%;
+  color: var(--muted);
+}
+.session-view-banner .icon {
+  width: 20px;
+  height: 20px;
+  color: var(--accent);
+}
+.session-view-as-table {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+}
+.session-view-behalf {
+  padding: 18px 22px;
+  border-left: 1px solid var(--line);
+}
+.session-view-behalf h2 {
+  margin-top: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+}
+.session-view-behalf h3 {
+  margin: 20px 0 4px;
+  font-size: var(--text-md);
+}
+.session-view-behalf-status {
+  min-height: 1.5em;
+}
+
+/* ---- DM drawer: session controls ---- */
+.session-view-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 14px;
+  margin-top: 14px;
+}
+/* Session cards: flat Foundry sidebar sections, titles in the display serif. */
+.session-view-card {
+  min-width: 0;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface-2);
+}
+.session-view-card h3 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 6px;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 600;
+}
+.session-view-card p {
+  margin: 6px 0;
+}
+.session-view-card .toolbar {
+  flex-wrap: wrap;
+  margin: 8px 0;
+}
+.session-view-wide {
+  grid-column: 1 / -1;
+}
+/* Start the session: the area's filled red button, now read from the danger tokens. */
+/* Critique 29/09: «Avvia sessione» was red (danger tokens) with no product behind it; starting
+   the evening is not destructive. It is the page's primary control, D&D Beyond's filled theme
+   colour (DESIGN.md §4 «Bottone primario»), so no override remains here. */
+.session-view-list {
+  list-style: none;
+  margin: 6px 0;
+  padding: 0;
+}
+.session-view-list > li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px 10px;
+  min-height: 44px;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--line);
+}
+.session-view-inline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 8px 12px;
+  margin-top: 8px;
+}
+.session-view-inline .field {
+  flex: 1 1 180px;
+  margin: 0;
+}
+.session-view-countdown {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.session-view-countdown strong {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-variant-numeric: tabular-nums;
+}
+.session-view-steps .button {
+  min-width: 56px;
+  /* A long press subtracts (touch): no text selection or system callout. */
+  touch-action: manipulation;
+  -webkit-touch-callout: none;
+  user-select: none;
+}
+.session-view-steps .button.is-long-press {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+.session-view-clock-row .session-view-clock-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.session-view-segments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.session-view-segment {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  background: transparent;
+}
+.session-view-segment.is-filled {
+  background: var(--accent);
+}
+.session-view-ribbons {
+  list-style: none;
+  margin: 8px 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+/* Split-party groups: framed rows; the main group in gold, the others in the ally blue. */
+.session-view-ribbon {
+  display: grid;
+  grid-template-columns: minmax(140px, 220px) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px 12px;
+  padding: 8px 10px;
+  border: 1px solid color-mix(in srgb, var(--info) 55%, transparent);
+  border-radius: var(--radius-sm);
+  background: var(--sunken);
+}
+.session-view-ribbon.is-main {
+  border-color: var(--accent-line);
+}
+.session-view-ribbon.is-drop {
+  outline: 2px dashed var(--accent);
+}
+.session-view-ribbon-name {
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+}
+.session-view-ribbon-name small {
+  color: var(--accent);
+  font-weight: 400;
+}
+.session-view-ribbon-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.session-view-ribbon-chip {
+  min-height: 40px;
+  min-width: 40px;
+  padding: 0 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--raised);
+  color: var(--text);
+  cursor: grab;
+}
+.session-view-ribbon-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.session-view-ribbon.is-at-table {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--info) 55%, transparent);
+}
+.session-view-ribbon-chip[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.session-view-preview {
+  white-space: pre-wrap;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--sunken);
+  font: inherit;
+  font-size: var(--text-sm);
+}
+.session-view-presence-form {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 8px 14px 4px;
+}
+
+/* ---- Detached displays: spectator map and pop-out board ---- */
+body:has(.session-view-display) :is(.demo-strip, .app-header, .table-return, .save-warning) {
+  display: none !important;
+}
+.session-view-display {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  overflow: hidden;
+  background: var(--header-bg);
+  touch-action: none;
+}
+.session-view-display .session-view-wait {
+  min-height: 100vh;
+}
+.session-view-locked {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.session-view-locked .session-view-map {
+  width: auto;
+  max-height: none;
+}
+.session-view-ruler {
+  position: absolute;
+  left: 24px;
+  bottom: 24px;
+  height: 14px;
+  border: 2px solid var(--accent);
+  border-top: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0,
+    transparent calc(20% - 2px),
+    var(--accent) calc(20% - 2px),
+    var(--accent) 20%
+  );
+}
+.session-view-ruler span {
+  position: absolute;
+  bottom: 18px;
+  left: 0;
+  white-space: nowrap;
+  font-size: var(--text-sm);
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.session-view-display.is-board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 28px 20px;
+  overflow: auto;
+  touch-action: auto;
+}
+.session-view-display.is-board h1 {
+  margin: 0;
+  font: 400 var(--text-2xl) var(--font-display);
+}
+.session-view-display.is-board .session-view-members {
+  width: min(420px, 100%);
+}
+.session-view-display.is-board .session-view-kicker {
+  margin-bottom: -10px;
+}
+.session-view-board-clock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.session-view-link .text-button {
+  min-height: 40px;
+}
+.session-view-keepalive {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  z-index: 45;
+  transform: translate(-50%, -50%);
+  width: min(420px, calc(100% - 32px));
+  padding: 22px 24px;
+  border: 1px solid var(--frame);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-3);
+  text-align: center;
+}
+
+@media (max-width: 720px) {
+  .session-view-hud-bar {
+    top: 8px;
+    right: 8px;
+    left: 64px;
+  }
+  .session-view-hud-button span:not(.session-view-dots):not(.session-view-dot) {
+    display: none;
+  }
+  .session-view-hud-stack {
+    top: 56px;
+    right: 8px;
+    max-width: calc(100% - 72px);
+  }
+  .session-view-wait-card {
+    padding: 22px 18px;
+  }
+  .session-view-wait-card h1 {
+    font-size: var(--text-xl);
+  }
+  .session-view-as-table {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .session-view-behalf {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+    padding: 16px;
+  }
+  .session-view-banner {
+    padding: 10px 16px;
+  }
+  .session-view-breakout > header {
+    padding: 14px 16px 10px;
+  }
+  .session-view-controls {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .session-view-ribbon {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  /* On a phone the centre holds the tokens: the indicator moves to the bottom edge. */
+  .session-view-paused {
+    top: auto;
+    bottom: 12px;
+    transform: translateX(-50%);
+    padding: 8px 14px;
+  }
+  .session-view-paused strong {
+    font-size: var(--text-xl);
+  }
+  .session-view-paused small {
+    font-size: var(--text-xs);
+  }
+}
+
+/* B61: the session controls are a tab of the Table's right sidebar; in that column they
+   take the one-column phone layout. */
+@container table-panel (max-width: 600px) {
+  .session-view-controls,
+  .session-view-ribbon {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ---- P10: ribbons of a split party, "play for" banner, pause tips, screen calibration ---- */
+.session-view-hud-left {
+  position: absolute;
+  top: 60px;
+  left: 76px;
+  max-width: min(420px, calc(100% - 400px));
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  pointer-events: none;
+}
+.session-view-ribbon-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.session-view-ribbon-bar .session-view-chip {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.session-view-ribbon-bar .session-view-chip.is-here {
+  border-color: var(--accent);
+}
+.session-view-ribbon-bar .session-view-chip.is-own strong {
+  color: var(--accent);
+}
+.session-view-ribbon-bar small {
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+.session-view-play-as {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  padding: 8px 10px;
+  border: 1px solid var(--accent-line);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--accent) 12%, var(--surface));
+  box-shadow: var(--shadow-2);
+}
+.session-view-play-as small {
+  display: block;
+  color: var(--muted);
+}
+.session-view-play-as .icon {
+  width: 16px;
+  height: 16px;
+  vertical-align: -3px;
+}
+/* Visual pass 2: the tip's words let the map below keep its presses (the scene now sits in
+   the free area under the plate); only its button takes the pointer. */
+.session-view-pause-tip {
+  pointer-events: none;
+  max-width: 46ch;
+  margin: 10px auto 0;
+  font-size: var(--text-md);
+  text-align: left;
+}
+.session-view-pause-tip strong {
+  display: block;
+  color: var(--accent);
+}
+.session-view-pause-tip button {
+  pointer-events: auto;
+}
+.session-view-calibrate {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin: 8px 0;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+}
+.session-view-calibrate legend {
+  padding: 0 4px;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+@media (max-width: 720px) {
+  .session-view-hud-left {
+    top: 104px;
+    left: 8px;
+    max-width: calc(100% - 16px);
+  }
+}

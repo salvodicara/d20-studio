@@ -1,0 +1,538 @@
+.builder-heading {
+  align-items: flex-start;
+}
+.builder-heading h1 {
+  margin-bottom: 8px;
+}
+.builder-heading p {
+  margin: 6px 0;
+  max-width: 68ch;
+}
+.builder-layout {
+  display: grid;
+  grid-template-columns: minmax(190px, 230px) minmax(0, 1fr);
+  gap: 30px;
+  align-items: start;
+}
+.builder-sections {
+  position: sticky;
+  top: 18px;
+  display: grid;
+  gap: 3px;
+}
+/* Sections: D&D Beyond's builder steps as a Kanka-style list; the open one is BG3's chosen
+   option (gold rim on a lit tile), as the Table's open sidebar tab. */
+.builder-section-link {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  text-align: left;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  min-height: 56px;
+  color: var(--text);
+  cursor: pointer;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+.builder-section-link:hover {
+  background: var(--raised);
+}
+.builder-section-link[aria-current="step"] {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}
+.builder-section-link[aria-current="step"] > :first-child {
+  color: var(--accent);
+  font-weight: 600;
+}
+.builder-section-link small {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+.builder-section-link .builder-attention {
+  color: var(--danger);
+}
+.builder-main {
+  min-width: 0;
+  max-width: 940px;
+}
+.builder-main h2 {
+  margin: 0 0 12px;
+  scroll-margin-top: 110px;
+}
+.builder-main h3 {
+  margin: 24px 0 12px;
+}
+.builder-intro {
+  color: var(--muted);
+  max-width: 70ch;
+  margin: 0 0 24px;
+}
+.builder-form {
+  display: grid;
+  gap: 18px;
+}
+/* Critique 29/09: a command in the form (Add class, Update choices and HP) keeps the core
+   button's own width, as Foundry's form buttons and D&D Beyond's builder, instead of a bar
+   stretched across the form that reads as a field. The phone keeps full-width taps. */
+@media (min-width: 721px) {
+  .builder-form > .button {
+    justify-self: start;
+  }
+}
+.builder-form .field {
+  margin: 0;
+}
+.builder-form .field input,
+.builder-form .field select,
+.builder-form .field textarea {
+  min-width: 0;
+  width: 100%;
+}
+.builder-form textarea {
+  min-height: 104px;
+  resize: vertical;
+}
+.builder-form .form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.builder-main fieldset {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 18px;
+  min-width: 0;
+}
+.builder-main legend {
+  padding-inline: 7px;
+  font-weight: 600;
+}
+.builder-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  cursor: pointer;
+}
+.builder-check input {
+  min-height: 18px;
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+}
+.builder-choices {
+  display: grid;
+  gap: 0;
+}
+.builder-choice {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 12px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+}
+.builder-choice > input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-top: 3px;
+}
+.builder-choice .builder-ability-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.builder-choice p {
+  margin: 4px 0;
+  color: var(--muted);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+.builder-choice strong {
+  font-weight: 600;
+}
+.builder-choice .button {
+  min-height: 40px;
+  padding: 6px 12px;
+}
+.builder-choice [aria-disabled="true"] {
+  opacity: 0.65;
+}
+.builder-source {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+.builder-errors {
+  margin: 18px 0;
+  padding: 16px 18px;
+  border: 1px solid color-mix(in srgb, var(--danger) 55%, transparent);
+  border-radius: var(--radius-sm);
+  background: var(--danger-soft);
+}
+.builder-errors h3 {
+  margin: 0 0 10px;
+}
+.builder-errors ul {
+  margin: 0;
+  padding-left: 20px;
+}
+.builder-errors li {
+  margin: 8px 0;
+}
+.builder-errors .text-button {
+  text-align: left;
+}
+.builder-footer {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+.builder-status {
+  min-height: 24px;
+  font-size: 0.875rem;
+  color: var(--muted);
+  margin: 12px 0 22px;
+}
+.builder-ability-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+/* D&D Beyond's builder ability boxes: the core stat box (bronze rim, sunken plate). */
+.builder-ability-grid .field {
+  padding: 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-sm);
+}
+.builder-ability-grid small {
+  display: block;
+  margin-top: 6px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.builder-rolls {
+  display: grid;
+  gap: 12px;
+}
+.builder-roll {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+.builder-roll-fields {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+.builder-roll-fields input {
+  min-width: 0;
+  width: 100%;
+}
+.builder-roll .toolbar {
+  margin-top: 10px;
+}
+.builder-breakdown {
+  font-variant-numeric: tabular-nums;
+  line-height: 1.7;
+}
+.builder-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+.builder-table th,
+.builder-table td {
+  text-align: left;
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+.builder-table input,
+.builder-table select {
+  max-width: 100%;
+  min-width: 70px;
+}
+.builder-summary-list {
+  display: grid;
+  grid-template-columns: minmax(130px, 1fr) minmax(0, 2fr);
+  gap: 12px 22px;
+  margin: 16px 0;
+}
+.builder-summary-list dt {
+  color: var(--muted);
+}
+.builder-summary-list dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.builder-manual-note {
+  padding: 14px 0;
+  color: var(--muted);
+  max-width: 72ch;
+}
+.builder-drafts {
+  display: grid;
+  gap: 0;
+}
+.builder-draft-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
+}
+.builder-draft-row h2 {
+  margin: 0 0 5px;
+  font-size: 1.125rem;
+}
+.builder-draft-row p {
+  margin: 0;
+  color: var(--muted);
+}
+.builder-inline-error {
+  color: var(--danger);
+  margin: 0;
+}
+.builder-help {
+  margin: 18px 0;
+}
+.builder-help summary {
+  cursor: pointer;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+.builder-help p {
+  max-width: 70ch;
+  color: var(--muted);
+}
+@media (max-width: 900px) {
+  .builder-layout {
+    grid-template-columns: minmax(150px, 180px) minmax(0, 1fr);
+    gap: 20px;
+  }
+  .builder-ability-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 720px) {
+  .builder-layout {
+    display: block;
+  }
+  .builder-sections {
+    position: static;
+    display: flex;
+    overflow-x: auto;
+    gap: 6px;
+    margin-bottom: 22px;
+    padding-bottom: 8px;
+  }
+  .builder-section-link {
+    flex: 0 0 150px;
+    min-height: 90px;
+  }
+  .builder-section-reason {
+    display: none;
+  }
+  .builder-form .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .builder-choice {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+  .builder-choice .button {
+    grid-column: 2;
+    justify-self: start;
+  }
+  .builder-heading .toolbar {
+    width: 100%;
+  }
+  .builder-footer .button {
+    flex: 1 1 auto;
+  }
+  .builder-summary-list {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .builder-summary-list dd {
+    margin-bottom: 12px;
+  }
+}
+/* P1 PG-03/PG-05: DDB (!) marker on a fieldset still to complete; the origin feat line;
+   the field a «Correggi» jump lands on. */
+.builder-attention {
+  color: var(--danger);
+  font-weight: 600;
+}
+.builder-attention-box {
+  border-color: var(--danger);
+}
+.builder-origin-feat {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+.builder-fix-target {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+.builder-compare {
+  display: grid;
+  gap: 4px 16px;
+  grid-template-columns: minmax(0, max-content) minmax(0, 1fr);
+  margin: 0 0 16px;
+}
+.builder-compare dt {
+  color: var(--muted);
+}
+.builder-compare dd {
+  margin: 0;
+}
+.builder-compare .is-gained {
+  color: var(--positive);
+}
+.builder-compare .is-lost {
+  color: var(--danger);
+}
+@media (max-width: 560px) {
+  .builder-compare {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .builder-compare dd {
+    margin-bottom: 8px;
+  }
+}
+/* P1 PG-10: traits, ideals, bonds and flaws with «+ Aggiungi», «Casuale» and ideas. */
+.builder-personality {
+  display: grid;
+  gap: 14px;
+  margin: 24px 0;
+}
+.builder-personality-group {
+  display: grid;
+  gap: 10px;
+}
+.builder-personality-list {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.builder-personality-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.builder-personality-add {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 8px;
+}
+.builder-personality-add .field {
+  flex: 1 1 16rem;
+  margin: 0;
+}
+.builder-personality-ideas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.builder-personality-ideas .bp-chip {
+  border-radius: var(--radius-lg);
+  text-align: left;
+  white-space: normal;
+}
+/* P1 PG-06: the compendium picker locked to one choice (dnd5e Compendium Browser). */
+.builder-browse {
+  justify-self: start;
+  align-self: end;
+}
+.builder-picker {
+  display: grid;
+  gap: 12px;
+}
+.builder-picker-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.builder-picker-filters [aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.builder-picker-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: 16px;
+}
+.builder-picker-list {
+  display: grid;
+  gap: 4px;
+  align-content: start;
+  max-height: 52vh;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.builder-picker-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.builder-picker-option:hover {
+  background: var(--raised);
+}
+.builder-picker-option:has(input:checked) {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.builder-picker-preview h3 {
+  margin-top: 0;
+}
+.builder-picker-facts {
+  display: grid;
+  gap: 6px;
+}
+.builder-picker-facts dt {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.builder-picker-facts dd {
+  margin: 0;
+}
+@media (max-width: 640px) {
+  .builder-picker-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .builder-picker-list {
+    max-height: 40vh;
+  }
+}
+.builder-picker-option[hidden] {
+  display: none;
+}

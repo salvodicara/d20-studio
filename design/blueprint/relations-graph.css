@@ -1,0 +1,608 @@
+/* B58 relationship graph (relations-graph.mjs). Own prefix: .rg-. Colours per entry type
+   come with a shape and a name (never colour alone); the light theme darkens them. The
+   type colours are this area's categorical palette (data colours, as Obsidian's graph
+   groups); board, edges, secrets and chrome come from the tokens of styles.css
+   (DESIGN.md): Kanka's Connections for the list/graph switch, Roll20 Jumpgate's segmented
+   group, Foundry dnd5e pills for the type filters. */
+
+.rg,
+.rg-entry {
+  --rg-quest: #e3c078;
+  --rg-person: #8cc4ea;
+  --rg-organization: #d59ad8;
+  --rg-place: #93d38d;
+  --rg-shop: #eda565;
+  --rg-event: #f08c84;
+  --rg-checklist: #b4b6ee;
+  --rg-page: #c9c2ae;
+  --rg-character: #6fd8c6;
+  --rg-creature: #e57c7c;
+  --rg-journal: #9fb6c4;
+  --rg-scene: #c7a57a;
+  --rg-edge: var(--muted);
+  --rg-edge-related: color-mix(in srgb, var(--muted) 70%, var(--rg-board));
+  /* Gold, not the DM violet: the graph's own legend text says «tratteggiate dorate». */
+  --rg-secret: var(--accent);
+  --rg-board: var(--surface-2);
+}
+:root[data-pref-theme="light"] .rg,
+:root[data-pref-theme="light"] .rg-entry {
+  --rg-quest: #a8781a;
+  --rg-person: #2a78ad;
+  --rg-organization: #94429a;
+  --rg-place: #3b8335;
+  --rg-shop: #b3611f;
+  --rg-event: #bd4a40;
+  --rg-checklist: #5357ad;
+  --rg-page: #7b725d;
+  --rg-character: #1a8575;
+  --rg-creature: #b03737;
+  --rg-journal: #52707f;
+  --rg-scene: #86613a;
+}
+
+/* «Elenco | Grafo» (Kanka Connections: table view or map) as Roll20 Jumpgate's segmented
+   group in a sunken well; the open view filled with the theme colour (D&D Beyond «ALL»). */
+.rg-switch {
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  margin: 0 0 18px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--sunken);
+}
+.rg-switch-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  min-width: 40px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: var(--radius-xs);
+  background: transparent;
+  color: var(--muted);
+  font-weight: 600;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+.rg-switch-button .icon {
+  width: 18px;
+  height: 18px;
+}
+.rg-switch-button.active {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+.rg-switch-button:not(.active):hover {
+  color: var(--text);
+  background: var(--raised);
+}
+
+.rg-intro {
+  margin: 0 0 14px;
+  max-width: 72ch;
+}
+.rg-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 10px 14px;
+}
+.rg-field {
+  margin: 0;
+  min-width: 0;
+  flex: 1 1 190px;
+  max-width: 300px;
+}
+.rg-field.rg-depth {
+  flex: 0 1 170px;
+}
+.rg-field input[type="range"] {
+  padding: 0;
+  min-height: 40px;
+  background: transparent;
+  border: 0;
+  accent-color: var(--accent);
+}
+.rg-add {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 43px;
+}
+.rg-add .icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* Type filters (Obsidian filters; Kanka types) as the core chip (Foundry dnd5e pill). A
+   pressed chip means "shown". */
+.rg-types {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 14px 0 4px;
+}
+.rg-type {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  color: var(--text);
+  font-size: var(--text-sm);
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+.rg-type[aria-pressed="true"]:hover {
+  background: var(--raised);
+}
+.rg-type[aria-pressed="false"] {
+  color: var(--muted);
+  background: transparent;
+  border-color: var(--line);
+  border-style: dashed;
+  text-decoration: line-through;
+}
+.rg-type[aria-pressed="false"] .rg-swatch {
+  opacity: 0.35;
+}
+.rg-count {
+  color: var(--muted);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}
+.rg-swatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--rg-page);
+  flex: 0 0 12px;
+}
+.rg-options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 20px;
+  margin: 4px 0 12px;
+}
+
+/* Board and details side by side; stacked on narrow widths. */
+.rg-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 300px);
+  gap: 16px;
+  align-items: start;
+}
+.rg-canvas {
+  position: relative;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background:
+    radial-gradient(
+        circle at 1px 1px,
+        color-mix(in srgb, var(--line) 70%, transparent) 1px,
+        transparent 0
+      )
+      0 0 / 24px 24px,
+    var(--rg-board);
+  overflow: hidden;
+}
+.rg-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: grab;
+}
+.rg-svg.is-panning {
+  cursor: grabbing;
+}
+.rg-board {
+  min-width: 0;
+}
+.rg-canvas-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  margin-top: 8px;
+}
+.rg-hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.rg-zoom {
+  display: flex;
+  gap: 6px;
+}
+/* Zoom: Owlbear Rodeo's rounded icon buttons in the core button materials. */
+.rg-zoom-button {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--frame-soft);
+  border-radius: 10px;
+  background: var(--raised);
+  color: var(--text);
+  font-size: var(--text-xl);
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+.rg-zoom-button .icon {
+  width: 18px;
+  height: 18px;
+}
+.rg-zoom-button:hover {
+  border-color: var(--accent-line);
+}
+
+/* Nodes */
+.rg-node {
+  cursor: pointer;
+  touch-action: none;
+  outline: none;
+}
+.rg-node-hit {
+  fill: transparent;
+}
+.rg-shape {
+  fill: var(--rg-page);
+  stroke: var(--rg-board);
+  stroke-width: 2.5;
+  transition: opacity var(--dur-fast) var(--ease-out);
+}
+.rg-node-label {
+  fill: var(--text);
+  font-size: 12.5px;
+  font-weight: 600;
+  paint-order: stroke;
+  stroke: var(--rg-board);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+  pointer-events: none;
+  transition: opacity var(--dur-fast) var(--ease-out);
+}
+.rg-node:focus-visible .rg-shape,
+.rg-node.is-lit .rg-shape,
+.rg-node.is-focus .rg-shape {
+  stroke: var(--focus);
+  stroke-width: 3.5;
+}
+.rg-node:focus-visible .rg-node-hit {
+  fill: none;
+  stroke: var(--focus);
+  stroke-width: 2;
+  stroke-dasharray: 4 3;
+}
+.rg-node.is-dragging {
+  cursor: grabbing;
+}
+.rg-node.is-pinned .rg-shape {
+  stroke-dasharray: none;
+}
+.rg-svg.is-dim .rg-node:not(.is-lit) .rg-shape,
+.rg-svg.is-dim .rg-node:not(.is-lit) .rg-node-label {
+  opacity: 0.28;
+}
+.rg-svg.is-dim .rg-edge:not(.is-lit) {
+  opacity: 0.18;
+}
+.rg-svg.is-searching .rg-node:not(.is-match) .rg-shape,
+.rg-svg.is-searching .rg-node:not(.is-match) .rg-node-label {
+  opacity: 0.25;
+}
+.rg-svg.is-searching .rg-node.is-match .rg-shape {
+  stroke: var(--focus);
+  stroke-width: 4;
+}
+
+.rg-type-quest,
+.rg-type-quest .rg-shape {
+  background: var(--rg-quest);
+  fill: var(--rg-quest);
+}
+.rg-type-person,
+.rg-type-person .rg-shape {
+  background: var(--rg-person);
+  fill: var(--rg-person);
+}
+.rg-type-organization,
+.rg-type-organization .rg-shape {
+  background: var(--rg-organization);
+  fill: var(--rg-organization);
+}
+.rg-type-place,
+.rg-type-place .rg-shape {
+  background: var(--rg-place);
+  fill: var(--rg-place);
+}
+.rg-type-shop,
+.rg-type-shop .rg-shape {
+  background: var(--rg-shop);
+  fill: var(--rg-shop);
+}
+.rg-type-event,
+.rg-type-event .rg-shape {
+  background: var(--rg-event);
+  fill: var(--rg-event);
+}
+.rg-type-checklist,
+.rg-type-checklist .rg-shape {
+  background: var(--rg-checklist);
+  fill: var(--rg-checklist);
+}
+.rg-type-page,
+.rg-type-page .rg-shape {
+  background: var(--rg-page);
+  fill: var(--rg-page);
+}
+.rg-type-character,
+.rg-type-character .rg-shape {
+  background: var(--rg-character);
+  fill: var(--rg-character);
+}
+.rg-type-creature,
+.rg-type-creature .rg-shape {
+  background: var(--rg-creature);
+  fill: var(--rg-creature);
+}
+.rg-type-journal,
+.rg-type-journal .rg-shape {
+  background: var(--rg-journal);
+  fill: var(--rg-journal);
+}
+.rg-type-scene,
+.rg-type-scene .rg-shape {
+  background: var(--rg-scene);
+  fill: var(--rg-scene);
+}
+
+/* Edges */
+.rg-edge {
+  transition: opacity var(--dur-fast) var(--ease-out);
+}
+.rg-edge-line {
+  fill: none;
+  stroke: var(--rg-edge);
+  stroke-width: 1.8;
+}
+.rg-edge-related .rg-edge-line {
+  stroke: var(--rg-edge-related);
+  stroke-width: 1.4;
+  stroke-dasharray: 2 4;
+  stroke-linecap: round;
+}
+.rg-edge-mention .rg-edge-line {
+  stroke: var(--rg-edge-related);
+  stroke-width: 1.2;
+  stroke-dasharray: 9 5;
+}
+.rg-edge.is-secret .rg-edge-line,
+.rg-edge.is-revealed .rg-edge-line {
+  stroke: var(--rg-secret);
+  stroke-width: 2;
+  stroke-dasharray: 7 5;
+}
+.rg-edge.is-revealed .rg-edge-line {
+  stroke-dasharray: 12 4;
+}
+.rg-edge.is-lit .rg-edge-line {
+  stroke-width: 2.8;
+}
+.rg-edge-hit {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 16;
+  cursor: pointer;
+  pointer-events: stroke;
+}
+.rg-edge-label {
+  fill: var(--muted);
+  font-size: 11px;
+  font-style: italic;
+  paint-order: stroke;
+  stroke: var(--rg-board);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+.rg-edge-label.is-short {
+  opacity: 0;
+}
+.rg-edge.is-lit .rg-edge-label.is-short {
+  opacity: 1;
+}
+.rg-edge.is-secret .rg-edge-label,
+.rg-edge.is-revealed .rg-edge-label {
+  fill: var(--rg-secret);
+}
+.rg-marker path {
+  fill: var(--rg-edge);
+}
+.rg-marker-related path {
+  fill: var(--rg-edge-related);
+}
+.rg-marker-secret path {
+  fill: var(--rg-secret);
+}
+
+/* Details: summary, entry preview or selected line. */
+.rg-details {
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+/* The chosen entry's name in the display serif, as Kanka's entity title. */
+.rg-details h3 {
+  margin: 0 0 6px;
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 400;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+.rg-details h3:focus {
+  outline: none;
+}
+.rg-details h3:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+.rg-kicker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 6px;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.rg-conn-list {
+  list-style: none;
+  margin: 8px 0 12px;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+}
+.rg-conn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 40px;
+  padding: 6px 8px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  font-size: var(--text-sm);
+}
+.rg-conn:hover {
+  background: var(--raised);
+}
+.rg-dir {
+  color: var(--muted);
+  flex: 0 0 auto;
+}
+.rg-secret-badge {
+  border-style: dashed;
+  color: var(--rg-secret);
+  border-color: var(--rg-secret);
+}
+.rg-detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+.rg-detail-actions .button {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.rg-detail-actions .icon {
+  width: 16px;
+  height: 16px;
+}
+
+.rg-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 22px;
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 0;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.rg-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.rg-line {
+  display: inline-block;
+  width: 34px;
+  height: 0;
+  border-top: 2px solid var(--rg-edge);
+}
+.rg-line-related {
+  border-top: 2px dotted var(--rg-edge-related);
+}
+.rg-line-mention {
+  border-top: 2px dashed var(--rg-edge-related);
+}
+.rg-line-secret {
+  border-top: 2px dashed var(--rg-secret);
+}
+.rg-empty {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Entry page: the entry's local graph. */
+.rg-entry .rg-canvas-compact {
+  max-width: 720px;
+  margin: 8px 0 12px;
+}
+.rg-entry .campaign-toolbar .button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.rg-entry .campaign-toolbar .icon {
+  width: 18px;
+  height: 18px;
+}
+
+@media (max-width: 1100px) {
+  .rg-stage {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 720px) {
+  .rg-switch {
+    display: flex;
+  }
+  .rg-switch-button {
+    flex: 1 1 0;
+    justify-content: center;
+  }
+  .rg-field,
+  .rg-field.rg-depth {
+    flex: 1 1 100%;
+    max-width: none;
+  }
+  .rg-add {
+    width: 100%;
+    justify-content: center;
+  }
+  .rg-types {
+    gap: 6px;
+  }
+  .rg-type {
+    font-size: var(--text-sm);
+    padding: 0 10px;
+  }
+}

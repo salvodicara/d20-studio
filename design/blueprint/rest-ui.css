@@ -1,0 +1,233 @@
+#dialog:has([data-rest-panel]) {
+  width: min(1040px, calc(100vw - 32px));
+}
+.rest-panel {
+  min-width: 0;
+}
+.rest-panel h3,
+.rest-panel h4,
+.rest-panel p,
+.rest-panel dd {
+  overflow-wrap: anywhere;
+}
+.rest-panel h3 {
+  margin-block: 0 12px;
+}
+.rest-panel h4 {
+  margin-block: 20px 10px;
+}
+.rest-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-block: 14px 22px;
+}
+.rest-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.85fr);
+  gap: 28px;
+  align-items: start;
+}
+.rest-layout > * {
+  min-width: 0;
+}
+.rest-fields {
+  display: grid;
+  gap: 16px;
+}
+.rest-fields .field,
+.rest-panel .field {
+  min-width: 0;
+}
+.rest-panel input,
+.rest-panel select,
+.rest-panel textarea {
+  max-width: 100%;
+}
+.rest-panel .field input,
+.rest-panel .field select,
+.rest-panel .field textarea {
+  width: 100%;
+}
+.rest-panel .button {
+  min-height: 44px;
+}
+.rest-panel fieldset {
+  min-width: 0;
+  margin: 0 0 18px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.rest-panel legend {
+  padding-inline: 5px;
+  font-weight: 600;
+}
+.rest-person,
+.rest-result-row,
+.rest-roll {
+  padding-block: 16px;
+  border-bottom: 1px solid var(--line);
+}
+.rest-person-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.rest-person-top h3 {
+  margin: 0;
+}
+.rest-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+}
+.rest-check input {
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  min-height: 18px;
+}
+.rest-choice-row,
+.rest-duration-fields {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 14px;
+}
+.rest-preview {
+  padding-left: 24px;
+  border-left: 1px solid var(--line);
+}
+.rest-result-row strong {
+  display: block;
+  margin-bottom: 4px;
+}
+.rest-result-row p,
+.rest-person p,
+.rest-roll p {
+  margin-bottom: 6px;
+}
+.rest-value,
+.rest-progress {
+  font-variant-numeric: tabular-nums;
+}
+.rest-progress {
+  color: var(--muted);
+  margin-block: 10px;
+}
+/* Notices: Foundry v13's notification, a tinted plate with a hairline. */
+.rest-notice {
+  padding: 14px 16px;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+}
+.rest-issues {
+  padding-left: 22px;
+}
+.rest-panel details {
+  padding-block: 14px;
+  border-bottom: 1px solid var(--line);
+}
+.rest-panel summary {
+  padding-block: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.rest-panel details > :not(summary) {
+  margin-top: 14px;
+}
+.rest-pending-face {
+  width: min(100%, 260px);
+}
+@media (max-width: 780px) {
+  .rest-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+  .rest-preview {
+    padding: 20px 0 0;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+}
+@media (max-width: 520px) {
+  #dialog:has([data-rest-panel]) {
+    width: calc(100vw - 16px);
+  }
+  .rest-choice-row,
+  .rest-duration-fields {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+  .rest-toolbar .button {
+    flex: 1 1 auto;
+  }
+}
+
+/* P4 (PG-81, CA-77, PG-80): Hit Dice in view from the start, the rest under way at the top,
+   the DM's «Completa per tutti», the Hit Dice summary and the post-Long-Rest choices. */
+/* A rest under way and the quick paths: BG3's framed panel (bronze rim) on the dialog. */
+.rest-running,
+.rest-complete-all,
+.rest-quick-short,
+.rest-after-long {
+  margin: 0 0 18px;
+  padding: 14px 16px;
+  border: 1px solid var(--frame);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+}
+.rest-running h3,
+.rest-after-long h4 {
+  margin: 0 0 8px;
+}
+.rest-running-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 14px;
+}
+.rest-complete-all p,
+.rest-quick-short p {
+  margin: 0 0 10px;
+}
+/* Hit Dice left, as D&D Beyond's short-rest dialog counts them. */
+.rest-hd-line {
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.rest-hd-summary {
+  margin: 8px 0;
+  font-weight: 600;
+  color: var(--positive);
+}
+.rest-all-party {
+  margin-bottom: 10px;
+}
+.rest-choice {
+  margin: 10px 0 0;
+}
+.rest-choice-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+}
+.rest-why {
+  margin-left: 6px;
+  color: var(--accent);
+}
+
+/* SV-37: the sentence «cause. remedy.» beside a disabled command (aria-describedby). */
+.rest-why {
+  flex-basis: 100%;
+  display: block;
+  color: var(--muted);
+  font-size: var(--text-xs);
+  overflow-wrap: anywhere;
+}

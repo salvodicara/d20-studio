@@ -1,0 +1,1266 @@
+.character-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 350px), 1fr));
+  gap: var(--space-5);
+  margin-top: var(--space-5);
+}
+.character-card {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+.character-card .button {
+  grid-column: 2;
+  justify-self: start;
+}
+.character-card-copy h2 {
+  margin: 8px 0;
+}
+.character-card-copy p {
+  margin: 6px 0;
+}
+/* Portrait: the core .portrait (BG3's hotbar portrait) — a 2 px bronze frame with a dark inner
+   keyline around a serif initial; the arch keeps the shape of the Table's portraits. */
+.character-portrait {
+  display: grid;
+  place-items: center;
+  inline-size: 64px;
+  block-size: 84px;
+  border: 2px solid var(--frame);
+  border-radius: 40% 40% var(--radius-md) var(--radius-md);
+  color: var(--accent);
+  background: var(--raised);
+  box-shadow: inset 0 0 0 1px var(--keyline-dark);
+  font-family: var(--font-display);
+  font-size: 42px;
+}
+.character-portrait.small {
+  inline-size: 52px;
+  block-size: 68px;
+  font-size: 32px;
+  flex: 0 0 auto;
+}
+.character-heading-identity {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+.character-heading p {
+  margin: 6px 0 0;
+}
+.character-breadcrumb {
+  margin-bottom: 22px;
+}
+.character-search {
+  max-width: 420px;
+  width: 100%;
+}
+/* ---------------------------------------------------------------- sheet layout
+   Visual pass 2 (30/09/2026): D&D Beyond's desktop character sheet, copied as it is laid out.
+   A top band from edge to edge (six abilities, Proficiency Bonus, Walking Speed, Heroic
+   Inspiration, Hit Points), then the body: the left columns hold Saving Throws, Senses and
+   Proficiencies & Training over Skills; the right one the strip (Initiative, Armor Class,
+   Defenses, Conditions) over the section tabs and their content. Band and body share one
+   twelve-column grid, so the left columns sit under STR–CHA and the right one starts under the
+   Proficiency Bonus, as on D&D Beyond. The layout follows the sheet's own width (container
+   queries): the same sheet in the Table's drawer takes the narrower layout by itself. */
+.character-sheet {
+  container: character-sheet / inline-size;
+  --sheet-gap: var(--space-4);
+}
+.character-band {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--sheet-gap);
+  align-items: stretch;
+  margin-block: var(--space-4) var(--space-5);
+}
+.character-band > [data-ext-slot],
+.character-band .shp-band,
+.character-band .character-vitals {
+  display: contents;
+}
+.character-band .shp-abilities {
+  grid-column: span 6;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: var(--sheet-gap);
+  margin: 0;
+}
+.character-band [data-shp-stat="pb"],
+.character-band [data-character-speed],
+.character-band .character-inspiration {
+  grid-column: span 1;
+}
+.character-band .character-hp {
+  grid-column: span 3;
+}
+.character-band:not(:has(.character-inspiration)) .character-hp {
+  grid-column: span 4;
+}
+/* A larger text or interface (Preferences) gives the band the tablet's two rows: container
+   queries measure CSS pixels, which do not grow with the interface scale. */
+:root[data-pref-scaled="on"] .character-band {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+:root[data-pref-scaled="on"] .character-band .shp-abilities {
+  grid-column: 1 / -1;
+}
+/* Without the sheet area (no abilities in the band) the core boxes share the row. */
+.character-band.no-abilities {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+.character-band.no-abilities .character-hp {
+  grid-column: span 2;
+}
+/* D&D Beyond's small framed boxes (PROFICIENCY BONUS, WALKING SPEED): label over a large
+   number, the words under it; all of the band at one height. */
+.character-band .stat,
+.character-band .character-inspiration,
+.character-band [data-shp-stat="pb"] .shp-pill {
+  min-width: 0;
+  height: 100%;
+}
+.character-vitals > [hidden] {
+  display: none !important;
+}
+.character-vitals .stat {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-2);
+  text-align: center;
+}
+.character-vitals .stat > strong {
+  font-size: 26px;
+  font-variant-numeric: tabular-nums;
+}
+.character-vitals .stat small {
+  font-size: var(--text-xs);
+  font-weight: 400;
+  color: var(--muted);
+}
+.character-vitals [data-character-speed] > small:first-of-type {
+  color: var(--text);
+}
+/* Heroic Inspiration: D&D Beyond's box beside Walking Speed — the condensed label over the
+   star, gold when held. */
+.character-band .character-inspiration {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  margin: 0;
+  padding: var(--space-3) var(--space-2);
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: 0.05em;
+  font-variant-caps: all-small-caps;
+  white-space: normal;
+  text-align: center;
+}
+.character-band .character-inspiration > span:first-child {
+  order: 2;
+  font-family: var(--font-display);
+  font-size: 30px;
+  line-height: 1;
+  font-variant-caps: normal;
+  color: var(--frame);
+}
+.character-band .character-inspiration.is-on {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.character-band .character-inspiration.is-on > span:first-child {
+  color: var(--accent);
+}
+button.character-inspiration:hover {
+  border-color: var(--accent-line);
+  color: var(--text);
+}
+/* D&D Beyond's Hit Points box: HEAL, the amount and DAMAGE stacked on the left, the numbers
+   (current / maximum, temporary) on the right, the green bar under them (Foundry dnd5e). */
+.character-vitals .character-hp {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: center;
+  justify-items: center;
+  column-gap: var(--space-4);
+  row-gap: var(--space-1);
+}
+.character-vitals .character-hp:has(.dt-hp-row) {
+  grid-template-columns: minmax(132px, 0.9fr) minmax(0, 1fr);
+}
+.character-hp > :not(.dt-hp, [data-ext-slot]) {
+  grid-column: -2 / -1;
+}
+.character-hp .dt-status,
+.character-hp .dt-manage,
+.character-hp > .conditions-summary {
+  grid-column: 1 / -1;
+}
+.character-hp > .conditions-summary {
+  justify-self: stretch;
+  text-align: start;
+}
+.character-hp [data-ext-slot],
+.character-hp .dt-hp {
+  display: contents;
+}
+.character-hp .dt-hp-row {
+  grid-column: 1;
+  grid-row: 1 / span 4;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-areas:
+    "amount amount"
+    "heal damage";
+  gap: var(--space-1);
+  align-content: center;
+  align-self: center;
+  margin: 0;
+}
+.character-hp .dt-hp-row .dt-heal {
+  grid-area: heal;
+}
+.character-hp .dt-hp-row .dt-amount {
+  grid-area: amount;
+}
+.character-hp .dt-hp-row .dt-damage {
+  grid-area: damage;
+}
+.character-hp .dt-hp-row > * {
+  width: 100%;
+  min-width: 0;
+}
+.character-hp .dt-hp-row .dt-amount {
+  text-align: center;
+}
+.character-hp .dt-status:empty {
+  display: none;
+}
+.character-hp .dt-manage {
+  justify-self: center;
+  min-height: 40px;
+  padding-block: 4px;
+  font-size: var(--text-xs);
+  text-align: center;
+}
+.character-hp .character-hp-value strong {
+  font-size: 30px;
+}
+.character-hp-temp {
+  font-size: var(--text-xs) !important;
+  color: var(--muted);
+}
+.character-hp-temp b {
+  color: var(--hp-temp);
+  font-size: var(--text-xl);
+  font-weight: 700;
+}
+/* HP bar in Foundry dnd5e's hit-point green. */
+.character-hp progress {
+  width: 100%;
+  height: 7px;
+  accent-color: var(--hp-full);
+}
+.character-hp .button {
+  align-self: flex-start;
+  margin-top: 0;
+}
+/* Critique 2: the band is as tall as the Hit Points box, which left the other boxes as
+   small clusters in empty frames (97 × 172 px around 70 px of content). D&D Beyond's boxes
+   read top to bottom — the label on the top edge, the number in the middle, the score or the
+   words at the foot — and its Hit Points box keeps its commands in the left column: the
+   manage link joins Heal and Damage there, so the numbers end the box. */
+.character-band .shp-ability-box,
+.character-band [data-shp-stat="pb"] .shp-pill,
+.character-band .character-vitals .stat:not(.character-hp),
+.character-band .character-inspiration {
+  justify-content: flex-start;
+}
+.character-band .shp-ability-box > strong,
+.character-band [data-shp-stat="pb"] .shp-pill > strong,
+.character-band .character-vitals .stat:not(.character-hp) > strong,
+.character-band .character-inspiration > span:first-child {
+  margin-block: auto;
+}
+.character-band .character-hp:has(.dt-hp-row) {
+  grid-template-rows: auto auto auto auto minmax(0, auto);
+  align-content: start;
+}
+.character-band .character-hp .dt-hp-row {
+  grid-row: 1 / 4;
+}
+.character-band .character-hp .dt-manage {
+  grid-column: 1;
+  grid-row: 4 / 6;
+  align-self: end;
+}
+.character-band .character-hp .dt-status {
+  grid-row: 6;
+}
+
+/* The body: left columns (the sheet area's saves, senses, training and skills) and the right
+   column (strip, tabs, content). */
+.character-body {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--space-5) var(--sheet-gap);
+  align-items: start;
+}
+.character-side {
+  grid-column: 1 / span 6;
+  min-width: 0;
+  container: character-side / inline-size;
+}
+.character-main {
+  grid-column: 7 / -1;
+  min-width: 0;
+  container: character-main / inline-size;
+}
+.character-body.no-side .character-main {
+  grid-column: 1 / -1;
+}
+/* The strip over the tabs: D&D Beyond's INITIATIVE, ARMOR CLASS, DEFENSES and CONDITIONS in
+   one row (the sheet area's boxes, then the core's Conditions box); the Play / Edit and
+   experience line, roll effects and favourites above it; notices under it. */
+.character-summary {
+  display: grid;
+  grid-template-columns: minmax(96px, 0.7fr) minmax(96px, 0.7fr) minmax(0, 2fr);
+  gap: var(--space-3);
+  align-items: stretch;
+  margin-bottom: var(--space-4);
+}
+.character-summary > *,
+.character-summary > [data-ext-slot] > *,
+.character-summary .shp-bar > * {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+.character-summary > [data-ext-slot],
+.character-summary .shp-bar,
+.character-summary .shp-stats {
+  display: contents;
+}
+.character-summary .shp-stat {
+  grid-column: auto;
+  min-width: 0;
+}
+.character-summary .shp-stat[hidden] {
+  display: none;
+}
+.character-summary [data-shp-stat="initiative"] {
+  grid-column: 1;
+}
+.character-summary [data-shp-stat="ac"] {
+  grid-column: 2;
+}
+.character-summary [data-shp-stat="defenses"] {
+  grid-column: 3;
+}
+/* D&D Beyond's Conditions box, under the three boxes across the column (its tablet sheet
+   lays it wide): the label, then on one line the vital state, chips, «+ Condizione»,
+   Exhaustion and the entry to damage, healing and conditions; it wraps when it must. */
+.character-summary > .character-conditions {
+  grid-column: 1 / -1;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  text-align: start;
+}
+.character-summary > .character-conditions > span:first-child {
+  align-self: flex-start;
+  margin-top: 10px;
+}
+.character-conditions .conditions-summary.embedded {
+  display: flex;
+  flex: 1 1 320px;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+}
+.character-conditions .conditions-summary.embedded > p {
+  margin: 0;
+}
+.character-conditions .conditions-quick {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+}
+.character-conditions .conditions-summary.embedded {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+/* The Exhaustion levels and the entry wrap rather than widen the box, also at 150 % text and
+   125 % interface. */
+.character-conditions .conditions-segments {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 100%;
+}
+.character-conditions .conditions-summary > .button {
+  max-width: 100%;
+  white-space: normal;
+  text-align: center;
+}
+/* The sheet's notice (potion roll pending) spans the strip. */
+.character-summary > .character-notice {
+  margin: 0;
+}
+
+/* BG3's action economy over the Actions list: the hotbar's resource symbols in their colours,
+   an empty outline once spent. */
+.character-turn {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+}
+.character-turn-label {
+  font-family: var(--font-label);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  font-variant-caps: all-small-caps;
+  color: var(--muted);
+}
+.character-resource {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 28px;
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+.character-resource svg {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  stroke-width: 1.4;
+}
+.character-resource.is-action svg {
+  fill: var(--res-action);
+  stroke: var(--res-action);
+}
+.character-resource.is-bonus svg {
+  fill: var(--res-bonus);
+  stroke: var(--res-bonus);
+}
+.character-resource.is-reaction svg {
+  fill: var(--res-reaction);
+  stroke: var(--res-reaction);
+}
+.character-resource.is-spent {
+  color: var(--muted);
+  font-weight: 400;
+}
+.character-resource.is-spent svg {
+  fill: none;
+  stroke: var(--muted);
+}
+
+/* D&D Beyond's section tabs over the right column. The phone pages (Abilities, Skills) join
+   the strip on a phone only. */
+.character-tabs-bar {
+  display: flex;
+  align-items: stretch;
+}
+.character-tabs-bar > .character-tabs {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.character-page-tab {
+  display: none;
+}
+.character-tabs {
+  overflow-x: auto;
+  flex-wrap: nowrap;
+  margin-bottom: 24px;
+}
+.character-tabs button {
+  min-height: 44px;
+  white-space: nowrap;
+}
+.character-tabs button.is-fallback {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+/* B62: the sub-sections of the open category (D&D Beyond's filter chips inside a sheet
+   section), under the category strip; they wrap, so every sub-section is in view. */
+.character-tabs-bar:has(+ .character-subtabs) .character-tabs,
+.character-tabs-bar:has(+ .character-subtabs) {
+  margin-bottom: 10px;
+}
+.character-subtabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+/* D&D Beyond's section filters («ALL» filled in the theme colour) in the pill of the core
+   sub-tabs (.table-subtab): condensed small caps, the open one filled gold. */
+.character-subtabs button {
+  min-height: 40px;
+  padding: 6px 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+.character-subtabs button:hover {
+  color: var(--text);
+  background: var(--raised);
+}
+.character-subtabs button.active {
+  color: var(--accent-ink);
+  border-color: var(--accent);
+  background: var(--accent);
+}
+/* W2a2 integration: "All sections" (D&D Beyond's sheet quick-jump, DDB-060; as the campaign
+   strip, B61 review) appears where the section strip no longer fits its column: the phone,
+   and a narrow right column. */
+.character-tabs-all {
+  display: none;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 6px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 10px 12px;
+  color: var(--muted);
+  background: transparent;
+  border: 0;
+  border-left: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  font-family: var(--font-label);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  font-variant-caps: all-small-caps;
+}
+.character-tabs-all:hover {
+  color: var(--text);
+}
+.character-tabs-all .icon {
+  width: 18px;
+  height: 18px;
+}
+@container character-main (max-width: 620px) {
+  .character-tabs-all {
+    display: flex;
+  }
+}
+.character-tab-content {
+  display: grid;
+  /* One track no wider than the page: an automatic one grows to its widest item's
+     min-content (at 150 % text and 125 % interface on a phone it widened the page). */
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
+}
+.character-sheet-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(270px, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+.character-action-footer {
+  margin-top: 28px;
+}
+.character-abilities {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+/* Fallback ability boxes (without the sheet area): D&D Beyond's framed ability box. */
+.character-abilities button {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 6px;
+  padding: 14px;
+  min-height: 80px;
+  color: inherit;
+  background: var(--surface-2);
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-sm);
+  text-align: start;
+  cursor: pointer;
+}
+.character-abilities button span {
+  grid-column: 1 / -1;
+  font-family: var(--font-label);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  font-variant-caps: all-small-caps;
+  color: var(--muted);
+}
+.character-abilities button strong {
+  font-size: 22px;
+  font-variant-numeric: tabular-nums;
+}
+.character-abilities button b {
+  align-self: center;
+  color: var(--accent);
+}
+.character-abilities button:hover:not(:disabled) {
+  border-color: var(--accent-line);
+}
+.character-abilities button:disabled {
+  cursor: default;
+  opacity: 0.65;
+}
+.character-abilities button:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+.character-notice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+  padding: 20px;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-md);
+  background: var(--accent-soft);
+  margin-bottom: var(--space-5);
+}
+.character-notice p {
+  margin: 8px 0 0;
+}
+.character-roll-result {
+  border-top: 1px solid var(--line);
+  padding-top: 18px;
+  margin-top: var(--space-5);
+}
+.character-inventory-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.character-item-copy {
+  min-width: 0;
+  flex: 1;
+}
+.character-item-copy strong {
+  overflow-wrap: anywhere;
+}
+.character-item-copy p {
+  margin: 6px 0 0;
+}
+.character-item-symbol {
+  flex: 0 0 32px;
+  color: var(--accent);
+}
+.character-item-symbol .icon {
+  width: 27px;
+  height: 27px;
+}
+.character-multiline {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-width: 72ch;
+}
+.character-story {
+  line-height: 1.75;
+  padding-block: 20px 32px;
+}
+.character-slot-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+.character-details {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 12px 24px;
+}
+.character-details dt {
+  color: var(--muted);
+}
+.character-details dd {
+  margin: 0;
+}
+.character-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  padding-block: 10px;
+}
+.character-checkbox input {
+  min-width: 20px;
+  min-height: 20px;
+}
+.character-card[hidden],
+.character-inventory-row[hidden] {
+  display: none;
+}
+@media (max-width: 1000px) {
+  .character-sheet-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .character-abilities {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .character-inventory-row {
+    flex-wrap: wrap;
+  }
+  .character-inventory-row .toolbar {
+    margin-left: 48px;
+  }
+}
+@media (max-width: 620px) {
+  .character-heading-identity {
+    gap: 12px;
+  }
+  .character-portrait.small {
+    display: none;
+  }
+  .character-abilities {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .character-notice,
+  .character-slot-summary {
+    flex-direction: column;
+    align-items: start;
+    gap: 14px;
+  }
+  .character-inventory-row .toolbar {
+    margin-left: 0;
+    width: 100%;
+  }
+  .character-card {
+    grid-template-columns: 48px minmax(0, 1fr);
+    gap: 16px;
+  }
+  .character-portrait {
+    inline-size: 48px;
+    block-size: 66px;
+    font-size: 32px;
+  }
+}
+
+.concentration-summary {
+  margin-bottom: 24px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+.concentration-summary .button {
+  margin: 4px 8px 4px 0;
+}
+
+/* ---------------------------------------------------------------- P2 fix package */
+/* PG-44: the header portrait is a button (D&D Beyond): it opens the appearance picker. */
+.character-portrait img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+.character-portrait {
+  overflow: hidden;
+  padding: 0;
+}
+.character-portrait-button {
+  position: relative;
+  cursor: pointer;
+}
+.character-portrait-button:hover {
+  border-color: var(--accent);
+}
+.character-portrait-button:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+.character-portrait-edit {
+  position: absolute;
+  right: 3px;
+  bottom: 3px;
+  display: grid;
+  place-items: center;
+  inline-size: 22px;
+  block-size: 22px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+.character-portrait-edit .icon {
+  width: 13px;
+  height: 13px;
+}
+/* PG-33: Heroic Inspiration in the header. */
+/* Heroic Inspiration: D&D Beyond's Inspiration box as a pill (Foundry dnd5e pills), gold when
+   held. */
+.character-inspiration {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  margin-top: 6px;
+  padding: 4px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: var(--text-sm);
+  cursor: pointer;
+}
+.character-inspiration {
+  white-space: nowrap;
+}
+.character-inspiration span {
+  font-size: 16px;
+}
+.character-inspiration.is-on {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.character-inspiration:disabled {
+  cursor: default;
+}
+/* PG-25 / PG-30: the AC and Movement cards open their windows. */
+.character-stat-button {
+  text-align: center;
+  color: inherit;
+  font: inherit;
+  background: transparent;
+  cursor: pointer;
+}
+.character-stat-button:hover {
+  border-color: var(--accent-line);
+  background: var(--raised);
+}
+.character-derived-field {
+  display: grid;
+  gap: 6px;
+}
+.character-derived-field strong {
+  font-size: 22px;
+}
+/* PG-45: the section bar stays in view while the sheet scrolls (Shard's fixed bar, D&D
+   Beyond's quick jump); on a phone it also comes right after the header. */
+.character-tabs-bar {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 15;
+  background: var(--bg);
+  box-shadow: 0 8px 12px -12px var(--keyline-dark);
+}
+.character-tabs-bar .character-tabs {
+  margin-bottom: 0;
+}
+.character-tabs-bar {
+  margin-bottom: 24px;
+}
+/* Tablet: the band wraps after the abilities; the left columns become one column beside the
+   tabs (D&D Beyond's tablet sheet keeps saves and skills beside the section box). */
+@container character-sheet (max-width: 1099px) {
+  .character-band {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+  .character-band .shp-abilities {
+    grid-column: 1 / -1;
+  }
+  .character-body {
+    grid-template-columns: minmax(290px, 0.85fr) minmax(0, 1.6fr);
+  }
+  .character-side {
+    grid-column: 1;
+  }
+  .character-main {
+    grid-column: 2;
+  }
+  .character-body.no-side .character-main {
+    grid-column: 1 / -1;
+  }
+}
+/* Critique 30/09: from 721 to 1000 px the five sheet commands (Rest … Go to the Table) ran 20 px
+   past the screen; they wrap under each other at the right instead (the phone keeps its
+   scrolling row). */
+@media (min-width: 721px) and (max-width: 1000px) {
+  .character-heading .toolbar {
+    flex-wrap: wrap;
+    flex-shrink: 1;
+    justify-content: flex-end;
+    min-width: 0;
+  }
+}
+/* Narrow sheet (phone, tablet portrait, the Table's drawer): D&D Beyond's mobile sheet.
+   Header, the section strip (sticky), the quick boxes (Hit Points and Inspiration;
+   Proficiency, Speed, Initiative, Armor Class; Defenses and Conditions) on every page, then
+   one page: «Caratteristiche» (abilities, saves, senses, training), «Abilità» (skills) or a
+   category. The containers step aside (display: contents) so that one four-column grid can
+   place each box; their hooks stay in place. */
+@container character-sheet (max-width: 899px) {
+  .character-layout {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-2);
+    align-items: stretch;
+  }
+  .character-layout > *,
+  .character-summary > *,
+  .character-summary > [data-ext-slot] > *,
+  .character-summary .shp-bar > * {
+    grid-column: 1 / -1;
+    min-width: 0;
+    order: 4;
+  }
+  .character-layout > .character-breadcrumb,
+  .character-layout > .character-heading,
+  .character-layout > .forms-summary {
+    order: 0;
+  }
+  .character-band,
+  .character-band > [data-ext-slot],
+  .character-band .shp-band,
+  .character-band .character-vitals,
+  .character-body,
+  .character-main,
+  .character-summary,
+  .character-summary > [data-ext-slot],
+  .character-summary .shp-bar,
+  .character-summary .shp-stats {
+    display: contents;
+  }
+  .character-main > .character-tabs-bar {
+    grid-column: 1 / -1;
+    order: 1;
+    margin-bottom: var(--space-2);
+  }
+  .character-band .character-hp {
+    grid-column: span 3;
+    order: 2;
+  }
+  .character-band:not(:has(.character-inspiration)) .character-hp {
+    grid-column: 1 / -1;
+  }
+  .character-band .character-inspiration {
+    grid-column: span 1;
+    order: 2;
+  }
+  .character-band [data-shp-stat="pb"],
+  .character-band [data-character-speed],
+  .character-summary [data-shp-stat="initiative"],
+  .character-summary [data-shp-stat="ac"] {
+    grid-column: span 1;
+    order: 3;
+  }
+  .character-summary [data-shp-stat="defenses"],
+  .character-summary > .character-conditions {
+    grid-column: 1 / -1;
+    order: 4;
+  }
+  /* The page: abilities, the Play / Edit line, effects and favourites, then the left
+     columns; or the category's sub-tabs and content. */
+  .character-band .shp-abilities,
+  .character-summary .shp-bar > .shp-bar-top,
+  .character-summary .shp-bar > .shp-effects,
+  .character-summary .shp-bar > .shp-favorites {
+    grid-column: 1 / -1;
+    order: 5;
+  }
+  .character-band .shp-abilities {
+    grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+    gap: var(--space-2);
+  }
+  .character-side {
+    grid-column: 1 / -1;
+    order: 6;
+  }
+  .character-main > .character-subtabs {
+    grid-column: 1 / -1;
+    order: 5;
+  }
+  .character-main > .character-tab-content {
+    grid-column: 1 / -1;
+    order: 6;
+  }
+  .character-sheet[data-character-page="tab"]
+    :is(.shp-abilities, .shp-bar-top, .shp-effects, .shp-favorites),
+  .character-sheet[data-character-page="tab"] .character-side,
+  .character-sheet:not([data-character-page="tab"]) :is(.character-subtabs, .character-tab-content),
+  .character-sheet[data-character-page="skills"]
+    :is(.shp-abilities, .shp-bar-top, .shp-effects, .shp-favorites) {
+    display: none;
+  }
+  .character-sheet[data-character-page="abilities"] .shp-col-skills,
+  .character-sheet[data-character-page="abilities"] .shp-recent,
+  .character-sheet[data-character-page="skills"]
+    :is(.shp-col-saves, .shp-col-senses, .shp-col-training) {
+    display: none;
+  }
+  .character-page-tab {
+    display: block;
+  }
+  .character-tabs button.is-fallback {
+    color: var(--muted);
+    border-bottom-color: transparent;
+  }
+  .character-tabs-all {
+    display: flex;
+  }
+  .character-band .stat,
+  .character-band .character-inspiration,
+  .character-summary .shp-pill {
+    padding: var(--space-2) var(--space-1);
+  }
+  .character-band .character-inspiration {
+    font-size: 13px;
+  }
+  /* Final review F11 (D&D Beyond mobile: the header on one line): the way back, the sheet's
+     chips and commands in one row that scrolls; the name is the heading below. */
+  .character-breadcrumb {
+    margin-bottom: 0;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .character-breadcrumb > *,
+  .character-breadcrumb .clib-sheet-bar,
+  .character-breadcrumb .clib-sheet-bar > * {
+    flex: none;
+  }
+  .character-breadcrumb .clib-sheet-bar {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 6px;
+  }
+  .character-breadcrumb > .muted {
+    display: none;
+  }
+  /* F11: the quick boxes (hit points, Proficiency, speed, Initiative, AC, defenses and
+     conditions) on the main pages only: «Caratteristiche» and Actions. */
+  .character-sheet:not([data-character-page="abilities"]):not(
+      [data-character-page="tab"][data-character-category="actions"]
+    )
+    :is(
+      .character-hp,
+      .character-inspiration,
+      [data-shp-stat="pb"],
+      [data-character-speed],
+      [data-shp-stat="initiative"],
+      [data-shp-stat="ac"],
+      [data-shp-stat="defenses"],
+      .character-conditions
+    ) {
+    display: none;
+  }
+  .character-heading {
+    gap: 10px;
+    margin-bottom: 0;
+  }
+  .character-heading .toolbar {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    max-width: 100%;
+    padding-bottom: 4px;
+  }
+  .character-heading .toolbar .button {
+    flex: 0 0 auto;
+  }
+  .character-portrait.small {
+    display: grid;
+    inline-size: 44px;
+    block-size: 56px;
+    font-size: var(--text-2xl);
+  }
+}
+/* PG-20: the sheet over the map (Foundry sheet window, D&D Beyond Maps). */
+/* The sheet window over the map: Foundry's sheet window framed as BG3's panels (bronze
+   rim, serif name) with the dialogs' elevation. */
+.sheet-overlay {
+  position: fixed;
+  z-index: 40;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(760px, 100vw);
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  border-left: 1px solid var(--frame);
+  box-shadow: var(--shadow-3);
+  padding-top: env(safe-area-inset-top, 0px);
+}
+.sheet-overlay-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--frame-soft);
+  background: var(--header-bg);
+}
+.sheet-overlay-head strong {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 400;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sheet-overlay-kicker {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  font-variant-caps: all-small-caps;
+}
+.sheet-overlay-body {
+  flex: 1;
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 16px 18px max(24px, env(safe-area-inset-bottom));
+}
+.sheet-overlay .character-heading h1 {
+  font-size: 30px;
+}
+.sheet-overlay .character-sheet-layout {
+  grid-template-columns: minmax(0, 1fr);
+}
+@media (max-width: 720px) {
+  .sheet-overlay-head .button[data-sheet-overlay-full] {
+    display: none;
+  }
+}
+/* PG-41 / PG-34: features with their source inline and use boxes. */
+.character-feature-chips {
+  margin-bottom: 12px;
+}
+.character-feature {
+  align-items: flex-start;
+}
+.character-feature-copy {
+  flex: 1;
+  min-width: 0;
+}
+.character-feature-copy .badge {
+  margin-left: 6px;
+  vertical-align: middle;
+}
+.character-feature-source {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+/* Feature names in the serif of the sheet's titles (D&D Beyond Features & Traits headings). */
+.character-feature-copy > strong:first-child {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 400;
+}
+.character-feature-uses {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+  margin-top: 8px;
+}
+.character-feature-uses .shp-pips {
+  margin: 0;
+}
+/* PG-42: traits, ideals, bonds and flaws as four lists. */
+.character-personality-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  gap: 16px 24px;
+}
+/* D&D Beyond Background tab: PERSONALITY TRAITS, IDEALS, BONDS, FLAWS as condensed labels. */
+.character-personality h3 {
+  margin: 0 0 8px;
+  font-family: var(--font-label);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  font-variant-caps: all-small-caps;
+  color: var(--muted);
+}
+.character-personality-list {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+.character-personality-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--line);
+}
+.character-personality-remove {
+  min-width: 40px;
+}
+
+/* SV-37: the sentence «cause. remedy.» beside a disabled command (aria-describedby), and the
+   Heroic Inspiration state for a viewer who cannot change it (text, not an inert button). */
+.character-why {
+  display: block;
+  flex-basis: 100%;
+  color: var(--muted);
+  font-size: var(--text-xs);
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+.character-inspiration.is-static {
+  cursor: default;
+}
+
+/* Final review F17: the potion's dice choice in the roll window's form (two radios in a row). */
+.potion-dice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 18px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.potion-dice > legend {
+  margin-bottom: 4px;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.potion-dice > label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+}

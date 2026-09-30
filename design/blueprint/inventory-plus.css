@@ -1,0 +1,738 @@
+/* B36 — deep inventory. Area styles only (.invp-*), linked through
+   registry.registerStyles(); shared tokens from styles.css. */
+
+/* Item rarity: D&D Beyond's rarity colours (Uncommon #1FC219, Rare #4990E2, Very Rare #9810E0,
+   Legendary #FEA227). On the dark theme Very Rare is lightened to stay legible (DDB's own
+   purple is 2.8:1 there); on the parchment theme the others are darkened (≥ 4.5:1). */
+:root {
+  --rarity-uncommon: #1fc219;
+  --rarity-rare: #4990e2;
+  --rarity-very-rare: #b77cf0;
+  --rarity-legendary: #fea227;
+}
+:root[data-pref-theme="light"] {
+  --rarity-uncommon: #16800f;
+  --rarity-rare: #2c6fbf;
+  --rarity-very-rare: #9810e0;
+  --rarity-legendary: #a15c00;
+}
+
+.invp .section-heading {
+  flex-wrap: wrap;
+  gap: 10px 16px;
+}
+.invp .section-heading .toolbar {
+  flex-wrap: wrap;
+}
+.invp-summary {
+  display: grid;
+  /* F10: the four header boxes on one row where they fit (D&D Beyond's header strip). */
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 8px;
+  margin: 4px 0 12px;
+}
+/* D&D Beyond's inventory header boxes (WEIGHT CARRIED, ATTUNED ITEMS, CURRENCY): the core
+   stat box — bronze rim, condensed small-caps label, bold number. */
+.invp-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+}
+.invp-stat.is-bad {
+  border-color: var(--warning);
+}
+.invp-stat-label {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  font-variant-caps: all-small-caps;
+}
+.invp-stat > strong {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.invp-stat > strong small {
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: 400;
+}
+.invp-stat > small,
+.invp-stat .invp-reason {
+  color: var(--muted);
+  font-size: var(--text-sm);
+  overflow-wrap: anywhere;
+}
+.invp-stat .invp-reason {
+  margin: 0;
+  color: var(--text);
+}
+.invp-stat .button {
+  align-self: flex-start;
+}
+.invp-coins-line {
+  font-size: var(--text-lg) !important;
+}
+.invp-bar {
+  display: block;
+  height: 6px;
+  border-radius: var(--radius-xs);
+  background: var(--hp-track);
+  overflow: hidden;
+}
+.invp-bar > span {
+  display: block;
+  height: 100%;
+  background: var(--hp-full);
+}
+.invp-stat.is-bad .invp-bar > span,
+.invp-bar.is-over > span {
+  background: var(--danger);
+}
+.invp-inline-field {
+  margin: 0;
+}
+.invp-inline-field select {
+  min-height: 40px;
+}
+.invp-check,
+.invp-radio {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  font-size: 14px;
+}
+.invp-check input,
+.invp-radio input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--accent);
+  flex: none;
+}
+.invp-radio small {
+  color: var(--muted);
+}
+.invp-pips {
+  display: flex;
+  gap: 6px;
+}
+.invp-pips > span {
+  width: 14px;
+  height: 14px;
+  transform: rotate(45deg);
+  border: 2px solid var(--accent);
+  border-radius: 2px;
+}
+.invp-pips > span.on {
+  background: var(--accent);
+}
+.invp-sets {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+.invp-sets li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  align-items: baseline;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  color: var(--muted);
+}
+.invp-sets li.is-active {
+  background: var(--accent-soft);
+  color: var(--text);
+}
+.invp-sets li strong {
+  overflow-wrap: anywhere;
+}
+.invp-sets em {
+  font-style: normal;
+  font-size: var(--text-xs);
+  color: var(--accent);
+}
+.invp-details {
+  margin-top: 4px;
+}
+.invp-details > summary {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: var(--accent);
+}
+.invp-details ul,
+.invp-details ol {
+  margin: 4px 0 8px;
+  padding-left: 18px;
+}
+
+/* Toolbar: search, filter chips (dnd5e/DDB), rarity (BG3), grouping. */
+.invp-toolbar {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.invp-search {
+  margin: 0;
+  max-width: 460px;
+}
+.invp-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+/* D&D Beyond's inventory filters (ALL, EQUIPMENT, ATTUNEMENT…): condensed small caps in a
+   pill, the chosen one filled in the theme colour. */
+.invp-chip {
+  min-height: 40px;
+  padding: 7px 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+.invp-chip:hover:not(.active) {
+  background: var(--raised);
+}
+.invp-chip.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+.invp-toolbar-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 10px 20px;
+}
+
+/* Tree of containers and rows (DDB grouped by container with capacity). */
+.invp-root,
+.invp-flat {
+  border-top: 1px solid var(--line);
+}
+.invp-container {
+  border-bottom: 1px solid var(--line);
+  margin-left: calc(min(var(--depth, 0), 4) * 14px);
+}
+.invp-container.is-over > .invp-container-head {
+  background: var(--danger-soft);
+}
+.invp-container-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  padding: 10px 4px;
+}
+.invp-root-head {
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+}
+.invp-root-head strong {
+  color: var(--text);
+}
+.invp-container-head.is-drop {
+  outline: 2px dashed var(--accent);
+  outline-offset: -2px;
+}
+.invp-container-main {
+  flex: 1 1 220px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.invp-container-main .invp-bar {
+  margin-top: 6px;
+  max-width: 320px;
+}
+.invp-container-body {
+  padding-left: 10px;
+  border-left: 2px solid var(--line);
+  margin-left: 18px;
+}
+.invp-toggle {
+  min-width: 40px;
+  min-height: 40px;
+  line-height: 1;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text);
+  font-size: 20px;
+}
+.invp-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  padding: 10px 4px;
+  border-bottom: 1px solid var(--line);
+}
+.invp-row:last-child {
+  border-bottom: 0;
+}
+.invp-row.is-dragging {
+  opacity: 0.5;
+}
+/* Item icon in BG3's inventory slot: a dark square well with a bronze rim. */
+.invp-row-icon {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-xs);
+  background: var(--sunken);
+  color: var(--accent);
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+.invp-row-main {
+  flex: 1 1 140px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.invp-row-name {
+  font-size: var(--text-md);
+}
+.invp-row-meta {
+  margin: 3px 0 0;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.invp-row-meta em {
+  color: var(--text);
+}
+.invp-row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  justify-content: flex-end;
+}
+/* Final review F10 (D&D Beyond's inventory rows: one line per item): «Altro» shows its icon
+   (the words stay its accessible name), so the commands stay on the item's line. */
+.invp-row-actions .invp-more-text {
+  display: none;
+}
+.invp-row {
+  padding: 6px 4px;
+}
+/* The folded view options (rarity, order, grouping, columns) and encumbrance rule. */
+.invp-view > summary,
+.invp-rule > summary {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: var(--accent);
+  font-size: var(--text-sm);
+}
+.invp-view[open] > .invp-toolbar-row {
+  margin-top: 6px;
+}
+.invp-secret {
+  color: var(--accent);
+  font-size: var(--text-sm);
+}
+/* SV-37: the sentence «cause. remedy.» beside a disabled command (aria-describedby). */
+.invp-why {
+  flex-basis: 100%;
+  color: var(--muted);
+  font-size: var(--text-xs);
+  line-height: 1.35;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+.invp-over {
+  color: var(--danger);
+}
+.invp-badge-on {
+  border-color: color-mix(in srgb, var(--positive) 60%, transparent);
+  color: var(--positive);
+}
+.invp-badge-attuned {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.invp-badge-unknown {
+  border-color: var(--frame);
+  color: var(--accent);
+  border-style: dashed;
+}
+.invp-rarity-uncommon {
+  border-color: color-mix(in srgb, var(--rarity-uncommon) 60%, transparent);
+  color: var(--rarity-uncommon);
+}
+.invp-rarity-rare {
+  border-color: color-mix(in srgb, var(--rarity-rare) 60%, transparent);
+  color: var(--rarity-rare);
+}
+.invp-rarity-very-rare {
+  border-color: color-mix(in srgb, var(--rarity-very-rare) 60%, transparent);
+  color: var(--rarity-very-rare);
+}
+.invp-rarity-legendary {
+  border-color: color-mix(in srgb, var(--rarity-legendary) 60%, transparent);
+  color: var(--rarity-legendary);
+}
+.invp-empty {
+  margin: 8px 0;
+}
+
+/* Attunement slots (D&D Beyond "Attuned Items"). */
+.invp-attune {
+  margin: 0 0 18px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+}
+.invp-attune h3,
+.invp-offers h3,
+.invp-recovery h3,
+.invp-healing h3 {
+  margin: 0 0 10px;
+  font-size: 16px;
+}
+.invp-attune h4 {
+  margin: 14px 0 6px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.invp-slots {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.invp-slot {
+  min-height: 72px;
+  padding: 10px 12px;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius-sm);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 6px;
+  overflow-wrap: anywhere;
+}
+.invp-slot.is-filled {
+  border-style: solid;
+  border-color: var(--accent);
+}
+.invp-attune-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.invp-attune-list li,
+.invp-offer,
+.invp-currency-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 14px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+  overflow-wrap: anywhere;
+}
+.invp-offers,
+.invp-recovery,
+.invp-healing {
+  margin: 0 0 18px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+}
+.invp-recovery {
+  border-color: var(--accent);
+}
+.invp-offer-list,
+.invp-closed,
+.invp-currency-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.invp-offer p {
+  margin: 4px 0 0;
+}
+.invp-ledger ol {
+  list-style: none;
+  padding: 0;
+}
+.invp-ledger li {
+  padding: 6px 0;
+  border-bottom: 1px solid var(--line);
+  overflow-wrap: anywhere;
+}
+.invp-ledger small {
+  display: block;
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+
+/* Dialogs. */
+.invp-menu .button {
+  width: 100%;
+}
+.invp-fieldset,
+.invp-dice {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  margin: 0 0 16px;
+  padding: 8px 14px 10px;
+}
+.invp-faces {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+  gap: 8px;
+  margin-top: 8px;
+}
+.invp-faces[hidden],
+.invp-dice[hidden] {
+  display: none;
+}
+.invp-faces .field {
+  margin: 0;
+}
+.invp-facts {
+  margin: 0 0 12px;
+  padding-left: 18px;
+}
+.invp-coin-inputs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
+  gap: 8px;
+}
+.invp-coin-inputs .field {
+  margin: 0 0 12px;
+}
+.invp-coins-big {
+  font-size: 18px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.invp-preview {
+  min-height: 1.5em;
+  font-weight: 600;
+}
+
+/* Table: a few lines in the Creature inspector. */
+.invp-inspector {
+  display: grid;
+  gap: 8px;
+}
+.invp-inspector p {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  overflow-wrap: anywhere;
+}
+.invp-inspector .field {
+  margin: 0;
+}
+
+@media (max-width: 720px) {
+  .invp-summary {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .invp-slots {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .invp-row-actions {
+    justify-content: flex-start;
+    width: 100%;
+  }
+  .invp-why {
+    text-align: left;
+  }
+  .invp-more-text {
+    display: none;
+  }
+  .invp-container {
+    margin-left: calc(min(var(--depth, 0), 2) * 8px);
+  }
+  .invp-container-body {
+    margin-left: 6px;
+    padding-left: 6px;
+  }
+}
+
+/* P4 (PG-62, PG-64, PG-75, TV-70): the «Aggiungi oggetto» catalogue (D&D Beyond «+ Add
+   Items»), the inventory columns and sort (dnd5e columns, BG3 sort), the campaign
+   currencies page (Foundry dnd5e) and the items usable at the Table (dnd5e Activities). */
+.invp-add-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.invp-add-search-row {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: 10px;
+}
+.invp-add-list {
+  list-style: none;
+  margin: 8px 0;
+  padding: 0;
+  max-height: min(52vh, 460px);
+  overflow-y: auto;
+  border-top: 1px solid var(--line);
+}
+.invp-add-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 2px;
+  border-bottom: 1px solid var(--line);
+}
+.invp-add-row > div {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.invp-add-row small {
+  display: block;
+  color: var(--muted);
+}
+.invp-add-count {
+  color: var(--positive);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.invp-add-status {
+  margin: 4px 0 0;
+}
+.invp-cols {
+  display: flex;
+  gap: 14px;
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+}
+.invp-col {
+  display: grid;
+  min-width: 52px;
+  text-align: right;
+}
+/* Column heads as D&D Beyond's inventory table heads (QTY, WEIGHT, COST). */
+.invp-col small {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  font-variant-caps: all-small-caps;
+}
+.invp-columns {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.invp-columns-label {
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.invp-currency-table th small {
+  display: block;
+  color: var(--muted);
+  font-weight: 400;
+}
+.invp-currency-actions {
+  white-space: nowrap;
+}
+.invp-inspector-items {
+  margin: 0 0 10px;
+}
+.invp-inspector-label {
+  margin: 0 0 6px;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.invp-inspector-item-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.invp-inspector-item-list small {
+  color: var(--muted);
+}
+.invp-targets .invp-check {
+  display: inline-flex;
+  margin-right: 12px;
+}
+@media (max-width: 560px) {
+  .invp-add-search-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  /* X-04 (IA regression rule): the columns take their own line and wrap inside the row,
+     instead of adding the icon's 52 px to a full width (406 px at 150 % text and 125 %
+     interface on a 390 px phone). */
+  .invp-cols {
+    flex: 1 1 100%;
+    min-width: 0;
+    margin-left: 0;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 4px 16px;
+  }
+  .invp-col {
+    min-width: 0;
+    text-align: left;
+    overflow-wrap: anywhere;
+  }
+}
+/* Rows filtered out of the catalogue, and the custom tab's submit while the catalogue is
+   shown, really disappear (their own display rules would otherwise override [hidden]). */
+.invp-add-row[hidden],
+.invp-add [data-invp-add-panel][hidden],
+#dialog:has([data-invp-add]) footer .button[hidden] {
+  display: none;
+}
+/* PG-62: the Library's result rows gain «Aggiungi» while choosing for a sheet (the
+   compendium.mjs row head); one more column so it stays on the row. */
+.compendium-row-head:has([data-compendium-add]) {
+  grid-template-columns: minmax(0, 1fr) auto auto auto;
+}
+@media (max-width: 720px) {
+  .compendium-row-head:has([data-compendium-add]) {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+  }
+}
+/* TV-70: the quick bar's «Usa un oggetto» list (quickbar.mjs), one button per item. */
+.qb-items {
+  display: grid;
+  gap: 8px;
+}
+.qb-items .button {
+  justify-content: space-between;
+  text-align: left;
+}
+.qb-items small {
+  color: var(--muted);
+  font-weight: 400;
+}

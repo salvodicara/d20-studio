@@ -1,0 +1,1083 @@
+/* B42 — World map, calendar and chronicle. Prefix: .wm (world-map.mjs). Tokens of
+   styles.css (DESIGN.md): Owlbear Rodeo's floating map chrome (legend, zoom), BG3/Owlbear
+   name plates with a dark halo on the map, Kanka's calendar grid and timeline. The painted
+   sample map (land, water, roads…) is picture content, not interface: like the battle map
+   it keeps its own colours in both themes, and its labels use the map's theme-free tokens. */
+
+.wm {
+  --wm-ink: var(--token-label-halo);
+  --wm-chip: var(--raised);
+  min-width: 0;
+}
+.wm .button,
+.wm .icon-button,
+.wm .text-button {
+  min-height: 40px;
+}
+.wm-tabs {
+  margin-bottom: 18px;
+}
+.wm-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 10px;
+}
+.wm-badge {
+  margin: 0 4px 4px 0;
+  vertical-align: middle;
+}
+/* Visibility chips: DM-only in the violet, private («solo io») in the blue of the
+   visibility tokens (DESIGN.md, Foundry v13 + Roll20). */
+.wm-badge.is-secret {
+  border-color: var(--vis-dm);
+  border-style: dashed;
+  color: var(--vis-dm);
+}
+.wm-badge.is-private {
+  border-color: var(--vis-private);
+  color: var(--vis-private);
+}
+.wm-when {
+  color: var(--muted);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}
+.wm-prose {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.wm-empty {
+  padding-inline: 0;
+}
+
+/* ------------------------------------------------------------ map explorer */
+.wm-mapbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+  margin-bottom: 12px;
+}
+.wm-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 8px;
+  font-size: var(--text-md);
+  min-width: 0;
+}
+.wm-crumbs [aria-current] {
+  font-weight: 600;
+}
+.wm-crumb-sep {
+  color: var(--muted);
+}
+.wm-mapbar-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.wm-mapselect {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--text-sm);
+}
+.wm-mapselect select {
+  min-height: 42px;
+  max-width: 220px;
+}
+.wm-explorer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 340px);
+  grid-template-areas:
+    "stage panel"
+    "tools panel"
+    "hint panel";
+  grid-template-rows: auto auto 1fr;
+  gap: 10px 20px;
+  align-items: start;
+}
+.wm-stage {
+  grid-area: stage;
+  position: relative;
+  height: min(64vh, 600px);
+  min-height: 340px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--wm-ink);
+}
+.wm-canvas,
+.wm-pin {
+  -webkit-tap-highlight-color: transparent;
+}
+.wm-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.wm-canvas:active {
+  cursor: grabbing;
+}
+.wm-canvas.is-tool {
+  cursor: crosshair;
+}
+.wm-canvas:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: -3px;
+}
+.wm-crosshair {
+  display: none;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 26px;
+  height: 26px;
+  margin: -13px 0 0 -13px;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--focus), var(--focus)) center / 2px 100% no-repeat,
+    linear-gradient(var(--focus), var(--focus)) center / 100% 2px no-repeat;
+}
+.wm-canvas.is-tool:focus-visible ~ .wm-crosshair {
+  display: block;
+}
+.wm-toolbar {
+  grid-area: tools;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.wm-rapid {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  padding-inline: 6px;
+  font-size: var(--text-sm);
+}
+.wm-rapid input,
+.wm-check input,
+.wm-legend-toggle input {
+  width: 20px;
+  height: 20px;
+}
+.wm-hint {
+  grid-area: hint;
+  margin: 0;
+  font-size: var(--text-sm);
+}
+.wm-panel {
+  grid-area: panel;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.wm-panel h2 {
+  margin: 0 0 8px;
+  font-size: var(--text-xl);
+}
+.wm-panel h3 {
+  margin: 0 0 6px;
+  font-size: var(--text-md);
+}
+.wm-block {
+  border-top: 1px solid var(--line);
+  margin-top: 14px;
+  padding-top: 12px;
+}
+.wm-block .field {
+  margin: 10px 0 8px;
+}
+.wm-list,
+.wm-history,
+.wm-legs,
+.wm-events,
+.wm-upcoming {
+  margin: 6px 0;
+  padding-left: 18px;
+}
+.wm-list,
+.wm-history {
+  list-style: none;
+  padding: 0;
+}
+.wm-history li {
+  padding: 6px 0;
+  border-bottom: 1px solid var(--line);
+}
+.wm-history li:last-child {
+  border-bottom: 0;
+}
+.wm-history .wm-when,
+.wm-upcoming .wm-when {
+  display: block;
+}
+.wm-panel-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+.wm-panel-head .icon-button {
+  margin: -8px -8px 0 0;
+  flex: none;
+}
+.wm-danger-text {
+  color: var(--danger);
+}
+.wm-history li,
+.wm-upcoming li {
+  margin-bottom: 6px;
+}
+.wm-legs li {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+.wm-legs strong {
+  white-space: nowrap;
+}
+.wm-pace td {
+  white-space: nowrap;
+}
+.wm-pace tr[data-wm-pace] > * {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.wm-pace .wm-effect-row td {
+  white-space: normal;
+  color: var(--muted);
+  font-size: var(--text-xs);
+  line-height: 1.35;
+  padding-top: 2px;
+}
+.wm-total {
+  font-size: var(--text-md);
+  font-variant-numeric: tabular-nums;
+}
+.wm-travel-options {
+  display: grid;
+  gap: 4px;
+  margin-top: 10px;
+}
+.wm-travel-options .field {
+  margin: 0;
+}
+.wm-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+}
+.wm-pace {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-size: var(--text-sm);
+}
+.wm-pace caption {
+  text-align: left;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.wm-pace th,
+.wm-pace td {
+  text-align: left;
+  padding: 6px 4px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+.wm-pace tr.is-blocked td,
+.wm-pace tr.is-blocked th {
+  color: var(--muted);
+  text-decoration: line-through;
+  text-decoration-color: color-mix(in srgb, var(--danger) 70%, transparent);
+}
+.wm-pace tr.is-blocked td:last-child,
+.wm-pace tr.wm-effect-row td {
+  text-decoration: none;
+}
+.wm-source {
+  font-size: var(--text-xs);
+}
+
+/* legend, zoom, scale (inside the stage) */
+.wm-legend-anchor {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 2;
+  max-width: calc(100% - 24px);
+}
+/* Legend and zoom float over the map as Owlbear Rodeo's panels: translucent plate with a
+   10 px blur, faint rim, radius 14, floating shadow (the core .map-zoom). */
+.wm-legend-button {
+  background: var(--float-bg);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-color: var(--float-border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-2);
+}
+.wm-legend {
+  margin-top: 8px;
+  width: 290px;
+  max-width: 100%;
+  max-height: calc(min(64vh, 600px) - 90px);
+  overflow: auto;
+  background: var(--float-bg);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--float-border);
+  border-radius: 14px;
+  padding: 12px;
+  box-shadow: var(--shadow-2);
+}
+.wm-legend .field {
+  margin-bottom: 10px;
+}
+.wm-legend-group ul {
+  list-style: none;
+  margin: 2px 0 10px;
+  padding: 0;
+}
+.wm-legend-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  font-weight: 600;
+}
+.wm-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--wm-ink);
+  flex: none;
+}
+.wm-legend-pin {
+  width: 100%;
+  min-height: 40px;
+  padding: 8px 10px 8px 30px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+}
+.wm-legend-pin:hover {
+  background: var(--raised);
+}
+.wm-zoom {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 2;
+  padding: 5px;
+  background: var(--float-bg);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--float-border);
+  border-radius: 14px;
+  box-shadow: var(--shadow-2);
+}
+.wm-zoom .icon-button {
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: 0;
+  border-radius: 10px;
+  color: var(--text);
+  font-size: var(--text-xl);
+}
+.wm-zoom .icon-button:hover {
+  background: var(--raised);
+}
+/* The scale sits on the painted map: the map's theme-free label colour and halo. */
+.wm-scale {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  z-index: 1;
+  display: grid;
+  gap: 3px;
+  font-size: var(--text-xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--token-label);
+  text-shadow:
+    0 0 3px var(--token-label-halo),
+    0 1px 2px var(--token-label-halo);
+  pointer-events: none;
+}
+.wm-scale i {
+  display: block;
+  height: 6px;
+  border: 2px solid var(--token-label);
+  border-top: 0;
+  box-shadow: 0 1px 0 var(--token-label-halo);
+}
+
+/* SVG art */
+.wm-land {
+  fill: #2b3a30;
+}
+.wm-hill {
+  fill: #33443a;
+}
+.wm-water,
+.wm-sea {
+  fill: #15303f;
+}
+.wm-coast {
+  fill: none;
+  stroke: #7e9a90;
+  stroke-width: 2;
+}
+.wm-waves path {
+  fill: none;
+  stroke: #2c5268;
+  stroke-width: 2;
+}
+.wm-forest circle {
+  fill: #1e3326;
+  stroke: #2e4a36;
+  stroke-width: 2;
+}
+.wm-mountains polygon {
+  fill: #4a5048;
+  stroke: #7a7f72;
+  stroke-width: 2;
+}
+.wm-mountains .wm-snow {
+  fill: #cfd5cb;
+  stroke: none;
+}
+.wm-river {
+  fill: none;
+  stroke: #3f7089;
+  stroke-width: 7;
+  stroke-linecap: round;
+}
+.wm-river.is-thin {
+  stroke-width: 4;
+}
+.wm-road {
+  fill: none;
+  stroke: #b8a274;
+  stroke-width: 3;
+  stroke-dasharray: 10 8;
+}
+.wm-compass circle {
+  fill: none;
+  stroke: #b9c4c7;
+  opacity: 0.6;
+}
+.wm-compass path {
+  fill: #dfbd78;
+}
+.wm-compass text {
+  fill: #b9c4c7;
+  font-size: 18px;
+  text-anchor: middle;
+}
+.wm-walls {
+  fill: #333f37;
+  stroke: #857f6c;
+  stroke-width: 6;
+}
+.wm-streets path {
+  fill: none;
+  stroke: #4a4a40;
+  stroke-width: 10;
+  stroke-linecap: round;
+}
+.wm-blocks rect {
+  fill: #3d473e;
+  stroke: #4f5a4f;
+}
+.wm-quay {
+  fill: #6f6656;
+}
+.wm-temple {
+  fill: #46534a;
+  stroke: #8a927f;
+  stroke-width: 3;
+}
+.wm-market {
+  fill: #4a4a3a;
+  stroke: #8a8466;
+  stroke-width: 3;
+}
+.wm-tower {
+  fill: #d8c27f;
+}
+.wm-rock {
+  fill: #1a2024;
+}
+.wm-grid path {
+  stroke: #26303a;
+  stroke-width: 1;
+}
+.wm-rooms rect {
+  fill: #3a403d;
+  stroke: #6c726b;
+  stroke-width: 3;
+}
+.wm-parchment {
+  fill: #37372d;
+}
+
+/* pins and measuring */
+.wm-pin {
+  cursor: pointer;
+  outline: none;
+}
+.wm-pin-hit {
+  fill: transparent;
+}
+.wm-pin-shape {
+  stroke: var(--wm-ink);
+  stroke-width: 2;
+}
+.wm-pin.is-secret .wm-pin-shape {
+  stroke: var(--token-hostile-ring);
+  stroke-dasharray: 4 3;
+  opacity: 0.9;
+}
+.wm-pin-dot {
+  fill: var(--wm-ink);
+}
+/* Pins, rings and labels on the painted map use the map's theme-free tokens (selection
+   gold of the doors, token name and halo), so the light theme keeps them readable. */
+.wm-pin-ring {
+  fill: none;
+  stroke: var(--door-rim);
+  stroke-width: 3;
+}
+.wm-pin-child {
+  fill: none;
+  stroke: var(--token-label);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+.wm-pin-eye {
+  stroke: var(--token-hostile-ring);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+.wm-pin-label,
+.wm-measure text {
+  fill: var(--token-label);
+  font-size: 13px;
+  font-weight: 600;
+  text-anchor: middle;
+  paint-order: stroke;
+  stroke: var(--wm-ink);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+.wm-pin:focus-visible .wm-pin-shape,
+.wm-pin:hover .wm-pin-shape {
+  stroke: var(--focus);
+  stroke-width: 3.5;
+}
+.wm-pin.is-dragging {
+  opacity: 0.8;
+}
+.wm-measure polyline {
+  fill: none;
+  stroke: var(--door-rim);
+  stroke-width: 3;
+  stroke-dasharray: 8 6;
+}
+.wm-measure circle {
+  fill: var(--door-rim);
+  stroke: var(--wm-ink);
+  stroke-width: 2;
+}
+
+/* ------------------------------------------------------------ calendar */
+.wm-cal-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 12px 24px;
+}
+.wm-today p {
+  margin: 0;
+}
+/* Today's date in the display serif (BG3, Solasta), as the calendar's title. */
+.wm-today-date {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+.wm-today-meta {
+  font-variant-numeric: tabular-nums;
+}
+.wm-moons-today {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin-top: 4px;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+.wm-moon-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.wm-moon {
+  flex: none;
+  vertical-align: middle;
+}
+/* The unlit part of a moon stays dark in both themes (the icon draws a moon, not a UI
+   surface). */
+.wm-moon-dark {
+  fill: var(--token-label-halo);
+  stroke-width: 1;
+}
+.wm-time-note {
+  font-size: var(--text-sm);
+  margin: 12px 0;
+}
+/* Reminders: Foundry v13's tinted notification in the theme colour. */
+.wm-reminders {
+  border: 1px solid var(--accent-line);
+  background: var(--accent-soft);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  margin: 12px 0 18px;
+}
+.wm-reminders h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 8px;
+  font-size: var(--text-md);
+}
+.wm-reminders ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.wm-reminders li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px 16px;
+  padding: 6px 0;
+  border-top: 1px solid var(--line);
+}
+.wm-reminders li:first-child {
+  border-top: 0;
+}
+.wm-reminders .wm-when {
+  display: block;
+}
+.wm-reminders .wm-actions {
+  margin: 0;
+}
+.wm-cal-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 320px);
+  gap: 24px;
+  align-items: start;
+}
+.wm-month {
+  min-width: 0;
+}
+.wm-month-nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  margin-bottom: 6px;
+}
+.wm-month-nav h2 {
+  margin: 0;
+  font-size: var(--text-xl);
+  flex: 1 1 auto;
+  text-align: center;
+}
+.wm-month-nav .icon-button {
+  font-size: var(--text-xl);
+  color: var(--text);
+  border: 1px solid var(--frame-soft);
+  background: var(--raised);
+}
+.wm-month-nav .icon-button:hover {
+  border-color: var(--accent-line);
+}
+.wm-grid-wrap {
+  overflow-x: auto;
+}
+.wm-grid {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 4px;
+}
+.wm-grid th {
+  font-size: var(--text-sm);
+  color: var(--muted);
+  padding: 2px;
+  border-bottom: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.wm-grid td {
+  padding: 0;
+  vertical-align: top;
+}
+/* Calendar days: Kanka's month grid, flat cells on a hairline; today in the theme colour,
+   the chosen day as a lit cell. */
+.wm-day {
+  width: 100%;
+  min-height: 86px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 3px;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text);
+  text-align: left;
+  overflow: hidden;
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+.wm-day:hover {
+  background: var(--raised);
+}
+.wm-day.is-today {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+.wm-day.is-selected {
+  background: var(--accent-soft);
+  border-color: var(--accent-line);
+}
+.wm-day:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: -3px;
+}
+.wm-day-n {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.wm-day.is-today .wm-day-n {
+  color: var(--accent);
+}
+.wm-day-moons {
+  display: flex;
+  gap: 2px;
+}
+.wm-day-events {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.wm-chip {
+  display: block;
+  font-size: var(--text-2xs);
+  line-height: 1.35;
+  background: var(--wm-chip);
+  border-radius: var(--radius-xs);
+  padding: 1px 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.wm-chip.is-hidden {
+  outline: 1px dashed var(--vis-dm);
+  outline-offset: -1px;
+}
+.wm-chip.is-more {
+  background: transparent;
+  color: var(--muted);
+}
+.wm-legend-line {
+  font-size: var(--text-xs);
+}
+.wm-dayside {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.wm-dayside h3 {
+  margin: 0 0 8px;
+  font-size: var(--text-md);
+}
+.wm-dayside section + section {
+  border-top: 1px solid var(--line);
+  margin-top: 14px;
+  padding-top: 12px;
+}
+.wm-events {
+  list-style: none;
+  padding: 0;
+}
+.wm-event {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+}
+.wm-event:last-child {
+  border-bottom: 0;
+}
+.wm-event-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+}
+.wm-event .wm-when {
+  display: block;
+}
+.wm-event .wm-prose {
+  margin: 6px 0;
+}
+.wm-event .wm-actions {
+  gap: 2px;
+  margin-top: 4px;
+}
+.wm-event .wm-actions .button {
+  padding-inline: 10px;
+}
+.wm-place {
+  padding-inline: 0;
+  justify-content: flex-start;
+}
+.wm-correction {
+  font-size: var(--text-sm);
+  margin: 4px 0;
+}
+.wm-upcoming {
+  list-style: none;
+  padding: 0;
+}
+
+/* ------------------------------------------------------------ timeline */
+.wm-timeline-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.wm-timeline-bar .field {
+  margin: 0;
+  min-width: min(260px, 100%);
+}
+.wm-era {
+  margin-top: 18px;
+}
+/* Chronicle: World Anvil's and Kanka's timeline, a rule with dots; now in the theme colour. */
+.wm-era h2 {
+  font-size: var(--text-xl);
+  margin: 0 0 10px;
+}
+.wm-chronicle {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 22px;
+  border-left: 2px solid var(--frame-soft);
+}
+.wm-chronicle > li {
+  position: relative;
+  border-bottom: 0;
+  padding: 4px 0 12px;
+}
+.wm-chronicle > li::before {
+  content: "";
+  position: absolute;
+  left: -29px;
+  top: 10px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 2px solid var(--frame);
+}
+.wm-chronicle > li.wm-now {
+  color: var(--accent);
+  font-weight: 600;
+}
+.wm-chronicle > li.wm-now::before {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.wm-now span {
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+  margin-right: 6px;
+}
+
+/* ------------------------------------------------------------ entry box, Table tab */
+.wm-entry {
+  border-top: 1px solid var(--line);
+  margin-top: 24px;
+  padding-top: 16px;
+}
+.wm-entry h2 {
+  font-size: var(--text-xl);
+  margin: 0 0 8px;
+}
+.wm-entry h3 {
+  font-size: var(--text-md);
+  margin: 12px 0 4px;
+}
+.wm-table-panel {
+  display: grid;
+  gap: 12px;
+}
+.wm-table-panel h3 {
+  font-size: var(--text-md);
+  margin: 0 0 6px;
+}
+.wm-table-panel .wm-today-date {
+  font-size: var(--text-xl);
+}
+.wm-table-panel .wm-reminders {
+  margin: 0;
+}
+.wm-table-panel .wm-events li {
+  padding: 4px 0;
+}
+
+/* ------------------------------------------------------------ dialogs */
+.wm-form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0 12px;
+}
+.wm-rows {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 10px 12px 12px;
+  margin: 0 0 16px;
+  min-width: 0;
+}
+.wm-rows legend {
+  padding: 0 6px;
+  font-weight: 600;
+}
+.wm-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)) 44px;
+  gap: 8px;
+  align-items: end;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--line);
+}
+.wm-row .field {
+  margin: 0;
+}
+.wm-row input[type="color"] {
+  padding: 4px;
+  min-height: 43px;
+}
+.wm-row-remove {
+  width: 44px;
+  padding: 0;
+}
+
+/* ------------------------------------------------------------ narrow layouts */
+@media (max-width: 1000px) {
+  .wm-explorer {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "stage"
+      "tools"
+      "hint"
+      "panel";
+  }
+  .wm-cal-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 720px) {
+  /* The three views fit a 390 px phone without a cut-off tab (B42 review). */
+  .wm-tabs button {
+    flex: 1 1 auto;
+    padding-inline: 8px;
+  }
+  .wm-stage {
+    height: auto;
+    aspect-ratio: 10 / 9;
+    max-height: 62vh;
+    min-height: 280px;
+  }
+  .wm-legend {
+    width: min(290px, calc(100vw - 72px));
+  }
+  .wm-zoom {
+    flex-direction: row;
+  }
+  .wm-mapselect select {
+    max-width: 150px;
+  }
+  .wm-grid {
+    border-spacing: 2px;
+  }
+  .wm-day {
+    min-height: 58px;
+    padding: 4px;
+  }
+  .wm-day-events {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .wm-chip {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border-radius: 50%;
+    font-size: 0;
+    background: var(--accent);
+  }
+  .wm-chip.is-more {
+    display: none;
+  }
+  .wm-today-date {
+    font-size: var(--text-xl);
+  }
+  .wm-month-nav h2 {
+    font-size: var(--text-lg);
+  }
+  .wm-day-moons .wm-moon {
+    width: 10px;
+    height: 10px;
+  }
+}

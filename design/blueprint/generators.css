@@ -1,0 +1,607 @@
+/* B57 — Assisted procedural generators (panel in the common dialog). Own prefix: gen-.
+   Visual pass (29/09/2026, DESIGN.md): the kinds are the core sub-tabs (D&D Beyond filters),
+   options and results the core fields and cards. The dungeon preview is map artwork: like the
+   Table's map it does not follow the theme, so its colours are named here once (unchanged). */
+.gen,
+.gen-map,
+.gen-legend,
+.gen-proposal,
+.gen-existing {
+  --gen-rock: #1d2327;
+  --gen-floor: #cdc2a4;
+  --gen-floor-entrance: #d9cfae;
+  --gen-corridor: #bdb296;
+  --gen-grid: #463a26;
+  --gen-ink: #2a2521;
+  --gen-door: #8b5d2e;
+  --gen-door-locked: #c0392b;
+  --gen-door-secret: #7a4fb0;
+  --gen-existing-wall: #9aa7ad;
+  --gen-proposed: #ffb347;
+  --gen-proposed-ink: #241e15;
+  --gen-accepted: #6fcf7a;
+  --gen-rejected: #f1a09a;
+}
+
+#dialog:has([data-gen-panel]) {
+  width: min(1200px, calc(100vw - 28px));
+}
+/* Heading and footer stay visible: the body takes what the 90vh dialog leaves. */
+#dialog:has([data-gen-panel]) .dialog-body {
+  max-height: calc(90vh - 175px);
+}
+.gen {
+  min-width: 0;
+}
+.gen p,
+.gen dd,
+.gen li {
+  overflow-wrap: anywhere;
+}
+.gen-kinds {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+/* Kinds: the core sub-tabs (D&D Beyond's filters in dnd5e's pill), the open one filled. */
+.gen-kind {
+  min-height: 42px;
+  padding: 8px 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-family: var(--font-label);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+.gen-kind:hover {
+  background: var(--raised);
+  color: var(--text);
+}
+.gen-kind.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+.gen-kind:focus-visible,
+.gen [data-gen-proposal]:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+.gen-seedbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 10px;
+}
+.gen-seedbar .field {
+  margin: 0;
+}
+.gen-seed input {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  letter-spacing: 0.04em;
+  width: 15ch;
+}
+.gen-draft-badge {
+  align-self: flex-end;
+  margin-bottom: 10px;
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.gen-help {
+  font-size: 13px;
+  margin: 8px 0 4px;
+}
+.gen-error {
+  margin: 8px 0;
+}
+.gen-notice:empty {
+  display: none;
+}
+.gen-notice {
+  color: var(--positive);
+  margin: 8px 0;
+}
+.gen-layout {
+  display: grid;
+  grid-template-columns: minmax(250px, 320px) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+  margin-top: 12px;
+}
+.gen-options {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px 16px 4px;
+  margin: 0;
+  min-width: 0;
+  background: var(--surface-2);
+}
+/* Legends as dnd5e's gold fieldset legends in condensed capitals. */
+.gen-options legend {
+  padding: 0 6px;
+  color: var(--accent);
+  font-size: 16px;
+  font-family: var(--font-label);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+.gen-options .field {
+  margin-bottom: 14px;
+}
+.gen-inline-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.gen-choice {
+  border: 0;
+  padding: 0;
+  margin: 0 0 14px;
+  display: grid;
+  gap: 6px;
+}
+.gen-choice legend {
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+.gen-choice label,
+.gen-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  font-size: 14px;
+}
+.gen-choice input,
+.gen-check input {
+  width: 20px;
+  height: 20px;
+  flex: none;
+}
+.gen-result {
+  min-width: 0;
+}
+.gen-map {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 60vh;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--gen-rock);
+}
+.gen-rock {
+  fill: var(--gen-rock);
+}
+.gen-room {
+  fill: var(--gen-floor);
+}
+.gen-room-entrance {
+  fill: var(--gen-floor-entrance);
+}
+.gen-corridor {
+  fill: var(--gen-corridor);
+}
+.gen-grid-line {
+  stroke: var(--gen-grid);
+  stroke-opacity: 0.25;
+  stroke-width: 1;
+}
+.gen-room-number {
+  fill: var(--gen-ink);
+  font: 700 24px var(--font-display);
+}
+.gen-wall {
+  stroke: var(--gen-ink);
+  stroke-width: 6;
+  stroke-linecap: square;
+}
+.gen-door {
+  stroke: var(--gen-door);
+  stroke-width: 10;
+}
+.gen-door.is-locked {
+  stroke: var(--gen-door-locked);
+}
+.gen-door.is-secret {
+  stroke: var(--gen-door-secret);
+  stroke-dasharray: 6 5;
+}
+.gen-stats {
+  margin: 10px 0;
+  color: var(--muted);
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+.gen-key summary,
+.gen-rolls summary,
+.gen-physical summary {
+  cursor: pointer;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+}
+.gen-room-list {
+  margin: 6px 0 12px;
+  padding-left: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+  font-size: 14px;
+}
+.gen-inline {
+  min-height: 40px;
+  padding: 6px 10px;
+}
+.gen-actions {
+  margin: 14px 0 8px;
+}
+.gen-budget {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  background: var(--surface-2);
+}
+.gen-budget p {
+  margin: 0 0 4px;
+}
+.gen-rows {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0;
+  display: grid;
+  gap: 10px;
+}
+.gen-row {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  display: grid;
+  gap: 8px;
+  background: var(--surface);
+}
+.gen-row-main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+}
+.gen-row-count {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+}
+.gen-expr {
+  margin: 0;
+}
+.gen-expr input {
+  width: 17ch;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+}
+.gen-count {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  min-height: 43px;
+}
+.gen-count strong {
+  font-size: 21px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.gen-row-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.gen-row-tools .button {
+  min-width: 42px;
+}
+.gen-physical {
+  display: inline-block;
+}
+.gen-physical summary {
+  padding: 0 10px;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius-sm);
+}
+.gen-physical-body {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+}
+.gen-physical-body .field {
+  margin: 0;
+}
+.gen-physical-body input {
+  width: 8ch;
+}
+.gen-total {
+  font-size: 15px;
+}
+.gen-fields {
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+.gen-field {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  background: var(--surface);
+}
+.gen-field dt {
+  margin-bottom: 6px;
+  color: var(--muted);
+  font-size: 15px;
+  font-family: var(--font-label);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+.gen-field dd {
+  margin: 0;
+}
+.gen-field-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+/* The core field (Foundry v13 / Roll20 well): sunken, visible rim, gold on focus. */
+.gen-field-text {
+  flex: 1 1 260px;
+  min-width: 0;
+  background: var(--sunken);
+  color: var(--text);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
+  min-height: 42px;
+  font-size: 15px;
+}
+.gen-field-text:focus-visible {
+  border-color: var(--accent);
+}
+.gen-steps {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0;
+  display: grid;
+  gap: 6px;
+}
+.gen-step {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.gen-die strong {
+  color: var(--text);
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+}
+.gen-table-list {
+  padding-left: 18px;
+  font-size: 13px;
+  display: grid;
+  gap: 4px;
+}
+.gen-save {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+  margin-top: 14px;
+}
+.gen-save .field,
+.gen-save .gen-actions {
+  margin: 0;
+}
+.gen-existing {
+  stroke: var(--gen-existing-wall);
+  stroke-width: 5;
+  stroke-opacity: 0.8;
+}
+.gen-proposal {
+  cursor: pointer;
+}
+.gen-proposal line:not(.gen-hit) {
+  stroke: var(--gen-proposed);
+  stroke-width: 6;
+  stroke-dasharray: 12 8;
+}
+.gen-proposal .gen-hit {
+  stroke: transparent;
+  stroke-width: 22;
+}
+.gen-proposal circle {
+  fill: var(--gen-proposed);
+}
+.gen-proposal text {
+  fill: var(--gen-proposed-ink);
+  font: 700 14px var(--font-ui);
+  text-anchor: middle;
+}
+.gen-proposal.is-accepted line:not(.gen-hit),
+.gen-proposal.is-accepted circle {
+  stroke: var(--gen-accepted);
+  fill: var(--gen-accepted);
+  stroke-dasharray: none;
+}
+.gen-proposal.is-accepted line:not(.gen-hit) {
+  fill: none;
+}
+.gen-proposal.is-rejected line:not(.gen-hit) {
+  stroke: var(--gen-rejected);
+  stroke-opacity: 0.45;
+}
+.gen-proposal.is-rejected circle {
+  fill: var(--gen-rejected);
+  opacity: 0.55;
+}
+.gen-proposal.is-selected line:not(.gen-hit) {
+  stroke-width: 10;
+}
+.gen-proposals {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0;
+  display: grid;
+  gap: 8px;
+  max-height: 340px;
+  overflow-y: auto;
+}
+.gen-proposal-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+}
+.gen-proposal-row > span:first-child {
+  flex: 1 1 200px;
+}
+.gen-proposal-row.is-selected {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.gen-proposal-row.is-accepted {
+  border-color: var(--positive);
+  background: var(--positive-soft);
+}
+.gen-proposal-row .toolbar {
+  margin: 0;
+}
+.prep-create-actions {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+/* In the scene editor the Forecast command sits under the map tools (VTL-065). */
+.prep-canvas-panel .prep-create-actions {
+  justify-content: flex-start;
+  margin-block: 0 10px;
+}
+
+@media (max-width: 720px) {
+  .gen-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+  .gen-kind {
+    padding: 8px 10px;
+  }
+  .gen-seed input {
+    width: 100%;
+  }
+  .gen-seedbar .gen-seed {
+    flex: 1 1 160px;
+  }
+  .gen-map {
+    max-height: none;
+  }
+  .gen-inline-fields {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .prep-create-actions {
+    justify-content: flex-start;
+  }
+}
+
+.gen-rolls {
+  margin-top: 6px;
+}
+.gen-rolls > summary {
+  font-size: 13px;
+  color: var(--muted);
+}
+.gen-proposal-row .button[data-gen-act="reject"][aria-pressed="true"] {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+.gen-proposal-row.is-rejected > span:first-child {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+.gen-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  font-size: 13px;
+  margin: 0 0 10px;
+}
+.gen-swatch {
+  display: inline-block;
+  width: 22px;
+  height: 6px;
+  border-radius: 2px;
+  margin-right: -4px;
+}
+.gen-swatch.is-door {
+  background: var(--gen-door);
+}
+.gen-swatch.is-locked {
+  background: var(--gen-door-locked);
+}
+.gen-swatch.is-secret {
+  background: repeating-linear-gradient(90deg, var(--gen-door-secret) 0 6px, transparent 6px 11px);
+}
+.gen-rolls > summary::before,
+.gen-key > summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 6px;
+}
+.gen-rolls[open] > summary::before,
+.gen-key[open] > summary::before {
+  transform: rotate(90deg);
+}
+.gen-rolls > summary::before,
+.gen-key > summary::before {
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+/* P4 (PR-55, PR-17): the treasure draft (AideDD / donjon) and furniture on the dungeon
+   preview (Dungeon Alchemist auto-furnish). */
+.gen-treasure-items {
+  margin: 8px 0;
+  padding-left: 18px;
+}
+.gen-prop.is-hidden {
+  opacity: 0.55;
+}
+
+/* SV-37: the sentence «cause. remedy.» beside a disabled command (aria-describedby). */
+.gen-why {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}

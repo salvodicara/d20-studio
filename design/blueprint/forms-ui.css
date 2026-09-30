@@ -1,0 +1,319 @@
+#dialog:has([data-forms-panel]) {
+  width: min(1080px, calc(100vw - 32px));
+}
+.forms-panel {
+  min-width: 0;
+}
+.forms-panel h3,
+.forms-panel h4,
+.forms-panel p,
+.forms-panel dd {
+  overflow-wrap: anywhere;
+}
+.forms-panel h3 {
+  margin: 0 0 16px;
+}
+.forms-panel h4 {
+  margin: 22px 0 12px;
+}
+.forms-toolbar,
+.forms-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-block: 14px 22px;
+}
+.forms-tabs {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 14px;
+}
+/* The open section reads as the core .button.active (gold rim, gold label, lit tile). */
+.forms-tabs [aria-current="true"] {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.forms-panel .button {
+  min-height: 44px;
+}
+.forms-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(270px, 0.85fr);
+  gap: 28px;
+  align-items: start;
+}
+.forms-layout > * {
+  min-width: 0;
+}
+.forms-fields {
+  display: grid;
+  gap: 16px;
+}
+.forms-fields .field,
+.forms-panel .field {
+  min-width: 0;
+}
+.forms-panel input,
+.forms-panel select,
+.forms-panel textarea {
+  max-width: 100%;
+}
+.forms-panel .field input,
+.forms-panel .field select,
+.forms-panel .field textarea {
+  width: 100%;
+}
+.forms-pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 14px;
+}
+.forms-catalog {
+  display: grid;
+  gap: 0;
+}
+.forms-profile,
+.forms-row,
+.forms-cost {
+  border-bottom: 1px solid var(--line);
+  padding-block: 14px;
+}
+.forms-profile p,
+.forms-row p,
+.forms-cost p {
+  margin-bottom: 6px;
+}
+.forms-profile .button {
+  text-align: left;
+  width: 100%;
+  justify-content: space-between;
+}
+/* The chosen form: BG3's chosen option, a gold rim on a lit tile. */
+.forms-profile .button[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.forms-preview {
+  border-left: 1px solid var(--line);
+  padding-left: 24px;
+}
+.forms-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+}
+.forms-check input {
+  width: 18px;
+  height: 18px;
+  min-height: 18px;
+  flex: 0 0 18px;
+}
+.forms-notice {
+  padding: 14px 16px;
+  background: var(--surface);
+  border-radius: var(--radius);
+}
+.forms-values {
+  font-variant-numeric: tabular-nums;
+}
+.forms-panel details {
+  padding-block: 14px;
+  border-bottom: 1px solid var(--line);
+}
+.forms-panel summary {
+  font-weight: 600;
+  cursor: pointer;
+  padding-block: 8px;
+}
+.forms-panel details > :not(summary) {
+  margin-top: 14px;
+}
+.forms-panel fieldset {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin: 0;
+}
+.forms-panel legend {
+  padding-inline: 5px;
+  font-weight: 600;
+}
+.forms-summary {
+  padding-block: 12px;
+}
+.forms-summary p {
+  margin-bottom: 8px;
+}
+@media (max-width: 780px) {
+  .forms-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+  .forms-preview {
+    border-left: 0;
+    padding: 20px 0 0;
+    border-top: 1px solid var(--line);
+  }
+}
+@media (max-width: 520px) {
+  #dialog:has([data-forms-panel]) {
+    width: calc(100vw - 16px);
+  }
+  .forms-pair {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .forms-toolbar .button,
+  .forms-tabs .button {
+    flex: 1 1 auto;
+  }
+}
+
+/* ---------------------------------------------------------------- P2 fix package */
+/* PG-78: linked creatures as D&D Beyond Extras cards, with HP and AC. */
+.forms-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
+  gap: 12px;
+  margin-block: 10px 4px;
+}
+.forms-card {
+  display: grid;
+  gap: 8px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+.forms-card p {
+  margin: 2px 0 0;
+}
+.forms-card-stats {
+  display: flex;
+  gap: 18px;
+  margin: 0;
+}
+.forms-card-stats div {
+  display: grid;
+}
+/* HP and AC as D&D Beyond's Extras stat block: condensed small-caps label, bold number. */
+.forms-card-stats dt {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  font-variant-caps: all-small-caps;
+}
+.forms-card-stats dd {
+  margin: 0;
+  font-size: var(--text-xl);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.forms-card .button {
+  justify-self: start;
+}
+/* PG-77: «Applica» stays in view while the preview is read (phone and desktop). */
+.forms-preview .forms-toolbar {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  margin-bottom: 0;
+  padding-block: 10px;
+  background: var(--surface);
+  box-shadow: 0 -10px 16px -12px var(--keyline-dark);
+}
+/* PG-78: the placement prompt sits above the map tools instead of under them. */
+.map-placement-controls {
+  position: relative;
+  z-index: 30;
+  box-shadow: var(--shadow-2);
+}
+/* R3 PG-79: the Transform dialog (dnd5e presets, BG3 form picker): one choice per row, each
+   row a 44 px target; an unavailable beast stays listed with its reason under it. */
+#dialog:has([data-forms-transform]) {
+  width: min(640px, calc(100vw - 24px));
+}
+.forms-transform {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+.forms-transform fieldset {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.forms-transform legend {
+  padding-inline: 4px;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.forms-preset,
+.forms-beast,
+.forms-transform .forms-check {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  min-height: 44px;
+  padding: 8px 6px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.forms-preset:hover,
+.forms-beast:hover {
+  background: var(--raised);
+}
+.forms-preset input,
+.forms-beast input,
+.forms-transform .forms-check input {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin: 2px 0 0;
+}
+.forms-preset > span,
+.forms-beast > span {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.forms-preset small {
+  color: var(--muted);
+}
+.forms-beast.is-out {
+  cursor: default;
+  color: var(--muted);
+}
+.forms-beast.is-out:hover {
+  background: none;
+}
+.forms-why {
+  color: var(--danger);
+  font-size: var(--text-sm);
+}
+.forms-transform-summary,
+.forms-transform-current {
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  background: var(--raised);
+}
+.forms-transform-summary p,
+.forms-transform-current p,
+.forms-transform-current h3 {
+  margin: 0 0 6px;
+}
+/* SV-37: the reason under a disabled command. */
+small.forms-why {
+  display: block;
+  flex-basis: 100%;
+  margin-top: 4px;
+}

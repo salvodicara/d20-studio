@@ -1,0 +1,801 @@
+/* B22 — Preferences, accessibility and units.
+   Every effect is keyed on an attribute or custom property that preferences.mjs sets on
+   the root element; with the defaults (dark theme, 100 %, standard colours, motion as the
+   system asks) the core look is unchanged, except the shape cue on hostile tokens and
+   area outlines (colour is never the only signal, VTL-243).
+   Visual pass of 29/09/2026 (DESIGN.md; evidence «home-services»): the light theme is the
+   token palette only (Foundry dnd5e's parchment sheet); per-element light colours are gone
+   except where an area still paints a fixed dark colour. The Preferences dialog follows
+   BG3's options menu in the core components: a category strip on top (sub-tab pills),
+   labelled groups, scope chips as core pills. */
+
+/* Interface scale (--pref-ui-scale) and text size (--pref-text-scale) multiply the px
+   lengths of the stylesheets themselves (preferences.mjs, scaledValue): no CSS zoom, so
+   window units and the positions scripts measure keep their meaning (Foundry UI scale,
+   FVT-189; Fantasy Grounds /scaleui, R20-202). */
+
+/* The type scale of the visual system (styles.css, --text-*) is a set of custom properties:
+   the rewrite multiplies a custom property's px by the interface scale only, so a
+   `font-size: var(--text-md)` would miss the text size. The same values here carry both
+   factors (at 100 % they are the plain px of styles.css); keep them equal to styles.css. */
+:root:root {
+  --text-2xs: calc(11px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --text-xs: calc(12px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --text-sm: calc(13px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --text-md: calc(15px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --text-lg: calc(17px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --text-xl: calc(21px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --text-2xl: calc(26px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --text-3xl: calc(38px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+}
+
+/* ---------------------------------------------------------------- light theme */
+
+:root[data-pref-theme="light"] {
+  color-scheme: light;
+  --bg: #f4efe4;
+  --surface: #fffbf3;
+  --raised: #ece3d1;
+  --canvas: #d9d0bd;
+  --text: #1c2630;
+  --muted: #4a5761;
+  --line: #c4b79d;
+  --accent: #7a4f0e;
+  --accent-ink: #fffbf3;
+  --danger: #a4262c;
+  --positive: #2f6b33;
+  --focus: #1f5fbf;
+}
+/* Every core component reads the tokens (styles.css defines the light values of the others),
+   so the light theme needs no per-element colour. The rules below cover what still paints a
+   fixed dark colour outside the core: the combat hotbar slots (combat.css) and their reasons,
+   and the page portrait, which stays parchment with a gold initial on the light sheet as the
+   sheet's own portrait (characters.css) rather than taking the map token's blue. */
+:root[data-pref-theme="light"] .portrait {
+  background: var(--raised);
+  color: var(--accent);
+}
+:root[data-pref-theme="light"] :is(.combat-action:hover, .combat-action.active) {
+  background: var(--accent-soft);
+}
+:root[data-pref-theme="light"] .combat-reasons {
+  color: var(--accent);
+}
+
+/* ---------------------------------------------------------------- contrast and typeface */
+
+:root[data-pref-contrast="high"] {
+  --text: #ffffff;
+  --muted: #e3e9ea;
+  --line: #9aa9b4;
+  --focus: #ffe066;
+}
+:root[data-pref-contrast="high"][data-pref-theme="light"] {
+  --text: #0b1015;
+  --muted: #26323b;
+  --line: #5d6a74;
+  --focus: #0b4fd6;
+}
+:root[data-pref-contrast="high"] :focus-visible {
+  outline-width: 4px !important;
+}
+:root[data-pref-contrast="high"] .button,
+:root[data-pref-contrast="high"] .field :is(input, select, textarea) {
+  border-width: 2px;
+}
+/* Wide humanist sans-serif typefaces with extra spacing, as Roll20's dyslexia-friendly
+   options (SVC-165); no font file is downloaded. */
+:root[data-pref-font="legible"] body {
+  letter-spacing: 0.02em;
+  word-spacing: 0.06em;
+}
+:root[data-pref-font="legible"] body *:not(svg, svg *) {
+  font-family: Verdana, Tahoma, "Trebuchet MS", "DejaVu Sans", sans-serif !important;
+}
+
+/* ---------------------------------------------------------------- colour and shape */
+
+/* Shape cue in every mode: hostile tokens have a dashed ring, areas a dashed outline. */
+.map-token.hostile .token-display > circle:first-child {
+  stroke-dasharray: 7 3;
+}
+.token-dot.hostile {
+  outline: 2px dashed currentColor;
+  outline-offset: -4px;
+}
+#combat-map-layer polygon {
+  stroke-dasharray: 12 5;
+}
+/* Colour-vision palettes (values set by preferences.mjs from one tested table). The ring
+   selectors outrank a token portrait's own ring colour (media area); the fill selectors do
+   not, so a portrait image stays and a plain token takes the palette colour. */
+:root[data-pref-vision]:not([data-pref-vision="standard"])
+  .map-token
+  .token-display
+  > circle:first-child {
+  fill: var(--pref-ally-fill);
+}
+:root[data-pref-vision]:not([data-pref-vision="standard"])
+  .map-token.hostile
+  .token-display
+  > circle:first-child {
+  fill: var(--pref-hostile-fill);
+}
+:root[data-pref-vision]:not([data-pref-vision="standard"])
+  #battle-map
+  .map-token[data-actor]
+  .token-display
+  > circle:first-child {
+  stroke: var(--pref-ally-stroke);
+}
+:root[data-pref-vision]:not([data-pref-vision="standard"])
+  #battle-map
+  .map-token.hostile[data-actor]
+  .token-display
+  > circle:first-child {
+  stroke: var(--pref-hostile-stroke);
+}
+:root[data-pref-vision]:not([data-pref-vision="standard"]) .token-dot {
+  background: var(--pref-ally-fill);
+}
+:root[data-pref-vision]:not([data-pref-vision="standard"]) .token-dot.hostile {
+  background: var(--pref-hostile-fill);
+}
+:root[data-pref-vision]:not([data-pref-vision="standard"]) #combat-map-layer polygon {
+  fill: var(--pref-area);
+  stroke: var(--pref-area);
+}
+:root[data-pref-vision]:not([data-pref-vision="standard"]) #combat-map-layer circle {
+  stroke: var(--pref-target);
+}
+:root[data-pref-vision]:not([data-pref-vision="standard"]) [data-path-cost="x1"] {
+  stroke: var(--pref-path-normal);
+}
+:root[data-pref-vision]:not([data-pref-vision="standard"]) [data-path-cost="x2"] {
+  stroke: var(--pref-path-double);
+}
+:root[data-pref-vision]:not([data-pref-vision="standard"]) [data-path-cost="x3"] {
+  stroke: var(--pref-path-triple);
+}
+:root[data-pref-vision]:not([data-pref-vision="standard"]) [data-path-cost="blocked"] {
+  stroke: var(--pref-path-blocked);
+}
+/* Words above the tokens (map layer "preferences-map-words"). */
+.pref-map-word {
+  font: 700 var(--text-2xs) var(--font-ui);
+  letter-spacing: 0.05em;
+  font-variant-caps: all-small-caps;
+  fill: var(--token-label);
+  stroke: var(--token-label-halo);
+  stroke-width: 3px;
+  paint-order: stroke;
+  pointer-events: none;
+}
+.pref-map-word[data-disposition="hostile"] {
+  fill: var(--pref-hostile-stroke, var(--token-hostile-ring));
+}
+.pref-map-word[data-disposition="ally"] {
+  fill: var(--pref-ally-stroke, var(--token-label));
+}
+/* A solid plate behind token names (BG3 text background, CRP-181). */
+:root[data-pref-names="solid"] .map-token .token-display > .token-name {
+  stroke: var(--token-label-halo);
+  stroke-width: 9px;
+  stroke-linejoin: round;
+}
+
+/* ---------------------------------------------------------------- motion */
+
+/* Reduced motion (explicit, from the system or photosensitive): no dice, token, toast or
+   page animation anywhere, the same rule the core applies to the system request. */
+:root[data-motion="reduced"] *,
+:root[data-motion="reduced"] *::before,
+:root[data-motion="reduced"] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+
+/* ---------------------------------------------------------------- sheet-only Table */
+
+/* The map and every control that only acts on it go with it, as Foundry's Disable Game
+   Canvas removes the canvas controls (FVT-190): move tool, "Map" shortcut, find / centre a
+   token and the token list that centres on double-click (B12; the sheet-only list selects
+   instead), the distance ruler rows (B18; the sheet-only list shows the same distances)
+   and the first-visit tip about dragging tokens (B30). */
+:root[data-pref-canvas="off"] .table-stage > .map-toolbar,
+:root[data-pref-canvas="off"] .table-stage > .map-container,
+:root[data-pref-canvas="off"] .table-map-link,
+:root[data-pref-canvas="off"] .action-dock [data-tool="move"],
+:root[data-pref-canvas="off"] .mobile-combat-link[data-table="map-focus"],
+:root[data-pref-canvas="off"] .table-inspector [data-token-menu-find],
+:root[data-pref-canvas="off"] .table-inspector .token-menu-list-details,
+:root[data-pref-canvas="off"] [data-annot-distances] :is(.annotations-dist, .annotations-note),
+:root[data-pref-canvas="off"] .home-pop-tip[data-home-pop-id="table"] {
+  display: none !important;
+}
+:root[data-pref-canvas="off"] .table-stage {
+  display: block;
+  min-height: 0;
+  height: auto;
+  border: 0;
+}
+/* B61: beside the map the inspector is the right sidebar's Creature tab; without a map the
+   sidebar's panel takes the map's place (the tabs stay at the right edge). On a phone the
+   panel already follows the map, and the action bar stays in the stage. */
+@media (min-width: 721px) {
+  :root[data-pref-canvas="off"] .table-layout {
+    grid-template-columns: minmax(0, 1fr) 0 var(--table-rail-width);
+  }
+  :root[data-pref-canvas="off"] .table-layout > .table-stage {
+    display: none;
+  }
+  :root[data-pref-canvas="off"] .table-layout > .table-sidebar-panel {
+    grid-column: 1;
+    grid-row: 4;
+    contain: none;
+    border-left: 0;
+    height: clamp(360px, calc(100dvh - 480px), 620px);
+  }
+}
+/* The inspector takes the map's place: same height on desktop (it scrolls inside, the
+   action bar stays below), centred content; the sheet-only block is moved first in the
+   page order by preferences.mjs. */
+:root[data-pref-canvas="off"] .table-inspector {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: none;
+  border-left: 0;
+}
+:root[data-pref-canvas="off"] .table-inspector > * {
+  width: min(100%, 880px);
+  margin-inline: auto;
+}
+:root[data-pref-canvas="off"] .table-inspector > .table-ext-panel:has([data-pref-sheet-only]) {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+/* Sheet-only notice: D&D Beyond's theme-colour notice (gold hairline on a gold tint). */
+.pref-sheet-only {
+  display: grid;
+  justify-items: start;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-md);
+  background: var(--accent-soft);
+}
+.pref-sheet-only p {
+  margin: 0;
+}
+.pref-sheet-only h4 {
+  margin: 6px 0 0;
+  font-size: var(--text-sm);
+}
+.pref-sheet-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.pref-sheet-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.pref-sheet-list .button {
+  min-height: 42px;
+}
+
+/* ---------------------------------------------------------------- Preferences dialog */
+
+/* Where a setting is kept: the core chip (Foundry dnd5e pill), shape and word inside. */
+.pref-scope {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 6px;
+  padding: 1px 9px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  color: var(--muted);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  line-height: 1.4;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+/* Shape and word, not colour: square device, circle account, diamond campaign. */
+.pref-scope::before {
+  content: "▣" / "";
+}
+.pref-scope[data-scope="personal"]::before {
+  content: "●" / "";
+}
+.pref-scope[data-scope="campaign"]::before {
+  content: "◆" / "";
+}
+/* Categories (visual pass 2, 30/09): BG3's options menu and Foundry v13's «Game Settings»
+   window — a wide dialog with the list of categories in a darker left column and the
+   settings scrolling on the right. Foundry: rows at full column width, a hairline between
+   them, the count at the right, the open one lit; the scope groups are the list's group
+   labels (Foundry's Core / System / Modules), in D&D Beyond's condensed small caps. */
+dialog:has(form[data-pref-enhanced] .pref-layout) {
+  width: min(1040px, calc(100vw - 28px));
+}
+.dialog-body.pref-layout {
+  display: grid;
+  grid-template-columns: minmax(200px, 248px) minmax(0, 1fr);
+  padding: 0;
+  height: min(68vh, 720px);
+  max-height: none;
+  overflow: hidden;
+}
+.pref-jump {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 10px 12px 16px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  background: var(--surface-2);
+  border-right: 1px solid var(--line);
+}
+.pref-jump-group {
+  margin: 14px 8px 4px;
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+.pref-jump .button {
+  flex: 0 0 auto;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  min-height: 40px;
+  padding: 8px 10px;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  color: var(--text);
+  font-weight: 500;
+  text-align: left;
+}
+.pref-jump .button:hover:not(:disabled) {
+  background: var(--raised);
+  color: var(--text);
+}
+/* The open category: the lit row of Foundry's list with BG3's gold selection. */
+.pref-jump .button.active,
+.pref-jump .button.active:hover:not(:disabled) {
+  border-radius: var(--radius-sm);
+  border-bottom-color: transparent;
+  background: var(--accent-soft);
+  box-shadow: inset 0 0 0 1px var(--accent-line);
+  color: var(--accent);
+  font-weight: 700;
+}
+.pref-jump-count {
+  flex-shrink: 0;
+  color: var(--muted);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}
+.pref-jump .button:focus-visible {
+  outline-offset: -3px;
+}
+.pref-pane {
+  container: pref-pane / inline-size;
+  min-width: 0;
+  min-height: 0;
+  padding: 22px 28px 28px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+/* A category heading lands at the top of the pane, below its own breathing room. */
+.pref-pane :is(h3, #pref-section-general) {
+  scroll-margin-top: 12px;
+}
+/* Settings keep a readable width in the wide pane (Foundry's controls stop at their column). */
+.pref-pane .ext-settings :is(select, input:not([type="checkbox"], [type="radio"], [type="range"])),
+.pref-pane > .field :is(select, input) {
+  max-width: 420px;
+}
+.pref-pane .pref-range {
+  max-width: 420px;
+}
+/* In the wide pane each setting is one row, name on the left and value on the right, as in
+   BG3's options and Foundry's settings (below); the scope groups lose their box and read as
+   the pane's section titles, each category under a hairline. */
+.pref-pane .ext-settings {
+  margin: 30px 0 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+}
+.pref-pane .ext-settings legend {
+  padding: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 600;
+}
+.pref-pane .ext-settings > .muted {
+  margin: 2px 0 4px;
+}
+.pref-pane .ext-settings h3 {
+  margin: 18px 0 2px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  font-size: var(--text-lg);
+}
+/* One row per setting only where the pane is wide enough for a name beside the control
+   (a container query: on a 768 px tablet the pane is 480 px and rows would crush the names). */
+@container pref-pane (min-width: 620px) {
+  .pref-pane > label.field,
+  .pref-pane .ext-settings > label.field {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 340px);
+    align-items: center;
+    column-gap: 24px;
+    row-gap: 4px;
+    min-height: 52px;
+    margin: 0;
+    padding: 6px 0;
+  }
+  .pref-pane > label.field > :is(select, input),
+  .pref-pane .ext-settings > label.field > :is(select, input, output, .pref-unit-hint) {
+    grid-column: 2;
+    max-width: none;
+  }
+  .pref-pane .ext-settings > .pref-note {
+    margin: -2px 0 8px;
+  }
+}
+.pref-live {
+  margin: 8px 0 0;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+.pref-note {
+  margin: -10px 0 16px;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+.pref-range {
+  accent-color: var(--accent);
+  padding: 0;
+}
+.pref-output {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+.pref-sound-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: -6px 0 18px;
+}
+/* DM proposals and help: D&D Beyond's theme-colour notice. */
+.pref-proposals,
+.pref-help {
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-md);
+  background: var(--accent-soft);
+  padding: 14px 16px;
+  margin-bottom: 18px;
+}
+.pref-proposals h3,
+.pref-help h3 {
+  margin: 0 0 8px;
+}
+.pref-proposals article + article {
+  border-top: 1px solid var(--line);
+  margin-top: 12px;
+  padding-top: 12px;
+}
+.pref-proposals blockquote {
+  margin: 8px 0;
+  padding-left: 10px;
+  border-left: 2px solid var(--line-strong);
+}
+.pref-changes {
+  margin: 6px 0 10px;
+  padding-left: 20px;
+}
+.pref-changes li {
+  margin: 4px 0;
+}
+.pref-sent {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.pref-sent li {
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+}
+.pref-propose {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px 0;
+  margin: 0 0 18px;
+}
+.pref-propose legend {
+  font-weight: 600;
+  padding: 0 6px;
+}
+dialog footer:has(.pref-reset) {
+  flex-wrap: wrap;
+}
+.pref-reset {
+  margin-right: auto;
+}
+
+/* ---------------------------------------------------------------- light theme: areas */
+
+/* Areas that still paint a fixed dark colour get the light token of the same role, so their
+   token-coloured text stays legible (the map artwork itself stays as painted). Home, the
+   notification centre and the other services read the tokens directly and need no rule. */
+:root[data-pref-theme="light"]
+  :is(.session-view-hud-button, .session-view-chip, .session-view-clock, .session-view-timer) {
+  background: var(--float-bg);
+  box-shadow: var(--shadow-2);
+}
+:root[data-pref-theme="light"] .session-view-chip.is-warn {
+  background: color-mix(in srgb, var(--warning) 16%, var(--surface));
+}
+:root[data-pref-theme="light"] .session-view-banner {
+  background: color-mix(in srgb, var(--accent) 14%, var(--surface));
+}
+:root[data-pref-theme="light"] .session-view-banner small {
+  color: var(--accent-strong);
+}
+:root[data-pref-theme="light"] .session-view-ribbon-chip[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--accent) 20%, var(--surface));
+}
+
+/* Larger text or interface: rows that fit at 100 % wrap instead of overflowing a phone
+   (also the demonstration strip and the header with both sizes at their maximum). */
+:root[data-pref-scaled] .section-heading,
+:root[data-pref-scaled] .page-heading,
+:root[data-pref-scaled] .toolbar,
+:root[data-pref-scaled] .demo-strip,
+:root[data-pref-scaled] .demo-controls,
+:root[data-pref-scaled] .app-header,
+:root[data-pref-scaled] .service-nav {
+  flex-wrap: wrap;
+}
+:root[data-pref-scaled] .demo-strip,
+:root[data-pref-scaled] .demo-controls {
+  row-gap: 4px;
+}
+/* Area panels, drawers and cards drawn with fixed dark colours: a light surface of the same
+   role (neutral, raised, input, tinted) so their token-coloured text stays legible. Image
+   frames and the map artwork keep their colours. */
+:root[data-pref-theme="light"]
+  :is(
+    .table-drawer,
+    .token-menu,
+    .token-menu-status,
+    .chat-panel,
+    .chat-composer,
+    .chat-roll-card,
+    .chat-toast,
+    .rt-notice,
+    .rt-pending,
+    .dice3d-tile,
+    .dice3d-summary,
+    .dice3d-dc,
+    .safety-notice,
+    .handouts-pin-view blockquote,
+    .handouts-stage-note,
+    .compendium-attribution,
+    .compendium-roll,
+    .compendium-tip
+  ) {
+  background: var(--surface);
+}
+:root[data-pref-theme="light"]
+  :is(
+    .token-menu-conditions li,
+    .token-menu-toggle[aria-checked="true"],
+    .chat-kind-desc,
+    .chat-vote-outcome,
+    .chat-roll-total,
+    .chat-mode input:checked + span,
+    .rt-dir-item.active,
+    .compendium-category.active,
+    .compendium-chip,
+    .compendium-resume,
+    .safety-chip-remove:hover,
+    .session-view-ribbon-chip[aria-pressed="true"],
+    .cm-avatar
+  ) {
+  background: var(--raised);
+}
+:root[data-pref-theme="light"]
+  :is(.media-inline-field input, .handouts-prep-link select, .cm-copy input) {
+  background: var(--sunken);
+}
+:root[data-pref-theme="light"] .loot-progress {
+  background: var(--hp-track);
+}
+:root[data-pref-theme="light"]
+  :is(.token-menu-status.error, .safety-card.is-stop, .media-round.is-missing) {
+  background: var(--danger-soft);
+}
+:root[data-pref-theme="light"]
+  :is(.chat-whisper, .handouts-dm-note, .safety-card.is-hand.is-raised, .compendium-status) {
+  background: color-mix(in srgb, var(--warning) 14%, var(--surface));
+}
+:root[data-pref-theme="light"] :is(.cm-banner, .handouts-outcome) {
+  background: color-mix(in srgb, var(--positive) 14%, var(--surface));
+}
+:root[data-pref-theme="light"] :is(.chat-card, .rt-card, .cm-cover) {
+  background: linear-gradient(180deg, var(--surface), var(--raised));
+}
+/* Text colours meant for a dark card. */
+:root[data-pref-theme="light"] :is(.chat-whisper-line, .chat-whisper-line strong) {
+  color: var(--accent);
+}
+:root[data-pref-theme="light"] .safety-card.is-stop strong {
+  color: var(--danger);
+}
+.pref-field-label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.pref-field-label .pref-scope {
+  margin-left: 0;
+}
+/* On a phone the category list is one row above the settings that scrolls sideways, like the
+   other strips of the app (D&D Beyond's mobile section tabs); the open one stays in view
+   (preferences.mjs scrolls it into the strip). Group labels and counts give way. */
+@media (max-width: 720px) {
+  .dialog-body.pref-layout {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    height: min(60vh, 620px);
+  }
+  .pref-jump {
+    flex-direction: row;
+    gap: 6px;
+    padding: 8px 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .pref-jump-group,
+  .pref-jump-count {
+    display: none;
+  }
+  .pref-jump .button {
+    width: auto;
+    white-space: nowrap;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-pill);
+    padding: 6px 12px;
+  }
+  .pref-jump .button.active,
+  .pref-jump .button.active:hover:not(:disabled) {
+    border-radius: var(--radius-pill);
+    border-color: var(--accent-line);
+  }
+  .pref-pane {
+    padding: 16px 20px 22px;
+  }
+}
+
+/* Panels over the map fade while not in use and come back on hover or focus (Foundry V13
+   UI fade opacity, FVT-189 / SVC-159; SV-22). */
+:root[data-pref-fade]
+  :is(.map-toolbar, .map-zoom, .session-view-hud-bar, .map-placement-controls):not(
+    :hover,
+    :focus-within
+  ) {
+  opacity: var(--pref-panel-opacity, 1);
+}
+
+/* A number field that takes metres or kilograms shows its equivalent in feet or pounds. */
+.pref-unit-hint {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}
+.pref-unit-hint:empty {
+  display: none;
+}
+
+/* The way back after a reset or an accepted proposal, and the proposals page. */
+/* The way back: a stat-box plate (dialog footer surface) with a hairline. */
+.pref-undo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 16px;
+  margin-bottom: 18px;
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface-2);
+}
+.pref-undo p {
+  margin: 0;
+  flex: 1 1 260px;
+}
+.pref-page {
+  display: grid;
+  gap: 18px;
+  max-width: 760px;
+}
+.pref-page .pref-proposals,
+.pref-page .pref-help {
+  margin-bottom: 0;
+}
+.pref-answered h2 {
+  margin: 0 0 6px;
+  font-size: var(--text-lg);
+}
+[data-pref-page-title]:focus {
+  outline: none;
+}
+[data-pref-page-title]:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 4px;
+}
+
+/* A larger interface or text keeps the Table in the window, as at 100 %: the core sizes
+   the map for the 100 % bars (100dvh − 480px); here the map takes the window height minus
+   what the bars actually measure (--pref-table-chrome, measured by preferences.mjs), never
+   below 240 screen pixels (written as 240px / scale because this sheet is scaled too). */
+@media (min-width: 1001px) {
+  :root[data-pref-scaled] .workspace.is-table .table-stage {
+    min-height: calc(240px / var(--pref-ui-scale, 1));
+    height: clamp(
+      calc(240px / var(--pref-ui-scale, 1)),
+      calc(100dvh - var(--pref-table-chrome, 480px)),
+      620px
+    );
+  }
+}
+/* The larger map toolbar scrolls inside the map's height instead of running over the
+   scale caption and the action bar below it. */
+:root[data-pref-scaled] .table-stage > .map-toolbar {
+  max-height: calc(100% - 64px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+/* B61 review: that scroll box would cut off the active group's tools shown beside it; here
+   they stand in the column under their group button, and scroll with it. */
+:root[data-pref-scaled] .table-stage > .map-toolbar .map-subtools {
+  position: static;
+  margin-top: 5px;
+  box-shadow: none;
+}
+
+/* A setting reached from the search (SV-02): marked for a moment. */
+.pref-found {
+  outline: 2px solid var(--focus);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
+  transition: outline-color 0.6s var(--ease-out);
+}

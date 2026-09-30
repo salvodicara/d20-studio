@@ -1,0 +1,258 @@
+/* B51 — Sessions: recurrence, absences, seats and attendance. Prefixed .sp-; shared tokens
+   from styles.css (DESIGN.md): Kanka's flat cards, D&D Beyond's scheduling RSVP as the core
+   active button, Foundry v13's tinted notifications for warnings. Blocks live inside
+   Campaign → Sessions and inside each session. */
+
+.sp-overview {
+  margin-block: 8px 28px;
+}
+.sp-block {
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.sp-block h2 {
+  margin: 0 0 12px;
+  font-size: var(--text-xl);
+}
+.sp-block-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.sp-block-head h2 {
+  margin: 0;
+}
+.sp-series {
+  padding-block: 14px;
+  border-top: 1px solid var(--line);
+}
+.sp-series h3 {
+  margin: 0 0 4px;
+  overflow-wrap: anywhere;
+}
+.sp-series p,
+.sp-row p {
+  margin-block: 4px;
+}
+.sp-cadence {
+  font-weight: 600;
+}
+.sp-actions,
+.sp-rsvp {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-block: 10px;
+}
+.sp-rsvp .button {
+  min-width: 112px;
+}
+/* The chosen answer is the core active button (gold rim, gold label, lit fill). */
+.sp-rsvp .button[aria-pressed="true"] {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+/* A session's own block: a nested flat card on the darker surface; a series date carries
+   the theme colour on its rim. */
+.sp-row {
+  margin-block: 10px 4px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  border-radius: var(--radius-sm);
+}
+.sp-row[data-sp-series] {
+  border-color: var(--accent-line);
+}
+.sp-row h4 {
+  margin: 4px 0;
+  font-size: var(--text-md);
+}
+.sp-badge .badge {
+  margin-right: 6px;
+}
+.sp-counts {
+  font-variant-numeric: tabular-nums;
+}
+.sp-people {
+  display: grid;
+  gap: 4px;
+  margin: 8px 0;
+  padding: 0;
+  list-style: none;
+}
+.sp-people li {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  overflow-wrap: anywhere;
+}
+.sp-dot {
+  flex: 0 0 auto;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--line-strong);
+  transform: translateY(1px);
+}
+.sp-dot.is-attending,
+.sp-dot.is-present {
+  background: var(--positive);
+}
+.sp-dot.is-maybe,
+.sp-dot.is-waitlist,
+.sp-dot.is-stale {
+  background: var(--accent);
+}
+.sp-dot.is-skipping,
+.sp-dot.is-absent {
+  background: var(--danger);
+}
+.sp-note {
+  color: var(--muted);
+}
+/* Notices: Foundry v13's tinted notifications (theme colour; danger when late). */
+.sp-alert {
+  margin-block: 8px;
+  padding: 10px 12px;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+  overflow-wrap: anywhere;
+}
+.sp-alert p {
+  margin: 0;
+}
+.sp-late {
+  border-color: color-mix(in srgb, var(--danger) 60%, transparent);
+  background: var(--danger-soft);
+}
+.sp-leave {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.sp-leave p {
+  margin-top: 0;
+}
+.sp-pending {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.sp-pending ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.sp-pending li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-block: 4px;
+}
+.sp-attendance,
+.sp-stars {
+  margin-top: 8px;
+}
+.sp-stars {
+  padding-top: 8px;
+  border-top: 1px dashed var(--line);
+}
+.sp-log,
+.sp-history {
+  margin-top: 8px;
+}
+.sp-log summary,
+.sp-history summary {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: var(--muted);
+}
+.sp-log ol,
+.sp-history ol {
+  margin: 4px 0 0;
+  padding-left: 20px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.sp-recap {
+  margin-block: 20px;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.sp-recap h2 {
+  margin: 0 0 8px;
+  font-size: var(--text-lg);
+}
+.sp-recap p {
+  margin-block: 4px;
+  overflow-wrap: anywhere;
+}
+/* Dialog parts */
+.sp-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+}
+.sp-fieldset {
+  margin: 12px 0;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.sp-fieldset .check-field {
+  min-height: 40px;
+}
+.sp-preview h3 {
+  margin: 12px 0 6px;
+  font-size: var(--text-md);
+}
+.sp-dates {
+  margin: 0;
+  padding-left: 24px;
+  font-variant-numeric: tabular-nums;
+}
+.sp-dates li {
+  padding-block: 2px;
+}
+.sp-errors {
+  padding-left: 20px;
+}
+/* A date of a series is changed or cancelled with the scope choice of its own block
+   ("only this" / "this and following"), so the core's single-date buttons step aside. */
+.campaign-session:has(.sp-row[data-sp-series]) [data-campaign-change-session],
+.campaign-session:has(.sp-row[data-sp-series]) [data-campaign-cancel-session] {
+  display: none;
+}
+@media (max-width: 640px) {
+  .sp-block {
+    padding: 14px;
+  }
+  .sp-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .sp-rsvp .button {
+    flex: 1 1 100px;
+    min-width: 0;
+  }
+  .sp-actions .button {
+    flex: 1 1 140px;
+  }
+  .sp-row {
+    padding: 10px;
+  }
+}

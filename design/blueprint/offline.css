@@ -1,0 +1,449 @@
+/* Area B52 — chosen offline content and reconnection. Prefix: .offline-
+   Visual pass of 29/09/2026 (DESIGN.md; evidence «home-services»): Foundry/Roll20 connection
+   states in the semantic tokens (green connected, red offline, gold reconnecting, amber to
+   review), flat hairline cards, Roll20 Jumpgate's pill switch. Tokens only. */
+
+/* Cloud glyphs (masks): synced, offline, reconnecting, to review. */
+:root {
+  --offline-cloud: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 18.5h9.5a4 4 0 0 0 .7-7.94 5.5 5.5 0 0 0-10.6 1.1A3.5 3.5 0 0 0 7 18.5z'/%3E%3Cpath d='M9.4 14.3l1.8 1.8 3.5-3.5'/%3E%3C/svg%3E");
+  --offline-cloud-off: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 18.5h9.5a4 4 0 0 0 .7-7.94 5.5 5.5 0 0 0-10.6 1.1A3.5 3.5 0 0 0 7 18.5z'/%3E%3Cpath d='M4 4l16 16'/%3E%3C/svg%3E");
+  --offline-cloud-sync: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 18.5h9.5a4 4 0 0 0 .7-7.94 5.5 5.5 0 0 0-10.6 1.1A3.5 3.5 0 0 0 7 18.5z'/%3E%3Cpath d='M12 11.8v4.6M10.1 14.6l1.9 1.9 1.9-1.9'/%3E%3C/svg%3E");
+  --offline-cloud-alert: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 18.5h9.5a4 4 0 0 0 .7-7.94 5.5 5.5 0 0 0-10.6 1.1A3.5 3.5 0 0 0 7 18.5z'/%3E%3Cpath d='M12 11.4v3.2M12 16.7v.1'/%3E%3C/svg%3E");
+  /* «To review» follows the warning token, so the light theme keeps its contrast. */
+  --offline-warn: var(--warning);
+}
+
+/* Header indicator: the service button's label is the state (see indicatorText). */
+.service-nav [data-service="offline"] {
+  position: relative;
+}
+.service-nav [data-service="offline"] .icon {
+  visibility: hidden;
+}
+.service-nav [data-service="offline"]::before,
+.offline-cloud {
+  content: "";
+  background: currentColor;
+  -webkit-mask: var(--offline-cloud) center / contain no-repeat;
+  mask: var(--offline-cloud) center / contain no-repeat;
+}
+.service-nav [data-service="offline"]::before {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 24px;
+  height: 24px;
+  transform: translate(-50%, -50%);
+}
+.service-nav [data-service="offline"][title^="Senza rete"],
+.service-nav [data-service="offline"][title^="Offline"] {
+  color: var(--danger);
+}
+.service-nav [data-service="offline"][title^="Senza rete"]::before,
+.service-nav [data-service="offline"][title^="Offline"]::before,
+.offline-cloud[data-state="offline"] {
+  -webkit-mask-image: var(--offline-cloud-off);
+  mask-image: var(--offline-cloud-off);
+}
+.service-nav [data-service="offline"][title^="Riconnessione"],
+.service-nav [data-service="offline"][title^="Reconnecting"] {
+  color: var(--accent);
+}
+.service-nav [data-service="offline"][title^="Riconnessione"]::before,
+.service-nav [data-service="offline"][title^="Reconnecting"]::before,
+.offline-cloud[data-state="reconnecting"] {
+  -webkit-mask-image: var(--offline-cloud-sync);
+  mask-image: var(--offline-cloud-sync);
+  animation: offline-pulse 1.1s ease-in-out infinite alternate;
+}
+.service-nav [data-service="offline"][title^="Da rivedere"],
+.service-nav [data-service="offline"][title^="To review"] {
+  color: var(--offline-warn);
+}
+.service-nav [data-service="offline"][title^="Da rivedere"]::before,
+.service-nav [data-service="offline"][title^="To review"]::before,
+.offline-cloud[data-state="review"] {
+  -webkit-mask-image: var(--offline-cloud-alert);
+  mask-image: var(--offline-cloud-alert);
+}
+/* A dot while something waits: queued changes offline, or conflicts to review. */
+.service-nav [data-service="offline"][title^="Senza rete —"]:not([title*="nessuna"])::after,
+.service-nav [data-service="offline"][title^="Offline —"]:not([title*="no changes"])::after,
+.service-nav [data-service="offline"][title^="Da rivedere"]::after,
+.service-nav [data-service="offline"][title^="To review"]::after {
+  content: "";
+  position: absolute;
+  top: 7px;
+  right: 6px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0 2px var(--header-bg);
+}
+@keyframes offline-pulse {
+  from {
+    opacity: 0.45;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .service-nav [data-service="offline"]::before,
+  .offline-cloud {
+    animation: none !important;
+  }
+}
+
+/* Page */
+.offline-page {
+  display: grid;
+  gap: 22px;
+  min-width: 0;
+}
+.offline-page h2 {
+  font-size: var(--text-xl);
+  margin: 0 0 6px;
+}
+.offline-page h3 {
+  font-size: var(--text-lg);
+  margin: 16px 0 8px;
+}
+.offline-status {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: center;
+  padding: 20px 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+.offline-status[data-offline-phase="offline"] {
+  border-color: color-mix(in srgb, var(--danger) 60%, transparent);
+}
+.offline-status[data-offline-phase="reconnecting"] {
+  border-color: var(--accent);
+}
+.offline-status p {
+  margin: 4px 0 0;
+}
+.offline-cloud {
+  display: block;
+  width: 44px;
+  height: 44px;
+  color: var(--positive);
+}
+.offline-cloud[data-state="offline"] {
+  color: var(--danger);
+}
+.offline-cloud[data-state="reconnecting"] {
+  color: var(--accent);
+  animation: offline-pulse 1.1s ease-in-out infinite alternate;
+}
+.offline-cloud[data-state="review"] {
+  color: var(--offline-warn);
+}
+.offline-status-actions {
+  justify-content: flex-end;
+}
+.offline-status-actions .button .icon,
+.offline-switch-block .button .icon {
+  width: 18px;
+  height: 18px;
+  margin-right: 6px;
+  vertical-align: -3px;
+}
+.offline-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 22px;
+  align-items: start;
+}
+.offline-main,
+.offline-side {
+  display: grid;
+  gap: 22px;
+  min-width: 0;
+}
+.offline-queue,
+.offline-available,
+.offline-blocked,
+.offline-simulation,
+.offline-conflicts {
+  padding: 20px 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  min-width: 0;
+}
+.offline-conflicts {
+  border-color: var(--offline-warn);
+}
+/* The simulation panel: the dashed outline of Foundry dnd5e's empty slot (not a real
+   service). */
+.offline-simulation {
+  border-style: dashed;
+  border-color: var(--line-strong);
+}
+.offline-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 12px;
+}
+.offline-list {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+}
+.offline-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+.offline-row:last-child {
+  border-bottom: 0;
+}
+.offline-row-text {
+  flex: 1 1 200px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.offline-row-text small {
+  display: block;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.offline-row-text .offline-remote {
+  color: var(--offline-warn);
+}
+.offline-row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.offline-row-actions .button {
+  min-height: 40px;
+}
+/* Kind of item: a small condensed small-caps tag (D&D Beyond labels) in a key-chip rim. */
+.offline-kind {
+  flex: 0 0 auto;
+  font-family: var(--font-label);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+  color: var(--muted);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-xs);
+  padding: 0 6px;
+}
+.offline-badge[data-status="pending"],
+.offline-badge[data-status="offline-ready"] {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.offline-badge[data-status="synced"],
+.offline-badge[data-status="ready"],
+.offline-badge[data-status="incoming"] {
+  border-color: color-mix(in srgb, var(--positive) 60%, transparent);
+  color: var(--positive);
+}
+.offline-badge[data-status="conflict"] {
+  border-color: var(--offline-warn);
+  color: var(--offline-warn);
+}
+.offline-badge[data-status="resolved"] {
+  color: var(--text);
+}
+.offline-badge[data-status="blocked"],
+.offline-badge[data-status="lost"] {
+  border-color: color-mix(in srgb, var(--danger) 60%, transparent);
+  color: var(--danger);
+}
+.offline-empty {
+  color: var(--muted);
+  margin: 8px 0 0;
+}
+.offline-history summary {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: var(--muted);
+  margin-top: 8px;
+}
+.offline-conflict {
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+  margin-top: 12px;
+}
+.offline-compare {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.offline-version {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  background: var(--surface-2);
+  min-width: 0;
+}
+.offline-version[data-version="mine"] {
+  border-color: var(--accent);
+}
+.offline-version[data-version="theirs"] {
+  border-color: var(--offline-warn);
+}
+.offline-version h4 {
+  margin: 0 0 6px;
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+  color: var(--muted);
+}
+.offline-version-value {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: var(--text-md);
+}
+.offline-sim-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 8px 12px;
+  margin-top: 10px;
+}
+.offline-sim-form .field {
+  flex: 1 1 220px;
+  margin: 0;
+}
+
+/* Switch on a sheet and on a note */
+.offline-sheet {
+  margin-top: 20px;
+}
+.offline-entry {
+  margin: 18px 0;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+}
+.offline-switch-block {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 16px;
+}
+.offline-switch-block > p {
+  flex: 1 1 260px;
+  margin: 0;
+}
+.offline-switch-alert {
+  flex-basis: 100%;
+  margin: 0;
+  color: var(--offline-warn);
+}
+.offline-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+  cursor: pointer;
+  font-weight: 600;
+  position: relative;
+}
+.offline-switch input {
+  /* The whole label (at least 40 px tall) is the touch target of the switch. */
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  margin: 0;
+  cursor: pointer;
+}
+/* The core .switch (Roll20 Jumpgate): a 40 × 22 pill in the field's well with a round
+   knob, gold when on. */
+.offline-switch-track {
+  width: 40px;
+  height: 22px;
+  border-radius: var(--radius-pill);
+  background: var(--sunken);
+  border: 1px solid var(--line-strong);
+  position: relative;
+  flex: 0 0 auto;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+.offline-switch-track::after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--muted);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.offline-switch input:checked + .offline-switch-track {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.offline-switch input:checked + .offline-switch-track::after {
+  transform: translateX(18px);
+  background: var(--accent-ink);
+}
+.offline-switch input:focus-visible + .offline-switch-track {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .offline-switch-track,
+  .offline-switch-track::after {
+    transition: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .offline-columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 720px) {
+  .offline-status {
+    grid-template-columns: auto minmax(0, 1fr);
+    padding: 16px;
+  }
+  .offline-status-actions {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+  }
+  .offline-compare {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .offline-queue,
+  .offline-available,
+  .offline-blocked,
+  .offline-simulation,
+  .offline-conflicts {
+    padding: 16px;
+  }
+  .offline-cloud {
+    width: 36px;
+    height: 36px;
+  }
+}

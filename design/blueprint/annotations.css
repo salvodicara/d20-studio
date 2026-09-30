@@ -1,0 +1,611 @@
+/* B18 — Table annotations, templates, measuring and signals. Only .annotations-* classes. */
+
+/* ---------------------------------------------------------------- map (SVG) */
+/* Map labels: Owlbear's haloed label, the same ink and halo as token names (theme-invariant
+   map palette, combat.css). */
+.annotations-label {
+  font: 600 13px var(--font-ui);
+  font-variant-numeric: tabular-nums;
+  fill: var(--token-label);
+  stroke: var(--map-halo);
+  stroke-width: 3.5px;
+  paint-order: stroke;
+  pointer-events: none;
+}
+.annotations-label.is-small {
+  font-size: 11px;
+}
+.annotations-label.is-signal {
+  font-size: 13px;
+  fill: var(--annot-colour, var(--token-label));
+}
+.annotations-mark-text {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  stroke: var(--map-halo);
+  stroke-width: 4px;
+  paint-order: stroke;
+}
+.annotations-mark.is-hidden,
+.annotations-template.is-hidden {
+  opacity: 0.5;
+}
+.annotations-template.is-selected > circle:first-child,
+.annotations-template.is-selected > polygon:first-child {
+  stroke-width: 4;
+  filter: drop-shadow(0 0 4px var(--map-gold-bright));
+}
+.annotations-handle {
+  fill: var(--map-gold-bright);
+  stroke: var(--map-halo);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+.annotations-moved {
+  stroke: var(--map-ink);
+  stroke-width: 2;
+  stroke-dasharray: 4 4;
+  vector-effect: non-scaling-stroke;
+}
+.annotations-temp-ruler {
+  animation: annotations-fade 8s linear forwards;
+}
+.annotations-temp-ruler line {
+  stroke: var(--map-gold-bright);
+  stroke-width: 3;
+  stroke-dasharray: 8 5;
+  vector-effect: non-scaling-stroke;
+}
+.annotations-elevation rect {
+  fill: color-mix(in srgb, var(--map-halo) 90%, transparent);
+  stroke: var(--token-ally-ring);
+  stroke-width: 1;
+}
+.annotations-elevation text {
+  font: 600 11px var(--font-ui);
+  font-variant-numeric: tabular-nums;
+  fill: var(--map-ink);
+}
+.annotations-tip-badge {
+  cursor: pointer;
+}
+.annotations-tip-badge .annotations-tip-hit {
+  fill: transparent;
+  stroke: none;
+}
+.annotations-tip-face circle {
+  fill: color-mix(in srgb, var(--map-info) 30%, var(--map-halo));
+  stroke: var(--map-ink);
+  stroke-width: 1.5;
+}
+.annotations-tip-badge text {
+  font: italic 700 14px var(--font-display);
+  fill: var(--map-ink);
+  pointer-events: none;
+}
+.annotations-tip-badge:focus-visible {
+  outline: none;
+}
+.annotations-tip-badge:focus-visible .annotations-tip-face circle {
+  stroke: var(--focus);
+  stroke-width: 3;
+}
+.annotations-tip-dot circle {
+  fill: var(--map-info);
+  stroke: var(--map-halo);
+  stroke-width: 1.5;
+}
+.annotations-cursor circle,
+.annotations-cursor path {
+  fill: none;
+  stroke: var(--map-gold-bright);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+/* Signals: pings in the author's colour, the red alert, the laser trail, a broadcast
+   drag measurement. */
+.annotations-ping,
+.annotations-laser,
+.annotations-measure-signal,
+.annotations-recall-mark {
+  animation: annotations-fade var(--annot-ttl, 30s) linear forwards;
+}
+.annotations-ping-wave {
+  fill: none;
+  stroke: var(--annot-colour);
+  stroke-width: 3;
+  vector-effect: non-scaling-stroke;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: annotations-wave 1.4s ease-out 4 both;
+}
+.annotations-ping-wave.is-late {
+  stroke-opacity: 0.6;
+}
+.annotations-ping-dot {
+  fill: var(--annot-colour);
+  stroke: var(--map-halo);
+  stroke-width: 2;
+}
+.annotations-ping.is-alert .annotations-ping-wave {
+  stroke-width: 4;
+  animation-iteration-count: 8;
+}
+.annotations-ping-mark {
+  font: 800 13px var(--font-ui);
+  fill: var(--token-label);
+}
+.annotations-laser polyline {
+  fill: none;
+  stroke: var(--annot-colour);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-opacity: 0.85;
+  vector-effect: non-scaling-stroke;
+  filter: drop-shadow(0 0 3px var(--annot-colour));
+}
+.annotations-laser circle {
+  fill: var(--annot-colour);
+}
+.annotations-laser.is-live {
+  animation: none;
+}
+.annotations-recall-mark rect {
+  fill: none;
+  stroke: var(--annot-colour);
+  stroke-width: 3;
+  stroke-dasharray: 6 4;
+  vector-effect: non-scaling-stroke;
+}
+@keyframes annotations-wave {
+  from {
+    transform: scale(0.3);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+@keyframes annotations-fade {
+  0%,
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .annotations-ping-wave {
+    animation: none;
+    opacity: 0.8;
+  }
+}
+
+/* ---------------------------------------------------------------- HUD over the map */
+.annotations-hud-fo {
+  overflow: visible;
+}
+.annotations-hud {
+  position: relative;
+  pointer-events: none;
+  font: var(--text-md) var(--font-ui);
+  color: var(--text);
+}
+/* Tool options sit at the bottom-left of the map, next to the toolbar (DDB tool flyout);
+   the session bar keeps the top-right corner. */
+.annotations-bottom {
+  position: absolute;
+  left: 76px;
+  right: 10px;
+  bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+/* Tool options: Owlbear Rodeo's floating tool panel, the same translucent rounded plate as
+   the map's tool column (.map-toolbar). */
+.annotations-bar,
+.annotations-banner {
+  pointer-events: auto;
+  max-width: 100%;
+  padding: 6px;
+  border: 1px solid var(--float-border);
+  border-radius: 14px;
+  background: var(--float-bg);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-2);
+}
+.annotations-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.annotations-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+.annotations-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding-right: 4px;
+  margin-right: 2px;
+  border-right: 1px solid var(--float-border);
+}
+/* Buttons as the map tools (.map-tool): borderless, rounded, gold when on. */
+.annotations-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  min-width: 40px;
+  padding: 0 10px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--muted);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+.annotations-btn.is-icon {
+  justify-content: center;
+  padding: 0;
+  width: 40px;
+}
+.annotations-btn:hover:not(:disabled) {
+  background: var(--raised);
+  color: var(--text);
+}
+.annotations-btn[aria-pressed="true"],
+.annotations-btn[aria-expanded="true"] {
+  color: var(--accent);
+  border-color: var(--accent-line);
+  background: var(--accent-soft);
+}
+.annotations-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.annotations-btn.is-danger {
+  color: var(--danger);
+}
+.annotations-btn.is-primary {
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+.annotations-btn:focus-visible,
+.annotations-swatch:focus-visible,
+.annotations-select select:focus-visible,
+.annotations-arrow:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 1px;
+}
+.annotations-icon {
+  width: 18px;
+  height: 18px;
+  flex: none;
+}
+.annotations-colour span {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--swatch);
+  border: 2px solid var(--line-strong);
+}
+.annotations-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+/* Colour swatches: Owlbear's colour picker circles, the chosen one ringed in gold. */
+.annotations-swatch {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--keyline-dark);
+  background: var(--swatch);
+  box-shadow: inset 0 0 0 2px var(--keyline-dark);
+  cursor: pointer;
+}
+.annotations-swatch[aria-pressed="true"] {
+  border-color: var(--surface);
+  box-shadow: 0 0 0 2px var(--accent);
+}
+.annotations-select {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+.annotations-select select {
+  min-height: 40px;
+  max-width: 150px;
+  padding: 0 8px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--sunken);
+  color: var(--text);
+}
+.annotations-hint {
+  margin: 0;
+  max-width: 62ch;
+  font-size: var(--text-xs);
+  line-height: 1.35;
+  color: var(--muted);
+}
+.annotations-reason {
+  margin: 4px;
+  max-width: 48ch;
+  font-size: var(--text-sm);
+  color: var(--danger);
+}
+.annotations-selection {
+  padding-top: 4px;
+  border-top: 1px solid var(--float-border);
+}
+.annotations-selection > strong {
+  padding: 0 6px;
+  font-size: var(--text-sm);
+}
+.annotations-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  border-color: var(--accent-line);
+}
+.annotations-banner > span {
+  padding: 0 6px;
+  font-size: var(--text-md);
+}
+.annotations-arrows {
+  position: absolute;
+  inset: 0;
+}
+.annotations-arrow {
+  pointer-events: auto;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 40px;
+  min-width: 40px;
+  padding: 0 10px 0 6px;
+  border: 2px solid var(--annot-colour);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--map-halo) 93%, transparent);
+  color: var(--map-ink);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--map-halo) 50%, transparent);
+}
+.annotations-arrow svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: var(--annot-colour);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.annotations-arrow.is-alert {
+  animation: annotations-blink 1s steps(2, start) 10;
+}
+@keyframes annotations-blink {
+  to {
+    background: color-mix(in srgb, var(--map-danger-strong) 45%, var(--map-halo));
+  }
+}
+/* Note bubble: BG3's tooltip slab (the core tooltip: dark plate, bronze rim, shadow 2). */
+.annotations-bubble {
+  position: absolute;
+  width: min(280px, calc(100% - 16px));
+  padding: 8px 10px;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-md);
+  background: var(--raised);
+  box-shadow: var(--shadow-2);
+  pointer-events: none;
+  font-size: var(--text-sm);
+}
+.annotations-bubble.is-pinned {
+  pointer-events: auto;
+}
+.annotations-bubble ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.annotations-bubble li + li {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--line);
+}
+.annotations-bubble p {
+  margin: 2px 0 4px;
+  overflow-wrap: anywhere;
+}
+.annotations-bubble-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+  color: var(--accent);
+  font-weight: 600;
+}
+.annotations-bubble-head small {
+  color: var(--muted);
+  font-weight: 400;
+}
+.annotations-bubble-head .annotations-btn {
+  margin-left: auto;
+}
+.annotations-chip {
+  display: inline-block;
+  padding: 0 6px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-2xs);
+  color: var(--muted);
+}
+
+/* ---------------------------------------------------------------- panels */
+.annotations-panel {
+  font-size: var(--text-md);
+}
+.annotations-dist-from {
+  margin: 0 0 6px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.annotations-dist {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.annotations-dist-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 8px;
+  width: 100%;
+  min-height: 40px;
+  padding: 4px 8px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+.annotations-dist-row:hover,
+.annotations-dist-row:focus-visible {
+  border-color: var(--line);
+  background: var(--raised);
+}
+.annotations-dist-row span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.annotations-dist-row small {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+.annotations-note {
+  margin: 6px 0 0;
+  font-size: var(--text-xs);
+}
+.annotations-small {
+  min-height: 40px;
+  font-size: var(--text-sm);
+}
+.annotations-list-panel > .toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+/* Section headings: D&D Beyond's condensed small-capital labels. */
+.annotations-list-section h3 {
+  margin: 12px 0 4px;
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--label-tracking);
+  color: var(--muted);
+}
+.annotations-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.annotations-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--line);
+}
+.annotations-list li > span:not(.annotations-swatch-dot) {
+  flex: 1 1 12rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+/* A row's own actions (Edit, Remove) stay together when the row wraps. */
+.annotations-actions {
+  display: flex;
+  flex: none;
+  gap: 6px;
+}
+.annotations-swatch-dot {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--swatch);
+  border: 1px solid var(--line-strong);
+}
+.annotations-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+}
+.annotations-check input {
+  width: 20px;
+  height: 20px;
+}
+
+@media (max-width: 720px) {
+  .annotations-bottom {
+    left: 62px;
+    right: 6px;
+    bottom: 6px;
+  }
+  .annotations-btn:not(.is-icon) span {
+    font-size: var(--text-xs);
+  }
+  .annotations-hint {
+    display: none;
+  }
+  .annotations-select > span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+}
+.annotations-status {
+  padding: 0 6px;
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+/* SV-37: why the selected template's commands are off (cause and remedy, next to them). */
+.annotations-why {
+  flex-basis: 100%;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}

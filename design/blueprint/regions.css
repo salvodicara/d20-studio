@@ -1,0 +1,349 @@
+/* B41 — Regions, traps and behaviours. Own prefix: .regions- */
+
+/* Map shapes: one colour per kind (trap, hazard, passage, area), as Foundry v13 tints its
+   scene regions; a tinted fill under a solid rim (theme-invariant map palette, combat.css). */
+.regions-shape rect:first-of-type {
+  fill: var(--regions-fill, color-mix(in srgb, var(--map-gold) 12%, transparent));
+  stroke: var(--regions-stroke, var(--map-gold));
+  stroke-width: 3;
+}
+.regions-trap {
+  --regions-fill: color-mix(in srgb, var(--map-danger) 16%, transparent);
+  --regions-stroke: var(--map-danger);
+}
+.regions-hazard {
+  --regions-fill: color-mix(in srgb, var(--status-conditions) 22%, transparent);
+  --regions-stroke: var(--status-conditions);
+}
+.regions-passage {
+  --regions-fill: color-mix(in srgb, var(--map-info) 18%, transparent);
+  --regions-stroke: var(--map-info);
+}
+.regions-area {
+  --regions-fill: color-mix(in srgb, var(--map-gold) 10%, transparent);
+  --regions-stroke: var(--map-gold);
+}
+.regions-shape.is-hidden rect:first-of-type {
+  stroke-dasharray: 9 6;
+}
+.regions-shape.is-spent rect:first-of-type,
+.regions-shape.is-disarmed rect:first-of-type {
+  --regions-fill: color-mix(in srgb, var(--map-muted) 12%, transparent);
+  --regions-stroke: var(--map-muted);
+}
+.regions-shape.is-selected rect:first-of-type {
+  stroke: var(--token-label);
+  stroke-width: 5;
+}
+.regions-hatch {
+  fill: url(#regions-hatch-pattern);
+  stroke: none;
+}
+.regions-draft {
+  fill: color-mix(in srgb, var(--map-gold-bright) 18%, transparent);
+  stroke: var(--map-gold-bright);
+  stroke-width: 3;
+  stroke-dasharray: 6 4;
+}
+
+/* Marks above the tokens: glyph, name, and a pulse on regions with a pending event. */
+.regions-mark circle:first-child {
+  fill: var(--map-chip);
+  stroke: var(--regions-stroke, var(--map-gold));
+  stroke-width: 2;
+}
+.regions-mark text {
+  fill: var(--map-ink);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 700;
+}
+.regions-mark .regions-label,
+.regions-shape .regions-label,
+.regions-prep-map .regions-label {
+  fill: var(--map-ink);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 600;
+  paint-order: stroke;
+  stroke: var(--map-halo);
+  stroke-width: 3px;
+}
+.regions-pulse {
+  fill: none;
+  stroke: var(--map-gold-bright);
+  stroke-width: 3;
+  animation: regions-pulse 1.4s ease-out infinite;
+}
+@keyframes regions-pulse {
+  from {
+    opacity: 1;
+    r: 12px;
+  }
+  to {
+    opacity: 0;
+    r: 26px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .regions-pulse {
+    animation: none;
+  }
+}
+
+/* Creature tab panel. */
+.regions-panel {
+  display: grid;
+  gap: 0.6rem;
+}
+.regions-panel .toolbar,
+.regions-prep .toolbar {
+  flex-wrap: wrap;
+}
+/* An event or the selected region: a flat card whose whole rim carries its state (gold,
+   waiting for the DM amber, waiting for a roll blue), not a side stripe. */
+.regions-event,
+.regions-selected {
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+  background: var(--surface-2);
+}
+.regions-event[data-status="awaiting-dm"] {
+  border-color: color-mix(in srgb, var(--warning) 70%, transparent);
+  background: var(--warning-soft);
+}
+.regions-event[data-status="awaiting-roll"],
+.regions-event[data-status="awaiting-mover"] {
+  border-color: color-mix(in srgb, var(--info) 70%, transparent);
+  background: var(--info-soft);
+}
+.regions-event h4,
+.regions-selected h4,
+.regions-selected h3 {
+  margin: 0 0 0.25rem;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 600;
+}
+.regions-event h4 small,
+.regions-selected h4 small {
+  color: var(--muted);
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  font-weight: 400;
+}
+.regions-event p,
+.regions-selected p {
+  margin: 0.2rem 0;
+}
+.regions-plan {
+  overflow-wrap: anywhere;
+}
+.regions-list {
+  list-style: none;
+  margin: 0.3rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.35rem;
+}
+.regions-list li,
+.regions-recent,
+.regions-check-result,
+.regions-template {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+  overflow-wrap: anywhere;
+}
+.regions-list .button {
+  min-height: 40px;
+}
+.regions-history summary {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.regions-tools [aria-disabled="true"] {
+  opacity: 0.6;
+}
+
+/* Configuration dialog. */
+.regions-config fieldset {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  margin: 0 0 0.7rem;
+  padding: 0.5rem 0.7rem;
+  min-width: 0;
+}
+.regions-config legend {
+  padding: 0 0.3rem;
+}
+.regions-check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 40px;
+}
+.regions-check input {
+  width: 20px;
+  height: 20px;
+}
+.regions-dice {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+.regions-faces {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
+  gap: 0.5rem;
+}
+.regions-known {
+  color: var(--positive);
+}
+.regions-source {
+  font-size: var(--text-sm);
+}
+
+/* Preparation section. */
+.regions-prep-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.regions-prep-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(16rem, 2fr);
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+/* The scene preview: the same ground colour the scene base draws (preparation.mjs). */
+.regions-prep-map {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+  background: var(--map-ground);
+  touch-action: none;
+}
+.regions-prep-map:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+.regions-prep-token {
+  fill: var(--token-ally-fill);
+  stroke: var(--token-ally-ring);
+  stroke-width: 3;
+}
+.regions-prep-side {
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+  min-width: 0;
+}
+.regions-prep-side h3 {
+  margin: 0 0 0.3rem;
+}
+@media (max-width: 720px) {
+  .regions-prep-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .regions-dice {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@container table-panel (max-width: 600px) {
+  .regions-dice {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* PR-29: a found trap is a button on the map; its menu opens at the point clicked. */
+.regions-mark.is-hit {
+  cursor: pointer;
+}
+.regions-mark .regions-hit-area {
+  fill: transparent;
+  stroke: none;
+}
+.regions-mark.is-hit:hover circle:nth-child(2),
+.regions-mark.is-hit:focus-visible circle:nth-child(2) {
+  stroke: var(--token-label);
+  stroke-width: 3;
+}
+.regions-mark.is-hit:focus-visible {
+  outline: none;
+}
+.regions-hit-menu {
+  position: absolute;
+  z-index: 30;
+  display: grid;
+  gap: 4px;
+  width: min(240px, calc(100vw - 32px));
+  padding: 8px;
+  /* The core floating menu: Owlbear's context menu slab with BG3's bronze rim. */
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-md);
+  background: var(--raised);
+  box-shadow: var(--shadow-2);
+  color: var(--text);
+}
+.regions-hit-menu button {
+  min-height: 40px;
+  padding: 6px 10px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.regions-hit-menu button:hover,
+.regions-hit-menu button:focus-visible {
+  background: color-mix(in srgb, var(--raised) 88%, var(--text));
+  outline: 2px solid var(--accent-line);
+  outline-offset: -2px;
+}
+.regions-hit-menu button[aria-disabled="true"] {
+  color: var(--muted);
+}
+.regions-hit-title {
+  display: grid;
+  margin: 0 0 4px;
+  padding: 2px 4px;
+}
+.regions-hit-title small,
+.regions-hit-note {
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.regions-hit-note {
+  margin: 2px 4px;
+}
+.regions-locks {
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
+}
+.regions-lock h4 {
+  margin: 0;
+}
+.regions-conditions {
+  display: grid;
+  gap: 6px;
+}
+.regions-condition-choice {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  min-height: 40px;
+}
+.regions-condition-choice span {
+  display: grid;
+}

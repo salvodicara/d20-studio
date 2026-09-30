@@ -1,0 +1,555 @@
+/* B49 — Adventures and reusable packages. Prefix .adv-; shared tokens from styles.css.
+   Visual pass (29/09/2026, DESIGN.md): adventures as D&D Beyond's source cards (flat card,
+   serif title, meta line), the package editor as Foundry's Create Adventure sheet with a
+   preview panel, the rebuild diff in Foundry's added/removed/changed colours, notices as tinted
+   callouts (Owlbear's MUI Alert). */
+
+.adv-root [hidden] {
+  display: none !important;
+}
+.adv-root h2 {
+  margin-top: 0;
+}
+.adv-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  margin: 0 0 18px;
+  color: var(--muted);
+  font-size: 14px;
+}
+.adv-crumbs .text-button {
+  font-size: 14px;
+}
+.adv-list-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px 24px;
+  margin: 0 0 18px;
+}
+.adv-list-head p {
+  margin: 4px 0 0;
+  max-width: 720px;
+}
+.adv-list-head > .button,
+.adv-list-head > .toolbar {
+  flex-shrink: 0;
+}
+.adv-cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 16px;
+}
+.adv-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+.adv-card:hover {
+  border-color: var(--line-strong);
+}
+.adv-card:focus-within {
+  border-color: var(--accent);
+}
+.adv-card h3 {
+  margin: 0;
+}
+.adv-card p {
+  margin: 0;
+}
+/* Adventure titles in the display serif (BG3 and Solasta names). */
+.adv-card-open {
+  background: transparent;
+  border: 0;
+  padding: 6px 0;
+  min-height: 40px;
+  color: var(--text);
+  font: inherit;
+  font-family: var(--font-display);
+  font-size: 21px;
+  font-weight: 600;
+  text-align: left;
+  width: 100%;
+}
+.adv-card-open:hover {
+  color: var(--accent);
+}
+.adv-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  color: var(--muted);
+  font-size: 14px;
+}
+.adv-card-summary {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.adv-badge-update,
+.adv-update-note {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.adv-update-note {
+  display: block;
+  margin-top: 4px;
+  font-size: 13px;
+}
+.adv-badge-update {
+  align-self: flex-start;
+}
+
+/* Editor: choices on the left, live package preview on the right (Foundry Create Adventure). */
+.adv-editor {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+.adv-editor-main {
+  display: grid;
+  gap: 24px;
+  min-width: 0;
+}
+.adv-preview {
+  position: sticky;
+  top: calc(env(safe-area-inset-top, 0px) + 12px);
+  max-height: calc(100vh - 32px);
+  overflow: auto;
+}
+.adv-preview h3,
+.adv-root .panel h3 {
+  margin: 18px 0 6px;
+  color: var(--muted);
+  font-size: 16px;
+  font-family: var(--font-label);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+.adv-actions {
+  grid-column: 1 / -1;
+  justify-content: flex-end;
+}
+.adv-total {
+  margin: 0 0 8px;
+  font-weight: 600;
+}
+.adv-note {
+  font-size: 13px;
+  margin-top: 16px;
+}
+.adv-pick-group,
+.adv-types {
+  border: 0;
+  padding: 0;
+  margin: 0 0 16px;
+  min-width: 0;
+}
+.adv-pick-group legend,
+.adv-types legend {
+  padding: 0;
+  margin-bottom: 4px;
+  color: var(--accent);
+  font-size: 16px;
+  font-family: var(--font-label);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+.adv-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.adv-check input {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  accent-color: var(--accent);
+}
+.adv-check input:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+.adv-none {
+  margin: 4px 0;
+  font-size: 14px;
+}
+.adv-dep-list {
+  margin: 0;
+  padding-left: 18px;
+}
+.adv-dep-list li {
+  margin: 5px 0;
+  overflow-wrap: anywhere;
+}
+.adv-dep-auto strong {
+  font-weight: 600;
+}
+
+/* Rebuild diff: added green, removed red, changed amber (Foundry Rebuild Adventure). */
+.adv-diff-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+.adv-diff {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  overflow-wrap: anywhere;
+}
+.adv-diff-sign {
+  font-weight: 700;
+  width: 1ch;
+}
+/* Critique 29/09: the 4 px side stripe (no product reference, craft floor) becomes the whole
+   hairline in the state colour on a tint, as Foundry v13's notifications and the other state
+   callouts of this blueprint. */
+.adv-diff.is-added {
+  border-color: color-mix(in srgb, var(--positive) 55%, transparent);
+  background: var(--positive-soft);
+}
+.adv-diff.is-added .adv-diff-sign {
+  color: var(--positive);
+}
+.adv-diff.is-removed {
+  border-color: color-mix(in srgb, var(--danger) 55%, transparent);
+  background: var(--danger-soft);
+}
+.adv-diff.is-removed .adv-diff-sign {
+  color: var(--danger);
+}
+.adv-diff.is-changed {
+  border-color: var(--accent-line);
+  background: var(--accent-soft);
+}
+.adv-diff.is-changed .adv-diff-sign {
+  color: var(--accent);
+}
+
+/* Detail */
+.adv-detail-head {
+  margin-bottom: 16px;
+}
+.adv-detail-head p {
+  margin: 6px 0 0;
+}
+.adv-detail-actions {
+  margin: 0 0 24px;
+}
+.adv-detail-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(300px, 2fr);
+  gap: 24px;
+  align-items: start;
+}
+.adv-detail-side {
+  display: grid;
+  gap: 24px;
+  min-width: 0;
+}
+.adv-items .item-row,
+.adv-usage-list .item-row {
+  padding: 12px 4px;
+  flex-wrap: wrap;
+}
+.adv-usage-list .item-row > div {
+  flex: 1 1 200px;
+  min-width: 0;
+}
+.adv-versions {
+  margin: 0;
+  padding-left: 20px;
+}
+.adv-versions li,
+.adv-activity li {
+  margin: 8px 0;
+}
+.adv-activity {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* Import and update */
+.adv-import {
+  display: grid;
+  gap: 20px;
+}
+.adv-import-options {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: 8px 24px;
+  align-items: start;
+}
+.adv-import-options .field {
+  margin: 0;
+}
+.adv-plan-row > div,
+.adv-req > div {
+  min-width: 0;
+  flex: 1 1 220px;
+}
+.adv-plan-row,
+.adv-req {
+  flex-wrap: wrap;
+}
+.adv-plan-action {
+  font-weight: 600;
+}
+.adv-plan-row.is-create .adv-plan-action,
+.adv-plan-row.is-restore .adv-plan-action {
+  color: var(--positive);
+}
+.adv-plan-row.is-update .adv-plan-action,
+.adv-plan-row.is-same .adv-plan-action,
+.adv-plan-row.is-keep .adv-plan-action {
+  color: var(--accent);
+}
+.adv-plan-row.is-unavailable .adv-plan-action {
+  color: var(--danger);
+}
+.adv-copy {
+  margin-top: 4px;
+}
+.adv-warning,
+.adv-blocked,
+.adv-undo,
+.adv-report {
+  border: 1px solid color-mix(in srgb, var(--warning) 55%, transparent);
+  background: var(--warning-soft);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  margin: 0;
+}
+.adv-warning {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.adv-warning svg {
+  flex: 0 0 auto;
+  margin-top: 2px;
+}
+.adv-blocked {
+  border-color: color-mix(in srgb, var(--danger) 55%, transparent);
+  background: var(--danger-soft);
+}
+.adv-report {
+  border-color: color-mix(in srgb, var(--positive) 55%, transparent);
+  background: var(--positive-soft);
+  margin-bottom: 24px;
+}
+.adv-report h2 {
+  font-size: 21px;
+}
+.adv-undo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 16px;
+  border-color: color-mix(in srgb, var(--positive) 55%, transparent);
+  background: var(--positive-soft);
+}
+.adv-status-ready {
+  color: var(--positive);
+  border-color: var(--positive);
+}
+.adv-status-missing,
+.adv-status-outdated {
+  color: var(--danger);
+  border-color: color-mix(in srgb, var(--danger) 60%, transparent);
+}
+.adv-status-disabled {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.adv-notes ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+/* Printable export preview: the exported document itself, on white paper whatever the theme
+   (D&D Beyond's print views). */
+.adv-print-bar {
+  margin: 0 0 16px;
+}
+.adv-print-frame {
+  --adv-paper: #fff;
+  display: block;
+  width: 100%;
+  height: 70vh;
+  min-height: 420px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--adv-paper);
+}
+
+@container table-panel (max-width: 600px) {
+  .adv-editor,
+  .adv-detail-grid,
+  .adv-import-options {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 960px) {
+  .adv-editor,
+  .adv-detail-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .adv-preview {
+    position: static;
+    max-height: none;
+  }
+  .adv-import-options {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 720px) {
+  .adv-list-head {
+    flex-direction: column;
+  }
+  .adv-cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .adv-root .panel {
+    padding: 16px;
+  }
+  .adv-actions {
+    justify-content: stretch;
+  }
+  .adv-actions .button,
+  .adv-detail-actions .button {
+    flex: 1 1 auto;
+  }
+  .adv-print-frame {
+    height: 60vh;
+  }
+}
+
+.adv-root .item-list,
+.adv-root ol.item-list {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 0;
+}
+.adv-root .item-row small.adv-inline {
+  display: inline;
+  margin: 0;
+}
+.adv-warning,
+.adv-blocked,
+.adv-undo {
+  max-width: none;
+}
+
+/* BI-40/BI-44: the Universe and the document import. */
+.adv-universe {
+  margin-top: 28px;
+}
+.adv-file-button {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+.adv-file-input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.adv-file-button:focus-within {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+.adv-doc-preview {
+  max-height: 220px;
+  overflow: auto;
+  padding-inline-start: 22px;
+}
+/* BI-45: compatibility packs (mechanics only, Foundry/Shard compendium packs). */
+.adv-pack-licence {
+  color: var(--muted);
+  font-size: 13px;
+}
+.adv-pack-reqs {
+  margin: 4px 0;
+  padding-left: 18px;
+  font-size: 13px;
+}
+.adv-pack-reqs [data-status="missing"] {
+  color: var(--danger);
+}
+.adv-pack-reason {
+  margin: 6px 0 0;
+  font-size: 13px;
+}
+.adv-pack-entries {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.adv-pack-entry {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  background: var(--surface);
+}
+.adv-pack-entry h4 {
+  margin: 0 0 6px;
+}
+.adv-pack-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(110px, 100%), 1fr));
+  gap: 4px 12px;
+  margin: 0;
+}
+.adv-pack-facts div {
+  min-width: 0;
+}
+.adv-pack-facts dt {
+  font-size: 14px;
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+.adv-pack-facts dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.adv-pack-page {
+  margin: 8px 0 0;
+  font-style: italic;
+}

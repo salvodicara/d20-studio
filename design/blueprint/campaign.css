@@ -1,0 +1,672 @@
+/* Campaign pages (Kanka and World Anvil entity pages, D&D Beyond's campaign page): flat
+   cards and hairline rows on the shared tokens of styles.css (DESIGN.md §2–4); menus are the
+   core menu slab, secrets the DM-only violet of the visibility tokens. */
+.campaign-page {
+  max-width: 1240px;
+  margin-inline: auto;
+}
+.campaign-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-block: 20px 28px;
+}
+.campaign-heading p {
+  margin-bottom: 0;
+}
+.campaign-heading h1,
+.campaign-row h3,
+.campaign-readable h2 {
+  overflow-wrap: anywhere;
+}
+.campaign-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-block: 16px 24px;
+}
+.campaign-hub {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(260px, 0.8fr);
+  gap: 36px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 32px;
+}
+.campaign-hub > section {
+  min-width: 0;
+}
+.campaign-hub h2 {
+  margin-block: 0 14px;
+}
+.campaign-next {
+  padding-left: 28px;
+  border-left: 1px solid var(--line);
+}
+.campaign-next time {
+  font-size: var(--text-lg);
+  font-variant-numeric: tabular-nums;
+}
+.campaign-search {
+  display: flex;
+  align-items: end;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-block: 20px 26px;
+}
+.campaign-search > .field:first-child {
+  flex: 1 1 240px;
+}
+.campaign-search > .field {
+  flex: 0 1 190px;
+}
+.campaign-page .field {
+  min-width: 0;
+  margin: 0;
+}
+.campaign-page .field input,
+.campaign-page .field textarea,
+.campaign-page .field select {
+  width: 100%;
+  min-width: 0;
+}
+.campaign-page textarea {
+  min-height: 160px;
+  resize: vertical;
+}
+.campaign-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  padding-block: 19px;
+  border-bottom: 1px solid var(--line);
+}
+.campaign-row > div {
+  min-width: 0;
+}
+.campaign-row h3 {
+  margin-bottom: 7px;
+}
+.campaign-row p {
+  margin-bottom: 5px;
+}
+.campaign-row .button {
+  flex-shrink: 0;
+}
+.campaign-meta {
+  color: var(--muted);
+  font-size: var(--text-sm);
+  overflow-wrap: anywhere;
+}
+.campaign-empty {
+  max-width: 65ch;
+  padding-block: 30px;
+}
+.campaign-readable {
+  max-width: 72ch;
+}
+.campaign-prose {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.campaign-links {
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+  margin-top: 30px;
+}
+.campaign-links ul {
+  padding-left: 22px;
+}
+.campaign-links li {
+  padding-block: 5px;
+}
+.campaign-editor-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.8fr);
+  gap: 32px;
+  align-items: start;
+}
+.campaign-editor,
+.campaign-preview {
+  min-width: 0;
+}
+.campaign-form {
+  display: grid;
+  gap: 20px;
+}
+.campaign-page fieldset {
+  min-width: 0;
+  padding: 18px;
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.campaign-page legend {
+  padding-inline: 6px;
+  font-weight: 600;
+}
+.campaign-form fieldset .field + .field {
+  margin-top: 16px;
+}
+.campaign-page details {
+  padding-block: 14px;
+  border-bottom: 1px solid var(--line);
+}
+.campaign-page summary {
+  padding-block: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.campaign-page details > :not(summary) {
+  margin-top: 14px;
+}
+.campaign-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+}
+.campaign-check input {
+  width: 18px;
+  height: 18px;
+  min-height: 18px;
+  flex: 0 0 18px;
+}
+.campaign-access-person {
+  display: grid;
+  grid-template-columns: minmax(80px, 1fr) minmax(130px, 1fr);
+  align-items: center;
+  gap: 10px;
+  padding-block: 12px;
+  border-bottom: 1px solid var(--line);
+}
+.campaign-access-person .campaign-check {
+  grid-column: 1 / -1;
+}
+.campaign-preview {
+  border-left: 1px solid var(--line);
+  padding-left: 26px;
+}
+.campaign-preview h2 {
+  margin-block: 0 14px;
+}
+.campaign-notice {
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow-wrap: anywhere;
+}
+.campaign-issues {
+  padding-left: 22px;
+}
+.campaign-savebar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 24px;
+  padding-block: 16px;
+  border-top: 1px solid var(--line);
+}
+.campaign-date-fields {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 16px;
+}
+.campaign-session {
+  padding-block: 24px;
+  border-bottom: 1px solid var(--line);
+}
+.campaign-session h2 {
+  margin-bottom: 10px;
+}
+.campaign-poll-slot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-block: 16px;
+  border-bottom: 1px solid var(--line);
+}
+.campaign-poll-slot .field {
+  flex: 0 1 220px;
+}
+.campaign-poll-slot time {
+  font-variant-numeric: tabular-nums;
+}
+.campaign-history-row {
+  padding-block: 18px;
+  border-bottom: 1px solid var(--line);
+}
+@media (max-width: 900px) {
+  .campaign-editor-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+  .campaign-preview {
+    padding: 24px 0 0;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+}
+@media (max-width: 640px) {
+  .campaign-heading,
+  .campaign-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .campaign-hub,
+  .campaign-date-fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .campaign-next {
+    padding: 24px 0 0;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+  .campaign-search > .field,
+  .campaign-search > .field:first-child {
+    flex: 1 1 100%;
+  }
+  .campaign-savebar .button {
+    flex: 1 1 150px;
+  }
+  .campaign-poll-slot {
+    align-items: stretch;
+  }
+  .campaign-poll-slot .field {
+    flex-basis: 100%;
+  }
+}
+
+/* ---- P9: one journal engine for Journal, World and notes ---- */
+.campaign-page .jp-link {
+  display: inline;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  min-height: 0;
+}
+.campaign-page .jp-link.jp-missing {
+  color: var(--danger);
+  text-decoration-style: dashed;
+}
+/* «Nuova voce del mondo» with its typed choices (Monk's typed pages). */
+.campaign-page .campaign-new-menu {
+  position: relative;
+  padding: 0;
+  border: 0;
+}
+.campaign-page .campaign-new-menu > summary.button {
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  padding-block: 0;
+}
+.campaign-new-menu > summary::-webkit-details-marker {
+  display: none;
+}
+/* Menus: the core menu slab (DESIGN.md §3; Owlbear and Foundry context menus), a raised
+   plate with a bronze hairline and the floating shadow, one full-width row per command. */
+.campaign-new-list {
+  position: absolute;
+  z-index: 20;
+  right: 0;
+  display: grid;
+  min-width: 220px;
+  padding: 6px;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius);
+  background: var(--raised);
+  box-shadow: var(--shadow-2);
+}
+.campaign-page .campaign-new-menu > .campaign-new-list {
+  margin-top: 6px;
+}
+.campaign-new-list .button,
+.campaign-more-menu .button,
+.campaign-context-menu .button {
+  justify-content: flex-start;
+  width: 100%;
+  text-align: left;
+  border-color: transparent;
+  background: transparent;
+}
+:is(.campaign-new-list, .campaign-more-menu, .campaign-context-menu) .button:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--raised) 86%, var(--text));
+  border-color: transparent;
+}
+:is(.campaign-new-list, .campaign-more-menu, .campaign-context-menu) .button.danger {
+  color: var(--danger);
+}
+:is(.campaign-new-list, .campaign-more-menu, .campaign-context-menu)
+  .button.danger:hover:not(:disabled) {
+  background: var(--danger-strong);
+  color: var(--danger-ink);
+}
+.campaign-page .campaign-more {
+  position: relative;
+  padding: 0;
+  border: 0;
+}
+.campaign-page .campaign-more > summary {
+  list-style: none;
+  padding-block: 0;
+  display: inline-flex;
+  align-items: center;
+}
+.campaign-more > summary::-webkit-details-marker {
+  display: none;
+}
+.campaign-more-menu {
+  position: absolute;
+  z-index: 20;
+  right: 0;
+  display: grid;
+  min-width: 230px;
+  padding: 6px;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius);
+  background: var(--raised);
+  box-shadow: var(--shadow-2);
+}
+.campaign-page .campaign-more > .campaign-more-menu {
+  margin-top: 6px;
+}
+.campaign-context-menu {
+  position: fixed;
+  z-index: 900;
+  display: grid;
+  min-width: 210px;
+  padding: 6px;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius);
+  background: var(--raised);
+  color: var(--text);
+  box-shadow: var(--shadow-2);
+}
+.campaign-row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.campaign-hint {
+  margin-top: 12px;
+}
+.campaign-views {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-block: -8px 18px;
+}
+.campaign-views .button.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+/* Secret blocks (LegendKeeper /secret, Foundry secret blocks). */
+.campaign-section-block {
+  margin-top: 22px;
+}
+.campaign-section-block.is-secret {
+  padding: 14px 16px;
+  border: 1px dashed var(--vis-dm);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--vis-dm) 10%, transparent);
+}
+/* DM-only marks in the visibility violet (DESIGN.md: Roll20 Jumpgate's GM tones), always
+   with the eye icon and the words. */
+.campaign-secret-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 6px;
+  color: var(--vis-dm);
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+.campaign-secret-tag .icon {
+  width: 16px;
+  height: 16px;
+}
+.campaign-secret-tag.is-revealed {
+  color: var(--positive);
+}
+.campaign-secret-edit {
+  border-style: dashed !important;
+  border-color: var(--vis-dm) !important;
+}
+.campaign-task {
+  display: flex;
+  min-height: 36px;
+  white-space: normal;
+}
+.campaign-task.is-done > span {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+.campaign-writing-tools {
+  margin-block: -8px 0;
+}
+.campaign-template-row {
+  align-items: end;
+  margin-block: 0;
+}
+.campaign-template-row .field {
+  flex: 1 1 220px;
+}
+.campaign-status {
+  color: var(--muted);
+}
+/* Inline notices: Foundry v13's tinted notifications, a soft fill of the state colour with a
+   hairline of the same hue (no thick side bar). */
+.campaign-apply-reason {
+  margin: 4px 0 0;
+  padding: 10px 12px;
+  border: 1px solid var(--accent-line);
+  background: var(--accent-soft);
+  border-radius: var(--radius-sm);
+}
+.campaign-apply-reason.error {
+  border-color: color-mix(in srgb, var(--danger) 60%, transparent);
+  background: var(--danger-soft);
+}
+.campaign-editor-layout.is-note .campaign-preview summary h2 {
+  display: inline;
+  font-size: var(--text-md);
+}
+/* History with changes (Kanka «View changes»). */
+.campaign-history-list {
+  margin: 0;
+  padding-left: 20px;
+}
+/* The current version as Kanka's open row: a lit row, not a side bar. */
+.campaign-history-row.is-current {
+  padding-inline: 10px;
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+}
+.campaign-diff {
+  max-height: 260px;
+  overflow: auto;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--sunken);
+  white-space: pre-wrap;
+  font-size: var(--text-sm);
+}
+.campaign-diff .diff-add {
+  color: var(--positive);
+}
+.campaign-diff .diff-del {
+  color: var(--danger);
+  text-decoration: line-through;
+}
+.campaign-diff .diff-same {
+  color: var(--muted);
+}
+/* @ and [[ suggestions (Kanka @mentions). */
+.jp-suggest {
+  position: relative;
+  z-index: 30;
+  margin: 4px 0 0;
+  padding: 4px;
+  max-height: 260px;
+  overflow: auto;
+  list-style: none;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-sm);
+  background: var(--raised);
+  box-shadow: var(--shadow-2);
+}
+.jp-suggest-option {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 40px;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+}
+.jp-suggest-option small {
+  color: var(--muted);
+}
+.jp-suggest-option:hover {
+  background: color-mix(in srgb, var(--raised) 86%, var(--text));
+}
+.jp-suggest-option[aria-selected="true"] {
+  background: var(--accent-soft);
+  outline: 1px solid var(--accent-line);
+}
+.jp-quote {
+  margin: 8px 0;
+  padding: 8px 12px;
+  border-left: 2px solid var(--line-strong);
+  white-space: pre-wrap;
+  color: var(--muted);
+}
+.jp-entry-tabs {
+  margin-bottom: 8px;
+}
+@media (max-width: 640px) {
+  .campaign-row-actions .button {
+    flex: 1 1 120px;
+  }
+  .campaign-new-list,
+  .campaign-more-menu {
+    position: static;
+    min-width: 0;
+  }
+}
+/* Availability overlap (Rallly totals, when2meet heatmap; CA-43). */
+.campaign-poll-grid-wrap {
+  overflow-x: auto;
+  margin-block: 12px 6px;
+}
+.campaign-poll-grid {
+  border-collapse: separate;
+  border-spacing: 3px;
+  min-width: 100%;
+}
+.campaign-poll-grid caption {
+  text-align: left;
+  font-weight: 600;
+  padding-bottom: 6px;
+}
+.campaign-poll-grid th,
+.campaign-poll-grid td {
+  padding: 8px 10px;
+  text-align: center;
+  white-space: nowrap;
+  border-radius: var(--radius-xs);
+}
+.campaign-poll-grid th[scope="row"] {
+  text-align: left;
+  font-weight: 500;
+}
+.campaign-poll-grid thead th {
+  color: var(--muted);
+  vertical-align: bottom;
+}
+.campaign-poll-grid thead th.is-best,
+.campaign-poll-grid tfoot td.is-best {
+  color: var(--accent);
+}
+.campaign-poll-grid thead th .badge {
+  display: block;
+  margin: 4px auto 0;
+  width: max-content;
+}
+/* Availability heat map (when2meet, Rallly): state colours of the palette, the words and
+   numbers stay in every cell. */
+.poll-cell {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.poll-cell.is-yes {
+  background: color-mix(in srgb, var(--positive) 38%, transparent);
+}
+.poll-cell.is-maybe {
+  background: color-mix(in srgb, var(--accent) 34%, transparent);
+}
+.poll-cell.is-no {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+.poll-cell.is-none {
+  background: var(--surface);
+  color: var(--muted);
+}
+.poll-cell.is-best {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+.campaign-best {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.campaign-poll-slot.is-best {
+  padding-inline: 12px;
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+}
+.campaign-best-line {
+  margin: 0 0 4px;
+}
+.campaign-autodraft {
+  margin-block: 0;
+}
+.campaign-field-hint {
+  margin: -12px 0 0;
+}
+
+/* R8 H-05: an entry or Archive page veiled by the viewer's content filter keeps room for its
+   cover («Sfumata dal tuo filtro» and «Mostra»), however short the text under it. */
+[data-jp-filter].is-veiled {
+  min-height: 10rem;
+  margin-block: 8px;
+}
+[data-jp-filter]:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 4px;
+}
+.campaign-veiled {
+  font-style: italic;
+}

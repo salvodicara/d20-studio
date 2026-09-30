@@ -1,0 +1,847 @@
+/* B43 — quests, archive, reputation and relations. Prefix: .jp- (registered by quests.mjs).
+   Tokens of styles.css (DESIGN.md): BG3's journal for the quest log (list and detail, serif
+   titles), Kanka's entity pages and open rows for the archive, Foundry secret blocks in the
+   DM-only violet of the visibility tokens, Foundry dnd5e pills for statuses and tiers. */
+
+.jp-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.jp-heading h1 {
+  margin-bottom: 6px;
+}
+.jp-subnav button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.jp-subnav .icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* Inline links inside prose (WCAG inline-target exception); standalone ones get 40px. */
+.jp-link {
+  display: inline;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+  text-align: left;
+}
+.jp-link.jp-missing {
+  color: var(--danger);
+  text-decoration-style: dashed;
+}
+.jp-breadcrumb .jp-link,
+.jp-table .jp-link,
+.jp-standing-who .jp-link,
+.jp-relation .jp-link,
+.jp-tracker-title,
+.jp-reputation th .jp-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+}
+
+/* Archive layout: index on the left, tabbed reader on the right (Monk's Enhanced Journal). */
+.jp-layout {
+  display: grid;
+  grid-template-columns: minmax(230px, 290px) minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+}
+.jp-directory {
+  position: sticky;
+  top: 12px;
+  padding: 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.jp-directory > summary {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+  cursor: pointer;
+}
+.jp-dir-tools {
+  display: grid;
+  gap: 10px;
+  margin-block: 10px 12px;
+}
+.jp-dir-tools .field {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+}
+.jp-dir-list,
+.jp-quest-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 62vh;
+  overflow: auto;
+}
+/* Index rows as Kanka's sidebar: the open entry is a filled row in the theme colour (the
+   BG3 journal lights the chosen quest the same way), no side bar. */
+.jp-dir-item,
+.jp-quest-item {
+  display: grid;
+  gap: 2px;
+  width: 100%;
+  min-height: 44px;
+  padding: 7px 10px 7px calc(13px + var(--depth, 0) * 16px);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+.jp-dir-item:hover,
+.jp-quest-item:hover {
+  background: var(--raised);
+}
+.jp-dir-item.active,
+.jp-quest-item.active {
+  background: var(--raised);
+  color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent-line);
+}
+.jp-dir-title {
+  overflow-wrap: anywhere;
+}
+.jp-dir-meta {
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+.jp-dir-heading {
+  margin: 12px 10px 4px;
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+.jp-reader {
+  min-width: 0;
+}
+.jp-tabbar {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  border-bottom: 1px solid var(--line);
+}
+.jp-tabbar > .icon-button {
+  flex: 0 0 auto;
+  margin-bottom: 4px;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-sm);
+  background: var(--raised);
+  color: var(--text);
+  place-items: center;
+}
+.jp-tabbar > .icon-button:disabled {
+  opacity: 0.4;
+}
+.jp-flip .icon {
+  transform: scaleX(-1);
+}
+.jp-tabs {
+  display: flex;
+  flex: 1 1 auto;
+  gap: 4px;
+  min-width: 0;
+  overflow-x: auto;
+}
+/* Reader tabs (Monk's Enhanced Journal): a row of document tabs; the open one sits on the
+   page surface with the theme colour on its rim and label. */
+.jp-tab {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  max-width: 240px;
+  border: 1px solid var(--line);
+  border-bottom: 0;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  background: var(--surface-2);
+}
+.jp-tab.active {
+  border-color: var(--accent-line);
+  background: var(--surface);
+  box-shadow: inset 0 2px 0 var(--accent);
+}
+.jp-tab-main {
+  min-height: 40px;
+  min-width: 0;
+  padding: 0 4px 0 12px;
+  overflow: hidden;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.jp-tab.active .jp-tab-main {
+  color: var(--accent);
+}
+.jp-tab-close {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--muted);
+}
+.jp-tab-close:hover {
+  color: var(--text);
+  background: var(--raised);
+}
+.jp-tab-close .icon {
+  width: 14px;
+  height: 14px;
+}
+.jp-bookmarks {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  padding-block: 6px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 18px;
+}
+.jp-bookmarks-label {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+
+/* Page reader */
+.jp-page,
+.jp-quest {
+  min-width: 0;
+}
+.jp-page-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px 20px;
+  margin-bottom: 14px;
+}
+.jp-page-head h2 {
+  margin: 4px 0 6px;
+  font-size: var(--text-2xl);
+  overflow-wrap: anywhere;
+}
+.jp-page-head > div:first-child {
+  min-width: 0;
+}
+.jp-page-actions,
+.jp-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.jp-kicker {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.jp-breadcrumb {
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.jp-props {
+  margin: 0 0 18px;
+  border-top: 1px solid var(--line);
+}
+.jp-prop {
+  display: grid;
+  grid-template-columns: minmax(120px, 32%) minmax(0, 1fr);
+  gap: 12px;
+  padding-block: 9px;
+  border-bottom: 1px solid var(--line);
+}
+/* Properties as Kanka's attributes and D&D Beyond's labels: condensed small caps. */
+.jp-prop dt {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+.jp-prop dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.jp-prop-secret {
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--vis-dm) 12%, transparent),
+    transparent 60%
+  );
+}
+.jp-blocks {
+  display: grid;
+  gap: 12px;
+  max-width: 76ch;
+}
+.jp-block p:last-child {
+  margin-bottom: 0;
+}
+.jp-block-tag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 6px;
+  color: var(--accent);
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+.jp-block-tag .icon {
+  width: 15px;
+  height: 15px;
+}
+/* Secret blocks (Foundry secret sections, LegendKeeper /secret): DM-only in the visibility
+   violet with a dashed rim; once revealed, a solid positive rim. */
+.jp-secret {
+  padding: 14px;
+  border: 1px dashed var(--vis-dm);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--vis-dm) 8%, transparent);
+}
+.jp-secret .jp-block-tag {
+  color: var(--vis-dm);
+}
+.jp-secret.is-revealed {
+  border-style: solid;
+  border-color: color-mix(in srgb, var(--positive) 60%, transparent);
+  background: var(--positive-soft);
+}
+.jp-secret.is-revealed .jp-block-tag,
+.jp-revealed .jp-block-tag {
+  color: var(--positive);
+}
+.jp-revealed {
+  padding: 10px 12px;
+  border: 1px solid color-mix(in srgb, var(--positive) 60%, transparent);
+  border-radius: var(--radius-sm);
+  background: var(--positive-soft);
+}
+.jp-block-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+.jp-panel {
+  margin-top: 26px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  min-width: 0;
+}
+.jp-panel h3 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0 0 12px;
+}
+.jp-backlinks,
+.jp-standing-list,
+.jp-relation-list,
+.jp-reward-list,
+.jp-update-list,
+.jp-history {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.jp-backlinks > li,
+.jp-reward-list > li,
+.jp-update-list > li,
+.jp-relation-list > li,
+.jp-standing-list > li,
+.jp-history > li {
+  padding-block: 10px;
+  border-bottom: 1px solid var(--line);
+}
+.jp-backlinks p,
+.jp-update-list p,
+.jp-history p,
+.jp-reward-list p {
+  margin: 0 0 4px;
+}
+.jp-toggle {
+  margin-bottom: 6px;
+}
+.jp-note textarea,
+.jp-dm-notes textarea {
+  width: 100%;
+  min-height: 84px;
+}
+
+/* Status and reputation markers: Foundry dnd5e pills tinted by meaning, rim a 60 % mix. */
+.jp-status-active {
+  border-color: var(--accent-line);
+  color: var(--accent);
+}
+.jp-status-completed {
+  border-color: color-mix(in srgb, var(--positive) 60%, transparent);
+  color: var(--positive);
+}
+.jp-status-failed {
+  border-color: color-mix(in srgb, var(--danger) 60%, transparent);
+  color: var(--danger);
+}
+.jp-status-hidden {
+  border-style: dashed;
+  border-color: var(--vis-hidden);
+  color: var(--muted);
+}
+.jp-important {
+  border-color: var(--accent-line);
+  color: var(--accent);
+}
+.jp-secret-tag {
+  border-color: var(--vis-dm);
+  border-style: dashed;
+  color: var(--vis-dm);
+}
+.jp-tier {
+  display: inline-flex;
+  padding: 2px 9px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  font-size: var(--text-sm);
+}
+.jp-tier-hostile {
+  border-color: color-mix(in srgb, var(--danger) 60%, transparent);
+  color: var(--danger);
+}
+.jp-tier-wary {
+  border-color: color-mix(in srgb, var(--warning) 60%, transparent);
+  color: var(--warning);
+}
+.jp-tier-neutral,
+.jp-tier-indifferent {
+  color: var(--muted);
+}
+.jp-tier-trusted,
+.jp-tier-friendly {
+  border-color: color-mix(in srgb, var(--positive) 60%, transparent);
+  color: var(--positive);
+}
+.jp-tier-allied {
+  border-color: var(--accent-line);
+  color: var(--accent);
+}
+.jp-standing-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+}
+.jp-standing-head p {
+  margin: 0;
+}
+.jp-standing-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.jp-source {
+  display: inline-block;
+  font-size: var(--text-xs);
+}
+.jp-history-box summary,
+.jp-add > summary,
+.jp-add-relation > summary {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: var(--muted);
+}
+/* A secret row: the dashed DM-only box of the secret blocks. */
+.jp-relation.is-secret {
+  margin-block: 6px;
+  padding-inline: 12px;
+  border: 1px dashed var(--vis-dm);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--vis-dm) 8%, transparent);
+}
+.jp-relation p {
+  margin: 0;
+}
+
+/* Forms */
+.jp-inline-form,
+.jp-relation-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 10px 14px;
+  margin-top: 12px;
+}
+.jp-inline-form .field,
+.jp-relation-form .field {
+  flex: 1 1 200px;
+  margin: 0;
+}
+.jp-inline-form textarea {
+  min-height: 60px;
+}
+.jp-inline-field {
+  display: inline-grid;
+  gap: 4px;
+  margin: 0;
+}
+.jp-inline-field select {
+  min-height: 42px;
+}
+.jp-recipients {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 8px 14px;
+  margin: 0;
+}
+.jp-recipient-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 16px;
+  width: 100%;
+  padding-left: 12px;
+  border-left: 1px solid var(--line-strong);
+}
+.jp-editor {
+  display: grid;
+  gap: 18px;
+}
+.jp-editor h2 {
+  margin: 0;
+}
+.jp-edit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 14px;
+}
+.jp-edit-grid .field,
+.jp-edit-block .field,
+.jp-edit-prop .field {
+  margin: 0;
+}
+.jp-edit-section h3 {
+  margin: 6px 0 10px;
+}
+.jp-edit-block {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 12px !important;
+}
+.jp-edit-block textarea {
+  width: 100%;
+  min-height: 110px;
+}
+.jp-edit-prop {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) auto auto;
+  align-items: end;
+  gap: 10px;
+  padding-block: 8px;
+  border-bottom: 1px solid var(--line);
+}
+.jp-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding-left: 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+}
+.jp-savebar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Views (Obsidian Bases) */
+.jp-views h2,
+.jp-log-page > h2 {
+  margin: 8px 0 12px;
+}
+.jp-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  margin-bottom: 14px;
+}
+.jp-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.jp-table caption {
+  padding: 10px 12px;
+  text-align: left;
+  color: var(--muted);
+}
+.jp-table th,
+.jp-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: middle;
+}
+.jp-table thead th {
+  color: var(--muted);
+}
+.jp-table select {
+  min-height: 40px;
+}
+.jp-cell-button {
+  min-height: 40px;
+  padding: 6px 10px;
+}
+.jp-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+  list-style: none;
+  padding: 0;
+}
+.jp-card {
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.jp-card h3 {
+  margin: 0 0 8px;
+}
+.jp-card p {
+  margin: 0 0 4px;
+}
+
+/* Quest log (Forien's Quest Log + BG3 journal) */
+.jp-log {
+  display: grid;
+  grid-template-columns: minmax(230px, 300px) minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+}
+.jp-log > .campaign-empty {
+  grid-column: 1;
+}
+.jp-quest-list {
+  padding: 8px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.jp-quest-detail {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  min-width: 0;
+}
+.jp-status-actions {
+  margin-block: 14px 4px;
+}
+.jp-objective-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.jp-objective-list .jp-objective-list {
+  padding-left: 28px;
+}
+.jp-objective-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px 10px;
+}
+.jp-objective-check,
+.jp-objective-text {
+  flex: 1 1 240px;
+  margin: 0;
+}
+.jp-objective-text {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+}
+.jp-mark {
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-xs);
+  background: var(--sunken);
+  color: var(--positive);
+}
+.jp-mark .icon {
+  width: 16px;
+  height: 16px;
+}
+.jp-objective.is-done > .jp-objective-row span:not(.jp-mark):not(.badge),
+.jp-objective.is-done > .jp-objective-text {
+  color: var(--muted);
+}
+/* An objective hidden from the players: the dashed rim of the hidden state. */
+.jp-objective.is-hidden > .jp-objective-row {
+  padding-inline: 8px;
+  border: 1px dashed var(--vis-hidden);
+  border-radius: var(--radius-sm);
+}
+.jp-objective-tools {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+.jp-reward.is-secret {
+  margin-block: 6px;
+  padding-inline: 12px;
+  border: 1px dashed var(--vis-dm);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--vis-dm) 8%, transparent);
+}
+
+/* Table tab (quest tracker) and sheet box */
+.jp-tracker-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+.jp-tracker-head h3 {
+  margin: 0;
+}
+.jp-tracker-quest {
+  padding-block: 10px;
+  border-bottom: 1px solid var(--line);
+}
+.jp-tracker-quest > p {
+  margin: 0 0 4px;
+}
+.jp-tracker .jp-objective.is-sub {
+  padding-left: 22px;
+}
+.jp-sheet-box {
+  margin-top: 20px;
+}
+.jp-sheet-box h2 {
+  margin-top: 0;
+}
+.jp-entry-panel .campaign-meta {
+  display: inline;
+}
+
+@media (max-width: 900px) {
+  .jp-layout,
+  .jp-log {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .jp-directory {
+    position: static;
+  }
+  .jp-quest-detail {
+    grid-column: 1;
+    grid-row: auto;
+  }
+  .jp-dir-list,
+  .jp-quest-list {
+    max-height: 40vh;
+  }
+}
+@media (max-width: 560px) {
+  .jp-prop {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
+  }
+  .jp-edit-prop {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .jp-edit-prop .field {
+    grid-column: 1 / -1;
+  }
+  .jp-page-head h2 {
+    font-size: var(--text-xl);
+  }
+  .jp-tab {
+    max-width: 170px;
+  }
+}
+@container table-panel (max-width: 600px) {
+  .jp-tracker-head {
+    align-items: flex-start;
+  }
+}
+
+/* campaign.css draws a rule under every details element; these boxes sit inside rows. */
+.campaign-page .jp-history-box,
+.campaign-page .jp-add,
+.campaign-page .jp-add-relation {
+  padding-block: 0;
+  border-bottom: 0;
+}
+.campaign-page .jp-history-box > :not(summary),
+.campaign-page .jp-add > :not(summary),
+.campaign-page .jp-add-relation > :not(summary) {
+  margin-top: 4px;
+}
+/* The panel's own rule separates the last row; avoid stacked lines. */
+.jp-backlinks > li:last-child,
+.jp-standing-list > li:last-child,
+.jp-relation-list > li:last-child,
+.jp-history > li:last-child,
+.jp-reward-list > li:last-child,
+.jp-update-list > li:last-child {
+  border-bottom: 0;
+}
+.jp-relation .campaign-toolbar,
+.jp-reward .campaign-toolbar,
+.jp-backlinks .campaign-toolbar {
+  margin-block: 8px 0;
+}

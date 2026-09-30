@@ -1,0 +1,1210 @@
+/* B34 dice tray: the Table's "Dadi" tab, the sheet's "Tiri" section, journal roll cards,
+   the roll menu and 2D dice. Every class is prefixed dtray-. The tab content works in the
+   300–420 px sidebar column and on a 390 px phone (container table-panel). */
+
+.dtray {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+.dtray .visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+/* Tray sections: D&D Beyond's section tabs (the core .tabs) — condensed small capitals, the
+   open one in the theme colour over a 2 px underline. */
+.dtray-sections {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--line);
+}
+.dtray-section {
+  flex: 1 1 0;
+  min-height: 40px;
+  padding: 6px 8px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  font-variant-caps: all-small-caps;
+  white-space: nowrap;
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+.dtray-section:hover {
+  color: var(--text);
+  border-bottom-color: var(--line-strong);
+}
+.dtray-section.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+.dtray-section:focus-visible,
+.dtray-num button:focus-visible,
+.dtray-die-button:focus-visible,
+.dtray-chip:focus-visible,
+.dtray-menu-item:focus-visible,
+.dtray-seg input:focus-visible + span {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+.dtray-count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: var(--text-xs);
+  font-variant-caps: normal;
+  font-variant-numeric: tabular-nums;
+}
+.dtray-panel {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+/* Group headings: D&D Beyond's condensed small-capital labels. */
+.dtray-subhead {
+  margin: 4px 0 6px;
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--label-tracking);
+}
+.dtray-hint {
+  margin: 0;
+  font-size: var(--text-sm);
+}
+.dtray-form {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+.dtray-form .field,
+.dtray-request-form .field {
+  margin: 0;
+}
+.dtray-who {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 8px 14px;
+}
+.dtray-who .field {
+  flex: 1 1 180px;
+}
+/* The formula in the interface sans with aligned figures (D&D Beyond's custom roll). */
+.dtray-formula input {
+  font-family: var(--font-ui);
+  font-size: var(--text-lg);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+.dtray-formula input[aria-invalid="true"] {
+  border-color: var(--danger);
+}
+.dtray-dice {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+/* Dice picker: D&D Beyond's dice roller keys in the core button's material. */
+.dtray-die-button {
+  min-width: 44px;
+  min-height: 40px;
+  padding: 4px 8px;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-sm);
+  background: var(--raised);
+  color: var(--text);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  transition:
+    border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+.dtray-die-button:hover {
+  border-color: var(--accent-line);
+  color: var(--accent);
+}
+.dtray-clear {
+  display: inline-grid;
+  place-items: center;
+}
+.dtray-fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.dtray-fieldset legend {
+  margin-bottom: 4px;
+  padding: 0;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.dtray-segmented {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.dtray-seg {
+  position: relative;
+  display: inline-flex;
+}
+.dtray-seg input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  margin: 0;
+  cursor: pointer;
+}
+/* Normal · Advantage · Disadvantage: D&D Beyond's filter pills, the chosen one filled. */
+.dtray-seg span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 6px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--text);
+  font-size: var(--text-md);
+}
+.dtray-seg input:checked + span {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+.dtray-seg input:disabled + span {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.dtray-details {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 0 12px;
+}
+.dtray-details > summary {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 600;
+}
+.dtray-details[open] {
+  padding-bottom: 12px;
+}
+.dtray-grid {
+  gap: 10px 12px;
+}
+.dtray-faces {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px dashed var(--accent-line);
+  border-radius: var(--radius-sm);
+}
+.dtray-faces legend {
+  padding: 0 4px;
+  color: var(--accent);
+  font-size: var(--text-sm);
+}
+.dtray-face,
+.dtray-small {
+  flex: 0 1 110px;
+  min-width: 90px;
+}
+.dtray-inline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 8px;
+}
+.dtray-roll-row {
+  display: flex;
+  gap: 6px;
+}
+.dtray-roll {
+  flex: 1 1 auto;
+  min-height: 48px;
+  justify-content: center;
+  font-size: var(--text-lg);
+}
+.dtray-roll[data-invalid="true"] {
+  opacity: 0.6;
+}
+.dtray-roll-more,
+.dtray-num-more {
+  min-width: 44px;
+  min-height: 40px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+.dtray-error,
+.dtray-formula-error {
+  margin: 0;
+}
+
+/* Modifier stack (Fantasy Grounds) */
+.dtray-stack {
+  display: grid;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+}
+.dtray-stack .dtray-subhead {
+  margin: 0;
+}
+.dtray-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dtray-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 4px 12px;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-pill);
+  background: var(--accent-soft);
+  color: var(--text);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.dtray-empty-chip {
+  font-size: var(--text-sm);
+}
+.dtray-stack-total {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  margin: 0;
+}
+.dtray-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.dtray-preset {
+  min-height: 40px;
+}
+
+/* Result card and 2D dice (Shard, VTL-157): Foundry's chat roll card — a framed card with
+   the total in large display figures; the outcome tints the whole rim, not a side stripe. */
+.dtray-result {
+  display: grid;
+  gap: 6px;
+  padding: 12px 14px;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-md);
+  background: var(--surface-2);
+}
+.dtray-result[data-tone="success"] {
+  border-color: color-mix(in srgb, var(--positive) 60%, transparent);
+}
+.dtray-result[data-tone="failure"] {
+  border-color: color-mix(in srgb, var(--danger) 60%, transparent);
+}
+.dtray-result p {
+  margin: 0;
+}
+.dtray-result-main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+}
+.dtray-result-title {
+  flex: 1 1 100%;
+  font-weight: 600;
+}
+.dtray-total {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 600;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.dtray-verdict {
+  font-weight: 700;
+}
+.dtray-result[data-tone="success"] .dtray-verdict {
+  color: var(--positive);
+}
+.dtray-result[data-tone="failure"] .dtray-verdict {
+  color: var(--danger);
+}
+.dtray-breakdown {
+  font-size: var(--text-md);
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.dtray-meta {
+  font-size: var(--text-sm);
+}
+.dtray-waiting {
+  border-style: dashed;
+}
+.dtray-2d {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 46px;
+}
+.dtray-die {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 800;
+  font-size: var(--text-md);
+  font-variant-numeric: tabular-nums;
+  clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%);
+}
+.dtray-die span {
+  transform: translateY(1px);
+}
+.dtray-d4 {
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+.dtray-d4 span {
+  transform: translateY(8px);
+}
+.dtray-d6 {
+  clip-path: inset(3px round 7px);
+}
+.dtray-d8 {
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+}
+.dtray-d10,
+.dtray-d100 {
+  clip-path: polygon(50% 0, 100% 42%, 50% 100%, 0 42%);
+}
+.dtray-d12 {
+  clip-path: polygon(50% 0, 100% 38%, 82% 100%, 18% 100%, 0 38%);
+}
+.dtray-die.is-dropped {
+  background: var(--raised);
+  color: var(--muted);
+  text-decoration: line-through;
+}
+.dtray-die.is-rerolled {
+  background: var(--accent-strong);
+}
+.dtray-die.is-rolling {
+  animation: dtray-tumble 760ms cubic-bezier(0.2, 0.8, 0.3, 1.1) both;
+  animation-delay: calc(var(--dtray-i, 0) * 70ms);
+}
+@keyframes dtray-tumble {
+  0% {
+    transform: translate(-60px, -18px) rotate(-320deg) scale(0.55);
+    opacity: 0;
+  }
+  55% {
+    transform: translate(6px, 3px) rotate(24deg) scale(1.08);
+    opacity: 1;
+  }
+  78% {
+    transform: translate(-2px, 0) rotate(-8deg) scale(0.98);
+  }
+  100% {
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dtray-die.is-rolling {
+    animation: none;
+  }
+}
+
+/* Rollable boxed numbers (D&D Beyond): the number box in a bronze rim, the value in gold. */
+.dtray-numbers {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 6px;
+}
+.dtray-num {
+  display: flex;
+  min-width: 0;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  overflow: hidden;
+}
+.dtray-num-roll {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+  min-height: 40px;
+  padding: 4px 10px;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  -webkit-touch-callout: none;
+  user-select: none;
+}
+.dtray-num-roll span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--text-md);
+}
+.dtray-num-roll strong {
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.dtray-num-roll:hover {
+  background: var(--raised);
+}
+.dtray-num-more {
+  border: 0;
+  border-left: 1px solid var(--frame-soft);
+  border-radius: 0;
+  background: transparent;
+  color: var(--muted);
+}
+.dtray-num-more:hover {
+  color: var(--accent);
+}
+
+/* Roll menu: a popup under <body> (right click, long press, "…") */
+.dtray-menu {
+  position: fixed;
+  z-index: 70;
+  display: grid;
+  min-width: 220px;
+  max-width: calc(100vw - 16px);
+  padding: 6px;
+  /* The core floating menu: Owlbear's rounded slab with BG3's bronze rim. */
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-md);
+  background: var(--raised);
+  color: var(--text);
+  box-shadow: var(--shadow-2);
+}
+.dtray-menu-item {
+  min-height: 40px;
+  padding: 6px 12px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+}
+.dtray-menu-item:hover,
+.dtray-menu-item:focus-visible {
+  background: color-mix(in srgb, var(--raised) 88%, var(--text));
+}
+.dtray-menu-heading {
+  margin: 6px 12px 2px;
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--label-tracking);
+}
+
+/* Lists: last rolls, devices, presets */
+.dtray-list {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dtray-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px 10px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  font-variant-numeric: tabular-nums;
+}
+.dtray-row > div:first-child {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  flex: 1 1 200px;
+}
+.dtray-row small {
+  overflow-wrap: anywhere;
+}
+.dtray-row[data-status="withdrawn"] {
+  opacity: 0.7;
+}
+.dtray-row[data-readable="false"] {
+  border-style: dashed;
+}
+.dtray-row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+.dtray-row-actions .button {
+  min-height: 40px;
+}
+.dtray-badge {
+  justify-self: start;
+  font-size: var(--text-xs);
+}
+.dtray-reveal {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.dtray-reveal select {
+  min-height: 40px;
+  max-width: 180px;
+}
+.dtray-empty {
+  margin: 0;
+}
+
+/* Requests (Monk's TokenBar card, dnd5e request) */
+.dtray-request-form {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+}
+.dtray-targets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 16px;
+}
+.dtray-targets .check-field {
+  min-height: 40px;
+}
+.dtray-party-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+}
+.dtray-requests {
+  display: grid;
+  gap: 10px;
+}
+/* Requests: the dnd5e request card — a framed card, gold while open, plain once closed. */
+.dtray-card {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-md);
+  background: var(--surface-2);
+}
+.dtray-card.is-closed {
+  border-color: var(--line);
+  opacity: 0.85;
+}
+.dtray-card header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+}
+.dtray-card h4 {
+  flex: 1 1 100%;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 600;
+}
+.dtray-card p {
+  margin: 0;
+}
+.dtray-request-rows {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dtray-request-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px 10px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+}
+.dtray-request-row > div:first-child {
+  display: grid;
+  gap: 2px;
+  flex: 1 1 160px;
+  min-width: 0;
+}
+.dtray-request-status {
+  font-weight: 700;
+}
+.dtray-request-row[data-tone="success"] .dtray-request-status {
+  color: var(--positive);
+}
+.dtray-request-row[data-tone="failure"] .dtray-request-status {
+  color: var(--danger);
+}
+.dtray-request-row[data-tone="pending"] .dtray-request-status {
+  color: var(--focus);
+}
+.dtray-summary {
+  font-weight: 600;
+}
+
+/* Heroic Inspiration switch (D&D Beyond): the core .switch look (Roll20 Jumpgate pill with a
+   knob, gold when on) on the tray's own markup. */
+.dtray-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  cursor: pointer;
+  position: relative;
+}
+.dtray-switch input {
+  position: absolute;
+  opacity: 0;
+  width: 44px;
+  height: 26px;
+  margin: 0;
+  cursor: pointer;
+}
+.dtray-switch-track {
+  position: relative;
+  width: 44px;
+  height: 26px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line-strong);
+  background: var(--sunken);
+  transition: background var(--dur-fast) var(--ease-out);
+}
+.dtray-switch-track::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--muted);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.dtray-switch input:checked + .dtray-switch-track {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.dtray-switch input:checked + .dtray-switch-track::after {
+  transform: translateX(18px);
+  background: var(--accent-ink);
+}
+.dtray-switch input:focus-visible + .dtray-switch-track {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+.dtray-switch input:disabled + .dtray-switch-track {
+  opacity: 0.55;
+}
+.dtray-ask {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Sheet section */
+.dtray-sheet {
+  display: grid;
+  gap: 8px;
+  margin-top: 16px;
+}
+.dtray-sheet-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.dtray-sheet-head h3 {
+  margin: 0;
+}
+.dtray-sheet-last {
+  margin: 0;
+}
+
+/* Journal roll card (dnd5e enricher) */
+.dtray-embed {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  margin: 8px 0;
+  padding: 10px 12px;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-md);
+  background: var(--surface-2);
+}
+.dtray-embed-icon {
+  color: var(--accent);
+}
+.dtray-embed-body {
+  display: grid;
+  gap: 2px;
+  flex: 1 1 180px;
+}
+.dtray-embed-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* Spell effects on the map (TV-125), never above an interactive layer */
+.dtray-fx {
+  pointer-events: none;
+}
+.dtray-fx-bolt {
+  stroke: #ffb35a;
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-dasharray: 26 400;
+  animation: dtray-bolt 700ms ease-out forwards;
+  filter: drop-shadow(0 0 6px #ff7b2f);
+}
+.dtray-fx-darts {
+  stroke: #b9a4ff;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 14 400;
+  animation: dtray-bolt 800ms ease-out forwards;
+  animation-delay: calc(var(--dtray-fx-i, 0) * 110ms);
+  filter: drop-shadow(0 0 5px #9d7dff);
+}
+.dtray-fx-cone {
+  fill: rgba(255, 128, 44, 0.45);
+  stroke: #ffb35a;
+  stroke-width: 2;
+  transform-box: fill-box;
+  animation: dtray-cone 900ms ease-out forwards;
+}
+/* TV-125: area bursts and a cast's glow; every effect takes its damage type's colour. */
+.dtray-fx-burst,
+.dtray-fx-glow {
+  fill: var(--dtray-fx-fill, rgba(185, 164, 255, 0.35));
+  stroke: var(--dtray-fx-stroke, #b9a4ff);
+  stroke-width: 2;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: dtray-burst 900ms ease-out forwards;
+}
+.dtray-fx-glow {
+  animation-duration: 1200ms;
+}
+.dtray-fx-bolt,
+.dtray-fx-darts {
+  stroke: var(--dtray-fx-stroke, #ffb35a);
+}
+.dtray-fx-cone {
+  fill: var(--dtray-fx-fill, rgba(255, 128, 44, 0.45));
+  stroke: var(--dtray-fx-stroke, #ffb35a);
+}
+.dtray-fx-type-fire {
+  --dtray-fx-stroke: #ffb35a;
+  --dtray-fx-fill: rgba(255, 128, 44, 0.45);
+}
+.dtray-fx-type-cold {
+  --dtray-fx-stroke: #9fe3ff;
+  --dtray-fx-fill: rgba(120, 200, 255, 0.4);
+}
+.dtray-fx-type-lightning,
+.dtray-fx-type-thunder {
+  --dtray-fx-stroke: #fff27a;
+  --dtray-fx-fill: rgba(255, 240, 120, 0.35);
+}
+.dtray-fx-type-acid,
+.dtray-fx-type-poison {
+  --dtray-fx-stroke: #9be36b;
+  --dtray-fx-fill: rgba(120, 220, 90, 0.35);
+}
+.dtray-fx-type-necrotic {
+  --dtray-fx-stroke: #8cffb5;
+  --dtray-fx-fill: rgba(40, 90, 60, 0.45);
+}
+.dtray-fx-type-radiant {
+  --dtray-fx-stroke: #fff6c8;
+  --dtray-fx-fill: rgba(255, 246, 200, 0.4);
+}
+.dtray-fx-type-force,
+.dtray-fx-type-psychic,
+.dtray-fx-type-arcane {
+  --dtray-fx-stroke: #b9a4ff;
+  --dtray-fx-fill: rgba(185, 164, 255, 0.35);
+}
+@keyframes dtray-burst {
+  0% {
+    transform: scale(0.2);
+    opacity: 0.9;
+  }
+  70% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+@keyframes dtray-bolt {
+  0% {
+    stroke-dashoffset: 26;
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: -400;
+    opacity: 0;
+  }
+}
+@keyframes dtray-cone {
+  0% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dtray-fx {
+    display: none;
+  }
+}
+
+/* Narrow column (300–420 px sidebar) and phones */
+@container table-panel (max-width: 600px) {
+  .dtray-numbers {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+  .dtray-section {
+    padding: 6px 4px;
+    font-size: 14px;
+  }
+}
+@media (max-width: 480px) {
+  .dtray-numbers {
+    grid-template-columns: 1fr 1fr;
+  }
+  .dtray-seg span {
+    padding: 6px 10px;
+  }
+  .dtray-reveal select {
+    max-width: 150px;
+  }
+}
+
+/* Abilities: abbreviation, check and save side by side (D&D Beyond); skills in a list */
+.dtray-abilities {
+  display: grid;
+  gap: 6px;
+}
+.dtray-ability-row {
+  display: grid;
+  grid-template-columns: 3.2em minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 6px;
+}
+.dtray-abilities.is-saves .dtray-ability-row {
+  grid-template-columns: 3.2em minmax(0, 1fr);
+}
+.dtray-ability-head {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--label-tracking);
+}
+.dtray-abbr abbr {
+  text-decoration: none;
+  font-family: var(--font-label);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.dtray-num.is-missing {
+  justify-content: center;
+  align-items: center;
+  min-height: 40px;
+}
+.dtray-skills {
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+}
+.dtray-num-roll span:empty {
+  display: none;
+}
+.dtray-ability-row .dtray-num-roll {
+  justify-content: center;
+}
+.dtray-ability-row .dtray-num-roll strong {
+  font-size: var(--text-lg);
+}
+.dtray-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 2px;
+}
+/* The sheet's saving throws: compact boxes in a row (D&D Beyond), not a wide table. */
+.dtray-saves {
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+}
+.dtray-abilities {
+  max-width: 520px;
+}
+.dtray-skills {
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+}
+/* Settings in the narrow tab read top to bottom, one per line. */
+.dtray-look .form-grid {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* PG-23: a number rolled with a condition's Advantage or Disadvantage says so (DDB marks). */
+.dtray-num-mode {
+  margin-left: 4px;
+  font-size: var(--text-2xs);
+}
+.dtray-num-mode.is-disadvantage {
+  color: var(--danger);
+}
+.dtray-num-mode.is-advantage {
+  color: var(--positive);
+}
+
+/* TV-95 connected dice (Pixels pattern, simulated): the waiting card or resolver, the
+   connection panel, battery and state, blink, and the per-type methods. */
+.dtray-wait-title,
+.dtray-wait-what {
+  margin: 0;
+}
+.dtray-wait-what {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.dtray-wait-dice {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dtray-wait-die {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 4px 12px;
+  padding: 8px 10px;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius-sm);
+}
+.dtray-wait-die[data-state="done"] {
+  border-style: solid;
+  border-color: var(--positive);
+}
+.dtray-wait-name {
+  flex: 1 1 180px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.dtray-wait-die .field {
+  flex: 0 0 auto;
+  max-width: 7em;
+}
+.dtray-wait-die .field input {
+  min-height: 40px;
+}
+.dtray-wait-die small {
+  flex: 1 1 100%;
+}
+.dtray-wait-face {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-variant-numeric: tabular-nums;
+}
+.dtray-wait-actions .button,
+.dtray-devices .button,
+.dtray-open-devices {
+  min-height: 40px;
+}
+.dtray-warn {
+  margin: 0;
+  color: var(--danger);
+  font-weight: 600;
+}
+.dtray-battery {
+  font-variant-numeric: tabular-nums;
+}
+.dtray-battery.is-low {
+  color: var(--danger);
+  font-weight: 700;
+}
+.dtray-connected-line {
+  display: grid;
+  gap: 4px;
+  margin: 6px 0 0;
+}
+.dtray-connected-types {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-md);
+}
+.dtray-open-devices {
+  justify-self: start;
+}
+.dtray-devices {
+  display: grid;
+  gap: 8px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+.dtray-devices h5 {
+  margin: 4px 0 0;
+}
+.dtray-device-main {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  min-width: 0;
+  flex: 1 1 220px;
+}
+.dtray-device-main > div {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.dtray-device-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+}
+.dtray-device-light {
+  flex: 0 0 auto;
+  width: 14px;
+  height: 14px;
+  margin-top: 4px;
+  border-radius: 50%;
+  background: var(--line);
+}
+.dtray-device[data-state="connected"] .dtray-device-light {
+  background: var(--positive);
+}
+.dtray-device[data-state="charging"] .dtray-device-light {
+  background: var(--accent);
+}
+.dtray-device-state.is-disconnected {
+  opacity: 0.8;
+}
+.dtray-device.is-blinking .dtray-device-light {
+  animation: dtray-blink 0.5s steps(2, jump-none) 6;
+  box-shadow: 0 0 0 4px var(--focus);
+}
+@keyframes dtray-blink {
+  0% {
+    background: var(--accent);
+  }
+  100% {
+    background: var(--raised);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dtray-device.is-blinking .dtray-device-light {
+    animation: none;
+    background: var(--accent);
+  }
+}
+.dtray-blink-note {
+  font-weight: 700;
+}
+.dtray-device-more {
+  flex: 1 1 100%;
+}
+.dtray-device-more summary {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+.dtray-method-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(210px, 100%), 1fr));
+  gap: 6px 10px;
+}
+.dtray-method {
+  display: grid;
+  grid-template-columns: 3.2em minmax(0, 1fr);
+  align-items: center;
+  gap: 6px;
+}
+.dtray-method span {
+  font-weight: 700;
+}
+.dtray-method select {
+  min-height: 40px;
+  min-width: 0;
+}
+@container table-panel (max-width: 600px) {
+  .dtray-wait-die .field {
+    max-width: none;
+    flex: 1 1 8em;
+  }
+  .dtray-device .dtray-row-actions {
+    flex: 1 1 100%;
+  }
+}
+@media (max-width: 480px) {
+  .dtray-device .dtray-row-actions .button {
+    flex: 1 1 auto;
+  }
+}

@@ -1,0 +1,498 @@
+/* B23 — search and command palette, quick create, shortcut guide and editor.
+   Own prefix: .cmdk-*. Visual pass of 29/09/2026 (DESIGN.md; evidence «home-services»):
+   Alchemy's OmniSearch and Foundry's Quick Insert (one field over grouped rows, the chosen row
+   lit like BG3's selected option), Foundry's Controls Configuration for keys. Tokens only. */
+
+/* The palette sits high like Alchemy's OmniSearch and Quick Insert, not mid-screen. */
+dialog:has([data-cmdk]) {
+  width: min(720px, calc(100vw - 28px));
+  margin-top: 6vh;
+  max-height: 88vh;
+  max-height: 88dvh;
+}
+/* A column that always fits the screen: only the result list scrolls. */
+dialog:has([data-cmdk]) form {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(88vh - 2px);
+  max-height: calc(88dvh - 2px);
+}
+dialog:has([data-cmdk]) .dialog-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: none;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding-block: 16px 12px;
+}
+.cmdk {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1 1 auto;
+}
+dialog:has([data-cmdk-guide-body]),
+dialog:has([data-cmdk-controls]) {
+  width: min(760px, calc(100vw - 28px));
+}
+
+.cmdk-bar {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+.cmdk-field {
+  flex: 1 1 260px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.cmdk-filter {
+  flex: 0 1 190px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.cmdk-label {
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+/* The core field (Foundry v13 and Roll20 Jumpgate): a sunken well with a visible rim, gold on
+   focus; larger type for the one field that matters here. */
+.cmdk-field input,
+.cmdk-filter select {
+  width: 100%;
+  min-height: 46px;
+  font-size: var(--text-lg);
+  background: var(--sunken);
+  color: var(--text);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+:is(.cmdk-field input, .cmdk-filter select):hover {
+  border-color: var(--muted);
+}
+:is(.cmdk-field input, .cmdk-filter select):focus-visible {
+  border-color: var(--accent);
+}
+.cmdk-filter select {
+  font-size: var(--text-md);
+}
+.cmdk-help {
+  margin: 8px 0 6px;
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+.cmdk-help b {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* Results: Quick Insert's list, a sunken box of full-width rows. */
+.cmdk-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1 1 auto;
+  min-height: 96px;
+  max-height: 460px;
+  overflow-y: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+}
+/* Group headings: D&D Beyond's condensed small-caps labels (the words stay as written). */
+.cmdk-group {
+  padding: 8px 12px 4px;
+  font-family: var(--font-label);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+}
+.cmdk-group:first-child {
+  border-top: 0;
+}
+.cmdk-option {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  gap: 10px;
+  align-items: center;
+  min-height: 48px;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+}
+.cmdk-option:hover {
+  background: var(--raised);
+}
+/* The chosen row: BG3's selected option, a lit tile inside a gold hairline. */
+.cmdk-option[aria-selected="true"] {
+  background: var(--accent-soft);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+.cmdk-option.is-gone {
+  color: var(--muted);
+  font-style: italic;
+}
+/* Type chips: the core pill (Foundry dnd5e), coloured by kind with a word always inside. */
+.cmdk-type {
+  font-size: var(--text-2xs);
+  padding: 3px 7px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+  color: var(--muted);
+  white-space: nowrap;
+  min-width: 0;
+  max-width: 11em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cmdk-option[data-type="character"] .cmdk-type,
+.cmdk-option[data-type="companion"] .cmdk-type {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.cmdk-option[data-type="note"] .cmdk-type,
+.cmdk-option[data-type="person"] .cmdk-type,
+.cmdk-option[data-type="place"] .cmdk-type,
+.cmdk-option[data-type="faction"] .cmdk-type,
+.cmdk-option[data-type="quest"] .cmdk-type {
+  border-color: var(--positive);
+  color: var(--positive);
+}
+/* Spells in BG3's spell-slot blue (the info token keeps AA contrast in both themes). */
+.cmdk-option[data-type="spell"] .cmdk-type {
+  border-color: var(--info);
+  color: var(--info);
+}
+.cmdk-option[data-type="command"] .cmdk-type {
+  border-style: dashed;
+}
+.cmdk-main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.cmdk-title {
+  overflow-wrap: anywhere;
+}
+.cmdk-excerpt {
+  color: var(--muted);
+  font-size: var(--text-xs);
+  overflow-wrap: anywhere;
+}
+/* Matched letters: the theme colour's text highlight (D&D Beyond). */
+.cmdk-option mark {
+  background: color-mix(in srgb, var(--accent) 30%, transparent);
+  color: var(--text);
+  border-radius: var(--radius-xs);
+  padding: 0 1px;
+}
+.cmdk-scope {
+  font-size: var(--text-2xs);
+  color: var(--muted);
+  white-space: nowrap;
+}
+.cmdk-keys {
+  display: inline-flex;
+  gap: 3px;
+}
+/* Keys: the core key chip (Foundry v13's Controls Configuration). */
+.cmdk-kbd {
+  display: inline-block;
+  min-width: 1.6em;
+  padding: 1px 6px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-xs);
+  background: var(--sunken);
+  font: 600 var(--text-2xs) / 1.6 var(--font-ui);
+  text-align: center;
+  color: var(--text);
+}
+.cmdk-empty {
+  padding: 18px 14px;
+  color: var(--muted);
+}
+.cmdk-status {
+  margin: 6px 2px 0;
+  font-size: var(--text-xs);
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.cmdk-foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+.cmdk-foot .button {
+  gap: 8px;
+}
+
+/* Quick create (Kanka): type chosen with large radio targets, the chosen one lit as a BG3
+   selected option. */
+.cmdk-kinds {
+  border: 0;
+  padding: 0;
+  margin: 0 0 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.cmdk-kinds legend {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.cmdk-kind {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 6px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  cursor: pointer;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+.cmdk-kind:hover {
+  background: var(--raised);
+}
+.cmdk-kind:has(input:checked) {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+.cmdk-kind input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+}
+
+/* Generated guide (Kobold+): section titles as D&D Beyond's condensed labels. */
+.cmdk-guide section {
+  margin-top: 16px;
+}
+.cmdk-guide h3,
+.cmdk-control-group h3 {
+  margin: 0 0 8px;
+  color: var(--accent);
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+.cmdk-keys-list {
+  margin: 0;
+  display: grid;
+  gap: 6px;
+}
+.cmdk-keys-list > div {
+  display: grid;
+  grid-template-columns: minmax(7em, auto) minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--line);
+}
+/* One key column per section, so two- and three-key rows line up (subgrid). */
+@supports (grid-template-columns: subgrid) {
+  .cmdk-keys-list {
+    grid-template-columns: fit-content(16em) minmax(0, 1fr);
+    column-gap: 12px;
+  }
+  .cmdk-keys-list > div {
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
+  }
+}
+.cmdk-keys-list dt {
+  display: flex;
+  gap: 3px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.cmdk-or {
+  color: var(--muted);
+  padding: 0 2px;
+}
+.cmdk-keys-list dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.cmdk-mark {
+  display: inline-block;
+  font-size: var(--text-2xs);
+  padding: 1px 6px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line-strong);
+  color: var(--muted);
+  margin-left: 4px;
+}
+.cmdk-mark.is-warning {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+.cmdk-guide [data-guide-conflicts] li {
+  margin-bottom: 6px;
+}
+
+/* Configure Controls (Foundry): categories, key field, remove, default, reset all. */
+.cmdk-control-group {
+  margin-top: 14px;
+}
+.cmdk-control-group ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.cmdk-control {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+}
+.cmdk-control-name {
+  flex: 1 1 240px;
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 8px;
+}
+.cmdk-control-name small {
+  flex-basis: 100%;
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+.cmdk-control-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.cmdk-key {
+  min-width: 108px;
+  justify-content: center;
+  gap: 3px;
+}
+.cmdk-key.is-capturing {
+  border-color: var(--focus);
+  color: var(--focus);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--focus) 35%, transparent);
+}
+.cmdk-notice {
+  margin: 4px 0 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+}
+.cmdk-notice.is-error {
+  border-color: var(--danger);
+  background: var(--danger-soft);
+}
+.cmdk-notice .toolbar {
+  margin-top: 8px;
+}
+.cmdk-reset {
+  margin-top: 18px;
+}
+
+@media (max-width: 560px) {
+  dialog:has([data-cmdk]) {
+    margin-top: 1vh;
+    max-height: 97dvh;
+  }
+  dialog:has([data-cmdk]) form {
+    max-height: calc(97dvh - 2px);
+  }
+  dialog:has([data-cmdk]) .dialog-heading {
+    padding-block: 12px;
+  }
+  dialog:has([data-cmdk]) .dialog-heading h2 {
+    font-size: var(--text-xl);
+  }
+  dialog:has([data-cmdk]) footer {
+    padding-block: 10px;
+  }
+  .cmdk-help {
+    font-size: var(--text-2xs);
+  }
+  .cmdk-field input,
+  .cmdk-filter select {
+    min-height: 44px;
+  }
+  .cmdk-option {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      "type scope keys"
+      "main main main";
+    gap: 3px 8px;
+    padding-block: 7px;
+  }
+  .cmdk-type {
+    grid-area: type;
+    justify-self: start;
+  }
+  .cmdk-main {
+    grid-area: main;
+  }
+  .cmdk-scope {
+    grid-area: scope;
+    justify-self: end;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .cmdk-keys {
+    grid-area: keys;
+  }
+  .cmdk-keys-list,
+  .cmdk-keys-list > div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
+  }
+  .cmdk-key {
+    min-width: 88px;
+  }
+}
+.cmdk-option {
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+details.cmdk-control-group > summary {
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: var(--accent);
+  font-size: var(--text-md);
+  font-weight: 600;
+}
+/* The result title keeps the core search's hook class (.search-result) for existing
+   checks; the core's row styling for that class does not apply inside the palette. */
+.cmdk-option .search-result {
+  display: inline;
+  width: auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: inherit;
+}

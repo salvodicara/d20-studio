@@ -1,0 +1,835 @@
+/* Preparation (visual pass 29/09/2026, DESIGN.md): the scene editor follows Foundry's scene
+   configuration (tabbed sheet beside the map), the scene list Foundry's Scenes directory
+   (folder headers, thumbnails) and the map tools Owlbear Rodeo's floating tool group. Every
+   colour is a token; the map drawing keeps the map's own colours, as the Table does. */
+.prep-layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+}
+.prep-fields {
+  display: grid;
+  gap: 22px;
+  min-width: 0;
+}
+.prep-fields .panel {
+  padding: 22px;
+}
+.prep-fields .panel h2 {
+  margin-top: 0;
+  margin-bottom: 18px;
+}
+.prep-fields .field {
+  margin-bottom: 14px;
+}
+.prep-fields .form-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.prep-fields .form-grid input {
+  min-width: 0;
+  width: 100%;
+}
+.prep-fields textarea {
+  resize: vertical;
+  min-height: 88px;
+}
+.prep-canvas-panel {
+  position: sticky;
+  top: 24px;
+  min-width: 0;
+}
+.prep-canvas-panel h2 {
+  margin-top: 0;
+}
+.prep-canvas-panel .section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+/* The preview sits on the Table's canvas (Owlbear Rodeo's background), as a framed card. */
+.prep-map {
+  display: block;
+  width: 100%;
+  max-height: 66vh;
+  background: var(--canvas);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+}
+/* Foundry v13's map caption: a quiet status line with aligned numbers. */
+.prep-map-caption {
+  margin: 10px 0 20px;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+/* Map tools: Owlbear Rodeo's tool group (the Table's .map-toolbar laid flat above the map),
+   a rounded translucent plate with borderless rounded tools; the chosen one in soft gold. */
+.spatial-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  width: fit-content;
+  max-width: 100%;
+  margin-bottom: 8px;
+  padding: 5px;
+  background: var(--float-bg);
+  border: 1px solid var(--float-border);
+  border-radius: 14px;
+}
+.spatial-toolbar .button {
+  min-height: 42px;
+  padding: 8px 12px;
+  border-color: transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--muted);
+}
+.spatial-toolbar .button:hover:not(:disabled) {
+  background: var(--raised);
+  border-color: transparent;
+  color: var(--text);
+}
+.spatial-toolbar .active,
+.spatial-list .active {
+  border-color: var(--accent-line);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.spatial-toolbar .button.active:hover:not(:disabled) {
+  border-color: var(--accent-line);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.spatial-hint {
+  min-height: 2.5em;
+  margin: 8px 0 12px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.spatial-properties {
+  margin: 18px 0 26px;
+  padding: 18px 0;
+  border-block: 1px solid var(--line);
+}
+.spatial-properties h3 {
+  margin: 0 0 14px;
+}
+.spatial-properties .form-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.spatial-properties .field input,
+.spatial-properties .field select {
+  min-width: 0;
+  width: 100%;
+}
+.spatial-properties .toolbar {
+  margin: 14px 0;
+}
+.spatial-properties summary {
+  min-height: 44px;
+  padding: 12px 0;
+  cursor: pointer;
+}
+.spatial-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.spatial-calibration {
+  margin-bottom: 20px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+/* Map drawing (also on the Table and in the session view): the map does not change with the
+   theme (DESIGN.md §2), so these are named map colours, one per kind of geometry, as Foundry's
+   walls layer colours walls, doors, open and locked doors apart. Values unchanged. */
+.spatial-overlay,
+.spatial-gesture {
+  --spatial-wall: #e2cf96;
+  --spatial-door: #e4ad77;
+  --spatial-door-open: #a4d4c0;
+  --spatial-door-locked: #ffad9d;
+  --spatial-terrain: #d7b66d;
+}
+.spatial-overlay {
+  pointer-events: none;
+}
+.spatial-shape {
+  fill: var(--spatial-wall);
+  stroke: var(--spatial-wall);
+  stroke-width: 5;
+}
+.spatial-shape line,
+.spatial-shape circle,
+.spatial-terrain {
+  vector-effect: non-scaling-stroke;
+}
+.spatial-shape .spatial-hit {
+  stroke: transparent;
+  stroke-width: 40;
+}
+.spatial-shape[data-spatial-id],
+.spatial-terrain[data-spatial-id] {
+  pointer-events: all;
+  cursor: pointer;
+}
+.spatial-shape.door {
+  stroke: var(--spatial-door);
+  fill: var(--spatial-door);
+}
+.spatial-shape.open {
+  stroke-dasharray: 8 7;
+  stroke: var(--spatial-door-open);
+  fill: var(--spatial-door-open);
+}
+.spatial-shape.locked {
+  stroke: var(--spatial-door-locked);
+  fill: var(--spatial-door-locked);
+}
+.spatial-shape.secret {
+  stroke-dasharray: 3 5;
+}
+/* Selection and handles: the map's label cream and door well (map colours, DESIGN.md §2). */
+.spatial-shape.selected {
+  stroke: var(--token-label);
+}
+.spatial-endpoint {
+  stroke: var(--token-label);
+  fill: var(--door-fill);
+  stroke-width: 3;
+  cursor: grab;
+  pointer-events: all;
+}
+.spatial-endpoint-hit {
+  stroke: transparent;
+  stroke-width: 40;
+  fill: transparent;
+  pointer-events: all;
+}
+.spatial-endpoint-visible {
+  pointer-events: none;
+}
+.spatial-terrain {
+  fill: var(--spatial-terrain);
+  fill-opacity: 0.18;
+  stroke: var(--spatial-terrain);
+  stroke-width: 2;
+  stroke-dasharray: 6 4;
+}
+.spatial-terrain.selected {
+  stroke: var(--token-label);
+  stroke-width: 4;
+}
+.spatial-gesture {
+  stroke: var(--token-label);
+  fill: var(--token-label);
+  stroke-width: 3;
+  pointer-events: none;
+}
+.spatial-gesture rect {
+  fill-opacity: 0.15;
+  stroke-dasharray: 7 4;
+}
+.spatial-gesture line {
+  stroke-dasharray: 7 4;
+}
+@media (max-width: 720px) {
+  .spatial-toolbar {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 7px;
+  }
+  .spatial-toolbar .button {
+    flex: 0 0 auto;
+  }
+  .spatial-properties .toolbar .button {
+    flex: 1 1 180px;
+  }
+}
+.prep-status {
+  margin: 14px 0;
+  min-height: 24px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.prep-error {
+  padding: 12px 0;
+}
+.prep-field-error {
+  font-size: 13px;
+  color: var(--danger);
+}
+.prep-field-error:empty {
+  display: none;
+}
+.prep-check {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  min-height: 44px;
+  cursor: pointer;
+}
+.prep-check input,
+.prep-choices input {
+  width: 18px;
+  min-height: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+}
+.prep-upload input {
+  max-width: 100%;
+  padding: 8px 0;
+  font-size: 13px;
+}
+/* The browser's file button dressed as the core button (Foundry v13 shape, BG3 materials). */
+.prep-upload input::file-selector-button {
+  margin-right: 10px;
+  border: 1px solid var(--frame-soft);
+  background: var(--raised);
+  color: var(--text);
+  border-radius: var(--radius-sm);
+  min-height: 40px;
+  padding: 8px 12px;
+  font: 600 14px var(--font-ui);
+  cursor: pointer;
+}
+.prep-upload input::file-selector-button:hover {
+  border-color: var(--accent-line);
+}
+.prep-live-actions {
+  margin-top: 28px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+.prep-full-preview {
+  max-width: 1000px;
+  margin: 20px auto;
+}
+.prep-full-preview > .toolbar {
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 22px;
+}
+.prep-full-preview .prep-map {
+  max-height: 62vh;
+}
+.prep-prose {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-width: 72ch;
+}
+.prep-collection-toolbar {
+  justify-content: space-between;
+  align-items: end;
+  margin: 24px 0;
+}
+.prep-collection-toolbar .field {
+  width: min(420px, 100%);
+}
+.prep-scene-list {
+  display: grid;
+  gap: 0;
+}
+.prep-scene-row {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr) auto;
+  gap: 24px;
+  padding: 26px 0;
+  align-items: center;
+  border-top: 1px solid var(--line);
+}
+.prep-scene-row[hidden] {
+  display: none;
+}
+/* Foundry's Scenes directory shows each scene as its map thumbnail: framed on the canvas. */
+.prep-scene-thumb {
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--canvas);
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+.prep-scene-thumb:hover {
+  border-color: var(--accent-line);
+}
+.prep-scene-thumb .prep-map {
+  width: 180px;
+  height: 118px;
+  border: 0;
+  border-radius: 0;
+}
+.prep-scene-info {
+  min-width: 0;
+}
+.prep-scene-info h2 {
+  margin: 0 0 8px;
+  font-size: 21px;
+}
+.prep-scene-info h2 button {
+  text-align: left;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  min-height: 40px;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.prep-scene-info h2 button:hover {
+  color: var(--accent);
+}
+.prep-scene-info p {
+  overflow-wrap: anywhere;
+  margin-top: 0;
+}
+.prep-scene-info .toolbar {
+  gap: 8px;
+  font-size: 12px;
+}
+.prep-scene-actions {
+  display: grid;
+  gap: 8px;
+  min-width: 160px;
+}
+.prep-menu {
+  position: relative;
+}
+.prep-menu summary {
+  cursor: pointer;
+  min-height: 40px;
+  padding: 10px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.prep-menu summary:hover,
+.prep-menu[open] summary {
+  color: var(--text);
+}
+/* Context menu: Foundry's scene context menu (one command per full-width row) on the core
+   menu plate (BG3 dark plate with a bronze hairline, Owlbear's radius 16 and shadow). */
+.prep-menu > div {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  z-index: 5;
+  width: max-content;
+  min-width: 220px;
+  max-width: 80vw;
+  padding: 6px;
+  background: var(--raised);
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-2);
+  display: grid;
+}
+.prep-menu button {
+  display: block;
+  padding: 10px 12px;
+  text-align: left;
+  min-height: 44px;
+  color: var(--text);
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  font: inherit;
+  cursor: pointer;
+}
+.prep-menu button:hover {
+  background: color-mix(in srgb, var(--raised) 90%, var(--text));
+}
+.prep-choices {
+  margin: 18px 0;
+  padding: 0;
+  border: 0;
+}
+.prep-choices legend {
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.prep-choices label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  min-height: 44px;
+  cursor: pointer;
+}
+/* The core focus ring (3 px, --focus), also on the editor's own controls. */
+.prep-editor :focus-visible,
+.prep-collection :focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+@media (max-width: 1050px) {
+  .prep-layout {
+    grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
+    gap: 20px;
+  }
+  .prep-scene-row {
+    grid-template-columns: 130px minmax(0, 1fr);
+    gap: 18px;
+  }
+  .prep-scene-thumb .prep-map {
+    width: 130px;
+    height: 100px;
+  }
+  .prep-scene-actions {
+    grid-column: 2;
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+@media (max-width: 760px) {
+  .prep-layout {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 24px;
+  }
+  .prep-canvas-panel {
+    position: static;
+    width: 100%;
+  }
+  .prep-fields {
+    width: 100%;
+  }
+  .prep-map {
+    max-height: 44vh;
+  }
+  .prep-scene-row {
+    grid-template-columns: 90px minmax(0, 1fr);
+    gap: 14px;
+  }
+  .prep-scene-thumb .prep-map {
+    width: 90px;
+    height: 90px;
+  }
+  .prep-scene-actions {
+    grid-column: 1 / -1;
+    position: relative;
+  }
+  .prep-collection-toolbar {
+    align-items: stretch;
+  }
+  .prep-collection-toolbar .field {
+    width: 100%;
+  }
+  /* «Altre azioni» is the last of a wrapped actions row: its menu spans the row's actions
+     instead of hanging from the summary's left edge, so it never runs off the screen. */
+  .prep-menu {
+    position: static;
+  }
+  .prep-menu > div {
+    left: 0;
+    right: 0;
+    width: auto;
+    min-width: 0;
+    max-width: none;
+  }
+}
+
+.prep-token-tools,
+.prep-encounter {
+  margin-top: 28px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+}
+.prep-place-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: end;
+}
+.prep-place-row .field {
+  flex: 1 1 220px;
+}
+.prep-place-row select {
+  width: 100%;
+}
+.prep-token-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+.prep-token-list button.active {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+.prep-selected-token {
+  margin-top: 16px;
+  display: grid;
+  gap: 10px;
+}
+.prep-selected-token > span {
+  color: var(--muted);
+}
+.prep-attack-summary {
+  margin: 0;
+  line-height: 1.6;
+}
+.prep-attack-fields {
+  margin: 18px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.prep-attack-fields summary {
+  min-height: 44px;
+  padding: 12px 0;
+  cursor: pointer;
+  color: var(--accent);
+}
+.prep-attack-fields fieldset {
+  margin: 8px 0;
+  padding: 0;
+  min-width: 0;
+  border: 0;
+}
+.prep-attack-fields legend {
+  padding: 0 0 12px;
+  font-weight: 600;
+}
+.prep-attack-fields fieldset:disabled {
+  opacity: 0.55;
+}
+.prep-attack-fields input,
+.prep-attack-fields select {
+  min-width: 0;
+}
+.prep-placement-hint {
+  color: var(--accent);
+  line-height: 1.5;
+}
+.prep-map[data-prep-interactive] {
+  touch-action: none;
+  cursor: crosshair;
+}
+.prep-map [data-prep-token] {
+  cursor: grab;
+}
+.prep-map [data-prep-token].selected circle {
+  stroke: var(--token-label);
+  stroke-width: 6;
+}
+.prep-initiative-list {
+  list-style: none;
+  margin: 16px 0;
+  padding: 0;
+}
+.prep-initiative-list > li {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+.prep-initiative-inputs {
+  display: grid;
+  grid-template-columns: 100px 100px minmax(80px, 1fr) auto;
+  gap: 12px;
+  align-items: end;
+  padding-bottom: 10px;
+}
+.prep-initiative-inputs input {
+  width: 100%;
+  min-width: 0;
+}
+.prep-initiative-inputs output {
+  padding: 12px 0;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.prep-encounter .toolbar {
+  gap: 10px;
+}
+.prep-encounter .toolbar .muted {
+  flex: 1 1 180px;
+}
+@media (max-width: 1200px) {
+  .prep-initiative-inputs {
+    grid-template-columns: minmax(80px, 1fr) minmax(80px, 1fr);
+  }
+  .prep-canvas-panel {
+    position: static;
+  }
+}
+
+.prep-roll-history {
+  margin-top: 24px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.prep-roll-history summary {
+  cursor: pointer;
+  min-height: 44px;
+  padding: 10px 0;
+  color: var(--accent);
+}
+.prep-roll-history ol {
+  padding-left: 22px;
+}
+.prep-roll-history li {
+  margin: 14px 0;
+  padding-left: 4px;
+  overflow-wrap: anywhere;
+  line-height: 1.5;
+}
+
+/* W2b2 integration: the section strip scrolls sideways beside "All sections", pinned at the
+   end (D&D Beyond's quick-jump, DDB-060; as the campaign strip, the sheet and the Table's
+   "All panels"). Eleven sections no longer fit, even at 1440 px. */
+.prep-sections-bar {
+  display: flex;
+  align-items: stretch;
+  margin-bottom: 25px;
+}
+.prep-sections-bar > .prep-sections,
+.prep-sections-bar > .prep-groups {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin-bottom: 0;
+}
+/* B62: the open group's sections, a second strip of pills under the groups (Roll20 page
+   toolbar, Foundry directory tabs). */
+.prep-sections-bar:has(+ .prep-sections) {
+  margin-bottom: 10px;
+}
+.prep-sections.is-sub {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 22px;
+}
+/* The open group's sections are the core sub-tabs (D&D Beyond's action filters in Foundry
+   dnd5e's pill shape): condensed small capitals, the open one filled with the theme colour. */
+.prep-sections.is-sub button {
+  min-height: 40px;
+  padding: 6px 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  font-variant-caps: all-small-caps;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+.prep-sections.is-sub button:hover {
+  color: var(--text);
+  background: var(--raised);
+}
+.prep-sections.is-sub button.active {
+  color: var(--accent-ink);
+  border-color: var(--accent);
+  background: var(--accent);
+}
+/* Count chip beside a group (the core .badge, Foundry dnd5e pill). */
+.prep-group-count {
+  margin-left: 4px;
+  padding: 0 6px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-variant-caps: normal;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+.prep-sections-all {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 6px;
+  min-width: 44px;
+  min-height: 47px;
+  padding: 10px 12px;
+  color: var(--muted);
+  background: transparent;
+  border: 0;
+  border-left: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+}
+.prep-sections-all:hover {
+  color: var(--text);
+}
+.prep-sections-all .icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* «Nuova scena»: every starting point with a one-line hint (DDB scene types). */
+.prep-starts {
+  display: grid;
+  gap: 8px;
+}
+.prep-start {
+  display: grid;
+  gap: 2px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  transition:
+    border-color var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out);
+}
+.prep-start label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+}
+.prep-start small {
+  padding-left: 28px;
+}
+.prep-start input[type="file"] {
+  margin-left: 28px;
+  max-width: calc(100% - 28px);
+}
+/* The chosen starting point: BG3's highlighted choice (gold rim on a lit tile). */
+.prep-start:has(input[type="radio"]:checked) {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+/* One scene editor: the alignment heading, the tool tabs and the scene path. */
+.prep-editor-tabs {
+  flex-wrap: wrap;
+}
+.prep-align-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  align-items: center;
+  margin: 8px 0;
+}
+.prep-align-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: space-between;
+  align-items: center;
+}
+.prep-tools-note {
+  margin: 0 0 8px;
+}
+.prep-scene-path {
+  margin: 0;
+  font-size: 13px;
+}
+.prep-shrink {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  align-items: center;
+}
+.prep-collection-footer {
+  margin-top: 12px;
+}

@@ -1,0 +1,1154 @@
+/* B19 — 2024 encounter builder. Area styles only (.eb-*), linked through
+   registry.registerStyles(); shared tokens from styles.css.
+   Visual pass (29/09/2026, DESIGN.md): D&D Beyond's Encounter Builder (difficulty colours
+   and slanted bar, condensed labels, saved-encounter rows), Foundry dnd5e's 2024 stat block
+   (double frame, small-capital headings) and its narrative callout for read-aloud text. */
+
+/* Difficulty colours sampled from D&D Beyond's encounter difficulty bar (Easy #CCD9E2, Medium
+   #FE9E0B, Hard #F04A00, Deadly #E23D4B) for the 2024 bands; below Low stays neutral. The light
+   theme darkens them to keep 3:1 for the bar and 4.5:1 for the band word. The stat block and
+   its rule use the shared trims. */
+.eb,
+.eb-drawer,
+.eb-npc-tools {
+  --eb-paper: var(--surface-2);
+  --eb-rule: var(--line-strong);
+  --eb-trivial: var(--muted);
+  --eb-low: #ccd9e2;
+  --eb-moderate: #fe9e0b;
+  --eb-high: #f04a00;
+  --eb-deadly: #e23d4b;
+}
+:root[data-pref-theme="light"] :is(.eb, .eb-drawer, .eb-npc-tools) {
+  --eb-low: #4f6475;
+  --eb-moderate: #9a5b00;
+  --eb-high: #b83800;
+  --eb-deadly: #b3232f;
+}
+.eb {
+  min-width: 0;
+}
+.eb-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.eb h2,
+.eb h3,
+.eb h4,
+.eb h5 {
+  margin: 0;
+}
+.eb-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px 24px;
+  margin-bottom: 18px;
+}
+.eb-head p {
+  margin: 4px 0 0;
+  max-width: 62ch;
+}
+
+/* ------------------------------------------------ library (DDB My Encounters) */
+
+.eb-lib-tools {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: 0 16px;
+  max-width: 760px;
+}
+.eb-lib-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+.eb-lib-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 18px;
+  padding: 14px 4px;
+  border-bottom: 1px solid var(--line);
+}
+.eb-lib-main {
+  flex: 1 1 320px;
+  min-width: 0;
+}
+.eb-lib-main h3 {
+  font-size: 17px;
+  font-weight: 600;
+}
+/* Saved encounters: D&D Beyond's My Encounters, the name as the row's link. */
+.eb-lib-main h3 .text-button {
+  color: var(--accent);
+}
+.eb-lib-main h3 .text-button {
+  font: inherit;
+  padding: 4px 0;
+}
+.eb-lib-main p {
+  margin: 2px 0 8px;
+  overflow-wrap: anywhere;
+}
+.eb-lib-actions {
+  flex: 0 1 auto;
+}
+.eb-menu {
+  position: relative;
+}
+.eb-menu summary {
+  list-style: none;
+  cursor: pointer;
+}
+.eb-menu summary::-webkit-details-marker {
+  display: none;
+}
+/* «Altre azioni»: D&D Beyond's encounter options menu on the core menu plate. */
+.eb-menu > div {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 4px);
+  z-index: 6;
+  min-width: 200px;
+  padding: 6px;
+  background: var(--raised);
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-2);
+}
+.eb-menu > div button {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  text-align: left;
+  color: var(--text);
+  background: transparent;
+  border: 0;
+  border-radius: 10px;
+}
+.eb-menu > div button:hover {
+  background: color-mix(in srgb, var(--raised) 90%, var(--text));
+}
+.eb-scene-encounters {
+  margin-top: 28px;
+}
+.eb-scene-encounters > p {
+  margin: 4px 0 10px;
+}
+.eb-history {
+  margin-top: 24px;
+}
+.eb-history summary {
+  min-height: 40px;
+  padding: 9px 0;
+  cursor: pointer;
+  color: var(--accent);
+}
+.eb-history-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.eb-history-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+/* ------------------------------------------------ editor layout */
+
+.eb-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 8px 16px;
+  margin-bottom: 18px;
+}
+.eb-bar .field {
+  margin: 0;
+  flex: 1 1 260px;
+  max-width: 520px;
+}
+.eb-bar .badge {
+  align-self: center;
+}
+.eb-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 22px;
+  align-items: start;
+}
+.eb-picker,
+.eb-encounter > section,
+.eb-encounter > details {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px;
+}
+.eb-encounter {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+.eb-encounter h3 {
+  font-size: 17px;
+  margin-bottom: 8px;
+}
+.eb-picker .section-heading h3,
+.eb-groups .section-heading h3 {
+  margin: 0;
+}
+
+/* ------------------------------------------------ picker (DDB-091, Kobold+ filters) */
+
+.eb-filter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 0 12px;
+}
+.eb-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: -4px 0 8px;
+}
+/* Filter shortcuts: pills in the theme colour (D&D Beyond filters, dnd5e pill shape). */
+.eb-chip {
+  min-height: 40px;
+  padding: 6px 12px;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--accent);
+  font-weight: 600;
+}
+.eb-chip:hover {
+  background: var(--accent-soft);
+}
+.eb-target {
+  margin-bottom: 12px;
+}
+.eb-results {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+.eb-result {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px 12px;
+  padding: 10px 2px;
+  border-bottom: 1px solid var(--line);
+}
+/* The open creature: Foundry dnd5e's compendium browser marks the chosen row with a gold bar
+   at its left edge. */
+.eb-result.open {
+  background: var(--surface-2);
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+.eb-result.open > .eb-result-main {
+  padding-left: 8px;
+}
+.eb-result-main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 10px;
+  min-width: 0;
+}
+.eb-result-name {
+  min-height: 40px;
+  padding: 6px 0;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font-weight: 600;
+  text-align: left;
+}
+.eb-result-name:hover {
+  color: var(--accent);
+}
+.eb-result-name::before {
+  content: "▸ ";
+  color: var(--muted);
+}
+.eb-result.open .eb-result-name::before {
+  content: "▾ ";
+}
+.eb-result-meta {
+  flex-basis: 100%;
+  color: var(--muted);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.eb-result-block {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+.eb-add {
+  white-space: nowrap;
+}
+.eb-badge-custom {
+  border-color: var(--frame);
+  color: var(--accent);
+}
+
+/* ------------------------------------------------ difficulty (Kobold+ 2024, DDB) */
+
+.eb-band-low {
+  --eb-band: var(--eb-low);
+}
+.eb-band-moderate {
+  --eb-band: var(--eb-moderate);
+}
+.eb-band-high {
+  --eb-band: var(--eb-high);
+}
+/* Kobold+ bands outside the SRD's three (CMP-106). */
+.eb-band-trivial {
+  --eb-band: var(--eb-trivial);
+}
+.eb-band-deadly {
+  --eb-band: var(--eb-deadly);
+}
+/* The band chip: D&D Beyond writes the difficulty in its colour; the chip keeps the text
+   readable and carries the colour on its rim and a leading dot (DDB's difficulty dots). */
+.badge.eb-band {
+  border-color: var(--eb-band, var(--line-strong));
+  color: var(--text);
+}
+.badge.eb-band::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--eb-band, var(--muted));
+}
+.eb-band-line {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 10px;
+}
+/* «DIFFICULTY» as D&D Beyond's condensed capital label; the band word large, in its colour. */
+.eb-band-line span {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+.eb-band-line strong {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--eb-band, var(--text));
+}
+/* D&D Beyond's slanted difficulty bar: a parallelogram track with the band colour filling it. */
+.eb-meter {
+  position: relative;
+  height: 12px;
+  margin-inline: 3px;
+  border-radius: 2px;
+  background: var(--hp-track);
+  border: 1px solid var(--line-strong);
+  overflow: hidden;
+  transform: skewX(-18deg);
+}
+.eb-meter-fill {
+  display: block;
+  height: 100%;
+  background: var(--eb-band, var(--muted));
+  transition: width var(--dur-base) var(--ease-out);
+}
+/* Deadly glows, as D&D Beyond's deadly bar. */
+.eb-band-deadly .eb-meter {
+  border-color: var(--eb-deadly);
+  box-shadow: 0 0 6px var(--eb-deadly);
+}
+.eb-mark {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--text);
+  opacity: 0.55;
+}
+.eb-budget {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(84px, 1fr));
+  gap: 6px;
+  margin: 12px 0 6px;
+}
+/* Thresholds as the core stat boxes (D&D Beyond's boxes: condensed label, bold number); the
+   reached band is lit in its colour. */
+.eb-budget div {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 8px;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+}
+.eb-budget div.current {
+  border-color: var(--eb-band, var(--accent));
+  box-shadow: inset 0 3px 0 var(--eb-band, var(--accent));
+}
+.eb-budget dt {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0;
+  font-variant-caps: all-small-caps;
+  line-height: 1.2;
+  /* Final review F28: labels wrap between words («PE dell’incontro», not «INCON-TRO»). */
+  hyphens: manual;
+  overflow-wrap: break-word;
+}
+/* The numbers share one baseline even when a label wraps. */
+.eb-budget dd {
+  margin: auto 0 0;
+  font-size: 17px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.eb-source {
+  font-size: 12px;
+  margin: 8px 0 0;
+}
+
+/* ------------------------------------------------ party */
+
+.eb-choice {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin: 0 0 12px;
+  padding: 0;
+  border: 0;
+}
+.eb-choice legend {
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+.eb-choice label,
+.eb-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+}
+.eb-choice input,
+.eb-check input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--accent);
+}
+.eb-party-members {
+  margin: 0;
+}
+.eb-party-custom {
+  list-style: none;
+  margin: 0 0 6px;
+  padding: 0;
+}
+.eb-party-custom li {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+.eb-party-custom li > span {
+  padding-bottom: 28px;
+  min-width: 110px;
+}
+.eb-party-custom .field {
+  margin-bottom: 10px;
+  flex: 0 1 110px;
+}
+
+/* ------------------------------------------------ groups and rows (DDB-093, VTL-085) */
+
+.eb-group {
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+}
+/* A group waiting off the map: Foundry dnd5e's dashed outline of what is not placed yet. */
+.eb-group.staged {
+  border-style: dashed;
+  border-color: var(--frame);
+  background: transparent;
+}
+.eb-group-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+}
+.eb-group-head h4 {
+  font-size: 15px;
+  font-weight: 700;
+}
+.badge.eb-staged {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.eb-group-empty {
+  margin: 8px 0 0;
+  font-size: 13px;
+}
+.eb-rows {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0;
+}
+.eb-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 6px 10px;
+  padding: 8px 0;
+  border-top: 1px solid var(--line);
+}
+.eb-row-main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 8px;
+  min-width: 0;
+}
+.eb-row-main > .muted {
+  flex-basis: 100%;
+  font-size: 13px;
+}
+.eb-row-name {
+  min-height: 40px;
+  padding: 6px 0;
+  border: 0;
+  background: transparent;
+  color: var(--accent);
+  font-weight: 600;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+strong.eb-row-name {
+  display: inline-flex;
+  align-items: center;
+  color: var(--text);
+}
+.badge.eb-shared {
+  border-color: color-mix(in srgb, var(--positive) 55%, transparent);
+  color: var(--positive);
+}
+.badge.eb-separate {
+  border-color: var(--line-strong);
+}
+.badge.eb-gone {
+  border-color: color-mix(in srgb, var(--warning) 60%, transparent);
+  color: var(--warning);
+}
+.badge.eb-text-lang {
+  border-color: var(--line-strong);
+  font-weight: 400;
+}
+.eb-linked {
+  flex-basis: 100%;
+  font-size: 13px;
+}
+.eb-linked .text-button {
+  min-height: 40px;
+}
+.eb-link {
+  flex-basis: 100%;
+  margin: 4px 0 0;
+}
+.eb-stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+/* D&D Beyond's quantity stepper: − count +, the count bold between two square buttons. */
+.eb-stepper .button {
+  min-width: 42px;
+  padding-inline: 10px;
+  font-size: 18px;
+}
+.eb-stepper output {
+  min-width: 2.2ch;
+  text-align: center;
+  font-size: 17px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.eb-row-more {
+  grid-column: 1 / -1;
+}
+.eb-row-more summary {
+  list-style: none;
+  min-height: 40px;
+  padding-inline: 0;
+  justify-content: flex-start;
+  color: var(--muted);
+}
+.eb-row-more summary::-webkit-details-marker {
+  display: none;
+}
+.eb-row-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  align-items: end;
+  gap: 0 12px;
+  padding: 4px 0 6px;
+}
+.eb-row-options .field {
+  margin-bottom: 10px;
+}
+.eb-row-options .eb-check {
+  grid-column: 1 / -1;
+}
+.eb-row-options .button.danger {
+  justify-self: start;
+}
+
+/* ------------------------------------------------ stat block (R20-102, DDB-146/168) */
+
+/* Foundry dnd5e's 2024 stat block (statblock rules-2024): a 3 px double frame, a quiet paper,
+   small-capital headings over a hairline; labels bold in the theme colour as D&D Beyond. */
+.eb-block {
+  margin: 8px 0;
+  padding: 14px 16px;
+  border: 3px double var(--eb-rule, var(--line-strong));
+  border-radius: var(--radius-sm);
+  background: var(--eb-paper, var(--surface-2));
+  min-width: 0;
+}
+.eb-block-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px 14px;
+}
+.eb-block-head h4 {
+  font-family: var(--font-display);
+  font-size: 21px;
+  font-weight: 600;
+  font-variant-caps: small-caps;
+  color: var(--accent);
+}
+.eb-block-head p {
+  margin: 2px 0 6px;
+  color: var(--muted);
+  font-style: italic;
+}
+.eb-core,
+.eb-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 4px 14px;
+  margin: 10px 0;
+}
+.eb-core div,
+.eb-meta div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+}
+.eb-meta {
+  grid-template-columns: 1fr;
+}
+.eb-core dt,
+.eb-meta dt {
+  color: var(--accent);
+  font-weight: 600;
+}
+.eb-core dd,
+.eb-meta dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.eb-abilities {
+  width: auto;
+  min-width: 100%;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+.eb-abilities th,
+.eb-abilities td {
+  padding: 4px 6px;
+}
+.eb-block h5 {
+  margin: 14px 0 6px;
+  padding-bottom: 3px;
+  border-bottom: 1px solid var(--eb-rule, var(--line-strong));
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 500;
+  font-variant-caps: small-caps;
+}
+.eb-action p {
+  margin: 6px 0;
+  line-height: 1.55;
+}
+.eb-rolls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 2px 0 8px;
+}
+/* Rollable numbers: D&D Beyond's dice buttons, a bordered box in the theme colour. */
+.eb-roll {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  min-width: 44px;
+  padding: 4px 10px;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-sm);
+  background: var(--sunken);
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  font-size: 13px;
+  font-weight: 600;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+.eb-roll:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.eb-roll .icon {
+  width: 16px;
+  height: 16px;
+}
+.eb-proposal {
+  margin: 6px 0 10px;
+  padding: 10px 12px;
+  border: 1px dashed var(--accent-line);
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+}
+.eb-proposal p {
+  margin: 0 0 8px;
+}
+.eb-text-only {
+  font-size: 12px;
+}
+/* The latest roll: a quiet record box with a hairline (as the core stat boxes). */
+.eb-last-roll {
+  margin: 4px 0 10px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.eb-block-edit .field {
+  margin-bottom: 12px;
+}
+.eb-edit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0 12px;
+}
+.eb-edit-abilities {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0 8px;
+  margin: 0 0 8px;
+  padding: 8px 10px 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+}
+.eb-edit-more {
+  margin: 0 0 12px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+}
+.eb-edit-more summary {
+  min-height: 40px;
+  padding: 8px 0;
+  cursor: pointer;
+  font-weight: 600;
+}
+.eb-edit-checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 14px;
+  margin: 0 0 10px;
+  padding: 4px 0 0;
+  border: 0;
+  min-width: 0;
+}
+.eb-edit-checks legend {
+  font-weight: 500;
+}
+.eb-edit-action {
+  margin: 0 0 10px;
+  padding: 8px 10px 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  min-width: 0;
+}
+.eb-row-block {
+  background: var(--surface);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 18px;
+}
+.eb-row-block .section-heading {
+  margin-bottom: 4px;
+}
+
+/* ------------------------------------------------ notes, hand-off, initiative */
+
+.eb-notes summary {
+  min-height: 40px;
+  padding: 8px 0;
+  cursor: pointer;
+  font-weight: 600;
+}
+.eb-notes .field {
+  margin-bottom: 12px;
+}
+.eb-handoff > p {
+  margin: 0 0 10px;
+}
+/* Warnings: a tinted callout in the warning colour (Owlbear's MUI Alert, standard variant). */
+.eb-warn {
+  padding: 10px 12px;
+  border: 1px solid color-mix(in srgb, var(--warning) 55%, transparent);
+  border-radius: var(--radius-sm);
+  background: var(--warning-soft);
+}
+.eb-copies summary {
+  min-height: 40px;
+  padding: 8px 0;
+  cursor: pointer;
+}
+.eb-copies ul {
+  margin: 0 0 10px;
+  padding-left: 18px;
+  font-size: 13px;
+}
+.eb-copies li {
+  margin: 4px 0;
+  overflow-wrap: anywhere;
+}
+.eb-initiative {
+  margin: 8px 0 12px;
+}
+.eb-initiative h4 {
+  font-size: 15px;
+}
+.eb-initiative > p {
+  margin: 4px 0 8px;
+  font-size: 13px;
+}
+.eb-init-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: eb-init;
+}
+/* The turn position in front of each group, as the start dialog numbers it. */
+.eb-init {
+  counter-increment: eb-init;
+}
+.eb-init-head strong::before {
+  content: counter(eb-init) ". ";
+  color: var(--muted);
+  font-weight: 400;
+}
+.eb-init {
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+}
+.eb-init-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 10px;
+}
+.eb-init-head .muted {
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+.eb-init-head output {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+}
+.eb-init-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0 8px;
+  margin-top: 6px;
+}
+.eb-init-form .field {
+  margin-bottom: 0;
+  flex: 0 1 110px;
+}
+.eb-init-fix {
+  flex-basis: 100%;
+}
+.eb-init-fix summary {
+  list-style: none;
+  justify-content: flex-start;
+  padding-inline: 0;
+  color: var(--muted);
+}
+.eb-init-fix summary::-webkit-details-marker {
+  display: none;
+}
+.eb-init-fix > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0 8px;
+}
+.eb-init-fix .field {
+  margin-bottom: 0;
+  flex: 0 1 110px;
+}
+.eb-init-fix .field:has([name="reason"]) {
+  flex: 1 1 200px;
+}
+.eb-handoff-actions {
+  margin-top: 8px;
+}
+.eb-face {
+  margin: 0;
+}
+.eb-hp-faces {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  margin: 0 0 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+}
+.eb-hp-faces .field {
+  flex: 0 1 90px;
+}
+.eb-faces {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.eb-faces .field {
+  flex: 0 1 100px;
+}
+
+/* ------------------------------------------------ Table drawer (DDB-134, VTL-085) */
+
+.eb-drawer {
+  display: grid;
+  gap: 14px;
+}
+.eb-drawer-encounter {
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.eb-drawer-encounter h3 {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 600;
+}
+.eb-drawer-encounter > p {
+  margin: 2px 0 8px;
+}
+/* Read-aloud text: Foundry dnd5e's narrative callout, a paper block between two gold side
+   rules with a dot at each corner, in the display serif. */
+.eb-read-aloud {
+  --eb-dot: 7px;
+  position: relative;
+  margin: 12px 4px;
+  padding: 10px 16px;
+  border-inline: 1px solid var(--frame);
+  background: var(--surface-2);
+  font-family: var(--font-display);
+}
+.eb-read-aloud::before,
+.eb-read-aloud::after,
+.eb-read-aloud > :last-child::before,
+.eb-read-aloud > :last-child::after {
+  content: "";
+  position: absolute;
+  width: var(--eb-dot);
+  height: var(--eb-dot);
+  border-radius: 50%;
+  background: var(--frame);
+}
+.eb-read-aloud::before {
+  top: calc(var(--eb-dot) / -2);
+  left: calc(var(--eb-dot) / -2);
+}
+.eb-read-aloud::after {
+  top: calc(var(--eb-dot) / -2);
+  right: calc(var(--eb-dot) / -2);
+}
+.eb-read-aloud > :last-child::before {
+  bottom: calc(var(--eb-dot) / -2);
+  left: calc(var(--eb-dot) / -2);
+}
+.eb-read-aloud > :last-child::after {
+  bottom: calc(var(--eb-dot) / -2);
+  right: calc(var(--eb-dot) / -2);
+}
+.eb-read-aloud p {
+  margin: 0 0 4px;
+}
+.eb-read-aloud .muted {
+  font-family: var(--font-ui);
+  font-size: 12px;
+}
+.eb-staged-list {
+  list-style: none;
+  margin: 6px 0;
+  padding: 0;
+}
+.eb-staged-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 12px;
+  padding: 8px 0;
+  border-top: 1px dashed var(--frame);
+}
+.eb-drawer-tokens p {
+  margin: 0 0 8px;
+}
+.eb-drawer-tokens .muted {
+  margin: 8px 0 0;
+}
+.eb-drawer-blocks {
+  margin: 8px 0;
+}
+.eb-drawer-blocks summary {
+  min-height: 40px;
+  padding: 8px 0;
+  cursor: pointer;
+  font-weight: 600;
+}
+.eb-drawer-blocks .eb-block {
+  margin-bottom: 10px;
+}
+.eb-init-other {
+  opacity: 0.85;
+}
+.eb-init [data-prep-initiative-conditions] {
+  margin: 4px 0 0;
+  font-size: 13px;
+}
+
+/* ------------------------------------------------ responsive */
+
+/* Two columns: the monster list scrolls inside its panel (Kobold+ table, DDB picker) so
+   the encounter summary stays in view while adding creatures. */
+@media (min-width: 1101px) {
+  .eb-results {
+    max-height: min(64vh, 760px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}
+
+@media (max-width: 1100px) {
+  .eb-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 720px) {
+  .eb-picker,
+  .eb-encounter > section,
+  .eb-encounter > details,
+  .eb-row-block {
+    padding: 14px 12px;
+  }
+  .eb-lib-tools {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .eb-budget {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .eb-edit-abilities {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .eb-block {
+    padding: 12px 10px;
+  }
+  .eb-menu > div {
+    right: auto;
+    left: 0;
+  }
+  .eb-bar .field {
+    flex-basis: 100%;
+  }
+}
+
+/* P5 fix package — NPC tools on the Table's creature panel and the NPC sheet (PR-46 load
+   statistics from a matching block, PR-43 paste a stat block line) and the row's
+   shared/individual initiative switch (PR-35). */
+.eb-npc-tools {
+  display: grid;
+  gap: 8px;
+}
+.eb-npc-offer p,
+.eb-npc-attack {
+  margin: 0 0 6px;
+}
+.eb-npc-paste summary {
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.eb-npc-paste textarea {
+  width: 100%;
+}
+.eb-npc-parsed {
+  display: block;
+  min-height: 1.4em;
+  margin: 6px 0 8px;
+  color: var(--accent);
+}
+.eb-share-switch {
+  font-size: 12px;
+}

@@ -1,0 +1,1036 @@
+/* B30 — Home, first steps, help, tips, tours and support. Prefix: .home-
+   Visual pass of 29/09/2026 (DESIGN.md; evidence «home-services»): a dashboard of flat
+   hairline cards as Roll20's and D&D Beyond's home pages, a right column with D&D Beyond's
+   condensed tabs, BG3's framed tip card and a Foundry-style tour card. Tokens only. */
+
+.home-page {
+  --home-gap: 28px;
+}
+.home-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 360px);
+  gap: 36px;
+  align-items: start;
+}
+.home-main {
+  min-width: 0;
+}
+.home-main > .campaign-entry,
+.home-main [data-ext-slot] > .campaign-entry {
+  margin-top: 20px;
+}
+.home-card {
+  margin-top: var(--home-gap);
+}
+/* Area widgets inside Home get breathing room unless they set their own margin. */
+:where(.home-main > [data-ext-slot]) > section {
+  margin-top: 20px;
+}
+/* Dashboard cards: D&D Beyond and Kanka flat cards, one hairline, no shadow. */
+.home-main .home-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 22px 24px;
+}
+.home-main > :first-child .home-card,
+.home-main > .home-card:first-child {
+  margin-top: 0;
+}
+
+/* ---------------------------------------------------------------- dashboard (visual pass 2)
+
+   30/09/2026: Roll20's dashboard and D&D Beyond's signed-in home. One grid for the whole
+   page: «continue playing» (the campaign's art on the left, as Roll20's game tile and the
+   campaigns list) with the next session beside it (Foundry's join page puts the next date
+   with the world); under them the characters and the rest in the wide column, the news in
+   a compact right panel (Roll20's Announcements tab). The widgets keep their markup:
+   .home-main is dissolved so every widget is a cell of this grid, in document order. */
+@media (min-width: 1101px) {
+  .home-layout {
+    column-gap: 28px;
+    row-gap: 0;
+  }
+  /* Row 1 is kept for an account notice across the page; an empty row has no height. */
+  .home-layout::before {
+    content: "";
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+  .home-layout > .home-main {
+    display: contents;
+  }
+  /* Low specificity (:where) so the placements below win over this default. */
+  .home-layout > .home-main > :where(:not([data-ext-slot])),
+  .home-layout > .home-main > :where([data-ext-slot]) > :where(*) {
+    grid-column: 1;
+    min-width: 0;
+    margin: 0 0 24px;
+  }
+  .home-layout > .home-main > [data-ext-slot="home-widget:account-status"] > :where(*) {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+  .home-layout .resume-scene {
+    grid-row: 2;
+    align-self: stretch;
+  }
+  .home-layout .home-main .home-appointment {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: stretch;
+    margin: 0 0 24px;
+    padding: 22px 24px;
+  }
+  .home-layout .home-appointment h2 {
+    margin-top: 0;
+    font-size: var(--text-xl);
+  }
+  .home-layout > .home-aside {
+    grid-column: 2;
+    grid-row: 3 / span 24;
+  }
+  /* Without a campaign to resume the right column starts at the top. */
+  .home-layout:not(:has(.resume-scene)) > .home-aside {
+    grid-row: 2 / span 24;
+  }
+  .home-layout .home-appointment {
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .home-layout .home-appointment-actions {
+    align-self: stretch;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+}
+
+/* Continue playing: the core resume card as Roll20's game tile — the campaign image fills
+   the left panel (cover); without one, the campaigns list's cover gradient and the map
+   emblem. The name in the display serif, then where the party is, then the way in. */
+.home-page .resume-scene {
+  grid-template-columns: minmax(200px, 38%) 1fr;
+  min-height: 240px;
+}
+.home-page .scene-emblem {
+  background: linear-gradient(135deg, var(--token-ally-fill), var(--surface-2));
+}
+.home-dashboard[data-home-art] .scene-emblem {
+  background:
+    var(--home-art) center / cover no-repeat,
+    var(--canvas);
+}
+.home-dashboard[data-home-art] .scene-emblem .icon {
+  display: none;
+}
+.home-page .resume-scene > div:last-child {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 28px 32px;
+}
+.home-page .resume-scene .toolbar {
+  margin-top: 4px;
+}
+/* Your character and Previously: two flat cards side by side (D&D Beyond's home rows). */
+.home-page .home-bottom {
+  gap: 24px;
+  /* Final review C2-5 (D&D Beyond «My Characters», Kanka cards): «Il tuo personaggio» keeps
+     its own height instead of stretching to «Dove eravamo rimasti». */
+  align-items: start;
+}
+.home-layout .home-bottom {
+  margin-top: 0;
+}
+.home-page .home-bottom > section {
+  min-width: 0;
+  padding: 20px 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+.home-page .home-bottom h2 {
+  font-size: var(--text-xl);
+}
+.home-page .home-bottom .character-resume:last-child {
+  border-bottom: 0;
+}
+.home-card .section-heading {
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.home-card .section-heading h2 {
+  font-size: var(--text-xl);
+}
+.home-desc {
+  color: var(--muted);
+}
+
+/* ---------------------------------------------------------------- first steps */
+
+.home-page > .toolbar + .home-start,
+.home-page > .toolbar + .home-layout {
+  margin-top: 24px;
+}
+
+/* Roll20's «Getting started» card: the one card framed in the bronze trim (BG3), flat. */
+.home-start {
+  margin: 0 0 32px;
+  padding: 24px 26px 26px;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+.home-start-fold > summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  cursor: pointer;
+}
+/* The disclosure triangle of a native details, drawn again: flex removes the marker. */
+.home-start-fold > summary::before {
+  content: "";
+  flex: none;
+  width: 7px;
+  height: 10px;
+  background: var(--accent);
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.home-start-fold[open] > summary::before {
+  transform: rotate(90deg);
+}
+.home-start-fold > summary::-webkit-details-marker {
+  display: none;
+}
+.home-start-fold > summary .home-eyebrow {
+  margin: 0;
+}
+.home-start-fold > summary {
+  list-style: none;
+}
+.home-start-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+.home-start-head h2 {
+  margin: 0 0 4px;
+}
+.home-start-head p {
+  margin: 0;
+}
+/* D&D Beyond's condensed label, drawn as small caps (the words stay as written). */
+.home-eyebrow {
+  margin: 0 0 6px;
+  color: var(--accent);
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+.home-paths {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+/* Three ways in: BG3's choice tiles, a sunken tile with a hairline. */
+.home-path {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+}
+.home-path h3 {
+  margin: 0;
+}
+.home-path p {
+  margin: 0;
+  flex: 1;
+}
+.home-path.is-ready {
+  border-color: var(--positive);
+}
+.home-checklist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.home-checklist .text-button {
+  padding: 6px 0;
+}
+
+/* ---------------------------------------------------------------- rows and lists */
+
+.home-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.home-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+}
+.home-row:first-child {
+  border-top: 0;
+}
+.home-row-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+.home-row-text small,
+.home-row small {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.home-row .toolbar {
+  flex-shrink: 0;
+  justify-content: flex-end;
+}
+.home-row.is-next strong {
+  color: var(--accent);
+}
+/* Experience bar: BG3's thin gold XP line on a dark track. */
+.home-xpbar {
+  display: block;
+  width: min(260px, 100%);
+  height: 6px;
+  margin-top: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--hp-track);
+  overflow: hidden;
+}
+.home-xpbar > span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--accent);
+}
+
+/* ---------------------------------------------------------------- next session */
+
+.home-appointment .home-appointment-main {
+  min-width: 0;
+}
+.home-appointment p {
+  margin: 0 0 6px;
+}
+.home-appointment-campaign {
+  color: var(--text) !important;
+}
+/* The countdown in the display serif and the theme colour (BG3 titles, D&D Beyond theme). */
+.home-appointment-when {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-variant-numeric: tabular-nums;
+  color: var(--accent) !important;
+}
+.home-agreed {
+  font-size: var(--text-sm);
+}
+.home-other-sessions {
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 12px 0 0;
+  border-top: 1px solid var(--line);
+}
+.home-other-sessions li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  align-items: baseline;
+  padding: 4px 0;
+  font-variant-numeric: tabular-nums;
+}
+.home-other-sessions small {
+  flex-basis: 100%;
+  color: var(--muted);
+}
+.home-appointment-actions {
+  align-self: flex-start;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+.home-appointment-actions .button {
+  white-space: nowrap;
+}
+.home-main .home-appointment {
+  margin-bottom: 20px;
+}
+
+/* ---------------------------------------------------------------- recent characters */
+
+/* Your characters: D&D Beyond's character cards in one row (portrait, name, class and level,
+   hit points); on a phone the row scrolls sideways like the other strips. */
+.home-recent-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+/* Recent characters: Roll20's recent-game tiles in the button's materials (Foundry shape,
+   BG3 bronze rim, gold on hover). */
+.home-chip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 72px;
+  padding: 10px 14px;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--text);
+  text-align: left;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+.home-chip:hover {
+  background: var(--raised);
+  border-color: var(--accent-line);
+}
+.home-chip small {
+  display: block;
+  color: var(--muted);
+}
+
+/* ---------------------------------------------------------------- side panel */
+
+/* Roll20's right sidebar scrolls on its own: a sticky panel taller than the screen would
+   otherwise hide its lower entries (older news) until the end of the page. */
+.home-aside {
+  position: sticky;
+  top: 16px;
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  min-width: 0;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 6px 18px 20px;
+}
+.home-tabs {
+  display: flex;
+  gap: 2px;
+  border-bottom: 1px solid var(--line);
+  margin: 0 -18px 16px;
+  padding: 0 10px;
+  overflow-x: auto;
+}
+/* The core section tabs (D&D Beyond): condensed small caps, the open one in the theme colour
+   over its underline. */
+.home-tabs [role="tab"] {
+  min-height: 46px;
+  padding: 10px 12px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-label);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  font-variant-caps: all-small-caps;
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+.home-tabs [role="tab"]:hover {
+  color: var(--text);
+  border-bottom-color: var(--line-strong);
+}
+.home-tabs [role="tab"][aria-selected="true"] {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+/* Unread count: a filled theme-colour pill (D&D Beyond's notification count). */
+.home-count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  font-variant-caps: normal;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+.home-panel:focus-visible,
+.home-news-item:focus {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+.home-panel > .home-card:first-child,
+.home-panel > .home-panel-head + .home-news {
+  margin-top: 0;
+}
+.home-aside .home-card {
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  margin-top: 18px;
+}
+.home-aside .home-card:first-child {
+  border-top: 0;
+  padding-top: 0;
+  margin-top: 0;
+}
+.home-aside .home-row {
+  flex-wrap: wrap;
+  gap: 8px 14px;
+}
+.home-aside .home-row .toolbar {
+  width: 100%;
+  justify-content: flex-start;
+}
+.home-aside h3 {
+  margin-bottom: 8px;
+}
+.home-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.home-panel-head p {
+  margin: 0;
+  color: var(--muted);
+}
+.home-news {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.home-news-item {
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+}
+/* A compact panel (Roll20's Announcements): each entry is date, title, three lines of text
+   and its commands on one row. The whole text opens under the pointer or the keyboard focus
+   (and for the entry a bell row points at); assistive technology always reads all of it. */
+.home-news-item .home-desc {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: var(--text-sm);
+}
+.home-news-item:is(:hover, :focus-within, :focus) .home-desc {
+  -webkit-line-clamp: unset;
+}
+.home-news-item .toolbar {
+  gap: 4px 6px;
+  margin: 0;
+}
+.home-news-item .toolbar .button {
+  padding-inline: 12px;
+  font-size: var(--text-sm);
+}
+.home-news-older {
+  border-top: 1px solid var(--line);
+}
+.home-news-older .home-news-item:first-child {
+  padding-top: 8px;
+}
+.home-news-item:first-child {
+  border-top: 0;
+  padding-top: 4px;
+}
+.home-news-item h3 {
+  margin: 4px 0 4px;
+  font-size: var(--text-md);
+}
+.home-news-item p {
+  margin: 0 0 8px;
+}
+.home-news-item.is-unread h3::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  vertical-align: middle;
+}
+.home-news-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+  margin: 0 !important;
+}
+/* «New»: the theme-colour chip (D&D Beyond), the core pill with a gold rim and tint. */
+.home-badge-new {
+  border-color: var(--accent-line);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.home-check {
+  align-items: flex-start;
+}
+.home-check input {
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+.home-check small {
+  display: block;
+  color: var(--muted);
+}
+.home-tip-archive {
+  list-style: none;
+  margin: 6px 0 12px;
+  padding: 0;
+}
+.home-tip-archive li {
+  border-top: 1px solid var(--line);
+}
+.home-tip-archive summary {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  cursor: pointer;
+  padding: 6px 0;
+}
+.home-tip-archive p {
+  color: var(--muted);
+  margin: 0 0 10px;
+}
+
+/* ---------------------------------------------------------------- support */
+
+.home-status-summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 8px;
+}
+/* Service status dots (Roll20/D&D Beyond status pages): green up, red for a problem. */
+.home-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--positive);
+}
+.home-dot.is-warn,
+.is-warn > .home-dot {
+  background: var(--danger);
+}
+.home-status-list {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0;
+}
+.home-status-list li {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  padding: 6px 0;
+}
+.home-status-list small {
+  display: block;
+  color: var(--muted);
+}
+.home-details summary {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: var(--accent);
+  font-weight: 600;
+}
+.home-details ul {
+  margin: 0 0 8px;
+  padding-left: 18px;
+}
+.home-segmented {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0 10px;
+}
+.home-steps {
+  margin: 0 0 10px;
+  padding-left: 22px;
+}
+.home-steps li {
+  padding: 3px 0;
+}
+.home-steps li::marker {
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.home-facts {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 16px;
+}
+.home-facts div {
+  display: grid;
+  grid-template-columns: minmax(120px, 34%) 1fr;
+  gap: 12px;
+}
+/* Fact labels: D&D Beyond's condensed small-caps labels beside the values. */
+.home-facts dt {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+.home-facts dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+.home-report-preview {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-height: 220px;
+  overflow: auto;
+  margin: 0;
+  padding: 12px;
+  background: var(--sunken);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+}
+.home-consequences {
+  padding-left: 20px;
+}
+.home-help ul {
+  padding-left: 20px;
+  margin: 0 0 16px;
+}
+.home-help li {
+  padding: 3px 0;
+}
+.home-help .toolbar {
+  margin-bottom: 14px;
+}
+
+/* ---------------------------------------------------------------- tip pop-up (BG3) */
+
+/* Non-modal: the page under the card keeps working; only its buttons take the pointer.
+   BG3's tutorial card: a dark plate in the bronze frame, serif title, floating shadow. */
+.home-pop {
+  position: fixed;
+  z-index: 58;
+  width: min(340px, calc(100vw - 24px));
+  padding: 14px 16px 12px;
+  border: 1px solid var(--frame);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-2);
+  pointer-events: none;
+}
+.home-pop:empty {
+  display: none;
+}
+.home-pop h2 {
+  margin: 0 0 6px;
+  font-size: var(--text-lg);
+}
+.home-pop p {
+  margin: 0 0 10px;
+  font-size: var(--text-sm);
+}
+.home-pop .home-pop-kicker {
+  margin: 0 0 4px;
+  color: var(--accent);
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+.home-pop-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+}
+.home-pop-actions .button {
+  pointer-events: auto;
+  min-height: 40px;
+}
+.home-pop.is-docked {
+  left: 12px !important;
+  right: 12px;
+  top: auto !important;
+  bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  width: auto;
+}
+/* "Read" exists only where a Table tip can shrink to its one-row bar. */
+.home-pop-more {
+  display: none;
+}
+.home-pop.can-compact .home-pop-more {
+  display: inline-flex;
+}
+/* B61: at the Table on a phone the tip is one row above the action bar (like the docked
+   X-card of B27): title, Read, Got it. The map above it stays uncovered. */
+.home-pop.is-compact {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 6px 3px 12px;
+}
+.home-pop.is-compact h2 {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  font-size: var(--text-md);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.home-pop.is-compact .home-pop-kicker,
+.home-pop.is-compact #home-pop-body,
+.home-pop.is-compact
+  .home-pop-actions
+  .button:not([data-home-pop-more], [data-home-pop-action="got-it"]) {
+  display: none;
+}
+.home-pop.is-compact .home-pop-actions {
+  flex-wrap: nowrap;
+  flex: none;
+}
+
+/* ---------------------------------------------------------------- level-up tab (sheet) */
+
+.home-level-tab {
+  display: grid;
+  gap: 10px;
+  justify-items: start;
+}
+.home-level-tab p {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+.home-level-tab .home-xpbar {
+  width: min(420px, 100%);
+  height: 8px;
+}
+
+/* ---------------------------------------------------------------- compact preview */
+
+.home-compact {
+  --home-gap: 16px;
+}
+.home-compact .home-desc,
+.home-compact .home-path p {
+  display: none;
+}
+.home-compact .home-start {
+  padding: 16px 18px;
+}
+.home-compact .home-paths {
+  gap: 10px;
+}
+
+/* ---------------------------------------------------------------- guided tour overlay */
+
+/* Foundry's tours: the real control ringed in the focus colour, the rest of the page under
+   the dialogs' scrim. */
+.home-tour-ring {
+  position: fixed;
+  z-index: 60;
+  pointer-events: none;
+  border: 3px solid var(--focus);
+  border-radius: var(--radius-md);
+  box-shadow: 0 0 0 100vmax var(--scrim);
+  transition:
+    top var(--dur-base) var(--ease-out),
+    left var(--dur-base) var(--ease-out),
+    width var(--dur-base) var(--ease-out),
+    height var(--dur-base) var(--ease-out);
+}
+/* The step card: the dialog's BG3 frame and Owlbear radius, floating. */
+.home-tour {
+  position: fixed;
+  z-index: 61;
+  width: min(380px, calc(100vw - 24px));
+  padding: 16px 18px 18px;
+  border: 1px solid var(--frame);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-3);
+}
+.home-tour h2 {
+  font-size: var(--text-xl);
+  margin: 0 0 8px;
+}
+.home-tour h2:focus {
+  outline: none;
+}
+.home-tour p {
+  margin: 0 0 12px;
+}
+.home-tour-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+.home-tour-count {
+  margin: 0 !important;
+  color: var(--muted);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}
+.home-tour-missing {
+  color: var(--danger);
+  font-size: var(--text-sm);
+}
+.home-tour-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+.home-tour.is-docked {
+  left: 12px !important;
+  right: 12px;
+  top: auto !important;
+  bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  width: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-tour-ring {
+    transition: none;
+  }
+}
+
+/* ---------------------------------------------------------------- responsive */
+
+@media (max-width: 1100px) {
+  .home-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .home-aside {
+    position: static;
+    max-height: none;
+    overflow: visible;
+  }
+}
+@media (max-width: 900px) {
+  .home-paths {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 720px) {
+  /* The campaign art stays on a phone as a banner over the card (the campaigns list cover). */
+  .home-page .resume-scene {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .home-appointment-actions {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+  .home-main > .home-start-fold {
+    margin-bottom: 0;
+  }
+  .home-dashboard[data-home-art] .resume-scene .scene-emblem {
+    display: block;
+    aspect-ratio: 16 / 7;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .home-page .resume-scene > div:last-child {
+    padding: 22px 20px;
+  }
+  .home-page .home-bottom {
+    gap: 16px;
+    margin-top: 20px;
+  }
+  .home-page .home-bottom > section {
+    padding: 16px;
+  }
+  .home-recent-grid {
+    grid-auto-flow: column;
+    grid-template-columns: none;
+    grid-auto-columns: minmax(230px, 78%);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    padding-bottom: 4px;
+  }
+  .home-recent-grid > .home-chip {
+    scroll-snap-align: start;
+  }
+  .home-start {
+    padding: 18px 16px;
+  }
+  .home-main .home-card {
+    padding: 18px 16px;
+  }
+  .home-row {
+    flex-wrap: wrap;
+  }
+  .home-row .toolbar,
+  .home-row > .button {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .home-row > .button {
+    justify-content: center;
+  }
+  .home-appointment-actions {
+    width: 100%;
+  }
+  .home-appointment-when {
+    font-size: var(--text-lg);
+  }
+  .home-facts div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
+  }
+  .home-aside {
+    padding: 4px 14px 18px;
+  }
+  .home-tabs {
+    margin: 0 -14px 14px;
+  }
+}
+/* P1 SV-48: tips on/off, reset and archive inside the help of every page. */
+.home-help-tips {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.home-help-tips h3 {
+  margin: 0 0 6px;
+}

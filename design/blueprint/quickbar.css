@@ -1,0 +1,771 @@
+/* B53 — Quick bar: a full row of the Table's bottom action bar (BG3 hotbar CRP-098), its
+   tray, run results and dialogs. Prefix .qb-. Targets are at least 40 px. */
+
+.qb {
+  flex: 1 0 100%;
+  min-width: 0;
+  display: grid;
+  gap: 8px;
+  --qb-slot: 64px;
+}
+.qb-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  min-width: 0;
+}
+.qb-pages,
+.qb-tools {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: none;
+}
+/* Page arrows and tools: the core button's material (Foundry v13 shape, BG3 bronze rim). */
+.qb-icon {
+  min-width: 40px;
+  min-height: 40px;
+  display: inline-grid;
+  place-items: center;
+  padding: 0 6px;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-sm);
+  background: var(--raised);
+  color: var(--text);
+  font-size: var(--text-lg);
+  line-height: 1;
+}
+.qb-icon:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--raised) 90%, var(--text));
+  border-color: var(--accent-line);
+}
+.qb-icon.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+.qb-icon .icon {
+  width: 18px;
+  height: 18px;
+}
+/* The page's name: a BG3 hotbar page pill — bronze rim, display serif. */
+.qb-page-name {
+  min-height: 40px;
+  max-width: 190px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 12px;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-pill);
+  background: var(--sunken);
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+}
+.qb-page-name.is-shared {
+  border-style: dashed;
+  border-color: var(--accent);
+}
+.qb-page-num {
+  color: var(--accent);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.qb-page-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.qb-slots {
+  display: flex;
+  gap: 4px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+/* Slots: BG3 hotbar wells (dark, small radius) with the colour a player gave the slot on its
+   top edge, as Roll20's macro quick bar lets each button carry its own colour. */
+.qb-slot {
+  --qb-hue: var(--muted);
+  position: relative;
+  width: var(--qb-slot);
+  min-width: 44px;
+  height: 44px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  padding: 10px 4px 2px;
+  border: 1px solid color-mix(in srgb, var(--qb-hue) 45%, var(--frame-soft));
+  border-top-width: 3px;
+  border-top-color: var(--qb-hue);
+  border-radius: var(--radius-xs);
+  background: color-mix(in srgb, var(--qb-hue) 12%, var(--sunken));
+  color: var(--text);
+  font-size: var(--text-2xs);
+  line-height: 1.15;
+  text-align: center;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: pan-x;
+}
+.qb-slot:hover:not(.is-empty) {
+  background: color-mix(in srgb, var(--qb-hue) 24%, var(--sunken));
+}
+/* An empty slot: dnd5e's dashed empty outline. */
+.qb-slot.is-empty {
+  border-style: dashed;
+  border-color: var(--line-strong);
+  border-top-width: 1px;
+  background: transparent;
+  color: var(--muted);
+}
+.qb-slot.is-unavailable {
+  opacity: 0.55;
+}
+.qb-slot.is-unavailable .qb-label {
+  text-decoration: line-through;
+}
+/* The slot's key in its corner, as BG3 numbers its hotbar slots (10 px: it shares the
+   44 px well with a two-line label). */
+.qb-key {
+  position: absolute;
+  top: 1px;
+  left: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.qb-label {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-word;
+}
+.qb-plus {
+  font-size: var(--text-md);
+}
+.qb-steps-count {
+  position: absolute;
+  top: 1px;
+  right: 4px;
+  font-size: 10px;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+/* PG-77: a class feature's uses left (BG3 class actions), in the corner like the steps. */
+.qb-uses {
+  position: absolute;
+  top: 1px;
+  right: 4px;
+  font-size: 10px;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+/* The six slot colours read the palette's role colours, so they follow the theme. */
+.qb-c-gold {
+  --qb-hue: var(--accent);
+}
+.qb-c-red {
+  --qb-hue: var(--danger);
+}
+.qb-c-blue {
+  --qb-hue: var(--info);
+}
+.qb-c-green {
+  --qb-hue: var(--positive);
+}
+.qb-c-purple {
+  --qb-hue: var(--vis-dm);
+}
+.qb-c-grey {
+  --qb-hue: var(--muted);
+}
+.qb-select {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+.qb-select select {
+  min-height: 40px;
+  padding: 0 8px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--sunken);
+  color: var(--text);
+  font-size: var(--text-sm);
+}
+.qb-select.is-set select,
+.qb-select select:has(option[value="physical"]:checked) {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.qb-note {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+.qb-note .icon {
+  width: 16px;
+  flex: none;
+}
+
+/* Customising: slots and tray items drag (touch too), BG3's hotbar edit. */
+.qb.is-editing .qb-slot:not(.is-empty) {
+  border-style: dashed;
+  cursor: grab;
+  touch-action: none;
+}
+.qb.is-editing .qb-chip {
+  touch-action: none;
+}
+.qb.is-dragging,
+.qb.is-dragging * {
+  cursor: grabbing;
+}
+.qb-slot.is-drop {
+  outline: 3px dashed var(--accent);
+  outline-offset: 2px;
+}
+.qb-ghost {
+  position: fixed;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.9;
+  box-shadow: var(--shadow-2);
+}
+/* The customise tray: a BG3 panel above the hotbar (the core floating slab, gold rim while
+   editing). */
+.qb-tray {
+  display: grid;
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-md);
+  background: var(--raised);
+}
+.qb-tray-head {
+  position: sticky;
+  top: -10px;
+  z-index: 1;
+  margin: -10px -10px 0;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  background: var(--raised);
+  border-bottom: 1px solid var(--line);
+}
+.qb-hint {
+  flex: 1 1 320px;
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+.qb-tray-groups {
+  display: grid;
+  /* Five groups (custom, sheet, checks, saves, skills) side by side on a wide Table. */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 8px 14px;
+}
+.qb-tray-group h3 {
+  margin: 0 0 4px;
+  font-family: var(--font-label);
+  font-size: var(--text-sm);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--label-tracking);
+  color: var(--muted);
+  font-weight: 700;
+}
+.qb-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.qb-chip {
+  min-height: 40px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 3px 9px;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-xs);
+  background: var(--sunken);
+  color: var(--text);
+  font-size: var(--text-xs);
+  line-height: 1.2;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.qb-chip small {
+  color: var(--muted);
+  font-size: 10px;
+}
+.qb-chip:hover {
+  border-color: var(--accent);
+}
+.qb-empty-note {
+  font-size: var(--text-xs);
+}
+.qb-tray-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: flex-end;
+  margin-left: auto;
+}
+
+/* Run results and the customise tray float above the action bar (they never push the
+   Table's layout): each step with its own outcome (Alchemy chained rolls VTL-028). */
+@media (min-width: 721px) {
+  .action-dock:has(.qb-run, .qb-tray) {
+    position: relative;
+  }
+}
+.qb-run,
+.qb-tray {
+  position: absolute;
+  z-index: 5;
+  left: 12px;
+  bottom: calc(100% + 6px);
+  width: min(820px, calc(100% - 24px));
+  max-height: min(46vh, 360px);
+  overflow: auto;
+  box-shadow: var(--shadow-2);
+}
+.qb-tray {
+  width: min(1120px, calc(100% - 24px));
+}
+/* Run results: the core floating slab, its rim in the outcome colour (not a side stripe). */
+.qb-run {
+  display: grid;
+  gap: 6px;
+  padding: 8px 10px;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-md);
+  background: var(--raised);
+}
+.qb-run[data-qb-run-status="blocked"],
+.qb-run[data-qb-run-status="stopped"] {
+  border-color: color-mix(in srgb, var(--danger) 60%, transparent);
+}
+.qb-run-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  font-size: var(--text-sm);
+}
+.qb-run-status {
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+.qb-run-tools {
+  margin-left: auto;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.qb-small {
+  min-height: 40px;
+  padding: 4px 10px;
+  font-size: var(--text-xs);
+}
+.qb-close {
+  width: 40px;
+  height: 40px;
+}
+.qb-run-steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.qb-step {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 2px 8px;
+  padding: 4px 8px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  font-size: var(--text-xs);
+  min-width: 180px;
+  max-width: 100%;
+}
+.qb-step small {
+  grid-column: 2 / -1;
+  color: var(--muted);
+  font-size: var(--text-2xs);
+}
+.qb-step .qb-small {
+  grid-column: 1 / -1;
+  justify-self: start;
+}
+.qb-step-n {
+  width: 20px;
+  height: 20px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--raised);
+  font-size: var(--text-2xs);
+  font-variant-numeric: tabular-nums;
+}
+.qb-step.is-done .qb-step-n {
+  background: color-mix(in srgb, var(--positive) 40%, var(--surface));
+}
+.qb-step.is-blocked,
+.qb-step.is-skipped {
+  border-style: dashed;
+}
+.qb-step.is-blocked .qb-step-n {
+  background: color-mix(in srgb, var(--danger) 45%, var(--surface));
+}
+.qb-step-total {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.qb-step-reason {
+  color: var(--danger) !important;
+}
+.qb-run-reason {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+
+/* Dialogs */
+.qb-choose {
+  display: grid;
+  gap: 2px;
+  max-height: 42vh;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+}
+.qb-group-title {
+  margin: 8px 0 2px;
+  font-family: var(--font-label);
+  font-size: var(--text-sm);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--label-tracking);
+  color: var(--muted);
+  font-weight: 700;
+}
+.qb-option {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+}
+.qb-option:hover {
+  background: var(--raised);
+}
+.qb-option small {
+  color: var(--muted);
+}
+.qb-option input {
+  width: 18px;
+  height: 18px;
+  flex: none;
+}
+.qb-colors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  border: 0;
+  padding: 0;
+  margin: 6px 0;
+}
+.qb-colors legend {
+  padding: 0 0 4px;
+  font-size: var(--text-sm);
+}
+.qb-swatch {
+  --qb-hue: var(--muted);
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px;
+  border: 1px solid color-mix(in srgb, var(--qb-hue) 45%, var(--frame-soft));
+  border-top: 3px solid var(--qb-hue);
+  border-radius: var(--radius-xs);
+  background: color-mix(in srgb, var(--qb-hue) 12%, var(--sunken));
+  font-size: var(--text-sm);
+}
+.qb-swatch:has(input:checked) {
+  outline: 2px solid var(--qb-hue);
+  outline-offset: 1px;
+}
+.qb-formula-status {
+  min-height: 1.5em;
+  margin: 2px 0 6px;
+  font-size: var(--text-sm);
+}
+.qb-ok {
+  color: var(--positive);
+}
+.qb-bad {
+  color: var(--danger);
+}
+.qb-formula {
+  font-size: var(--text-lg);
+  font-variant-numeric: tabular-nums;
+}
+.qb-seq {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+}
+.qb-seq .muted {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: var(--text-xs);
+}
+.qb-fieldset {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  margin: 8px 0;
+}
+.qb-fieldset legend label,
+.qb-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+}
+.qb-preview {
+  margin: 8px 0 0;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+}
+.qb-menu {
+  display: grid;
+  gap: 14px;
+}
+.qb-menu section h3 {
+  margin: 0 0 6px;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 600;
+}
+.qb-menu-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 8px;
+}
+.qb-menu-row .field {
+  flex: 1 1 200px;
+  margin: 0;
+}
+.qb-menu-row .button {
+  margin-bottom: 0;
+}
+.qb-menu-actions {
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.qb-all {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 6px;
+}
+.qb-all li {
+  padding: 6px 8px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+}
+.qb-all li.is-current {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.qb-all-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+}
+.qb-all-head button {
+  margin-left: auto;
+}
+.qb-all-row {
+  margin: 4px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+.qb-mini {
+  --qb-hue: var(--line-strong);
+  padding: 1px 6px;
+  border-radius: var(--radius-xs);
+  border: 1px solid color-mix(in srgb, var(--qb-hue) 70%, transparent);
+  font-size: var(--text-2xs);
+  color: var(--muted);
+}
+.qb-history {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 4px;
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}
+.qb-history small {
+  display: block;
+  color: var(--muted);
+}
+.qb-history .is-withdrawn span {
+  text-decoration: line-through;
+}
+.qb-share-list {
+  margin: 0 0 8px;
+  padding-left: 18px;
+}
+.qb-custom {
+  margin-top: 16px;
+}
+.qb-custom-row .toolbar {
+  flex-wrap: wrap;
+}
+.qb-custom-notes {
+  margin: 2px 0 0;
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+.qb-keys-help {
+  font-size: var(--text-xs);
+}
+
+/* TV-67 (BG3 hotbar): in the Table's hotbar the quick bar keeps two rows, like the
+   actions page — page and tools on the first, the ten slots on the second (scrolling
+   sideways when the window is narrow) — so nothing is cut at 1440 × 900. */
+@media (min-width: 721px) {
+  .table-hotbar .qb {
+    --qb-slot: 56px;
+    gap: 6px;
+  }
+  .table-hotbar .qb-row {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 6px 10px;
+  }
+  .table-hotbar .qb-pages {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .table-hotbar .qb-tools {
+    grid-column: 2;
+    grid-row: 1;
+    justify-content: flex-end;
+    min-width: 0;
+  }
+  /* Visual pass 2: the hotbar sits between the party portraits and the sidebar's foot, so its
+     middle can be narrower than the page line: the tools scroll sideways instead of running
+     over the page arrows («safe» keeps the first tool reachable). */
+  .table-hotbar .qb-tools {
+    justify-content: safe flex-end;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    margin: -3px 0;
+    padding: 3px;
+  }
+  .table-hotbar .qb-page-name {
+    max-width: 160px;
+  }
+  .table-hotbar .qb-slots {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    padding-bottom: 2px;
+  }
+}
+/* Narrow desktop: slots keep their size and the tools wrap. */
+@media (max-width: 1279px) {
+  .qb {
+    --qb-slot: 58px;
+  }
+}
+/* Phone: the slots are one strip across the width (scrolling sideways inside it); page
+   and tools on a second line; dice and d20 modes live in the ⋯ menu. */
+@media (max-width: 720px) {
+  .qb {
+    --qb-slot: 56px;
+    margin-top: 8px;
+    gap: 6px;
+  }
+  .qb-row {
+    gap: 6px;
+  }
+  .qb-slots {
+    order: -1;
+    flex: 1 0 100%;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    padding-bottom: 2px;
+  }
+  .qb-slot {
+    scroll-snap-align: start;
+  }
+  .qb-select {
+    display: none;
+  }
+  .qb-pages {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .qb-page-name {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: none;
+  }
+  .qb-step {
+    min-width: 0;
+    flex: 1 1 100%;
+  }
+  .qb-run-tools {
+    margin-left: 0;
+  }
+  .qb-run,
+  .qb-tray {
+    left: 8px;
+    width: calc(100% - 16px);
+    max-height: 44vh;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .qb-slot {
+    transition: background var(--dur-fast) var(--ease-out);
+  }
+}

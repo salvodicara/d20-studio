@@ -1,0 +1,761 @@
+/* Conditions and vitality panel (increment 10). Provisional style: it follows
+   rest-ui/forms-ui tokens and spacing; hierarchy and targets are the contract. */
+#dialog:has([data-conditions-panel]) {
+  width: min(1080px, calc(100vw - 32px));
+}
+.conditions-panel {
+  display: grid;
+  gap: 18px;
+  min-width: 0;
+}
+.conditions-panel h3,
+.conditions-panel h4,
+.conditions-panel h5,
+.conditions-panel h6,
+.conditions-panel p,
+.conditions-panel dd,
+.conditions-panel li {
+  overflow-wrap: anywhere;
+}
+.conditions-panel p {
+  margin: 0;
+}
+.conditions-panel h4 {
+  margin: 0 0 12px;
+  font-size: 16px;
+}
+.conditions-panel h5 {
+  margin: 0 0 10px;
+  font-size: var(--text-md);
+}
+.conditions-panel h6 {
+  margin: 14px 0 6px;
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  font-variant-caps: all-small-caps;
+}
+.conditions-panel .button {
+  min-height: 44px;
+}
+.conditions-panel input,
+.conditions-panel select {
+  max-width: 100%;
+}
+.conditions-panel .field {
+  min-width: 0;
+  margin-bottom: 14px;
+}
+.conditions-panel .field input,
+.conditions-panel .field select {
+  width: 100%;
+}
+
+/* Vital status: the first thing read, distinct from the conditions list. */
+.conditions-status {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.conditions-identity {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+}
+/* The creature's name in the serif of BG3's portraits; the vital state as a Foundry dnd5e pill
+   with a status dot. */
+.conditions-identity h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 400;
+}
+.conditions-vital {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 11px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+.conditions-vital::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  flex: 0 0 8px;
+  border-radius: 50%;
+  background: var(--positive);
+}
+.conditions-vital[data-vital="dying"],
+.conditions-vital[data-vital="dead"] {
+  border-color: var(--danger);
+}
+.conditions-vital[data-vital="dying"]::before,
+.conditions-vital[data-vital="dead"]::before {
+  background: var(--danger);
+}
+.conditions-vital[data-vital="stable"]::before,
+.conditions-vital[data-vital="knocked-out"]::before,
+.conditions-vital[data-vital="zero-hp"]::before,
+.conditions-vital[data-vital="unknown"]::before,
+.conditions-vital[data-vital="gone"]::before {
+  background: var(--accent);
+}
+.conditions-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+  margin: 0;
+}
+.conditions-facts div {
+  display: grid;
+  gap: 2px;
+}
+.conditions-facts dt {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  font-variant-caps: all-small-caps;
+}
+.conditions-facts dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+.conditions-facts dd strong {
+  font-size: 22px;
+}
+.conditions-death,
+.conditions-pending {
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.conditions-pips {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+/* Successes are circles and failures diamonds: counts never depend on color alone. */
+.conditions-pip {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--positive);
+  border-radius: 50%;
+}
+.conditions-pip.failure {
+  border-color: var(--danger);
+  border-radius: 2px;
+  transform: rotate(45deg) scale(0.82);
+}
+.conditions-pip.success.filled {
+  background: var(--positive);
+}
+.conditions-pip.failure.filled {
+  background: var(--danger);
+}
+.conditions-pip-gap {
+  width: 10px;
+}
+
+/* Commands: one row, the pressed one marks the open workspace. */
+.conditions-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+/* The open command reads as selected; Apply in its preview stays the single primary. */
+.conditions-toolbar [aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 700;
+  box-shadow: inset 0 -2px 0 var(--accent);
+}
+.conditions-why {
+  font-size: var(--text-sm);
+}
+.conditions-toolbar + .conditions-why {
+  margin-top: -10px;
+}
+.conditions-work {
+  padding: 16px;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--bg);
+}
+.conditions-work-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.9fr);
+  gap: 24px;
+  align-items: start;
+}
+.conditions-work-layout > * {
+  min-width: 0;
+}
+.conditions-preview {
+  padding-left: 20px;
+  border-left: 1px solid var(--line);
+}
+.conditions-pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+}
+.conditions-fieldset {
+  min-width: 0;
+  margin: 0 0 16px;
+  padding: 12px 14px 2px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.conditions-fieldset legend {
+  padding-inline: 5px;
+  font-weight: 600;
+}
+.conditions-fieldset > .muted {
+  margin-bottom: 10px;
+  font-size: var(--text-sm);
+}
+.conditions-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+}
+.conditions-check input {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+}
+.conditions-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+.conditions-catalog {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 8px;
+  margin: 0 0 4px;
+  padding: 0;
+  list-style: none;
+}
+/* The 15 conditions as BG3's status tiles: a dark square-cornered plate with a bronze rim,
+   the name over its English name. */
+.conditions-definition {
+  display: grid;
+  gap: 2px;
+  width: 100%;
+  min-height: 56px;
+  padding: 8px 12px;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-xs);
+  background: color-mix(in srgb, var(--frame) 12%, var(--sunken));
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+.conditions-definition:hover {
+  border-color: var(--accent);
+}
+.conditions-definition small {
+  color: var(--muted);
+}
+.conditions-definition-card {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+}
+.conditions-definition-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+}
+.conditions-definition-title .button {
+  margin-left: auto;
+}
+.conditions-effect-list {
+  margin: 0 0 6px;
+  padding-left: 18px;
+}
+.conditions-stepper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-block: 10px;
+}
+.conditions-stepper .button {
+  justify-content: center;
+  min-width: 44px;
+  font-size: 20px;
+}
+.conditions-stepper input {
+  width: 76px;
+  min-height: 44px;
+  padding: 8px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--sunken);
+  color: var(--text);
+  font-size: 18px;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+.conditions-effect {
+  font-weight: 600;
+}
+
+/* Preview: rows before/after, costs, issues. */
+.conditions-rows {
+  margin: 8px 0;
+}
+.conditions-row {
+  padding-block: 9px;
+  border-bottom: 1px solid var(--line);
+}
+.conditions-row dt {
+  font-weight: 600;
+}
+.conditions-row dd {
+  margin: 3px 0 0;
+}
+.conditions-values {
+  font-variant-numeric: tabular-nums;
+}
+.conditions-issues {
+  margin: 8px 0;
+  padding-left: 18px;
+}
+.conditions-issues.error {
+  color: var(--danger);
+}
+.conditions-notice {
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.conditions-notice.error {
+  border: 1px solid currentColor;
+  color: var(--danger);
+}
+.conditions-source {
+  display: block;
+  color: var(--muted);
+}
+.conditions-source a {
+  color: var(--accent);
+}
+
+/* Active conditions grouped by definition; each origin has its own term and End. */
+.conditions-list,
+.conditions-instances {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.conditions-list {
+  display: grid;
+  gap: 12px;
+}
+.conditions-group {
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.conditions-group-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.conditions-group-head strong {
+  font-size: 16px;
+}
+.conditions-instance {
+  display: grid;
+  gap: 4px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--line);
+}
+.conditions-instance .conditions-actions {
+  margin-top: 6px;
+}
+.conditions-instance .conditions-work {
+  margin-top: 10px;
+}
+.conditions-term {
+  font-size: 14px;
+}
+.conditions-details {
+  margin-top: 8px;
+}
+.conditions-details summary {
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.conditions-effects {
+  padding-top: 4px;
+}
+.conditions-history-list {
+  display: grid;
+  gap: 10px;
+  margin: 12px 0 0;
+  padding-left: 20px;
+}
+.conditions-history-list ul {
+  margin: 4px 0;
+  padding-left: 18px;
+}
+.conditions-footer {
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+/* Compact summary next to HP on the sheet and in the table inspector. */
+.conditions-summary {
+  display: grid;
+  gap: 8px;
+  padding-block: 12px;
+}
+.conditions-summary p {
+  margin: 0;
+}
+.conditions-summary-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.conditions-summary-hp {
+  font-variant-numeric: tabular-nums;
+}
+.conditions-summary-hp strong {
+  font-size: 18px;
+}
+.conditions-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* Active conditions as BG3's status icons: small square-cornered tiles, warm dark plate,
+   bronze rim, parchment label. */
+.conditions-chip {
+  padding: 3px 10px;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-xs);
+  background: color-mix(in srgb, var(--frame) 16%, var(--sunken));
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+.conditions-count {
+  color: var(--accent);
+  font-weight: 600;
+}
+.conditions-summary .button {
+  justify-self: start;
+  min-height: 44px;
+}
+/* Inside the sheet's HP card: the single entry, no repeated name or HP. */
+.conditions-summary.embedded {
+  justify-items: start;
+  padding-block: 8px 0;
+}
+/* PG-27: at 0 HP the HP box is the death-save box (D&D Beyond), with the roll, Stabilize and
+   Restore 1 HP (Roll20); Dead is an explicit state with a way back. */
+.conditions-deathbox {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--danger);
+  border-radius: var(--radius-sm);
+  background: var(--danger-soft);
+}
+.conditions-deathbox.is-dead {
+  border-color: var(--line);
+  background: var(--surface);
+}
+.conditions-dead-state strong {
+  font-size: 18px;
+  letter-spacing: 0.04em;
+  font-variant-caps: all-small-caps;
+}
+.conditions-deathbox-pips {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  gap: 6px 12px;
+}
+.conditions-deathbox-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.conditions-summary .conditions-deathbox-actions .button {
+  min-height: 44px;
+}
+/* PG-28: add a condition in two clicks and Exhaustion as 1–6 segments (D&D Beyond). */
+.conditions-quick {
+  display: grid;
+  gap: 6px;
+  justify-items: start;
+}
+.conditions-summary .conditions-quick-add {
+  min-height: 40px;
+}
+.conditions-exhaustion {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.conditions-exhaustion-label {
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+.conditions-segments {
+  display: inline-flex;
+  gap: 2px;
+}
+/* Exhaustion 1–6: D&D Beyond's level boxes as Roll20 Jumpgate's segmented group; the levels
+   reached fill in the warning amber. */
+.conditions-segment {
+  min-width: 40px;
+  min-height: 40px;
+  border: 1px solid var(--line-strong);
+  background: var(--sunken);
+  color: inherit;
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+.conditions-segment:hover:not(.filled) {
+  background: var(--raised);
+}
+.conditions-segment:first-child {
+  border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+}
+.conditions-segment:last-child {
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+.conditions-segment.filled {
+  background: var(--warning);
+  border-color: var(--warning);
+  color: var(--accent-ink);
+  font-weight: 700;
+}
+.conditions-segment:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+.conditions-quick-add-list .conditions-definition[aria-pressed="true"],
+.conditions-quick-add .conditions-definition[aria-pressed="true"] {
+  border-color: var(--accent);
+}
+.combat-facts-question {
+  display: grid;
+  gap: 8px;
+  margin: 8px 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+}
+.stand-control {
+  display: inline-grid;
+  gap: 2px;
+}
+.stand-control small {
+  max-width: 22ch;
+}
+.conditions-reconcile li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (max-width: 780px) {
+  .conditions-work-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+  .conditions-preview {
+    padding: 16px 0 0;
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+}
+@media (max-width: 520px) {
+  #dialog:has([data-conditions-panel]) {
+    width: calc(100vw - 16px);
+  }
+  .conditions-pair {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .conditions-toolbar .button,
+  .conditions-actions .button {
+    flex: 1 1 auto;
+  }
+  .conditions-catalog {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .conditions-work,
+  .conditions-status {
+    padding: 12px;
+  }
+}
+.conditions-field {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 14px;
+}
+.conditions-field .field {
+  margin-bottom: 0;
+}
+.conditions-field > small {
+  font-size: var(--text-sm);
+}
+
+/* Token status badge (Table map). One small badge on the token rim, as status icons
+   sit on the portrait/token edge in BG3 and Owlbear Rodeo; the inspector keeps the
+   full list. CSS overrides the SVG presentation attributes written by table.mjs.
+   Colour is never the only signal: glyph, title and accessible label name the state. */
+.map-token .token-status {
+  /* On the rim, clear of the initial: centre 32.5 units from the token centre. */
+  transform: translate(23px, -23px);
+  filter: drop-shadow(0 1px 1.5px var(--keyline-dark));
+  pointer-events: none;
+}
+.map-token .token-status circle {
+  r: 13px;
+  stroke-width: 2px;
+}
+.map-token .token-status text {
+  /* One shorthand, as before: the interface scale grows it with the badge's circle. */
+  font: 700 15px var(--font-ui);
+  font-variant-numeric: tabular-nums;
+  font-variant-emoji: text;
+  dominant-baseline: central;
+  /* The attribute baseline (y=4) is replaced by a centred glyph. */
+  transform: translateY(-4px);
+}
+/* Badge colours: the --status-* tokens (DESIGN.md §2), with the map's own ink and halo
+   (--token-label, --token-label-halo): the map does not change with the theme.
+   Several conditions: an amber counter, like a notification badge. */
+.map-token .token-status[data-token-status="conditions"] circle {
+  fill: var(--status-conditions);
+  stroke: var(--token-label-halo);
+}
+.map-token .token-status[data-token-status="conditions"] text {
+  fill: var(--token-label-halo);
+}
+/* Dying at 0 HP: saturated red with a white heart. */
+.map-token .token-status[data-token-status="dying"] circle {
+  fill: var(--status-dying);
+  stroke: var(--token-label);
+}
+.map-token .token-status[data-token-status="dying"] text,
+.map-token .token-status[data-token-status="stable"] text {
+  fill: var(--danger-ink);
+}
+/* Stable at 0 HP: green, still Unconscious. */
+.map-token .token-status[data-token-status="stable"] circle {
+  fill: var(--status-stable);
+  stroke: var(--token-label);
+}
+/* Dead: charcoal with a bone cross; the token itself is already dimmed. */
+.map-token .token-status[data-token-status="dead"] circle {
+  fill: var(--status-dead);
+  stroke: var(--token-label);
+}
+.map-token .token-status[data-token-status="dead"] text {
+  fill: var(--token-label);
+}
+/* The selected token names its states above the token (beats the token initial's font). */
+.map-token .token-display > .token-status-label {
+  font: 600 15px var(--font-ui);
+  fill: var(--token-label);
+  stroke: var(--token-label-halo);
+  stroke-width: 4px;
+  paint-order: stroke;
+  pointer-events: none;
+  /* Above the rim badge and above the selected token's rotate handle (token-menu), not
+     across them: at -8 the handle sat on the middle of the word. */
+  transform: translateY(-26px);
+}
+/* Condition effects and roll reasons in combat previews and requests. */
+.combat-conditions {
+  display: grid;
+  gap: 4px;
+  margin: 8px 0;
+  padding-left: 18px;
+  font-size: var(--text-sm);
+}
+.combat-conditions li::marker {
+  color: var(--accent);
+}
+
+/* TV-79: Concentration shows as a "(C)" chip (Fantasy Grounds), ended with its ×. */
+.conditions-chip.is-concentration {
+  border-color: var(--accent);
+}
+.conditions-chip-end {
+  min-width: 24px;
+  min-height: 24px;
+  margin-left: 4px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.conditions-chip-end:focus-visible {
+  outline: 3px solid var(--focus);
+}
+/* Inside the sheet's HP card the big HP number style must not reach the box's labels. */
+.conditions-summary .conditions-deathbox-title strong {
+  font-size: var(--text-md);
+  font-weight: 700;
+}
+.conditions-summary .conditions-dead-state strong {
+  font-size: 18px;
+}
+.conditions-summary .conditions-chip strong,
+.conditions-summary .conditions-definition strong {
+  font-size: inherit;
+}

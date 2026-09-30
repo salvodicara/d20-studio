@@ -1,0 +1,4301 @@
+/* ------------------------------------------------------------------ Design tokens
+   Visual system of 29/09/2026 (design/blueprint/DESIGN.md: direction, sources and the
+   «Elemento → prodotto copiato» table). Every area stylesheet reuses these custom
+   properties instead of literal colours. Slate surfaces as D&D Beyond's Underdark mode and
+   Foundry dnd5e's dark sheet, BG3's gold and bronze trim, BG3's resource colours, Owlbear
+   Rodeo's rounded floating map chrome. The first twelve names are the base palette that
+   preferences.css overrides for the light theme and for high contrast: components read them
+   directly, so those preferences keep working. */
+:root {
+  color-scheme: dark;
+  /* Base palette (overridden by preferences.css: light theme, high contrast). */
+  --bg: #12171d;
+  --surface: #1b212a;
+  --raised: #262d38;
+  --canvas: #1e2231;
+  --text: #efe7d6;
+  --muted: #a9b3bd;
+  --line: #333d4a;
+  --accent: #dfbd78;
+  --accent-ink: #1f1a10;
+  --danger: #f0958c;
+  --positive: #8fcf9b;
+  --focus: #f1d797;
+  /* Surfaces and chrome. */
+  --surface-2: #161c24;
+  --sunken: #0e1217;
+  --header-bg: #0f1419;
+  --sidebar-bg: #151b22;
+  --rail-bg: #0f1419;
+  --hotbar-bg: #0f1318;
+  --float-bg: rgb(27 33 42 / 0.9);
+  --float-border: rgb(255 255 255 / 0.09);
+  --scrim: rgb(5 8 11 / 0.74);
+  /* Lines, trims and frames (BG3 bronze). */
+  --line-strong: #6b7784;
+  --frame: #9a8050;
+  --frame-soft: rgb(154 128 80 / 0.45);
+  --placeholder: #8a96a3;
+  /* Accent (BG3 gold) and semantic fills. */
+  --accent-strong: #f0d49a;
+  --accent-soft: rgb(223 189 120 / 0.14);
+  --accent-line: rgb(223 189 120 / 0.6);
+  --danger-strong: #b8372f;
+  --danger-ink: #ffffff;
+  --danger-soft: rgb(240 149 140 / 0.14);
+  --positive-strong: #2f7a48;
+  --positive-soft: rgb(143 207 155 / 0.14);
+  --warning: #e8b35a;
+  --warning-soft: rgb(232 179 90 / 0.14);
+  --info: #7fc4e0;
+  --info-soft: rgb(11 151 200 / 0.16);
+  --toast-bg: #ece3cf;
+  --toast-ink: #1b212a;
+  --toast-error-bg: #f3c1b9;
+  --toast-error-ink: #3c1a18;
+  /* Hit points (Foundry dnd5e hp and damage/healing colours). */
+  --hp-full: #3ba55d;
+  --hp-mid: #d9a441;
+  --hp-low: #c9463d;
+  --hp-down: #8f3a36;
+  --hp-temp: #2e9e9e;
+  --hp-track: #262d38;
+  /* Turn resources (BG3 icons: green circle, orange triangle, magenta star, yellow move,
+     cyan slot squares, magenta pact squares). */
+  --res-action: #3f9b62;
+  --res-bonus: #e0661a;
+  --res-reaction: #d24fc8;
+  --res-move: #d5b255;
+  --res-slot: #51d5fe;
+  --res-pact: #e43ee0;
+  --res-spent: #6d7682;
+  /* Turn order (BG3 portrait frames) and token rings (Owlbear coloured rings). */
+  --turn-current: #f4ecd8;
+  --turn-ally: #0b97c8;
+  --turn-enemy: #c0395f;
+  --turn-done: #5c6570;
+  --endturn-bg: #0f3446;
+  --token-ally-fill: #34506a;
+  --token-ally-ring: #c5b78d;
+  --token-hostile-fill: #6e3a36;
+  --token-hostile-ring: #d9826f;
+  --token-initial: #f4e5c6;
+  --token-label: #fff2d3;
+  --door-fill: #172d37;
+  --door-rim: #e2c17b;
+  --door-ink: #f4deb0;
+  --door-focus: #ffffff;
+  --token-label-halo: #151b22;
+  /* Conditions and 0 HP states (token rim badges, conditions panel). */
+  --status-conditions: #e2b35c;
+  --status-dying: #b3261e;
+  --status-stable: #2f6f4d;
+  --status-dead: #16181b;
+  /* Who may see (never colour alone: an icon or word goes with it). */
+  --vis-hidden: #8b95a1;
+  --vis-private: #7fb2d9;
+  --vis-dm: #b48ae8;
+  /* Elevation: one of border or shadow per element. */
+  --shadow-1: 0 1px 2px rgb(0 0 0 / 0.35);
+  --shadow-2: 0 8px 22px rgb(0 0 0 / 0.42);
+  --shadow-3: 0 22px 60px rgb(0 0 0 / 0.55);
+  --keyline-dark: rgb(0 0 0 / 0.45);
+  /* Radii: slots and chips, controls, cards, floating chrome and dialogs, pills. */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+  --radius: var(--radius-md);
+  /* Spacing (4 px steps). */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  /* Type: system serif display (BG3 and Solasta titles; dnd5e's own fallback), system sans
+     UI (Owlbear's stack, Roboto as D&D Beyond), condensed labels (D&D Beyond), tabular
+     numerals everywhere numbers line up. No font file is downloaded. */
+  --font-display:
+    "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", "URW Palladio L", Georgia,
+    serif;
+  --font-ui:
+    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    sans-serif;
+  --font-label:
+    "Roboto Condensed", "Avenir Next Condensed", "Arial Narrow", "Helvetica Neue", system-ui,
+    sans-serif;
+  --text-2xs: 11px;
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-md: 15px;
+  --text-lg: 17px;
+  --text-xl: 21px;
+  --text-2xl: 26px;
+  --text-3xl: 38px;
+  --label-tracking: 0.06em;
+  /* Motion (zero under reduced motion, below). */
+  --dur-fast: 120ms;
+  --dur-base: 180ms;
+  --dur-slow: 260ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --logo-edge: #12171d;
+  font-family: var(--font-ui);
+  font-size: var(--text-md);
+  line-height: 1.5;
+  background: var(--bg);
+  color: var(--text);
+}
+/* Light theme: the base palette comes from preferences.css (parchment, Foundry dnd5e's
+   light sheet); these are the matching values of the tokens it does not know. */
+:root[data-pref-theme="light"] {
+  --surface-2: #f7f1e5;
+  --sunken: #fffdf8;
+  --header-bg: #fbf6ec;
+  --sidebar-bg: #f7f1e5;
+  --rail-bg: #efe7d6;
+  --hotbar-bg: #efe7d6;
+  --float-bg: rgb(251 246 236 / 0.92);
+  --float-border: rgb(28 38 48 / 0.14);
+  --scrim: rgb(42 36 24 / 0.48);
+  --line-strong: #8c7650;
+  --frame: #8a6a30;
+  --frame-soft: rgb(138 106 48 / 0.4);
+  --placeholder: #6b7780;
+  --accent-strong: #5f3c08;
+  --accent-soft: rgb(122 79 14 / 0.1);
+  --accent-line: rgb(122 79 14 / 0.55);
+  --danger-strong: #a4262c;
+  --danger-soft: #f6dcd8;
+  --positive-strong: #2f6b33;
+  --positive-soft: rgb(47 107 51 / 0.12);
+  --warning: #8a5a00;
+  --warning-soft: rgb(183 121 31 / 0.14);
+  --info: #0b6f94;
+  --info-soft: rgb(11 127 168 / 0.12);
+  --toast-bg: #2b3540;
+  --toast-ink: #fbf6ec;
+  --toast-error-bg: #f6dcd8;
+  --toast-error-ink: #5a1c1c;
+  --hp-full: #2f8a4c;
+  --hp-mid: #b7791f;
+  --hp-low: #b3261e;
+  --hp-down: #7a2622;
+  --hp-temp: #0f7f86;
+  --hp-track: #d8cfbd;
+  --res-action: #2e7d4f;
+  --res-bonus: #c2500a;
+  --res-reaction: #a32799;
+  --res-move: #8a6d12;
+  --res-slot: #0f8fb5;
+  --res-pact: #a4009b;
+  --res-spent: #8c95a0;
+  --turn-current: #1c2630;
+  --turn-ally: #0b7fa8;
+  --turn-enemy: #a32845;
+  --turn-done: #9aa3ad;
+  --endturn-bg: #d7ecf3;
+  --vis-hidden: #5c6770;
+  --vis-private: #1f5f8f;
+  --vis-dm: #6b3fa8;
+  --shadow-1: 0 1px 2px rgb(60 45 20 / 0.12);
+  --shadow-2: 0 8px 22px rgb(60 45 20 / 0.16);
+  --shadow-3: 0 22px 60px rgb(40 30 15 / 0.24);
+  --logo-edge: #3a2a10;
+}
+/* High contrast (preferences.css sets text, muted, line and focus): trims follow. */
+:root[data-pref-contrast="high"] {
+  --line-strong: #c9d3da;
+  --frame: #e7c98b;
+  --frame-soft: rgb(231 201 139 / 0.8);
+  --placeholder: #c9d3da;
+}
+:root[data-pref-contrast="high"][data-pref-theme="light"] {
+  --line-strong: #26323b;
+  --frame: #5a4210;
+  --frame-soft: rgb(90 66 16 / 0.8);
+  --placeholder: #26323b;
+}
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0ms;
+    --dur-base: 0ms;
+    --dur-slow: 0ms;
+  }
+}
+:root[data-motion="reduced"] {
+  --dur-fast: 0ms;
+  --dur-base: 0ms;
+  --dur-slow: 0ms;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+button,
+a,
+input,
+textarea,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+button {
+  cursor: pointer;
+}
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+}
+a {
+  color: var(--accent);
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+a:hover {
+  color: var(--accent-strong);
+}
+::selection {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+input,
+textarea {
+  caret-color: var(--accent);
+}
+* {
+  scrollbar-color: var(--line-strong) transparent;
+  scrollbar-width: thin;
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+button:focus:not(:focus-visible) {
+  outline: none;
+}
+/* Critique 29/09: a strip that scrolls or clips (section tabs, sub-tabs, the Table rail, the
+   Play/Edit switch) cut the ring's top and bottom, leaving two thin lines. Inside those strips
+   the same 3 px ring is drawn inside the control, with a 2 px keyline of the page colour so it
+   also reads on a filled (gold) tab. Declared WCAG exception of DESIGN.md §4 («Anello del
+   fuoco»): no product has one uniform ring. */
+:is(
+    .tabs,
+    .home-tabs,
+    .character-tabs,
+    .character-subtabs,
+    .shp-mode,
+    .prep-sections,
+    .campaign-sections,
+    .table-tabs,
+    .table-subtabs
+  )
+  :is(button, a, [tabindex]):focus-visible {
+  outline-offset: -3px;
+  box-shadow: inset 0 0 0 5px var(--bg);
+}
+/* A heading that receives focus after a page change (tabindex -1, never in the Tab order) is
+   not a control: no ring around it, as D&D Beyond and Foundry page titles. */
+:is(h1, h2, h3)[tabindex="-1"]:focus-visible {
+  outline: none;
+}
+.skip-link {
+  position: absolute;
+  left: 16px;
+  top: -100px;
+  z-index: 30;
+  background: var(--text);
+  color: var(--bg);
+  padding: 12px;
+  border-radius: var(--radius-sm);
+}
+.skip-link:focus {
+  top: 12px;
+}
+.icon {
+  width: 21px;
+  height: 21px;
+  flex: 0 0 auto;
+  vertical-align: middle;
+}
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+/* Titles in the serif of BG3 and Solasta (names, panel titles); everything else in the UI
+   sans (Operate surfaces: labels, buttons and numbers stay sans). */
+h1,
+h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.005em;
+  text-wrap: balance;
+}
+h1 {
+  font-size: var(--text-3xl);
+  margin-bottom: 10px;
+}
+h2 {
+  font-size: var(--text-2xl);
+}
+h3 {
+  font-size: var(--text-lg);
+  font-weight: 600;
+}
+p {
+  max-width: 75ch;
+}
+small {
+  font-size: var(--text-xs);
+}
+.muted {
+  color: var(--muted);
+}
+.error {
+  color: var(--danger);
+}
+/* Chip (Foundry dnd5e pills): a rounded label with a thin border. */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  color: var(--text);
+  font-size: var(--text-xs);
+  line-height: 1.4;
+  padding: 2px 9px;
+  max-width: 100%;
+}
+/* Buttons: Foundry v13's dense rounded rectangle in BG3's materials (dark fill, bronze rim,
+   parchment label); primary filled with the theme colour as D&D Beyond; danger outlined in
+   red as D&D Beyond's Damage, filled on hover. */
+.button {
+  min-height: 42px;
+  padding: 9px 15px;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-sm);
+  background: var(--raised);
+  color: var(--text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-decoration: none;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+.button:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--raised) 90%, var(--text));
+  border-color: var(--accent-line);
+}
+.button:active:not(:disabled) {
+  background: var(--surface);
+}
+.button.primary {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: var(--accent);
+}
+.button.primary:hover:not(:disabled) {
+  background: var(--accent-strong);
+  border-color: var(--accent-strong);
+}
+.button.quiet {
+  background: transparent;
+  border-color: transparent;
+}
+.button.quiet:hover:not(:disabled) {
+  background: var(--raised);
+  border-color: transparent;
+}
+.button.danger {
+  background: transparent;
+  color: var(--danger);
+  border-color: color-mix(in srgb, var(--danger) 60%, transparent);
+}
+.button.danger:hover:not(:disabled) {
+  background: var(--danger-strong);
+  border-color: var(--danger-strong);
+  color: var(--danger-ink);
+}
+.button.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+/* Icon buttons: Owlbear Rodeo's round-cornered icon buttons (header services, closers). */
+.icon-button {
+  width: 42px;
+  height: 42px;
+  display: inline-grid;
+  place-items: center;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--muted);
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+.icon-button:hover {
+  background: var(--raised);
+  color: var(--text);
+}
+.text-button {
+  color: var(--accent);
+  background: transparent;
+  border: 0;
+  padding: 9px 0;
+  text-align: left;
+  min-height: 40px;
+  font-weight: 600;
+}
+.text-button:hover:not(:disabled) {
+  color: var(--accent-strong);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0 0 18px;
+  font-size: 14px;
+  font-weight: 500;
+}
+/* Fields: Foundry v13 and Roll20 Jumpgate inputs, a sunken well with a visible rim; the rim
+   turns gold on hover and focus. */
+.field input,
+.field select,
+.field textarea,
+input[type="search"] {
+  width: 100%;
+  background: var(--sunken);
+  color: var(--text);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  min-height: 43px;
+  font-weight: 400;
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+:is(.field input, .field select, .field textarea, input[type="search"]):hover:not(:disabled) {
+  border-color: var(--muted);
+}
+:is(.field input, .field select, .field textarea, input[type="search"]):focus-visible {
+  border-color: var(--accent);
+}
+input::placeholder,
+textarea::placeholder {
+  color: var(--placeholder);
+}
+textarea {
+  resize: vertical;
+  min-height: 95px;
+}
+select {
+  background: var(--sunken);
+  color: var(--text);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  padding: 6px;
+}
+input[type="checkbox"],
+input[type="radio"],
+input[type="range"],
+progress {
+  accent-color: var(--accent);
+}
+/* Switch (Roll20 Jumpgate): a pill track with a round knob, gold when on. Opt-in class for
+   an input[type=checkbox][role=switch]; the areas' existing switches keep their own styling
+   until they adopt it (DESIGN.md, core components). */
+.switch {
+  appearance: none;
+  flex: none;
+  width: 40px;
+  height: 22px;
+  margin: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: radial-gradient(circle at 10px 50%, var(--muted) 6px, transparent 6.5px) var(--sunken);
+  cursor: pointer;
+  transition:
+    background var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+.switch:checked {
+  border-color: var(--accent);
+  background: radial-gradient(circle at 28px 50%, var(--accent-ink) 6px, transparent 6.5px)
+    var(--accent);
+}
+.switch:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.check-field {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 9px 0;
+}
+.check-field input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+}
+/* Keys: Foundry v13's key chips (Controls Configuration), a thin rounded outline. */
+kbd {
+  padding: 0 5px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-xs);
+  background: var(--sunken);
+  font: 600 11px/1.6 var(--font-ui);
+}
+.demo-strip {
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--line);
+  padding: 7px 25px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 12px;
+  min-height: 43px;
+}
+.demo-strip strong {
+  color: var(--text);
+  font-weight: 600;
+  margin-right: 8px;
+}
+.demo-controls {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+.demo-controls label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.demo-controls select {
+  font-size: 12px;
+  padding: 3px 6px;
+  min-height: 28px;
+}
+.demo-controls button {
+  font-size: 12px;
+  padding: 4px 0;
+  color: var(--accent);
+  background: none;
+  border: 0;
+  min-height: 28px;
+}
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 14px 30px;
+  background: var(--header-bg);
+  /* BG3's bronze rim under its top bars; D&D Beyond's dark site header. */
+  border-bottom: 1px solid var(--frame-soft);
+  min-height: 81px;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  white-space: nowrap;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 22px;
+  letter-spacing: 0.01em;
+  padding: 5px 0;
+}
+.brand .icon,
+.brand .logo {
+  color: var(--accent);
+  width: 34px;
+  height: 34px;
+  flex: none;
+  filter: drop-shadow(0 2px 5px var(--keyline-dark));
+}
+.brand b {
+  font-weight: 400;
+  color: var(--accent);
+}
+.app-header nav {
+  display: flex;
+  gap: 5px;
+  align-self: stretch;
+}
+.nav-link {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  min-height: 42px;
+  padding: 10px 16px;
+  background: transparent;
+  border: 0;
+  border-radius: var(--radius-sm);
+  color: var(--muted);
+  font-weight: 500;
+  text-align: left;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+/* Main pages: D&D Beyond's tab underline in the theme colour. */
+.nav-link.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+  box-shadow: inset 0 -2px var(--accent);
+}
+.nav-link:hover {
+  color: var(--text);
+  background: var(--raised);
+}
+.service-nav {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  margin-left: auto;
+}
+.workspace {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+.workspace > main {
+  padding: 38px 48px;
+  min-width: 0;
+}
+.workspace.with-sidebar {
+  display: grid;
+  grid-template-columns: 238px minmax(0, 1fr);
+  max-width: none;
+}
+.campaign-sidebar {
+  padding: 28px 24px;
+  background: var(--sidebar-bg);
+  min-height: calc(100vh - 125px);
+  border-right: 1px solid var(--line);
+}
+.campaign-sidebar h2 {
+  font-size: 22px;
+  margin-bottom: 14px;
+}
+.campaign-sidebar > .muted {
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+.campaign-sidebar > .button {
+  width: 100%;
+  margin: 24px 0 20px;
+}
+.campaign-sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.campaign-sidebar .nav-link {
+  padding-left: 10px;
+}
+/* Kanka's sidebar: the open section is a filled row, no underline. */
+.campaign-sidebar .nav-link.active {
+  background: var(--raised);
+  box-shadow: none;
+}
+/* B62: campaign rail groups (Kanka module groups CMP-23, World Anvil categories): a small
+   heading that folds its sections, the group of the open section always open. */
+.campaign-group {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.campaign-group + .campaign-group {
+  margin-top: 6px;
+}
+.campaign-group-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 6px 10px;
+  background: transparent;
+  border: 0;
+  border-radius: var(--radius-sm);
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  text-align: left;
+}
+.campaign-group-toggle:hover {
+  color: var(--text);
+  background: var(--raised);
+}
+.campaign-group-toggle[aria-disabled="true"] {
+  cursor: default;
+}
+/* Kanka's group headings drawn as the other labels (D&D Beyond's condensed small caps): the
+   words stay as written (innerText, accessible name); 15 px small caps match the old 11 px
+   capitals. */
+.campaign-group-name {
+  flex: 1;
+  font-size: var(--text-md);
+  font-variant-caps: all-small-caps;
+}
+.campaign-group-count {
+  min-width: 20px;
+  padding: 0 6px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  text-align: center;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.campaign-group-chevron {
+  font-size: 16px;
+  line-height: 1;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.campaign-group-toggle[aria-expanded="true"] .campaign-group-chevron {
+  transform: rotate(90deg);
+}
+.campaign-group-items {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.campaign-group-items[hidden] {
+  display: none;
+}
+/* B61 review: "All sections" exists for the phone's sideways strip only. */
+.campaign-sidebar .campaign-sections-all {
+  display: none;
+}
+.page-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 30px;
+}
+.page-heading p {
+  color: var(--muted);
+  margin-bottom: 0;
+}
+.page-heading > .toolbar {
+  flex-shrink: 0;
+}
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 16px;
+}
+.section-heading h2 {
+  margin: 0;
+}
+.section-heading ~ h2 {
+  margin-top: 26px;
+}
+/* Cards and panels: D&D Beyond and Kanka boxes, a flat surface with one hairline border (no
+   shadow on page content). */
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+.split-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(220px, 1fr);
+  gap: 24px;
+}
+.tabs {
+  display: flex;
+  overflow-x: auto;
+  gap: 3px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 25px;
+}
+/* Tabs: D&D Beyond's sheet tabs, condensed capitals, the open one in the theme colour with an
+   underline. */
+.tabs button {
+  min-height: 47px;
+  padding: 12px 16px;
+  color: var(--muted);
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  white-space: nowrap;
+  font-family: var(--font-label);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  /* Capitals drawn as small caps: the words (innerText, accessible names) stay as written. */
+  font-variant-caps: all-small-caps;
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+.tabs button:hover {
+  color: var(--text);
+  border-bottom-color: var(--line-strong);
+}
+.tabs button.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+/* Empty state: Foundry dnd5e's empty slot, a dashed outline around the words and the way on. */
+.empty-state {
+  padding: 45px 20px;
+  color: var(--muted);
+  max-width: 680px;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius);
+}
+.empty-state h2,
+.empty-state h3 {
+  color: var(--text);
+}
+.item-list {
+  border-top: 1px solid var(--line);
+  margin-top: 18px;
+}
+.item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 17px 4px;
+  border-bottom: 1px solid var(--line);
+}
+.item-row small {
+  display: block;
+  color: var(--muted);
+  margin-top: 4px;
+}
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+/* Numbers: D&D Beyond's stat boxes, a framed box with a large bold number and a small
+   condensed capital label (Solasta's AC/INIT/MOVE boxes). */
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 20px;
+  min-width: 90px;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+}
+.stat strong {
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+.stat span {
+  color: var(--muted);
+  font-size: 12px;
+}
+.stat > span {
+  font-family: var(--font-label);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  font-variant-caps: all-small-caps;
+}
+.table-wrap {
+  overflow-x: auto;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+/* Tables: D&D Beyond's skills list, condensed capital headers, hairline rows, aligned
+   numerals. */
+th,
+td {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid var(--line);
+  font-variant-numeric: tabular-nums;
+}
+th {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  font-variant-caps: all-small-caps;
+}
+tbody tr:hover > td {
+  background: color-mix(in srgb, var(--raised) 45%, transparent);
+}
+.table-return {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 7px 30px;
+  background: var(--info-soft);
+  border-bottom: 1px solid var(--line);
+  font-size: 12px;
+  color: var(--muted);
+}
+.table-return button {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font-weight: 600;
+  /* B61: 40 px touch target like every other control. */
+  min-height: 40px;
+}
+.save-warning {
+  max-width: none;
+  margin: 0;
+  padding: 10px 24px;
+  color: var(--danger);
+  background: var(--danger-soft);
+  font-size: 13px;
+}
+.development-note {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 24px;
+}
+.resume-scene {
+  display: grid;
+  grid-template-columns: 30% 1fr;
+  min-height: 260px;
+  background: var(--surface);
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+.resume-scene > div:last-child {
+  padding: 30px 40px;
+}
+.resume-scene h2 {
+  font-size: 32px;
+  margin: 0 0 10px;
+}
+.resume-scene p {
+  margin: 0 0 16px;
+}
+.scene-emblem {
+  display: grid;
+  place-items: center;
+  background: var(--canvas);
+  border-right: 1px solid var(--line);
+}
+.scene-emblem .icon {
+  width: 110px;
+  height: 110px;
+  color: var(--frame);
+  stroke-width: 0.7;
+}
+.home-bottom {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  margin-top: 42px;
+}
+.home-bottom p {
+  color: var(--text);
+}
+/* Portraits: BG3's portrait frame, a bronze rim with a dark keyline, the initial in the
+   display serif. */
+.portrait {
+  width: 63px;
+  height: 70px;
+  border: 2px solid var(--frame);
+  border-radius: 30px 30px 8px 8px;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-size: 34px;
+  background: var(--token-ally-fill);
+  color: var(--token-initial);
+  box-shadow: inset 0 0 0 1px var(--keyline-dark);
+  flex-shrink: 0;
+}
+.portrait.small {
+  width: 43px;
+  height: 48px;
+  font-size: 23px;
+}
+.character-resume {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: none;
+  color: var(--text);
+  width: 100%;
+  padding: 15px 0;
+  text-align: left;
+}
+.character-resume:hover {
+  background: var(--raised);
+}
+.character-resume small {
+  display: block;
+  color: var(--muted);
+  margin-top: 3px;
+}
+.character-resume strong {
+  font-size: 18px;
+  font-weight: 500;
+}
+.hp-small {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+}
+.campaign-entry {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  background: var(--surface);
+  padding: 30px;
+  border-radius: 12px;
+}
+.campaign-entry h2 {
+  margin: 14px 0 8px;
+}
+.campaign-entry p {
+  color: var(--muted);
+}
+.campaign-summary {
+  padding: 26px 0 35px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid var(--line);
+}
+.journal-entry {
+  padding: 25px 0;
+  border-bottom: 1px solid var(--line);
+}
+.journal-entry p {
+  white-space: pre-wrap;
+}
+.workspace.is-table {
+  max-width: none;
+}
+.workspace.is-table > main {
+  padding: 0;
+}
+.table-header {
+  min-height: 63px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  gap: 18px;
+}
+.table-header .brand {
+  font-size: 20px;
+}
+.table-topline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 16px 28px;
+}
+.table-topline h1 {
+  font-size: 24px;
+  margin: 0 0 3px;
+}
+.table-topline > div > span {
+  font-size: 12px;
+  color: var(--muted);
+}
+/* Turn portraits: BG3's turn order, a centred row of framed cards; allies carry a teal edge
+   and enemies a crimson one, the creature in turn a bright double frame. */
+.initiative {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  overflow-x: auto;
+  padding: 8px 20px 13px;
+  border-bottom: 1px solid var(--line);
+}
+.initiative-token {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  padding: 8px 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-xs);
+  background: var(--surface-2);
+  color: var(--muted);
+  white-space: nowrap;
+  min-height: 50px;
+  text-align: left;
+  box-shadow: inset 0 -3px 0 var(--turn-ally);
+  transition:
+    border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+.initiative-token:has(.token-dot.hostile) {
+  box-shadow: inset 0 -3px 0 var(--turn-enemy);
+}
+.initiative-token:hover {
+  color: var(--text);
+  border-color: var(--frame);
+}
+.initiative-token.current {
+  border-color: var(--turn-current);
+  color: var(--text);
+  background: var(--raised);
+  box-shadow:
+    0 0 0 1px var(--turn-current),
+    inset 0 -3px 0 var(--turn-ally);
+}
+.initiative-token.current:has(.token-dot.hostile) {
+  box-shadow:
+    0 0 0 1px var(--turn-current),
+    inset 0 -3px 0 var(--turn-enemy);
+}
+.initiative-token small {
+  display: block;
+  font-size: 10px;
+  color: var(--accent);
+}
+.token-dot {
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  width: 29px;
+  height: 29px;
+  background: var(--token-ally-fill);
+  color: var(--token-initial);
+  font-family: var(--font-display);
+  box-shadow: 0 0 0 1px var(--token-ally-ring);
+}
+.token-dot.hostile {
+  background: var(--token-hostile-fill);
+  box-shadow: 0 0 0 1px var(--token-hostile-ring);
+}
+.table-stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  min-height: 480px;
+}
+/* Map tools: Owlbear Rodeo's floating toolbar, a rounded translucent panel over the map with
+   rounded tool buttons; the active tool in the theme colour. The blur keeps the icons legible
+   over busy map art (Owlbear's panels do the same). */
+.map-toolbar {
+  position: absolute;
+  z-index: 2;
+  left: 16px;
+  top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background: var(--float-bg);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--float-border);
+  border-radius: 14px;
+  padding: 6px;
+  box-shadow: var(--shadow-2);
+}
+.map-tool {
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid transparent;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+.map-tool.active {
+  color: var(--accent);
+  border-color: var(--accent-line);
+  background: var(--accent-soft);
+}
+.map-tool:hover {
+  background: var(--raised);
+  color: var(--text);
+}
+.tool-separator {
+  height: 1px;
+  background: var(--float-border);
+  margin: 4px;
+}
+/* The map sits on Owlbear Rodeo's dark canvas colour. */
+.map-container {
+  min-width: 0;
+  position: relative;
+  background: var(--canvas);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+#battle-map {
+  width: 100%;
+  height: min(58vh, 650px);
+  min-height: 460px;
+  display: block;
+  touch-action: none;
+  cursor: crosshair;
+}
+#battle-map:focus-visible {
+  outline-offset: -4px;
+}
+.map-token {
+  cursor: grab;
+}
+/* Tokens: Owlbear's coloured status ring around a round token (bronze for allies, rust for
+   hostiles, whose ring is also dashed: preferences.css), BG3's gold selection circle. */
+.map-token .token-display > circle:first-child {
+  fill: var(--token-ally-fill);
+  stroke: var(--token-ally-ring);
+  stroke-width: 3;
+}
+.map-token.hostile .token-display > circle:first-child {
+  fill: var(--token-hostile-fill);
+  stroke: var(--token-hostile-ring);
+}
+.map-token .token-display > text {
+  fill: var(--token-initial);
+  font: 21px var(--font-display);
+  pointer-events: none;
+}
+.map-token .token-display > .token-name {
+  font: 600 13px var(--font-ui);
+  fill: var(--token-label);
+  paint-order: stroke;
+  stroke: var(--token-label-halo);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+/* The map keeps its dark palette in the light theme: the ring reads the map's bright gold
+   (combat.css --map-gold-bright), not the light theme's dark brown accent (Owlbear's selection
+   ring stays in the map's colours). */
+.selection-ring {
+  fill: none;
+  stroke: var(--map-gold-bright, var(--accent-strong));
+  stroke-width: 2;
+  opacity: 0;
+}
+.map-token.selected .selection-ring,
+.map-token:focus-visible .selection-ring {
+  opacity: 1;
+}
+/* P6 TV-06: the invisible touch target around a token (44 px on a phone). */
+.map-token .token-hit {
+  fill: transparent;
+  stroke: none;
+}
+/* P6 TV-27: the focused token shows its own dashed ring instead of a box around it. */
+.map-token:focus {
+  outline: none;
+}
+.map-token:focus-visible .selection-ring {
+  stroke-width: 3;
+  stroke-dasharray: 5 3;
+}
+.map-caption {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  padding: 9px 14px;
+  background: var(--surface-2);
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 11px;
+  min-height: 40px;
+}
+.map-caption > span:first-child {
+  white-space: nowrap;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.table-inspector {
+  padding: 23px 20px;
+  background: var(--surface);
+  border-left: 1px solid var(--line);
+  max-height: 690px;
+  overflow: auto;
+}
+.inspector-person {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 25px;
+}
+.inspector-person .portrait {
+  width: 48px;
+  height: 54px;
+  font-size: 27px;
+}
+.inspector-person h2 {
+  font-size: 27px;
+  margin: 0 0 4px;
+}
+.inspector-person .muted {
+  font-size: 11px;
+}
+.health-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+}
+.health-line strong {
+  font-size: 19px;
+  font-variant-numeric: tabular-nums;
+}
+.health-line strong span {
+  font-size: 14px;
+  color: var(--muted);
+}
+/* Hit points bar: Foundry dnd5e's green meter on a sunken track. */
+.health-track {
+  height: 6px;
+  background: var(--hp-track);
+  border-radius: 3px;
+  margin: 8px 0 20px;
+  overflow: hidden;
+}
+.health-track > span {
+  height: 100%;
+  display: block;
+  background: var(--hp-full);
+}
+.stats.compact {
+  gap: 10px;
+}
+.compact .stat {
+  flex: 1;
+  min-width: 0;
+  padding: 10px;
+}
+/* Turn resources: BG3's symbols in BG3's colours, in the order table.mjs writes them —
+   Action green circle, Bonus action orange triangle, Reaction magenta star, Movement yellow.
+   A spent resource greys out (shape and word stay, so colour is never the only signal). */
+.resources {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 20px 0;
+  font-size: 11px;
+  color: var(--muted);
+}
+.resources span:before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 5px;
+  vertical-align: -0.02em;
+  background: var(--res-spent);
+  opacity: 0.6;
+}
+.resources > span:nth-child(2):before {
+  border-radius: 0;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+.resources > span:nth-child(3):before {
+  width: 10px;
+  height: 10px;
+  margin-right: 4px;
+  vertical-align: -0.1em;
+  border-radius: 0;
+  clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+}
+.resources .available {
+  color: var(--text);
+}
+.resources .available:before {
+  background: var(--res-action);
+  opacity: 1;
+}
+/* Beats the single colour of the light theme's rule in preferences.css (hand-off: that file
+   should read these tokens). */
+.table-layout .resources > span.available:nth-child(1):before {
+  background: var(--res-action);
+}
+.table-layout .resources > span.available:nth-child(2):before {
+  background: var(--res-bonus);
+}
+.table-layout .resources > span.available:nth-child(3):before {
+  background: var(--res-reaction);
+}
+.table-layout .resources > span.available.movement:before {
+  background: var(--res-move);
+}
+.inspector-buttons {
+  display: grid;
+  gap: 8px;
+}
+.inspector-buttons .button {
+  justify-content: flex-start;
+}
+.table-log {
+  margin-top: 25px;
+}
+.table-log p {
+  font-size: 12px;
+  padding: 10px 0;
+  margin: 0;
+  border-bottom: 1px solid var(--line);
+  font-variant-numeric: tabular-nums;
+}
+.table-log small {
+  display: block;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.action-dock {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  padding: 18px 26px;
+  background: var(--hotbar-bg);
+}
+.action-dock > div:first-child {
+  display: flex;
+  flex-direction: column;
+  font-size: 15px;
+}
+.action-dock > div:first-child > span {
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 4px;
+}
+/* Dialogs: BG3's framed panel (bronze rim, serif title over a gilt hairline) in Owlbear
+   Rodeo's rounded shape over a dimmed scene. */
+dialog {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--frame);
+  border-radius: var(--radius-lg);
+  padding: 0;
+  width: min(600px, calc(100vw - 28px));
+  max-height: 90vh;
+  box-shadow: var(--shadow-3);
+}
+dialog::backdrop {
+  background: var(--scrim);
+}
+dialog form {
+  margin: 0;
+}
+.dialog-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 21px 24px;
+  border-bottom: 1px solid var(--frame-soft);
+  gap: 20px;
+}
+.dialog-heading h2 {
+  font-size: 27px;
+  margin: 0;
+}
+.dialog-body {
+  padding: 24px;
+  overflow-y: auto;
+  max-height: 64vh;
+}
+.dialog-body p:last-child {
+  margin-bottom: 0;
+}
+dialog footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 24px;
+  background: var(--surface-2);
+  border-top: 1px solid var(--line);
+}
+.dialog-error {
+  margin: 0 24px 18px;
+}
+.dialog-menu {
+  display: grid;
+  gap: 12px;
+}
+/* Menus in a dialog: Owlbear and Foundry context-menu rows, one full-width row per command. */
+.dialog-menu button {
+  justify-content: flex-start;
+  text-align: left;
+}
+/* Final review X-06: the context menu of a row (Owlbear/Foundry context menu: a raised plate
+   with a bronze hairline, one full-width command per row, the object's name on top). */
+.context-menu {
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  z-index: 95;
+  display: grid;
+  gap: 2px;
+  min-width: 200px;
+  max-width: min(320px, calc(100vw - 16px));
+  max-height: calc(100dvh - 16px);
+  overflow: auto;
+  padding: 6px;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-md);
+  background: var(--raised);
+  color: var(--text);
+  box-shadow: var(--shadow-2);
+  font: var(--text-md) var(--font-ui);
+}
+.context-menu-title {
+  margin: 2px 10px 4px;
+  font-family: var(--font-label);
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+.context-menu [role="menuitem"] {
+  min-height: 40px;
+  padding: 7px 10px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  font: inherit;
+}
+.context-menu [role="menuitem"]:hover,
+.context-menu [role="menuitem"]:focus-visible {
+  background: color-mix(in srgb, var(--raised) 88%, var(--text));
+}
+/* X-10: «Tutti i pannelli» rows with «Stacca»; the popped-out window shows one panel
+   (Foundry V14 pop-out), without the app's header, at the panel's own width rules. */
+.table-panels-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 6px;
+}
+body:has(.table-window) :is(.demo-strip, .app-header, .table-return, .save-warning) {
+  display: none !important;
+}
+.table-window {
+  container: table-panel / inline-size;
+  padding: 16px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+.table-window-head h1 {
+  margin: 0 0 4px;
+  font-size: var(--text-xl);
+}
+/* X-07: a sheet or the Creature tab under a dragged compendium entry. */
+.is-drop-target {
+  outline: 2px dashed var(--accent-line);
+  outline-offset: 4px;
+}
+/* B61 review: the Table's "All panels" list holds up to fourteen entries. */
+.table-panels-menu {
+  gap: 6px;
+}
+.search-result {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 13px;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: none;
+  color: var(--text);
+  border-radius: var(--radius-xs);
+}
+.search-result:hover {
+  background: var(--raised);
+}
+#toast {
+  position: fixed;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  /* Owlbear Rodeo's snackbar (MUI): an inverted surface at the bottom, parchment on the dark
+     theme and slate on the light one (preferences.css). */
+  background: var(--toast-bg);
+  color: var(--toast-ink);
+  border-radius: 10px;
+  max-width: calc(100% - 32px);
+  box-shadow: var(--shadow-2);
+  padding: 12px 20px;
+  display: none;
+  font-size: 14px;
+  font-weight: 500;
+  /* R3 (registry plan §5.2 rule 9): a toast only informs; a tap on a menu row or a button
+     under it (the phone token menu sheet) reaches that control. */
+  pointer-events: none;
+}
+#toast.shown {
+  display: block;
+}
+#toast.error {
+  background: var(--toast-error-bg);
+  color: var(--toast-error-ink);
+}
+@media (min-width: 1600px) {
+  #battle-map {
+    height: 65vh;
+  }
+  .table-inspector {
+    padding: 30px;
+  }
+}
+/* Critique 30/09: between the phone and a wide laptop the four links (with their icons) and the
+   seven service buttons did not fit the header: every page but the Table scrolled sideways by
+   49 px at 1024 and 103 px at 768. The header drops the link icons first (below 1100 px), then
+   puts the links on their own row (below 880 px), as this header already does on a phone. */
+@media (max-width: 1100px) {
+  .app-header {
+    gap: 16px;
+    padding: 12px 20px;
+  }
+  .app-header nav .icon {
+    display: none;
+  }
+  .app-header .nav-link {
+    padding: 10px;
+  }
+}
+@media (max-width: 880px) {
+  .app-header {
+    flex-wrap: wrap;
+    row-gap: 6px;
+  }
+  .app-header nav {
+    order: 3;
+    width: 100%;
+  }
+}
+@media (max-width: 1000px) {
+  .app-header {
+    gap: 16px;
+    padding: 12px 20px;
+  }
+  .nav-link {
+    padding: 10px;
+  }
+  .app-header nav .icon {
+    display: none;
+  }
+  .workspace > main {
+    padding: 28px;
+  }
+  .workspace.with-sidebar {
+    grid-template-columns: 205px minmax(0, 1fr);
+  }
+  .campaign-sidebar {
+    padding: 23px 18px;
+  }
+  .table-inspector {
+    padding: 20px 14px;
+  }
+  .action-dock {
+    align-items: flex-start;
+  }
+  .action-dock > .toolbar {
+    justify-content: flex-end;
+  }
+  .action-dock .button {
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+  .table-topline {
+    padding: 15px 20px;
+  }
+  .resume-scene > div:last-child {
+    padding: 26px;
+  }
+  .home-bottom {
+    gap: 28px;
+  }
+}
+@media (max-width: 720px) {
+  .demo-strip {
+    padding: 7px 12px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 3px;
+  }
+  .demo-controls {
+    gap: 15px;
+    width: 100%;
+    justify-content: space-between;
+  }
+  .app-header {
+    gap: 8px;
+    padding: 10px 12px;
+    flex-wrap: wrap;
+  }
+  .brand {
+    font-size: 20px;
+  }
+  .brand .icon,
+  .brand .logo {
+    width: 28px;
+    height: 28px;
+  }
+  .app-header nav {
+    order: 3;
+    width: 100%;
+    justify-content: space-between;
+  }
+  .app-header nav .nav-link {
+    font-size: 13px;
+    padding: 8px 12px;
+    min-height: 40px;
+  }
+  .service-nav {
+    gap: 0;
+  }
+  .icon-button {
+    width: 40px;
+    height: 40px;
+  }
+  .workspace > main {
+    padding: 25px 18px;
+  }
+  .page-heading {
+    gap: 16px;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .page-heading h1 {
+    font-size: 31px;
+  }
+  .page-heading p {
+    font-size: 14px;
+  }
+  .resume-scene {
+    grid-template-columns: 1fr;
+  }
+  .scene-emblem {
+    display: none;
+  }
+  .resume-scene > div:last-child {
+    padding: 25px;
+  }
+  .resume-scene h2 {
+    font-size: 27px;
+  }
+  .home-bottom {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    margin-top: 30px;
+  }
+  .workspace.with-sidebar {
+    display: block;
+  }
+  .campaign-sidebar {
+    min-height: 0;
+    padding: 15px 18px;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .campaign-sidebar > .muted,
+  .campaign-sidebar > .badge {
+    display: none;
+  }
+  .campaign-sidebar h2 {
+    font-size: 23px;
+    margin: 0 0 12px;
+  }
+  /* Final review F20/F19 (Kanka mobile): the campaign's name is in each page's heading (the
+     Overview's header card, the sections' subtitles); the bar above keeps «Entra al Tavolo»
+     and the sections only. */
+  .workspace.with-sidebar .campaign-sidebar > h2,
+  .workspace.with-sidebar:has(.party-dashboard) .campaign-sidebar > h2 {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .campaign-sidebar > .button {
+    width: auto;
+    margin: 0 0 15px;
+  }
+  /* F19 (Kanka mobile: one navigation bar): inside Preparation its groups are the bar; the
+     campaign's sections stay one tap away in «Tutte le sezioni», beside «Entra al Tavolo». */
+  .workspace.with-sidebar:has(.prep-groups) .campaign-sidebar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+  .workspace.with-sidebar:has(.prep-groups) .campaign-sidebar > .button {
+    margin: 0;
+  }
+  .workspace.with-sidebar:has(.prep-groups) .campaign-sidebar .campaign-sections > nav {
+    display: none;
+  }
+  .campaign-sidebar nav {
+    flex-direction: row;
+    overflow-x: auto;
+  }
+  .campaign-sidebar .nav-link {
+    flex-shrink: 0;
+    font-size: 12px;
+  }
+  /* B62: on the sideways strip each group is a chip that unfolds its sections inline. */
+  .campaign-group,
+  .campaign-group-items {
+    flex-direction: row;
+    flex-shrink: 0;
+  }
+  .campaign-group + .campaign-group {
+    margin-top: 0;
+    margin-left: 6px;
+  }
+  .campaign-group-toggle {
+    flex-shrink: 0;
+    border: 1px solid var(--line);
+    white-space: nowrap;
+  }
+  /* B61 review: the sections scroll sideways beside "All sections", pinned at the end
+     (D&D Beyond's quick-jump, DDB-060): it lists every section, also those off-screen. */
+  .campaign-sections {
+    display: flex;
+    align-items: stretch;
+  }
+  .campaign-sections > nav {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .campaign-sidebar .campaign-sections-all {
+    display: flex;
+    padding: 10px 12px;
+    border-left: 1px solid var(--line);
+    border-radius: 0;
+  }
+  .campaign-sidebar .campaign-sections-all .icon {
+    width: 18px;
+    height: 18px;
+  }
+  .form-grid,
+  .split-layout {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .campaign-entry {
+    flex-direction: column;
+  }
+  .table-return {
+    padding: 7px 15px;
+  }
+  .table-return > span {
+    display: none;
+  }
+  .table-header .brand {
+    display: none;
+  }
+  /* W1a integration: six header services (B29 account, B30 help) already take their own
+     row on a phone, so the icons keep the 40 px touch target instead of shrinking. */
+  .table-header > .button {
+    font-size: 12px;
+    padding: 6px;
+    min-height: 40px;
+  }
+  .table-header .service-nav .icon-button {
+    width: 40px;
+  }
+  .table-topline {
+    padding: 14px 16px;
+    align-items: flex-start;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .table-topline h1 {
+    font-size: 21px;
+  }
+  /* The DM's longer toolbar moves under the title and wraps instead of widening the page. */
+  .table-topline > .toolbar {
+    flex-shrink: 0;
+    max-width: 100%;
+    gap: 4px;
+  }
+  /* 40 px touch target (W1a integration): area drawers share this toolbar. */
+  .table-topline .button {
+    font-size: 11px;
+    padding: 8px;
+    min-height: 40px;
+  }
+  .table-topline .icon {
+    display: none;
+  }
+  .table-stage {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+  .map-toolbar {
+    left: 9px;
+    top: 9px;
+    padding: 4px;
+    gap: 2px;
+  }
+  .map-tool {
+    width: 40px;
+    height: 40px;
+  }
+  .map-tool .icon {
+    width: 18px;
+  }
+  #battle-map {
+    height: 420px;
+    min-height: 360px;
+  }
+  .map-caption {
+    align-items: flex-start;
+    font-size: 10px;
+    gap: 10px;
+  }
+  .table-inspector {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+    padding: 20px;
+    max-height: none;
+  }
+  .inspector-person {
+    margin-bottom: 17px;
+  }
+  .inspector-buttons {
+    grid-template-columns: 1fr 1fr;
+  }
+  .resources {
+    justify-content: flex-start;
+    gap: 30px;
+  }
+  .action-dock {
+    position: sticky;
+    bottom: 0;
+    z-index: 3;
+    padding: 10px 12px;
+    display: block;
+    border-top: 1px solid var(--line);
+  }
+  .action-dock > div:first-child {
+    display: none;
+  }
+  .action-dock > .toolbar {
+    justify-content: center;
+    gap: 6px;
+  }
+  .action-dock .button {
+    font-size: 11px;
+    min-height: 40px;
+    padding: 6px;
+  }
+  .action-dock .icon {
+    width: 17px;
+  }
+  .initiative {
+    justify-content: flex-start;
+    padding: 8px;
+  }
+  .initiative-token {
+    font-size: 11px;
+    padding: 6px 9px;
+    gap: 5px;
+  }
+  .initiative-token .token-dot {
+    width: 25px;
+    height: 25px;
+  }
+  .dialog-body,
+  .dialog-heading {
+    padding: 20px;
+  }
+  .dialog-heading h2 {
+    font-size: 24px;
+  }
+  .dialog-body {
+    max-height: 60vh;
+  }
+  .item-row {
+    flex-wrap: wrap;
+  }
+  .stat {
+    padding: 10px 14px;
+    min-width: 70px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Table spatial controls and private path planning. */
+.door-display rect {
+  fill: var(--door-fill);
+  stroke: var(--door-rim);
+  stroke-width: 2;
+}
+.door-display text {
+  fill: var(--door-ink);
+  font: 24px var(--font-ui);
+  pointer-events: none;
+}
+[data-door] {
+  cursor: pointer;
+}
+[data-door]:focus .door-display rect {
+  stroke: var(--door-focus);
+  stroke-width: 4;
+}
+.path-planner {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 16px;
+  background: var(--surface-2);
+}
+.path-planner p {
+  font-size: 0.83rem;
+  color: var(--muted);
+}
+.path-planner ol {
+  padding-left: 20px;
+  max-height: 150px;
+  overflow: auto;
+}
+.path-planner li {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+.path-planner .toolbar {
+  flex-wrap: wrap;
+}
+
+.map-placement-controls {
+  padding: 0.8rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface-2);
+}
+.map-placement-controls strong {
+  color: var(--accent);
+}
+.map-placement-controls [data-placement-status] {
+  flex-basis: 100%;
+  margin: 0;
+}
+
+/* ------------------------------------------------------------------ B61 Table structure
+   Where commands live at the Table (docs/interview/CAPABILITY_CENSUS.md, B61):
+   - left: map tools grouped, the active group's tools beside it (Foundry scene controls
+     FVT-108, Roll20 left toolbar R20-127);
+   - right: a sidebar with tabs, the selected creature first, then the log and the areas'
+     panels (Foundry sidebar tabs FVT-007, Roll20 right sidebar, D&D Beyond Maps DDB-133);
+   - top: scene title and scene commands, then the turn portraits (BG3 CRP-090);
+   - bottom: the controlled creature's actions and resources (BG3 CRP-098/099).
+   On a phone the sidebar panel follows the map and its tabs are a bar pinned at the
+   bottom, under the action bar, with "Map" first (D&D Beyond / Quest Portal pattern). */
+.table-layout {
+  --table-panel-width: 380px;
+  --table-rail-width: 56px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--table-panel-width) var(--table-rail-width);
+  grid-template-rows: repeat(6, auto);
+}
+/* The side panel narrows with the window, so the map keeps most of it. */
+@media (min-width: 1600px) {
+  .table-layout {
+    --table-panel-width: 420px;
+  }
+}
+@media (max-width: 1279px) {
+  .table-layout {
+    --table-panel-width: 340px;
+  }
+}
+@media (max-width: 1000px) {
+  .table-layout {
+    --table-panel-width: 300px;
+  }
+}
+.table-layout.is-collapsed {
+  grid-template-columns: minmax(0, 1fr) 0 var(--table-rail-width);
+}
+.table-layout > * {
+  grid-column: 1;
+  min-width: 0;
+}
+.table-layout > .table-topline {
+  grid-row: 1;
+}
+.table-layout > .initiative {
+  grid-row: 2;
+}
+.table-layout > .interruption-banner {
+  grid-row: 3;
+}
+.table-layout > .table-stage {
+  grid-row: 4;
+}
+/* The action bars run under the map and the side panel (BG3's bottom bar); the tabs keep
+   the full height at the right edge. */
+.table-layout > .combat-bar {
+  grid-row: 5;
+  grid-column: 1 / 3;
+}
+.table-layout > .action-dock {
+  grid-row: 6;
+  grid-column: 1 / 3;
+}
+/* The side panel is as tall as the top line and the map; its content scrolls inside. */
+.table-layout > .table-sidebar-panel {
+  grid-column: 2;
+  grid-row: 1 / 5;
+  contain: size;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--surface);
+  border-left: 1px solid var(--line);
+}
+.table-layout > .table-sidebar-panel[hidden] {
+  display: none;
+}
+.table-sidebar-panel > * {
+  /* Critique 2: the scroll box is also the containing block of its content, so a long panel's
+     visually hidden labels (absolutely placed) scroll inside it instead of stretching the
+     page under the full-height Table (1255–2201 px of page scroll before). */
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  /* Area panels can adapt to the column: @container table-panel (max-width: …). */
+  container: table-panel / inline-size;
+}
+.table-sidebar-panel > .table-inspector {
+  max-height: none;
+  border-left: 0;
+}
+.table-sidebar-panel > .table-log {
+  margin: 0;
+  padding: 18px 18px 20px;
+}
+.table-sidebar-panel > .table-drawer {
+  border-top: 0;
+  padding: 16px 18px 20px;
+}
+.table-layout > .table-sidebar-rail {
+  grid-column: 3;
+  grid-row: 1 / -1;
+  contain: size;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 0;
+  /* B61 review: only the tab strip scrolls; the collapse control and "All panels" stay
+     in place, and "All panels" lists the tabs a short window cannot show. */
+  overflow: hidden;
+  background: var(--rail-bg);
+  border-left: 1px solid var(--line);
+}
+.table-tabs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  padding: 4px 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+}
+/* 40 px keeps the fourteen tabs of the DM's rail inside a 1366 × 768 laptop window. */
+.table-tab,
+.table-sidebar-toggle,
+.table-map-link,
+.table-panels-all {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex: none;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--muted);
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+.table-tab:hover,
+.table-sidebar-toggle:hover,
+.table-map-link:hover,
+.table-panels-all:hover {
+  background: var(--raised);
+  color: var(--text);
+}
+/* Sidebar tabs: Foundry v13's icon column; the open tab as BG3's selected slot, a gold rim
+   on a lit tile. */
+.table-tab.active {
+  color: var(--accent);
+  border-color: var(--accent-line);
+  background: var(--accent-soft);
+}
+.table-map-link {
+  display: none;
+}
+/* The rail's two controls (collapse, All panels) above a line, then the tabs. */
+.table-sidebar-rail > .table-tabs {
+  border-top: 1px solid var(--line);
+}
+.table-tab-label {
+  display: none;
+}
+.table-tab-portrait {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--token-ally-fill);
+  border: 2px solid var(--token-ally-ring);
+  color: var(--token-initial);
+  font-family: var(--font-display);
+  font-size: 16px;
+}
+.table-tab .table-log-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  font-size: 11px;
+}
+/* B62: the panels of the open sidebar tab as sub-tabs above its content (Foundry journal
+   pages, D&D Beyond Maps panel tabs): they wrap rather than scroll, so every panel of the
+   tab is in view. The hidden panel index only carries handles for area code. */
+/* Final review F9 (D&D Beyond: the action filters on one row that scrolls sideways; one
+   row of tabs as in Foundry): five DM sub-tabs no longer take three rows. */
+.table-sidebar-panel > .table-subtabs {
+  flex: none;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 4px;
+  padding: 10px 14px 8px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface-2);
+}
+/* Sub-tabs: D&D Beyond's action filters (condensed capitals, the open one filled with the
+   theme colour) in Foundry dnd5e's pill shape. */
+.table-subtab {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 6px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  /* Capitals drawn as small caps: the words (innerText, accessible names) stay as written. */
+  font-variant-caps: all-small-caps;
+  position: relative;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+.table-subtab .icon {
+  width: 16px;
+  height: 16px;
+}
+.table-subtab:hover {
+  background: var(--raised);
+  color: var(--text);
+}
+.table-subtab.active {
+  color: var(--accent-ink);
+  border-color: var(--accent);
+  background: var(--accent);
+}
+.table-subtab .table-log-badge {
+  position: static;
+  margin-left: 2px;
+}
+/* Below 901 px B17's log is a full-screen sheet over the page: the Chat tab's sub-tabs stay
+   pinned above it, so Dice and Safety are one tap away from the log too. */
+@media (max-width: 900px) {
+  .table-sidebar-panel[data-table-panel="log"] > .table-subtabs {
+    position: fixed;
+    z-index: 60;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding-top: calc(10px + env(safe-area-inset-top, 0px));
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+  .table-sidebar-panel[data-table-panel="log"]:has(> .table-subtabs) .chat-panel {
+    top: calc(59px + env(safe-area-inset-top, 0px));
+    padding-top: 0;
+  }
+}
+.table-panels-menu.is-grouped {
+  display: grid;
+  gap: 14px;
+}
+.table-panels-group {
+  display: grid;
+  gap: 6px;
+}
+.table-panels-group-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+/* Group headings of «Tutti i pannelli»: the label of DESIGN.md (condensed small caps), as the
+   headings of Foundry's sidebar directories; no uppercase transform (the words stay as
+   written). */
+.table-panels-group-head h3 {
+  margin: 0;
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+  color: var(--muted);
+}
+.table-panels-pin[aria-pressed="false"] {
+  color: var(--muted);
+  text-decoration: line-through;
+}
+/* Map toolbar groups: a small corner mark says a group holds several tools; the active
+   group's tools stand in a column beside the toolbar. */
+/* B62 review: the active group's tools start at the toolbar's top, as Foundry's scene
+   controls show the active control's tools (not beside the group button, where the DM
+   tools of a phone ran under the pinned hotbar). The toolbar anchors the column. */
+.map-tool-cluster {
+  position: static;
+}
+.map-tool-group::after {
+  content: "";
+  position: absolute;
+  right: 3px;
+  bottom: 3px;
+  border: 4px solid transparent;
+  border-right-color: currentColor;
+  border-bottom-color: currentColor;
+  opacity: 0.7;
+}
+.map-tool-group {
+  position: relative;
+}
+.map-subtools {
+  position: absolute;
+  top: -1px;
+  left: calc(100% + 7px);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 6px;
+  background: var(--float-bg);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--float-border);
+  border-radius: 14px;
+  box-shadow: var(--shadow-2);
+}
+.map-subtools[hidden] {
+  display: none;
+}
+/* Beside the sidebar a long map message can take two lines: the caption keeps room for two
+   so the map never rescales while a tool writes to it (a drag would change scale midway). */
+@media (min-width: 1001px) {
+  .map-caption {
+    height: 48px;
+    overflow: hidden;
+  }
+}
+/* Zoom and fit: a small group at the map's bottom right (Owlbear, D&D Beyond Maps
+   DDB-120), so the tool column stays short. */
+.map-zoom {
+  position: absolute;
+  z-index: 2;
+  right: 14px;
+  bottom: 52px;
+  display: flex;
+  gap: 4px;
+  padding: 5px;
+  background: var(--float-bg);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--float-border);
+  border-radius: 14px;
+  box-shadow: var(--shadow-2);
+}
+/* Bottom bar: the controlled creature's resources under its name (BG3 resource bar). When
+   the column is narrow (larger interface or text) the commands move under the name and wrap
+   in rows, never one per line. */
+.action-dock {
+  flex-wrap: wrap;
+}
+.action-dock > .toolbar {
+  flex: 1 1 420px;
+  justify-content: flex-end;
+}
+.action-dock .resources {
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  gap: 4px 14px;
+  padding: 8px 0 0;
+}
+.action-dock .resources .movement:before {
+  border-radius: 1px;
+}
+/* Cancel preview keeps its words (with the Esc hint) on a wide screen, its icon on a phone. */
+.action-dock [data-table="cancel"] > .icon {
+  display: none;
+}
+.action-dock > .toolbar {
+  flex-wrap: wrap;
+}
+
+/* B62 — one bottom hotbar instead of stacked bars (BG3 hotbar and resource bar CRP-098/099):
+   the controlled creature and its resources on the left, the action pages in the middle
+   (page tabs down the side like BG3's hotbar filters; the actions wrap in at most two rows,
+   the dice mode and the rolls queue beside them), the turn commands on the right in two
+   short rows with End turn last. The quick bar (B53) is the second page (Foundry hotbar
+   pages FVT-194). Words of Roll dice, Cancel and Undo stay their accessible names. */
+.action-dock.table-hotbar {
+  display: grid;
+  grid-template-columns: minmax(150px, max-content) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px 12px;
+  padding: 10px 16px;
+  /* BG3's hotbar: a near-black bar under a bronze rim. */
+  border-top: 1px solid var(--frame);
+}
+.action-dock.table-hotbar > .hotbar-identity {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  font-size: 15px;
+}
+.action-dock.table-hotbar > .hotbar-identity > div {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.action-dock.table-hotbar > .hotbar-identity > div > span {
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 2px;
+}
+.table-hotbar .hotbar-portrait {
+  width: 42px;
+  height: 46px;
+  font-size: 22px;
+  border-radius: 21px 21px 6px 6px;
+}
+.action-dock.table-hotbar .resources {
+  flex-wrap: wrap;
+  white-space: normal;
+  gap: 2px 10px;
+  max-width: 170px;
+  padding: 4px 0 0;
+  font-size: 11px;
+}
+.action-dock.table-hotbar > .hotbar-identity > div {
+  max-width: 170px;
+}
+.hotbar-center {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 6px;
+}
+.hotbar-pages {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+/* Hotbar pages: BG3's hotbar filter tabs (Common, Items, Passives…), bronze-rimmed pills
+   with serif labels; the open page lit in gold. */
+.hotbar-page-tab {
+  min-height: 40px;
+  padding: 4px 12px;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-size: 13px;
+  text-align: left;
+  white-space: nowrap;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+.hotbar-page-tab:hover {
+  background: var(--raised);
+  color: var(--text);
+}
+.hotbar-page-tab.active {
+  color: var(--accent);
+  border-color: var(--frame);
+  background: var(--accent-soft);
+}
+.hotbar-page {
+  min-width: 0;
+}
+.hotbar-page:only-child {
+  grid-column: 1 / -1;
+}
+.hotbar-page[hidden] {
+  display: none;
+}
+/* B62 review: actions | dock commands (B40's «Mosse», pinned: only the actions scroll) | dice
+   mode and rolls queue. */
+.table-hotbar .combat-bar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: start;
+  gap: 6px 8px;
+  padding: 0;
+  background: none;
+  border: 0;
+}
+.table-hotbar .combat-bar-heading {
+  grid-column: 3;
+  grid-row: 1;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  margin: 0;
+}
+.table-hotbar .combat-bar-heading > strong {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.table-hotbar .combat-bar-heading .text-button {
+  margin-left: 0;
+  font-size: 12px;
+  min-height: 40px;
+}
+.table-hotbar .combat-actions {
+  grid-column: 1;
+  grid-row: 1;
+  gap: 6px;
+}
+.table-hotbar .combat-dock {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  gap: 6px;
+}
+.table-hotbar .combat-action,
+.table-hotbar .combat-dock .sm-dock-toggle {
+  min-height: 44px;
+  padding: 5px 8px;
+  gap: 5px;
+}
+.table-hotbar .combat-action .icon {
+  width: 17px;
+  height: 17px;
+}
+/* Action slots: BG3's hotbar slots, dark wells with a thin bronze rim; the chosen action is
+   lit in gold. */
+.table-hotbar .combat-action {
+  background: var(--sunken);
+  border-color: var(--frame-soft);
+  border-radius: var(--radius-xs);
+}
+.table-hotbar .combat-action:hover,
+.table-hotbar .combat-action.active {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+/* At most two rows of actions, like BG3's hotbar rows: more actions scroll inside the bar,
+   so the bar keeps one height whichever creature is selected (nothing jumps under the
+   pointer between two clicks). The padding keeps focus rings inside the scroll box. */
+@media (min-width: 721px) {
+  .table-hotbar .combat-actions {
+    max-height: calc(2 * 44px + 6px + 4px);
+    padding: 2px;
+    margin: -2px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    align-content: flex-start;
+  }
+}
+.action-dock.table-hotbar > .toolbar {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  justify-content: end;
+  gap: 6px;
+  flex: none;
+}
+.action-dock.table-hotbar > .toolbar > [data-tool="move"],
+.action-dock.table-hotbar > .toolbar > [data-table="actions"],
+.action-dock.table-hotbar > .toolbar > .stand-control,
+.action-dock.table-hotbar > .toolbar > [data-table="stand"],
+.action-dock.table-hotbar > .toolbar > .mobile-combat-link {
+  grid-column: span 1;
+}
+.action-dock.table-hotbar > .toolbar > [data-table="actions"] {
+  grid-column: span 2;
+}
+.action-dock.table-hotbar > .toolbar > [data-table="end-turn"] {
+  grid-column: span 3;
+}
+/* In combat End turn is BG3's large button at the far right, as tall as the two rows of
+   commands beside it: the bar does not grow a third row for it. */
+@media (min-width: 721px) {
+  .action-dock.table-hotbar > .toolbar:has(> [data-table="end-turn"]) {
+    grid-template-columns: repeat(3, auto) minmax(96px, auto);
+  }
+  .action-dock.table-hotbar > .toolbar > [data-table="end-turn"] {
+    grid-column: 4;
+    grid-row: 1 / span 2;
+    align-self: stretch;
+    white-space: normal;
+    max-width: 120px;
+  }
+}
+.action-dock.table-hotbar > .toolbar .button {
+  justify-content: center;
+  min-height: 40px;
+  font-size: 12px;
+  padding: 6px 10px;
+}
+/* End turn: BG3's round teal End Turn button — a deep teal well inside a bright teal ring and
+   a bronze keyline, the words in the serif. */
+.action-dock.table-hotbar > .toolbar > .button.primary[data-table="end-turn"] {
+  border-radius: var(--radius-pill);
+  border-color: var(--turn-ally);
+  background: var(--endturn-bg);
+  color: var(--turn-current);
+  box-shadow:
+    inset 0 0 0 1px var(--turn-ally),
+    0 0 0 1px var(--frame);
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 400;
+}
+.action-dock.table-hotbar > .toolbar > .button.primary[data-table="end-turn"]:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--endturn-bg) 70%, var(--turn-ally));
+  border-color: var(--turn-ally);
+}
+.action-dock.table-hotbar > .toolbar .dock-text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.action-dock.table-hotbar > .toolbar .button:has(.dock-text) {
+  position: relative;
+  min-width: 40px;
+}
+.table-hotbar [data-table="cancel"] > .icon {
+  display: inline;
+}
+.table-hotbar .qb {
+  margin: 0;
+}
+@media (max-width: 1279px) {
+  .action-dock.table-hotbar {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .table-hotbar > .hotbar-center {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+}
+/* B62 review, laptops (1366 × 768 is the most common): the portrait gives its width to the
+   actions — the name, the turn line and the resources stay — so a caster's seven actions
+   keep two rows beside the pinned «Mosse» instead of a third row that only scrolling showed.
+   Below 1440 the dice mode and the rolls queue also keep only their control and bell, as on
+   a phone (their words stay the accessible names). */
+@media (min-width: 1280px) and (max-width: 1499px) {
+  .table-hotbar .hotbar-portrait {
+    display: none;
+  }
+}
+@media (min-width: 1280px) and (max-width: 1439px) {
+  .table-hotbar .combat-bar-heading > label {
+    font-size: 0;
+    gap: 0;
+  }
+  .table-hotbar .combat-bar-heading select {
+    font-size: 12px;
+  }
+  .table-hotbar .combat-bar-heading .text-button {
+    font-size: 0;
+    min-width: 40px;
+    justify-content: center;
+  }
+}
+@media (max-width: 720px) {
+  /* Phone: a compact bar pinned above the tabs, three short rows — resources with the page
+     tabs; the page (actions scroll sideways with Moves pinned at the end, or the quick bar
+     slots); the commands as icons with the dice mode and the rolls queue. The map above
+     keeps at least 60 % of the screen once it is in view. */
+  .action-dock.table-hotbar {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    gap: 6px 8px;
+    padding: 6px 10px 8px;
+  }
+  .action-dock.table-hotbar > .hotbar-identity {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .action-dock.table-hotbar > .hotbar-identity .hotbar-portrait,
+  .action-dock.table-hotbar > .hotbar-identity strong,
+  .action-dock.table-hotbar > .hotbar-identity > div > span {
+    display: none;
+  }
+  .action-dock.table-hotbar .resources,
+  .action-dock.table-hotbar > .hotbar-identity > div {
+    max-width: none;
+  }
+  .action-dock.table-hotbar .resources {
+    padding: 0;
+    font-size: 10px;
+  }
+  .table-hotbar > .hotbar-center,
+  .table-hotbar .hotbar-page:not([hidden]),
+  .table-hotbar .combat-bar {
+    display: contents;
+  }
+  .hotbar-pages {
+    grid-column: 2 / -1;
+    grid-row: 1;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+  .hotbar-page-tab {
+    min-height: 40px;
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+  .table-hotbar .combat-actions {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .table-hotbar .qb {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+  .table-hotbar .combat-actions {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 2px;
+  }
+  /* The strip of actions scrolls sideways; «Mosse» (B40) stands after it, always in view. */
+  .table-hotbar .combat-dock {
+    grid-column: 2;
+    grid-row: 2;
+  }
+  .table-hotbar .combat-bar-heading {
+    grid-column: 3;
+    grid-row: 2;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+  }
+  .table-hotbar .combat-bar-heading > label {
+    font-size: 0;
+    gap: 0;
+  }
+  .table-hotbar .combat-bar-heading select {
+    font-size: 12px;
+    min-height: 40px;
+  }
+  /* The rolls queue keeps its bell and count; its words stay the accessible name. */
+  .table-hotbar .combat-bar-heading .text-button {
+    font-size: 0;
+    min-width: 40px;
+    justify-content: center;
+  }
+  .action-dock.table-hotbar > .toolbar {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 4px;
+  }
+  .action-dock.table-hotbar > .toolbar [data-table="actions"] {
+    font-size: 11px;
+    padding: 6px 8px;
+  }
+  #battle-map {
+    height: clamp(360px, calc(100dvh - 340px), 580px);
+  }
+}
+
+/* P6 TV-06: on a phone the tool columns fold into one «Strumenti» button (Roll20 tablet,
+   TouchVTT), and the status line sits over the top of the map, never under the action bar. */
+.map-tools-toggle {
+  display: none;
+}
+@media (max-width: 720px) {
+  .map-tools-toggle {
+    display: grid;
+  }
+  .map-toolbar.is-collapsed > :not(.map-tools-toggle) {
+    display: none;
+  }
+  .map-container {
+    position: relative;
+  }
+  /* The caption keeps its place under the map (the scale). Final review F18 (Owlbear's
+     snackbar): the live message appears above the action bar for a few seconds when it
+     changes (table.mjs measures the bar), instead of covering the map's tools and turn order. */
+  .map-container > .map-caption > #map-message {
+    position: fixed;
+    z-index: 30;
+    top: auto;
+    bottom: var(--map-message-bottom, calc(96px + env(safe-area-inset-bottom, 0px)));
+    left: 12px;
+    right: 12px;
+    padding: 6px 10px;
+    border-radius: 10px;
+    background: var(--float-bg);
+    box-shadow: var(--shadow-2);
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity var(--dur-base) var(--ease-out),
+      visibility var(--dur-base);
+  }
+  .map-container > .map-caption > #map-message.is-fresh {
+    opacity: 1;
+    visibility: visible;
+  }
+  /* Critique 29/09: the DM's chips wrap to two rows on a phone (session commands, then the
+     safety tools): the message starts under the second row instead of covering the X-card
+     (Owlbear keeps its tools clear of notices). */
+
+  /* PG-46 on a phone: the HP (numbers only) joins the turn resources in their short lines, so
+     the bar pinned at the bottom grows by little; the slot pips and the name stay in the
+     Creature tab. */
+  .action-dock.table-hotbar > .hotbar-identity > div {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    column-gap: 6px;
+  }
+  .table-hotbar .hotbar-name {
+    display: contents;
+  }
+  .action-dock.table-hotbar > .hotbar-identity .resources {
+    grid-column: 2;
+    grid-row: 1;
+    gap: 0 8px;
+  }
+  .table-hotbar .hotbar-slots,
+  .table-hotbar .hotbar-hp-bar {
+    display: none;
+  }
+  .table-hotbar .hotbar-hp {
+    grid-column: 1;
+    grid-row: 1;
+    min-height: 40px;
+    padding: 0 6px;
+    font-size: 11px;
+  }
+  .table-hotbar .hotbar-hp-unit {
+    display: none;
+  }
+  .table-hotbar .hotbar-hp-text::before {
+    content: "♥ ";
+    color: var(--hp-low);
+  }
+}
+@media (max-width: 720px) {
+  .table-layout {
+    --table-rail-height: 64px;
+    display: flex;
+    flex-direction: column;
+  }
+  .table-layout > .table-topline {
+    order: 1;
+  }
+  .table-layout > .initiative {
+    order: 2;
+  }
+  .table-layout > .interruption-banner {
+    order: 3;
+  }
+  .table-layout > .table-stage,
+  .table-layout > .combat-bar {
+    order: 4;
+  }
+  .table-layout > .table-sidebar-panel {
+    order: 5;
+    contain: none;
+    overflow: visible;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+  .table-layout > .action-dock {
+    order: 6;
+    bottom: var(--table-rail-height);
+  }
+  /* The tabs: a bar pinned at the bottom of the screen, Map first. B61 review: Map and
+     "All panels" (at the end, D&D Beyond's quick-jump DDB-060) stay put; only the tabs
+     between them scroll, and "All panels" lists those beyond the screen. */
+  .table-layout > .table-sidebar-rail {
+    order: 7;
+    position: sticky;
+    bottom: 0;
+    z-index: 3;
+    contain: none;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 4px;
+    height: var(--table-rail-height);
+    padding: 6px 8px calc(6px + env(safe-area-inset-bottom, 0px));
+    overflow: hidden;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+  .table-tabs {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 4px;
+    width: auto;
+    min-width: 0;
+    padding: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+  }
+  .table-sidebar-rail > .table-tabs {
+    border-top: 0;
+  }
+  .table-panels-all {
+    order: 1;
+  }
+  .table-sidebar-toggle {
+    display: none;
+  }
+  .table-tab,
+  .table-map-link,
+  .table-panels-all {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+    width: auto;
+    min-width: 58px;
+    height: 52px;
+    padding: 0 6px;
+  }
+  .table-tab .icon,
+  .table-map-link .icon,
+  .table-panels-all .icon {
+    width: 20px;
+    height: 20px;
+  }
+  /* F18: a long name («Combattimento») ends in an ellipsis, so whole tabs fit the bar
+     instead of the last one being cut («Sce»); the name stays the tab's accessible name. */
+  .table-tab-label {
+    display: block;
+    max-width: 56px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 10px;
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+  .table-tab-portrait {
+    width: 22px;
+    height: 22px;
+    font-size: 12px;
+    border-width: 1px;
+  }
+  .table-tab .table-log-badge {
+    top: 0;
+    right: 2px;
+  }
+  /* The action bar: name and status give way to the resources. B61 review: the commands
+     wrap (as before B61) rather than scroll sideways, so End turn, Undo and Cancel are
+     never off-screen; out of combat they fit one row. */
+  .action-dock > div:first-child {
+    display: block;
+  }
+  .action-dock > div:first-child > strong,
+  .action-dock > div:first-child > span {
+    display: none;
+  }
+  .action-dock .resources {
+    flex-wrap: wrap;
+    white-space: normal;
+    padding: 0 0 6px;
+    gap: 2px 12px;
+    font-size: 10px;
+  }
+  .action-dock > .toolbar {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+  .action-dock .button {
+    flex: none;
+  }
+  /* Free roll, Cancel and Undo keep their names for assistive technology, icons on
+     screen. B62: only the commands (the hotbar's middle keeps its own labels and the
+     sticky «Mosse» of B40). */
+  .action-dock > .toolbar .dock-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .action-dock > .toolbar .button:has(.dock-text) {
+    position: relative;
+    min-width: 40px;
+    justify-content: center;
+  }
+  .action-dock > .toolbar .button:has(.dock-text) .icon {
+    display: inline;
+    width: 19px;
+    margin: 0;
+  }
+  .map-subtools {
+    left: calc(100% + 5px);
+    top: -1px;
+    padding: 4px;
+    gap: 2px;
+  }
+  /* The Table header keeps one row: the way back shows its arrow, Help moves into the
+     App menu (every service stays reachable). */
+  .table-header [data-nav="campaign"] > span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .table-header [data-nav="campaign"] {
+    position: relative;
+    min-width: 40px;
+    justify-content: center;
+  }
+  .table-header .service-nav [data-service="home-help"] {
+    display: none;
+  }
+}
+/* A narrow phone shows the d20 mark without the wordmark (the Table header hides it). */
+@media (max-width: 420px) {
+  .app-header .brand > span {
+    display: none;
+  }
+  .app-header .brand {
+    min-width: 40px;
+    min-height: 40px;
+    justify-content: center;
+  }
+}
+
+/* ------------------------------------------------------------------ P6 Table map fixes */
+/* Text a screen reader reads but the screen does not show. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+/* TV-01: no page text selection while a gesture runs on the map; a drag on the empty map
+   pans it, so Move shows the hand (Owlbear, D&D Beyond Maps). */
+.map-container {
+  -webkit-user-select: none;
+  user-select: none;
+}
+#battle-map[data-mode="move"],
+#battle-map[data-mode="pan"] {
+  cursor: grab;
+}
+#battle-map[data-mode="move"]:active,
+#battle-map[data-mode="pan"]:active {
+  cursor: grabbing;
+}
+/* PG-46: hit points, temporary hit points and spell slots on the hotbar (Alchemy's player
+   bar, BG3's portrait). */
+.hotbar-name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 8px;
+}
+.hotbar-hp {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 28px;
+  padding: 1px 7px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--sunken);
+  color: var(--text);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+.hotbar-hp:hover,
+.hotbar-hp:focus-visible {
+  border-color: var(--accent);
+}
+.hotbar-hp-bar {
+  position: relative;
+  display: block;
+  width: 44px;
+  height: 7px;
+  border-radius: 4px;
+  background: var(--hp-track);
+  overflow: hidden;
+}
+.hotbar-hp-bar > span {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: var(--hp-full);
+}
+.hotbar-hp.is-low .hotbar-hp-bar > span:first-child {
+  background: var(--hp-mid);
+}
+.hotbar-hp.is-down .hotbar-hp-bar > span:first-child {
+  background: var(--hp-low);
+}
+.hotbar-hp-bar > .hotbar-hp-temp {
+  left: auto;
+  right: 0;
+  background: var(--hp-temp);
+  opacity: 0.9;
+}
+.hotbar-hp-text {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.hotbar-slots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 8px;
+  margin-top: 3px;
+}
+.hotbar-slot-level {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+.hotbar-slot-level > small {
+  margin-right: 2px;
+  color: var(--muted);
+  font-size: 10px;
+}
+/* Spell slots: BG3's cyan slot squares; a spent slot keeps only its outline. */
+.hotbar-slot-level > i {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--res-slot);
+  border-radius: 2px;
+}
+.hotbar-slot-level > i.is-full {
+  background: var(--res-slot);
+}
+.action-dock.table-hotbar > .hotbar-identity > div {
+  max-width: 230px;
+}
+/* Reconcile (27/09): hotbar identity. With the HP row and the slot pips the identity was
+   104 px and the combat hotbar 125 px, so the Table scrolled at 1440 × 900 (B62: one bar of
+   at most 120 px, no page scroll). The small lines keep their order, only tighter. */
+@media (min-width: 721px) {
+  .action-dock.table-hotbar > .hotbar-identity > div > span {
+    margin-top: 0;
+    line-height: 1.3;
+  }
+  .table-hotbar .hotbar-slots {
+    margin-top: 1px;
+    line-height: 1.3;
+  }
+  .action-dock.table-hotbar .resources {
+    padding-top: 2px;
+    line-height: 1.3;
+  }
+}
+/* TV-106: the Table's scene list (Foundry's scene navigation). */
+.table-scenes {
+  display: grid;
+  gap: 8px;
+  margin: 12px 0;
+  padding: 0;
+  list-style: none;
+}
+.table-scenes-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+.table-scenes-row.is-active {
+  border-color: var(--accent);
+}
+/* TV-08: the last move at the top of the Creature panel, with its key. */
+.inspector-quick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 12px;
+}
+.inspector-quick .button[aria-pressed="true"] {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.inspector-quick kbd {
+  margin-left: 4px;
+  padding: 0 4px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  font-size: 11px;
+}
+
+/* ------------------------------------------------------------------ Visual pass 2: Table HUD
+   30/09/2026, owner direction «copy BG3 and Owlbear»: the map takes the Table's whole height
+   and the rest floats over it, as Foundry v13 floats its controls over the canvas.
+   - top left: the scene plate (Foundry v13 scene navigation) above Owlbear's tool column;
+   - top centre, in combat only: BG3's turn-order portraits;
+   - top right: Owlbear's single row of map controls (session-view.css);
+   - bottom left: BG3's party portraits with HP bar and condition badge;
+   - bottom centre: BG3's hotbar with its resource row above it;
+   - bottom right: Owlbear's zoom over the map; the turn commands and BG3's round End Turn at
+     the foot of the sidebar, whose tabs stay (Foundry v13, Roll20).
+   On a phone the map comes first, nearly the whole screen, with the HUD condensed over and
+   under it; the sidebar panel follows as a sheet. DESIGN.md «Tavolo» lists each source. */
+
+/* Party portraits (BG3, patch 7's vertical column): an arched bronze frame with the initial,
+   the HP bar under it and the token's badge on its corner. They float over the map, so they
+   keep the map's colours in both themes, like the tokens. */
+.table-party {
+  position: absolute;
+  z-index: 2;
+  left: 16px;
+  bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.table-party-member {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 3px;
+  width: 64px;
+  padding: 4px 4px 3px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--token-label);
+  cursor: pointer;
+}
+.table-party-portrait {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 56px;
+  border: 2px solid var(--frame);
+  border-radius: 22px 22px 6px 6px;
+  background: var(--token-ally-fill);
+  color: var(--token-initial);
+  font: 24px var(--font-display);
+  box-shadow:
+    inset 0 0 0 1px var(--keyline-dark),
+    var(--shadow-2);
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+.table-party-member:hover .table-party-portrait {
+  border-color: var(--map-gold);
+}
+/* The selected creature: BG3's lit gold frame (the map's bright gold, as the selection ring). */
+.table-party-member.is-selected .table-party-portrait {
+  border-color: var(--map-gold-bright);
+  box-shadow:
+    inset 0 0 0 1px var(--keyline-dark),
+    0 0 0 2px var(--map-gold-bright),
+    var(--shadow-2);
+}
+.table-party-hp {
+  display: block;
+  width: 48px;
+  height: 5px;
+  border-radius: 3px;
+  background: var(--map-halo);
+  box-shadow: 0 0 0 1px var(--keyline-dark);
+  overflow: hidden;
+}
+.table-party-hp > span {
+  display: block;
+  height: 100%;
+  background: var(--hp-full);
+}
+.table-party-hp.is-low > span {
+  background: var(--hp-mid);
+}
+.table-party-hp.is-down > span {
+  background: var(--hp-low);
+}
+/* Critique 2: the portraits stand on the canvas beside the map, which turns parchment in the
+   light theme, where the halo alone left the name at 1:1. The name sits on the map's dark
+   label plate, as the state chips under the tokens do («Illeso»), in both themes. */
+.table-party-name {
+  max-width: 100%;
+  overflow: hidden;
+  padding: 0 5px;
+  border-radius: var(--radius-xs);
+  background: var(--token-label-halo);
+  font: 600 var(--text-2xs) / 1.35 var(--font-ui);
+  color: var(--token-label);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* The badge of the map token (conditions count, dying, stable, dead) on the portrait corner. */
+.table-party-status {
+  position: absolute;
+  top: 0;
+  right: 2px;
+  display: grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 4px;
+  border: 1.5px solid var(--map-gold);
+  border-radius: 10px;
+  background: var(--map-chip);
+  color: var(--map-ink);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.table-party-status[data-party-status="dying"] {
+  background: var(--status-dying);
+}
+.table-party-status[data-party-status="stable"] {
+  background: var(--status-stable);
+}
+.table-party-status[data-party-status="dead"] {
+  background: var(--status-dead);
+}
+/* A short window or a larger interface (table.mjs fitParty): smaller portraits without names,
+   then a column that scrolls in the room left under the tools, never over them. */
+.table-party.is-compact {
+  gap: 4px;
+}
+.table-party.is-compact .table-party-member {
+  width: 52px;
+  padding: 2px;
+}
+.table-party.is-compact .table-party-portrait {
+  width: 40px;
+  height: 44px;
+  border-radius: 18px 18px 5px 5px;
+  font-size: 20px;
+}
+.table-party.is-compact .table-party-hp {
+  width: 40px;
+}
+.table-party.is-compact .table-party-name {
+  display: none;
+}
+.table-party.is-scrolling {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+.table-party.is-hidden,
+:root[data-pref-canvas="off"] .table-party {
+  display: none;
+}
+/* The Creature tab's Armor Class beside the name: D&D Beyond's shield number, Solasta's AC box
+   (DESIGN.md «Stat box»); hit points and movement are on the hotbar. */
+.inspector-person {
+  margin-bottom: 14px;
+}
+.inspector-person > div {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.inspector-person h2 {
+  font-size: var(--text-xl);
+}
+.inspector-person .portrait {
+  width: 42px;
+  height: 48px;
+  font-size: 23px;
+}
+.inspector-ac {
+  flex: none;
+  display: grid;
+  justify-items: center;
+  min-width: 48px;
+  padding: 3px 8px 5px;
+  border: 1px solid var(--frame);
+  border-radius: 8px 8px 50% 50% / 8px 8px 30% 30%;
+  background: var(--surface-2);
+}
+.inspector-ac small {
+  font-family: var(--font-label);
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+  color: var(--muted);
+}
+.inspector-ac strong {
+  font-size: var(--text-xl);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.table-inspector > .conditions-summary.embedded {
+  margin: 0 0 14px;
+}
+.inspector-buttons {
+  grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
+  margin-top: 14px;
+}
+/* Resource words: a phone keeps BG3's symbols and the movement left; the words stay for
+   assistive technology (the symbols carry shape and colour, never colour alone). */
+.resources .resource-word::before {
+  content: none;
+}
+.resources .resource-word {
+  font: inherit;
+}
+.resources > span {
+  white-space: nowrap;
+}
+/* The DM's «Sessione» menu opens where the map's status line floats: the line gives way. */
+.map-container:has(.session-view-menu:not([hidden])) #map-message {
+  display: none;
+}
+
+@media (min-width: 721px) {
+  /* The Table page is exactly the window: the layout takes what the header leaves. */
+  #app:has(> .workspace.is-table) {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+    min-height: 600px;
+  }
+  .workspace.is-table {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    width: 100%;
+    min-height: 0;
+    margin: 0;
+  }
+  .workspace.is-table > main {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+  .workspace.is-table > main > .table-layout {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+  /* Rows: an interruption banner when there is one; the map (under the hotbar band); the
+     band. The scene plate and the turn order float in the map's row; the sidebar panel ends
+     above the band, whose right part is the panel's foot with the turn commands. */
+  .table-layout {
+    position: relative;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+  }
+  .table-layout > .interruption-banner {
+    grid-row: 1;
+  }
+  .table-layout > .table-stage {
+    grid-row: 2 / 4;
+    min-height: 0;
+    height: auto;
+    border: 0;
+  }
+  .table-stage > .map-container {
+    height: 100%;
+  }
+  .table-stage #battle-map {
+    height: auto;
+    min-height: 0;
+    flex: 1 1 auto;
+  }
+  /* The canvas runs under the whole HUD, but the map's own box stops at the tools and party
+     on the left, the zoom on the right and the hotbar band at the bottom, as Owlbear and
+     Foundry frame the map inside their controls: «fit» never puts the scene under them,
+     off-map arrows and the areas' map HUDs use that box, and panning still shows the map
+     beneath the controls (it draws past its box; the map container clips it). The box keeps
+     the top edge: the row of map controls lives in it (the map takes presses only inside its
+     box), and the scene plate and that row cover no more than the map's top corners. */
+  .table-stage #battle-map {
+    width: auto;
+    margin: 0 76px 152px 88px;
+    overflow: visible;
+  }
+  /* A larger interface (preferences.css sizes the old stage from the measured bars): the map
+     fills its row here too. */
+  :root[data-pref-scaled] .workspace.is-table > main > .table-layout > .table-stage {
+    height: auto;
+    min-height: 0;
+  }
+  .table-layout > .table-topline,
+  .table-layout > .initiative {
+    grid-row: 2;
+    grid-column: 1;
+    align-self: start;
+    z-index: 4;
+  }
+  .table-layout > .action-dock {
+    grid-row: 3;
+    grid-column: 1 / 3;
+    z-index: 4;
+  }
+  .table-layout > .table-sidebar-panel {
+    grid-row: 1 / 3;
+  }
+  /* Scene plate: Foundry v13's scene navigation, a floating rounded plate at the top left
+     with the scene's name in the serif and the scene commands beside it. */
+  .table-layout > .table-topline {
+    justify-self: start;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 12px;
+    max-width: calc(100% - 332px);
+    margin: 10px 0 0 16px;
+    padding: 4px 4px 4px 14px;
+    border: 1px solid var(--float-border);
+    border-radius: 14px;
+    background: var(--float-bg);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-2);
+  }
+  .table-layout > .table-topline > div:first-child {
+    flex: 1 1 auto;
+    min-width: min(160px, 100%);
+  }
+  .table-layout > .table-topline h1 {
+    max-width: 260px;
+    margin: 0;
+    overflow: hidden;
+    font-size: var(--text-lg);
+    line-height: 1.25;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .table-layout > .table-topline > div > span {
+    display: block;
+    font-size: var(--text-2xs);
+    white-space: nowrap;
+  }
+  .table-layout > .table-topline > .toolbar {
+    flex: none;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .table-layout > .table-topline .button {
+    min-height: 40px;
+    padding: 6px 12px;
+    font-size: var(--text-sm);
+  }
+  /* Owlbear's tool column under the scene plate. */
+  .table-stage > .map-toolbar {
+    top: 66px;
+    left: 16px;
+  }
+  /* Turn order: BG3's row of portrait cards at the top centre (allies teal, enemies crimson,
+     the creature in turn framed bright and larger), over the map, under the scene plate. */
+  .table-layout > .initiative {
+    justify-self: center;
+    align-items: flex-start;
+    gap: 6px;
+    max-width: calc(100% - 180px);
+    margin-top: 66px;
+    padding: 2px 2px 4px;
+    border: 0;
+    scrollbar-width: none;
+  }
+  .table-layout > .initiative .initiative-token {
+    flex: none;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 3px;
+    width: 76px;
+    min-height: 0;
+    padding: 6px 4px 7px;
+    background: var(--float-bg);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    font-size: var(--text-2xs);
+    text-align: center;
+    white-space: normal;
+    box-shadow:
+      inset 0 -3px 0 var(--turn-ally),
+      var(--shadow-2);
+  }
+  .table-layout > .initiative .initiative-token:has(.token-dot.hostile) {
+    box-shadow:
+      inset 0 -3px 0 var(--turn-enemy),
+      var(--shadow-2);
+  }
+  .table-layout > .initiative .initiative-token.current {
+    width: 86px;
+    box-shadow:
+      0 0 0 1px var(--turn-current),
+      inset 0 -3px 0 var(--turn-ally),
+      var(--shadow-2);
+  }
+  .table-layout > .initiative .initiative-token.current:has(.token-dot.hostile) {
+    box-shadow:
+      0 0 0 1px var(--turn-current),
+      inset 0 -3px 0 var(--turn-enemy),
+      var(--shadow-2);
+  }
+  .table-layout > .initiative .token-dot {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+  .table-layout > .initiative .initiative-token.current .token-dot {
+    width: 46px;
+    height: 46px;
+    font-size: 23px;
+  }
+  .table-layout > .initiative .initiative-token > span:last-child {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  /* The map's status line floats at the bottom centre, over the hotbar's resource row, where
+     BG3 shows its action hints; it only informs, the map keeps the pointer. */
+  .map-container > .map-caption {
+    position: absolute;
+    z-index: 2;
+    left: 50%;
+    bottom: 164px;
+    transform: translateX(-50%);
+    width: max-content;
+    /* Clear of the tool options floating at the map's bottom left (final review F6). */
+    max-width: min(600px, calc(100% - 280px));
+    height: auto;
+    min-height: 0;
+    gap: 12px;
+    padding: 6px 12px;
+    overflow: visible;
+    border: 1px solid var(--float-border);
+    border-radius: 10px;
+    background: var(--float-bg);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-2);
+    font-size: var(--text-xs);
+    pointer-events: none;
+  }
+  /* Zoom: the small floating group at the map's bottom right (Owlbear), stacked as D&D
+     Beyond Maps stacks its zoom buttons, above the hotbar band. */
+  .map-container > .map-zoom {
+    right: 16px;
+    bottom: 176px;
+    flex-direction: column;
+  }
+
+  /* The hotbar band: BG3's hotbar centred over the map (portrait and HP, the page tabs, the
+     actions; the resource row above it), then the sidebar's foot with the turn commands and
+     the round End Turn. The band itself is transparent: the map shows around the hotbar. */
+  .table-layout > .action-dock.table-hotbar {
+    display: grid;
+    grid-template-columns:
+      minmax(96px, 1fr) auto fit-content(900px) minmax(16px, 1fr)
+      var(--table-panel-width);
+    align-items: stretch;
+    gap: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    pointer-events: none;
+  }
+  .table-layout > .action-dock.table-hotbar > * {
+    pointer-events: auto;
+  }
+  .table-layout > .action-dock.table-hotbar > .hotbar-identity,
+  .table-layout > .action-dock.table-hotbar > .hotbar-center {
+    grid-row: 1;
+    margin-bottom: 10px;
+    padding: 6px 10px;
+    border: 1px solid var(--frame);
+    background: var(--hotbar-bg);
+    box-shadow: var(--shadow-2);
+  }
+  .table-layout > .action-dock.table-hotbar > .hotbar-identity {
+    grid-column: 2;
+    gap: 8px;
+    max-width: 210px;
+    padding-right: 8px;
+    border-right: 0;
+    border-radius: var(--radius-md) 0 0 var(--radius-md);
+  }
+  .table-layout > .action-dock.table-hotbar:not(:has(> .hotbar-center)) > .hotbar-identity {
+    border-right: 1px solid var(--frame);
+    border-radius: var(--radius-md);
+  }
+  .table-layout > .action-dock.table-hotbar > .hotbar-identity > div {
+    max-width: 170px;
+  }
+  .table-layout .table-hotbar .hotbar-name > strong {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: 600;
+  }
+  .table-layout > .action-dock.table-hotbar > .hotbar-center {
+    grid-column: 3;
+    position: relative;
+    align-items: center;
+    gap: 8px;
+    border-left-color: var(--frame-soft);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  }
+  .hotbar-center:not(:has(> .hotbar-pages)) > .hotbar-page {
+    grid-column: 1 / -1;
+  }
+  /* BG3's resource row: one floating strip above the hotbar — the turn's symbols, then the
+     spell slots. */
+  .table-hotbar .hotbar-resources {
+    position: absolute;
+    left: 8px;
+    bottom: calc(100% + 6px);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 5px 12px;
+    border: 1px solid var(--float-border);
+    border-radius: var(--radius-pill);
+    background: var(--float-bg);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-2);
+    white-space: nowrap;
+  }
+  .action-dock.table-hotbar .hotbar-resources .resources {
+    flex-wrap: nowrap;
+    gap: 12px;
+    max-width: none;
+    padding: 0;
+    font-size: var(--text-xs);
+  }
+  .table-hotbar .hotbar-resources .hotbar-slots {
+    flex-wrap: nowrap;
+    margin: 0;
+  }
+  /* table.mjs fitHud: when the resource row would meet the dice mode, both keep their
+     symbols and controls only (the words stay their accessible names). */
+  .table-hotbar.is-tight .resources .resource-word {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .table-hotbar.is-tight .combat-bar-heading > label {
+    gap: 0;
+    font-size: 0;
+  }
+  .table-hotbar.is-tight .combat-bar-heading select {
+    font-size: 12px;
+  }
+  .table-hotbar.is-tight .combat-bar-heading .text-button {
+    justify-content: center;
+    min-width: 40px;
+    font-size: 0;
+  }
+  /* Dice mode and the rolls queue sit on the same line, above the hotbar's right end.
+     Critique 2: anchored to the hotbar itself, like the resource row, not to the actions
+     (a creature with one row of actions let the plate sink onto the hotbar's edge). */
+  .table-hotbar .combat-bar {
+    position: static;
+  }
+  .table-layout .table-hotbar .combat-bar-heading {
+    position: absolute;
+    grid-area: auto;
+    right: 0;
+    bottom: calc(100% + 6px);
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+    padding: 0 2px 0 10px;
+    border: 1px solid var(--float-border);
+    border-radius: var(--radius-pill);
+    background: var(--float-bg);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-2);
+    white-space: nowrap;
+  }
+  /* The sidebar's foot: the turn commands as icon buttons in two short rows, BG3's round
+     End Turn beside them. */
+  .table-layout > .action-dock.table-hotbar > .toolbar {
+    grid-column: 5;
+    grid-row: 1;
+    grid-template-columns: repeat(3, 40px);
+    grid-auto-rows: 45px;
+    align-content: center;
+    align-items: start;
+    justify-content: end;
+    gap: 6px;
+    padding: 10px 16px;
+    border-top: 1px solid var(--line);
+    border-left: 1px solid var(--line);
+    background: var(--surface);
+  }
+  .table-layout > .action-dock.table-hotbar > .toolbar:has(> [data-table="end-turn"]) {
+    grid-template-columns: repeat(3, 40px) 96px;
+    column-gap: 6px;
+  }
+  .table-layout > .action-dock.table-hotbar > .toolbar > .button {
+    min-width: 40px;
+    padding: 0;
+  }
+  .table-layout > .action-dock.table-hotbar > .toolbar > [data-table="actions"] {
+    grid-column: span 1;
+  }
+  .table-layout > .action-dock.table-hotbar > .toolbar > :is(.stand-control, [data-table="stand"]) {
+    grid-column: 1 / 4;
+    padding: 0 10px;
+  }
+  .table-layout > .action-dock.table-hotbar > .toolbar > .button.primary[data-table="end-turn"] {
+    grid-column: 4;
+    grid-row: 1 / span 2;
+    align-self: stretch;
+    width: 96px;
+    height: 96px;
+    max-width: none;
+    padding: 10px;
+    border-width: 2px;
+    border-radius: 50%;
+    font-size: var(--text-md);
+    line-height: 1.15;
+    white-space: normal;
+    box-shadow:
+      inset 0 0 0 4px var(--endturn-bg),
+      inset 0 0 0 5px var(--turn-ally),
+      0 0 0 1px var(--frame),
+      var(--shadow-2);
+  }
+  /* Sidebar collapsed: the commands and End Turn float at the map's bottom right, under the
+     zoom, as BG3 keeps End Turn at the hotbar's right end. */
+  .table-layout.is-collapsed > .action-dock.table-hotbar {
+    grid-template-columns: minmax(96px, 1fr) auto fit-content(900px) minmax(16px, 1fr) auto;
+  }
+  .table-layout.is-collapsed > .action-dock.table-hotbar > .toolbar {
+    align-self: end;
+    margin: 0 16px 10px 0;
+    padding: 6px;
+    border: 1px solid var(--float-border);
+    border-radius: 14px;
+    background: var(--float-bg);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-2);
+  }
+  /* Without the map (sheet-only device setting) nothing floats: the scene line, the turn
+     order, the panel in the map's place and the hotbar stack as rows. */
+  :root[data-pref-canvas="off"] #content > .table-layout {
+    grid-template-rows: auto auto auto minmax(0, 1fr) auto;
+  }
+  :root[data-pref-canvas="off"] #content > .table-layout > .table-topline {
+    grid-row: 1;
+    justify-self: stretch;
+    justify-content: space-between;
+    max-width: none;
+    margin: 0;
+    padding: 10px 20px;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    border-radius: 0;
+    background: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    box-shadow: none;
+  }
+  :root[data-pref-canvas="off"] #content > .table-layout > .initiative {
+    grid-row: 2;
+    margin: 8px 0;
+  }
+  :root[data-pref-canvas="off"] #content > .table-layout > .interruption-banner {
+    grid-row: 3;
+  }
+  :root[data-pref-canvas="off"] #content > .table-layout > .table-sidebar-panel {
+    grid-row: 4;
+    height: auto;
+  }
+  :root[data-pref-canvas="off"] #content > .table-layout > .action-dock {
+    grid-row: 5;
+  }
+}
+/* Laptops: the sidebar keeps 340 px up to 1599 px, so the map keeps two thirds of a 1440 px
+   window. */
+@media (min-width: 1280px) and (max-width: 1599px) {
+  .table-layout {
+    --table-panel-width: 340px;
+  }
+}
+/* Narrower windows: the DM's scene commands go under the scene's name, and the tool column
+   and the turn order start under the taller plate (table.mjs fitHud measures it; these are
+   the values before it runs). */
+@media (min-width: 721px) and (max-width: 1279px) {
+  .table-layout > .table-topline {
+    padding-right: 10px;
+    padding-bottom: 6px;
+  }
+  .table-stage > .map-toolbar {
+    top: 118px;
+  }
+  .table-layout > .initiative {
+    margin-top: 118px;
+  }
+  /* The party column shows the portraits: the hotbar keeps the name and the HP, and the
+     portraits drop their names to stay clear of the tool column. */
+  .table-hotbar .hotbar-portrait,
+  .table-party-name {
+    display: none;
+  }
+  /* Above a narrower hotbar the resource row keeps BG3's symbols and the movement, and the
+     dice mode and the rolls queue keep their control and bell (as from 1280 to 1439 px). */
+  .action-dock.table-hotbar .resources .resource-word {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .table-hotbar .combat-bar-heading > label {
+    gap: 0;
+    font-size: 0;
+  }
+  .table-hotbar .combat-bar-heading select {
+    font-size: 12px;
+  }
+  .table-hotbar .combat-bar-heading .text-button {
+    justify-content: center;
+    min-width: 40px;
+    font-size: 0;
+  }
+}
+/* Phone (the last plain «max-width: 720px» block above stays the B61 phone block its test
+   reads): the map comes first and fills the screen above the hotbar once it is in view; the
+   turn order floats over its top under the map controls; the hotbar condenses to three short
+   rows; the panel follows as a sheet (Owlbear's mobile panels, a grabber on a rounded top).
+   The panel stays in the page, so a move's details and the map remain reachable while a move
+   is prepared (the map must stay tappable for its target). */
+@media screen and (max-width: 720px) {
+  .table-layout > .table-topline {
+    padding: 8px 12px 6px;
+    gap: 6px 10px;
+  }
+  .table-layout > .table-topline > div:first-child {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 8px;
+  }
+  .table-layout > .table-topline h1 {
+    margin: 0;
+    font-size: var(--text-lg);
+  }
+  .table-layout > .interruption-banner {
+    order: 2;
+  }
+  .table-layout > .initiative {
+    order: 3;
+    position: relative;
+    z-index: 3;
+    justify-content: center;
+    gap: 4px;
+    height: 112px;
+    margin-bottom: -112px;
+    padding: 56px 8px 0;
+    border: 0;
+    overflow: visible;
+    pointer-events: none;
+  }
+  .table-layout > .initiative > * {
+    pointer-events: auto;
+  }
+  .table-layout > .initiative .initiative-token {
+    flex-direction: column;
+    gap: 0;
+    width: 46px;
+    min-height: 46px;
+    padding: 4px 3px 6px;
+    background: var(--float-bg);
+    box-shadow:
+      inset 0 -3px 0 var(--turn-ally),
+      var(--shadow-2);
+  }
+  .table-layout > .initiative .initiative-token:has(.token-dot.hostile) {
+    box-shadow:
+      inset 0 -3px 0 var(--turn-enemy),
+      var(--shadow-2);
+  }
+  .table-layout > .initiative .initiative-token.current {
+    box-shadow:
+      0 0 0 1px var(--turn-current),
+      inset 0 -3px 0 var(--turn-ally),
+      var(--shadow-2);
+  }
+  .table-layout > .initiative .initiative-token.current:has(.token-dot.hostile) {
+    box-shadow:
+      0 0 0 1px var(--turn-current),
+      inset 0 -3px 0 var(--turn-enemy),
+      var(--shadow-2);
+  }
+  .table-layout > .initiative .token-dot {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+  }
+  /* The names stay the portraits' accessible names; the phone shows the portraits. */
+  .table-layout > .initiative .initiative-token > span:last-child {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  /* The map, its scale line and the sheet's grabber fill the screen above the hotbar; the
+     scene is fitted above the party portraits and the zoom row (the canvas runs under
+     them). */
+  .table-stage #battle-map {
+    box-sizing: border-box;
+    height: calc(100dvh - var(--table-rail-height, 64px) - 220px);
+    min-height: 300px;
+    margin: 0;
+    padding: 0 0 120px;
+    overflow: visible;
+  }
+  .table-party {
+    left: 8px;
+    bottom: 40px;
+    gap: 4px;
+  }
+  .table-party-member {
+    width: 44px;
+    padding: 2px;
+  }
+  .table-party-portrait {
+    width: 36px;
+    height: 40px;
+    border-radius: 16px 16px 5px 5px;
+    font-size: 18px;
+  }
+  .table-party-hp {
+    width: 36px;
+    height: 4px;
+  }
+  .table-party-name {
+    display: none;
+  }
+  .table-party-status {
+    min-width: 18px;
+    height: 18px;
+    right: 0;
+    font-size: var(--text-2xs);
+  }
+  /* The hotbar in three short rows: HP, the resources' symbols and the page tabs; the page
+     (the actions strip with Moves and the dice mode, or the quick bar); the commands with End
+     turn. */
+  .table-layout > .action-dock.table-hotbar {
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
+    gap: 6px;
+    padding: 6px 8px 8px;
+  }
+  .action-dock.table-hotbar > .hotbar-identity {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .table-hotbar .hotbar-resources {
+    grid-column: 2;
+    grid-row: 1;
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    overflow: hidden;
+  }
+  .action-dock.table-hotbar .hotbar-resources .resources {
+    flex-wrap: nowrap;
+    gap: 0 7px;
+    padding: 0;
+    font-size: var(--text-xs);
+  }
+  .action-dock.table-hotbar .hotbar-resources .resources > span::before {
+    margin-right: 3px;
+  }
+  .action-dock.table-hotbar .resources .resource-word {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .table-layout .hotbar-pages {
+    grid-column: 3 / -1;
+    grid-row: 1;
+  }
+  .table-layout .table-hotbar .combat-actions {
+    grid-column: 1 / 3;
+    grid-row: 2;
+  }
+  .table-layout .table-hotbar .qb {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+  .table-layout .table-hotbar .combat-dock {
+    grid-column: 3;
+    grid-row: 2;
+  }
+  .table-layout .table-hotbar .combat-bar-heading {
+    grid-column: 4;
+    grid-row: 2;
+  }
+  .table-layout > .action-dock.table-hotbar > .toolbar {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    align-items: center;
+  }
+  /* End turn: BG3's teal button at the row's end, a pill where a circle has no room. */
+  .table-layout > .action-dock.table-hotbar > .toolbar > [data-table="end-turn"] {
+    margin-left: auto;
+    padding: 0 16px;
+  }
+  .table-layout > .table-sidebar-panel {
+    margin-top: 10px;
+    border-top: 1px solid var(--frame-soft);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+  .table-layout > .table-sidebar-panel::before {
+    content: "";
+    flex: none;
+    width: 40px;
+    height: 4px;
+    margin: 8px auto 0;
+    border-radius: 2px;
+    background: var(--line-strong);
+  }
+}

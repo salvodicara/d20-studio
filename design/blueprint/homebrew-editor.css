@@ -1,0 +1,770 @@
+/* B48 — Deep homebrew editor. All classes are prefixed .hbe-; shared tokens only.
+   Visual pass (29/09/2026, DESIGN.md): D&D Beyond's homebrew creator (a form in sections with a
+   live preview beside it), dnd5e's gold fieldset legends and 2024 stat block for the preview,
+   the core fields, chips and cards. */
+
+.hbe-page {
+  max-width: 1360px;
+  margin-inline: auto;
+}
+.hbe-page .field,
+.hbe-hub .field,
+.hbe-sheet .field,
+.hbe-campaign .field {
+  margin: 0;
+  min-width: 0;
+}
+.hbe-page .field input,
+.hbe-page .field select,
+.hbe-page .field textarea {
+  width: 100%;
+  min-width: 0;
+}
+.hbe-page textarea {
+  resize: vertical;
+}
+.hbe-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 8px;
+  color: var(--muted);
+}
+.hbe-crumbs .button {
+  min-height: 40px;
+  padding-inline: 8px;
+}
+.hbe-heading {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+.hbe-heading h1 {
+  overflow-wrap: anywhere;
+}
+.hbe-heading .toolbar {
+  flex-wrap: wrap;
+}
+.hbe-errors {
+  margin: 0 0 16px;
+}
+/* Notices: tinted callouts in the theme colour (Owlbear's MUI Alert, standard variant). */
+.hbe-notice {
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+  padding: 10px 14px;
+  margin: 0 0 12px;
+}
+.hbe-notice p {
+  margin: 0 0 6px;
+}
+.hbe-ok {
+  color: var(--positive);
+}
+.hbe-no,
+.hbe-off {
+  color: var(--danger);
+}
+.badge.hbe-off {
+  border-color: color-mix(in srgb, var(--danger) 60%, transparent);
+}
+.hbe-manual {
+  color: var(--muted);
+  font-style: italic;
+}
+.hbe-auto-full {
+  border-color: var(--positive);
+  color: var(--positive);
+}
+.hbe-auto-partial {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.hbe-auto-text {
+  color: var(--muted);
+}
+.hbe-new {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Hub */
+.hbe-hub {
+  display: grid;
+  gap: 24px;
+}
+.hbe-create-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+  margin: 12px 0;
+}
+/* «Crea» tiles: flat cards with the icon in the theme colour (D&D Beyond's create tiles). */
+.hbe-create-button {
+  min-height: 64px;
+  flex-direction: column;
+  gap: 4px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.hbe-create-button .icon {
+  color: var(--accent);
+}
+.hbe-create .toolbar {
+  flex-wrap: wrap;
+}
+.hbe-list h2 {
+  margin-bottom: 4px;
+}
+.hbe-row p .badge {
+  margin-inline-start: 4px;
+}
+
+/* Editor */
+.hbe-editor-layout {
+  display: grid;
+  grid-template-columns: 210px minmax(0, 1fr) minmax(300px, 420px);
+  gap: 24px;
+  align-items: start;
+}
+.hbe-subforms {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: sticky;
+  top: 12px;
+}
+.hbe-subforms .button {
+  justify-content: space-between;
+  text-align: start;
+}
+.hbe-subforms .hbe-discard {
+  margin-top: 16px;
+}
+.hbe-undo {
+  margin: 8px 0;
+}
+.hbe-form fieldset {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin: 0 0 16px;
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  background: var(--surface);
+}
+/* Legends in dnd5e's gold, as condensed small capitals. */
+.hbe-form legend {
+  padding-inline: 6px;
+  color: var(--accent);
+  font-size: 16px;
+  font-family: var(--font-label);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+.hbe-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.hbe-grid3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+.hbe-abilities {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+}
+.hbe-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 12px;
+  background: var(--surface-2);
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+.hbe-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 10px;
+}
+.hbe-card-head > .field {
+  flex: 1 1 140px;
+}
+/* Nested rules hang on a guide line, as Foundry's nested directory entries. */
+.hbe-card-inner {
+  border-inline-start: 1px solid var(--line-strong);
+  padding-inline-start: 12px;
+  display: grid;
+  gap: 8px;
+}
+.hbe-rule,
+.hbe-modifier {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 10px;
+}
+.hbe-rule > .field,
+.hbe-modifier > .field {
+  flex: 1 1 130px;
+}
+.hbe-rule > .hbe-pair,
+.hbe-modifier > .hbe-pair {
+  flex: 1 1 100%;
+}
+.hbe-join {
+  flex-basis: 100%;
+  color: var(--accent);
+  font-size: 15px;
+  font-family: var(--font-label);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+.hbe-alternatives {
+  margin: 0;
+  padding-inline-start: 20px;
+  display: grid;
+  gap: 10px;
+}
+.hbe-order {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: hbe-order;
+}
+.hbe-order li {
+  counter-increment: hbe-order;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  padding: 2px 10px;
+  font-size: 13px;
+}
+.hbe-order li::before {
+  content: counter(hbe-order) ". ";
+  color: var(--accent);
+}
+.hbe-activity-tabs {
+  margin: 0;
+}
+.hbe-activity-tabs button {
+  min-height: 40px;
+}
+.hbe-pane {
+  display: grid;
+  gap: 10px;
+}
+.hbe-scale {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: flex-end;
+}
+.hbe-scale .field {
+  flex: 1 1 110px;
+}
+.hbe-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  margin-inline-end: 12px;
+}
+.hbe-check input {
+  width: 20px;
+  height: 20px;
+}
+.hbe-choice {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  margin: 0 0 12px;
+}
+.hbe-add-activity .field,
+.hbe-form .toolbar .field {
+  min-width: 180px;
+}
+.hbe-side {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+}
+.hbe-preview,
+.hbe-test,
+.hbe-automation,
+.hbe-origin,
+.hbe-publication,
+.hbe-detail-side > section {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: 16px;
+  min-width: 0;
+}
+.hbe-preview h2,
+.hbe-test h2,
+.hbe-publication h2,
+.hbe-detail-side h2 {
+  margin-top: 0;
+  font-size: 21px;
+}
+.hbe-automation h3,
+.hbe-origin h3 {
+  margin-top: 0;
+  color: var(--muted);
+  font-size: 16px;
+  font-family: var(--font-label);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+/* A chip inside a label heading keeps the chip's own type. */
+:is(.hbe-automation, .hbe-origin) h3 .badge {
+  font-family: var(--font-ui);
+  font-weight: 400;
+  letter-spacing: 0;
+  font-variant-caps: normal;
+}
+.hbe-test-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.hbe-test-grid .field:first-child {
+  grid-column: 1 / -1;
+}
+.hbe-test-result h3 {
+  font-size: 15px;
+  margin: 12px 0 4px;
+}
+.hbe-test-result ul {
+  margin: 0;
+  padding-inline-start: 18px;
+}
+.hbe-verdict {
+  font-weight: 600;
+  margin-top: 12px;
+}
+.hbe-verdict[data-hbe-test-verdict="yes"] {
+  color: var(--positive);
+}
+.hbe-verdict[data-hbe-test-verdict="no"] {
+  color: var(--danger);
+}
+.hbe-stack {
+  margin: 4px 0;
+  overflow-wrap: anywhere;
+}
+.hbe-adv-table,
+.hbe-campaign-table,
+.hbe-import-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.hbe-adv-table th,
+.hbe-adv-table td,
+.hbe-campaign-table th,
+.hbe-campaign-table td,
+.hbe-import-table th,
+.hbe-import-table td {
+  border-bottom: 1px solid var(--line);
+  padding: 8px;
+  text-align: start;
+  vertical-align: top;
+}
+.hbe-row-error td {
+  color: var(--danger);
+}
+
+/* Stat block (D&D Beyond sections, rollable blocks) in Foundry dnd5e's 2024 frame: 3 px
+   double rim, small-capital name and section titles over a hairline. */
+.hbe-statblock {
+  border: 3px double var(--line-strong);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  background: var(--surface-2);
+  overflow-wrap: anywhere;
+}
+.hbe-statblock h3 {
+  margin: 0;
+  padding-bottom: 2px;
+  border-bottom: 1px solid var(--line-strong);
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-size: 21px;
+  font-variant-caps: small-caps;
+}
+.hbe-statblock h4 {
+  border-bottom: 1px solid var(--line-strong);
+  margin: 14px 0 6px;
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 500;
+  font-variant-caps: small-caps;
+}
+.hbe-sb-stats {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 12px;
+  margin: 8px 0;
+}
+.hbe-sb-stats dt {
+  color: var(--accent);
+  font-weight: 700;
+}
+.hbe-sb-stats dd {
+  margin: 0;
+}
+.hbe-sb-abilities {
+  width: 100%;
+  text-align: center;
+  border-collapse: collapse;
+  margin: 8px 0;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+.hbe-sb-abilities tbody tr:nth-of-type(odd) > * {
+  background: var(--accent-soft);
+}
+.hbe-sb-entry {
+  margin: 6px 0;
+}
+/* Rollable numbers: D&D Beyond's dice buttons, a bordered box in the theme colour. */
+.hbe-roll {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 40px;
+  min-width: 40px;
+  padding: 2px 10px;
+  margin: 2px 0;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-sm);
+  background: var(--sunken);
+  color: var(--text);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  vertical-align: middle;
+}
+.hbe-roll:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.hbe-roll .icon {
+  width: 16px;
+  height: 16px;
+}
+.hbe-invalid {
+  color: var(--danger);
+  text-decoration: underline wavy;
+}
+.hbe-test-roll {
+  margin-top: 10px;
+  color: var(--positive);
+}
+
+/* Detail */
+.hbe-detail-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 400px);
+  gap: 24px;
+  align-items: start;
+}
+.hbe-detail-side {
+  display: grid;
+  gap: 16px;
+}
+.hbe-detail-side .button {
+  width: 100%;
+  margin-top: 8px;
+}
+.hbe-steps {
+  margin: 0 0 8px;
+  padding-inline-start: 22px;
+}
+.hbe-steps li {
+  color: var(--muted);
+}
+.hbe-steps li.done {
+  color: var(--positive);
+}
+.hbe-steps li.done::marker {
+  content: "✓ ";
+}
+.hbe-versions {
+  padding-inline-start: 20px;
+}
+
+/* Forge and import */
+.hbe-forge {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 24px;
+}
+.hbe-import {
+  display: grid;
+  gap: 12px;
+}
+.hbe-import .toolbar {
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+.hbe-import textarea {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13px;
+  min-height: 160px;
+}
+.hbe-import-result {
+  margin-top: 20px;
+}
+
+/* Catalogue */
+.hbe-catalog-row .toolbar {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.hbe-stars {
+  display: inline-flex;
+}
+.hbe-star {
+  min-width: 40px;
+  min-height: 40px;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 20px;
+}
+.hbe-star.on {
+  color: var(--accent);
+}
+.hbe-moderation {
+  margin-top: 28px;
+  border-top: 1px dashed var(--line);
+  padding-top: 12px;
+}
+
+/* Sheet, campaign and Table */
+.hbe-sheet {
+  margin-top: 16px;
+}
+.hbe-sheet .section-heading {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+.hbe-entries,
+.hbe-activities,
+.hbe-saves,
+.hbe-granted {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.hbe-entry,
+.hbe-activity,
+.hbe-save {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+}
+.hbe-entry > div,
+.hbe-activity > div,
+.hbe-save > div {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.hbe-entry p,
+.hbe-activity p,
+.hbe-save p {
+  margin: 2px 0 0;
+}
+.hbe-granted li {
+  padding: 4px 0;
+}
+/* The latest use keeps its rolls, like a dnd5e activity card's buttons (review fix). */
+.hbe-activity p.hbe-use-card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+  margin-top: 6px;
+}
+.hbe-use-card .button {
+  min-height: 40px;
+}
+.hbe-subclass > .section-heading {
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.hbe-subclass {
+  margin-top: 12px;
+}
+.hbe-stacks {
+  margin-top: 12px;
+}
+.hbe-culprit {
+  border: 1px solid color-mix(in srgb, var(--warning) 55%, transparent);
+  border-radius: var(--radius-sm);
+  background: var(--warning-soft);
+  padding: 12px 16px;
+  margin: 12px 0;
+}
+.hbe-culprit .toolbar,
+.hbe-campaign .toolbar {
+  flex-wrap: wrap;
+}
+.hbe-table .hbe-activity,
+.hbe-table .hbe-save {
+  flex-wrap: wrap;
+}
+.hbe-table .hbe-statblock {
+  margin-top: 12px;
+}
+
+@media (max-width: 1100px) {
+  .hbe-editor-layout {
+    grid-template-columns: 180px minmax(0, 1fr);
+  }
+  .hbe-side {
+    grid-column: 1 / -1;
+  }
+}
+@media (max-width: 720px) {
+  .hbe-editor-layout,
+  .hbe-detail-layout,
+  .hbe-forge {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .hbe-subforms {
+    position: static;
+    flex-direction: row;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+  .hbe-subforms .button {
+    flex: 0 0 auto;
+  }
+  .hbe-pair,
+  .hbe-grid3 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .hbe-abilities,
+  .hbe-test-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .hbe-entry,
+  .hbe-activity,
+  .hbe-save,
+  .hbe-catalog-row {
+    flex-wrap: wrap;
+  }
+  .hbe-form fieldset {
+    padding: 12px;
+  }
+  .hbe-heading .toolbar .button {
+    flex: 1 1 auto;
+  }
+}
+@container table-panel (max-width: 600px) {
+  .hbe-table .hbe-activity,
+  .hbe-table .hbe-save {
+    flex-wrap: wrap;
+  }
+  .hbe-table .hbe-sb-abilities {
+    font-size: 12px;
+  }
+}
+
+.hbe-modified {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.hbe-modified li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid var(--line);
+}
+.hbe-import > .button {
+  justify-self: start;
+}
+
+/* BI-15: one «Salva» with its options, and the reason it stopped beside its field. */
+.hbe-save-bar {
+  align-items: center;
+}
+.hbe-save-options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.hbe-field-error {
+  display: block;
+  margin-top: 4px;
+  color: var(--danger);
+  font-size: 13px;
+  font-weight: 600;
+}
+[aria-invalid="true"] {
+  border-color: var(--danger);
+  outline-color: var(--danger);
+}
+.hbe-autosave {
+  margin: 8px 0 0;
+  font-size: 13px;
+}
+/* BI-16: the sheet's update notice. */
+.hbe-update {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+/* BI-13: revision history per entry. */
+.hbe-history {
+  margin-top: 16px;
+}
+.hbe-history-list {
+  margin: 0;
+  padding-inline-start: 22px;
+}
+.hbe-history-list li {
+  margin: 4px 0;
+}
+/* BI-20: timed effect state on the sheet. */
+.hbe-timed {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  margin: 6px 0 0;
+}
+.hbe-timed-on {
+  border-color: var(--accent);
+}

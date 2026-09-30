@@ -1,0 +1,646 @@
+/* B21 — character library, read-only sheet, print view (prefix .clib-). */
+.clib-page {
+  display: grid;
+  gap: 18px;
+}
+.clib-page > .page-heading {
+  margin-bottom: 0;
+}
+.clib-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 18px;
+  align-items: end;
+}
+.clib-controls .field {
+  margin: 0;
+}
+.clib-search {
+  flex: 1 1 320px;
+  max-width: 520px;
+}
+.clib-sort {
+  flex: 0 1 260px;
+}
+.clib-sort select {
+  min-height: 43px;
+  width: 100%;
+}
+.clib-count {
+  margin: -6px 0 0;
+}
+.clib-group h2 {
+  font-size: 1.15rem;
+  margin: 6px 0 12px;
+}
+.clib-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+  gap: 16px;
+}
+.clib-card {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: 12px 16px;
+  align-items: start;
+  margin: 0;
+}
+.clib-card[hidden] {
+  display: none;
+}
+.clib-card.clib-fresh {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+/* Character cards: D&D Beyond's «My Characters» card — portrait, name, level line, then a row
+   of commands under a hairline; the name in the serif of BG3 and Solasta. */
+.clib-card h3 {
+  margin: 0 0 4px;
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 400;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+.clib-card p {
+  margin: 0 0 6px;
+}
+.clib-card-body {
+  min-width: 0;
+}
+/* Visual pass 2: D&D Beyond «My Characters» footer — VIEW, EDIT, COPY, DELETE as condensed
+   text links spread across the card under a hairline, DELETE in red; no filled button per
+   card (the page keeps one primary command, «Crea personaggio»). */
+.clib-card {
+  padding-bottom: 0;
+}
+.clib-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 0 var(--space-2);
+  margin-inline: calc(-1 * var(--space-2));
+  padding-block: 2px;
+  border-top: 1px solid var(--line);
+}
+.clib-link {
+  min-height: 44px;
+  padding: 8px 12px;
+  color: var(--accent);
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  font-variant-caps: all-small-caps;
+  text-align: center;
+}
+.clib-link.is-danger {
+  color: var(--danger);
+}
+.clib-link.is-danger:hover:not(:disabled) {
+  color: var(--danger);
+}
+.clib-link:focus-visible {
+  outline-offset: -3px;
+}
+/* The card's lines: class and level, then D&D Beyond's «Campaign: …». */
+.clib-card .clib-sub {
+  color: var(--text);
+}
+.clib-card .clib-campaign {
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.clib-card .clib-campaign strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.clib-card .clib-meta {
+  font-size: var(--text-sm);
+}
+.clib-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+.clib-badges .badge,
+.clib-sheet-bar .badge {
+  overflow-wrap: anywhere;
+}
+.clib-privacy {
+  gap: 5px;
+  align-items: center;
+}
+.clib-privacy[data-privacy="public"] {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.clib-privacy[data-privacy="private"] {
+  border-style: dashed;
+}
+.clib-pending {
+  border-color: var(--accent);
+}
+/* Portrait: the core .portrait (BG3's hotbar portrait), bronze frame and serif initial. */
+.clib-portrait {
+  display: grid;
+  place-items: center;
+  inline-size: 56px;
+  block-size: 72px;
+  border: 2px solid var(--frame);
+  border-radius: 40% 40% var(--radius-md) var(--radius-md);
+  color: var(--accent);
+  background: var(--raised);
+  box-shadow: inset 0 0 0 1px var(--keyline-dark);
+  font-family: var(--font-display);
+  font-size: 34px;
+  overflow: hidden;
+  flex: 0 0 auto;
+}
+.clib-portrait img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
+.clib-portrait.big {
+  inline-size: 76px;
+  block-size: 98px;
+  font-size: 46px;
+}
+.clib-notice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.clib-notice .button.quiet {
+  margin-left: auto;
+  min-width: 42px;
+}
+.clib-import-error {
+  margin: 0;
+}
+.clib-file {
+  position: relative;
+}
+.clib-file input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  width: 100%;
+  cursor: pointer;
+}
+.clib-file:focus-within {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+.clib-plain {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.clib-list {
+  margin: 6px 0;
+  padding-left: 20px;
+}
+.clib-list li {
+  margin: 3px 0;
+}
+.clib-trash summary {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.clib-transfers h2,
+.clib-drafts h2 {
+  margin-top: 0;
+  font-size: 1.1rem;
+}
+.clib-transfers .item-row,
+.clib-trash .item-row {
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.clib-transfers .item-row p,
+.clib-trash .item-row p {
+  margin: 2px 0 0;
+}
+.clib-sheet-bar {
+  margin-left: auto;
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.clib-sheet-fallback {
+  justify-content: flex-end;
+  margin-bottom: 8px;
+}
+/* Dialog content */
+.clib-manage {
+  display: grid;
+  gap: 14px;
+}
+.clib-manage section h3,
+.clib-import h3 {
+  margin: 0 0 6px;
+  font-size: 1rem;
+}
+.clib-manage section p {
+  margin: 0 0 8px;
+}
+.clib-summary {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.clib-summary p {
+  margin: 2px 0;
+}
+.clib-choices {
+  border: 0;
+  padding: 0;
+  margin: 0 0 12px;
+  display: grid;
+  gap: 8px;
+}
+.clib-choices legend {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.clib-choice {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 10px 12px;
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.clib-choice:hover {
+  background: var(--raised);
+}
+/* The chosen option: BG3's gold rim on a lit tile. */
+.clib-choice:has(input:checked) {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.clib-choice input {
+  margin-top: 4px;
+  inline-size: 18px;
+  block-size: 18px;
+  flex: 0 0 auto;
+}
+.clib-choice small {
+  display: block;
+  color: var(--muted);
+}
+.clib-audience,
+.clib-diff,
+.clib-spells,
+.clib-log-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+.clib-audience th,
+.clib-audience td,
+.clib-diff th,
+.clib-diff td,
+.clib-spells th,
+.clib-spells td,
+.clib-log-table th,
+.clib-log-table td {
+  border-bottom: 1px solid var(--line);
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+.clib-audience th {
+  font-weight: 500;
+  width: 55%;
+}
+.clib-audience tr[data-access="summary"] td,
+.clib-audience tr[data-access="none"] td {
+  color: var(--muted);
+}
+.clib-diff ins {
+  text-decoration: none;
+  color: var(--positive);
+}
+.clib-diff del {
+  color: var(--danger);
+}
+.clib-share {
+  display: grid;
+  gap: 12px;
+}
+.clib-share .field {
+  margin: 0;
+}
+.clib-qr {
+  margin: 0;
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+}
+.clib-qr svg {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm);
+}
+.clib-qr figcaption {
+  color: var(--muted);
+  text-align: center;
+}
+.check-field {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  min-height: 40px;
+}
+/* Read-only sheet (public link, preview, print) */
+.clib-read {
+  display: grid;
+  gap: 18px;
+}
+.clib-read-head {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+.clib-read-head h1,
+.clib-read-head h3 {
+  margin: 2px 0 6px;
+}
+.clib-read-head p {
+  margin: 0;
+}
+.clib-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 130px), 1fr));
+  gap: 10px;
+  margin: 0;
+}
+/* Read-only sheet: the core stat box and D&D Beyond's ability boxes, as on the sheet. */
+.clib-stats > div {
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  padding: 8px 10px;
+  min-width: 0;
+}
+.clib-stats dt {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  font-variant-caps: all-small-caps;
+}
+.clib-stats dd {
+  margin: 2px 0 0;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.clib-read-section h2,
+.clib-read-section h3 {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+}
+.clib-read-section h4 {
+  margin: 10px 0 2px;
+}
+.clib-abilities {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 10px;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+}
+.clib-abilities li {
+  display: grid;
+  justify-items: center;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  padding: 6px 4px;
+}
+.clib-abilities abbr {
+  text-decoration: none;
+  font-family: var(--font-label);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  font-variant-caps: all-small-caps;
+  color: var(--muted);
+}
+.clib-abilities strong {
+  font-size: 1.2rem;
+  font-variant-numeric: tabular-nums;
+}
+.clib-flag {
+  display: inline-grid;
+  place-items: center;
+  min-width: 24px;
+  height: 24px;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-xs);
+  font-weight: 700;
+  color: var(--accent);
+}
+.clib-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.clib-legend {
+  margin: 6px 0 0;
+  font-size: var(--text-sm);
+}
+.clib-multiline {
+  white-space: pre-wrap;
+  margin: 0;
+}
+.clib-link-note {
+  margin: 0 0 16px;
+  padding: 10px 14px;
+  border: 1px solid var(--accent-line);
+  background: var(--accent-soft);
+  border-radius: var(--radius-sm);
+}
+/* Sheet tabs */
+.clib-log-totals {
+  margin: 12px 0;
+}
+.clib-row-actions {
+  white-space: nowrap;
+}
+.clib-row-actions .button {
+  min-height: 40px;
+  padding-inline: 10px;
+}
+.clib-log-form {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
+}
+.clib-compare {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin: 12px 0 4px;
+}
+.clib-compare .field {
+  flex: 1 1 240px;
+  margin: 0;
+}
+.clib-compare select {
+  min-height: 43px;
+  width: 100%;
+}
+.clib-rev-list {
+  list-style: none;
+  padding: 0;
+  margin: 14px 0 0;
+}
+.clib-rev-list .item-row {
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.clib-rev-list p {
+  margin: 2px 0 0;
+}
+/* Print view: a paper preview on screen, only the sheet on paper. */
+.clib-print-page {
+  display: grid;
+  gap: 12px;
+}
+.clib-print-tools {
+  margin: 0;
+}
+/* The paper preview uses the parchment theme's values (DESIGN.md §2, light column; Foundry
+   dnd5e's light sheet) whatever the screen theme is: it stands for the printed page. */
+.clib-paper {
+  --text: #1c2630;
+  --muted: #4a5761;
+  --line: #c4b79d;
+  --line-strong: #8c7650;
+  --frame: #8a6a30;
+  --frame-soft: rgb(138 106 48 / 0.4);
+  --accent: #7a4f0e;
+  --raised: #ece3d1;
+  --surface: #fffbf3;
+  --surface-2: #f7f1e5;
+  --positive: #2f6b33;
+  --danger: #a4262c;
+  color: var(--text);
+  background: #fffdf8;
+  border-radius: var(--radius-md);
+  padding: clamp(16px, 4vw, 40px);
+  max-width: 900px;
+}
+@media print {
+  body:has(.clib-print-page) {
+    --text: #111;
+    --muted: #444;
+    --line: #999;
+    background: #fff;
+    color: #111;
+  }
+  body:has(.clib-print-page) .demo-strip,
+  body:has(.clib-print-page) .app-header,
+  body:has(.clib-print-page) .table-return,
+  body:has(.clib-print-page) .save-warning,
+  body:has(.clib-print-page) .clib-print-tools,
+  body:has(.clib-print-page) #toast {
+    display: none !important;
+  }
+  body:has(.clib-print-page) .workspace,
+  body:has(.clib-print-page) main {
+    padding: 0 !important;
+    margin: 0 !important;
+    background: #fff;
+  }
+  .clib-paper {
+    background: #fff;
+    padding: 0;
+    max-width: none;
+  }
+  .clib-read-section {
+    break-inside: avoid;
+  }
+}
+@media (max-width: 720px) {
+  .clib-card {
+    grid-template-columns: 48px minmax(0, 1fr);
+  }
+  .clib-card .clib-portrait {
+    inline-size: 48px;
+    block-size: 62px;
+    font-size: 28px;
+  }
+  .clib-abilities {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .clib-sheet-bar {
+    margin-left: 0;
+    width: 100%;
+  }
+  .clib-read-head {
+    align-items: flex-start;
+  }
+  .clib-audience th {
+    width: auto;
+  }
+}
+.clib-nowrap {
+  white-space: nowrap;
+}
+/* Grid children shrink below their tables' width: the tables scroll inside .table-wrap. */
+.clib-page > *,
+.clib-read > *,
+.clib-print-page > *,
+.clib-paper,
+.clib-log,
+.clib-revisions,
+.clib-log .table-wrap,
+.clib-revisions .table-wrap,
+.clib-read .table-wrap {
+  min-width: 0;
+  max-width: 100%;
+}
+.clib-log .table-wrap,
+.clib-revisions .table-wrap,
+.clib-read .table-wrap,
+.clib-diff,
+.clib-audience {
+  position: relative;
+}
+/* A sheet reserved to its player and the DM: what other players get instead of the sheet. */
+.clib-summary-page {
+  display: grid;
+  gap: 12px;
+  max-inline-size: 42rem;
+}
+.clib-summary-page h1 {
+  margin: 0;
+}
+.clib-revisions [data-clib-rev-locked] {
+  margin-block: 8px;
+}

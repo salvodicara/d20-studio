@@ -1,0 +1,20 @@
+{
+  "name": "d20 Studio",
+  "short_name": "d20 Studio",
+  "description": "Personaggi, campagne e Tavolo per giocare di persona e online.",
+  "lang": "it",
+  "start_url": "./#home",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#17232e",
+  "theme_color": "#17232e",
+  "icons": [
+    { "src": "icons/app-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/app-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/app-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Personaggi", "url": "./#characters" },
+    { "name": "Campagne", "url": "./#campaigns" }
+  ]
+}

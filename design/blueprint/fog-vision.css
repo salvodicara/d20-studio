@@ -1,0 +1,652 @@
+/* B35 — Fog, lights and vision. Own prefix: .fv- (map layers, HUD and the Vision panel). */
+
+/* ---------------------------------------------------------------- map layers */
+/* Theme-invariant map palette (combat.css): fog stays black on both themes, as Owlbear's and
+   Foundry's fog of war; the DM sees it half-transparent (Owlbear's GM fog view). */
+@media (prefers-reduced-motion: reduce) {
+  .fv-ambient {
+    transition: none !important;
+  }
+}
+.fv-darkness {
+  fill: color-mix(in srgb, var(--map-fog) 90%, var(--map-arcane));
+  opacity: 0.9;
+}
+.fv-darkness[data-fv-dm] {
+  opacity: 0.55;
+  stroke: var(--map-arcane);
+  stroke-width: 2;
+  stroke-dasharray: 6 5;
+  vector-effect: non-scaling-stroke;
+}
+.fv-fog.is-opaque,
+.fv-unexplored {
+  fill: var(--map-fog);
+}
+.fv-fog.is-dm {
+  fill: color-mix(in srgb, var(--map-fog) 70%, var(--map-chip));
+  opacity: 0.5;
+}
+.fv-explored {
+  fill: var(--map-fog);
+  opacity: 0.5;
+}
+.fv-remembered {
+  pointer-events: none;
+}
+/* A neutral grey drained through saturation: the remembered area loses its colour. */
+.fv-grey {
+  fill: grey;
+  mix-blend-mode: saturation;
+}
+.fv-top {
+  pointer-events: none;
+}
+.fv-clone .fv-clone-disc {
+  fill: var(--token-ally-fill);
+  stroke: var(--token-ally-ring);
+  stroke-width: 3;
+}
+.fv-clone .fv-clone-ring {
+  fill: none;
+  stroke: var(--map-gold-bright);
+  stroke-width: 2;
+  stroke-dasharray: 4 4;
+  opacity: 0.8;
+}
+/* TV-29 (Roll20: your own tokens stay visible): the Table hides area labels at points the
+   viewer cannot see; the copy of a viewer's own token is exactly such a point, so its
+   initial and name stay visible (a CSS rule wins over that presentation attribute). */
+.fv-clone text {
+  visibility: visible;
+  fill: var(--token-initial);
+  font: 21px var(--font-display);
+}
+.fv-clone .fv-clone-name {
+  font: 600 13px var(--font-ui);
+  fill: var(--token-label);
+  paint-order: stroke;
+  stroke: var(--token-label-halo);
+  stroke-width: 4px;
+}
+.fv-mark-ring {
+  fill: none;
+  stroke: var(--map-gold-bright);
+  stroke-width: 3;
+  vector-effect: non-scaling-stroke;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.fv-light-handle {
+  pointer-events: all;
+  cursor: grab;
+}
+/* Light handles: Foundry's light-source controls as dark round handles in a gold rim. */
+.fv-light-handle .fv-light-hit {
+  fill: color-mix(in srgb, var(--map-halo) 80%, transparent);
+  stroke: var(--map-gold-bright);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+.fv-light-handle .fv-light-dot {
+  stroke: var(--map-halo);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+.fv-light-handle.is-off .fv-light-dot {
+  fill: color-mix(in srgb, var(--map-muted) 40%, var(--map-halo));
+}
+.fv-light-handle.is-dark .fv-light-dot {
+  fill: color-mix(in srgb, var(--map-arcane) 25%, var(--map-halo));
+  stroke: var(--map-arcane);
+}
+.fv-light-handle .fv-light-follow {
+  fill: none;
+  stroke: var(--map-info);
+  stroke-width: 2;
+  stroke-dasharray: 3 3;
+  vector-effect: non-scaling-stroke;
+}
+.fv-light-handle.is-selected .fv-light-hit {
+  stroke: var(--token-label);
+  stroke-width: 4;
+}
+.fv-light-reach {
+  fill: none;
+  stroke: var(--map-gold-bright);
+  stroke-width: 1.5;
+  stroke-dasharray: 6 6;
+  vector-effect: non-scaling-stroke;
+}
+.fv-barrier {
+  pointer-events: all;
+  cursor: pointer;
+}
+.fv-barrier .fv-barrier-hit {
+  stroke: transparent;
+  stroke-width: 26;
+  vector-effect: non-scaling-stroke;
+}
+/* Barrier kinds keep distinct hues and dash patterns, as Foundry colours its wall types
+   (plain walls bright, windows cyan, one-way violet, illusory magenta, invisible green,
+   doors amber). The dash is the second signal besides the colour. */
+.fv-barrier .fv-barrier-line {
+  stroke: var(--map-gold);
+  stroke-width: 5;
+  vector-effect: non-scaling-stroke;
+}
+.fv-barrier.is-window .fv-barrier-line {
+  stroke: var(--map-info);
+  stroke-dasharray: 10 6;
+}
+.fv-barrier.is-one-way .fv-barrier-line {
+  stroke: var(--map-arcane);
+}
+.fv-barrier.is-illusory .fv-barrier-line {
+  stroke: var(--map-illusion);
+  stroke-dasharray: 2 6;
+}
+.fv-barrier.is-invisible .fv-barrier-line {
+  stroke: var(--map-positive);
+  stroke-dasharray: 12 4 2 4;
+}
+.fv-barrier.is-door .fv-barrier-line {
+  stroke: var(--status-conditions);
+  opacity: 0.6;
+}
+.fv-barrier.is-selected .fv-barrier-line {
+  stroke-width: 9;
+  filter: drop-shadow(0 0 4px var(--token-label));
+}
+.fv-oneway {
+  fill: none;
+  stroke: var(--token-label);
+  stroke-width: 2.5;
+  vector-effect: non-scaling-stroke;
+}
+.fv-draft polyline,
+.fv-draft-line {
+  fill: none;
+  stroke: var(--map-gold);
+  stroke-width: 2.5;
+  stroke-dasharray: 7 5;
+  vector-effect: non-scaling-stroke;
+}
+.fv-draft circle {
+  fill: var(--map-gold);
+  stroke: var(--map-halo);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+.fv-draft circle.is-first {
+  fill: none;
+  stroke: var(--map-gold);
+  stroke-width: 3;
+}
+.fv-draft circle.is-cursor {
+  fill: none;
+  stroke: var(--token-label);
+  stroke-width: 2;
+}
+.fv-live-op.is-cover {
+  opacity: 0.65;
+}
+.fv-live-op.is-reveal {
+  opacity: 0.35;
+}
+.fv-teleport-pick {
+  fill: none;
+  stroke: var(--map-info);
+  stroke-width: 3;
+  stroke-dasharray: 5 4;
+  vector-effect: non-scaling-stroke;
+}
+
+/* ---------------------------------------------------------------- HUD over the map */
+/* The HUD box spans the map: only its bar and banner take the pointer, never the map
+   under the empty parts (light handles, tokens, doors stay clickable). */
+.fv-hud-fo {
+  overflow: visible;
+  pointer-events: none;
+}
+.fv-hud {
+  position: relative;
+  pointer-events: none;
+  font: var(--text-md) var(--font-ui);
+  color: var(--text);
+}
+/* Tool options at the bottom of the map, clear of the toolbar with its open group on the
+   left (toolbar + sub-tools) and of the zoom box on the right. */
+.fv-bottom {
+  position: absolute;
+  left: 140px;
+  right: 156px;
+  bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+/* Tool options: Owlbear Rodeo's floating tool panel, the same translucent rounded plate as
+   the map's tool column (.map-toolbar). */
+.fv-bar,
+.fv-banner {
+  pointer-events: auto;
+  max-width: 100%;
+  padding: 6px;
+  border: 1px solid var(--float-border);
+  border-radius: 14px;
+  background: var(--float-bg);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-2);
+}
+.fv-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 60vh;
+  overflow: auto;
+}
+.fv-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  border-color: var(--accent-line);
+}
+.fv-banner span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.fv-banner .icon {
+  width: 18px;
+  height: 18px;
+}
+.fv-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+.fv-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding-right: 4px;
+  margin-right: 2px;
+  border-right: 1px solid var(--float-border);
+}
+/* Panel buttons: the core button's material; on the floating bar they turn into the map
+   tools' borderless rounded buttons (.map-tool). */
+.fv-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  min-width: 40px;
+  padding: 0 10px;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-sm);
+  background: var(--raised);
+  color: var(--text);
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+.fv-bar .fv-btn {
+  border-color: transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--muted);
+  font-weight: 400;
+}
+.fv-btn:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--raised) 90%, var(--text));
+  color: var(--text);
+}
+.fv-bar .fv-btn:hover:not(:disabled) {
+  background: var(--raised);
+}
+.fv-btn[aria-pressed="true"] {
+  color: var(--accent);
+  border-color: var(--accent-line);
+  background: var(--accent-soft);
+}
+.fv-bar .fv-btn[aria-pressed="true"] {
+  color: var(--accent);
+  border-color: var(--accent-line);
+  background: var(--accent-soft);
+}
+.fv-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.fv-btn.is-danger,
+.fv-bar .fv-btn.is-danger {
+  color: var(--danger);
+}
+.fv-btn.is-primary,
+.fv-bar .fv-btn.is-primary {
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+.fv-btn .icon {
+  width: 18px;
+  height: 18px;
+  flex: none;
+}
+.fv-btn:focus-visible,
+.fv-field select:focus-visible,
+.fv-field input:focus-visible,
+.fv-switch input:focus-visible + span,
+.fv-diag-row:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 1px;
+}
+.fv-field {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.fv-field select,
+.fv-field input {
+  min-height: 40px;
+  max-width: 11rem;
+  padding: 0 8px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--sunken);
+  color: var(--text);
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+}
+.fv-field input[type="number"] {
+  width: 5.5rem;
+}
+.fv-hint {
+  color: var(--muted);
+  font-size: var(--text-sm);
+  max-width: 44rem;
+}
+.fv-source {
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+.fv-selection strong {
+  margin-right: 4px;
+}
+
+/* ---------------------------------------------------------------- Vision panel */
+.fv-panel {
+  display: grid;
+  gap: 14px;
+}
+.fv-section {
+  display: grid;
+  gap: 8px;
+}
+.fv-section h3,
+.fv-section h4 {
+  margin: 0;
+}
+/* Section labels: D&D Beyond's condensed small capitals. */
+.fv-section h4 {
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--label-tracking);
+  color: var(--muted);
+}
+.fv-status,
+.fv-note {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.fv-actions,
+.fv-group-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.fv-switch {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-height: 40px;
+  cursor: pointer;
+}
+.fv-switch input {
+  width: 22px;
+  height: 22px;
+  margin: 9px 0 0;
+  flex: none;
+  accent-color: var(--accent);
+}
+.fv-switch span {
+  display: grid;
+  gap: 2px;
+  padding-top: 8px;
+}
+.fv-switch small {
+  color: var(--muted);
+}
+.fv-counts {
+  margin: 0;
+}
+.fv-diag,
+.fv-chars,
+.fv-memories,
+.fv-warnings {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* Warnings: a framed danger note (not a side stripe). */
+.fv-warnings li {
+  padding: 8px 10px;
+  border: 1px solid color-mix(in srgb, var(--danger) 55%, transparent);
+  border-radius: var(--radius-sm);
+  background: var(--danger-soft);
+  font-size: var(--text-sm);
+}
+.fv-diag-row,
+.fv-char {
+  display: grid;
+  gap: 2px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}
+.fv-diag-row span,
+.fv-char span {
+  color: var(--muted);
+}
+.fv-diag-row .fv-mini,
+.fv-char .fv-mini {
+  justify-self: start;
+  margin-top: 4px;
+}
+.fv-state.is-on {
+  color: var(--positive);
+}
+.fv-state.is-off {
+  color: var(--muted);
+}
+.fv-state.is-suppressed {
+  color: var(--danger);
+}
+.fv-memory {
+  display: grid;
+  grid-template-columns: minmax(5rem, auto) 1fr auto;
+  align-items: center;
+  gap: 6px 8px;
+  font-size: var(--text-sm);
+}
+.fv-memory .fv-mini {
+  grid-column: span 1;
+}
+.fv-meter {
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--hp-track);
+  overflow: hidden;
+}
+.fv-meter span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+}
+@container table-panel (max-width: 600px) {
+  .fv-memory {
+    grid-template-columns: 1fr auto;
+  }
+  .fv-meter {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ---------------------------------------------------------------- phone */
+/* On a phone the tool options are one scrolling strip (DDB and Owlbear mobile tool strips)
+   above the zoom box, clear of the toolbar and its open group on the left. */
+/* PR-23 (Roll20's lights panel on a phone): the options wrap in rows inside the screen,
+   every control visible with its label, scrolling down rather than off to the side. */
+@media (max-width: 720px) {
+  .fv-bottom {
+    left: 100px;
+    right: 8px;
+    bottom: 64px;
+  }
+  .fv-bar {
+    flex-direction: column;
+    max-height: 38vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .fv-row,
+  .fv-group {
+    flex-wrap: wrap;
+  }
+  .fv-btn,
+  .fv-field,
+  .fv-hint,
+  .fv-bar strong {
+    flex: none;
+    max-width: 100%;
+  }
+  .fv-field select,
+  .fv-field input {
+    max-width: 9rem;
+  }
+  /* The fog, lights and barrier tools are named on a phone, not icons alone. */
+  .map-subtools[data-tool-group-tools="fog"] {
+    width: max-content;
+  }
+  .map-subtools[data-tool-group-tools="fog"] .map-tool {
+    display: flex;
+    align-items: center;
+    width: auto;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 10px 0 8px;
+    gap: 6px;
+    justify-content: flex-start;
+  }
+  [data-tool-group-tools="fog"] .map-tool::after {
+    content: attr(aria-label);
+    font-size: var(--text-sm);
+    white-space: nowrap;
+  }
+}
+.fv-fold-row {
+  pointer-events: auto;
+}
+.fv-fold {
+  min-height: 32px;
+  border-color: var(--float-border);
+  border-radius: 10px;
+  background: var(--float-bg);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  font-size: var(--text-xs);
+}
+
+/* PR-23: the scene editor's «Luci» tab (Foundry lighting layer while preparing); map
+   palette as above. */
+.pl-canvas {
+  cursor: crosshair;
+  touch-action: none;
+}
+.pl-canvas [data-pl-light] {
+  cursor: grab;
+}
+.pl-canvas .pl-hit {
+  fill: transparent;
+}
+.pl-canvas .pl-dot {
+  stroke: var(--map-halo);
+  stroke-width: 3;
+}
+.pl-canvas .pl-follow {
+  fill: none;
+  stroke: var(--token-label);
+  stroke-width: 2;
+  stroke-dasharray: 4 3;
+}
+.pl-canvas .is-selected .pl-dot {
+  stroke: var(--token-label);
+  stroke-width: 5;
+}
+.pl-canvas .is-off .pl-dot {
+  fill-opacity: 0.35;
+}
+.pl-canvas .pl-darkness {
+  fill: var(--map-fog);
+  fill-opacity: 0.55;
+  stroke: var(--map-arcane);
+  stroke-dasharray: 8 5;
+  stroke-width: 3;
+}
+.pl-canvas [data-pl-light]:focus-visible .pl-dot {
+  stroke: var(--map-gold);
+  stroke-width: 6;
+}
+.pl-list li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  align-items: center;
+}
+.pl-list li.is-selected {
+  background: var(--accent-soft);
+  border-radius: var(--radius-sm);
+}
+/* PR-25: the night's colour and intensity next to the time of day. */
+.fv-ambient-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 6px 0;
+}
+.fv-ambient-row .fv-field {
+  display: grid;
+  gap: 2px;
+}

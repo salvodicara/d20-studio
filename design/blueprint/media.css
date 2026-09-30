@@ -1,0 +1,1109 @@
+/* B28 — Media: images and files. Prefix .media-; uses the shared tokens of styles.css.
+   Visual pass (29/09/2026, DESIGN.md): the library as Foundry's file browser (folders on the
+   left as a directory, thumbnails in a grid, dnd5e's dashed drop area), portraits and token
+   rings as the core portrait and Owlbear's coloured rings, the map notice as an Owlbear
+   floating plate. Map marks keep the map's own colours. */
+
+/* The hidden attribute wins over this area's display rules (styles.css has no global
+   [hidden] rule): filtered dock items and picker cards, empty messages, the PDF frame. */
+[class*="media-"][hidden],
+[data-media-item][hidden],
+[data-media-attach-provenance][hidden] {
+  display: none !important;
+}
+
+.media-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.media-grow {
+  flex: 1 1 220px;
+  min-width: 0;
+}
+.media-inline-field {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--muted);
+}
+/* The core field (Foundry v13 / Roll20 well): sunken, visible rim, gold on focus. */
+.media-inline-field select,
+.media-inline-field input {
+  min-height: 42px;
+  background: var(--sunken);
+  color: var(--text);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+}
+.media-inline-field :is(select, input):focus-visible {
+  border-color: var(--accent);
+}
+.media-inline-field input[type="number"] {
+  width: 5.5em;
+}
+.media-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 42px;
+  font-size: 14px;
+}
+.media-check input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--accent);
+}
+.media-file-button {
+  position: relative;
+  cursor: pointer;
+}
+.media-file-button input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  width: 100%;
+  cursor: pointer;
+}
+.media-file-button:focus-within {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+/* Notices: tinted callouts with a rim in their colour (Owlbear's MUI Alert, standard). */
+.media-notice {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  border: 1px solid color-mix(in srgb, var(--positive) 55%, transparent);
+  background: var(--positive-soft);
+  border-radius: var(--radius-sm);
+  padding: 6px 6px 6px 14px;
+  margin: 0 0 16px;
+}
+.media-notice > span {
+  flex: 1 1 240px;
+}
+.media-notice.is-error {
+  border-color: color-mix(in srgb, var(--danger) 55%, transparent);
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+.media-notice.is-error > span {
+  color: var(--text);
+}
+/* Locked import type (VTL-062 Shift+click): visible wherever files arrive, with Unlock. */
+.media-lock {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  margin: 8px 0;
+  padding: 2px 4px 2px 12px;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+  font-size: 14px;
+}
+.media-lock > span {
+  flex: 1 1 200px;
+}
+.media-lock small {
+  color: var(--muted);
+}
+.media-lock .button {
+  min-height: 40px;
+}
+.media-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.badge.is-shared {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.badge.is-used {
+  border-color: var(--positive);
+  color: var(--positive);
+}
+.media-thumb {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  background: var(--sunken);
+  color: var(--muted);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+.media-thumb.is-pdf {
+  background: linear-gradient(
+    160deg,
+    color-mix(in srgb, var(--danger-strong) 30%, var(--sunken)),
+    var(--sunken)
+  );
+  color: var(--danger);
+}
+.media-thumb.is-missing {
+  border: 2px dashed var(--danger);
+  color: var(--danger);
+}
+/* Round token image: the map's token colours (Owlbear's coloured ring on the round token). */
+.media-round {
+  display: inline-block;
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--token-ally-fill);
+  background-repeat: no-repeat;
+  border: 2px solid var(--token-ally-ring);
+}
+.media-round.is-missing {
+  display: inline-grid;
+  place-items: center;
+  border-style: dashed;
+  border-color: var(--danger);
+  color: var(--danger);
+  background: var(--danger-soft);
+}
+
+/* ------------------------------------------------------------ Library */
+
+.media-library-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.media-view-toggle {
+  display: inline-flex;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+}
+.media-library-layout {
+  display: grid;
+  grid-template-columns: minmax(180px, 230px) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+.media-folders {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  position: sticky;
+  top: 12px;
+}
+/* Folder headings: condensed small capitals (Kanka's groups, the core labels). */
+.media-folders-title {
+  margin: 14px 0 4px;
+  font-size: 15px;
+  font-family: var(--font-label);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+  color: var(--muted);
+}
+.media-folders-title:first-child {
+  margin-top: 0;
+}
+.media-folder {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  min-height: 42px;
+  padding: 8px 12px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+.media-folder small {
+  color: var(--muted);
+}
+.media-folder:hover {
+  background: var(--raised);
+}
+/* The open folder: Kanka's filled row, marked by dnd5e's gold bar at its left edge. */
+.media-folder.active {
+  color: var(--accent);
+  background: var(--raised);
+  box-shadow: inset 3px 0 0 var(--accent);
+  font-weight: 600;
+}
+.media-new-folder {
+  padding-left: 12px;
+}
+/* Drop area: Foundry dnd5e's dashed drop-area outline. */
+.media-dropzone {
+  border: 2px dashed var(--line-strong);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  margin-bottom: 16px;
+}
+.media-dropzone p {
+  margin: 4px 0;
+}
+.media-dropzone.is-over {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.media-quota {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+.media-quota meter {
+  width: 140px;
+  height: 10px;
+}
+.media-report {
+  border: 1px solid color-mix(in srgb, var(--danger) 60%, transparent);
+  border-radius: var(--radius-sm);
+  background: var(--danger-soft);
+  padding: 12px 16px;
+  margin-bottom: 16px;
+}
+.media-report h2 {
+  font-size: 17px;
+  margin: 0 0 8px;
+  color: var(--danger);
+}
+.media-report ul,
+.media-used-list,
+.media-attachments,
+.media-notes,
+.media-dock-items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.media-report li,
+.media-used-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 0;
+  border-top: 1px solid var(--line);
+}
+.media-report li:first-child,
+.media-used-list li:first-child {
+  border-top: 0;
+}
+.media-report small {
+  display: block;
+  color: var(--muted);
+}
+.media-folder-tools {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.media-items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.media-items.is-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 14px;
+}
+.media-items.is-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.media-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  text-align: left;
+}
+.media-card {
+  transition:
+    border-color var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out);
+}
+.media-card:hover {
+  border-color: var(--accent-line);
+  background: var(--raised);
+}
+.media-items.is-list .media-card {
+  flex-direction: row;
+  align-items: center;
+}
+.media-items.is-list .media-thumb {
+  width: 56px;
+  flex: 0 0 56px;
+}
+.media-card-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.media-card-text strong {
+  overflow-wrap: anywhere;
+}
+.media-card-text small,
+.media-tags {
+  color: var(--muted);
+  font-size: 12px;
+}
+.media-empty {
+  padding: 24px 0;
+}
+
+/* ------------------------------------------------------------ file page */
+
+.media-breadcrumb {
+  margin-bottom: 8px;
+}
+.media-heading h1 {
+  overflow-wrap: anywhere;
+}
+.media-detail {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+.media-left {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+.media-preview {
+  margin: 0;
+}
+.media-preview.is-image {
+  position: sticky;
+  top: 12px;
+}
+.media-preview img {
+  display: block;
+  max-width: 100%;
+  max-height: 70vh;
+  margin: 0 auto;
+  border-radius: var(--radius-sm);
+}
+.media-preview figcaption {
+  margin-top: 10px;
+  font-size: 13px;
+}
+.media-side {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+.media-side .panel,
+.media-left > section.panel {
+  padding: 18px;
+}
+.media-side h2,
+.media-left h2 {
+  font-size: 17px;
+  margin: 0 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.media-use-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 10px;
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+}
+.media-use-form:first-of-type {
+  border-top: 0;
+}
+.media-use-form .field {
+  flex: 1 1 200px;
+  margin: 0;
+}
+.media-use-form [data-media-attach-provenance] {
+  flex: 1 1 100%;
+}
+.media-two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.media-provenance-fields {
+  grid-template-columns: 1fr 1fr;
+  gap: 0 12px;
+}
+.media-provenance-fields .field {
+  margin-bottom: 12px;
+}
+.media-pdf .toolbar {
+  margin-bottom: 8px;
+}
+/* The PDF page is paper whatever the theme. */
+.media-pdf-frame {
+  --media-paper: #fff;
+  width: 100%;
+  height: min(70vh, 640px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--media-paper);
+}
+.media-notes li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  border-top: 1px solid var(--line);
+}
+.media-notes li > span {
+  flex: 1;
+  overflow-wrap: anywhere;
+}
+.media-note-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: flex-end;
+  margin-top: 12px;
+}
+.media-note-form .field {
+  margin: 0;
+}
+.media-note-form .field:first-child {
+  width: 7em;
+}
+.media-note-form textarea {
+  min-height: 60px;
+}
+
+/* ------------------------------------------------------------ picker and wheel */
+
+.media-picker-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.media-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(118px, 1fr));
+  gap: 10px;
+  max-height: min(46vh, 420px);
+  overflow-y: auto;
+  padding: 3px;
+}
+.media-pick {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  cursor: pointer;
+  font-size: 13px;
+}
+.media-pick input {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: 20px;
+  height: 20px;
+  accent-color: var(--accent);
+}
+.media-pick:has(input:checked) {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent);
+}
+.media-pick:has(input:focus-visible) {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+.media-pick small {
+  color: var(--muted);
+}
+.media-pick-name {
+  overflow-wrap: anywhere;
+}
+.media-visibility {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  margin: 14px 0;
+  padding: 8px 14px;
+}
+.media-variant-fields {
+  margin-top: 14px;
+}
+.media-wheel-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.media-wheel {
+  position: relative;
+  width: 280px;
+  height: 280px;
+  max-width: 100%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, var(--raised) 0 38%, transparent 39%),
+    conic-gradient(
+      from 45deg,
+      color-mix(in srgb, var(--info) 22%, var(--sunken)),
+      color-mix(in srgb, var(--positive) 22%, var(--sunken)),
+      color-mix(in srgb, var(--accent) 22%, var(--sunken)),
+      color-mix(in srgb, var(--vis-dm) 22%, var(--sunken)),
+      color-mix(in srgb, var(--info) 22%, var(--sunken))
+    );
+}
+.media-wheel-preview {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 96px;
+  height: 96px;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid var(--line);
+}
+.media-wheel-preview.is-pdf {
+  display: grid;
+  place-items: center;
+}
+.media-wheel-option {
+  --r: 104px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  min-width: 92px;
+  min-height: 44px;
+  padding: 8px 12px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--accent);
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 600;
+  transform: translate(-50%, -50%) rotate(calc(var(--slot) * 90deg - 90deg)) translate(var(--r))
+    rotate(calc(90deg - var(--slot) * 90deg));
+}
+.media-wheel-option:hover,
+.media-wheel-option:focus-visible {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+/* ------------------------------------------------------------ sheet › Appearance */
+
+.media-look-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+.media-look-card h2 {
+  margin-top: 0;
+}
+.media-look-card h3 {
+  margin: 20px 0 4px;
+  font-size: 17px;
+}
+/* Portrait: the core portrait at size (BG3's bronze frame with a dark keyline, serif initial). */
+.media-portrait-frame {
+  display: grid;
+  place-items: center;
+  width: 160px;
+  height: 200px;
+  border: 2px solid var(--frame);
+  border-radius: 40% 40% 12px 12px;
+  background: var(--token-ally-fill);
+  box-shadow: inset 0 0 0 1px var(--keyline-dark);
+  overflow: hidden;
+  font-family: var(--font-display);
+  font-size: 64px;
+  color: var(--token-initial);
+}
+.media-portrait-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.media-token-stage {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.media-token-stage p {
+  margin: 0 0 10px;
+}
+.media-frames {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  margin: 16px 0 0;
+  padding: 6px 12px 10px;
+}
+.media-swatch {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  font-size: 14px;
+  position: relative;
+  padding: 0 10px 0 6px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+}
+.media-swatch:has(input:checked) {
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 600;
+}
+.media-swatch:has(input:focus-visible) {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+.media-swatch-dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid var(--keyline-dark);
+}
+.media-swatch:has(input:checked) .media-swatch-dot {
+  box-shadow: 0 0 0 2px var(--accent);
+}
+/* No colour chosen: the default ring of the map's tokens. */
+.media-swatch-dot.is-none {
+  background: var(--token-ally-ring);
+}
+.media-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0 12px;
+}
+.media-choice {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  padding-right: 2px;
+}
+.media-choice.is-active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.media-choice-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 2px 14px 2px 2px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--text);
+}
+.media-choice.is-active .media-choice-button {
+  color: var(--accent);
+  font-weight: 600;
+}
+.media-missing-note {
+  color: var(--danger);
+  margin: 8px 0;
+}
+
+/* ------------------------------------------------------------ crop */
+
+.media-crop {
+  display: grid;
+  grid-template-columns: minmax(180px, 260px) minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+.media-crop-stage {
+  width: 100%;
+  aspect-ratio: 1;
+  background: var(--sunken);
+  border-radius: var(--radius-sm);
+  touch-action: none;
+  cursor: grab;
+}
+.media-crop-faint {
+  opacity: 0.35;
+}
+.media-crop-controls .field {
+  margin-bottom: 10px;
+}
+.media-crop-controls input[type="range"] {
+  accent-color: var(--accent);
+  min-height: 40px;
+}
+
+/* ------------------------------------------------------------ campaign attachments */
+
+.media-attachments {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 8px 0 12px;
+}
+.media-attachment {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+}
+.media-attachment .media-thumb {
+  width: 52px;
+  flex: 0 0 52px;
+}
+.media-attachment > span:nth-child(2) {
+  flex: 1 1 180px;
+  display: flex;
+  flex-direction: column;
+}
+.media-attachment small {
+  color: var(--muted);
+}
+.media-attachment.is-missing {
+  border-style: dashed;
+  border-color: color-mix(in srgb, var(--danger) 60%, transparent);
+}
+.media-attachment-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+.media-attachment small.media-waiting {
+  color: var(--warning);
+}
+.media-attachment-visibility select {
+  max-width: 100%;
+}
+/* The token border shown on the sheet: the token menu's colour (B12), read only. */
+.media-ring {
+  margin: 16px 0 0;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+}
+.media-ring p {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 6px;
+}
+.media-ring .media-swatch-dot {
+  flex: 0 0 auto;
+}
+.media-entry-row h2 {
+  font-size: 21px;
+  margin: 0 0 4px;
+}
+.media-entry-attachments {
+  margin: 18px 0;
+}
+.media-entry-attachments ul.media-attachments {
+  padding: 0;
+}
+.dialog-body .media-used-list {
+  margin-bottom: 14px;
+}
+.media-viewer {
+  margin: 0;
+}
+.media-viewer img {
+  display: block;
+  max-width: 100%;
+  max-height: 65vh;
+  margin: 0 auto 10px;
+  border-radius: var(--radius-sm);
+}
+
+/* ------------------------------------------------------------ Table */
+
+.media-token-panel .toolbar {
+  gap: 6px;
+}
+.media-token-panel .media-choices {
+  margin: 6px 0 10px;
+}
+/* Missing-file marks: constant screen size (media-table.mjs counter-scales them). They sit on
+   the map, which does not change with the theme: the mark's colours are named here once. */
+.media-missing-badge {
+  --media-missing-fill: #5b1f22;
+  --media-missing-rim: #f1a09a;
+  cursor: pointer;
+}
+.media-missing-badge .media-missing-hit {
+  fill: transparent;
+  stroke: none;
+}
+.media-missing-badge .media-missing-dot {
+  fill: var(--media-missing-fill);
+  stroke: var(--media-missing-rim);
+  stroke-width: 2;
+}
+.media-missing-badge text {
+  fill: var(--door-focus);
+  pointer-events: none;
+  font: 700 15px var(--font-ui);
+}
+.media-missing-badge:focus-visible .media-missing-dot {
+  stroke: var(--focus);
+  stroke-width: 4;
+}
+.media-missing-badge:focus {
+  outline: none;
+}
+.media-map-missing-fo {
+  overflow: visible;
+}
+.media-map-missing-wrap {
+  position: relative;
+  pointer-events: none;
+}
+/* The notice over the map: an Owlbear floating plate (translucent, blurred, radius 14) with a
+   danger rim. */
+.media-map-missing {
+  position: absolute;
+  left: 76px;
+  right: 10px;
+  bottom: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: fit-content;
+  max-width: calc(100% - 86px);
+  margin: 0 auto;
+  padding: 8px 12px;
+  border: 1px solid var(--danger);
+  border-radius: 14px;
+  background: var(--float-bg);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  color: var(--text);
+  box-shadow: var(--shadow-2);
+  font: 14px var(--font-ui);
+}
+.media-map-missing .button {
+  pointer-events: auto;
+  min-height: 40px;
+  min-width: 64px;
+}
+.media-dock-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.media-type-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+.media-dock-search {
+  flex: 1 1 180px;
+  min-width: 0;
+  width: auto;
+}
+.media-dock-hint {
+  font-size: 13px;
+  margin: 8px 0;
+}
+.media-dock-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 8px;
+}
+.media-dock-item {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: 4px 10px;
+  align-items: center;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.media-dock-thumb {
+  cursor: grab;
+}
+.media-dock-name {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.media-dock-name strong {
+  overflow-wrap: anywhere;
+}
+.media-dock-name small {
+  color: var(--muted);
+  font-size: 12px;
+}
+.media-dock-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+@media (max-width: 720px) {
+  .media-library-layout,
+  .media-detail,
+  .media-crop {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .media-folders {
+    position: static;
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 6px;
+    padding-bottom: 6px;
+  }
+  .media-folders-title {
+    display: none;
+  }
+  .media-folder,
+  .media-new-folder {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+  .media-items.is-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .media-preview.is-image {
+    position: static;
+  }
+  .media-two,
+  .media-provenance-fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .media-look-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .media-dock-items {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .media-wheel {
+    width: 260px;
+    height: 260px;
+  }
+  .media-wheel-option {
+    --r: 94px;
+    min-width: 84px;
+  }
+  .media-crop-stage {
+    max-width: 260px;
+  }
+}
+
+/* PG-44: the appearance picker opened from the sheet's header portrait. */
+.media-appearance {
+  display: grid;
+  gap: 16px;
+}
+.media-appearance-preview {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.media-appearance-ring {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+}
+.media-appearance-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.media-appearance-swatch {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  min-width: 40px;
+  min-height: 40px;
+  cursor: pointer;
+}
+.media-appearance-swatch input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  margin: 0;
+  cursor: pointer;
+}
+.media-appearance-swatch span[aria-hidden] {
+  display: block;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--line);
+}
+.media-appearance-swatch span.is-none {
+  background: repeating-linear-gradient(45deg, var(--raised) 0 4px, var(--surface-2) 4px 8px);
+}
+.media-appearance-swatch input:checked + span {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+.media-appearance-swatch input:focus-visible + span {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+.media-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

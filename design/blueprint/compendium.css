@@ -1,0 +1,1456 @@
+/* B16 — Library compendium, reader, tooltips, DM screen, embeds and print view.
+   Uses the shared tokens of styles.css; every class is prefixed "compendium-".
+   Visual pass (29/09/2026, DESIGN.md): Foundry dnd5e's Compendium Browser (filter sidebar in
+   condensed labels, the chosen row marked by a gold bar), D&D Beyond's listings and reader,
+   dnd5e's 2024 stat block, BG3's tooltip plate and D&D Beyond's print view on paper. */
+
+.compendium,
+.compendium-screen,
+.compendium-embed,
+.compendium-tip {
+  --compendium-paper: var(--surface-2);
+  --compendium-rule: var(--line-strong);
+}
+.compendium {
+  min-width: 0;
+}
+.compendium-sr,
+.compendium .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.compendium-subnav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+.compendium-subnav [aria-current] {
+  border-color: var(--accent);
+}
+.compendium-subnav-note {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 13px;
+}
+/* Context and status lines: tinted callouts in their colour (Owlbear's MUI Alert). */
+.compendium-context,
+.compendium-status,
+.compendium-resume {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+  padding: 10px 16px;
+  margin: 0 0 16px;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+}
+.compendium-context p,
+.compendium-status p,
+.compendium-resume p {
+  margin: 0;
+}
+.compendium-status {
+  border-color: color-mix(in srgb, var(--positive) 55%, transparent);
+  background: var(--positive-soft);
+}
+
+/* Categories (dnd5e Compendium Browser tabs) */
+.compendium-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+/* Categories: the core sub-tabs (D&D Beyond's filters in dnd5e's pill), the open one filled. */
+.compendium-category {
+  min-height: 42px;
+  padding: 8px 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--muted);
+  font-size: 15px;
+  font-family: var(--font-label);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+.compendium-category:hover {
+  background: var(--raised);
+  color: var(--text);
+}
+.compendium-category.active {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+/* preferences.css lays a --raised fill on the open category in the light theme (its :is()
+   list weighs 0,4,0); the filled sub-tab keeps its theme colour there too, so this selector
+   is one class heavier on purpose (the ink is light on the dark accent). */
+:root[data-pref-theme="light"] .compendium-categories .compendium-category.active {
+  background: var(--accent);
+}
+.compendium-category .muted {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 400;
+  font-variant-caps: normal;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+  margin-left: 4px;
+  color: inherit;
+}
+/* The count of a closed category in the secondary colour, at full strength (critique 29/09:
+   80 % opacity gave 4.1:1 in the light theme); the open one keeps the tab's ink. */
+.compendium-category:not(.active) .muted {
+  color: var(--muted);
+}
+
+/* Browser layout: filters on the left, results on the right (DDB listings) */
+.compendium-browser {
+  display: grid;
+  grid-template-columns: minmax(230px, 280px) minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+}
+.compendium-filters {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+  position: sticky;
+  top: 12px;
+  max-height: calc(100vh - 24px);
+  overflow: auto;
+  padding-right: 4px;
+}
+.compendium-filters .field {
+  margin: 0;
+}
+/* Filters: dnd5e's Compendium Browser sidebar on a flat panel, headings in condensed type. */
+.compendium-filter-box {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 4px 14px 12px;
+  background: var(--surface);
+}
+.compendium-filter-box > summary {
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 600;
+}
+.compendium-facet {
+  border-top: 1px solid var(--line);
+}
+.compendium-facet:first-of-type {
+  border-top: 0;
+}
+.compendium-facet > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 42px;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 15px;
+  font-family: var(--font-label);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+.compendium-facet[open] > summary {
+  color: var(--text);
+}
+.compendium-screen-cell .compendium-statblock-name {
+  display: none;
+}
+.compendium .compendium-facet fieldset {
+  border: 0;
+  border-radius: 0;
+  margin: 0 0 8px;
+  padding: 0;
+  min-width: 0;
+}
+.compendium-option {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 6px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.compendium-option:hover {
+  background: var(--raised);
+}
+.compendium-option input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+}
+.compendium-option.empty {
+  color: var(--muted);
+}
+.compendium-count {
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+  font-size: 12px;
+}
+.compendium-range {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.compendium-range .field select {
+  min-height: 42px;
+  width: 100%;
+}
+.compendium-lang {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.compendium-lang > span {
+  margin-right: 4px;
+}
+.compendium-lang .button {
+  min-height: 40px;
+  padding: 6px 12px;
+}
+.compendium-results {
+  min-width: 0;
+}
+.compendium-resultbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 16px;
+  margin-bottom: 12px;
+}
+.compendium-resultbar h2 {
+  margin: 0;
+  font-size: 26px;
+  font-variant-numeric: tabular-nums;
+}
+.compendium-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* Active filters: removable pills in the theme colour (D&D Beyond's filter chips). */
+.compendium-chip {
+  min-height: 40px;
+  padding: 6px 12px;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-pill);
+  background: var(--accent-soft);
+  color: var(--text);
+}
+.compendium-chip:hover {
+  border-color: var(--accent);
+}
+.compendium-chip span {
+  color: var(--accent);
+  margin-left: 4px;
+  font-weight: 700;
+}
+.compendium-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+.compendium-row {
+  border-bottom: 1px solid var(--line);
+}
+/* The open entry: dnd5e's Compendium Browser marks the chosen row with a gold bar. */
+.compendium-row.open {
+  background: var(--surface-2);
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+.compendium-row.open > .compendium-row-head,
+.compendium-row.open > .compendium-row-body {
+  padding-left: 10px;
+}
+.compendium-row-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 12px;
+}
+.compendium-row-toggle {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 10px;
+  text-align: left;
+  min-height: 56px;
+  padding: 8px 4px;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  min-width: 0;
+}
+.compendium-row-toggle:hover .compendium-row-name {
+  color: var(--accent);
+}
+.compendium-row-toggle:hover {
+  background: color-mix(in srgb, var(--raised) 45%, transparent);
+}
+.compendium-row-name {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.compendium-row-alt {
+  color: var(--muted);
+  font-style: italic;
+  font-size: 13px;
+  align-self: center;
+  overflow-wrap: anywhere;
+}
+.compendium-row-meta {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-size: 13px;
+}
+.compendium-row-source {
+  font-size: 12px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.compendium-row-body {
+  padding: 4px 4px 18px;
+}
+.compendium-row-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 13px;
+  margin: 12px 0 0;
+}
+
+/* Bookmarks */
+.compendium-bookmarks h3 {
+  margin: 0 0 6px;
+  color: var(--muted);
+  font-size: 15px;
+  font-family: var(--font-label);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+.compendium-bookmarks ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.compendium-bookmarks li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  border-bottom: 1px solid var(--line);
+}
+.compendium-bookmarks .text-button {
+  overflow-wrap: anywhere;
+}
+.compendium-bookmark-tools {
+  display: flex;
+  flex-shrink: 0;
+}
+.compendium-bookmark-tools .button {
+  min-height: 40px;
+  padding: 6px 8px;
+  font-size: 13px;
+}
+
+/* Entry page */
+.compendium-breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 14px;
+}
+.compendium-back {
+  margin: 4px 0 10px -12px;
+}
+.compendium-entry-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(230px, 300px);
+  gap: 28px;
+  align-items: start;
+}
+.compendium-entry,
+.compendium-class {
+  min-width: 0;
+  max-width: 820px;
+}
+.compendium-entry-head {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+/* «CREATURE» above the name: D&D Beyond's condensed capital label in the theme colour. */
+.compendium-kind {
+  margin: 0;
+  color: var(--accent);
+  font-size: 15px;
+  font-family: var(--font-label);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+.compendium-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.compendium-title-row h2,
+.compendium-entry-head > h2 {
+  margin: 0;
+  font-size: 38px;
+  overflow-wrap: anywhere;
+}
+.compendium-alt-name {
+  margin: 0;
+  color: var(--muted);
+  font-style: italic;
+}
+.compendium-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* Source chips: the core chip (Foundry dnd5e pill). */
+.compendium-badge {
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  padding: 2px 9px;
+  font-size: 12px;
+}
+.compendium-badge.edition {
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 600;
+}
+.compendium-badge.warn {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+.compendium-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px 20px;
+  margin: 12px 0 16px;
+}
+.compendium-facts > div {
+  min-width: 0;
+}
+/* Facts: D&D Beyond's spell details, condensed capital labels over the values. */
+.compendium-facts dt {
+  color: var(--muted);
+  font-size: 14px;
+  font-family: var(--font-label);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+.compendium-facts dd {
+  margin: 2px 0 0;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.compendium-summary {
+  font-size: 15px;
+  line-height: 1.65;
+  max-width: 70ch;
+}
+.compendium-heading-line {
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.compendium-policy {
+  color: var(--muted);
+  font-size: 13px;
+}
+.compendium-commands {
+  position: sticky;
+  top: 16px;
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.compendium-commands h3 {
+  margin: 0 0 4px;
+}
+.compendium-commands .button {
+  width: 100%;
+  justify-content: flex-start;
+  text-align: left;
+}
+.compendium-commands .muted {
+  font-size: 13px;
+  margin: 4px 0 0;
+}
+.compendium-source {
+  margin-top: 26px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  font-size: 14px;
+}
+.compendium-source h3 {
+  margin: 0 0 6px;
+  color: var(--muted);
+  font-size: 15px;
+  font-family: var(--font-label);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+.compendium-source p {
+  margin: 4px 0;
+}
+/* Footer links are 40px touch targets like every other control. */
+.compendium-source a,
+.compendium-source .text-button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+}
+.compendium-attribution {
+  margin: 10px 0;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+.compendium-rules-footer {
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+.compendium-related {
+  color: var(--muted);
+}
+.compendium-last-roll {
+  margin: 12px 0 0;
+  padding: 8px 12px;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+.compendium-last-roll p {
+  margin: 0;
+}
+.compendium-last-roll.withdrawn > p:first-child {
+  color: var(--muted);
+  text-decoration: line-through;
+}
+.compendium-roll-note {
+  margin-top: 4px !important;
+  color: var(--muted);
+}
+.compendium-roll-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+.compendium-roll-tools .button {
+  min-height: 40px;
+}
+
+/* Glossary terms and nested tooltips (DDB-166, FVT-176, CRP-172) */
+.compendium-term {
+  display: inline;
+  min-height: 0;
+  padding: 0 1px;
+  margin: 0;
+  border: 0;
+  border-bottom: 1px dotted var(--accent);
+  border-radius: 2px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  line-height: inherit;
+  cursor: help;
+  /* The visible word stays in the sentence; its hit area is enlarged for touch. */
+  position: relative;
+}
+.compendium-term::after {
+  content: "";
+  position: absolute;
+  inset: -12px -4px;
+}
+.compendium-term:hover,
+.compendium-term[aria-expanded="true"] {
+  color: var(--accent);
+}
+/* Glossary tooltip: BG3's tooltip plate (the core .ui-tip) grown into a card, as D&D Beyond's
+   rule tooltips: dark plate, bronze hairline, floating shadow. */
+.compendium-tip {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 60;
+  width: min(340px, calc(100vw - 16px));
+  max-height: calc(100vh - 16px);
+  overflow: auto;
+  padding: 12px 14px 10px;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-md);
+  background: var(--raised);
+  color: var(--text);
+  box-shadow: var(--shadow-2);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.compendium-tip.locked {
+  border-color: var(--accent);
+}
+.compendium-tip h4 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 21px;
+  font-weight: 600;
+}
+.compendium-tip-kind {
+  margin: 0;
+  color: var(--accent);
+  font-size: 14px;
+  font-family: var(--font-label);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+.compendium-tip-text {
+  margin: 8px 0;
+}
+.compendium-tip-source {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.compendium-tip-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+.compendium-tip-actions .button {
+  min-height: 40px;
+  padding: 6px 10px;
+  font-size: 13px;
+}
+.compendium-tip-actions [data-tip-lock][aria-pressed="true"] {
+  color: var(--accent);
+}
+.compendium-tip-actions .icon-button {
+  margin-left: auto;
+}
+.compendium-tip-timer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 0;
+  background: var(--accent);
+  border-radius: 0 0 0 10px;
+}
+.compendium-tip.locking .compendium-tip-timer {
+  animation: compendium-lock 1.2s linear forwards;
+}
+@keyframes compendium-lock {
+  to {
+    width: 100%;
+  }
+}
+
+/* Rolls */
+.compendium-rolls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: -4px 0 12px;
+}
+/* Rollable numbers: D&D Beyond's dice buttons, a bordered box in the theme colour. */
+.compendium-roll {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  min-width: 40px;
+  padding: 4px 10px;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-sm);
+  background: var(--sunken);
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  font-size: 13px;
+  font-weight: 600;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+.compendium-roll:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.compendium-roll .icon {
+  width: 16px;
+  height: 16px;
+}
+.compendium-choice {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin: 0 0 14px;
+  padding: 6px 12px 10px;
+}
+.compendium-choice label,
+.compendium-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+}
+/* The hidden attribute wins over the flex display above (scene dialog map option). */
+.compendium-choice [hidden],
+#dialog [data-cell-entry][hidden] {
+  display: none;
+}
+.compendium-check {
+  margin-bottom: 12px;
+}
+.compendium-faces {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 8px;
+}
+.compendium-face {
+  margin: 0 0 8px;
+}
+
+/* 2024 stat block: Foundry dnd5e's statblock rules-2024 — a 3 px double frame on a quiet
+   paper, the name and section titles in small capitals over a hairline, alternating tinted
+   ability rows; labels bold in the theme colour as D&D Beyond's blocks. */
+.compendium-statblock {
+  padding: 16px 18px;
+  border: 3px double var(--compendium-rule, var(--line-strong));
+  border-radius: var(--radius-sm);
+  background: var(--compendium-paper, var(--surface-2));
+}
+.compendium-statblock header p {
+  margin: 2px 0 10px;
+  color: var(--muted);
+  font-style: italic;
+}
+.compendium-statblock-name {
+  margin: 0;
+  padding-bottom: 2px;
+  border-bottom: 1px solid var(--compendium-rule, var(--line-strong));
+  font-family: var(--font-display);
+  font-variant-caps: small-caps;
+  color: var(--accent);
+}
+.compendium-core,
+.compendium-traits-meta {
+  display: grid;
+  gap: 4px 18px;
+  margin: 8px 0;
+}
+.compendium-core {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  padding: 8px 0;
+  border-bottom: 1px solid var(--compendium-rule, var(--line-strong));
+  font-variant-numeric: tabular-nums;
+}
+.compendium-core div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.compendium-traits-meta div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px;
+}
+.compendium-core dt,
+.compendium-traits-meta dt {
+  font-weight: 700;
+  color: var(--accent);
+}
+.compendium-core dd,
+.compendium-traits-meta dd {
+  margin: 0;
+}
+.compendium-abilities-wrap {
+  margin: 8px 0;
+}
+.compendium-abilities {
+  width: auto;
+  min-width: min(100%, 360px);
+}
+.compendium-abilities th,
+.compendium-abilities td {
+  padding: 2px 10px;
+  text-align: center;
+  border-bottom: 1px solid var(--line);
+}
+.compendium-abilities th[scope="row"] {
+  text-align: left;
+  color: var(--accent);
+}
+/* dnd5e 2024: every other ability row tinted (physical and mental scores read as bands). */
+.compendium-abilities tbody tr:nth-of-type(odd) > * {
+  background: var(--accent-soft);
+}
+.compendium-abilities .compendium-roll {
+  padding: 2px 8px;
+  min-width: 48px;
+  justify-content: center;
+}
+.compendium-statblock h4 {
+  margin: 16px 0 6px;
+  padding-bottom: 3px;
+  border-bottom: 1px solid var(--compendium-rule, var(--line-strong));
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 500;
+  font-variant-caps: small-caps;
+}
+.compendium-action {
+  margin: 6px 0;
+  line-height: 1.6;
+}
+.compendium-spell-refs {
+  margin: -2px 0 10px;
+  font-size: 14px;
+}
+
+/* Class page and spell lists (FVT-173/174) */
+.compendium-class-table table {
+  font-size: 14px;
+  min-width: 640px;
+}
+.compendium-class-table th,
+.compendium-class-table td {
+  padding: 6px 8px;
+  white-space: nowrap;
+}
+.compendium-class-table td:nth-child(3) {
+  white-space: normal;
+  min-width: 160px;
+}
+.compendium-spell-list-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  margin-top: 26px;
+}
+.compendium-spell-group ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px;
+  columns: 2 280px;
+}
+.compendium-spell-group li {
+  break-inside: avoid;
+  display: grid;
+  padding: 2px 0 8px;
+}
+.compendium-spell-group li .text-button {
+  min-height: 40px;
+  padding: 6px 0 0;
+}
+.compendium-spell-group li small {
+  font-size: 12px;
+}
+.compendium-spell-group h4 {
+  margin: 14px 0 4px;
+  color: var(--accent);
+}
+
+/* Reader (DDB-159, R20-191) */
+.compendium-reader {
+  display: grid;
+  grid-template-columns: minmax(230px, 290px) minmax(0, 1fr);
+  gap: 30px;
+  align-items: start;
+}
+.compendium-reader-side {
+  position: sticky;
+  top: 16px;
+  display: grid;
+  gap: 18px;
+  max-height: calc(100vh - 32px);
+  overflow: auto;
+  padding-right: 4px;
+}
+.compendium-toc h3 {
+  margin: 0 0 6px;
+  color: var(--muted);
+  font-size: 15px;
+  font-family: var(--font-label);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+.compendium-toc ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.compendium-toc-sections {
+  margin: 0 0 6px 12px !important;
+  border-left: 1px solid var(--line);
+}
+/* Contents: D&D Beyond's reader sidebar, the current section a filled row (Kanka). */
+.compendium-toc-chapter,
+.compendium-toc-section {
+  display: block;
+  width: 100%;
+  min-height: 40px;
+  padding: 6px 10px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+}
+.compendium-toc-chapter.current {
+  color: var(--accent);
+  font-weight: 700;
+}
+.compendium-toc-section {
+  color: var(--muted);
+  font-size: 14px;
+}
+.compendium-toc-section.current {
+  color: var(--text);
+  font-weight: 700;
+  background: var(--raised);
+}
+.compendium-toc-chapter:hover,
+.compendium-toc-section:hover {
+  background: var(--raised);
+}
+.compendium-reader-main {
+  min-width: 0;
+  max-width: 780px;
+}
+.compendium-reader-main > h2 {
+  font-size: 38px;
+  margin: 4px 0 6px;
+}
+.compendium-position {
+  min-height: 1.5em;
+  color: var(--muted);
+  font-size: 13px;
+}
+.compendium-reader-section {
+  padding: 14px 0 6px;
+  border-top: 1px solid var(--line);
+  scroll-margin-top: 20px;
+}
+.compendium-reader-section:focus {
+  outline: none;
+}
+.compendium-reader-section:focus-visible {
+  outline: 3px solid var(--focus);
+}
+.compendium-reader-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.compendium-reader-section-head h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 21px;
+  font-weight: 600;
+}
+.compendium-mark[aria-pressed="true"] {
+  color: var(--accent);
+}
+.compendium-reader-source {
+  color: var(--muted);
+  font-size: 13px;
+}
+.compendium-pager {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 28px 0 8px;
+}
+.compendium-chapter-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.compendium-chapter-list li {
+  display: grid;
+  gap: 4px;
+}
+.compendium-chapter-list .button {
+  justify-content: flex-start;
+}
+.compendium-top {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 20;
+  box-shadow: var(--shadow-2);
+}
+
+/* Legal page (SVC-128) */
+.compendium-legal {
+  max-width: 980px;
+}
+.compendium-legal-docs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+.compendium-legal-doc {
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.compendium-legal-doc h3 {
+  margin-top: 0;
+}
+.compendium-hash {
+  overflow-wrap: anywhere;
+  font-size: 12px;
+}
+
+/* DM screen drawer (CMP-181, FVT-106, VTL-193) */
+.compendium-screen-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  margin: 8px 0 14px;
+}
+.compendium-screen-bar p {
+  margin: 0;
+}
+.compendium-screen-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 14px;
+  align-items: start;
+}
+/* DM screen: 5e.tools' grid of panels as flat cards (D&D Beyond and Kanka cards). */
+.compendium-screen-cell {
+  min-width: 0;
+  padding: 10px 14px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  max-height: 460px;
+  overflow: auto;
+}
+.compendium-screen-cell.wide {
+  grid-column: span 2;
+}
+.compendium-screen-cell > header {
+  position: sticky;
+  top: -10px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: -10px -14px 8px;
+  padding: 6px 8px 6px 14px;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--line);
+}
+.compendium-screen-cell h3 {
+  margin: 0;
+  font-size: 17px;
+}
+.compendium-cell-tools {
+  display: flex;
+  flex-shrink: 0;
+}
+.compendium-cell-tools .icon-button[aria-pressed="true"] {
+  color: var(--accent);
+}
+.screen-terms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  list-style: none;
+  padding: 0;
+  margin: 4px 0 8px;
+}
+.screen-terms li {
+  min-height: 34px;
+  display: flex;
+  align-items: center;
+}
+.screen-rules {
+  margin: 0;
+  display: grid;
+  gap: 8px;
+}
+.screen-rules dt {
+  font-weight: 600;
+}
+.screen-rules dd {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+.screen-table th,
+.screen-table td {
+  padding: 4px 8px;
+  font-size: 14px;
+}
+.compendium-screen .compendium-statblock {
+  padding: 10px 12px;
+}
+
+/* Journal embeds (FVT-175) */
+.text-embed {
+  white-space: normal;
+  margin: 14px 0;
+}
+.compendium-embed {
+  margin: 0;
+  max-width: 760px;
+}
+.compendium-embed figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.compendium-embed-cite {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* Print view (DDB-160): a light page on screen, only the entry on paper. The paper does not
+   follow the theme (it previews the printed sheet): its colours are named here once. */
+.compendium-print-page {
+  --print-paper: #fbf8f1;
+  --print-ink: #1e1b16;
+  --print-heading: #5a1d12;
+  --print-muted: #5d574c;
+  --print-rule: #9b7b3e;
+  --print-hairline: #d8cfbd;
+  --print-tint: #f1ece0;
+  --print-tint-ink: #3a352c;
+}
+.compendium-print-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 20px;
+  margin-bottom: 18px;
+}
+.compendium-print-bar p {
+  margin: 0;
+}
+.compendium-print-page {
+  max-width: 780px;
+  padding: 36px 42px;
+  border-radius: var(--radius-xs);
+  background: var(--print-paper);
+  color: var(--print-ink);
+  box-shadow: var(--shadow-3);
+}
+.compendium-print-page h2,
+.compendium-print-page h3,
+.compendium-print-page h4,
+.compendium-print-page .compendium-statblock-name,
+.compendium-print-page .compendium-kind,
+.compendium-print-page dt {
+  color: var(--print-heading);
+}
+.compendium-print-page .compendium-statblock {
+  background: var(--print-paper);
+  border-color: var(--print-rule);
+}
+.compendium-print-page :is(.compendium-statblock-name, .compendium-statblock h4, .compendium-core) {
+  border-color: var(--print-rule);
+}
+.compendium-print-page .muted,
+.compendium-print-page .compendium-statblock header p,
+.compendium-print-page .compendium-policy,
+.compendium-print-page .compendium-rules-footer {
+  color: var(--print-muted);
+}
+.compendium-print-page .compendium-attribution {
+  background: var(--print-tint);
+  color: var(--print-tint-ink);
+}
+.compendium-print-page .compendium-abilities th,
+.compendium-print-page .compendium-abilities td {
+  border-color: var(--print-hairline);
+  color: var(--print-ink);
+}
+.compendium-print-page .compendium-abilities tbody tr:nth-of-type(odd) > * {
+  background: var(--print-tint);
+}
+.compendium-print-page .compendium-abilities th[scope="row"] {
+  color: var(--print-heading);
+}
+.compendium-print-page .compendium-roll {
+  background: var(--print-paper);
+  border-color: var(--print-rule);
+  color: var(--print-ink);
+}
+@media print {
+  body:has(.compendium-print) .demo-strip,
+  body:has(.compendium-print) .app-header,
+  body:has(.compendium-print) .table-return,
+  body:has(.compendium-print) .library-heading,
+  body:has(.compendium-print) .library-tabs,
+  body:has(.compendium-print) .campaign-sidebar,
+  body:has(.compendium-print) #toast,
+  .compendium-noprint {
+    display: none !important;
+  }
+  body:has(.compendium-print),
+  body:has(.compendium-print) .workspace > main {
+    background: white !important;
+    padding: 0 !important;
+  }
+  .compendium-print-page {
+    box-shadow: none;
+    padding: 0;
+    max-width: none;
+  }
+}
+
+/* Creature waiting to be placed at the Table (Foundry/Roll20 drop at the pointer). */
+.compendium-place {
+  display: grid;
+  gap: 6px;
+  padding: 10px 12px;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+}
+.compendium-place p {
+  margin: 0;
+}
+.compendium-place .toolbar {
+  flex-wrap: wrap;
+}
+.compendium-cell-body [data-cell-place],
+.compendium-cell-body [data-cell-embed] {
+  margin: 0 0 10px;
+}
+.compendium-scroll-table {
+  max-height: 22rem;
+  overflow: auto;
+}
+.compendium-embed-hidden {
+  font-style: italic;
+}
+/* Reader contents: a disclosure that stays open on wide screens. */
+.compendium-toc-box > summary {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 700;
+}
+.compendium-position-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.compendium-toc-jump {
+  display: none;
+}
+@media (min-width: 861px) {
+  .compendium-toc-box > summary {
+    display: none;
+  }
+}
+@media (max-width: 860px) {
+  /* DDB-159: while reading on a phone, "chapter · section" stays in view. */
+  .compendium-position-bar {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 6;
+    margin: 0 -4px;
+    padding: 4px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+  }
+  .compendium-position {
+    margin: 0;
+    color: var(--text);
+  }
+  .compendium-toc-jump {
+    display: inline-flex;
+    flex-shrink: 0;
+  }
+  .compendium-reader-section {
+    scroll-margin-top: 64px;
+  }
+}
+
+/* Tablet and phone */
+@media (max-width: 1000px) {
+  .compendium-entry-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .compendium-commands {
+    position: static;
+  }
+}
+@media (max-width: 860px) {
+  .compendium-browser,
+  .compendium-reader {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .compendium-reader-side,
+  .compendium-filters {
+    position: static;
+    max-height: none;
+    overflow: visible;
+  }
+}
+@media (max-width: 720px) {
+  .compendium-subnav-note {
+    margin-left: 0;
+    width: 100%;
+  }
+  .compendium-row-head {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .compendium-row-source {
+    display: none;
+  }
+  .compendium-title-row h2,
+  .compendium-entry-head > h2,
+  .compendium-reader-main > h2 {
+    font-size: 31px;
+  }
+  .compendium-screen-cell.wide {
+    grid-column: auto;
+  }
+  .compendium-screen-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .compendium-print-page {
+    padding: 20px 16px;
+  }
+  .compendium-top {
+    right: 12px;
+    bottom: 12px;
+  }
+}
+/* Final review X-07: the browser in the Table's sidebar (a 300–420 px panel, the container
+   `table-panel` of DEVELOPMENT «Table structure») repeats the phone layout. */
+@container table-panel (max-width: 600px) {
+  .compendium-browser,
+  .compendium-reader,
+  .compendium-entry-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .compendium-reader-side,
+  .compendium-filters,
+  .compendium-commands {
+    position: static;
+    max-height: none;
+    overflow: visible;
+  }
+  .compendium-row-head {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .compendium-row-source {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .compendium-tip.locking .compendium-tip-timer {
+    animation-duration: 0.01s;
+  }
+}
+
+/* BI-13: each entry's own revision history («Cosa è cambiato»). */
+.compendium-history {
+  margin-top: 20px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.compendium-history-list {
+  margin: 0 0 6px;
+  padding-inline-start: 20px;
+}
+/* BI-28: the SRD source's automation level, per kind of entry. */
+.compendium-automation-list {
+  margin: 0;
+  padding-inline-start: 20px;
+}
+.compendium-automation-list li {
+  margin: 6px 0;
+}

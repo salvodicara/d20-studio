@@ -1,0 +1,856 @@
+/* B13 — Campaigns: creation, invitations, joining and members. Shared tokens only
+   (DESIGN.md): D&D Beyond's campaign page and My Campaigns cards, Kanka's flat cards,
+   BG3's selected option for the join paths, Roll20 Jumpgate's segmented filters. */
+
+.cm-page {
+  display: grid;
+  gap: 22px;
+  min-width: 0;
+}
+.cm-page > * {
+  min-width: 0;
+}
+.cm-page h2 {
+  font-size: var(--text-xl);
+  margin: 0;
+}
+.cm-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.cm-back {
+  justify-self: start;
+  padding-left: 4px;
+}
+.cm-count {
+  font-family: var(--font-ui);
+  font-weight: 500;
+  vertical-align: middle;
+  display: inline-flex;
+  min-width: 22px;
+  justify-content: center;
+  padding: 0 6px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  color: var(--muted);
+  font-size: var(--text-xs);
+  font-variant-numeric: tabular-nums;
+}
+.cm-note {
+  font-size: var(--text-sm);
+  margin: 0;
+}
+.cm-quote {
+  display: block;
+  margin: 6px 0 2px;
+  padding-left: 10px;
+  border-left: 2px solid var(--accent-line);
+  color: var(--text);
+  font-style: italic;
+}
+/* State chips: Foundry dnd5e pills tinted by meaning (theme gold for the role, positive
+   for live, warning, danger), the rim a 60 % mix of the same colour. */
+.badge.cm-role {
+  border-color: var(--accent-line);
+  color: var(--accent);
+}
+.badge.cm-live {
+  border-color: color-mix(in srgb, var(--positive) 60%, transparent);
+  color: var(--positive);
+}
+.badge.cm-warn {
+  border-color: color-mix(in srgb, var(--warning) 60%, transparent);
+  color: var(--warning);
+}
+.badge.cm-danger {
+  border-color: color-mix(in srgb, var(--danger) 60%, transparent);
+  color: var(--danger);
+}
+
+/* Invitations and requests */
+.cm-inbox {
+  padding: 18px 20px;
+  border-color: var(--frame-soft);
+}
+.cm-inbox ul,
+.cm-roster,
+.cm-links,
+.cm-home-list,
+.cm-audience {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.cm-inbox-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+}
+.cm-inbox h2 + ul .cm-inbox-row:first-child {
+  margin-top: 10px;
+}
+.cm-inbox-row small {
+  display: block;
+  color: var(--muted);
+  margin-top: 3px;
+}
+
+/* Filters */
+.cm-filters {
+  display: grid;
+  grid-template-columns: auto minmax(220px, 360px);
+  gap: 10px 20px;
+  align-items: end;
+}
+/* Segmented filter: Roll20 Jumpgate's button group in a sunken well; the chosen segment is
+   filled with the theme colour like D&D Beyond's «ALL» filter. */
+.cm-segments {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--sunken);
+  justify-self: start;
+}
+.cm-seg,
+.cm-chip {
+  min-height: 40px;
+  padding: 6px 14px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-xs);
+  background: transparent;
+  color: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+.cm-seg:hover:not([aria-pressed="true"]) {
+  background: var(--raised);
+  color: var(--text);
+}
+.cm-seg[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: var(--accent);
+}
+.cm-seg[aria-pressed="true"] .cm-count {
+  border-color: transparent;
+  background: color-mix(in srgb, var(--accent-ink) 16%, transparent);
+  color: var(--accent-ink);
+}
+/* Tag chips: the core chip (Foundry dnd5e pill); pressed in the theme colour. */
+.cm-chip[aria-pressed="true"] {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.cm-search {
+  margin: 0;
+}
+.cm-tagbar {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.cm-tagbar > .muted {
+  margin-right: 6px;
+  font-size: var(--text-sm);
+}
+.cm-chip {
+  border-color: var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  font-weight: 500;
+}
+.cm-chip:hover:not([aria-pressed="true"]) {
+  color: var(--text);
+  border-color: var(--muted);
+}
+
+/* Campaign cards (My Games) */
+.cm-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 18px;
+}
+.cm-card {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.cm-card[hidden] {
+  display: none;
+}
+/* Cover without a picture: a slate plate in the palette (D&D Beyond campaign cards keep a
+   banner slot; Kanka shows the entity's image or a plain header). */
+.cm-cover {
+  display: block;
+  aspect-ratio: 16 / 7;
+  background: linear-gradient(135deg, var(--token-ally-fill), var(--surface-2));
+  overflow: hidden;
+}
+.cm-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.cm-monogram {
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  letter-spacing: 0.05em;
+  color: var(--accent);
+}
+.cm-card-body {
+  display: grid;
+  gap: 10px;
+  padding: 16px 18px 18px;
+  align-content: start;
+}
+.cm-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.cm-card h2 {
+  margin: 0;
+}
+/* Card titles in the display serif, as the names of BG3 and the entity titles of Kanka. */
+.cm-title {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--text);
+  font: inherit;
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 600;
+  text-align: left;
+  min-height: 40px;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.cm-title:hover {
+  color: var(--accent);
+}
+.cm-desc {
+  margin: 0;
+  color: var(--muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.cm-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+}
+/* Facts as D&D Beyond's labelled values: condensed small-capital label, value below. */
+.cm-facts dt {
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+  color: var(--muted);
+}
+.cm-facts dd {
+  margin: 2px 0 0;
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}
+.cm-people {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: var(--text-sm);
+  min-width: 0;
+}
+.cm-people .muted {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cm-avatars {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+.cm-avatars .cm-avatar + .cm-avatar {
+  margin-left: -8px;
+}
+/* Member avatars in the core portrait materials (BG3 party portraits): slate fill, bronze
+   keyline, serif initial; the surface ring keeps overlapping avatars apart. The initial
+   reads --text because preferences.css gives the avatar a parchment fill in the light theme. */
+.cm-avatar {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: inline-grid;
+  place-items: center;
+  background: var(--token-ally-fill);
+  border: 2px solid var(--surface);
+  box-shadow: inset 0 0 0 1px var(--frame);
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+.cm-tags {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: var(--text-sm);
+  color: var(--accent);
+}
+
+/* Game details */
+.cm-hero {
+  display: grid;
+  grid-template-columns: minmax(200px, 320px) minmax(0, 1fr);
+  gap: 24px;
+  align-items: center;
+}
+.cm-cover.is-large {
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+}
+.cm-cover.is-large.cm-monogram {
+  font-size: calc(var(--text-3xl) * 1.5);
+}
+.cm-hero-main {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+.cm-hero-title {
+  margin: 0;
+  font-size: var(--text-3xl);
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+.cm-page h2.cm-hero-title {
+  font-size: var(--text-2xl);
+}
+/* Success notice: Foundry v13's tinted notification in the positive colour. */
+.cm-banner {
+  margin: 0;
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid color-mix(in srgb, var(--positive) 60%, transparent);
+  background: var(--positive-soft);
+}
+/* A campaign this member cannot launch: why it is not in play (Foundry FVT-001/003). */
+.cm-waiting {
+  margin: 0;
+  align-self: center;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.cm-tabs {
+  margin-bottom: 0;
+}
+.cm-tab-body {
+  display: grid;
+  gap: 18px;
+  min-width: 0;
+}
+.cm-roster-head {
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.cm-sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+.cm-sort select {
+  min-height: 40px;
+}
+.cm-member,
+.cm-seat,
+.cm-link {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+.cm-roster {
+  border-top: 1px solid var(--line);
+}
+.cm-member-main,
+.cm-link-main {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+.cm-member-name,
+.cm-member-meta {
+  margin: 0;
+}
+.cm-member-name {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.cm-member-meta {
+  font-size: var(--text-sm);
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.cm-member-actions {
+  justify-content: flex-end;
+}
+.cm-presence::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 6px;
+  border-radius: 50%;
+  border: 1px solid var(--muted);
+  vertical-align: 1px;
+}
+.cm-presence.is-online {
+  color: var(--positive);
+}
+.cm-presence.is-online::before {
+  background: var(--positive);
+  border-color: var(--positive);
+}
+.cm-details summary {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: var(--accent);
+}
+.cm-powers h3 {
+  font-size: var(--text-md);
+  margin: 14px 0 6px;
+}
+.cm-powers ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+.cm-powers li {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+.cm-powers li .icon {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  color: var(--accent);
+}
+.cm-powers small {
+  display: block;
+  color: var(--muted);
+}
+.cm-assign {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+}
+.cm-assign select {
+  min-height: 42px;
+  max-width: 160px;
+}
+.cm-block {
+  display: grid;
+  gap: 12px;
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  min-width: 0;
+}
+.cm-block > * {
+  margin: 0;
+}
+.cm-block > .button,
+.cm-block > .toolbar {
+  justify-self: start;
+}
+.cm-approval {
+  padding: 0;
+  min-height: 40px;
+}
+.cm-link-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-end;
+}
+.cm-link-form .field {
+  margin: 0;
+  min-width: 150px;
+  flex: 1;
+}
+.cm-link.is-closed {
+  opacity: 0.75;
+}
+.cm-copy {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+  min-width: 0;
+}
+.cm-copy label {
+  flex: 1;
+  min-width: 0;
+}
+/* The link to copy is a core field (Foundry v13 and Roll20 inputs); the code stays in the
+   system monospace because it is typed or read character by character. */
+.cm-copy input {
+  width: 100%;
+  min-height: 42px;
+  background: var(--sunken);
+  color: var(--text);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: var(--text-sm);
+}
+.cm-copy input:focus-visible {
+  border-color: var(--accent);
+}
+.cm-code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.cm-audit {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+  font-size: var(--text-sm);
+}
+.cm-audit span {
+  color: var(--muted);
+}
+
+/* Join page (DDB four paths) */
+.cm-problem {
+  display: grid;
+  gap: 10px;
+  border-color: color-mix(in srgb, var(--danger) 60%, transparent);
+  background: var(--danger-soft);
+}
+.cm-problem > * {
+  margin: 0;
+}
+.cm-facts-line {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+.cm-paths {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+.cm-path {
+  min-height: 120px;
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  padding: 16px;
+  text-align: left;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.cm-path strong {
+  font-size: var(--text-md);
+}
+.cm-path span {
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.cm-path .cm-count {
+  justify-self: start;
+}
+.cm-path:hover {
+  border-color: var(--muted);
+}
+/* The chosen path as BG3's selected option («Select Subclass»): a gold rim on a lit tile. */
+.cm-path[aria-pressed="true"] {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+  background: var(--accent-soft);
+}
+.cm-path-panel {
+  display: grid;
+  gap: 14px;
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  justify-items: start;
+}
+.cm-path-panel > p {
+  margin: 0;
+}
+.cm-path-panel .field {
+  margin: 0;
+  width: min(100%, 420px);
+}
+.cm-choices {
+  display: grid;
+  gap: 8px;
+  width: 100%;
+}
+.cm-choice {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  min-height: 48px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.cm-choice:has(input:checked) {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.cm-choice input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+  flex-shrink: 0;
+}
+.cm-choice small {
+  display: block;
+  color: var(--muted);
+}
+
+/* Home widget */
+.cm-home {
+  margin: 0 0 28px;
+  padding: 22px 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.cm-home-row {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+}
+.cm-home-row > div {
+  flex: 1;
+  min-width: 0;
+}
+.cm-home-row small {
+  display: block;
+  color: var(--muted);
+}
+.cm-cover.is-small {
+  width: 64px;
+  flex-shrink: 0;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-sm);
+}
+.cm-cover.is-small.cm-monogram {
+  font-size: var(--text-xl);
+}
+.cm-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+  margin: 0 27px;
+}
+
+/* Dialog content */
+.cm-rules {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+.cm-fieldset {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 12px 14px 0;
+  margin: 0 0 14px;
+}
+.cm-audience li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+@media (max-width: 1000px) {
+  .cm-paths {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 720px) {
+  .cm-filters {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .cm-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .cm-hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+  .cm-hero-title {
+    font-size: var(--text-2xl);
+  }
+  .cm-member,
+  .cm-seat,
+  .cm-link,
+  .cm-inbox-row {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+  .cm-member-actions,
+  .cm-inbox-row .toolbar,
+  .cm-link .toolbar {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .cm-member-main {
+    flex-basis: calc(100% - 60px);
+  }
+  .cm-paths {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .cm-path {
+    min-height: 0;
+  }
+  .cm-facts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .cm-link-form .field {
+    flex-basis: 100%;
+  }
+  .cm-home {
+    padding: 18px;
+  }
+  .cm-dot {
+    margin: 0 8px;
+  }
+  .cm-assign {
+    flex-wrap: wrap;
+  }
+}
+
+/* ---- P10: invite dialog, Home invite row, closed campaign at the Table ---- */
+.cm-invite-current {
+  margin-bottom: 8px;
+}
+.cm-invite-form {
+  margin-top: 6px;
+}
+.cm-dot.is-invite {
+  background: var(--accent);
+}
+.cm-closed-cover {
+  max-width: 560px;
+  margin: 48px auto;
+  padding: 28px 24px;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  text-align: center;
+}
+.cm-closed-cover h1 {
+  margin: 0 0 6px;
+}
+.cm-closed-cover .toolbar {
+  justify-content: center;
+  margin-top: 16px;
+}
+/* R7 CA-75: «Contenuti richiesti» in the join preview (BG3 mod verification window). */
+.cm-content-list {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+}
+.cm-content-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+}
+.cm-content-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1 1 16rem;
+}
+.cm-content-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+}
+.cm-content-row small,
+.cm-reason {
+  display: block;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.cm-content-row .toolbar {
+  flex-wrap: wrap;
+  align-items: center;
+}

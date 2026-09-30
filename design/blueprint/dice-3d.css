@@ -1,0 +1,626 @@
+/* B56 animated dice: global overlay (BG3 check screen, dice on the table) and the Table's
+   "Prova i dadi" drawer. Every class is prefixed dice3d-. */
+
+/* ---------------------------------------------------------------- overlay */
+
+.dice3d-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  background: transparent;
+  color: var(--text);
+  pointer-events: none;
+  opacity: 1;
+}
+.dice3d-layer[hidden] {
+  display: none;
+}
+/* The BG3 check screen is modal until it closes: it keeps every click and tap (CRP-131).
+   Dice on the table never take the pointer (B61): clicks and taps reach the page. */
+.dice3d-layer[data-layout="check"] {
+  pointer-events: auto;
+  cursor: pointer;
+}
+/* BG3 check screen: the world sinks under a vignette in the theme's own background, so its
+   words (theme tokens) stay legible in the light theme too. */
+.dice3d-layer[data-layout="check"] {
+  background: radial-gradient(
+    ellipse at 50% 46%,
+    color-mix(in srgb, var(--bg) 90%, transparent) 0%,
+    color-mix(in srgb, var(--header-bg) 97%, transparent) 72%
+  );
+  animation: dice3d-fade var(--dur-base) var(--ease-out);
+}
+/* Dice on the table dim the page a little, so faces stay readable over any content. */
+.dice3d-layer[data-layout="tumble"] {
+  background: color-mix(in srgb, var(--header-bg) 42%, transparent);
+  animation: dice3d-fade var(--dur-base) var(--ease-out);
+}
+.dice3d-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.dice3d-content {
+  position: absolute;
+  inset: 0;
+}
+.dice3d-live {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* BG3 check screen: title and DC above the die, modifiers and verdict below. */
+.dice3d-check {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 24px 16px;
+  text-align: center;
+}
+.dice3d-who {
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+.dice3d-audience {
+  color: var(--accent);
+}
+/* BG3's check title and DC plate: display serif, the DC in a bronze-rimmed plate. */
+.dice3d-title {
+  margin: 0;
+  max-width: 34ch;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(22px, 3.2vw, 34px);
+}
+.dice3d-dc {
+  display: grid;
+  justify-items: center;
+  margin-top: 8px;
+  padding: 4px 22px 6px;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--surface) 72%, transparent);
+}
+.dice3d-dc span {
+  color: var(--accent);
+  font-family: var(--font-label);
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  font-variant-caps: all-small-caps;
+}
+.dice3d-dc strong {
+  font-family: var(--font-display);
+  font-size: 34px;
+  font-weight: 400;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+.dice3d-stage {
+  width: min(560px, 92vw);
+  height: min(34vh, 280px);
+  min-height: 150px;
+  flex: none;
+  display: grid;
+  place-items: center;
+}
+.dice3d-mods {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--muted);
+  font-size: var(--text-md);
+  font-variant-numeric: tabular-nums;
+}
+.dice3d-mods li + li {
+  margin-top: 2px;
+}
+.dice3d-result {
+  min-height: 92px;
+  transition:
+    opacity 220ms ease-out,
+    transform 220ms ease-out;
+}
+.dice3d-layer[data-phase="rolling"] .dice3d-result,
+.dice3d-layer[data-phase="rolling"] .dice3d-summary {
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(6px);
+}
+.dice3d-total {
+  margin: 6px 0 0;
+  font-size: var(--text-lg);
+  font-variant-numeric: tabular-nums;
+}
+.dice3d-total strong {
+  font-size: var(--text-xl);
+}
+/* BG3's SUCCESS / FAILURE: spaced display capitals in the outcome colour. */
+.dice3d-verdict {
+  margin: 2px 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(30px, 5vw, 50px);
+  letter-spacing: 0.14em;
+  line-height: 1.15;
+  font-variant-caps: all-small-caps;
+}
+.dice3d-verdict.is-success {
+  color: var(--positive);
+  text-shadow: 0 0 26px color-mix(in srgb, var(--positive) 35%, transparent);
+}
+.dice3d-verdict.is-failure {
+  color: var(--danger);
+  text-shadow: 0 0 26px color-mix(in srgb, var(--danger) 30%, transparent);
+}
+.dice3d-status {
+  margin: 4px 0 0;
+  color: var(--accent);
+  font-size: var(--text-sm);
+}
+.dice3d-hint {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+
+/* Physical faces: flat tiles exactly as entered, never a rolling die. */
+.dice3d-tiles {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+}
+.dice3d-tile {
+  display: grid;
+  place-items: center;
+  width: 92px;
+  height: 92px;
+  border: 2px solid var(--accent);
+  border-radius: var(--radius-md);
+  background: var(--surface-2);
+}
+.dice3d-tile small {
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+.dice3d-tile strong {
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.dice3d-tile.is-dropped,
+.dice3d-chip.is-dropped {
+  opacity: 0.45;
+  text-decoration: line-through;
+}
+.dice3d-tile-note {
+  flex-basis: 100%;
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+
+/* Dice on the table: they land in the tray; the summary follows (D&D Beyond / Dice So Nice). */
+.dice3d-tray {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  top: 12%;
+  height: 46%;
+}
+.dice3d-summary {
+  position: absolute;
+  left: 50%;
+  /* Above the toast line, so the app's own confirmation stays readable. */
+  bottom: max(92px, calc(env(safe-area-inset-bottom) + 92px));
+  width: min(600px, calc(100vw - 32px));
+  transform: translateX(-50%);
+  padding: 12px 16px 10px;
+  /* D&D Beyond's roll result pop-up as the core floating slab (bronze rim, shadow 2). */
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-md);
+  background: var(--raised);
+  box-shadow: var(--shadow-2);
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+.dice3d-layer[data-phase="rolling"] .dice3d-summary {
+  transform: translateX(-50%) translateY(6px);
+}
+.dice3d-summary ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dice3d-line {
+  display: grid;
+  gap: 2px;
+  padding: 6px 0;
+}
+.dice3d-line + .dice3d-line {
+  border-top: 1px solid var(--line);
+}
+.dice3d-line-title {
+  overflow-wrap: anywhere;
+}
+.dice3d-line-math {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  font-size: var(--text-lg);
+  font-variant-numeric: tabular-nums;
+}
+.dice3d-outcome {
+  color: var(--accent);
+  font-style: normal;
+  font-weight: 600;
+}
+.dice3d-outcome.is-success {
+  color: var(--positive);
+}
+.dice3d-outcome.is-failure {
+  color: var(--danger);
+}
+.dice3d-line-meta,
+.dice3d-more {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+.dice3d-chips {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.dice3d-chip {
+  padding: 1px 7px;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-xs);
+  background: var(--accent-soft);
+  font-size: var(--text-sm);
+}
+
+@keyframes dice3d-fade {
+  from {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dice3d-layer,
+  .dice3d-result,
+  .dice3d-summary {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+.dice3d-layer[data-reduced="true"],
+.dice3d-layer[data-reduced="true"] .dice3d-result,
+.dice3d-layer[data-reduced="true"] .dice3d-summary {
+  animation: none;
+  transition: none;
+}
+
+/* Short viewports (a phone in landscape): the BG3 screen compacts so the title, the DC,
+   the die and the verdict all fit without scrolling. */
+@media (max-height: 520px) {
+  .dice3d-check {
+    gap: 2px;
+    padding: 8px 16px;
+  }
+  .dice3d-who {
+    font-size: 11px;
+  }
+  .dice3d-title {
+    font-size: 20px;
+  }
+  .dice3d-dc {
+    margin-top: 2px;
+    padding: 0 16px 2px;
+  }
+  .dice3d-dc strong {
+    font-size: 24px;
+  }
+  .dice3d-stage {
+    height: 30vh;
+    min-height: 96px;
+  }
+  .dice3d-tile {
+    width: 72px;
+    height: 72px;
+  }
+  .dice3d-tile strong {
+    font-size: 30px;
+  }
+  .dice3d-mods {
+    font-size: 13px;
+  }
+  .dice3d-result {
+    min-height: 0;
+  }
+  .dice3d-total {
+    margin-top: 2px;
+    font-size: 15px;
+  }
+  .dice3d-verdict {
+    font-size: 26px;
+  }
+  .dice3d-hint {
+    margin-top: 2px;
+  }
+}
+
+/* ---------------------------------------------------------------- drawer */
+
+.dice3d-drawer {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr) minmax(0, 0.8fr);
+  gap: 18px 28px;
+  margin-top: 12px;
+}
+.dice3d-drawer h3 {
+  margin: 0 0 4px;
+}
+.dice3d-note {
+  margin: 0 0 10px;
+  font-size: var(--text-sm);
+}
+.dice3d-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.dice3d-picker,
+.dice3d-choice,
+.dice3d-swatches {
+  margin: 0 0 12px;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+.dice3d-picker legend,
+.dice3d-choice legend,
+.dice3d-swatches legend {
+  margin-bottom: 6px;
+  padding: 0;
+  font-size: var(--text-md);
+}
+.dice3d-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.dice3d-die-button {
+  min-width: 52px;
+  min-height: 44px;
+  padding: 6px 10px;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-sm);
+  background: var(--raised);
+  color: var(--text);
+  font-size: var(--text-md);
+  font-weight: 600;
+}
+.dice3d-die-button:hover:not(:disabled) {
+  border-color: var(--accent-line);
+  color: var(--accent);
+}
+.dice3d-pool {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  margin-bottom: 12px;
+}
+.dice3d-formula {
+  flex-basis: 100%;
+  margin: 0;
+}
+.dice3d-formula strong {
+  font-variant-numeric: tabular-nums;
+}
+.dice3d-pool-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dice3d-pool-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 4px 10px;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-pill);
+  background: var(--accent-soft);
+  color: var(--text);
+}
+.dice3d-pool-chip span {
+  color: var(--muted);
+  font-size: var(--text-md);
+}
+.dice3d-grid {
+  gap: 0 14px;
+}
+.dice3d-grid .field {
+  margin-bottom: 12px;
+}
+.dice3d-choice {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 16px;
+}
+.dice3d-choice legend {
+  flex-basis: 100%;
+}
+.dice3d-radio,
+.dice3d-swatch {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  cursor: pointer;
+}
+.dice3d-radio:has(input:disabled) {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+.dice3d-forced {
+  flex-basis: 100%;
+  margin: 2px 0 0;
+}
+.dice3d-radio input,
+.dice3d-swatch input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+}
+.dice3d-faces {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 0 10px;
+}
+.dice3d-faces .field {
+  margin-bottom: 10px;
+}
+.dice3d-error {
+  margin: 0 0 10px;
+}
+.dice3d-recent-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dice3d-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 10px;
+  padding: 8px 0;
+  border-top: 1px solid var(--line);
+}
+.dice3d-row[data-status="withdrawn"] .dice3d-row-math {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+.dice3d-row-main {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  flex: 1 1 220px;
+}
+.dice3d-row-main strong {
+  overflow-wrap: anywhere;
+}
+.dice3d-row-math {
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.dice3d-row-meta {
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+.dice3d-badge {
+  justify-self: start;
+  margin-top: 2px;
+  overflow-wrap: anywhere;
+}
+.dice3d-row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: flex-start;
+}
+.dice3d-row-actions .button {
+  min-height: 40px;
+  padding: 6px 10px;
+}
+.dice3d-empty {
+  margin: 0;
+}
+.dice3d-preview {
+  display: block;
+  width: 120px;
+  height: 120px;
+  margin: 0 0 6px;
+}
+.dice3d-swatches {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 10px;
+}
+.dice3d-swatches legend {
+  grid-column: 1 / -1;
+}
+.dice3d-swatch-dot {
+  width: 20px;
+  height: 20px;
+  flex: none;
+  border: 2px solid var(--line-strong);
+  border-radius: 50%;
+  background: var(--dice3d-swatch);
+}
+
+@media (max-width: 1100px) {
+  .dice3d-drawer {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .dice3d-try {
+    grid-column: 1 / -1;
+  }
+}
+@media (max-width: 720px) {
+  .dice3d-drawer {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .dice3d-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .dice3d-stage {
+    height: min(30vh, 220px);
+  }
+  .dice3d-summary {
+    bottom: 84px;
+  }
+  .dice3d-tray {
+    top: 10%;
+    height: 42%;
+  }
+}
+
+/* B61: "Prova i dadi" is a tab of the Table's right sidebar; in that column it takes the
+   one-column phone layout. */
+@container table-panel (max-width: 600px) {
+  .dice3d-drawer,
+  .dice3d-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

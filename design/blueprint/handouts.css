@@ -1,0 +1,846 @@
+/* B15 — materials, handouts, pins and map-less scenes. Linked through registerStyles();
+   every class carries the handouts- prefix and uses the shell's tokens (DESIGN.md): Kanka's
+   flat cards, D&D Beyond's read-aloud box, the core menu slab, DM-only notes in the
+   visibility violet, pins and scene titles in the map's theme-free colours. */
+
+.handouts-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Sub-tabs inside a section or the Table drawer. */
+.handouts-subtabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 16px;
+}
+.handouts-actions {
+  margin-bottom: 8px;
+}
+
+/* Material cards (Preparation › Materials). */
+.handouts-cards {
+  display: grid;
+  gap: 12px;
+  margin-top: 12px;
+}
+.handouts-card {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: center;
+  padding: 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.handouts-card[hidden] {
+  display: none;
+}
+.handouts-card h3 {
+  margin: 0 0 4px;
+  font-size: var(--text-lg);
+}
+/* Search box on the Materials toolbar: pushed to the end, full width on a phone. */
+.handouts-search {
+  flex: 1 1 240px;
+  max-width: 340px;
+  margin: 0 0 0 auto;
+}
+.handouts-tag {
+  font-weight: 500;
+}
+/* Table drawer: this scene's materials above the others. */
+.handouts-drawer-group + .handouts-drawer-group {
+  margin-top: 6px;
+}
+.handouts-card p {
+  margin: 0 0 6px;
+}
+.handouts-card-main {
+  min-width: 0;
+}
+.handouts-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+.handouts-thumb {
+  width: 96px;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: var(--sunken);
+  display: block;
+  max-width: 100%;
+}
+.handouts-thumb.is-small {
+  width: 64px;
+  flex-shrink: 0;
+}
+.handouts-thumb.is-wide {
+  width: 100%;
+  margin-bottom: 16px;
+}
+.handouts-thumb-empty {
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+}
+.handouts-more {
+  position: relative;
+}
+.handouts-more > summary {
+  list-style: none;
+}
+.handouts-more > summary::-webkit-details-marker {
+  display: none;
+}
+/* «More» menu: the core menu slab (raised plate, bronze hairline, floating shadow). */
+.handouts-more > div {
+  position: absolute;
+  right: 0;
+  z-index: 5;
+  display: grid;
+  min-width: 230px;
+  padding: 6px;
+  margin-top: 4px;
+  background: var(--raised);
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-2);
+}
+.handouts-more > div button {
+  min-height: 42px;
+  padding: 8px 12px;
+  text-align: left;
+  color: var(--text);
+  background: transparent;
+  border: 0;
+  border-radius: var(--radius-sm);
+}
+.handouts-more > div button:hover,
+.handouts-more > div button:focus-visible {
+  background: color-mix(in srgb, var(--raised) 86%, var(--text));
+}
+
+/* Compact rows (drawer, campaign, pins, stages). */
+.handouts-mini-list {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+.handouts-mini-list > li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 10px 2px;
+  border-bottom: 1px solid var(--line);
+}
+.handouts-mini-list > li > span:first-child {
+  min-width: 0;
+  flex: 1 1 220px;
+}
+.handouts-row-main,
+.handouts-stage-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.handouts-group h3 {
+  margin: 20px 0 4px;
+}
+
+/* Viewer: pop-up, panel and campaign reopen. */
+dialog:has(.handouts-viewer),
+dialog:has(.handouts-art-grid),
+dialog:has(.handouts-editor),
+dialog:has(.handouts-minimap) {
+  width: min(820px, calc(100vw - 28px));
+}
+.handouts-kind {
+  margin: 0 0 12px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.handouts-figure {
+  margin: 0 0 16px;
+}
+.handouts-figure-frame {
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--sunken);
+}
+.handouts-figure img {
+  display: block;
+  width: 100%;
+  max-height: 46vh;
+  object-fit: contain;
+}
+/* Full-screen image with pan and zoom (Alchemy full-screen handout, VTL-080/162). */
+/* Full-screen viewer: the app background almost opaque, the bar as the header (BG3's bars
+   close on a bronze hairline). */
+.handouts-fullview {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  background: color-mix(in srgb, var(--bg) 96%, transparent);
+}
+.handouts-fullview-stage {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  touch-action: none;
+  cursor: grab;
+  outline: none;
+}
+.handouts-fullview-stage:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: -3px;
+}
+.handouts-fullview-stage img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transform-origin: center;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.handouts-fullview-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+  background: var(--header-bg);
+  border-top: 1px solid var(--frame-soft);
+}
+.handouts-fullview-bar .button {
+  min-width: 44px;
+  min-height: 44px;
+}
+.handouts-fullview-bar output {
+  min-width: 56px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.handouts-figure figcaption {
+  display: flex;
+  justify-content: flex-end;
+}
+.handouts-prose {
+  white-space: pre-wrap;
+  font-size: var(--text-md);
+  line-height: 1.6;
+}
+.handouts-section {
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+  margin-top: 12px;
+  scroll-margin-top: 12px;
+}
+.handouts-section.is-target {
+  outline: 2px solid var(--accent);
+  outline-offset: 6px;
+  border-radius: var(--radius-xs);
+}
+.handouts-section h3 {
+  margin: 0 0 6px;
+  font-size: var(--text-md);
+}
+/* Read-aloud text: the boxed read-aloud passage of D&D adventures (D&D Beyond), a tinted box
+   with a hairline in the bronze trim, italic. */
+.handouts-viewer blockquote,
+.handouts-pin-view blockquote {
+  margin: 6px 0 10px;
+  padding: 8px 14px;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  font-style: italic;
+  white-space: pre-wrap;
+}
+/* DM-only lines and notes in the visibility violet (DESIGN.md), dashed like the secrets. */
+.handouts-dm-line {
+  color: var(--vis-dm);
+}
+.handouts-dm-note {
+  margin-top: 18px;
+  padding: 12px 14px;
+  border: 1px dashed var(--vis-dm);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--vis-dm) 8%, transparent);
+}
+/* preferences.css tints this note amber in the light theme (a rule for the old literal
+   colours); the element selector outranks it so the note keeps the DM violet. */
+:root[data-pref-theme="light"] aside.handouts-dm-note {
+  background: color-mix(in srgb, var(--vis-dm) 8%, var(--surface));
+}
+.handouts-dm-note h3 {
+  margin: 0 0 6px;
+  color: var(--vis-dm);
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+.handouts-dm-field textarea {
+  border-style: dashed;
+  border-color: var(--vis-dm);
+}
+.handouts-choices ol {
+  padding-left: 22px;
+}
+.handouts-choices li {
+  margin: 6px 0;
+}
+.handouts-pick {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  margin: 10px 0;
+  padding: 8px 12px;
+}
+.handouts-outcome {
+  padding: 10px 12px;
+  border: 1px solid color-mix(in srgb, var(--positive) 60%, transparent);
+  border-radius: var(--radius-sm);
+  background: var(--positive-soft);
+  color: var(--positive);
+}
+.handouts-shown {
+  margin-top: 12px;
+}
+.handouts-popup-title {
+  margin: 18px 0 8px;
+}
+
+/* Checkboxes and radios with 40px targets. */
+.handouts-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 42px;
+  cursor: pointer;
+}
+.handouts-check input {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  accent-color: var(--accent);
+}
+.handouts-recipients {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 8px 14px 10px;
+  margin: 0 0 16px;
+  min-width: 0;
+}
+.handouts-recipient-list {
+  padding-left: 28px;
+}
+.handouts-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+}
+.handouts-switch input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--accent);
+}
+
+/* Editor dialog rows. */
+.handouts-editor-group {
+  border-top: 1px solid var(--line);
+  margin-top: 8px;
+  padding-top: 8px;
+}
+.handouts-row {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  margin: 0 0 10px;
+  min-width: 0;
+}
+.handouts-choice-row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+}
+.handouts-choice-row .field {
+  flex: 1;
+  margin: 0;
+}
+.handouts-image-preview img {
+  display: block;
+  max-width: 100%;
+  width: 240px;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  margin: -8px 0 12px;
+  border: 1px solid var(--line);
+}
+.handouts-xy {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 10px;
+}
+.handouts-position summary {
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: var(--accent);
+}
+
+/* Image grid (reveal, stage) and library. */
+.handouts-art-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 10px;
+  margin: 4px 0 16px;
+}
+.handouts-art-option {
+  position: relative;
+  display: grid;
+  gap: 4px;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: var(--text-sm);
+}
+.handouts-art-option input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+.handouts-art-option img,
+.handouts-art-option .handouts-thumb {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: var(--radius-xs);
+}
+/* The chosen picture as BG3's selected option: gold rim on a lit tile. */
+.handouts-art-option:has(input:checked) {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent) inset;
+  background: var(--accent-soft);
+}
+.handouts-art-option:has(input:focus-visible) {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+.handouts-library {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px;
+  margin: 16px 0;
+}
+.handouts-library-item {
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--surface);
+}
+.handouts-library-item img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+.handouts-library-item figcaption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+}
+
+/* Table: pins, stage, inspector panels. */
+.handouts-pin {
+  cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.handouts-pin-hit {
+  fill: transparent;
+}
+/* Pins on the map in the map's theme-free tokens: a red map pin with a parchment rim, the
+   name with the token name halo (Owlbear and BG3 name plates); hidden pins go dark. */
+.handouts-pin-shape {
+  fill: var(--status-dying);
+  stroke: var(--door-ink);
+  stroke-width: 2.5;
+}
+.handouts-pin-glyph {
+  fill: var(--token-label);
+  font-size: 17px;
+  font-weight: 700;
+  pointer-events: none;
+}
+.handouts-pin-label {
+  fill: var(--token-label);
+  font-size: 14px;
+  stroke: var(--token-label-halo);
+  stroke-width: 3;
+  paint-order: stroke;
+  pointer-events: none;
+}
+.handouts-pin.is-hidden .handouts-pin-shape {
+  fill: color-mix(in srgb, var(--token-label-halo) 82%, var(--door-ink));
+  stroke-dasharray: 5 4;
+}
+.handouts-pin.is-dim {
+  opacity: 0.35;
+}
+.handouts-pin:focus-visible .handouts-pin-shape,
+.handouts-pin.is-focused .handouts-pin-shape {
+  stroke: var(--focus);
+  stroke-width: 4;
+}
+.handouts-pin.is-focused {
+  animation: handouts-pulse 1.2s ease-out 2;
+}
+@keyframes handouts-pulse {
+  50% {
+    opacity: 0.4;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .handouts-pin.is-focused {
+    animation: none;
+  }
+}
+/* A map-less scene's title on its picture: the display serif (BG3 location titles) in the
+   token label colour over its halo. */
+.handouts-stage-title {
+  fill: var(--token-label);
+  font-family: var(--font-display);
+  font-size: 40px;
+  font-weight: 700;
+  stroke: var(--token-label-halo);
+  stroke-width: 4;
+  paint-order: stroke;
+}
+.handouts-stage-sub {
+  fill: color-mix(in srgb, var(--door-rim) 55%, var(--door-ink));
+  font-size: 18px;
+}
+.handouts-stage-note {
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+}
+.handouts-stage-panel h4 {
+  margin: 14px 0 0;
+}
+.handouts-reveal-panel {
+  display: grid;
+  gap: 8px;
+}
+.handouts-reveal-preview {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+}
+.handouts-reveal-thumb {
+  display: grid;
+  gap: 4px;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  min-height: 42px;
+}
+.handouts-reveal-thumb:hover {
+  border-color: var(--accent-line);
+}
+.handouts-reveal-thumb img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: var(--radius-xs);
+}
+.handouts-drawer h3 {
+  margin: 12px 0 0;
+  font-size: var(--text-md);
+}
+.handouts-secret-list {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0;
+}
+.handouts-secret-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+}
+
+/* Notes about sharing rules (B28 library files, visible token names): Foundry v13's
+   tinted notification in the warning colour. */
+.handouts-share-note {
+  margin: 0 0 12px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid color-mix(in srgb, var(--warning) 60%, transparent);
+  background: var(--warning-soft);
+  color: var(--text);
+}
+
+/* Scene picture with pins (Preparation › Pins, pin editor). */
+.handouts-group-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 12px;
+  margin-top: 20px;
+}
+.handouts-group-head h3 {
+  margin: 0;
+}
+.handouts-minimap {
+  display: block;
+  width: 100%;
+  max-height: 46vh;
+  margin: 8px 0 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--token-label-halo);
+}
+.handouts-minimap[data-hs-pin-picker] {
+  cursor: crosshair;
+}
+.handouts-minimap .handouts-pin-label {
+  font-size: 22px;
+}
+.handouts-minimap-token {
+  fill: var(--token-ally-fill);
+  stroke: var(--token-ally-ring);
+  stroke-width: 3;
+  opacity: 0.8;
+}
+.handouts-picker-marker .handouts-pin-shape {
+  fill: var(--door-rim);
+  stroke: var(--token-label-halo);
+}
+.handouts-picker-dot {
+  fill: var(--token-label-halo);
+}
+
+/* Session prep sheet. */
+/* Prep banner: Foundry v13's tinted notification in the theme colour. */
+.handouts-prep-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+  margin: 12px 0;
+  padding: 10px 14px;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+}
+.handouts-prep-banner p {
+  margin: 0;
+  flex: 1 1 260px;
+}
+.handouts-prep-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.handouts-prep-head h2 {
+  margin: 0;
+}
+.handouts-prep-title {
+  max-width: 620px;
+}
+.handouts-prep-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+  align-items: start;
+  gap: 14px;
+}
+.handouts-prep-step {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  min-width: 0;
+}
+.handouts-prep-step h3 {
+  margin: 0 0 2px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--text-lg);
+}
+.handouts-prep-step > p {
+  margin: 0 0 10px;
+  font-size: var(--text-sm);
+}
+.handouts-step-number {
+  display: inline-grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}
+.handouts-prep-rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.handouts-prep-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--line);
+}
+.handouts-prep-row.is-revealed .handouts-prep-text {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+/* Inline fields: the core field (Foundry v13 and Roll20 inputs), gold rim on focus. */
+.handouts-prep-text,
+.handouts-prep-add input,
+.handouts-prep-link select {
+  min-height: 42px;
+  background: var(--sunken);
+  color: var(--text);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+:is(.handouts-prep-text, .handouts-prep-add input, .handouts-prep-link select):hover:not(
+    :disabled
+  ) {
+  border-color: var(--muted);
+}
+:is(.handouts-prep-text, .handouts-prep-add input, .handouts-prep-link select):focus-visible {
+  border-color: var(--accent);
+}
+.handouts-prep-text {
+  flex: 1 1 200px;
+  min-width: 0;
+}
+.handouts-prep-link select {
+  max-width: 190px;
+}
+.handouts-prep-add {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+.handouts-prep-add input {
+  flex: 1 1 200px;
+  min-width: 0;
+}
+.handouts-prep-count {
+  margin: 0 0 6px;
+  color: var(--accent);
+  font-size: var(--text-sm);
+}
+.handouts-prep-characters .field {
+  margin-bottom: 10px;
+}
+.handouts-prep-history {
+  margin-top: 26px;
+}
+.handouts-prep-old summary {
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+@media (max-width: 720px) {
+  .handouts-card {
+    grid-template-columns: 72px minmax(0, 1fr);
+  }
+  .handouts-card .handouts-thumb {
+    width: 72px;
+  }
+  .handouts-card-actions {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+  }
+  /* Critique 29/09: «Altro» is the third command of the row, so a menu opening from its own
+     left edge ran 40 px past a 390 px screen. On a phone the menu hangs from the row of
+     commands (as the scene rows of Preparation, reconcile 27/09) and stays on screen. */
+  .handouts-card-actions {
+    position: relative;
+  }
+  .handouts-card-actions > .handouts-more {
+    position: static;
+  }
+  .handouts-more > div {
+    left: 0;
+    right: auto;
+    max-width: 100%;
+  }
+  .handouts-prep-link select {
+    max-width: 100%;
+    flex: 1 1 100%;
+  }
+  .handouts-search {
+    max-width: none;
+    margin-left: 0;
+    flex-basis: 100%;
+  }
+}
+
+/* P4 (TV-109): a personal image shared inline from «Rivela aspetto» (D&D Beyond Reveal). */
+.handouts-inline-share {
+  margin: 12px 0;
+  padding: 12px 14px;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius);
+}
+.handouts-inline-share legend {
+  padding: 0 6px;
+  font-weight: 600;
+}

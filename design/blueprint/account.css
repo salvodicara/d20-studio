@@ -1,0 +1,433 @@
+/* B29 — Account, profile and personal data. Uses the shared tokens of styles.css.
+   Visual pass of 29/09/2026 (DESIGN.md; evidence «home-services»): D&D Beyond's account
+   settings (flat hairline panels, section tabs, labelled facts), avatars in BG3's bronze
+   portrait frame, the chosen avatar lit as BG3's selected option. */
+
+.account-page {
+  max-width: 1180px;
+  margin-inline: auto;
+}
+.account-heading {
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.account-identity {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-width: 0;
+}
+.account-identity h1 {
+  margin: 0;
+}
+.account-identity p {
+  margin: 4px 0 0;
+  overflow-wrap: anywhere;
+}
+.account-demo-note {
+  color: var(--muted);
+  font-size: var(--text-sm);
+  margin: 0 0 22px;
+}
+.account-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr));
+  gap: 20px;
+  align-items: start;
+}
+.account-grid > .panel {
+  min-width: 0;
+}
+.account-grid h2 {
+  margin: 0 0 8px;
+  font-size: var(--text-xl);
+}
+.account-grid h3 {
+  margin: 22px 0 4px;
+  font-size: var(--text-md);
+}
+.account-grid .item-list {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 12px;
+}
+.account-grid .item-row {
+  padding: 12px 2px;
+}
+.account-grid .item-row > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Avatars: generated initials or emblem on a chosen colour, or a cropped image. The colour
+   and its dark ink are the member's choice (account-avatar.mjs writes the same pair inline for
+   other areas), so they do not follow the theme; the frame is BG3's bronze portrait rim with
+   its dark inner keyline (core .portrait), the initial in the display serif. */
+.account-avatar {
+  --account-avatar-bg: var(--line-strong);
+  --account-avatar-ink: #17232e;
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--account-avatar-bg);
+  color: var(--account-avatar-ink);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-lg);
+  line-height: 1;
+  border: 2px solid var(--frame);
+  box-shadow: inset 0 0 0 1px var(--keyline-dark);
+  overflow: hidden;
+}
+.account-avatar .icon {
+  width: 58%;
+  height: 58%;
+  stroke-width: 2;
+}
+.account-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+/* The published avatar inside another area's own box (B13 "cm-avatar", chat
+   "chat-avatar"): that area keeps size and border, the colour comes inline. */
+.account-avatar-in {
+  overflow: hidden;
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+.account-avatar-in .icon {
+  width: 60%;
+  height: 60%;
+  stroke-width: 2;
+}
+.account-avatar-in.is-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: inherit;
+}
+.account-avatar-sm {
+  width: 32px;
+  height: 32px;
+  font-size: var(--text-sm);
+}
+.account-avatar-lg {
+  width: 72px;
+  height: 72px;
+  font-size: var(--text-2xl);
+}
+
+.account-avatars {
+  list-style: none;
+  padding: 0;
+  margin: 14px 0;
+  display: grid;
+  gap: 10px;
+}
+.account-avatar-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  flex-wrap: wrap;
+}
+/* The avatar in use: BG3's selected option, a gold rim on a lit tile. */
+.account-avatar-item.is-active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.account-avatar-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+  flex: 1 1 120px;
+  min-width: 0;
+}
+.account-avatar-meta small {
+  color: var(--muted);
+}
+.account-avatar-actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.button.danger-text {
+  color: var(--danger);
+}
+.account-undo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 0 0 12px;
+}
+
+/* File input kept focusable inside a button-like label. */
+.account-upload {
+  position: relative;
+}
+.account-upload input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  width: 100%;
+  cursor: pointer;
+}
+.account-upload:focus-within {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+.account-upload.is-disabled {
+  opacity: 0.48;
+  cursor: not-allowed;
+}
+.account-upload.is-disabled input {
+  cursor: not-allowed;
+}
+
+/* Member rows: preview, privacy list. */
+.account-member-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  min-width: 0;
+}
+.account-member-row > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.account-member-row small {
+  display: block;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.account-members {
+  list-style: none;
+  padding: 0;
+  margin: 6px 0 0;
+  border-top: 1px solid var(--line);
+}
+.account-members > li {
+  border-bottom: 1px solid var(--line);
+}
+.account-chat-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 8px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+}
+.account-chat-line p {
+  margin: 4px 0 0;
+  overflow-wrap: anywhere;
+}
+.account-note {
+  color: var(--muted);
+  font-size: var(--text-sm);
+  border-left: 1px solid var(--line-strong);
+  padding-left: 10px;
+}
+.account-list {
+  margin: 8px 0 14px;
+  padding-left: 20px;
+}
+.account-list li {
+  margin: 6px 0;
+}
+
+/* Status banner: deletion scheduled (account page and Home), D&D Beyond's theme-colour
+   notice; the danger variant takes the save warning's red tint. */
+.account-banner {
+  border: 1px solid var(--accent-line);
+  background: var(--accent-soft);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  margin: 0 0 22px;
+}
+.account-banner h2 {
+  margin: 0 0 6px;
+  font-size: var(--text-lg);
+}
+.account-banner p {
+  margin: 0 0 12px;
+}
+.account-banner.is-danger {
+  border-color: color-mix(in srgb, var(--danger) 60%, transparent);
+  background: var(--danger-soft);
+}
+.account-home {
+  margin-bottom: 26px;
+}
+
+/* The panel that deletes the account: D&D Beyond's red-outlined danger zone. */
+.account-danger {
+  border-color: color-mix(in srgb, var(--danger) 60%, transparent);
+}
+.account-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
+  gap: 10px 16px;
+  margin: 12px 0;
+}
+.account-summary div {
+  min-width: 0;
+}
+/* Facts: D&D Beyond's condensed small-caps label over a bold value, aligned numerals. */
+.account-summary dt {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+.account-summary dd {
+  margin: 2px 0 0;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+/* Sign-in screen. */
+.account-signin {
+  max-width: 640px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr));
+  gap: 20px;
+  align-items: start;
+}
+.account-signin h2 {
+  margin-top: 0;
+}
+.account-signin-methods {
+  display: grid;
+  gap: 10px;
+  margin: 16px 0;
+}
+.account-signin-methods .button {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  text-align: left;
+}
+.account-signin-methods small {
+  color: var(--muted);
+  margin-left: auto;
+}
+
+/* Emblem dialog. */
+.account-emblem-preview {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+.account-choices {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin: 0 0 14px;
+  padding: 8px 12px;
+}
+.account-choice {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+}
+.account-choice input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+}
+
+.account-tabs {
+  margin-bottom: 22px;
+}
+
+@media (max-width: 720px) {
+  .account-identity {
+    gap: 12px;
+  }
+  .account-identity .account-avatar-lg {
+    width: 56px;
+    height: 56px;
+    font-size: var(--text-xl);
+  }
+  .account-grid .panel,
+  .account-signin .panel {
+    padding: 18px;
+  }
+  .account-grid .item-row {
+    flex-wrap: wrap;
+  }
+  .account-grid .item-row > button,
+  .account-avatar-actions {
+    margin-left: auto;
+  }
+  /* Four sections stay visible on a phone: the tab row wraps instead of scrolling. */
+  .account-tabs {
+    flex-wrap: wrap;
+    overflow-x: visible;
+  }
+  .account-tabs button {
+    padding: 10px 12px;
+  }
+}
+
+/* Account menu from the header (DDB avatar menu): who is signed in, then the sections. */
+.account-menu-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  overflow-wrap: anywhere;
+}
+.account-menu [data-account-menu-signout] {
+  margin-top: 6px;
+}
+/* P1 IN-10: the trial without an account (DDB Quickbuilder / Forge sandbox). */
+.account-trial {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+.account-trial h3 {
+  margin: 0 0 6px;
+}
+.sandbox-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  max-width: none;
+  margin: 0;
+  padding: 8px 24px;
+  background: color-mix(in srgb, var(--accent) 16%, var(--surface));
+  border-bottom: 1px solid var(--accent-line);
+  font-size: var(--text-sm);
+}
+.sandbox-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+@media (max-width: 560px) {
+  .sandbox-banner {
+    padding: 8px 16px;
+  }
+}

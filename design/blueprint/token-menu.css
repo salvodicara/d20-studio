@@ -1,0 +1,638 @@
+/* Token menu, selection and visibility (B12). Loaded only with the token-menu area. */
+
+/* ------------------------------------------------ popup: labelled menu (DDB-117, R20-203) */
+.token-menu {
+  position: fixed;
+  /* Above the first-visit help tip (home.css .home-pop, 58) that a phone docks at the
+     bottom too: the menu the user just opened is in front; tours and dice stay above. */
+  z-index: 59;
+  width: min(320px, calc(100vw - 16px));
+  max-height: calc(100vh - 16px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  /* Owlbear Rodeo's token context menu: a rounded floating slab; BG3's dark plate with a
+     bronze rim (the core menus). */
+  background: var(--raised);
+  color: var(--text);
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-2);
+  padding: 10px;
+  font-size: var(--text-md);
+}
+.token-menu[hidden] {
+  display: none;
+}
+/* Phone: a bottom sheet with large targets (VTL-232, FVT-200). */
+.token-menu.sheet {
+  left: 0 !important;
+  right: 0;
+  bottom: 0;
+  top: auto !important;
+  width: 100%;
+  /* B62 review: the sheet grows to its content up to the screen (Material bottom sheets),
+     so the last submenus (DM: Visibility, Loot, DM tools) are not hidden below its fold. */
+  max-height: calc(100dvh - 24px - env(safe-area-inset-top, 0px));
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  padding: 12px 14px calc(14px + env(safe-area-inset-bottom, 0px));
+}
+.token-menu-icon {
+  width: 18px;
+  height: 18px;
+  flex: none;
+}
+.token-menu-head {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding-bottom: 8px;
+}
+/* The token itself, in its Owlbear ring and the map's token colours. */
+.token-menu-portrait {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--token-ally-fill);
+  border: 2px solid var(--token-ally-ring);
+  font: var(--text-xl) var(--font-display);
+  color: var(--token-initial);
+  flex: none;
+}
+.token-menu-title {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+/* BG3 names: the creature's name in the display serif. */
+.token-menu-title strong {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.token-menu-title small {
+  color: var(--muted);
+  font-size: var(--text-xs);
+  overflow-wrap: anywhere;
+}
+.token-menu-title .token-menu-alias {
+  display: block;
+  font-weight: 400;
+  font-style: italic;
+}
+/* Several tokens: Roll20's cyan group selection. */
+.token-menu-title .token-menu-multi {
+  color: var(--info);
+}
+.token-menu-close {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  flex: none;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  color: var(--muted);
+}
+.token-menu-close:hover {
+  background: var(--surface);
+  color: var(--text);
+}
+
+/* HP inline field with arithmetic (VTL-234, R20-131). */
+.token-menu-hp {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 2px 0 0;
+}
+.token-menu-hp label {
+  font-weight: 600;
+  color: var(--accent);
+}
+.token-menu-hp input {
+  width: 84px;
+  min-height: 40px;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line-strong);
+  background: var(--sunken);
+  color: var(--text);
+  /* 16 px: a smaller field makes a phone zoom the page on focus. */
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+}
+.token-menu-hp input[aria-invalid="true"] {
+  border-color: var(--danger);
+}
+.token-menu-hp-max {
+  color: var(--muted);
+  white-space: nowrap;
+  flex: 1;
+}
+.token-menu-hp .button {
+  min-height: 40px;
+  padding: 6px 12px;
+}
+.token-menu-help {
+  margin: 4px 0 6px;
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+.token-menu-error {
+  margin: 4px 0 6px;
+  font-size: var(--text-sm);
+  color: var(--danger);
+}
+
+/* Active conditions in the header (DDB-117 icons in the token menu). */
+.token-menu-conditions {
+  list-style: none;
+  margin: 4px 0 6px;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.token-menu-conditions li {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px 3px 5px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  font-size: var(--text-xs);
+}
+.token-menu-conditions .token-menu-icon {
+  width: 16px;
+  height: 16px;
+  color: var(--accent);
+}
+
+/* Command list. */
+.token-menu-list,
+.token-menu-palette,
+.token-menu-swatches {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+}
+.token-menu-sep {
+  height: 1px;
+  background: var(--line);
+  margin: 5px 4px;
+}
+.token-menu-item,
+.token-menu-back,
+.token-menu-toggle,
+.token-menu-swatch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 40px;
+  padding: 7px 10px;
+  background: transparent;
+  color: var(--text);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  text-align: left;
+  font-size: var(--text-md);
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+/* Rows light up on a slightly brighter plate (the menu itself is the raised plate). */
+.token-menu-item:hover,
+.token-menu-back:hover,
+.token-menu-toggle:hover,
+.token-menu-swatch:hover,
+.token-menu-item:focus-visible,
+.token-menu-toggle:focus-visible,
+.token-menu-swatch:focus-visible {
+  background: color-mix(in srgb, var(--raised) 88%, var(--text));
+}
+.token-menu-label {
+  flex: 1;
+}
+/* Shortcuts: the core key chip (Foundry v13). */
+.token-menu-item kbd {
+  color: var(--muted);
+  white-space: nowrap;
+}
+.token-menu-chevron {
+  color: var(--muted);
+  font-size: var(--text-lg);
+}
+/* Items that act on the whole multi-selection (R20-129). */
+.token-menu-many {
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  color: var(--bg);
+  background: var(--info);
+  border-radius: var(--radius-pill);
+  padding: 1px 6px;
+  white-space: nowrap;
+}
+.token-menu-back {
+  color: var(--accent);
+  margin-bottom: 2px;
+}
+/* On the hover plate the link darkens (light) or brightens (dark) with the strong accent, as
+   D&D Beyond's theme-colour links (critique 29/09: 4.5:1 → above in both themes). */
+.token-menu-back:hover {
+  color: var(--accent-strong);
+}
+/* Final review P1 (Owlbear/Foundry context menus: back, title and close on one line). In a
+   header (the bestiary of «Aggiungi creatura qui…») Back is a 40 px icon like Close: sharing
+   the rows' full width left the title 0 px wide and pushed the search out of the menu. */
+.token-menu-head > .token-menu-back {
+  width: 40px;
+  flex: none;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+}
+/* B62 labelled submenus: the count of commands inside and the submenu's name under Back. */
+.token-menu-count {
+  font-size: var(--text-2xs);
+  color: var(--muted);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  padding: 0 6px;
+  min-width: 20px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+/* Submenu name: a condensed group label (Kanka and D&D Beyond group headings). */
+.token-menu-subtitle {
+  margin: 2px 10px 6px;
+  font-family: var(--font-label);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+  color: var(--muted);
+}
+.token-menu-sheet .token-menu-item,
+.token-menu.sheet .token-menu-item,
+.token-menu.sheet .token-menu-toggle,
+.token-menu.sheet .token-menu-swatch,
+.token-menu.sheet .token-menu-back {
+  min-height: 44px;
+}
+
+/* Condition palette (FVT-119 status palette, DDB-145 conditions modal). */
+.token-menu-palette {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+}
+.token-menu-toggle {
+  border-color: var(--line);
+  font-size: var(--text-sm);
+  gap: 7px;
+  padding: 6px 8px;
+}
+.token-menu-toggle .token-menu-icon {
+  color: var(--muted);
+}
+.token-menu-toggle[aria-checked="true"] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.token-menu-toggle[aria-checked="true"] .token-menu-icon {
+  color: var(--accent);
+}
+.token-menu-toggle.implied {
+  border-style: dashed;
+  opacity: 0.8;
+}
+.token-menu-wide {
+  width: 100%;
+  margin-top: 8px;
+  justify-content: flex-start;
+}
+.token-menu-swatches {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+}
+.token-menu-swatch[aria-checked="true"] {
+  border-color: var(--accent);
+}
+.token-menu-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px dashed var(--muted);
+  flex: none;
+}
+.token-menu-dot[style] {
+  border: 2px solid var(--keyline-dark);
+}
+
+/* Status line with Undo. */
+.token-menu-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 6px 8px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  font-size: var(--text-sm);
+}
+.token-menu-status.error {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+.token-menu-status {
+  flex-wrap: wrap;
+}
+.token-menu-status .button {
+  min-height: 40px;
+  padding: 4px 10px;
+  flex: 0 1 auto;
+  max-width: 100%;
+  white-space: normal;
+  text-align: left;
+}
+.token-menu-undo-what {
+  overflow-wrap: anywhere;
+}
+
+/* ------------------------------------------------ inspector panel */
+.token-menu-panel {
+  display: grid;
+  gap: 8px;
+}
+.token-menu-panel .button {
+  justify-content: flex-start;
+}
+.token-menu-open {
+  width: 100%;
+}
+.token-menu-picked {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--info);
+}
+.token-menu-panel-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.token-menu-panel-actions .button {
+  min-height: 40px;
+  padding: 6px 10px;
+  font-size: var(--text-sm);
+}
+.token-menu-list-details summary {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: var(--accent);
+}
+.token-menu-rows {
+  list-style: none;
+  margin: 4px 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+.token-menu-rows li {
+  display: flex;
+  gap: 4px;
+}
+.token-menu-row {
+  flex: 1;
+  min-width: 0;
+  min-height: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 4px 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text);
+  text-align: left;
+}
+.token-menu-row.current {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.token-menu-row small {
+  color: var(--muted);
+  font-size: var(--text-2xs);
+}
+.token-menu-find {
+  width: 40px;
+  min-height: 40px;
+  padding: 0;
+  justify-content: center !important;
+  flex: none;
+}
+
+/* ------------------------------------------------ on the map */
+/* On the map (theme-invariant map palette, combat.css): Foundry token HUD status icons as
+   dark round badges in a gold rim. */
+.token-menu-status-icon circle,
+.token-menu-badge circle {
+  fill: var(--map-chip);
+  stroke: var(--map-gold);
+  stroke-width: 1.5;
+}
+.token-menu-status-icon path,
+.token-menu-badge path {
+  fill: none;
+  stroke: var(--map-ink);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.token-menu-status-icon text {
+  font: 700 9px var(--font-ui);
+  fill: var(--map-ink);
+}
+/* Drawn facing (TV-06 rotation): an arrow on the token border. */
+.token-menu-facing {
+  fill: var(--map-gold-bright);
+  stroke: var(--map-halo);
+  stroke-width: 1.5;
+  paint-order: stroke;
+}
+.token-menu-badge.hidden-badge circle {
+  fill: var(--map-halo);
+  stroke: var(--map-muted);
+}
+.token-menu-caption {
+  font: italic 12px var(--font-ui);
+  fill: var(--map-ink);
+  paint-order: stroke;
+  stroke: var(--map-halo);
+  stroke-width: 4px;
+}
+.token-menu-ghost {
+  cursor: context-menu;
+}
+.token-menu-ghost circle:first-child {
+  fill: var(--token-ally-fill);
+  fill-opacity: 0.7;
+  stroke: var(--map-info);
+  stroke-width: 3;
+  stroke-dasharray: 6 4;
+}
+.token-menu-ghost .token-menu-ghost-ring {
+  fill: none;
+  stroke: var(--map-gold-bright);
+  stroke-width: 2;
+  opacity: 0;
+}
+.token-menu-ghost:focus-visible .token-menu-ghost-ring {
+  opacity: 1;
+}
+.token-menu-ghost text {
+  fill: var(--token-initial);
+  font: 21px var(--font-display);
+  pointer-events: none;
+}
+.token-menu-ghost .token-menu-ghost-name {
+  font: 600 13px var(--font-ui);
+  fill: var(--token-label);
+  paint-order: stroke;
+  stroke: var(--token-label-halo);
+  stroke-width: 4px;
+}
+/* Box selection: Roll20's cyan marquee. */
+.token-menu-marquee {
+  fill: color-mix(in srgb, var(--map-info) 13%, transparent);
+  stroke: var(--map-info);
+  stroke-width: 2;
+  stroke-dasharray: 6 4;
+}
+.token-menu-ping {
+  fill: none;
+  stroke: var(--map-gold-bright);
+  stroke-width: 4;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: token-menu-ping 1.2s ease-out 2 forwards;
+}
+@keyframes token-menu-ping {
+  from {
+    opacity: 1;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.6);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .token-menu-ping {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* Audience dialog. */
+.token-menu-audience fieldset {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  margin: 10px 0;
+  padding: 8px 12px;
+}
+.token-menu-audience fieldset:disabled {
+  opacity: 0.55;
+}
+.token-menu-choice {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+}
+.token-menu-choice input {
+  width: 20px;
+  height: 20px;
+}
+
+/* P6 TV-21: the creature search in the scene menu and the DM's bestiary drawer. */
+.token-menu-search {
+  display: block;
+  padding: 6px 10px 2px;
+}
+.token-menu-search input {
+  width: 100%;
+  min-height: 40px;
+}
+.token-menu-item .token-menu-label small {
+  margin-left: 4px;
+  color: var(--muted);
+}
+.token-menu-empty {
+  padding: 8px 12px;
+  color: var(--muted);
+}
+.token-menu-drawer-list {
+  display: grid;
+  gap: 4px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.token-menu-drawer-list > li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 6px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  cursor: grab;
+}
+.token-menu-drawer-list small {
+  display: block;
+  color: var(--muted);
+}
+.token-menu-drawer-name {
+  color: var(--muted);
+}
+/* P6 TV-19: rotate and resize handles on the selected token (Foundry, Owlbear). */
+.token-menu-handle {
+  fill: var(--map-gold-bright);
+  stroke: var(--map-halo);
+  stroke-width: 2;
+}
+.token-menu-handle.is-rotate {
+  cursor: grab;
+}
+.token-menu-handle.is-resize {
+  cursor: nwse-resize;
+}
+.token-menu-handle-stem {
+  stroke: var(--map-gold-bright);
+  stroke-width: 2;
+  fill: none;
+  pointer-events: none;
+}
+/* P6 TV-142: an unavailable command stays in the menu, greyed, with its reason. */
+.token-menu-item.is-unavailable {
+  opacity: 0.72;
+}
+.token-menu-item.is-unavailable .token-menu-label {
+  color: var(--muted);
+}
+.token-menu-why {
+  display: block;
+  font-size: var(--text-2xs);
+  color: var(--muted);
+}

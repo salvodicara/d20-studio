@@ -1,0 +1,796 @@
+/* B32 — complete combat tracker. Area styles only (.ct-*), linked through
+   registry.registerStyles(); shared tokens from styles.css. The tracker lives in the Table's
+   right sidebar (a `table-panel` container, 300–420 px) and follows the phone layout. */
+
+.ct {
+  display: grid;
+  gap: 12px;
+}
+/* Foundry v13 combat tracker: dense rows; names and round in BG3's display serif. */
+.ct h3 {
+  margin: 4px 0;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 600;
+}
+.ct-empty {
+  margin: 4px 0;
+  color: var(--muted);
+}
+.ct-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 12px;
+  flex-wrap: wrap;
+}
+.ct-head strong {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+}
+.ct-timer {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+}
+.ct-timer svg,
+.ct-portrait svg {
+  width: 16px;
+  height: 16px;
+}
+.ct-hold,
+.ct-rule {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 12px;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+}
+.ct-rule {
+  justify-content: flex-start;
+  font-size: var(--text-sm);
+}
+.ct-rule svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+.ct-list,
+.ct-group-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+.ct-row,
+.ct-group {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  padding: 4px 6px 6px;
+  min-width: 0;
+}
+/* The acting creature: Foundry's highlighted active row with BG3's double frame (gold rim
+   and inner gold line), not a side stripe. */
+.ct-row.is-current,
+.ct-group.is-current {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  box-shadow: inset 0 0 0 1px var(--accent-line);
+}
+.ct-row.is-defeated .ct-name {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+.ct-row.is-hidden {
+  border-style: dashed;
+  opacity: 0.85;
+}
+.ct-row.is-fired {
+  border-color: var(--danger);
+  background: var(--danger-soft);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--danger) 50%, transparent);
+}
+.ct-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+.ct-select {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  padding: 2px 4px;
+  border-radius: var(--radius-sm);
+}
+button.ct-select:hover {
+  background: var(--raised);
+}
+/* Portraits: the map's own token colours and Owlbear rings, so a row and its token match. */
+.ct-portrait {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--token-ally-fill);
+  color: var(--token-initial);
+  font-family: var(--font-display);
+  font-weight: 700;
+  border: 2px solid var(--token-ally-ring);
+}
+.ct-portrait.is-npc {
+  background: var(--token-hostile-fill);
+  border-color: var(--token-hostile-ring);
+}
+.ct-portrait.is-entry {
+  background: var(--raised);
+  border-color: var(--frame-soft);
+  color: var(--accent);
+}
+.is-current > .ct-line .ct-portrait {
+  border-color: var(--accent);
+}
+.ct-name {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-weight: 600;
+}
+/* Initiative: a D&D Beyond number box — a dark well in a bronze rim. */
+.ct-init {
+  flex: none;
+  min-width: 36px;
+  padding: 4px 6px;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-xs);
+  background: var(--sunken);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+/* The row's ⋯ is the core icon button (Owlbear): no rim until hovered. */
+.ct-more {
+  flex: none;
+  width: 42px;
+  height: 42px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 20px;
+  line-height: 1;
+}
+.ct-more:hover,
+.ct-more[aria-expanded="true"] {
+  background: var(--raised);
+  color: var(--text);
+  border-color: var(--line);
+}
+.ct-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 6px;
+  padding: 0 4px 2px 46px;
+}
+/* Chips: the core pill (Foundry dnd5e pill with a 1 px rim). */
+.ct-badge {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  font-size: var(--text-xs);
+  padding: 2px 8px;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.ct-badge-hidden {
+  border-style: dashed;
+  color: var(--vis-hidden);
+}
+.ct-badge-down {
+  border-color: color-mix(in srgb, var(--danger) 60%, transparent);
+  color: var(--danger);
+}
+.ct-badge-ready {
+  border-color: color-mix(in srgb, var(--positive) 60%, transparent);
+  color: var(--positive);
+}
+.ct-badge-entry {
+  border-color: var(--accent-line);
+  color: var(--accent);
+}
+.is-fired .ct-badge-entry {
+  border-color: color-mix(in srgb, var(--danger) 60%, transparent);
+  color: var(--danger);
+  font-weight: 700;
+}
+.ct-hp {
+  font-size: var(--text-sm);
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+/* The row menu: Owlbear/Foundry context-menu rows on a slab with a bronze rim. */
+.ct-menu {
+  display: grid;
+  gap: 2px;
+  margin: 4px 0 2px 46px;
+  padding: 4px;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+}
+.ct-menu-item {
+  min-height: 40px;
+  border: 0;
+  border-radius: var(--radius-xs);
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  padding: 8px 10px;
+}
+.ct-menu-item:hover,
+.ct-menu-item:focus-visible {
+  background: var(--raised);
+}
+.ct-extra {
+  display: grid;
+  gap: 6px;
+  margin: 6px 0 2px 46px;
+}
+.ct-extra.ct-ready,
+.ct-entry-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.ct-res {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  font-size: var(--text-sm);
+}
+.ct-res > span:first-child {
+  flex: 1 1 160px;
+  min-width: 0;
+}
+.ct-res small,
+.ct-save small {
+  flex-basis: 100%;
+}
+.ct-save {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  width: 100%;
+}
+.ct-pips {
+  display: inline-flex;
+  gap: 3px;
+  vertical-align: middle;
+}
+.ct-pip {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid var(--accent);
+}
+.ct-pip.is-on {
+  background: var(--accent);
+}
+.ct-group-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  padding: 6px 4px 8px;
+}
+.ct-group-list .ct-row {
+  background: var(--surface-2);
+}
+.ct-pending {
+  display: grid;
+  gap: 8px;
+  padding: 10px;
+  border: 1px dashed var(--frame);
+  border-radius: var(--radius-sm);
+}
+.ct-pending ul,
+.ct-others ul,
+.ct-policies ul,
+.ct-rolls ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.ct-pending-row {
+  display: grid;
+  gap: 6px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}
+.ct-segs,
+.ct-actions,
+.ct-foot,
+.ct-join {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.ct-seg[aria-pressed="true"] {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+.ct-inline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 6px 8px;
+}
+.ct-inline .field {
+  flex: 1 1 110px;
+  margin: 0;
+}
+.ct-roll {
+  margin: 0;
+}
+.ct-correct summary,
+.ct-others summary,
+.ct-rolls summary {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: var(--accent);
+}
+.ct-others li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.ct-policies li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+}
+.ct-foot {
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+}
+.ct-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+}
+.ct-check input {
+  width: 20px;
+  height: 20px;
+  flex: none;
+}
+.ct-fieldset {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  margin: 10px 0;
+  min-width: 0;
+}
+.ct-fieldset legend {
+  padding: 0 4px;
+  font-family: var(--font-label);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--label-tracking);
+  font-size: var(--text-md);
+  font-weight: 700;
+}
+.ct-rule-source {
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+.ct-history p {
+  margin: 0;
+}
+.ct-rolls li[data-status="reversed"] {
+  color: var(--muted);
+}
+
+/* Sheet: BG3-style reactions box. */
+.ct-policy-box {
+  margin-top: 16px;
+}
+.ct-policy-list {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+.ct-policy-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 16px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--line);
+}
+.ct-policy-name {
+  flex: 1 1 180px;
+  display: grid;
+  gap: 2px;
+}
+
+/* Map: FVT-129 marker under the active token; DDB-141 "out of combat" marker. */
+.ct-turn-marker .ct-marker-ring {
+  fill: none;
+  stroke: var(--map-gold-bright);
+  stroke-width: 3;
+  stroke-dasharray: 10 6;
+  animation: ct-spin 6s linear infinite;
+  transform-origin: 0 0;
+}
+.ct-turn-marker .ct-marker-glow {
+  fill: color-mix(in srgb, var(--map-gold-bright) 18%, transparent);
+  stroke: none;
+}
+@keyframes ct-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.ct-out-marker .ct-out-ring {
+  fill: color-mix(in srgb, var(--map-halo) 35%, transparent);
+  stroke: var(--map-danger);
+  stroke-width: 2.5;
+  stroke-dasharray: 5 5;
+}
+.ct-out-marker g circle {
+  fill: color-mix(in srgb, var(--map-danger) 22%, var(--map-halo));
+  stroke: var(--map-danger);
+  stroke-width: 1.5;
+}
+.ct-out-marker path {
+  stroke: var(--map-danger);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+/* Monk's Combat Details turn alert: an overlay that never holds the page's clicks. */
+.ct-alert {
+  position: fixed;
+  z-index: 60;
+  top: calc(env(safe-area-inset-top, 0px) + 84px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(560px, calc(100vw - 32px));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 14px;
+  flex-wrap: wrap;
+  padding: 12px 14px;
+  border: 1px solid var(--frame);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-2);
+}
+.ct-alert strong {
+  flex: 1 1 220px;
+  overflow-wrap: anywhere;
+}
+/* BG3's «your turn» call: a gold-framed plate with the words in the display serif. */
+.ct-alert-turn {
+  border: 2px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, var(--surface));
+}
+.ct-alert-turn strong {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 600;
+  color: var(--accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ct-turn-marker .ct-marker-ring {
+    animation: none;
+  }
+}
+@container table-panel (max-width: 330px) {
+  .ct-meta,
+  .ct-menu,
+  .ct-extra {
+    padding-left: 0;
+    margin-left: 0;
+  }
+}
+@media (max-width: 720px) {
+  .ct-alert {
+    top: calc(env(safe-area-inset-top, 0px) + 64px);
+  }
+}
+/* Critique 29/09: on a wide screen the call is placed 12 px under the map's top edge, over the
+   row of chips (X-card, pace, party) that the safety tools keep there. It now starts under that
+   row, and under both rows when the DM's session commands wrap above the safety tools: the
+   table's own controls stay clear, as BG3's «your turn» banner never covers the hotbar. */
+@media (min-width: 721px) {
+  .ct-alert {
+    margin-top: 48px;
+  }
+  body:has(.session-view-hud-bar > :nth-child(6)) .ct-alert {
+    margin-top: 96px;
+  }
+  /* Visual pass 2: combat-tracker.mjs places the call 12 px under the map's top; the scene
+     plate and the map controls float there now, and in combat BG3's turn order under them.
+     The call comes under those rows, still over the map and clear of the hotbar. */
+  body:has(#content .table-layout) .ct-alert {
+    margin-top: 50px;
+  }
+  body:has(#content .table-layout > .initiative) .ct-alert {
+    margin-top: 146px;
+  }
+  /* Over the map it only informs: presses and drags reach the map through it, its buttons
+     keep theirs (the comment above: an overlay that never holds the page's clicks). */
+  body:has(#content .table-layout) .ct-alert {
+    pointer-events: none;
+  }
+  body:has(#content .table-layout) .ct-alert :is(button, a) {
+    pointer-events: auto;
+  }
+}
+
+/* Critique 2: the sheet window over the Table (characters.mjs) takes the call's place, as
+   BG3's character panel hides the combat HUD; closing it brings the call back if it is still
+   unread. On a phone the call sits over the map above the hotbar (combat-tracker.mjs), where
+   it only informs too: taps reach the map, its buttons keep theirs. */
+body:has(> .sheet-overlay) .ct-alert {
+  visibility: hidden;
+}
+@media (max-width: 720px) {
+  body:has(#content .table-layout) .ct-alert {
+    pointer-events: none;
+  }
+  body:has(#content .table-layout) .ct-alert :is(button, a) {
+    pointer-events: auto;
+  }
+}
+
+/* Review B32-rf: an unavailable command stays focusable (its click explains why) but reads
+   as unavailable. */
+.ct [aria-disabled="true"] {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* P5 fix package — start combat at the Table (TV-45/46, PR-32: Foundry Combat Tracker and
+   D&D Beyond Maps), the mob attack's house-rule note (TV-59) and turn-based mode (TV-129). */
+.ct-hint {
+  margin: 4px 0 0;
+  font-size: var(--text-xs);
+}
+.ct-start-scene {
+  margin: 0 0 10px;
+}
+.ct-start-tools {
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.ct-start-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+  counter-reset: ct-start;
+}
+.ct-start-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px 12px;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+}
+/* A creature left out: Foundry dnd5e's empty slot (dashed rim, no fill) with the words in the
+   secondary colour, instead of 60 % opacity (critique 29/09: 3.8:1 dark, 2.7:1 light). */
+.ct-start-row:not(.is-included) {
+  border-style: dashed;
+  background: transparent;
+  color: var(--muted);
+}
+.ct-start-row:not(.is-included) :is(strong, output) {
+  color: var(--muted);
+}
+.ct-start-row.is-included {
+  counter-increment: ct-start;
+}
+.ct-start-row.is-included .ct-start-who::before {
+  content: counter(ct-start);
+  min-width: 1.4em;
+  color: var(--accent);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.ct-start-who {
+  flex: 1 1 14rem;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+}
+.ct-start-who small {
+  width: 100%;
+  padding-left: calc(20px + 1.4em + 16px);
+}
+.ct-start-roll {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.ct-start-d20 {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+.ct-start-d20 input {
+  width: 4.2rem;
+  min-height: 40px;
+}
+.ct-start-roll .button {
+  min-width: 40px;
+  min-height: 40px;
+}
+.ct-start-total {
+  min-width: 2.4rem;
+  padding: 0 4px;
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  text-align: center;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.ct-start-missing {
+  min-height: 1.5em;
+  margin: 10px 0 4px;
+  color: var(--accent);
+}
+.ct-start-note {
+  font-size: var(--text-xs);
+}
+/* House-rule and call-out notes: a framed note (dnd5e), not a side stripe. */
+.ct-mob-rule {
+  padding: 8px 10px;
+  border: 1px solid var(--accent-line);
+  background: var(--accent-soft);
+  border-radius: var(--radius-sm);
+  margin-bottom: 10px;
+}
+.ct-mob-rule p {
+  margin: 0 0 6px;
+}
+@media (max-width: 720px) {
+  .ct-start-who small {
+    padding-left: 0;
+  }
+  .ct-start-roll {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+/* R5 TV-46 — players roll their own initiative (D&D Beyond's sheet roll, Foundry's d20 on the
+   player's combatant row): the roll call in the tracker, the own-row controls, the map alert
+   and, in the DM's start dialog, who rolled and who is still waited for. */
+.ct-rollcall {
+  display: grid;
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+}
+.ct-rollcall h3,
+.ct-rollcall-status {
+  margin: 0;
+}
+.ct-own-roll {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 6px 8px;
+  padding-top: 6px;
+}
+.ct-own-roll .ct-inline {
+  flex: 1 1 180px;
+}
+.ct-start-roll-one {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.ct-start-by {
+  width: 100%;
+  font-size: var(--text-xs);
+  color: var(--accent);
+}
+.ct-start-by.is-waiting {
+  color: var(--muted);
+}
+.ct-why {
+  width: 100%;
+  margin: 0;
+  font-size: var(--text-xs);
+}
+.ct-start-call {
+  margin: 0 0 10px;
+  padding: 6px 10px;
+  border: 1px solid var(--accent-line);
+  background: var(--accent-soft);
+  border-radius: var(--radius-sm);
+}
+.ct-alert-initiative {
+  border: 2px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, var(--surface));
+}
+.ct-alert-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+@media (max-width: 720px) {
+  .ct-start-roll {
+    flex-wrap: wrap;
+  }
+}
+
+/* Residual TV-52 (Improved Initiative «group initiative», DDB shared copies): the start row
+   of identical creatures carries its «Un solo tiro per il gruppo» / «Tiri separati» switch. */
+.ct-start-share {
+  width: 100%;
+  min-height: 40px;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+/* Final review P2: «Sorpreso» beside the row's die (BG3/Solasta ambush), a 40 px target. */
+.ct-start-surprise {
+  min-height: 40px;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+.ct-start-surprise:has(input:checked) {
+  color: var(--warning);
+}

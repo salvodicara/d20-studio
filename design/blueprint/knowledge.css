@@ -1,0 +1,334 @@
+/* B46 — Knowledge, examination, stealth and cover. Loaded only with the knowledge area. */
+
+/* ------------------------------------------------ Creature tab block */
+.knowledge-panel {
+  display: grid;
+  gap: 12px;
+}
+/* Stealth and knowledge blocks: flat D&D Beyond cards with a condensed small-capital label in
+   the theme colour. */
+.knowledge-block {
+  display: grid;
+  gap: 6px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface-2);
+}
+.knowledge-block h4 {
+  margin: 0;
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--label-tracking);
+  color: var(--accent);
+}
+.knowledge-block p,
+.knowledge-block ul {
+  margin: 0;
+}
+.knowledge-block ul {
+  padding-left: 18px;
+}
+.knowledge-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.knowledge-actions .button {
+  min-height: 40px;
+}
+.knowledge-status.is-hidden strong {
+  color: var(--positive);
+}
+.knowledge-watchers li.is-seen {
+  color: var(--danger);
+}
+.knowledge-watchers li.is-aware strong::after {
+  content: " !";
+  color: var(--danger);
+}
+.knowledge-reasons {
+  color: var(--danger);
+}
+.knowledge-ok {
+  color: var(--positive);
+}
+.knowledge-loss {
+  padding: 6px 8px;
+  border: 1px solid color-mix(in srgb, var(--danger) 55%, transparent);
+  background: var(--danger-soft);
+  border-radius: var(--radius-sm);
+}
+.knowledge-mods li.tone-good {
+  color: var(--positive);
+}
+.knowledge-mods li.tone-bad,
+.knowledge-mods li.tone-blocked {
+  color: var(--danger);
+}
+.knowledge-mods small,
+.knowledge-pattern,
+.knowledge-source {
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+.knowledge-from {
+  max-width: 260px;
+}
+.knowledge-picks {
+  display: grid;
+  gap: 6px;
+  list-style: none;
+  padding: 0 !important;
+}
+.knowledge-pick {
+  display: grid;
+  gap: 4px;
+}
+/* Line of sight: clear, partial, blocked — the same three colours the rays use on the map. */
+.knowledge-los.is-clear {
+  border-color: var(--text);
+}
+.knowledge-los.is-partial {
+  border-color: var(--warning);
+}
+.knowledge-los.is-blocked {
+  border-color: var(--danger);
+}
+
+/* ------------------------------------------------ Knowledge meter and Examine window */
+/* The meter: BG3's resource squares (spell-slot shape) in the theme gold. */
+.knowledge-meter {
+  display: inline-flex;
+  gap: 3px;
+  vertical-align: middle;
+}
+.knowledge-pip {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  border: 1px solid var(--accent);
+  background: transparent;
+}
+.knowledge-pip.is-on {
+  background: var(--accent);
+}
+.knowledge-exam {
+  display: grid;
+  gap: 10px;
+  min-width: min(560px, 100%);
+}
+.knowledge-exam-head p {
+  margin: 0;
+}
+.knowledge-exam-name strong {
+  font: 600 var(--text-xl) var(--font-display);
+}
+/* Examine tiers: BG3's examine window sections — flat framed cards, locked ones dashed. */
+.knowledge-tier {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 8px 12px;
+  background: var(--surface-2);
+}
+.knowledge-tier h3 {
+  margin: 0 0 6px;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.knowledge-tier dl {
+  margin: 0;
+  display: grid;
+  gap: 4px;
+}
+.knowledge-row {
+  display: grid;
+  grid-template-columns: minmax(110px, 30%) 1fr;
+  gap: 8px;
+}
+.knowledge-row dt {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--label-tracking);
+}
+.knowledge-row dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.knowledge-row ul {
+  margin: 0;
+  padding-left: 18px;
+}
+.knowledge-tier.is-locked {
+  border-style: dashed;
+  opacity: 0.85;
+}
+.knowledge-known {
+  background: var(--positive-soft);
+  color: var(--positive);
+  border-color: color-mix(in srgb, var(--positive) 60%, transparent);
+}
+/* DM-only facts in the system's «solo DM» violet (Roll20 Jumpgate GM tones), with the word. */
+.knowledge-secret {
+  background: color-mix(in srgb, var(--vis-dm) 14%, transparent);
+  color: var(--vis-dm);
+  border-color: color-mix(in srgb, var(--vis-dm) 60%, transparent);
+}
+.knowledge-note {
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+}
+.knowledge-dm {
+  display: grid;
+  gap: 8px;
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+}
+.knowledge-grant {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  display: grid;
+  gap: 6px;
+}
+.knowledge-choice {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  display: grid;
+  gap: 6px;
+}
+.knowledge-choice label {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  min-height: 40px;
+}
+.knowledge-roll {
+  display: grid;
+  gap: 8px;
+}
+.knowledge-roll p {
+  margin: 0;
+}
+
+/* ------------------------------------------------ Map: sight areas, lines, chips, marks */
+/* Theme-invariant map palette (combat.css). */
+.knowledge-sight polygon {
+  fill: var(--map-danger);
+  fill-opacity: 0.12;
+  stroke: var(--map-danger);
+  stroke-opacity: 0.55;
+  stroke-width: 2;
+  stroke-dasharray: 6 4;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+.knowledge-marks,
+.knowledge-marks * {
+  pointer-events: none;
+}
+.knowledge-rays line {
+  stroke-width: 2.5;
+  vector-effect: non-scaling-stroke;
+  stroke-linecap: round;
+}
+.knowledge-rays line[data-ray="blocked"] {
+  stroke-dasharray: 5 4;
+}
+.knowledge-rays.is-shared line {
+  stroke-opacity: 0.8;
+}
+.knowledge-chip rect {
+  fill: var(--map-halo);
+  fill-opacity: 0.92;
+  stroke: var(--map-gold);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+.knowledge-chip.tone-bad rect {
+  stroke: var(--map-danger);
+}
+.knowledge-chip.tone-good rect {
+  stroke: var(--map-positive);
+}
+.knowledge-chip text {
+  fill: var(--map-ink);
+  font-size: 13px;
+  font-family: var(--font-ui);
+  font-variant-numeric: tabular-nums;
+}
+.knowledge-hidden-mark circle {
+  fill: var(--map-chip);
+  stroke: var(--map-positive);
+  stroke-width: 1.5;
+}
+.knowledge-hidden-mark path {
+  stroke: var(--map-positive);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+/* ------------------------------------------------ Narrow column and phone */
+@container table-panel (max-width: 600px) {
+  .knowledge-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .knowledge-actions .button {
+    flex: 1 1 auto;
+  }
+}
+@media (max-width: 720px) {
+  .knowledge-exam {
+    min-width: 0;
+  }
+  .knowledge-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .knowledge-actions .button {
+    flex: 1 1 auto;
+  }
+}
+/* P6 TV-44: the line-of-sight result on the map with its switch and «Togli» (Peekaboo). */
+.knowledge-hud-button {
+  cursor: pointer;
+}
+.knowledge-hud-button rect {
+  fill: var(--map-chip);
+  stroke: var(--map-gold);
+  stroke-width: 1.5;
+}
+.knowledge-hud-button text {
+  fill: var(--map-ink);
+  font: 600 12px var(--font-ui);
+  pointer-events: none;
+}
+.knowledge-hud-button:hover rect,
+.knowledge-hud-button:focus-visible rect {
+  fill: color-mix(in srgb, var(--map-gold) 22%, var(--map-chip));
+}
+.knowledge-hud-button:focus {
+  outline: none;
+}
+.knowledge-hud-button:focus-visible rect {
+  stroke-width: 3;
+}
+
+/* CA-71: failed passive checks the campaign shows to players (BG3 passive roll). */
+.knowledge-passive-lines {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}

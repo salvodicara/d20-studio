@@ -1,0 +1,625 @@
+/* Area B60 — Simulated AI assistant. Linked by assistant.mjs through
+   registry.registerStyles(). Only .assistant-* classes; uses the shell's tokens.
+   Visual pass of 29/09/2026 (DESIGN.md; evidence «home-services»): flat hairline answer
+   cards (D&D Beyond, Kanka), numbered citation markers in the theme colour (D&D Beyond's
+   inline links), code-free sunken fields (Foundry v13), the consent notice as D&D Beyond's
+   theme-colour notice. */
+
+.assistant {
+  max-width: 1080px;
+}
+.assistant-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+/* On/off status: the core chip, larger (Foundry dnd5e pill). */
+.assistant-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0 0;
+  padding: 8px 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  color: var(--text);
+  white-space: nowrap;
+}
+.assistant-status.on {
+  border-color: color-mix(in srgb, var(--positive) 60%, transparent);
+  background: var(--positive-soft);
+}
+.assistant-status.on span {
+  color: var(--positive);
+}
+.assistant-status.off span {
+  color: var(--muted);
+}
+.assistant-sim {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 18px;
+  max-width: 78ch;
+  overflow-wrap: anywhere;
+}
+.assistant-sim-badge {
+  border-color: var(--accent-line);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.assistant-consent-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 20px;
+  padding: 14px 18px;
+  margin-bottom: 18px;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-md);
+  background: var(--accent-soft);
+}
+.assistant-consent-banner p {
+  margin: 0;
+  color: var(--text);
+  max-width: 64ch;
+}
+.assistant-tabs button {
+  min-height: 44px;
+}
+.assistant-block {
+  padding-bottom: 24px;
+}
+.assistant-block > h2 {
+  margin: 0 0 12px;
+  font-size: var(--text-xl);
+}
+.assistant-ask,
+.assistant-new-review {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px 16px;
+}
+.assistant-ask .field {
+  flex: 1 1 320px;
+  margin-bottom: 0;
+}
+.assistant-new-review .field {
+  flex: 1 1 280px;
+  margin-bottom: 0;
+}
+.assistant .assistant-new-review fieldset,
+.assistant .assistant-format {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 18px;
+}
+.assistant .assistant-format legend {
+  width: 100%;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.assistant-engine-line {
+  margin: 12px 0 4px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+}
+.assistant-scope {
+  margin: 4px 0 16px;
+}
+.assistant-scope summary,
+.assistant-sources summary,
+.assistant-cited summary,
+.assistant-card > summary {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: var(--text);
+  list-style: none;
+}
+.assistant-scope summary::-webkit-details-marker,
+.assistant-sources summary::-webkit-details-marker,
+.assistant-cited summary::-webkit-details-marker,
+.assistant-card > summary::-webkit-details-marker {
+  display: none;
+}
+.assistant-scope summary::before,
+.assistant-sources summary::before,
+.assistant-cited summary::before,
+.assistant-card > summary::before {
+  content: "▸";
+  color: var(--accent);
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.assistant-scope[open] summary::before,
+.assistant-sources[open] summary::before,
+.assistant-cited[open] summary::before,
+.assistant-card[open] > summary::before {
+  transform: rotate(90deg);
+}
+.assistant ul.item-list {
+  padding-left: 0;
+  list-style: none;
+}
+.assistant [tabindex="-1"]:focus:not(:focus-visible) {
+  outline: none;
+}
+.assistant-answer {
+  margin-block: 16px;
+  padding: 20px 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+.assistant-answer header,
+.assistant-review-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px 16px;
+}
+.assistant-answer h3,
+.assistant-review-head h3 {
+  margin: 0;
+  font-size: var(--text-lg);
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+.assistant-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.assistant-kept {
+  border-color: var(--positive);
+  color: var(--positive);
+}
+.assistant-text {
+  margin: 14px 0 8px;
+  color: var(--text);
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+.assistant-said {
+  color: var(--muted);
+}
+.assistant-line {
+  margin: 6px 0;
+}
+.assistant-line:first-of-type {
+  margin-top: 14px;
+}
+.assistant-quote {
+  color: var(--text);
+}
+/* 40 px target without stretching the line: the negative block margin keeps the line box. */
+.assistant-cite {
+  min-width: 40px;
+  min-height: 40px;
+  margin-block: -10px;
+  margin-inline: 0;
+  padding: 0 6px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--accent);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  vertical-align: baseline;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+.assistant-cite:hover {
+  border-color: var(--accent-line);
+  background: var(--accent-soft);
+}
+.assistant-hidden,
+.assistant-pending {
+  color: var(--accent);
+  margin: 6px 0;
+}
+.assistant-citations {
+  margin: 12px 0;
+  padding-left: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+.assistant-citations li {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+  overflow-wrap: anywhere;
+}
+.assistant-citations li:focus {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+.assistant-cite-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 10px;
+}
+.assistant-cite-head strong {
+  color: var(--text);
+}
+.assistant-citations blockquote {
+  margin: 8px 0 4px;
+  padding-left: 12px;
+  border-left: 2px solid var(--line-strong);
+  color: var(--text);
+}
+.assistant-restricted {
+  border-color: color-mix(in srgb, var(--danger) 60%, transparent);
+  color: var(--danger);
+}
+.assistant-actions {
+  margin-top: 12px;
+}
+.assistant-restore {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  margin: 12px 0;
+  color: var(--text);
+}
+.assistant-history h3 {
+  margin: 28px 0 4px;
+  font-size: var(--text-md);
+  color: var(--text);
+}
+.assistant-history .item-row > div,
+.assistant-review-list .item-row > div {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.assistant-write-grid {
+  display: grid;
+  grid-template-columns: minmax(200px, 1fr) minmax(0, 2fr);
+  gap: 0 16px;
+}
+.assistant .assistant-context {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 8px 14px 10px;
+  margin: 0 0 16px;
+  max-height: 260px;
+  overflow-y: auto;
+}
+.assistant-context .campaign-check,
+.assistant-sources .campaign-check {
+  overflow-wrap: anywhere;
+}
+.assistant-review {
+  margin-top: 18px;
+  padding: 20px 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+.assistant .assistant-review .assistant-format {
+  margin: 0 0 16px;
+}
+.assistant-answer.compact .assistant-citations li {
+  padding: 8px 0;
+}
+.assistant-review h4 {
+  margin: 22px 0 4px;
+  color: var(--text);
+}
+.assistant-review .field input,
+.assistant-review .field textarea {
+  min-width: 0;
+}
+.assistant-regen {
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 8px 12px;
+  margin-bottom: 8px;
+}
+.assistant-regen .field {
+  flex: 1 1 280px;
+  margin-bottom: 0;
+}
+.assistant-beats,
+.assistant-entities {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 12px;
+}
+.assistant-beat,
+.assistant-entity {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-block: 4px;
+}
+.assistant-beat.level-1 {
+  padding-left: 28px;
+}
+.assistant-beat.level-2 {
+  padding-left: 56px;
+}
+.assistant-beat-level select,
+.assistant-entity select {
+  min-height: 40px;
+  max-width: 132px;
+}
+.assistant-beat-text {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+/* Outline lines: the core field (Foundry v13 well, gold on focus). */
+.assistant-beat-text input,
+.assistant-entity input {
+  width: 100%;
+  min-height: 40px;
+  background: var(--sunken);
+  color: var(--text);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+:is(.assistant-beat-text input, .assistant-entity input):hover:not(:disabled) {
+  border-color: var(--muted);
+}
+:is(.assistant-beat-text input, .assistant-entity input):focus-visible {
+  border-color: var(--accent);
+}
+.assistant-beat.level-0 .assistant-beat-text input {
+  font-weight: 600;
+}
+.assistant-beat.level-2 .assistant-beat-text input {
+  font-size: var(--text-sm);
+}
+.assistant-beat-cites {
+  color: var(--accent);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.assistant-entity .field {
+  margin: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.assistant-entity .field:nth-child(2) {
+  flex: 0 0 auto;
+}
+.assistant-sources,
+.assistant-cited {
+  margin-block: 14px;
+}
+.assistant .assistant-sources fieldset {
+  border: 0;
+  padding: 0;
+  margin: 8px 0 12px;
+}
+.assistant-excluded {
+  margin: 6px 0 10px;
+}
+.assistant-preview {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-family: inherit;
+  background: var(--sunken);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  color: var(--text);
+  max-height: 360px;
+  overflow-y: auto;
+}
+.assistant-card {
+  margin: 0 0 16px;
+  padding: 16px 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  overflow-wrap: anywhere;
+}
+.assistant-card h3,
+.assistant-card legend {
+  margin: 0 0 6px;
+  color: var(--text);
+  font-size: var(--text-lg);
+}
+/* A fieldset card reads like the other cards: its legend sits inside the box. */
+.assistant fieldset.assistant-card {
+  display: block;
+  min-width: 0;
+  margin: 0 0 16px;
+  padding: 16px 20px;
+}
+.assistant fieldset.assistant-card legend {
+  float: left;
+  width: 100%;
+  padding: 0;
+  margin-bottom: 6px;
+}
+.assistant fieldset.assistant-card legend + * {
+  clear: both;
+}
+.assistant-dialog fieldset {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 8px 14px 10px;
+  margin: 0 0 18px;
+}
+.assistant-dialog h3 {
+  margin: 14px 0 6px;
+  font-size: var(--text-md);
+  color: var(--text);
+}
+@media (prefers-reduced-motion: reduce) {
+  .assistant-scope summary::before,
+  .assistant-sources summary::before,
+  .assistant-cited summary::before,
+  .assistant-card > summary::before {
+    transition: none;
+  }
+}
+.assistant-card p {
+  margin: 4px 0 10px;
+}
+.assistant-entry {
+  margin-top: 28px;
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+}
+.assistant-entry h2 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 10px;
+  font-size: var(--text-lg);
+}
+.assistant-drawer .assistant-sim {
+  font-size: var(--text-sm);
+}
+.assistant-drawer .assistant-ask .field {
+  flex-basis: 100%;
+}
+.assistant-answer.compact {
+  padding: 14px 16px;
+}
+.assistant-off h2 {
+  font-size: var(--text-xl);
+}
+/* A draft part hidden because its source changed: the text is not shown, only removable
+   (Foundry dnd5e's dashed empty slot). */
+.assistant-masked {
+  justify-content: space-between;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius-sm);
+  padding: 4px 4px 4px 12px;
+  margin-block: 4px;
+}
+.assistant-masked p {
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.assistant-recap-sources h3 {
+  margin: 0 0 6px;
+  font-size: var(--text-md);
+  color: var(--text);
+}
+.assistant-recap-sources ol {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px;
+}
+.assistant-recap-sources .button {
+  min-height: 40px;
+  text-align: left;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.assistant-external-consent {
+  margin-top: 10px;
+}
+.assistant .item-row .toolbar {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+@media (max-width: 720px) {
+  .assistant .campaign-heading {
+    flex-wrap: wrap;
+  }
+  .assistant-status {
+    white-space: normal;
+  }
+  .assistant-write-grid {
+    grid-template-columns: 1fr;
+  }
+  .assistant-answer,
+  .assistant-review,
+  .assistant-card,
+  .assistant-entry {
+    padding: 14px;
+  }
+  .assistant-beat,
+  .assistant-entity {
+    flex-wrap: wrap;
+  }
+  .assistant-beat.level-1 {
+    padding-left: 14px;
+  }
+  .assistant-beat.level-2 {
+    padding-left: 28px;
+  }
+  .assistant-beat-text,
+  .assistant-entity .field:first-child {
+    flex: 1 1 100%;
+    order: 1;
+  }
+  .assistant-beat-level,
+  .assistant-beat-cites,
+  .assistant-beat .icon-button,
+  .assistant-entity .field:nth-child(2),
+  .assistant-entity .assistant-beat-cites,
+  .assistant-entity .icon-button {
+    order: 2;
+  }
+  .assistant-actions .button,
+  .assistant-ask .button {
+    flex: 1 1 auto;
+  }
+}
+
+/* SV-46: the local model connection (simulated), inside the engine choice */
+.assistant-local {
+  margin: 6px 0 4px 30px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  display: grid;
+  gap: 8px;
+}
+.assistant-local-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 0 12px;
+  align-items: end;
+}
+.assistant-local-form > .toolbar,
+.assistant-local-form > p {
+  grid-column: 1 / -1;
+}
+.assistant-local-result,
+.assistant-local-label {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 720px) {
+  .assistant-local {
+    margin-left: 0;
+  }
+}

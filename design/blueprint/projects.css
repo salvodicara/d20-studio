@@ -1,0 +1,728 @@
+/* B54 — downtime projects, crafting and non-class tracks. Prefix: .projects- */
+
+.projects {
+  display: grid;
+  gap: 20px;
+}
+.projects-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.projects .section-heading,
+.projects-track .section-heading,
+.projects-party .section-heading {
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.projects-toolbar {
+  justify-content: flex-end;
+}
+/* Notices: Foundry v13's notification, a tinted plate with a hairline. */
+.projects-notice {
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  background: var(--accent-soft);
+  margin: 0 0 14px;
+}
+.projects-time-grid {
+  display: grid;
+  grid-template-columns: minmax(180px, 240px) minmax(0, 1fr);
+  gap: 16px;
+  align-items: stretch;
+}
+.projects-available {
+  justify-content: center;
+  text-align: center;
+}
+.projects-available strong {
+  font-size: 32px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+}
+.projects-warning {
+  color: var(--danger);
+  margin-top: 6px;
+}
+.projects-breakdown {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 10px;
+  margin: 0;
+}
+/* The core stat box (D&D Beyond): bronze rim, condensed small-caps label. */
+.projects-breakdown div {
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  padding: 8px 12px;
+  min-width: 0;
+}
+.projects-breakdown dt {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  font-variant-caps: all-small-caps;
+}
+.projects-breakdown dd {
+  margin: 2px 0 0;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.projects-rule {
+  font-size: var(--text-sm);
+  margin: 12px 0 0;
+}
+.projects-grants,
+.projects-history,
+.projects-note,
+.projects-closed {
+  margin-top: 10px;
+}
+.projects details > summary,
+.projects-track details > summary {
+  cursor: pointer;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--accent);
+}
+.projects details > summary h2 {
+  margin: 0;
+  color: var(--text);
+}
+.projects details > summary::-webkit-details-marker {
+  display: none;
+}
+.projects details > summary::before,
+.projects-track details > summary::before {
+  content: "";
+  flex: none;
+  width: 8px;
+  height: 8px;
+  margin: 0 4px 0 2px;
+  border-right: 2px solid var(--accent);
+  border-bottom: 2px solid var(--accent);
+  transform: rotate(-45deg);
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.projects details[open] > summary::before,
+.projects-track details[open] > summary::before {
+  transform: rotate(45deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .projects details > summary::before {
+    transition: none;
+  }
+}
+.projects-grants ul,
+.projects-lines {
+  margin: 6px 0 0;
+  padding-left: 20px;
+  font-size: var(--text-sm);
+}
+.projects-lines li.is-withdrawn {
+  color: var(--muted);
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+}
+
+/* Project cards (Crash's Tracking items with a LegendKeeper step meter). */
+.projects-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+  gap: 14px;
+}
+.projects-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface-2);
+  padding: 16px;
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+.projects-card.is-completed {
+  border-color: color-mix(in srgb, var(--positive) 60%, transparent);
+}
+.projects-card.is-paused {
+  border-style: dashed;
+}
+.projects-card.is-abandoned {
+  opacity: 0.8;
+}
+.projects-card-head {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: start;
+}
+.projects-card-head h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 400;
+  overflow-wrap: anywhere;
+}
+.projects-card-head p {
+  margin: 2px 0 0;
+  font-size: var(--text-xs);
+}
+/* Emblem in BG3's round portrait frame; filled green once done. */
+.projects-emblem {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--frame);
+  color: var(--accent);
+  background: var(--surface);
+}
+.projects-card.is-completed .projects-emblem {
+  background: var(--positive);
+  color: var(--bg);
+  border-color: var(--positive);
+}
+.projects-status {
+  white-space: nowrap;
+}
+.projects-meter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.projects-segs {
+  flex: 1;
+  display: flex;
+  gap: 4px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.projects-seg {
+  flex: 1;
+  height: 10px;
+  border-radius: var(--radius-xs);
+  background: var(--hp-track);
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+.projects-seg-fill {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+}
+.projects-seg.is-done .projects-seg-fill {
+  background: var(--positive);
+}
+.projects-fraction {
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.projects-current p {
+  margin: 0 0 6px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.projects-current.is-done {
+  color: var(--positive);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+.projects-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.projects-bar progress,
+.projects-party progress {
+  flex: 1;
+  min-width: 60px;
+  height: 12px;
+  accent-color: var(--accent);
+}
+.projects-bar span {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  font-size: var(--text-sm);
+}
+.projects-spent {
+  margin: 0;
+  font-size: var(--text-sm);
+}
+.projects-actions .button {
+  min-height: 40px;
+}
+.projects-reason {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+.projects-step-list {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+  font-size: var(--text-sm);
+}
+.projects-step-list li {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+}
+.projects-step-mark {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  display: inline-grid;
+  place-items: center;
+  font-size: var(--text-xs);
+}
+.projects-step-list li.is-done .projects-step-mark {
+  background: var(--positive);
+  color: var(--bg);
+  border-color: var(--positive);
+}
+.projects-history h4 {
+  margin: 12px 0 0;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+.projects-note form {
+  display: grid;
+  gap: 6px;
+  justify-items: start;
+}
+.projects-note .field {
+  width: 100%;
+  margin: 6px 0 0;
+}
+.projects-note textarea {
+  min-height: 64px;
+}
+
+/* Recipe book (Mastercrafted: craft button on the recipe's top left, ✓/✗ requirements). */
+.projects-recipe-book > summary {
+  list-style: none;
+}
+.projects-recipe-intro {
+  margin: 8px 0 12px;
+  align-items: flex-start;
+}
+.projects-recipe-intro p {
+  margin: 0;
+  flex: 1 1 320px;
+}
+.projects-book {
+  margin: 16px 0 8px;
+  font-size: 1rem;
+}
+.projects-recipes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+  gap: 12px;
+}
+.projects-recipe {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  background: var(--surface-2);
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+.projects-recipe.is-blocked {
+  background: var(--surface);
+}
+.projects-recipe-head {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.projects-recipe-head > div {
+  min-width: 0;
+}
+.projects-recipe-head p {
+  margin: 2px 0 0;
+  font-size: var(--text-sm);
+}
+.projects-recipe-head .button {
+  flex: none;
+}
+.projects-checks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+  font-size: var(--text-sm);
+}
+.projects-checks li {
+  overflow-wrap: anywhere;
+}
+.projects-checks .is-ok > span:first-child,
+.projects-ok {
+  color: var(--positive);
+}
+.projects-checks .is-missing,
+.projects-radio.is-missing {
+  color: var(--danger);
+}
+.projects-fieldset {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px 4px;
+  margin: 0 0 14px;
+  min-width: 0;
+}
+.projects-fieldset legend {
+  padding: 0 6px;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.projects-radio {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  margin: 0 0 6px;
+}
+.projects-radio input {
+  width: 20px;
+  height: 20px;
+  flex: none;
+}
+.projects-choice {
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  padding: 4px 0;
+}
+.projects-choice input {
+  margin-top: 2px;
+}
+.projects-choice > span {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.projects-choice .muted {
+  font-size: var(--text-sm);
+  overflow-wrap: anywhere;
+}
+.projects-step-grid {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0 12px;
+}
+.projects-formula {
+  font-size: 18px;
+}
+
+/* Change log (Crash's Change Log). */
+.projects-log-list {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+}
+.projects-log-list li {
+  display: grid;
+  grid-template-columns: minmax(130px, 180px) minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: var(--text-sm);
+}
+.projects-log-list span {
+  overflow-wrap: anywhere;
+}
+.projects-log-when {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Non-class track (BG3 separate tree). */
+.projects-track .section-heading h2 {
+  margin: 0;
+}
+.projects-track .section-heading p {
+  margin: 2px 0 0;
+  font-size: var(--text-sm);
+}
+.projects-currency {
+  font-size: var(--text-sm);
+  border-color: var(--accent);
+  color: var(--accent);
+  padding: 8px 10px;
+}
+.projects-tree-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(240px, 1fr);
+  gap: 20px;
+  align-items: start;
+  margin-top: 14px;
+}
+.projects-tree {
+  display: grid;
+  gap: 18px;
+}
+.projects-ring {
+  border-top: 1px dashed var(--line);
+  padding-top: 8px;
+}
+.projects-ring-name {
+  margin: 0 0 8px;
+  font-size: var(--text-md);
+  font-weight: 700;
+  color: var(--muted);
+  font-family: var(--font-label);
+  letter-spacing: 0.06em;
+  font-variant-caps: all-small-caps;
+}
+.projects-ring-nodes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 16px;
+}
+.projects-node {
+  grid-column: var(--col, auto);
+  position: relative;
+  min-height: 64px;
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  column-gap: 10px;
+  align-items: center;
+  text-align: left;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--text);
+}
+.projects-ring[data-ring="3"] .projects-node {
+  justify-self: center;
+  width: min(100%, 340px);
+}
+.projects-ring + .projects-ring .projects-node::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -27px;
+  height: 26px;
+  border-left: 2px solid var(--line);
+}
+.projects-node-mark {
+  grid-row: 1 / span 2;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  border: 1px solid currentColor;
+  font-size: 16px;
+}
+.projects-node-name {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.projects-node-state {
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+.projects-node.is-unlocked {
+  border-color: var(--positive);
+}
+.projects-node.is-unlocked .projects-node-mark {
+  background: var(--positive);
+  color: var(--bg);
+  border-color: var(--positive);
+}
+.projects-node.is-unlocked::before {
+  border-color: var(--positive) !important;
+}
+.projects-node.is-available {
+  border-color: var(--accent);
+}
+.projects-node.is-available .projects-node-mark {
+  color: var(--accent);
+}
+.projects-node.is-locked {
+  color: var(--muted);
+}
+.projects-node.is-selected {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+.projects-node-detail {
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  background: var(--surface-2);
+  display: grid;
+  gap: 10px;
+}
+.projects-node-detail h3,
+.projects-node-detail p {
+  margin: 0;
+}
+.projects-ok {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.projects-dm {
+  margin-top: 16px;
+}
+.projects-assign {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-end;
+}
+.projects-assign .field {
+  margin: 0;
+  min-width: 220px;
+}
+
+/* Campaign › Downtime (party overview). */
+.projects-party .section-heading h2 {
+  margin: 0;
+}
+.projects-party .section-heading p {
+  margin: 2px 0 0;
+  font-size: var(--text-sm);
+}
+.projects-party-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.projects-party-row {
+  display: grid;
+  grid-template-columns: minmax(140px, 200px) minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+.projects-party-name {
+  display: grid;
+  gap: 2px;
+}
+.projects-party-projects {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+  font-size: var(--text-sm);
+}
+.projects-party-projects li {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(80px, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+}
+
+@media (max-width: 720px) {
+  .projects-time-grid,
+  .projects-tree-layout,
+  .projects-party-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .projects-card-head {
+    grid-template-columns: 40px minmax(0, 1fr);
+  }
+  .projects-status {
+    grid-column: 2;
+    justify-self: start;
+  }
+  .projects-log-list li {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
+  }
+  .projects-party-projects li {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
+  }
+  .projects-toolbar {
+    justify-content: flex-start;
+  }
+  .projects-bar span {
+    white-space: normal;
+  }
+}
+@media (max-width: 420px) {
+  .projects-ring-nodes {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .projects-node {
+    grid-column: 1;
+  }
+  .projects-ring + .projects-ring .projects-node::before {
+    display: none;
+  }
+  .projects-recipe-head {
+    flex-direction: column;
+  }
+}
+
+/* PG-83: active projects under the sheet's vitals (Crash's Tracking progress meter). */
+.projects-meters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  margin: -12px 0 20px;
+}
+.projects-meter {
+  display: grid;
+  grid-template-columns: auto minmax(90px, 160px);
+  align-items: center;
+  gap: 2px 10px;
+  min-height: 44px;
+  padding: 6px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.projects-meter:hover {
+  border-color: var(--accent);
+}
+.projects-meter small {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+.projects-meter progress {
+  width: 100%;
+  accent-color: var(--accent);
+}
+.projects-reason .button {
+  margin-top: 6px;
+}

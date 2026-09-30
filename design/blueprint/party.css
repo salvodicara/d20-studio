@@ -1,0 +1,1003 @@
+/* B44 — party overview, shared spells, bases, vehicles, role dashboards. Prefix: .party-
+   Tokens of styles.css (DESIGN.md): Kanka's dashboard widgets (flat cards), D&D Beyond's
+   campaign page and numbers, Foundry dnd5e's hit-point bar colours, the core chip. */
+.party-page,
+.party-dashboard {
+  min-width: 0;
+}
+.party-tabs {
+  margin-bottom: 18px;
+}
+.party-body {
+  min-width: 0;
+}
+.party-undo {
+  margin: 0 0 14px;
+}
+.party-legend {
+  font-size: var(--text-sm);
+  max-width: 90ch;
+  margin-top: 14px;
+}
+/* Notice: Foundry v13's tinted notification in the theme colour. */
+.party-notice {
+  padding: 10px 14px;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+}
+.party-overview-tools,
+.party-spell-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+  margin-bottom: 8px;
+}
+.party-check,
+.party-overview-tools .check-field,
+.party-spell-tools .check-field {
+  min-height: 40px;
+}
+
+/* Overview table (Foundry Party Overview): a table on wide screens, cards on a phone. */
+.party-table-wrap {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.party-who {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+/* Row headers are names (the core th is a label): body font, not small caps. */
+.party-table th[scope="row"] {
+  min-width: 120px;
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: var(--text-md);
+  font-weight: 600;
+  letter-spacing: 0;
+  font-variant-caps: normal;
+}
+.party-table th[scope="row"] .muted {
+  font-size: var(--text-sm);
+  font-weight: 400;
+}
+.party-table td,
+.party-table th {
+  vertical-align: middle;
+}
+.party-table tbody tr:last-child > * {
+  border-bottom: 0;
+}
+.party-table td strong {
+  font-size: var(--text-lg);
+  font-variant-numeric: tabular-nums;
+}
+.party-hp {
+  display: block;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+/* Hit points in Foundry dnd5e's bar colours (the Table's --hp-* tokens). */
+.party-hpbar {
+  display: block;
+  height: 6px;
+  margin-top: 5px;
+  border-radius: var(--radius-pill);
+  background: var(--hp-track);
+  overflow: hidden;
+  min-width: 70px;
+}
+.party-hpbar > span {
+  display: block;
+  height: 100%;
+  background: var(--hp-full);
+}
+.party-hpbar.is-mid > span {
+  background: var(--hp-mid);
+}
+.party-hpbar.is-low > span {
+  background: var(--hp-low);
+}
+.party-saves {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 2px 10px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.party-save abbr {
+  text-decoration: none;
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+.party-save.is-proficient {
+  color: var(--accent);
+  font-weight: 600;
+}
+.party-row-commands {
+  white-space: nowrap;
+}
+.party-hidden {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 14px;
+  margin-top: 12px;
+  color: var(--muted);
+}
+.party-hidden-item {
+  color: var(--text);
+}
+
+/* Shared spells */
+.party-spell-level h3 {
+  margin: 22px 0 8px;
+}
+.party-spell-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+.party-spell {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+}
+.party-spell-name {
+  font-weight: 500;
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.party-shared {
+  border-color: var(--accent-line);
+  color: var(--accent);
+}
+.party-casters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+/* Casters: dashed while unprepared (Foundry dnd5e's empty slot), then a solid control in
+   the core button materials. */
+.party-caster {
+  min-height: 40px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 3px 12px;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text);
+  line-height: 1.2;
+}
+.party-caster small {
+  color: var(--muted);
+}
+.party-caster.is-prepared {
+  border-style: solid;
+  border-color: var(--frame-soft);
+  background: var(--raised);
+}
+
+/* Bases and bastions */
+.party-bases-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px 24px;
+}
+.party-bases-top h2 {
+  margin: 0 0 4px;
+}
+.party-rules-note {
+  font-size: var(--text-sm);
+  max-width: 95ch;
+}
+.party-base,
+.party-vehicle {
+  margin-block: 18px;
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  min-width: 0;
+}
+.party-base-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px 16px;
+}
+.party-base-head h3 {
+  margin: 0 0 4px;
+  overflow-wrap: anywhere;
+}
+.party-base-head p {
+  margin: 0;
+}
+.party-facilities {
+  list-style: none;
+  margin: 12px 0;
+  padding: 0;
+}
+.party-facility {
+  display: grid;
+  grid-template-columns: minmax(160px, 1fr) minmax(0, 2fr) auto;
+  gap: 8px 16px;
+  align-items: center;
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+}
+.party-facility p {
+  margin: 2px 0 0;
+}
+.party-facility-orders {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  min-width: 0;
+}
+.party-facility-orders .button {
+  white-space: normal;
+  text-align: left;
+}
+.party-order-outcome {
+  font-size: var(--text-sm);
+}
+.party-order-pending {
+  margin: 0;
+}
+.party-inline-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 10px 12px;
+  margin-block: 12px;
+}
+.party-inline-form .field {
+  margin: 0;
+  flex: 1 1 180px;
+  min-width: 0;
+}
+.party-inline-form .field input,
+.party-inline-form .field select,
+.party-inline-form .field textarea {
+  width: 100%;
+  min-width: 0;
+}
+.party-base-log {
+  margin-top: 10px;
+}
+.party-base-log summary,
+.party-rules summary,
+.party-panel-row summary {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.party-log {
+  margin: 6px 0 0;
+  padding-left: 0;
+  list-style: none;
+}
+.party-log li {
+  padding: 6px 0;
+  border-top: 1px solid var(--line);
+  overflow-wrap: anywhere;
+}
+.party-log-note {
+  white-space: pre-wrap;
+}
+.party-rules {
+  margin-block: 12px;
+  padding: 6px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.party-rule-list {
+  padding-left: 20px;
+}
+.party-rule-form h4 {
+  margin: 10px 0;
+}
+.party-advance-base {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  margin: 0 0 12px;
+  padding: 8px 14px;
+}
+.party-advance-order {
+  padding-block: 6px;
+  border-bottom: 1px solid var(--line);
+}
+.party-advance-order textarea {
+  min-height: 60px;
+}
+
+/* Vehicles */
+.party-vehicle-stats {
+  margin-block: 14px 8px;
+}
+.party-vehicle-stats .stat strong {
+  font-size: var(--text-xl);
+}
+.party-load p {
+  margin: 6px 0;
+}
+.party-load-bar {
+  display: block;
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--hp-track);
+  overflow: hidden;
+}
+.party-load-bar > span {
+  display: block;
+  height: 100%;
+  background: var(--hp-full);
+}
+.party-load.is-over .party-load-bar > span {
+  background: var(--hp-low);
+}
+.party-vehicle h4 {
+  margin: 18px 0 6px;
+}
+.party-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.party-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 0 0 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  min-height: 40px;
+}
+.party-chip:not(:has(button)) {
+  padding-right: 12px;
+}
+.party-cargo th[scope="row"] {
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: var(--text-md);
+  font-weight: 600;
+  letter-spacing: 0;
+  font-variant-caps: normal;
+}
+.party-cargo td {
+  font-variant-numeric: tabular-nums;
+}
+.party-cargo-commands {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.party-unload {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.party-unload select,
+.party-unload input {
+  min-height: 40px;
+}
+.party-unload select {
+  max-width: 10em;
+}
+/* Quantity: a core field (Foundry v13 and Roll20 inputs). */
+.party-unload input {
+  width: 4.5em;
+  background: var(--sunken);
+  color: var(--text);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  padding: 6px 8px;
+  font-variant-numeric: tabular-nums;
+}
+.party-unload input:focus-visible {
+  border-color: var(--accent);
+}
+
+/* Dashboard (Kanka): tiles in a two-column grid, full-width tiles span both. */
+.party-dash-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+.party-tile {
+  min-width: 0;
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.party-tile.is-wide {
+  grid-column: 1 / -1;
+}
+.party-tile > section > h2,
+.party-tile h2 {
+  margin-top: 0;
+  font-size: var(--text-xl);
+}
+.party-tile .campaign-next {
+  padding-left: 0;
+  border-left: 0;
+}
+.party-tile .campaign-toolbar {
+  margin: 0;
+}
+.party-tile > section {
+  min-width: 0;
+}
+.party-tile .campaign-row:last-child {
+  border-bottom: 0;
+}
+
+/* Visual pass 2 (30/09): the campaign header of Kanka's dashboard — the campaign image as the
+   background of a wide banner under a dark veil that keeps the text legible (Kanka and
+   Foundry's join page write the name over the world image), the name in the display serif,
+   the short description and tags; the members sit at its foot as D&D Beyond's campaign page
+   lists DM and players. Without an image it is a flat card in the bronze trim. */
+.campaign-heading:has(+ .party-billboard) {
+  margin-bottom: 18px;
+}
+.party-billboard {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 18px;
+  min-height: 200px;
+  margin: 0 0 22px;
+  padding: 26px 28px 22px;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  overflow: hidden;
+}
+.party-billboard.has-art {
+  min-height: 260px;
+  border-color: var(--frame);
+  background:
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--token-label-halo) 92%, transparent) 0%,
+      color-mix(in srgb, var(--token-label-halo) 74%, transparent) 50%,
+      color-mix(in srgb, var(--token-label-halo) 22%, transparent) 100%
+    ),
+    var(--party-art) center / cover no-repeat,
+    var(--token-label-halo);
+  color: var(--token-label);
+}
+.party-billboard-text {
+  max-width: 68ch;
+}
+.party-billboard h2 {
+  margin: 0 0 8px;
+  font-size: var(--text-3xl);
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+.party-billboard-desc {
+  margin: 0;
+  font-size: var(--text-lg);
+  color: var(--muted);
+}
+/* Over the image the words keep the map's label colours, which do not change with the theme. */
+.party-billboard.has-art
+  :is(h2, .party-billboard-desc, .party-member-text, .party-member-text small) {
+  color: var(--token-label);
+}
+.party-billboard-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.party-billboard.has-art .badge {
+  border-color: color-mix(in srgb, var(--token-label) 50%, transparent);
+  background: color-mix(in srgb, var(--token-label-halo) 60%, transparent);
+  color: var(--token-label);
+}
+.party-members {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  margin: 0;
+  padding: 14px 0 0;
+  border-top: 1px solid var(--line);
+  list-style: none;
+}
+.party-billboard.has-art .party-members {
+  border-top-color: color-mix(in srgb, var(--token-label) 24%, transparent);
+}
+.party-member {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.party-member .account-avatar {
+  width: 36px;
+  height: 36px;
+  font-size: var(--text-sm);
+}
+.party-member-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+.party-member-text small {
+  color: var(--muted);
+}
+
+/* The party as D&D Beyond's campaign character cards: portrait at the left in the BG3 frame,
+   name in the display serif over class and level, the player, then hit points. */
+.party-mini-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px 18px;
+}
+.party-mini-list.party-cards {
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.party-mini {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  padding: 8px 0;
+  border-top: 1px solid var(--line);
+}
+.party-card {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+}
+.party-card-portrait {
+  width: 56px;
+  height: 64px;
+  font-size: 28px;
+}
+/* The sheet's portrait fills the frame (inline background); the initial under it stays out
+   of sight in both themes, as the media area paints the core portraits. */
+.party-cards .party-card .party-card-portrait.has-art {
+  color: transparent;
+}
+.party-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.party-card-player {
+  margin: 0 0 4px;
+  font-size: var(--text-sm);
+}
+.party-mini-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 10px;
+}
+/* Character names in the display serif (BG3 names, D&D Beyond campaign cards). */
+.party-mini-head .text-button {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  padding-block: 4px;
+  /* Short names ("Mira") still get a 40px target. */
+  min-width: 40px;
+}
+.party-card .party-mini-head .text-button {
+  min-height: 40px;
+  padding-block: 0;
+  text-align: left;
+}
+.party-mini-companions .text-button {
+  min-height: 40px;
+  min-width: 40px;
+}
+.party-companions {
+  margin-top: 16px;
+}
+.party-funds-note {
+  margin-top: 2px;
+  font-size: var(--text-sm);
+}
+.party-mini-stats {
+  display: flex;
+  gap: 14px;
+  color: var(--muted);
+  margin-top: 4px;
+  font-variant-numeric: tabular-nums;
+}
+.party-mini-stats strong {
+  color: var(--text);
+}
+/* Revealed material as Kanka's entity cards: two or three per row inside the wide tile. */
+.party-tile[data-party-tile="revealed"] > section {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+}
+.party-tile[data-party-tile="revealed"] > section > h2 {
+  grid-column: 1 / -1;
+  margin-bottom: 0;
+}
+.party-tile[data-party-tile="revealed"] .campaign-row {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+}
+.party-tile[data-party-tile="revealed"] .campaign-row:last-child {
+  border-bottom: 1px solid var(--line);
+}
+/* Latest entries (Kanka's recently modified widget): title that opens the entry, type and
+   date on the right, a hairline between rows; the World and notes links under the list. */
+.party-recent-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px 12px;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--line);
+}
+.party-recent-list li:first-child {
+  border-top: 0;
+}
+.party-recent-list .text-button {
+  min-height: 40px;
+  text-align: left;
+}
+.party-recent .campaign-toolbar {
+  margin-top: 12px;
+}
+.party-motd-text {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: var(--text-md);
+}
+.party-motd h2::before {
+  content: "✦ ";
+  color: var(--accent);
+}
+.party-motd-dialog .party-motd-text {
+  max-width: 60ch;
+}
+
+/* Dashboard setup */
+.party-setup h2 {
+  margin-top: 0;
+}
+.party-segment {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.party-dash-list {
+  list-style: none;
+  padding: 0;
+  margin: 14px 0;
+  display: grid;
+  gap: 8px;
+}
+.party-dash-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 8px 14px;
+  align-items: center;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  cursor: grab;
+}
+.party-dash-item.is-dragging {
+  opacity: 0.5;
+}
+.party-dash-item.is-drop-before {
+  box-shadow: 0 -3px 0 var(--accent);
+}
+.party-dash-item.is-drop-after {
+  box-shadow: 0 3px 0 var(--accent);
+}
+.party-drag {
+  color: var(--muted);
+  letter-spacing: -2px;
+  user-select: none;
+}
+.party-dash-name {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.party-dash-commands {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  justify-content: flex-end;
+}
+
+/* Table side tab (DM) */
+.party-panel {
+  display: grid;
+  gap: 10px;
+}
+.party-panel-row {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+  min-width: 0;
+}
+/* Mini stat boxes (D&D Beyond's AC / HP boxes, Solasta's AC/INIT/MOVE): condensed
+   small-capital label over a bold tabular number. */
+.party-panel-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 4px;
+  margin: 8px 0 4px;
+  text-align: center;
+}
+.party-panel-stats > div {
+  padding: 4px 2px;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+}
+.party-panel-stats dt {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+.party-panel-stats dd {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.party-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 720px) {
+  .party-dash-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .party-billboard {
+    min-height: 0;
+    padding: 20px 18px 18px;
+  }
+  /* On a phone the words cross the whole image: an even veil keeps them legible. */
+  .party-billboard.has-art {
+    min-height: 220px;
+    background:
+      linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--token-label-halo) 70%, transparent) 0%,
+        color-mix(in srgb, var(--token-label-halo) 88%, transparent) 100%
+      ),
+      var(--party-art) center / cover no-repeat,
+      var(--token-label-halo);
+  }
+  .party-billboard h2 {
+    font-size: var(--text-2xl);
+  }
+  .party-billboard-desc {
+    font-size: var(--text-md);
+  }
+  /* The next-appointment block keeps the tile's own frame, without the hub's divider. */
+  .party-tile .campaign-next {
+    padding-top: 0;
+    border-top: 0;
+  }
+  .party-tile {
+    padding: 14px;
+  }
+  .party-table-wrap {
+    border: 0;
+  }
+  .party-table thead {
+    display: none;
+  }
+  .party-table,
+  .party-table tbody,
+  .party-table tr,
+  .party-table th,
+  .party-table td {
+    display: block;
+    width: 100%;
+  }
+  .party-table tr {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 6px 12px;
+    margin-bottom: 12px;
+  }
+  .party-table td,
+  .party-table th[scope="row"] {
+    border: 0;
+    padding: 6px 0;
+  }
+  .party-table td[data-label]::before {
+    content: attr(data-label);
+    display: block;
+    color: var(--muted);
+    font-family: var(--font-label);
+    font-size: var(--text-md);
+    font-weight: 700;
+    letter-spacing: var(--label-tracking);
+    font-variant-caps: all-small-caps;
+  }
+  .party-row-commands {
+    white-space: normal;
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .party-row-commands::before {
+    width: 100%;
+  }
+  .party-facility {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .party-base,
+  .party-vehicle {
+    padding: 14px;
+  }
+  .party-dash-item {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+  .party-dash-commands {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+  }
+  .party-cargo thead {
+    display: none;
+  }
+  .party-cargo,
+  .party-cargo tbody,
+  .party-cargo tr,
+  .party-cargo th,
+  .party-cargo td {
+    display: block;
+    width: 100%;
+  }
+  .party-cargo tr {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .party-cargo td,
+  .party-cargo th {
+    border: 0;
+    padding: 2px 0;
+  }
+  .party-cargo td[data-label]::before {
+    content: attr(data-label) " ";
+    color: var(--muted);
+    font-size: var(--text-xs);
+  }
+}
+
+/* ---- P10 CA-03: Kanka widgets (filtered list, calendar, preview) ---- */
+.party-widget-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+.party-widget-list li {
+  min-height: 32px;
+}
+/* Mini calendar widget (Kanka): weekday labels in condensed small caps, today ringed,
+   session days filled with the theme colour. */
+.party-cal {
+  max-width: 420px;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 2px;
+  margin: 4px 0 10px;
+  text-align: center;
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}
+.party-cal-head {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+.party-cal-day {
+  padding: 5px 0;
+  border-radius: var(--radius-xs);
+}
+.party-cal-day.is-today {
+  outline: 1px solid var(--accent-line);
+  outline-offset: -1px;
+}
+.party-cal-day.has-session {
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+.party-add-tile [hidden] {
+  display: none;
+}
+/* R7 PG-85 / PG-17: the Gruppo page's own commands beside its title. */
+.party-commands {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.party-dash-why {
+  font-size: var(--text-sm);
+  margin: 6px 0 12px;
+}
+@media (max-width: 640px) {
+  .party-commands {
+    justify-content: stretch;
+  }
+  .party-commands .button {
+    flex: 1 1 auto;
+  }
+}

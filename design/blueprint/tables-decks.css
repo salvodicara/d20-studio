@@ -1,0 +1,732 @@
+/* B25 — Random tables and decks. Loaded through registry.registerStyles; every class uses
+   the rt- prefix and the shared tokens of styles.css.
+   Visual pass (29/09/2026, DESIGN.md): the directory as Foundry's sidebar directory (headings
+   in condensed capitals, the open entry a filled row with dnd5e's gold bar), the editor as
+   Foundry's RollTable sheet (range column in the theme colour), cards as BG3's bronze-framed
+   cards, and multi-sided tokens on the map with the map's own door plate. */
+
+.rt-root {
+  display: contents;
+}
+.rt-root h2,
+.rt-root h3,
+.rt-root h4 {
+  margin: 0 0 10px;
+}
+.rt-root h3 {
+  font-size: 17px;
+}
+.rt-root h4 {
+  font-size: 14px;
+}
+.rt-inline-field {
+  margin-bottom: 0;
+  min-width: min(260px, 100%);
+}
+.rt-root .field select,
+.rt-root .field input {
+  min-height: 42px;
+}
+/* The offline notice: a tinted callout in the warning colour (Owlbear's MUI Alert). */
+.rt-notice {
+  border: 1px solid color-mix(in srgb, var(--warning) 55%, transparent);
+  background: var(--warning-soft);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  margin: 12px 0;
+}
+.rt-warning {
+  color: var(--warning);
+}
+.rt-boundary {
+  font-size: 13px;
+  margin-top: 18px;
+}
+.rt-badge-drawn {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.rt-badge-warn {
+  border-color: color-mix(in srgb, var(--danger) 60%, transparent);
+  color: var(--danger);
+}
+.rt-tags {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Drawer at the Table. */
+.rt-drawer-top {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.rt-tabs {
+  margin-bottom: 16px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.rt-drawer-top > .button {
+  margin-bottom: 16px;
+}
+
+/* Draw panel. */
+.rt-draw {
+  display: grid;
+  gap: 14px;
+}
+.rt-draw-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 16px;
+  align-items: flex-end;
+}
+.rt-template-preview {
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+}
+.rt-template-text {
+  margin: 0 0 6px;
+  font-family: var(--font-display);
+}
+.rt-pending {
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius);
+  padding: 16px;
+  background: var(--surface-2);
+}
+.rt-pending-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 12px 18px;
+  align-items: end;
+  margin: 12px 0;
+}
+.rt-physical,
+.rt-choose {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: flex-end;
+}
+.rt-physical .field,
+.rt-choose .field {
+  margin: 0;
+  flex: 1 1 160px;
+}
+.rt-chain {
+  list-style: none;
+  margin: 8px 0;
+  padding: 0;
+  font-size: 14px;
+}
+.rt-chain li {
+  padding: 4px 0 4px calc(var(--rt-depth, 0) * 18px);
+}
+.rt-chain .rt-step + .rt-step {
+  border-top: 1px dotted var(--line);
+}
+.rt-chain .rt-reroll {
+  color: var(--muted);
+  text-decoration: line-through;
+  text-decoration-color: color-mix(in srgb, var(--muted) 50%, transparent);
+}
+/* The die of a step: the core key chip (Foundry v13's chips, a thin rounded outline). */
+.rt-die {
+  display: inline-block;
+  min-width: 40px;
+  padding: 1px 6px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-xs);
+  background: var(--sunken);
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Result card and history entries. */
+.rt-entry {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  background: var(--surface);
+}
+.rt-result {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 25%, transparent);
+}
+.rt-entry[data-status="reversed"],
+.rt-entry[data-status="incomplete"] {
+  opacity: 0.78;
+}
+.rt-entry header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.rt-entry header > div:first-child {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.rt-entry-text {
+  font-family: var(--font-display);
+  font-size: 17px;
+  margin: 10px 0 4px;
+  overflow-wrap: anywhere;
+}
+.rt-outputs {
+  margin: 8px 0;
+  padding-left: 20px;
+}
+.rt-outputs li {
+  min-height: 32px;
+  display: list-item;
+}
+.rt-outputs-actions {
+  margin: 10px 0;
+}
+.rt-notes {
+  border-top: 1px solid var(--line);
+  margin-top: 10px;
+  padding-top: 8px;
+}
+.rt-note {
+  margin: 4px 0;
+}
+.rt-note small {
+  display: block;
+  color: var(--muted);
+}
+.rt-note-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: flex-end;
+}
+.rt-note-form .field {
+  flex: 1 1 220px;
+  margin: 0;
+}
+.rt-history {
+  display: grid;
+  gap: 12px;
+}
+
+/* Ranges list (implied ranges, drawn and excluded results). */
+.rt-range-list {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+.rt-range-list li {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 4px;
+  border-bottom: 1px solid var(--line);
+}
+.rt-range {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  color: var(--accent);
+}
+.rt-range-list li.is-drawn > span:nth-child(2) {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+.rt-range-list li.is-filtered {
+  color: var(--muted);
+}
+
+/* Preparation: directory and editor. */
+.rt-prep-bar {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.rt-prep-layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 300px) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+.rt-directory {
+  display: grid;
+  gap: 18px;
+}
+.rt-dir-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+}
+.rt-dir-head .button {
+  white-space: nowrap;
+  padding-inline: 8px;
+}
+/* Directory headings: condensed small capitals (Kanka's module groups, the core labels). */
+.rt-dir-head h2 {
+  font-size: 16px;
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+.rt-directory ul {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0;
+}
+.rt-dir-item {
+  width: 100%;
+  min-height: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  text-align: left;
+  padding: 8px 12px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text);
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+.rt-dir-item small {
+  color: var(--muted);
+}
+.rt-dir-item:hover {
+  background: var(--raised);
+}
+/* The open table: Kanka's filled row, marked by dnd5e's gold bar at its left edge. */
+.rt-dir-item.active {
+  background: var(--raised);
+  box-shadow: inset 3px 0 0 var(--accent);
+  font-weight: 600;
+}
+.rt-workspace {
+  display: grid;
+  gap: 20px;
+  min-width: 0;
+}
+.rt-editor-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.rt-editor-head p {
+  margin: 0;
+}
+.rt-dirty {
+  font-size: 13px;
+  color: var(--muted);
+}
+.rt-editor-body h3 {
+  margin-top: 22px;
+}
+.rt-checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 24px;
+}
+.rt-status {
+  margin: 8px 0;
+}
+.rt-var-edit {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) auto auto;
+  gap: 10px;
+  align-items: end;
+}
+.rt-var-edit .check-field {
+  min-height: 42px;
+  align-self: end;
+}
+.rt-col-edit {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: end;
+  max-width: 520px;
+}
+.rt-edit-rows,
+.rt-edit-cards {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+.rt-edit-row {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) 92px;
+  gap: 8px 12px;
+  align-items: end;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+.rt-edit-row .field,
+.rt-edit-card .field {
+  margin: 0;
+}
+.rt-edit-row .rt-range {
+  align-self: center;
+  padding-top: 20px;
+}
+.rt-edit-row.is-unreachable .rt-range {
+  color: var(--danger);
+}
+.rt-row-extra {
+  grid-column: 2 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  align-items: flex-end;
+}
+.rt-row-extra > .field {
+  flex: 1 1 150px;
+  max-width: 260px;
+}
+.rt-row-actions {
+  display: flex;
+  gap: 2px;
+  margin-left: auto;
+}
+.rt-row-actions .button {
+  min-width: 42px;
+  padding: 8px;
+}
+.rt-edit-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) auto auto;
+  gap: 10px;
+  align-items: end;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+}
+.rt-edit-card .badge {
+  align-self: center;
+  margin-top: 20px;
+}
+.rt-refs {
+  padding-left: 20px;
+}
+.rt-danger-zone {
+  border-top: 1px solid var(--line);
+  margin-top: 18px;
+  padding-top: 14px;
+}
+.rt-try h2 {
+  font-size: 21px;
+}
+.rt-token-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.rt-token-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+/* Decks. */
+.rt-decks {
+  display: grid;
+  gap: 16px;
+}
+.rt-deck-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 20px;
+}
+.rt-pile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.rt-pile > div {
+  display: flex;
+  flex-direction: column;
+}
+.rt-pile span {
+  color: var(--muted);
+  font-size: 13px;
+}
+/* Card backs and faces: BG3's bronze-framed cards on the slate of the sheet. */
+.rt-card-back {
+  display: inline-block;
+  width: 34px;
+  height: 48px;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--frame);
+  background:
+    repeating-linear-gradient(
+      45deg,
+      color-mix(in srgb, var(--accent) 28%, transparent) 0 4px,
+      transparent 4px 9px
+    ),
+    var(--raised);
+  flex: none;
+}
+.rt-card-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 12px;
+}
+.rt-card {
+  border: 1px solid var(--frame);
+  border-radius: var(--radius);
+  padding: 12px;
+  background: linear-gradient(180deg, var(--raised), var(--surface-2));
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.rt-card strong {
+  font-family: var(--font-display);
+  font-size: 17px;
+  color: var(--accent);
+}
+.rt-card p {
+  margin: 0;
+  font-size: 14px;
+}
+.rt-card-back-face {
+  background:
+    repeating-linear-gradient(
+      45deg,
+      color-mix(in srgb, var(--accent) 12%, transparent) 0 6px,
+      transparent 6px 14px
+    ),
+    var(--surface-2);
+}
+.rt-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: auto;
+}
+.rt-card-actions .button {
+  padding: 8px 10px;
+  font-size: 13px;
+}
+.rt-hands {
+  display: grid;
+  gap: 12px;
+}
+.rt-hand {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 12px;
+}
+.rt-hand-backs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+.rt-zone > p {
+  margin: 0;
+}
+.rt-fieldset {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 6px 14px;
+}
+.rt-sheet-hand {
+  margin-top: 24px;
+}
+.rt-dialog-actions {
+  display: grid;
+  gap: 14px;
+}
+
+/* Multi-sided tokens on the map (above tokens): the map does not change with the theme, so
+   they wear the map's door plate (dark well, gold rim, parchment ink; DESIGN.md §2). */
+.rt-token rect {
+  fill: var(--door-fill);
+  stroke: var(--door-rim);
+  stroke-width: 2;
+}
+.rt-token-face {
+  fill: var(--door-ink);
+  font-size: 19px;
+  font-weight: 600;
+}
+.rt-token-table {
+  fill: color-mix(in srgb, var(--door-ink) 72%, transparent);
+  font-size: 13px;
+}
+.rt-token:not(.is-interactive) {
+  pointer-events: none;
+}
+.rt-token.is-interactive {
+  cursor: pointer;
+}
+.rt-token.is-interactive:focus-visible rect,
+.rt-token.is-interactive:hover rect {
+  stroke: var(--door-focus);
+  stroke-width: 3;
+}
+.rt-token:focus {
+  outline: none;
+}
+
+@media (max-width: 900px) {
+  .rt-prep-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 560px) {
+  .rt-col-edit,
+  .rt-var-edit,
+  .rt-edit-card {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .rt-edit-row {
+    grid-template-columns: 40px minmax(0, 1fr) 76px;
+  }
+  .rt-row-extra > .field {
+    max-width: none;
+  }
+  .rt-range-list li {
+    grid-template-columns: 48px minmax(0, 1fr);
+  }
+  .rt-range-list li .rt-tags {
+    grid-column: 2;
+  }
+  .rt-card-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .rt-drawer-top > .button {
+    margin-bottom: 8px;
+  }
+}
+
+/* Review fixes: visible Undo target, multi-column tables, filter, hidden tokens. */
+.rt-undo {
+  display: grid;
+  justify-items: end;
+  gap: 2px;
+  margin-bottom: 16px;
+  max-width: 100%;
+  min-width: 0;
+}
+.rt-undo .button {
+  margin: 0;
+}
+.rt-prep-bar .rt-undo {
+  margin-bottom: 0;
+}
+.rt-undo-target {
+  max-width: min(420px, 100%);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+}
+.rt-filter {
+  border-top: 1px dashed var(--line);
+  padding-top: 10px;
+}
+.rt-col-wrap {
+  overflow-x: auto;
+  margin-top: 8px;
+}
+.rt-col-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.rt-col-table th,
+.rt-col-table td {
+  text-align: left;
+  vertical-align: top;
+  padding: 8px 6px;
+  border-bottom: 1px solid var(--line);
+}
+.rt-col-table th {
+  color: var(--muted);
+  font-weight: 700;
+}
+.rt-col-table tr.is-drawn td:nth-child(2) {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+.rt-col-table tr.is-filtered td {
+  color: var(--muted);
+}
+.rt-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.rt-warning-text {
+  display: block;
+  color: var(--warning);
+}
+.rt-token.is-hidden rect {
+  fill-opacity: 0.45;
+  stroke-dasharray: 8 6;
+}
+.rt-token.is-hidden text {
+  opacity: 0.7;
+}
+.rt-token.is-interactive {
+  cursor: grab;
+  touch-action: none;
+}
+.rt-token.is-dragging {
+  cursor: grabbing;
+  opacity: 0.85;
+}
+.rt-token-list li > .toolbar {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.rt-decks .rt-pile .badge {
+  margin-top: 4px;
+  align-self: flex-start;
+}
+/* Review round 2: controls toggled in place (the clear-filter button) stay hidden. */
+.rt-root [hidden] {
+  display: none !important;
+}
+.rt-decks .rt-pile .rt-deck-note {
+  margin-top: 4px;
+  max-width: 34ch;
+}
+/* An invisible hit area around the DM's multi-sided token: at phone width the scaled map
+   would make the visible label smaller than a 40 px target. */
+.rt-token .rt-token-hit {
+  fill: transparent !important;
+  stroke: none !important;
+}

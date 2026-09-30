@@ -1,0 +1,230 @@
+/* Host styles for area contributions (B11 registry). Each area links its own CSS
+   through registerStyles(); only the shell's containers for them live here. Colours, radii
+   and shadows come from the tokens in styles.css (DESIGN.md). */
+
+/* A contained failure: one contribution is unavailable, the rest keeps working. */
+.ext-error {
+  border-color: color-mix(in srgb, var(--danger) 60%, transparent);
+  background: var(--danger-soft);
+  padding: 14px 16px;
+  margin: 12px 0;
+}
+.ext-error .error {
+  margin: 0;
+}
+
+/* Owner report in "What is ready". */
+.ext-report {
+  border-top: 1px solid var(--line);
+  margin-top: 22px;
+  padding-top: 6px;
+}
+.ext-report h3 {
+  margin-bottom: 6px;
+}
+.ext-report h4 {
+  margin: 18px 0 6px;
+  font-size: 14px;
+}
+.ext-report ul {
+  margin: 6px 0 0;
+  padding-left: 20px;
+}
+.ext-report li {
+  margin: 6px 0;
+}
+.ext-report li small {
+  display: block;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.ext-report .ext-warning-list {
+  margin-top: 4px;
+  font-size: 13px;
+}
+.ext-report summary {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: var(--accent);
+}
+
+/* Demonstration strip notice when an area failed or was contained. */
+.demo-controls .ext-alert {
+  color: var(--danger);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Requests bell: count of area notifications. */
+.icon-button.has-ext-count {
+  position: relative;
+}
+.ext-count {
+  position: absolute;
+  top: 4px;
+  right: 3px;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  border-radius: 9px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 17px;
+  text-align: center;
+}
+.ext-notifications {
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 18px;
+  padding-bottom: 10px;
+}
+.ext-notifications h3 {
+  margin-top: 0;
+}
+.ext-notifications ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.ext-notifications li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+}
+.ext-notifications li > span {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* Area settings merged into Preferences, one group per scope. */
+.ext-settings {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  margin: 18px 0 0;
+  padding: 10px 16px 4px;
+}
+.ext-settings legend {
+  padding: 0 6px;
+  font-weight: 600;
+}
+.ext-settings h3 {
+  font-size: 15px;
+  margin: 12px 0 4px;
+}
+.ext-settings > .muted {
+  margin: 0 0 6px;
+  font-size: 13px;
+}
+/* Campaign values a player can read but only the DM can change. */
+.ext-settings :disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Table: inspector panels and the drawer opened from the top toolbar. */
+.table-ext-panel {
+  margin-top: 25px;
+}
+.table-ext-panel h3 {
+  margin-bottom: 8px;
+}
+.table-drawer {
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+  padding: 16px 26px 20px;
+}
+.table-drawer-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.table-drawer-heading h2 {
+  font-size: 19px;
+  margin: 0;
+}
+
+/* Shown while the area modules are probed before the first render. */
+.app-loading {
+  margin: 0;
+  padding: 24px 30px;
+  color: var(--muted);
+}
+
+@media (max-width: 720px) {
+  /* More main pages than fit: the navigation wraps to another row, so every page stays
+     visible without widening the page or hiding behind an invisible scroll. */
+  .app-header nav {
+    flex-wrap: wrap;
+    row-gap: 2px;
+  }
+  .app-header nav .nav-link {
+    flex-shrink: 0;
+  }
+  .table-drawer {
+    padding: 14px 16px 18px;
+  }
+}
+
+/* Styled tooltip (ui.mjs installTooltips, SV-22): delay from Preferences, long press on touch. */
+.ui-tip {
+  position: fixed;
+  z-index: 1000;
+  max-width: min(320px, calc(100vw - 16px));
+  padding: 6px 10px;
+  /* BG3's tooltip: a dark framed plate over the scene, quick to read. */
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--frame-soft);
+  background: var(--raised);
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.35;
+  box-shadow: var(--shadow-2);
+  pointer-events: none;
+  white-space: normal;
+}
+
+/* A notice with its own buttons (ui.mjs actionToast, SV-04 «Apri»). */
+.ui-action-toast {
+  position: fixed;
+  z-index: 950;
+  right: 16px;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  max-width: min(420px, calc(100vw - 32px));
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--frame-soft);
+  background: var(--raised);
+  color: var(--text);
+  box-shadow: var(--shadow-2);
+}
+.ui-action-toast p {
+  margin: 0;
+  flex: 1 1 200px;
+}
+.ui-action-toast.error {
+  border-color: var(--danger);
+}
+.ui-action-toast-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+@media (max-width: 720px) {
+  .ui-action-toast {
+    left: 12px;
+    right: 12px;
+    bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+  }
+}

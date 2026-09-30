@@ -1,0 +1,964 @@
+/* B47 — Advanced scenes. Own prefix: .sa- (Preparation page menu and workspace, Table
+   "Scene" tab, map layers). Colours come from the shared tokens, so the light theme works.
+   Visual pass (29/09/2026, DESIGN.md): scene list and folders as Foundry's Scenes directory,
+   menus as Foundry's context menu on the core menu plate, the workspace canvas on Owlbear
+   Rodeo's canvas with its floating chrome; handles in the map's own colours. */
+
+/* ---------------------------------------------------------------- page menu */
+.sa-menu-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px 20px;
+}
+.sa-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 6px;
+  min-width: 0;
+}
+.sa-crumb {
+  min-height: 40px;
+  padding: 8px 10px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--accent);
+  font-size: 15px;
+  font-weight: 600;
+}
+.sa-crumb:hover:not([aria-current="page"], .is-current) {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.sa-crumb[aria-current="page"],
+.sa-crumb.is-current {
+  color: var(--text);
+  font-weight: 600;
+}
+.sa-crumb.is-drop,
+.sa-folder-card.is-drop {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.sa-menu-actions {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-end;
+  gap: 8px;
+}
+.sa-menu-actions .field {
+  margin: 0;
+}
+.sa-search {
+  width: 300px;
+  max-width: 100%;
+}
+.sa-hint {
+  margin: 12px 0 18px;
+}
+.sa-create,
+.sa-card-menu {
+  position: relative;
+}
+.sa-create > summary,
+.sa-card-menu > summary {
+  list-style: none;
+  cursor: pointer;
+}
+.sa-create > summary::-webkit-details-marker,
+.sa-card-menu > summary::-webkit-details-marker {
+  display: none;
+}
+/* Context menus: Foundry's scene context menu rows on the core menu plate. */
+.sa-menu-list {
+  position: absolute;
+  z-index: 20;
+  right: 0;
+  top: calc(100% + 4px);
+  min-width: 250px;
+  display: flex;
+  flex-direction: column;
+  padding: 6px;
+  background: var(--raised);
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-2);
+}
+.sa-menu-list button {
+  min-height: 42px;
+  padding: 9px 12px;
+  text-align: left;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text);
+}
+.sa-menu-list button:hover,
+.sa-menu-list button:focus-visible {
+  background: color-mix(in srgb, var(--raised) 90%, var(--text));
+}
+.sa-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
+}
+.sa-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  min-width: 0;
+}
+.sa-card.is-dragging {
+  opacity: 0.5;
+}
+.sa-card-thumb {
+  display: block;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--canvas);
+  aspect-ratio: 20 / 13;
+}
+.sa-thumb {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.sa-card-info {
+  min-width: 0;
+}
+.sa-card-info h3 {
+  margin: 0;
+  font-size: 17px;
+}
+/* Scene names in the display serif (BG3 and Solasta names). */
+.sa-card-info .sa-link {
+  font-family: var(--font-display);
+}
+.sa-link {
+  min-height: 40px;
+  padding: 6px 0;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+.sa-card-info .sa-link {
+  font-weight: 600;
+}
+.sa-link:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+.sa-path {
+  margin: 0;
+  font-size: 13px;
+}
+.sa-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 4px 0 0;
+}
+.sa-card-menu {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+/* The card's «…» floats on the thumbnail as an Owlbear tool: translucent rounded plate. */
+.sa-card-menu > summary {
+  min-width: 42px;
+  background: var(--float-bg);
+  border: 1px solid var(--float-border);
+  border-radius: 10px;
+  font-size: 18px;
+}
+.sa-folder-card .sa-folder-open {
+  flex: 1;
+}
+/* Folder card: Foundry's folder header, a filled bar with the folder icon and its count. */
+.sa-folder-open {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 12px;
+  row-gap: 4px;
+  align-items: center;
+  align-content: center;
+  min-height: 92px;
+  padding: 14px 56px 14px 14px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--raised);
+  color: var(--text);
+  text-align: left;
+}
+.sa-folder-open .icon {
+  grid-row: span 2;
+  width: 34px;
+  height: 34px;
+  color: var(--accent);
+}
+.sa-folder-open strong {
+  font-size: 16px;
+}
+.sa-archive {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.sa-archived {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+/* ---------------------------------------------------------------- workspace */
+.sa-ws-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+.sa-ws-head h2 {
+  margin: 4px 0 2px;
+  font-size: 26px;
+}
+.sa-ws-head p {
+  margin: 0;
+}
+.sa-ws-tabs {
+  margin: 14px 0 16px;
+}
+.sa-ws-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 380px);
+  gap: 20px;
+  align-items: start;
+}
+.sa-stage {
+  position: sticky;
+  top: 12px;
+  min-width: 0;
+}
+.sa-canvas-wrap {
+  position: relative;
+  background: var(--canvas);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.sa-canvas {
+  border-radius: var(--radius);
+}
+.sa-canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: calc(100vh - 110px);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.sa-canvas:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: -3px;
+}
+.sa-canvas.is-placing,
+.sa-canvas.is-aligning {
+  cursor: crosshair;
+}
+.sa-canvas.is-drop-target {
+  outline: 3px dashed var(--accent);
+  outline-offset: -3px;
+}
+.sa-canvas .sa-prop {
+  cursor: grab;
+}
+.sa-canvas .sa-prop.is-locked {
+  cursor: not-allowed;
+}
+.sa-canvas .sa-prop.is-found .sa-selection {
+  animation: sa-pulse 1s ease-in-out 3;
+}
+/* Transform handles in the map's own colours (the map does not change with the theme): the
+   selection gold of the door rim on the dark label halo; rotation in the info blue. */
+.sa-handle {
+  fill: var(--door-rim);
+  stroke: var(--token-label-halo);
+  stroke-width: 3;
+  cursor: nwse-resize;
+  vector-effect: non-scaling-stroke;
+}
+.sa-handle.sa-rotate {
+  fill: var(--turn-ally);
+  cursor: grab;
+}
+.sa-handle-hit {
+  fill: transparent;
+  cursor: nwse-resize;
+}
+.sa-caption {
+  margin: 8px 2px 0;
+  color: var(--muted);
+  min-height: 1.5em;
+}
+.sa-loupe {
+  position: absolute;
+  z-index: 5;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid var(--door-rim);
+  box-shadow: var(--shadow-3);
+  background: var(--canvas);
+  pointer-events: none;
+}
+.sa-loupe svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.sa-next {
+  position: absolute;
+  z-index: 6;
+}
+.sa-context {
+  position: absolute;
+  z-index: 7;
+  min-width: 210px;
+  display: flex;
+  flex-direction: column;
+  padding: 6px;
+  background: var(--raised);
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-2);
+}
+.sa-context button {
+  min-height: 42px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  padding: 8px 12px;
+}
+.sa-context button:hover,
+.sa-context button:focus-visible {
+  background: color-mix(in srgb, var(--raised) 90%, var(--text));
+}
+.sa-context-title {
+  margin: 4px 12px 6px;
+  font-family: var(--font-label);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+  color: var(--muted);
+}
+.sa-side {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+.sa-side-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+  min-width: 0;
+}
+.sa-side-card h3 {
+  margin: 0 0 10px;
+  font-size: 17px;
+}
+/* Sub-headings as D&D Beyond's condensed small-capital labels. */
+.sa-side-card h4 {
+  margin: 14px 0 6px;
+  font-family: var(--font-label);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+  color: var(--muted);
+}
+.sa-side-card .field {
+  margin-bottom: 12px;
+}
+.sa-selection {
+  border-color: var(--accent);
+}
+.sa-warn {
+  color: var(--accent);
+}
+.sa-stickers {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(78px, 1fr));
+  gap: 8px;
+}
+/* Stickers: BG3 hotbar slots (dark well, bronze hairline, small radius). */
+.sa-sticker {
+  position: relative;
+  width: 100%;
+  min-height: 84px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 6px;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-xs);
+  background: var(--sunken);
+  color: var(--text);
+  font-size: 12px;
+  touch-action: none;
+  cursor: grab;
+}
+.sa-sticker svg,
+.sa-sticker img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+}
+.sa-sticker.is-dragging {
+  outline: 2px dashed var(--accent);
+  cursor: grabbing;
+}
+.sa-plus {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  color: var(--accent);
+  font-size: 16px;
+  font-weight: 700;
+}
+.sa-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  /* R5 (P7 embedded editor at 390 px): a row never widens the side column. */
+  grid-template-columns: minmax(0, 1fr);
+  gap: 4px;
+}
+.sa-list li {
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px 10px;
+  padding: 4px 6px;
+  border-radius: 6px;
+}
+.sa-list li.is-selected {
+  background: var(--accent-soft);
+}
+.sa-outline li {
+  flex-wrap: nowrap;
+}
+.sa-outline .sa-link {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sa-row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.sa-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+}
+.sa-check input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--accent);
+}
+/* Visibility and lock toggles: Owlbear's rounded icon tools, on in soft gold. */
+.sa-icon-toggle {
+  width: 40px;
+  height: 40px;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--muted);
+}
+.sa-icon-toggle:hover {
+  background: var(--raised);
+  color: var(--text);
+}
+.sa-icon-toggle[aria-pressed="true"] {
+  color: var(--accent);
+  border-color: var(--accent-line);
+  background: var(--accent-soft);
+}
+.sa-form .toolbar {
+  margin-top: 4px;
+}
+.sa-choices {
+  /* A fieldset is as wide as its content by default: it follows the column instead. */
+  min-inline-size: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px 12px;
+  margin: 0 0 12px;
+  display: grid;
+  gap: 4px;
+}
+.sa-choices select,
+.sa-choices input[type="file"] {
+  margin: 0 0 6px 28px;
+  max-width: calc(100% - 28px);
+  min-height: 40px;
+}
+.sa-floors-list {
+  margin: 0 0 12px;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+.sa-floors-list li {
+  display: grid;
+  gap: 6px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+}
+.sa-floors-list li.is-current {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.sa-variants {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.sa-variants li {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 6px 10px;
+  align-items: center;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+}
+.sa-variants li.is-active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.sa-variants .sa-row-actions {
+  grid-column: 1 / -1;
+}
+.sa-variant-thumb {
+  width: 96px;
+  height: 62px;
+  border-radius: var(--radius-xs);
+  display: block;
+}
+.sa-steps {
+  display: flex;
+  gap: 6px;
+  margin: 0 0 10px;
+  padding: 0;
+  list-style: none;
+  counter-reset: sa-step;
+}
+.sa-steps li {
+  counter-increment: sa-step;
+  flex: 1;
+  padding: 6px 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  font-size: 13px;
+  color: var(--muted);
+}
+.sa-steps li::before {
+  content: counter(sa-step) ". ";
+}
+.sa-steps li.is-current {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--text);
+  font-weight: 600;
+}
+.sa-steps li.is-done {
+  color: var(--positive);
+}
+.sa-refine {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.sa-refine > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+.sa-refine > div > span {
+  min-width: 128px;
+}
+.sa-refine .button {
+  min-width: 42px;
+}
+.sa-corners {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0 0 12px;
+}
+.sa-corners figure {
+  margin: 0;
+}
+.sa-corners svg {
+  width: 100%;
+  aspect-ratio: 1;
+  display: block;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: var(--canvas);
+}
+.sa-corners figcaption {
+  font-size: 12px;
+  color: var(--muted);
+}
+.sa-uvtt-preview svg {
+  width: 100%;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  margin: 8px 0;
+  display: block;
+}
+/* Keys: the core key chip (Foundry v13's Controls Configuration). */
+.sa-panel kbd,
+.sa-side kbd {
+  font: 600 11px/1.6 var(--font-ui);
+  padding: 0 5px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-xs);
+  background: var(--sunken);
+  color: var(--muted);
+}
+
+/* ---------------------------------------------------------------- Table */
+.sa-panel {
+  display: grid;
+  gap: 12px;
+}
+.sa-panel-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 12px;
+  background: var(--surface);
+  min-width: 0;
+}
+.sa-panel-card h3 {
+  margin: 0 0 8px;
+  font-size: 17px;
+}
+.sa-panel-card h4 {
+  margin: 12px 0 6px;
+  font-family: var(--font-label);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+  color: var(--muted);
+}
+.sa-panel-card p {
+  margin: 6px 0;
+}
+.sa-floor-switch {
+  display: grid;
+  gap: 6px;
+}
+/* Floors: BG3's highlighted choice, the current floor lit with a gold rim and bar. */
+.sa-floor {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-height: 48px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--raised);
+  color: var(--text);
+  text-align: left;
+}
+.sa-floor span {
+  font-size: 13px;
+  color: var(--muted);
+}
+.sa-floor.active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  box-shadow: inset 4px 0 0 var(--accent);
+}
+.sa-floor-steps {
+  margin-top: 8px;
+}
+.sa-variant-switch {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.sa-views li > span:first-child {
+  min-width: 90px;
+}
+.sa-roof {
+  transition: opacity 0.35s ease;
+}
+/* At the Table the DM's off-map area stays quiet: it shows only in the letterbox. */
+.sa-offmap-frame.is-table {
+  opacity: 0.45;
+}
+/* Pulses three times, then goes away (it is drawn until the next render). */
+.sa-flash {
+  animation: sa-flash 2.4s ease-in-out forwards;
+}
+@keyframes sa-flash {
+  0%,
+  33%,
+  66% {
+    opacity: 1;
+  }
+  16%,
+  50%,
+  83% {
+    opacity: 0.25;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.sa-staged.is-draggable {
+  cursor: grab;
+}
+.sa-staged.is-dragging {
+  cursor: grabbing;
+  opacity: 0.85;
+}
+.sa-staged:focus-visible circle {
+  stroke: var(--focus);
+  stroke-width: 5;
+}
+@keyframes sa-pulse {
+  50% {
+    opacity: 0.25;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sa-roof {
+    transition: none;
+  }
+  .sa-flash,
+  .sa-canvas .sa-prop.is-found .sa-selection {
+    animation: none;
+  }
+}
+@container table-panel (max-width: 600px) {
+  .sa-row-actions {
+    width: 100%;
+  }
+  .sa-row-actions .button {
+    flex: 1 1 auto;
+  }
+}
+
+/* ---------------------------------------------------------------- narrow screens */
+@media (max-width: 900px) {
+  .sa-ws-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .sa-stage {
+    position: static;
+  }
+}
+@media (max-width: 720px) {
+  .sa-menu-actions {
+    flex-wrap: wrap;
+  }
+  .sa-menu-actions,
+  .sa-menu-actions .sa-search {
+    width: 100%;
+  }
+  .sa-cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .sa-menu-list {
+    right: auto;
+    left: 0;
+    max-width: calc(100vw - 40px);
+  }
+  .sa-card-menu .sa-menu-list {
+    left: auto;
+    right: 0;
+  }
+  .sa-canvas {
+    max-height: 60vh;
+  }
+  .sa-loupe {
+    width: 120px;
+    height: 120px;
+  }
+  .sa-ws-head .toolbar,
+  .sa-ws-head .toolbar .button {
+    width: 100%;
+  }
+  .sa-steps {
+    flex-direction: column;
+  }
+}
+/* Class display rules must not defeat the hidden attribute of the canvas overlays. */
+.sa-context[hidden],
+.sa-next[hidden],
+.sa-loupe[hidden] {
+  display: none;
+}
+
+/* PR-12: one list of every element of the scene (Owlbear Outliner). */
+.sa-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+/* Outliner filters: the core sub-tab pills (D&D Beyond's filters), the pressed one filled. */
+.sa-chip {
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+.sa-chip:hover {
+  background: var(--raised);
+  color: var(--text);
+}
+.sa-chip.active,
+.sa-chip[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+.sa-chip:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+.sa-bulk-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  margin: 8px 0;
+  padding: 8px;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+}
+.sa-el-status {
+  margin-left: auto;
+  font-size: 13px;
+}
+.sa-folder-cards {
+  margin-bottom: 12px;
+}
+
+/* PR-07 (D&D Beyond's Theater of the Mind): a map-less scene has no grid, so the Table shows
+   no «Scala … / casella»; the scene's own title moves clear of the map tools on the left. */
+.map-container:has(#battle-map [data-hs-stage]) .map-caption > span:first-child:not(#map-message) {
+  display: none;
+}
+#battle-map .handouts-stage-title,
+#battle-map .handouts-stage-sub {
+  transform: translateX(160px);
+}
+
+/* PR-06: folders are titled groups in the one scene list; every scene stays in sight. */
+/* PR-06 in the visual of Foundry's Scenes directory: each folder opens with a filled header
+   bar (folder icon, name, count) and its scenes hang under it on a guide line. */
+.prep-folder-group {
+  margin: 10px 0;
+  padding: 6px 0 6px 12px;
+  border-left: 2px solid var(--line);
+}
+.prep-folder-group.is-drop {
+  border-left-color: var(--accent);
+  background: var(--accent-soft);
+}
+.prep-folder-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 6px 2px 2px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+}
+.prep-folder-head :is(h2, h3, h4, h5, h6) {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 15px;
+}
+.prep-folder-head .sa-folder-open {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 8px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.prep-folder-head .sa-folder-open .icon {
+  color: var(--accent);
+}
+.prep-folder-head .sa-folder-open:hover,
+.prep-folder-head .sa-folder-open:focus-visible {
+  color: var(--accent);
+}
+.prep-folder-head .sa-folder-open .muted {
+  font-weight: 400;
+}

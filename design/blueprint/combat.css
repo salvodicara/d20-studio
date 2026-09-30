@@ -1,0 +1,602 @@
+/* Map palette (theme-invariant). The map keeps its colours in both themes, as Foundry v13's
+   canvas does under its light and dark interface themes, so the overlays the Table's areas
+   draw on it read these instead of interface tokens that turn dark in the light theme.
+   Values are the ones the overlays already used, gathered. Hand-off: promote them to the
+   :root of styles.css beside --token-* and --door-*. */
+:root {
+  --map-gold: #e2c17b;
+  --map-gold-bright: #f1d797;
+  --map-ink: #f4e4bf;
+  --map-halo: #111b25;
+  --map-chip: #142733;
+  --map-muted: #b9c4c7;
+  --map-info: #9fd3ff;
+  --map-danger: #e0625c;
+  --map-danger-strong: #c0392b;
+  --map-positive: #79c27b;
+  --map-arcane: #a98bd6;
+  --map-illusion: #e58cff;
+  --map-fog: #070a0d;
+  --map-ground: #34413b;
+}
+
+.combat-bar {
+  padding: var(--space-3) var(--space-5);
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+}
+.combat-bar-heading {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 10px;
+}
+.combat-bar-heading label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+/* Foundry v13 select: a dark well with a visible rim (the core field). */
+.combat-bar-heading select {
+  min-height: 40px;
+  background: var(--sunken);
+  color: var(--text);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  padding: 4px 8px;
+}
+.combat-bar-heading .text-button {
+  margin-left: auto;
+}
+.combat-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+/* BG3 hotbar slot: a dark well with a bronze rim; the chosen action is lit in gold. */
+.combat-action {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 8px 12px;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-xs);
+  color: var(--text);
+  background: var(--sunken);
+  font-size: var(--text-xs);
+  cursor: pointer;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+.combat-action:hover,
+.combat-action.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+.combat-action .icon {
+  width: 19px;
+  height: 19px;
+}
+.combat-detail {
+  margin: 18px 0;
+  padding: var(--space-4) 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+/* BG3 tooltip title: the action's name in the display serif. */
+.combat-detail h3 {
+  font: 600 var(--text-xl) var(--font-display);
+  margin: 0;
+}
+/* D&D Beyond section label: condensed small capitals. */
+.combat-detail h4 {
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--label-tracking);
+  color: var(--muted);
+  margin: 16px 0 7px;
+}
+.combat-detail .section-heading {
+  gap: 8px;
+  margin: 0 0 10px;
+}
+.combat-detail .badge {
+  white-space: normal;
+}
+.combat-detail .combat-execute {
+  width: 100%;
+  margin: 8px 0;
+}
+.combat-instructions {
+  color: var(--accent);
+}
+.combat-facts {
+  display: flex;
+  gap: 24px;
+}
+.combat-facts dt {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-sm);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--label-tracking);
+}
+.combat-facts dd {
+  margin: 3px 0 0;
+  font-variant-numeric: tabular-nums;
+}
+.combat-targets {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.combat-targets li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--line);
+}
+.combat-reasons {
+  padding-left: 18px;
+  color: var(--warning);
+}
+.target-counter {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.target-counter button {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-sm);
+  background: var(--raised);
+  color: var(--text);
+  font-weight: 600;
+  cursor: pointer;
+}
+.target-counter strong {
+  font-variant-numeric: tabular-nums;
+}
+.attempt-result {
+  padding: 0 0 20px;
+  margin: 0 0 20px;
+  border-bottom: 1px solid var(--line);
+}
+.attempt-result h3 {
+  margin-top: 0;
+}
+.attempt-result > p {
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+.roll-request {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--line);
+}
+.roll-request small {
+  display: block;
+  margin-top: 7px;
+}
+/* The outcome as a framed result line (Foundry dnd5e chat card), not a side stripe. */
+.attempt-result .combat-outcome {
+  color: var(--text);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+}
+/* TV-83 (BG3 reroll with Inspiration): the held d20 waits for «Ritira» or «Continua». */
+.roll-request .combat-hold {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+}
+.roll-request .combat-hold p {
+  margin: 0 0 8px;
+  font-size: var(--text-sm);
+}
+.roll-request .combat-hold .toolbar {
+  flex-wrap: wrap;
+  gap: 8px;
+}
+/* TV-89: who sees the attempt's dice, next to its status. */
+.attempt-result .combat-audience {
+  margin-left: 6px;
+}
+.physical-roll-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 12px;
+}
+.physical-roll-fields[hidden] {
+  display: none;
+}
+@media (max-width: 720px) {
+  .combat-bar {
+    padding: 12px;
+  }
+  .combat-bar-heading {
+    flex-wrap: wrap;
+    gap: 8px 14px;
+  }
+  .combat-bar-heading .text-button {
+    margin-left: 0;
+  }
+  .combat-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .combat-action {
+    justify-content: flex-start;
+  }
+  .roll-request {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+@media (min-width: 1001px) {
+  /* B62: one bottom hotbar instead of two bars gives the map the height back. */
+  .table-stage {
+    height: clamp(360px, calc(100dvh - 312px), 680px);
+    min-height: 360px;
+  }
+  /* In combat the turn order takes a row above the map: the map gives it that height back,
+     so the Table still fits the window without scrolling the page. */
+  .table-layout:has(> .initiative) .table-stage {
+    height: clamp(360px, calc(100dvh - 390px), 680px);
+  }
+  /* Visual pass 2 (styles.css «Table HUD»): the map fills the Table's height and the turn
+     order floats over it, so the stage stretches in its grid row with or without combat. */
+  .table-layout > .table-stage,
+  .table-layout:has(> .initiative) > .table-stage {
+    height: auto;
+  }
+  .map-container {
+    height: 100%;
+  }
+  #battle-map {
+    height: auto;
+    min-height: 0;
+    flex: 1;
+  }
+  .table-inspector {
+    max-height: 100%;
+    min-height: 0;
+  }
+}
+
+.mobile-combat-link {
+  display: none;
+}
+@media (max-width: 720px) {
+  .combat-actions {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+  .combat-action {
+    flex: 0 0 auto;
+  }
+  .mobile-combat-link {
+    display: inline-flex;
+  }
+  .action-dock.has-preview [data-tool="move"],
+  .action-dock.has-preview [data-table="actions"] {
+    display: none;
+  }
+  #combat-detail,
+  #battle-map {
+    scroll-margin-top: 12px;
+  }
+}
+
+.roll-evidence {
+  margin-top: 18px;
+  border-top: 1px solid var(--line);
+}
+.roll-evidence summary {
+  cursor: pointer;
+  padding: 12px 0;
+  min-height: 44px;
+}
+.roll-evidence li {
+  margin-bottom: 14px;
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  font-variant-numeric: tabular-nums;
+}
+
+/* BG3 reaction prompt: a gold-trimmed strip that asks before the turn goes on. */
+.interruption-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: var(--space-3) var(--space-5);
+  background: color-mix(in srgb, var(--accent) 10%, var(--surface));
+  border-top: 1px solid var(--accent);
+}
+.interruption-banner span {
+  display: block;
+  font-size: var(--text-xs);
+  margin-top: 5px;
+}
+.reaction-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+}
+.reaction-card p {
+  margin: 6px 0;
+  font-size: var(--text-sm);
+}
+.reaction-card .muted {
+  font-size: var(--text-xs);
+}
+.movement-request {
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
+}
+.movement-request p {
+  font-size: var(--text-md);
+  line-height: 1.5;
+}
+.reaction-cost {
+  color: var(--accent);
+}
+.reaction-order {
+  padding-left: 20px;
+}
+.reaction-order li {
+  margin: 15px 0;
+}
+.reaction-order strong {
+  display: block;
+  margin-bottom: 8px;
+}
+@media (max-width: 720px) {
+  .interruption-banner {
+    padding: 12px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .reaction-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+/* P5 fix package — action bar grouped by theme with cost filters (TV-67, BG3 hotbar and
+   Argon Combat HUD), greyed actions with their reason (TV-74) and the active effects list
+   of the creature panel (TV-85, Visual Active Effects). */
+.combat-group {
+  display: contents;
+}
+/* The group's name in its first slot, above the label (no extra width). */
+.combat-group-tag {
+  position: absolute;
+  top: 2px;
+  left: 7px;
+  color: var(--muted);
+  font-family: var(--font-label);
+  /* 9 px: the tag lives in the slot's top edge, above the label (slot height is fixed). */
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+  pointer-events: none;
+}
+.combat-action.is-group-start:not(:first-child) {
+  margin-left: 6px;
+}
+/* Cost filters: D&D Beyond's action filters (ALL, ACTION, BONUS…), the chosen one filled in
+   the theme colour, in a Foundry v13 segmented group. */
+.combat-filters {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+  padding: 1px;
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-sm);
+  background: var(--sunken);
+}
+.combat-filter {
+  display: inline-grid;
+  place-items: center;
+  min-width: 36px;
+  min-height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-xs);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+.combat-filter .icon {
+  width: 16px;
+  height: 16px;
+}
+/* A cost filter shows its BG3 mark at icon size. */
+.combat-filter .combat-cost-action,
+.combat-filter .combat-cost-reaction {
+  width: 12px;
+  height: 12px;
+}
+.combat-filter .combat-cost-bonus {
+  border-left-width: 7px;
+  border-right-width: 7px;
+  border-bottom-width: 12px;
+}
+.combat-filter:hover {
+  color: var(--text);
+  background: var(--raised);
+}
+.combat-filter.active {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+.combat-action {
+  position: relative;
+}
+/* BG3 cost marks (official icons): a green circle for an action, an orange triangle for a
+   bonus action, a magenta four-point star for a reaction — the same shapes and tokens as the
+   hotbar's resources. In the corner, so they take no width. */
+.combat-cost {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+}
+.combat-action .combat-cost {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 7px;
+  height: 7px;
+}
+.combat-cost-action {
+  border-radius: 50%;
+  background: var(--res-action);
+}
+.combat-cost-bonus {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 9px solid var(--res-bonus);
+}
+.combat-action .combat-cost-bonus {
+  width: 0;
+  height: 0;
+  border-left-width: 4px;
+  border-right-width: 4px;
+  border-bottom-width: 7px;
+}
+.combat-cost-reaction {
+  width: 10px;
+  height: 10px;
+  background: var(--res-reaction);
+  clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+}
+.combat-action .combat-cost-reaction {
+  top: 3px;
+  right: 3px;
+  width: 9px;
+  height: 9px;
+}
+.combat-action.is-blocked {
+  opacity: 0.5;
+  filter: grayscale(1);
+  cursor: not-allowed;
+}
+.combat-action.is-blocked:hover {
+  border-color: var(--frame-soft);
+  color: var(--text);
+  background: var(--sunken);
+}
+.combat-action.is-off-turn {
+  opacity: 0.82;
+}
+.combat-why {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.combat-reaction small {
+  color: var(--muted);
+  font-size: var(--text-2xs);
+}
+.combat-detail .combat-bonus input,
+.combat-detail .combat-ammo select {
+  max-width: 12rem;
+}
+.combat-detail .combat-bonus small,
+.combat-detail .combat-ammo small {
+  display: block;
+}
+.active-effects {
+  margin: 10px 0;
+}
+.active-effects h4 {
+  margin: 0 0 6px;
+  font-family: var(--font-label);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--muted);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--label-tracking);
+}
+.active-effects ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+.active-effects li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: var(--text-sm);
+  line-height: 1.35;
+}
+/* BG3 condition icons under a portrait: a round dark well in a bronze rim. */
+.active-effect-icon {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--frame);
+  border-radius: 50%;
+  background: var(--sunken);
+}
+.active-effect-icon svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: var(--text);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.active-effect-text small {
+  display: block;
+  color: var(--muted);
+  font-size: var(--text-2xs);
+}
+/* On a phone the strip of actions scrolls sideways: the cost filter would take most of its
+   visible width, so the actions come first there (their cost marks stay). */
+@media (max-width: 720px) {
+  .table-hotbar .combat-filters {
+    display: none;
+  }
+}

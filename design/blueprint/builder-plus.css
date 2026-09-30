@@ -1,0 +1,813 @@
+/* B39 — Creation: quick paths, ready-made characters and checks. Own prefix: .bp- */
+
+.bp-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.bp-page {
+  max-width: 1080px;
+  min-width: 0;
+}
+.bp-page h2 {
+  margin: 18px 0 8px;
+}
+.bp-source {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+.bp-emblem {
+  flex: 0 0 auto;
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* ---------- method chooser (DDB-009) */
+.bp-panel {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  padding: 16px 18px;
+  margin: 0 0 18px;
+  min-width: 0;
+}
+.bp-panel h3 {
+  margin: 0 0 10px;
+}
+.bp-methods {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 12px;
+}
+.bp-method {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: 1fr auto;
+  gap: 8px 14px;
+  align-items: start;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--raised);
+  min-width: 0;
+}
+.bp-method h3 {
+  margin: 0 0 4px;
+  font-size: 1.05rem;
+}
+.bp-method p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+.bp-method > .button,
+.bp-method > .badge {
+  grid-column: 1 / -1;
+  justify-self: start;
+}
+.bp-method-art .bp-emblem {
+  width: 52px;
+  height: 52px;
+}
+.bp-current {
+  align-self: center;
+}
+.bp-cobuild-line {
+  margin: 12px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+}
+
+/* ---------- quick path (DDB-010, BG3 CRP-010) */
+.bp-steps {
+  display: flex;
+  gap: 6px;
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 18px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+.bp-steps li {
+  flex: 1 0 auto;
+}
+.bp-step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--text);
+  white-space: nowrap;
+}
+.bp-step-n {
+  display: inline-grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--raised);
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+/* D&D Beyond's numbered builder steps; the current one is BG3's chosen option (gold rim on a
+   lit tile). */
+.bp-step.is-current {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.bp-step.is-current .bp-step-n {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+.bp-step.is-done .bp-step-n {
+  background: color-mix(in srgb, var(--positive) 35%, var(--raised));
+}
+.bp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+  gap: 12px;
+}
+.bp-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  min-height: 150px;
+  padding: 16px 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, var(--raised), var(--surface));
+  color: var(--text);
+}
+.bp-card:hover {
+  border-color: var(--accent-line);
+}
+.bp-card.is-selected {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent) inset;
+}
+/* Class, background and species names in the serif of BG3's creation screen. */
+.bp-card strong,
+.bp-premade h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+}
+.bp-card strong {
+  font-size: 1.02rem;
+}
+.bp-card small {
+  color: var(--muted);
+}
+.bp-card .badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+.bp-detail {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: 16px 18px 18px;
+}
+.bp-back {
+  margin-bottom: 6px;
+}
+.bp-detail-head,
+.bp-review-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+.bp-detail-head h2,
+.bp-review-head h2,
+.bp-review-head h3 {
+  margin: 2px 0;
+}
+.bp-detail-head p,
+.bp-review-head p {
+  margin: 2px 0;
+}
+.bp-facts {
+  display: grid;
+  gap: 0;
+  margin: 12px 0;
+}
+.bp-facts > div {
+  display: grid;
+  grid-template-columns: minmax(150px, 220px) minmax(0, 1fr);
+  gap: 12px;
+  padding: 9px 0;
+  border-top: 1px solid var(--line);
+}
+.bp-facts dt {
+  color: var(--muted);
+  font-weight: 600;
+}
+.bp-facts dd {
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.bp-options {
+  margin: 0;
+  padding-left: 18px;
+}
+.bp-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin: 12px 0;
+}
+/* The core stat box (D&D Beyond): bronze rim, condensed small-caps label, bold number. */
+.bp-stats > div {
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  background: var(--surface-2);
+}
+.bp-stats dt {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  font-variant-caps: all-small-caps;
+}
+.bp-stats dd {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.bp-detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+.bp-choices {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  margin: 8px 0;
+}
+.bp-choices select {
+  min-height: 42px;
+}
+.bp-identity .field input {
+  min-height: 44px;
+  font-size: 1.05rem;
+}
+.bp-names {
+  margin: 14px 0;
+}
+.bp-names h3 {
+  margin: 0 0 4px;
+}
+.bp-name-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0;
+}
+.bp-chip {
+  min-height: 40px;
+  min-width: 40px;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line-strong);
+  background: var(--raised);
+  color: var(--text);
+}
+.bp-chip:hover {
+  border-color: var(--accent);
+}
+.bp-portraits {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  margin: 14px 0 0;
+  min-width: 0;
+}
+.bp-portrait-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 10px;
+}
+.bp-portrait {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 6px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  min-height: 112px;
+  text-align: center;
+}
+.bp-portrait input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  cursor: pointer;
+}
+.bp-portrait:focus-within {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+.bp-portrait.is-selected {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent) inset;
+}
+.bp-portrait-art img,
+.bp-review-img {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+.bp-portrait-label {
+  font-size: 0.78rem;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+/* A portrait without art: BG3's round portrait frame (bronze rim, serif initial). */
+.bp-letter {
+  display: inline-grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--raised);
+  border: 2px solid var(--frame);
+  box-shadow: inset 0 0 0 1px var(--keyline-dark);
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 400;
+}
+.bp-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.bp-table caption {
+  text-align: left;
+  color: var(--muted);
+  padding-bottom: 6px;
+}
+.bp-table th,
+.bp-table td {
+  text-align: left;
+  padding: 7px 10px 7px 0;
+  border-bottom: 1px solid var(--line);
+}
+.bp-table tr.is-blocked td:last-child {
+  color: var(--danger);
+  font-weight: 700;
+}
+.bp-table tr.is-ok td:last-child {
+  color: var(--positive);
+  font-weight: 700;
+}
+/* Warnings: Foundry v13's notification, a tinted plate with a hairline. */
+.bp-warnings {
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+  padding: 10px 14px;
+  margin: 14px 0;
+}
+.bp-warnings h3 {
+  margin: 0 0 6px;
+}
+.bp-hidden-note {
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  color: var(--muted);
+  margin: 10px 0;
+}
+.bp-stale {
+  color: var(--danger);
+}
+
+/* ---------- ready-made characters (DDB Premade / Claim) */
+.bp-premades {
+  display: grid;
+  gap: 12px;
+}
+.bp-premade {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.bp-premade h2 {
+  margin: 0 0 2px;
+  font-size: 1.15rem;
+}
+.bp-premade p {
+  margin: 2px 0;
+}
+.bp-premade-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.bp-multiclass {
+  margin: 16px 0;
+}
+.bp-multiclass h3 {
+  margin: 0 0 6px;
+}
+
+/* ---------- builder panels */
+.bp-categories {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 8px;
+}
+.bp-categories li,
+.bp-legacy li,
+.bp-feats li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--line);
+  padding: 8px 0;
+}
+.bp-categories li > div,
+.bp-legacy li > div,
+.bp-feats li > div:first-child {
+  flex: 1 1 260px;
+  min-width: 0;
+}
+.bp-categories p,
+.bp-legacy p,
+.bp-feats p {
+  margin: 2px 0;
+}
+.bp-legacy ul,
+.bp-feats ul,
+.bp-dupes ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.bp-dupes {
+  border-color: var(--accent);
+}
+.bp-dupes li {
+  padding: 4px 0;
+}
+.bp-respec {
+  border-color: var(--accent);
+}
+.bp-respec p {
+  margin: 6px 0 0;
+}
+.badge.bp-badge-block {
+  border-color: color-mix(in srgb, var(--danger) 60%, transparent);
+  background: var(--danger-soft);
+  color: var(--text);
+}
+.badge.bp-badge-warn {
+  border-color: color-mix(in srgb, var(--warning) 60%, transparent);
+  background: var(--warning-soft);
+  color: var(--text);
+}
+
+/* ---------- chooser (DDB-019) */
+.bp-chooser-group {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  margin: 10px 0;
+  min-width: 0;
+}
+.bp-chooser-group legend {
+  font-weight: 700;
+  padding: 0 4px;
+}
+.bp-radio {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  min-height: 40px;
+  padding: 6px 0;
+  cursor: pointer;
+}
+.bp-radio input {
+  width: 18px;
+  height: 18px;
+  margin-top: 3px;
+  flex: 0 0 18px;
+}
+.bp-roll {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: end;
+}
+.bp-face input {
+  width: 90px;
+  min-height: 42px;
+}
+.bp-roll-result {
+  font-size: 1.05rem;
+}
+.bp-chooser-preview {
+  border-top: 1px solid var(--line);
+  margin-top: 8px;
+  padding-top: 6px;
+}
+.bp-chooser-preview p {
+  margin: 4px 0;
+}
+.bp-correct summary {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: var(--accent);
+}
+
+/* ---------- sheet sections */
+.bp-sheet {
+  margin-top: 18px;
+  padding: 16px 18px;
+}
+.bp-sheet h3 {
+  margin: 0 0 8px;
+}
+.bp-sheet .toolbar {
+  margin-top: 12px;
+}
+.bp-exceptions {
+  margin-top: 14px;
+  border: 1px solid color-mix(in srgb, var(--danger) 55%, transparent);
+  border-radius: var(--radius-sm);
+  background: var(--danger-soft);
+  padding: 10px 12px;
+}
+.bp-exceptions h4 {
+  margin: 0 0 6px;
+}
+.bp-exceptions ul {
+  margin: 0;
+  padding-left: 18px;
+}
+.bp-notice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  padding: 6px 12px;
+  border: 1px solid color-mix(in srgb, var(--positive) 55%, transparent);
+  border-radius: var(--radius-sm);
+  background: var(--positive-soft);
+  margin: 6px 0 10px;
+}
+.bp-level-down {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 6px 18px;
+}
+.bp-level-down h3 {
+  margin: 8px 0 4px;
+  font-size: 0.95rem;
+}
+.bp-level-down ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+/* ---------- co-building (Quest Portal VTL-022) */
+.bp-members {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.bp-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 4px;
+}
+/* Who is editing: the player in the private blue, the DM in Roll20's GM purple (visibility
+   tokens); the name always goes with the dot. */
+.bp-dot-player {
+  background: var(--vis-private);
+}
+.bp-dot-dm {
+  background: var(--vis-dm);
+}
+.bp-coform {
+  display: grid;
+  gap: 12px;
+}
+.bp-cofield {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  background: var(--surface);
+  min-width: 0;
+}
+/* Someone else in a field: Figma's multiplayer outline, a 2 px ring in that person's colour. */
+.bp-cofield.has-presence-dm {
+  border-color: var(--vis-dm);
+  box-shadow: inset 0 0 0 1px var(--vis-dm);
+}
+.bp-cofield.has-presence-player {
+  border-color: var(--vis-private);
+  box-shadow: inset 0 0 0 1px var(--vis-private);
+}
+.bp-cofield.has-mine {
+  border-style: dashed;
+}
+/* A closed shared draft is read-only: the fields say so on sight, not only on typing. */
+.bp-cofield :disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+.bp-cofield-head {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+.bp-cofield-head label {
+  font-weight: 700;
+}
+.bp-cofield input,
+.bp-cofield select,
+.bp-cofield textarea {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--sunken);
+  color: var(--text);
+  padding: 8px 10px;
+}
+.bp-presence {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--text);
+}
+.bp-cofield-meta {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.bp-conflicts {
+  border: 1px solid var(--danger);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  margin: 12px 0;
+}
+.bp-conflicts h2 {
+  margin: 0 0 8px;
+}
+.bp-conflicts ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+.bp-conflict-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 6px 0;
+}
+.bp-conflict-grid p {
+  margin: 2px 0;
+  overflow-wrap: anywhere;
+}
+.bp-history ul {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0;
+}
+.bp-history li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 12px;
+  border-top: 1px solid var(--line);
+  padding: 4px 0;
+}
+.bp-history summary {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+/* ---------- phone */
+@media (max-width: 720px) {
+  .bp-methods {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .bp-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .bp-card {
+    min-height: 132px;
+    padding: 12px 6px 10px;
+  }
+  .bp-card .bp-emblem {
+    width: 52px;
+    height: 52px;
+  }
+  .bp-steps {
+    margin-inline: -4px;
+  }
+  .bp-step span:not(.bp-step-n) {
+    font-size: 0.85rem;
+  }
+  .bp-facts > div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
+  }
+  .bp-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .bp-detail-head .bp-emblem,
+  .bp-review-head .bp-emblem {
+    width: 64px;
+    height: 64px;
+  }
+  .bp-premade {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+  .bp-premade-actions {
+    grid-column: 1 / -1;
+    justify-content: stretch;
+  }
+  .bp-premade-actions .button {
+    flex: 1 1 0;
+  }
+  .bp-conflict-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .bp-detail-actions {
+    justify-content: stretch;
+  }
+  .bp-detail-actions .button {
+    flex: 1 1 auto;
+  }
+  .bp-portrait-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+/* P1 IN-06: a done step keeps its choice in view («Classe · Guerriero»). */
+.bp-step-choice {
+  display: block;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 400;
+  line-height: 1.2;
+}
+.bp-step > span:not(.bp-step-n) {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}

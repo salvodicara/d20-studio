@@ -1,0 +1,674 @@
+/* Area B20 — Campaign settings, table rules, "view as", enemy health and sheet access.
+   Linked by campaign-settings.mjs through registry.registerStyles(). Only .cs-* classes
+   and the shell's tokens (DESIGN.md §2): Foundry v13 settings rows, Roll20 Jumpgate
+   switches (the core .switch look), BG3's selected option for the rule choices, the map
+   plates of the doors for the badges drawn on the map. */
+
+.cs-page {
+  min-width: 0;
+}
+.cs-heading .cs-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+.cs-badge.is-standard {
+  border-color: color-mix(in srgb, var(--positive) 60%, transparent);
+  color: var(--positive);
+}
+.cs-badge.is-custom {
+  border-color: var(--accent-line);
+  color: var(--accent);
+}
+.cs-tabs {
+  margin-bottom: 10px;
+}
+.cs-tabs button {
+  min-height: 44px;
+}
+.cs-applies {
+  margin: 0 0 8px;
+  font-size: var(--text-sm);
+}
+.cs-block {
+  padding-block: 22px;
+  border-bottom: 1px solid var(--line);
+  min-width: 0;
+}
+.cs-block:last-child {
+  border-bottom: 0;
+}
+.cs-block h2 {
+  margin: 0 0 10px;
+  font-size: var(--text-xl);
+}
+.cs-block h3 {
+  margin: 18px 0 8px;
+  font-size: var(--text-md);
+}
+.cs-block-heading {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  margin-bottom: 8px;
+}
+.cs-block-heading h2 {
+  margin: 0;
+}
+.cs-lead {
+  max-width: 72ch;
+  margin: 0 0 14px;
+}
+.cs-help,
+.cs-meta {
+  color: var(--muted);
+  font-size: var(--text-sm);
+  margin: 6px 0 0;
+  overflow-wrap: anywhere;
+}
+/* SRD page links: a 40px target on every screen, inline in the text. */
+.cs-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  min-width: 40px;
+  padding-inline: 4px;
+}
+.cs-inline-button {
+  min-height: 40px;
+}
+.cs-fixed {
+  margin: 12px 0 0;
+}
+.cs-fixed > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: 4px 18px;
+  align-items: center;
+  padding-block: 8px;
+  border-top: 1px solid var(--line);
+}
+.cs-fixed dt {
+  font-weight: 600;
+}
+.cs-fixed dd {
+  margin: 0;
+  color: var(--muted);
+}
+.cs-unauthorized {
+  color: var(--danger);
+}
+.cs-va-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0 4px;
+}
+.cs-va-nav .button {
+  min-height: 44px;
+}
+.cs-va-nav .button.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+.cs-va-entries,
+.cs-ready-list {
+  list-style: none;
+  margin: 0 0 14px;
+  padding: 0;
+}
+.cs-va-entries li,
+.cs-ready-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  padding-block: 10px;
+  border-bottom: 1px solid var(--line);
+}
+.cs-va-entries li > div {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow-wrap: anywhere;
+}
+.cs-ready-list li > div:first-child {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+/* Pending assisted damage above the target token, for whoever applies it. Map plates keep
+   the map's theme-free colours: the door plate's gold rim and parchment ink on a dark plate
+   (styles.css --door-*), warmed with the conditions amber. */
+.cs-ready-pill rect {
+  fill: color-mix(in srgb, var(--status-conditions) 20%, var(--token-label-halo));
+  stroke: var(--door-rim);
+  stroke-width: 1.5;
+}
+.cs-ready-pill text {
+  fill: var(--door-ink);
+  font-size: 11px;
+  font-weight: 700;
+}
+.cs-va-entries small {
+  color: var(--muted);
+}
+.cs-va-entry h2 {
+  margin-top: 6px;
+}
+.cs-rule {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin: 0 0 14px;
+  min-width: 0;
+}
+.cs-rule legend,
+.cs-rule-title {
+  font-weight: 600;
+  font-size: var(--text-md);
+  padding-inline: 6px;
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.cs-rule-title {
+  padding-inline: 0;
+  margin: 0 0 6px;
+}
+.cs-edition p {
+  margin: 4px 0;
+}
+.cs-rule.is-locked {
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+}
+.cs-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+/* Rule choices as BG3's selected option: a gold rim on a lit tile. */
+.cs-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 8px 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  cursor: pointer;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+.cs-option:hover:not(:has(input:disabled)) {
+  border-color: var(--muted);
+}
+.cs-option:has(input:checked) {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+/* A locked rule still shows its value: dashed rim and no dimming (critique 29/09: at 70 %
+   opacity the locked «Consentito» fell to 4.2:1 dark and 3.1:1 light). The lock badge says why;
+   the dashed rim is Foundry dnd5e's unavailable slot (--dnd5e-border-dashed). */
+.cs-option:has(input:disabled) {
+  cursor: not-allowed;
+  border-style: dashed;
+}
+.cs-option:has(input:disabled):not(:has(input:checked)) {
+  color: var(--muted);
+}
+.cs-option input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+  margin: 0;
+}
+.cs-option:has(input:focus-visible) {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+/* The lock as a core chip (Foundry dnd5e pill) in the theme colour. */
+.cs-lock {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--accent);
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-pill);
+  background: var(--accent-soft);
+  padding: 1px 8px;
+}
+.cs-lock-icon {
+  flex: none;
+  vertical-align: -3px;
+}
+.cs-lock-reason {
+  color: var(--accent);
+  font-size: var(--text-sm);
+  margin: 10px 0 0;
+}
+.cs-switch {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  min-height: 44px;
+  padding: 8px 0;
+  cursor: pointer;
+}
+/* The row's switch is the core .switch (Roll20 Jumpgate: a pill track with a round knob,
+   gold when on); the label keeps its 44 px row as the target. */
+.cs-switch input {
+  appearance: none;
+  flex: none;
+  width: 40px;
+  height: 22px;
+  margin: 3px 0 0;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: radial-gradient(circle at 10px 50%, var(--muted) 6px, transparent 6.5px) var(--sunken);
+  cursor: pointer;
+  transition:
+    background var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+.cs-switch input:checked {
+  border-color: var(--accent);
+  background: radial-gradient(circle at 28px 50%, var(--accent-ink) 6px, transparent 6.5px)
+    var(--accent);
+}
+.cs-switch input:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+.cs-switch input:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+.cs-switch span {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.cs-switch small {
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.cs-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  padding-block: 12px;
+  border-bottom: 1px solid var(--line);
+}
+.cs-row > div:first-child {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.cs-row small {
+  color: var(--muted);
+}
+.cs-house-list,
+.cs-section-list,
+.cs-source-list,
+.cs-history,
+.cs-trace,
+.cs-plain {
+  list-style: none;
+  margin: 0 0 14px;
+  padding: 0;
+}
+.cs-house {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding-block: 12px;
+  border-bottom: 1px solid var(--line);
+}
+.cs-house > div {
+  min-width: 0;
+}
+.cs-house h4 {
+  margin: 0 0 4px;
+  font-size: var(--text-md);
+}
+.cs-prose {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.cs-house-form {
+  display: grid;
+  gap: 12px;
+  max-width: 640px;
+  margin-top: 14px;
+}
+.cs-house-form .field {
+  margin: 0;
+}
+.cs-house-form .button {
+  justify-self: start;
+}
+.cs-retired {
+  margin-top: 14px;
+}
+.cs-retired summary {
+  min-height: 40px;
+  cursor: pointer;
+}
+.cs-section-list li {
+  border-bottom: 1px solid var(--line);
+}
+.cs-source {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-block: 12px;
+  border-bottom: 1px solid var(--line);
+}
+.cs-source > div {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.cs-source small {
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.cs-source.is-blocked .cs-status {
+  color: var(--danger);
+  font-weight: 600;
+}
+.cs-source.is-available .cs-status,
+.cs-source.is-shared .cs-status {
+  color: var(--positive);
+  font-weight: 600;
+}
+.cs-history li,
+.cs-trace li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  padding-block: 10px;
+  border-bottom: 1px solid var(--line);
+}
+.cs-history li > div,
+.cs-trace li {
+  min-width: 0;
+}
+.cs-history small,
+.cs-trace small {
+  display: block;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.cs-change {
+  color: var(--accent);
+}
+.cs-result {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0 0;
+}
+.cs-read-list {
+  margin: 0;
+}
+.cs-read-rule {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: 6px 18px;
+  padding-block: 12px;
+  border-bottom: 1px solid var(--line);
+}
+.cs-read-rule dt {
+  font-weight: 600;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.cs-read-rule dd {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.cs-read-rule small {
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+/* «Viewing as»: Foundry v13's tinted notification in the theme colour, held at the top. */
+.cs-view-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 14px 18px;
+  margin-top: 16px;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--accent) 14%, var(--surface));
+  box-shadow: var(--shadow-2);
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 2;
+}
+.cs-view-heading {
+  margin-bottom: 0;
+}
+.cs-view-banner > span {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+}
+.cs-view-banner > span > span {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.cs-view-banner small {
+  color: var(--muted);
+}
+.cs-view-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 32px;
+}
+.cs-chips {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.cs-chips li {
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  padding: 4px 12px;
+  font-size: var(--text-sm);
+}
+.cs-plain li {
+  padding-block: 6px;
+  overflow-wrap: anywhere;
+}
+.cs-hidden-note {
+  color: var(--muted);
+  font-size: var(--text-sm);
+  padding: 8px 12px;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+}
+.cs-sheet {
+  margin-top: 18px;
+}
+.cs-sheet h2 {
+  margin: 0 0 8px;
+  font-size: var(--text-lg);
+}
+.cs-request {
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+  padding: 10px 14px;
+  margin: 8px 0 12px;
+}
+.cs-request p {
+  margin: 0 0 8px;
+}
+.cs-health-line {
+  margin: 0;
+}
+/* A Table tool the DM turned off for players (table.mjs hook): visible, not active. */
+.map-tool.cs-locked-tool {
+  opacity: 0.45;
+  cursor: not-allowed;
+  position: relative;
+}
+.map-tool.cs-locked-tool::after {
+  content: "";
+  position: absolute;
+  left: 20%;
+  right: 20%;
+  top: 50%;
+  border-top: 2px solid currentColor;
+  transform: rotate(-35deg);
+}
+/* Enemy health under a token (R20-167): a pill that carries words or numbers, never
+   colour alone. The map's theme-free plate: the token name halo, the door's gold rim and
+   parchment ink; bloodied in the hostile ring colour, down in a spent grey. */
+.cs-health rect {
+  fill: var(--token-label-halo);
+  stroke: var(--door-rim);
+  stroke-width: 1;
+  opacity: 0.92;
+}
+.cs-health text {
+  fill: var(--door-ink);
+  font-size: 11px;
+  font-weight: 600;
+}
+.cs-health.is-bloodied rect {
+  stroke: var(--token-hostile-ring);
+}
+.cs-health.is-down rect {
+  stroke: color-mix(in srgb, var(--door-ink) 55%, var(--token-label-halo));
+}
+
+@media (max-width: 760px) {
+  .cs-view-grid,
+  .cs-fixed > div,
+  .cs-read-rule {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .cs-rule {
+    padding: 12px;
+  }
+  .cs-house {
+    flex-wrap: wrap;
+  }
+  .cs-option {
+    flex: 1 1 100%;
+  }
+}
+
+/* ---- P10: rule presets, grouped rules, defaults grid, sources per item ---- */
+.cs-presets {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 10px;
+}
+.cs-preset {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  min-height: 44px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  cursor: pointer;
+}
+.cs-preset:hover {
+  border-color: var(--muted);
+}
+.cs-preset.is-current {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+  background: var(--accent-soft);
+}
+.cs-preset input {
+  margin-top: 3px;
+}
+.cs-preset strong {
+  display: block;
+}
+.cs-preset small {
+  display: block;
+  color: var(--muted);
+  line-height: 1.35;
+}
+/* Group headings as Kanka's module groups and D&D Beyond's labels: condensed small caps
+   (not text-transform, so the words stay as written). */
+.cs-group-title {
+  margin: 20px 0 6px;
+  color: var(--accent);
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+.cs-role-head {
+  margin: 0 0 8px;
+}
+.cs-default-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 6px 16px;
+  align-items: start;
+}
+.cs-source.is-missing {
+  border-color: var(--danger);
+}
+.cs-missing {
+  color: var(--danger);
+}
+.cs-switch-inline {
+  flex: 0 0 auto;
+}
+.cs-sharing .community-form {
+  margin-top: 8px;
+}
+/* R7 SV-38: Settings › Integrations rows; C4: the legacy 2014 switch under the sources. */
+.cs-integration .button {
+  flex: 0 0 auto;
+}
+[data-cs-legacy-row] {
+  margin-top: 12px;
+}
