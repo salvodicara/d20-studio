@@ -120,10 +120,15 @@ async (page) => {
   );
   passed.push("Confirming the best date carries «Disponibile» into the session RSVP");
 
-  // CA-47: «Aggiungi al calendario» and the reminder bell on the card.
-  await button("Aggiungi al calendario", card).click();
+  // CA-47: «Aggiungi al calendario» and the reminder bell on the card. Since 01/10/2026 the
+  // button opens a menu (web calendars, .ics); its last item opens the personal feed.
+  await card.locator("details.int-cal-menu summary").click();
+  check(
+    (await card.locator(".int-cal-list").innerText()).includes("Apple Calendario o altro (.ics)"),
+    "Calendar menu has no .ics",
+  );
+  await card.locator("[data-int-cal-feed]").click();
   const dialog = page.locator("#dialog");
-  check((await dialog.innerText()).includes("Scarica il file .ics"), "Calendar dialog has no .ics");
   await button("Crea il mio link del calendario", dialog).click();
   await dialog.locator("[data-int-add-feed-url]").waitFor();
   check(
@@ -161,10 +166,12 @@ async (page) => {
   await page.goto("http://127.0.0.1:8879/#home");
   const appointment = page.locator("#content [data-home-appointment]");
   await appointment.waitFor();
-  await button("Aggiungi al calendario", appointment).click();
+  await appointment.locator("details.int-cal-menu summary").click();
   check(
-    (await dialog.innerText()).includes("Serata della torre"),
-    "Home calendar dialog wrong session",
+    (await appointment.locator('[data-int-cal-link="google"]').getAttribute("href")).includes(
+      encodeURIComponent("Serata della torre"),
+    ),
+    "Home calendar menu wrong session",
   );
   await page.keyboard.press("Escape");
   passed.push("Home «Prossimo appuntamento» offers «Aggiungi al calendario»");

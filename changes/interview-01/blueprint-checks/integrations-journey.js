@@ -455,9 +455,11 @@ async (rootPage) => {
           .toISOString()
           .replace(/[-:]/g, "")
           .replace(/\.\d{3}/, "");
+        // The next session's «Aggiungi al calendario» menu holds the .ics (01/10/2026).
+        await page.locator("[data-int-next] details.int-cal-menu summary").click();
         const [download] = await Promise.all([
           page.waitForEvent("download"),
-          page.locator("[data-int-ics]").click(),
+          page.locator("[data-int-next] [data-int-cal-ics]").click(),
         ]);
         check(
           /^le-lanterne-di-bruma-\d{4}-\d{2}-\d{2}\.ics$/.test(download.suggestedFilename()),
@@ -467,7 +469,7 @@ async (rootPage) => {
         await download.saveAs(dir + "b55-next-session.ics");
         check(ics.includes(`DTSTART:${utc}\r\n`), "DTSTART " + utc + " in " + ics);
         check(ics.includes(`DTEND:${end}\r\n`), "DTEND");
-        check(ics.includes("SUMMARY:Le lanterne di Bruma: La torre della lanterna"), "SUMMARY");
+        check(ics.includes("SUMMARY:Le lanterne di Bruma · La torre della lanterna"), "SUMMARY");
         check(ics.includes("Europe/Rome"), "agreed zone in the description");
         // DM duration 4 h → the file follows.
         await page.locator("[data-int-duration]").selectOption("4");
@@ -790,9 +792,11 @@ async (rootPage) => {
         );
         check((await rec()).relay.notes.length === 2, "offline note stored");
         await openTab("calendar");
+        // The next session's «Aggiungi al calendario» menu holds the .ics (01/10/2026).
+        await page.locator("[data-int-next] details.int-cal-menu summary").click();
         const [download] = await Promise.all([
           page.waitForEvent("download"),
-          page.locator("[data-int-ics]").click(),
+          page.locator("[data-int-next] [data-int-cal-ics]").click(),
         ]);
         check((await readDownload(download)).includes("BEGIN:VEVENT"), "offline download");
         await page.locator('[data-service="preferences"]').click();
@@ -838,9 +842,10 @@ async (rootPage) => {
           (await phone.locator("[data-int-next-time]").innerText()).includes("(Europe/Rome)"),
           "zone label",
         );
+        await phone.locator("[data-int-next] details.int-cal-menu summary").tap();
         const [download] = await Promise.all([
           phone.waitForEvent("download"),
-          phone.locator("[data-int-ics]").tap(),
+          phone.locator("[data-int-next] [data-int-cal-ics]").tap(),
         ]);
         const ics = await readDownload(download);
         const utc = startsAt.replace(/[-:]/g, "").replace(/\.\d{3}/, "");
