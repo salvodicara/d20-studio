@@ -1,0 +1,64 @@
+async (rootPage) => {
+  for (const prior of rootPage.context().browser().contexts()) if (prior !== rootPage.context()) await prior.close();
+  const context = await rootPage.context().browser().newContext({ viewport: { width: 1440, height: 1000 } });
+  const page = await context.newPage(), passed = [], errors = [];
+  page.on('pageerror', error => errors.push(error.message));
+  const check = (value, message) => { if (!value) throw Error(message); };
+  await page.goto('http://127.0.0.1:8879/');
+  await page.evaluate(async () => {
+    const { createInitialState } = await import('/state.mjs');
+    const api = await import('/campaign-content.mjs');
+    const s = createInitialState();
+    api.createCampaignDraft(s, { id: 'own-note', kind: 'note', campaignId: null }, 'player');
+    const d = api.getCampaignDraft(s, 'own-note', 'player');
+    api.saveCampaignDraft(s, d.id, { data: { ...d.data, title: 'Appunto mio', body: 'Testo personale recuperabile.' }, expectedDraftRevision: d.revision }, 'player');
+    const p = api.previewCampaignDraft(s, d.id, 'player');
+    api.applyCampaignDraft(s, d.id, { reviewKey: p.reviewKey }, 'player');
+    s.campaign.members = [{ id: 'player', name: 'Player', role: 'player', active: false }, { id: 'dm', name: 'DM', role: 'dm', active: true }];
+    s.actors.doran.owner = 'dm';
+    s.actors.doran.name = 'Nome del compagno riservato';
+    localStorage.setItem('d20-studio-blueprint-v1', JSON.stringify(s));
+  });
+  await page.reload();
+  for (const route of ['home', 'campaigns', 'campaign', 'campaign?tab=group', 'campaign?tab=world', 'campaign?tab=journal', 'campaign?tab=sessions']) {
+    await page.goto('http://127.0.0.1:8879/#' + route);
+    await page.locator('#content h1').waitFor();
+    const text = await page.locator('body').innerText();
+    check(!text.includes('Le lanterne di Bruma') && !text.includes('Nome del compagno riservato') && !text.includes('Il cortile dell’osservatorio'), 'Revoked membership leaked shell/content on ' + route);
+  }
+  await page.locator('[data-service="search"]').click();
+  await page.locator('#dialog [name=query]').fill('Nome del compagno');
+  check((await page.locator('#search-results').innerText()).includes('Nessun risultato'), 'Search leaked former shared actor');
+  await page.locator('#dialog [data-close]').first().click();
+  await page.locator('[data-service="notes"]').click();
+  await page.getByRole('heading', { name: 'Appunti', level: 1, exact: true }).waitFor();
+  check((await page.locator('#content').innerText()).includes('Appunto mio'), 'Revocation hid own personal note');
+  passed.push('Revoked membership hides campaign hub, lists, sidebar and search while retaining own personal notes');
+  await page.evaluate(() => localStorage.removeItem('d20-studio-blueprint-v1'));
+  await page.goto('http://127.0.0.1:8879/#characters'); await page.reload();
+  await page.locator('[data-character-action=create]').click();
+  await page.locator('[data-builder-path="identity.name"]').fill('Viaggiatrice del ritorno');
+  await page.locator('.builder-sections [data-builder-section=features]').click();
+  const builderUrl = page.url();
+  await page.locator('[data-service=notes]').click();
+  await page.locator('[data-campaign-new=note]').click();
+  await page.locator('[data-campaign-path="data.body"]').fill('Nota del personaggio in costruzione.');
+  await page.locator('[data-campaign-save]').click(); await page.locator('[data-campaign-apply]').click();
+  await page.locator('[data-campaign-return]').click();
+  await page.locator('[data-builder-section-title]').waitFor();
+  check(page.url() === builderUrl, 'Note did not return to same builder section');
+  await page.locator('[data-builder-library=features]').click();
+  await page.getByRole('heading', { name: 'Biblioteca', level: 1, exact: true }).waitFor();
+  const libraryUrl = page.url();
+  check(libraryUrl.includes('returnTo='), 'Library lost builder return before notes trip');
+  await page.locator('[data-service=notes]').click();
+  await page.reload(); await page.getByRole('heading', { name: 'Appunti', level: 1, exact: true }).waitFor();
+  await page.locator('[data-campaign-return]').click();
+  await page.getByRole('heading', { name: 'Biblioteca', level: 1, exact: true }).waitFor();
+  check(page.url() === libraryUrl, 'Notes reload lost nested Library return context');
+  const state = await page.evaluate(() => JSON.parse(localStorage.getItem('d20-studio-blueprint-v1')));
+  check(state.characterDrafts.at(-1).data.identity.name === 'Viaggiatrice del ritorno', 'Contextual notes changed builder draft');
+  passed.push('Notes return to saved character draft and retain nested Library context across reload');
+  check(errors.length === 0, errors.join('; '));
+  await context.close(); return { passed, errors };
+}

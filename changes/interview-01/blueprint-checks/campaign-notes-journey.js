@@ -1,0 +1,77 @@
+async (page) => {
+  const passed = [], errors = [];
+  page.on("pageerror", (error) => errors.push(error.message));
+
+  await page.route("**/*.mjs", (route) => route.continue());
+  await page.goto("http://127.0.0.1:8879/#home");
+  await page.reload();
+  const check = (value, message) => { if (!value) throw Error(message); };
+  const button = (name) => page.getByRole("button", { name, exact: true });
+  const field = (path) => page.locator('[data-campaign-path="' + path + '"]');
+  const stored = () => page.evaluate(() => JSON.parse(localStorage.getItem("d20-studio-blueprint-v1")));
+  await button("Ripristina esempio").click(); await button("Ripristina").click();
+  await button("Entra al Tavolo").click(); await page.locator("#battle-map").waitFor();
+  const gameBefore = await stored();
+  // P9 CA-11: at the Table the header's notes open the quick jot over the map (D&D Beyond
+  // Quick Jot); the full notes page opens from anywhere else.
+  await button("Appunti personali").click();
+  await page.locator("#dialog").getByRole("heading", {name:"Appunto rapido"}).waitFor();
+  check(await page.locator("#battle-map").isVisible(), "The quick jot left the Table");
+  await page.keyboard.press("Escape");
+  await page.goto("http://127.0.0.1:8879/#notes");
+  await page.getByRole("heading", {name:"Appunti",exact:true}).waitFor();
+  await page.locator('[data-campaign-new="note"]').click();
+  await field("data.title").fill("Indizio personale di Livia");
+  await field("data.body").fill("Solo Livia sospetta del cartografo. Testo privato sintetico.");
+  const draftId = page.url().match(/[?&]id=([^&]+)/)[1];
+  await button("Inizio").click();
+  check(await page.locator("#dialog").isVisible(), "Dirty note left without a guard");
+  await page.keyboard.press("Escape");
+  check((await field("data.body").inputValue()).includes("cartografo"), "Escape lost private input");
+  await page.locator("[data-campaign-save]").click();
+  let state = await stored();
+  check(!state.campaignContent.entries.some((entry) => entry.kind === "note"), "Draft saved a published note");
+  await page.reload();
+  await field("data.body").waitFor();
+  check((await field("data.body").inputValue()).includes("cartografo"), "Reload lost saved draft");
+  await page.locator("[data-campaign-apply]").click();
+  await page.getByRole("heading", {name:"Indizio personale di Livia",exact:true,level:1}).waitFor();
+  state = await stored();
+  const note = state.campaignContent.entries.find((entry) => entry.kind === "note");
+  check(note && note.revisions.length === 1, "Saving note was missing or duplicated");
+  check(state.campaignContent.drafts.find((draft) => draft.id === draftId).status === "applied", "Draft did not retain its result");
+  passed.push("Table note: guarded dirty departure, Escape, private save, reload and explicit single publication");
+  await page.locator("#demo-role").selectOption("dm");
+  check(!(await page.locator("#content").innerText()).includes("cartografo"), "Private body visible to DM");
+  check(!(await page.locator("#content").innerText()).includes("Indizio personale di Livia"), "Private title visible to DM");
+  await button("Cerca").click(); await page.locator("#dialog [name=query]").fill("cartografo");
+  check((await page.locator("#search-results").innerText()).includes("Nessun risultato"), "Search leaked a private note");
+  await page.locator("#dialog [data-close]").last().click();
+  await button("Appunti personali").click();
+  await page.getByRole("heading", {name:"Appunti",exact:true}).waitFor();
+  check(!(await page.locator('[data-campaign-open="' + note.id + '"]').count()), "Collection leaked a private note");
+  passed.push("Private note absent from DM direct route, collection and global search");
+  await page.locator("#demo-role").selectOption("player");
+  await page.locator('[data-campaign-open="' + note.id + '"]').click();
+  await page.locator("[data-campaign-edit]").click();
+  await field("data.body").fill("Il cartografo ha restituito la chiave. Seconda versione sintetica.");
+  await page.locator("[data-campaign-save]").click(); await page.locator("[data-campaign-apply]").click();
+  await page.getByRole("heading", {name:"Indizio personale di Livia",exact:true,level:1}).waitFor();
+  // P9 CA-82: «Cronologia» in the header; restoring asks once and appends a version.
+  await page.locator("#content [data-campaign-timeline]").click();
+  await page.locator('#dialog [data-campaign-history="' + note.revisions[0].id + '"]').click();
+  await page.locator("[data-campaign-restore]").click();
+  await page.locator("#dialog").getByRole("button", {name:"Ripristina",exact:true}).click();
+  await page.getByRole("heading", {name:"Indizio personale di Livia",exact:true,level:1}).waitFor();
+  state = await stored();
+  const restored = state.campaignContent.entries.find((entry) => entry.id === note.id);
+  check(restored.revisions.length === 3, "Restore did not append one new version");
+  check(restored.revisions.at(-1).data.body === note.revisions[0].data.body, "Restore used the wrong text");
+  check(JSON.stringify(state.actors) === JSON.stringify(gameBefore.actors), "Writing/restoring changed characters");
+  check(JSON.stringify(state.combat) === JSON.stringify(gameBefore.combat), "Writing/restoring changed combat");
+  check(!state.log.some((row) => row.label.includes("cartografo") || row.label.includes("Indizio personale")), "Game log contains private note data");
+  passed.push("Accessible history restores by appending text only, retaining characters, combat and neutral logs");
+  await page.screenshot({path:"/Users/salvatoredicara/Workspace/Codex/d20-blueprint-evidence/2026-09-26/fix-P9/campaign-note-desktop-it.png",fullPage:true});
+  check(errors.length === 0, "Runtime errors: " + errors.join("; "));
+  return {passed,errors};
+}
