@@ -5173,9 +5173,14 @@ le serie sfortunate. Contrasta con i dadi digitali equi e con l'uso dei dadi fis
 
 **Raccomandazione:** escluderli (riga TV-156 del censimento, EXCLUDED in proposta).
 
+**01/10/2026 (direzione dell'owner: tutte le funzioni tranne sei esclusioni):** costruiti come
+impostazione della campagna **spenta di serie**, solo per i d20 digitali dei giocatori, con ogni
+ritiro scritto nel registro e l'avviso ai giocatori quando sono accesi (Tavolo › Dadi ›
+Impostazioni). Resta la domanda all'owner: tenerli o toglierli. La raccomandazione non cambia.
+
 ## Q167 — capacità dei leader oltre il censimento
 
-**Stato: aperta, 30/09/2026 (revisione di completezza B2–B8).** Mancano: bersaglio persistente
+**Stato: chiusa il 01/10/2026; era aperta dal 30/09/2026 (revisione di completezza B2–B8).** Mancano: bersaglio persistente
 visibile al gruppo (Foundry «Target»), tiri dentro i messaggi di chat `[[1d8+3]]` (Roll20,
 Foundry), barre di risorse sulla pedina (Foundry, Roll20), sfondi animati e meteo animato
 (Foundry), gioco su un solo dispositivo (BG3), verifica in due passaggi (D&D Beyond, Roll20).
@@ -5184,6 +5189,10 @@ Righe TV-150–TV-155 e SV-56 del [censimento](CAPABILITY_CENSUS.md).
 **Raccomandazione:** prima il bersaglio persistente e i tiri inline (servono al combattimento di
 ogni sera), poi le barre sulla pedina; animazioni e un solo dispositivo dopo; la verifica in due
 passaggi appartiene al prodotto reale con account veri.
+
+**Chiusa il 01/10/2026:** tutte costruite nel blueprint (dove si trovano:
+[final-fixes](../../changes/interview-01/final-fixes.md#chiusura-delle-funzioni-01102026)); la
+verifica in due passaggi è una simulazione dichiarata, come gli altri servizi d'account.
 
 ## Q168 — il clic sul numero della scheda tira subito
 

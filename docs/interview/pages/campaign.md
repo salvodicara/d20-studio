@@ -217,36 +217,36 @@ Una riga per funzione del [censimento](../CAPABILITY_CENSUS.md): stato della can
 - **CA-01** Panoramica: prossimo incontro, ultimo riepilogo, gruppo, entra al Tavolo — PROVEN · [audit/campaign-hub-world][ev-campaign-hub-world]. Dove: Inizio › Apri campagna → Panoramica
 - **CA-02** Creare una campagna: nome, immagine, descrizione, regole 2024, prossima data — PROVEN · [audit/campaign-hub-world][ev-campaign-hub-world]. Dove: Inizio › Crea campagna → modulo
 - **CA-03** Cruscotto con riquadri configurabili, anche diversi per ruolo — PROVEN · [audit/reaudit][ev-reaudit]. Dove: «Personalizza» offers «Elenco filtrato di voci», «Calendario delle sessioni», «Anteprima di una voce».
-- **CA-04** Messaggio d'inizio sessione per i giocatori — PROVEN · [audit/campaign-hub-world][ev-campaign-hub-world]. Dove: Panoramica › riquadro «✦ Messaggio d'inizio sessione» › Scrivi messaggio › spunta «Mostralo ai giocatori…» › Salva
+- **CA-04** Messaggio d'inizio sessione per i giocatori — PROVEN · [final-review-completeness][ev-final-review]. Dove: Panoramica › riquadro «✦ Messaggio d'inizio sessione» › Scrivi messaggio › spunta «Mostralo ai giocatori…» › Salva
 - **CA-05** Sezioni della campagna disattivabili se non usate — PROVEN · [audit/campaign-hub-world][ev-campaign-hub-world]. Dove: Gestione DM (apri) › Impostazioni › Sezioni › interruttore «Tempo libero»
 - **CA-06** Discussione asincrona della campagna — PROVEN · [audit/campaign-hub-world][ev-campaign-hub-world]. Dove: Racconto (apri) › Discussioni › Nuova discussione › Pubblica
-- **CA-07** Pagina pubblica della campagna in sola lettura — PROVEN · simulazione · [audit/reaudit][ev-reaudit]. Dove: Poi Impostazioni › Permessi
+- **CA-07** Pagina pubblica della campagna in sola lettura — PROVEN · simulazione · [final-review-completeness][ev-final-review]. Dove: Poi Impostazioni › Permessi
 - **CA-08** Diario: resoconti, note, sezioni, collegamenti, storico e ripristino — PROVEN · [audit/campaign-hub-world][ev-campaign-hub-world]. Dove: Diario › Leggi › Modifica → titolo
 - **CA-09** Destinatari espliciti con anteprima del destinatario — PROVEN · [audit/campaign-hub-world][ev-campaign-hub-world]. Dove: Editor › «Chi può leggere» + «Destinatari effettivi» + «Come lo vedrà… Giocatore»
 - **CA-10** Modifiche concorrenti: bozza conservata, confronto, riapplicazione — PROVEN · [audit/reaudit3-a][ev-reaudit3-a]. Dove: DM › Mondo › «Nuova voce del mondo» › title and body › «Salva contenuto per questi destinatari» › «Modifica» › edit › «Salva bozza e…
 - **CA-11** Annotazione dal Tavolo senza lasciare il gioco — PROVEN · [audit/reaudit][ev-reaudit]. Dove: Tavolo › Diario contiene solo Materiali/Missioni/Immagini
 - **CA-12** Collegamenti fra voci e ritorno alla voce di partenza — PROVEN · [audit/reaudit][ev-reaudit]. Dove: @ in a World entry links an Archive page.
 - **CA-13** Blocchi segreti in una pagina con rivelazione per blocco — PROVEN · [audit/reaudit][ev-reaudit]. Dove: Campagna › Archivio › pagina › Modifica › «Aggiungi blocco segreto»
-- **CA-14** Retro-collegamenti e menzioni non collegate — PROVEN · [audit/reaudit][ev-reaudit]. Dove: Backlinks with context on a World entry.
+- **CA-14** Retro-collegamenti e menzioni non collegate — PROVEN · [final-review-completeness][ev-final-review]. Dove: Backlinks with context on a World entry.
 - **CA-15** Suggerimento di collegamenti dai nomi riconosciuti, solo con conferma — PROVEN · [audit/reaudit][ev-reaudit]. Dove: Unlinked mention linked only after «Collega».
 - **CA-16** Nuova pagina annidata dal testo; sposta selezione in nuova pagina — PROVEN · [audit/reaudit][ev-reaudit]. Dove: Archivio › pagina › Modifica › [[Cantina di Oben]] › Salva pagina › link «pagina da creare» › «Crea la pagina annidata» › Crea pagina
-- **CA-17** Modelli di pagina e kit di proprietà — PROVEN · [audit/reaudit][ev-reaudit]. Dove: Kits, «Salva come modello»; palette «modello».
+- **CA-17** Modelli di pagina e kit di proprietà — PROVEN · [final-review-completeness][ev-final-review]. Dove: Kits, «Salva come modello»; palette «modello».
 - **CA-18** Tipi di voce: nota, luogo/mondo, missione, resoconto — PROVEN · [audit/campaign-hub-world][ev-campaign-hub-world]. Dove: Missione in Racconto › Missioni o nell'Archivio
 - **CA-19** Tipi aggiuntivi: persona, organizzazione, negozio, evento, elenco — PROVEN · [audit/reaudit][ev-reaudit]. Dove: «Nuova voce del mondo» with every type.
 - **CA-20** Schede aperte e segnalibri con avanti/indietro nel diario — PROVEN · [audit/reaudit][ev-reaudit]. Dove: Bookmark and shared tab bar across Mondo and Archivio.
 - **CA-21** Riepilogo di sessione preparato in automatico e modificabile — PROVEN · [audit/reaudit][ev-reaudit]. Dove: «Prepara bozza automatica» with play events only; Table end offers the draft (P10, not re-driven).
 - **CA-22** Archivio di chat e registro fra le sessioni, con riservatezza dei sussurri — PROVEN · [audit/campaign-hub-world][ev-campaign-hub-world]. Dove: Racconto › Archivio chat
-- **CA-23** Esportare o ripulire il registro — PROVEN · [audit/campaign-hub-world][ev-campaign-hub-world]. Dove: Archivio chat › «Svuota l'archivio…» › scrivere «ELIMINA CHAT» › Svuota definitivamente
+- **CA-23** Esportare o ripulire il registro — PROVEN · [final-review-completeness][ev-final-review]. Dove: Archivio chat › «Svuota l'archivio…» › scrivere «ELIMINA CHAT» › Svuota definitivamente
 - **CA-24** Viste salvate e filtrate sulle voci (tabella, schede, colonne) — PROVEN · [audit/reaudit][ev-reaudit]. Dove: Saved cards view over World entries and Archive pages.
 - **CA-25** Allegati per voce con visibilità propria (immagini, PDF) — PROVEN · [audit/campaign-hub-world][ev-campaign-hub-world]. Dove: Voce › Allega un file › Carica dal dispositivo (PDF) › Solo DM › Allega
 - **CA-26** Testo eseguibile: prove, TS, danni, premi cliccabili nelle voci — PROVEN · [audit/reaudit][ev-reaudit]. Dove: Nell'Archivio [[/check Atletica 12]] e [[/save DES 13]] diventano link «pagina da creare»
 - **CA-27** Voci del mondo con visibilità, collegate a scene e Tavolo — PROVEN · [audit/campaign-hub-world][ev-campaign-hub-world]. Dove: Tavolo › Diario › Materiali › Spilli › Aggiungi spillo… collegato a «Osservatorio di Bruma», «Visibile ai giocatori»
 - **CA-28** Mappa del mondo con spilli collegati, gruppi, livelli, visibilità per spillo — PROVEN · [audit/campaign-hub-world][ev-campaign-hub-world]. Dove: Mondo (gruppo) › Mappa e calendario › Spillo › clic sulla mappa → modulo
 - **CA-29** Mappe annidate mondo → regione → città → dungeon — PROVEN · [audit/campaign-hub-world][ev-campaign-hub-world]. Dove: Dettagli dello spillo › «Apri la mappa «Cripte del faro»»
-- **CA-30** Misurare distanze sulla mappa del mondo — PROVEN · [audit/campaign-hub-world][ev-campaign-hub-world]. Dove: Misura › clic per tappe
+- **CA-30** Misurare distanze sulla mappa del mondo — PROVEN · [final-review-completeness][ev-final-review]. Dove: Misura › clic per tappe
 - **CA-31** Orologio comune della finzione avanzato dal DM — PROVEN · [audit/campaign-hub-world][ev-campaign-hub-world]. Dove: Calendario › Avanza il tempo › (Riposi e tempo) 3 Ore › Vedi conseguenze del tempo › Applica
 - **CA-32** Calendario del mondo personalizzabile (mesi, lune, stagioni, ere) — PROVEN · [audit/campaign-hub-world][ev-campaign-hub-world]. Dove: Impostazioni del calendario: mesi (aggiunto «Tredicesima» e navigato fin lì), giorni della settimana, lune, stagioni, data iniziale con…
-- **CA-33** Eventi datati con visibilità, ricorrenza e promemoria — PROVEN · [audit/campaign-hub-world][ev-campaign-hub-world]. Dove: Nuovo evento: data e ora, «Si ripete: Ogni anno», «Chi lo vede: Solo DM (da rivelare)», luogo, «Promemoria: 1 giorno prima» → in elenco…
+- **CA-33** Eventi datati con visibilità, ricorrenza e promemoria — PROVEN · [final-review-completeness][ev-final-review]. Dove: Nuovo evento: data e ora, «Si ripete: Ogni anno», «Chi lo vede: Solo DM (da rivelare)», luogo, «Promemoria: 1 giorno prima» → in elenco…
 - **CA-34** Cronologie con ere e viste cronaca/calendario — PROVEN · [audit/campaign-hub-world][ev-campaign-hub-world]. Dove: Cronologia: eventi raggruppati per era, marcatore «Adesso», filtro per luogo, Modifica le ere
 - **CA-35** Storia di un luogo aprendo lo spillo (eventi per luogo) — PROVEN · [audit/campaign-hub-world][ev-campaign-hub-world]. Dove: Spillo › «Storia del luogo (2)» › Apri nella cronologia / Evento qui
 - **CA-36** Relazioni fra voci e rappresentazione a grafo o lavagna — PROVEN · [audit/campaign-hub-world][ev-campaign-hub-world]. Dove: Voce › «Apri nel grafo delle relazioni» → Archivio › Relazioni
@@ -263,7 +263,7 @@ Una riga per funzione del [censimento](../CAPABILITY_CENSUS.md): stato della can
 - **CA-44** Ricorrenza e pianificazione di più date insieme — PROVEN · [final-review-completeness][ev-final-review]. Dove: Sessioni › «Nuova serie ricorrente…» (precompilata dalla sessione zero) › «Programma le date»
 - **CA-45** Salto di una sessione distinto dall'uscita; dopo uno spostamento si richiede — PROVEN · [audit/sessions-members-safety][ev-sessions-members-safety]. Dove: Sessioni › «Salto la prossima» / «Salto questa»
 - **CA-46** Posti limitati con lista d'attesa — PROVEN · [audit/sessions-members-safety][ev-sessions-members-safety]. Dove: «Mettimi in lista d'attesa» › «In lista d'attesa
-- **CA-47** Promemoria su richiesta e feed calendario — PROVEN · simulazione · [audit/reaudit][ev-reaudit]. Dove: Trovato solo così: campagna › «Gestione DM» (giocatore: «Strumenti») › «Integrazioni» › scheda «Calendario» › «Crea il mio link del…
+- **CA-47** Promemoria su richiesta e feed calendario — PROVEN · simulazione · [final-review-completeness][ev-final-review]. Dove: Trovato solo così: campagna › «Gestione DM» (giocatore: «Strumenti») › «Integrazioni» › scheda «Calendario» › «Crea il mio link del…
 - **CA-48** Presenze registrate per sessione — PROVEN · [audit/sessions-members-safety][ev-sessions-members-safety]. Dove: Sessioni › «Registra partita giocata» › «Salva bozza…» › «Conferma» › «Registra presenze…» (anche nel riquadro «Presenze da registrare»)…
 
 ### Campagna — membri, ruoli e permessi
@@ -280,7 +280,7 @@ Una riga per funzione del [censimento](../CAPABILITY_CENSUS.md): stato della can
 - **CA-58** Revoca: il gruppo sparisce da elenchi e ricerca, le note proprie restano — PROVEN · [audit/sessions-members-safety][ev-sessions-members-safety]. Dove: Inizio: «Nessuna campagna accessibile»
 - **CA-59** Diritti per oggetto: lettura, modifica, delega, senza onniscienza sul "Solo io" — PROVEN · [final-review-completeness][ev-final-review]. Dove: Appunti › «Nuovo appunto» › «Chi può leggere» (Solo io / Io e i DM / Persone scelte con Legge o Modifica / Gruppo) › «Salva bozza…» ›…
 - **CA-60** Vedere la campagna come un membro per verificare i permessi — PROVEN · [audit/reaudit][ev-reaudit]. Dove: «Vedi come» on the member row.
-- **CA-61** Pannello semplice di permessi (disegnare, ping, muovere mostri, bloccare, gruppi) — PROVEN · [audit/reaudit3-c][ev-reaudit3-c]. Dove: Impostazioni › Permessi › «Ruolo: Giocatore»: pointer and signals, drawing, templates, «muovere e far agire le creature del DM», lock, «I giocatori possono raggruppare le proprie pedine»…
+- **CA-61** Pannello semplice di permessi (disegnare, ping, muovere mostri, bloccare, gruppi) — PROVEN · [final-review-completeness][ev-final-review]. Dove: Impostazioni › Permessi › «Ruolo: Giocatore»: pointer and signals, drawing, templates, «muovere e far agire le creature del DM», lock, «I giocatori possono raggruppare le proprie pedine»…
 - **CA-62** Ultimo accesso visibile solo su consenso — PROVEN · [audit/sessions-members-safety][ev-sessions-members-safety]. Dove: Account e profilo › «Privacy» › «Mostra il mio ultimo accesso…»
 
 ### Campagna — sicurezza del tavolo
@@ -306,7 +306,7 @@ Una riga per funzione del [censimento](../CAPABILITY_CENSUS.md): stato della can
 - **CA-78** Magie condivise del gruppo — PROVEN · [audit/campaign-settings-data][ev-campaign-settings-data]. Dove: Overview › «Apri il riepilogo del gruppo» › «Magie condivise» (or sidebar Gruppo › Magie condivise)
 - **CA-79** Assegnare XP e monete al gruppo con divisione — PROVEN · [final-review-completeness][ev-final-review]. Dove: Gioco (expand) › Tesoro › «Assegna PE e monete» › PE / mo / Modalità «Da dividere» / Destinatari / Motivo › «Assegna»
 - **CA-80** Basi e proprietà del gruppo — PROVEN · [audit/campaign-settings-data][ev-campaign-settings-data]. Dove: «Basi e ordini» › «Apri le basi» › «Nuova base del gruppo» › «Crea base» › «Aggiungi struttura»
-- **CA-81** Veicoli del gruppo con velocità e carico — PROVEN · [audit/campaign-settings-data][ev-campaign-settings-data]. Dove: «Carro» › «Apri i veicoli» › Personaggio/Posto › «Sali a bordo»
+- **CA-81** Veicoli del gruppo con velocità e carico — PROVEN · [final-review-completeness][ev-final-review]. Dove: «Carro» › «Apri i veicoli» › Personaggio/Posto › «Sali a bordo»
 - **CA-82** Storico delle modifiche per voce con ripristino come nuova revisione — PROVEN · [audit/reaudit][ev-reaudit]. Dove: «Cronologia» in the header with diff and «Ripristinata da…».
 - **CA-83** Copia della campagna scegliendo i componenti — PROVEN · [final-review-completeness][ev-final-review]. Dove: Gestione DM › Dati della campagna › «Copia la campagna…» › untick «Giocatori e ruoli» and «Tesoro e scorta» › «Copia la campagna»
 - **CA-84** Archivio/stato dormiente e ripristino — PROVEN · [final-review-completeness][ev-final-review]. Dove: Dati della campagna: «Archivia…», «Elimina…», «Crea istantanea…», «Copia la campagna…» open their dialogs

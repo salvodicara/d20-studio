@@ -361,15 +361,15 @@ Una riga per funzione del [censimento](../CAPABILITY_CENSUS.md): stato della can
 
 - **PR-01** Scena vuota/preset/file con nome, note private e pubbliche, dimensioni — PROVEN · [audit/prep-scenes][ev-prep-scenes]. Dove: Apri campagna → Preparazione → Nuova scena → nome → Crea bozza → (Descrizione per il gruppo, Note riservate ai DM, Larghezza/Altezza) →…
 - **PR-02** Griglia, scala e scostamento; calibrazione a due punti con misura nota — PROVEN · [audit/prep-scenes][ev-prep-scenes]. Dove: …→ Modifica scena → Calibra scala → clic punto A → clic punto B → scorrere sotto la mappa → «Distanza nota (m)» = 3 → Applica scala alla…
-- **PR-03** Allineamento guidato in tre passi con lente che si sposta dal dito — PROVEN · [audit/reaudit][ev-reaudit]. Dove: Preparazione → Scene avanzate → Capitolo 1 → Apri scena → scheda Griglia e vista → «Allinea la griglia…» → 1
+- **PR-03** Allineamento guidato in tre passi con lente che si sposta dal dito — PROVEN · [final-review-completeness][ev-final-review]. Dove: Preparazione → Scene avanzate → Capitolo 1 → Apri scena → scheda Griglia e vista → «Allinea la griglia…» → 1
 - **PR-04** Salva, Rivela e Attiva distinti, con anteprima — PROVEN · [audit/prep-scenes][ev-prep-scenes]. Dove: Editor → Salva preparazione → scheda Anteprima («Contenuto da rivelare al gruppo») → Rivela contenuto… → Tutto il gruppo → Salva…
 - **PR-05** Copia di una scena ed eliminazione protetta; Indietro protegge la bozza — PROVEN · [audit/reaudit][ev-reaudit]. Dove: «Scene e mappe» / Indietro del browser con modifiche non salvate → «Scartare le modifiche?»
 - **PR-06** Cartelle o capitoli di scene, ricerca, archivio — PROVEN · [final-review-completeness][ev-final-review]. Dove: Tutte le scene › Capitolo 2»)
-- **PR-07** Scena senza mappa (teatro della mente) con materiali e note — PROVEN · [audit/reaudit][ev-reaudit]. Dove: «Teatro della mente (senza mappa)»; palette «teatro»; no scale label at the Table.
-- **PR-08** Varianti della stessa scena (giorno/notte, crollo) — PROVEN · [audit/reaudit][ev-reaudit]. Dove: «Varianti» tab in the editor.
-- **PR-09** Livelli 2D di un edificio con cambio piano — PROVEN · [audit/reaudit][ev-reaudit]. Dove: Scene avanzate → Apri scena → Livelli → Crea edificio a più piani… → Crea edificio → Aggiungi piano… → «Una scena esistente: La cripta»…
+- **PR-07** Scena senza mappa (teatro della mente) con materiali e note — PROVEN · [final-review-completeness][ev-final-review]. Dove: «Teatro della mente (senza mappa)»; palette «teatro»; no scale label at the Table.
+- **PR-08** Varianti della stessa scena (giorno/notte, crollo) — PROVEN · [final-review-completeness][ev-final-review]. Dove: «Varianti» tab in the editor.
+- **PR-09** Livelli 2D di un edificio con cambio piano — PROVEN · [final-review-completeness][ev-final-review]. Dove: Scene avanzate → Apri scena → Livelli → Crea edificio a più piani… → Crea edificio → Aggiungi piano… → «Una scena esistente: La cripta»…
 - **PR-10** Oggetti di scena (adesivi, tile) con blocco, visibilità, tetti che sfumano — PROVEN · [audit/reaudit][ev-reaudit]. Dove: «Oggetti» tab in the editor.
-- **PR-11** Prefabbricati: salvare una selezione riusabile — PROVEN · solo test Node · [audit/reaudit][ev-reaudit]. Dove: (correzione, provata da test) `buildPrefab` keeps each object's lock; an inserted prefab keeps it (Owlbear Prefabs). Prefabs are in the Oggetti tab; editing a prefab returns to its scene.
+- **PR-11** Prefabbricati: salvare una selezione riusabile — PROVEN · [final-review-completeness][ev-final-review]. Dove: (correzione, provata da test) `buildPrefab` keeps each object's lock; an inserted prefab keeps it (Owlbear Prefabs). Prefabs are in the Oggetti tab; editing a prefab returns to its scene.
 - **PR-12** Modifica in blocco ed elenco degli elementi della scena — PROVEN · [audit/reaudit][ev-reaudit]. Dove: «Elenco della scena» with kind chips.
 - **PR-13** Area fuori mappa visibile solo al DM — PROVEN · [audit/reaudit][ev-reaudit]. Dove: Off-map staging with «Dal bestiario (SRD 5.2.1)».
 - **PR-14** Vista iniziale della scena — PROVEN · [audit/prep-scenes][ev-prep-scenes]. Dove: Tavolo → zoom → pannello Scena → «Viste» → Imposta questa come vista iniziale
@@ -401,12 +401,12 @@ Una riga per funzione del [censimento](../CAPABILITY_CENSUS.md): stato della can
 - **PR-37** Libreria incontri: duplica, riavvia, riprendi — PROVEN · [audit/prep-encounters][ev-prep-encounters]. Dove: I miei incontri → Altre azioni → Duplica («Agguato al pozzo (copia)»)
 - **PR-38** Note, lettura ad alta voce e tesoro dell'incontro — PROVEN · [audit/reaudit][ev-reaudit]. Dove: Riassunto then Tesoro, 3 times: no character lost.
 - **PR-39** Incontro dalle pedine già sulla mappa — PROVEN · [audit/prep-encounters][ev-prep-encounters]. Dove: Al Tavolo, in combattimento: pannello Incontro → «Aggiungi tutte le pedine»
-- **PR-40** Incontro casuale scalato sul gruppo — PROVEN · [audit/prep-encounters][ev-prep-encounters]. Dove: Genera incontro… → scheda Incontro (seme, gruppo, difficoltà, tipo, GS) → «Adatta a «Media»» → Salva come nuovo incontro
-- **PR-41** PNG: crea, duplica, attacco, disposizione separata dai permessi — PROVEN · [audit/reaudit][ev-reaudit]. Dove: Palette «Crea PNG…».
+- **PR-40** Incontro casuale scalato sul gruppo — PROVEN · [final-review-completeness][ev-final-review]. Dove: Genera incontro… → scheda Incontro (seme, gruppo, difficoltà, tipo, GS) → «Adatta a «Media»» → Salva come nuovo incontro
+- **PR-41** PNG: crea, duplica, attacco, disposizione separata dai permessi — PROVEN · [final-review-completeness][ev-final-review]. Dove: Palette «Crea PNG…».
 - **PR-42** Blocco statistiche 2024 completo con modifica in linea e tiri cliccabili — PROVEN · [audit/prep-encounters][ev-prep-encounters]. Dove: Costruttore: ▸ Ogre → blocco 2024 (CA, Iniziativa, PF, TS, Equipaggiamento, Sensi, GS con PE e BC) → clic «Colpire +6» → Registra tiro
 - **PR-43** Testo del blocco convertito in azioni cliccabili — PROVEN · [audit/reaudit][ev-reaudit]. Dove: «Incolla riga del blocco» in the Table creature panel.
 - **PR-44** Pedine numerate, PF tirati, nomi nascosti — PROVEN · [audit/prep-encounters][ev-prep-encounters]. Dove: Costruttore «Al tavolo»: Numeri/Aggettivi, «Nascondi i nomi ai giocatori», PF «Tirati con dadi digitali» → Prepara nella scena
-- **PR-45** Pedina predefinita del personaggio vs servitore non collegato — PROVEN · solo test Node · [audit/reaudit][ev-reaudit]. Dove: (correzione, provata da test) A unique linked creature reuses the same NPC across encounters; one already on the scene keeps its token (Roll20 linked token).
+- **PR-45** Pedina predefinita del personaggio vs servitore non collegato — PROVEN · [final-review-completeness][ev-final-review]. Dove: (correzione, provata da test) A unique linked creature reuses the same NPC across encounters; one already on the scene keeps its token (Roll20 linked token).
 - **PR-46** Pedina che carica il blocco salvato dal nome — PROVEN · [audit/reaudit][ev-reaudit]. Dove: «Carica statistiche» on the Esploratore.
 - **PR-47** Equipaggiamento PNG che non porta bonus nel bottino — PROVEN · [audit/prep-encounters][ev-prep-encounters]. Dove: Incontro «Al tavolo» → Prepara il bottino → Tesori
 - **PR-48** Materiale consultabile rivelato senza note del DM — PROVEN · [audit/prep-encounters][ev-prep-encounters]. Dove: Materiali → Mostra… → Mostra
@@ -417,11 +417,11 @@ Una riga per funzione del [censimento](../CAPABILITY_CENSUS.md): stato della can
 - **PR-53** Schede di scelta narrative con immagine e opzioni — PROVEN · [audit/prep-encounters][ev-prep-encounters]. Dove: Materiali → vignetta «Il carro rovesciato» → Mostra… → Mostra
 - **PR-54** Pacchetti di tesoro (monete, oggetti, non identificati) — PROVEN · [audit/prep-encounters][ev-prep-encounters]. Dove: Preparazione → Tutte → Tesori → Nuovo pacchetto → Oro 50 → Salva monete → Anello di protezione + Non identificato + nome apparente →…
 - **PR-55** Tesoro per incontro e tesoro accumulato — PROVEN · [audit/reaudit][ev-reaudit]. Dove: Tesori: «Tesoro della campagna: da trovare 292 mo · già al gruppo 0 mo»
-- **PR-56** Mercante preparato con prezzi, scorte, sconto — PROVEN · [audit/reaudit][ev-reaudit]. Dove: «Compra» ×3 → bar «3» in view at once.
+- **PR-56** Mercante preparato con prezzi, scorte, sconto — PROVEN · [final-review-completeness][ev-final-review]. Dove: «Compra» ×3 → bar «3» in view at once.
 - **PR-57** Tabelle casuali: pesi, intervalli, sottotabelle, con o senza reinserimento — PROVEN · [final-review-completeness][ev-final-review]. Dove: Preparazione → Materiali → Tabelle e mazzi → tabella → Estrai con dadi digitali
 - **PR-58** Esito della tabella verso chat, diario, bottino o incontro — PROVEN · [audit/prep-encounters][ev-prep-encounters]. Dove: Dopo l'estrazione: Invia in chat… / Aggiungi al diario… / Aggiungi al bottino… / Aggiungi a un incontro…
 - **PR-59** Tabelle a colonne, filtri e variabili d'ingresso — PROVEN · [audit/prep-encounters][ev-prep-encounters]. Dove: Estrazione: variabile «Stagione», «Filtra per testo» = goblin → Estrai
-- **PR-60** Generatori di testo da modelli — PROVEN · [audit/prep-encounters][ev-prep-encounters]. Dove: Tabelle e mazzi → Modelli di testo → «Spunto per la palude» → Genera con dadi digitali
+- **PR-60** Generatori di testo da modelli — PROVEN · [final-review-completeness][ev-final-review]. Dove: Tabelle e mazzi → Modelli di testo → «Spunto per la palude» → Genera con dadi digitali
 - **PR-61** Mazzi: crea, distribuisci, pesca, mani, scarti, mescola, mostra — PROVEN · [audit/prep-encounters][ev-prep-encounters]. Dove: Tavolo → Tabelle e mazzi → Mazzi → Mescola → Pesca per Doran → Pesca una carta → Gioca scoperta
 - **PR-62** Pedina a più facce generata da una tabella — PROVEN · [audit/reaudit][ev-reaudit]. Dove: Tavolo: Strumenti del DM → Pedina a più facce (mostra solo un suggerimento in basso) → pannello Tabelle e mazzi → Tabelle → «Estrai da»…
 

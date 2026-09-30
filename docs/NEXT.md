@@ -1,12 +1,11 @@
-# Prossimo passo — valutazione della candidata da parte dell'owner
+# Prossimo passo — Fase B: l'owner valuta le funzioni
 
-**Stato al 01/10/2026: candidata completa del blueprint, in attesa della valutazione dell'owner.
-Non è approvata.** Il lavoro è nel worktree `~/Workspace/Codex/d20-studio-interview-01`, branch
-`codex/interview-01`, non ancora committato. La versione è identificata dal
-[manifest della candidata](../changes/interview-01/blueprint-candidate-manifest.json)
-(impronte sha256, non un'approvazione). Sintesi, numeri, limiti e simulazioni:
-[BLUEPRINT_STATUS](interview/BLUEPRINT_STATUS.md); regole di approvazione:
-[BLUEPRINT_CONTRACT](interview/BLUEPRINT_CONTRACT.md#accordo-e-fissazione-della-versione).
+**Stato al 01/10/2026: candidata funzionale completa, in attesa della valutazione dell'owner
+(Fase B del [piano](ROADMAP.md)). Non è approvata.** Worktree
+`~/Workspace/Codex/d20-studio-interview-01`, branch `codex/interview-01` (commit locali sul
+branch; l'ultimo contiene le correzioni di chiusura). La versione è identificata dal
+[manifest della candidata](../changes/interview-01/blueprint-candidate-manifest.json): impronte,
+non un'approvazione. Numeri e limiti: [BLUEPRINT_STATUS](interview/BLUEPRINT_STATUS.md).
 
 ## Come aprirla
 
@@ -15,53 +14,59 @@ cd ~/Workspace/Codex/d20-studio-interview-01
 python3 changes/interview-01/blueprint-checks/serve-nocache.py
 ```
 
-Aprire <http://127.0.0.1:8879/>. Fuori dall'app, la barra della dimostrazione ha «Visita come»
-(Giocatore o DM), «Cosa è pronto» e «Ripristina esempio». Dati sintetici, solo in quel browser.
+Poi <http://127.0.0.1:8879/>. In alto, fuori dall'app: «Visita come» (Giocatore o DM) e
+«Ripristina esempio». Dati d'esempio, solo in quel browser.
 
-## Che cosa valuta l'owner
+## Che cosa legge e prova l'owner
 
-Struttura, informazioni e interazioni: che ogni funzione si trovi dove la si cerca, faccia quello
-che promette e sia coerente fra scheda, campagna e Tavolo. Aspetto, nome e marchio non sono in
-approvazione. Tre visite brevi, poi navigazione libera:
+- **[Mappa delle funzioni](interview/FEATURE_MAP.md)**: una tabella per area, 119 righe che
+  raccolgono tutte le 528 funzioni, con dove si trovano, da quale prodotto sono copiate e per chi.
+- Si giudicano **le funzioni**: che ci siano, che si trovino dove uno le cerca e che facciano
+  quello che promettono. L'aspetto non è in valutazione (Fase C).
+- Correzioni e domande si chiedono in chat; l'agente corregge e ripresenta. Visitare o non
+  rispondere non approvano. Dopo un'approvazione esplicita si congela la versione (manifest nuovo,
+  commit e tag) e si passa alla Fase C.
 
-1. **Giocatore, una sera di gioco:** Inizio › «Entra al Tavolo» › muovere Livia, attaccare un
-   nemico con dadi digitali o fisici, bere una pozione › aprire la scheda › tornare al Tavolo.
-2. **DM, preparare e condurre:** «Visita come: DM» › campagna › Preparazione (Scene, Incontri) ›
-   «Entra al Tavolo» › «Avvia combattimento» (anche «Sorpreso») › menu «Sessione» › «Concludi
-   incontro» con PE e bottino.
-3. **Uso personale:** Personaggi › «Crea personaggio» (percorso rapido) › «Avanza di livello» ›
-   Appunti personali senza campagna.
+## Fase C: design visivo in una sessione nuova
 
-Commenti e correzioni si chiedono in chat; l'agente le fa e ripresenta. Visitare, fare clic o
-non rispondere non approvano la versione.
+Si avvia quando l'owner lo chiede, in una sessione dedicata. Prompt pronto:
 
-## Dopo l'approvazione esplicita
+```text
+Progetto d20 Studio, Fase C «Design visivo» (ROADMAP, D-014, I-243). Modello e sforzo invariati
+rispetto alla sessione interview-01 (scelta dell'owner, nessun cambio). Lavora in un worktree
+nuovo sotto ~/Workspace/Codex, branch codex/visual-01, partendo dal commit integrato della
+candidata funzionale (o dalla versione congelata, se l'owner l'ha già approvata).
+Leggi nell'ordine: AGENTS.md, docs/NEXT.md, docs/ROADMAP.md, docs/interview/FEATURE_MAP.md,
+design/blueprint/DESIGN.md (solo come input provvisorio: non è approvato e si può rifare),
+changes/interview-01/visual-phase-backlog.md, design/blueprint/DEVELOPMENT.md.
+Obiettivo: una direzione e un sistema grafico copiati dai riferimenti, prodotto per prodotto
+(BG3 e Solasta per il Tavolo e la barra delle azioni, D&D Beyond per scheda e Biblioteca,
+Owlbear e Foundry per la mappa e i suoi attrezzi, Kanka e World Anvil per la campagna): per
+ogni elemento scrivi «elemento → prodotto copiato → fonte», raccogli i riferimenti, proponi
+all'owner poche direzioni concrete con immagini dell'app, poi applica quella scelta a tutto il
+blueprint. Non cambiare funzioni, percorsi, permessi o dati: suite Node e percorsi del browser
+restano verdi (un percorso che controlla solo l'aspetto si aggiorna con un commento datato).
+Contrasto WCAG AA, fuoco visibile e segni mai affidati al solo colore restano obbligatori.
+Spiega all'owner in italiano semplice; chiudi con l'approvazione esplicita dell'aspetto.
+```
 
-1. **Congelare:** nuovo manifest della versione approvata con Markdown, censimento, prove e
-   decisioni; è il contratto dell'app. Commit e integrazione secondo [WORKFLOW](WORKFLOW.md), con
-   revisione in un'altra sessione sulla SHA candidata.
-2. **Pianificare il prodotto reale:** piano, test e revisioni sulla baseline; deploy, dati reali,
-   spesa e impegni esterni restano soggetti a un'autorizzazione esplicita per ogni cambiamento.
-   L'app d20 Folio in produzione resta invariata fino al rilascio del sostituto.
+## Decisioni dell'owner ancora aperte
 
-## Decisioni dell'owner aperte
+- **Età e consenso dei genitori (SV-28):** nel blueprint è simulato; per il prodotto reale serve
+  la regola di legge per paese.
+- **Prodotto reale:** integrazioni con account esterni veri (GAP-17), assistente IA vero con costi
+  e privacy (GAP-18), aree pubbliche e moderazione (Q161); nel blueprint sono simulazioni.
+- **Codice al sicuro:** push del branch sul repository GitHub pubblico (il repository è pubblico:
+  nessun dato privato o contenuto senza licenza).
+- Sopra funzioni già visibili: tenere i dadi karmici ([Q166](interview/OPEN.md#q166--dadi-karmici),
+  raccomandazione: toglierli); script JavaScript oltre alle macro in recinto (GAP-01); Q164, Q165
+  e Q168 in [OPEN](interview/OPEN.md).
 
-- **SV-28** politica d'età e consenso dei genitori: requisito legale.
-- **GAP-17** integrazioni con account esterni reali (Discord e Avrae, calendari, API e webhook).
-- **GAP-18** assistente IA reale: costo, privacy, modello ospitato o locale.
-- **Q161** aree pubbliche: annunci, candidature, catalogo pubblico dell'homebrew, moderazione.
-- **Pacchetti di compatibilità (BI-45):** quali contenuti e con quali licenze.
-- **Dadi connessi reali (TV-95):** integrazione con dispositivi Bluetooth.
-- **X-12** macro con codice (GAP-01).
-- **Q164–Q168** in [OPEN](interview/OPEN.md): riposo del giocatore senza il DM, nomi di altri
-  prodotti nei testi, dadi «karmici», capacità oltre il censimento, clic sul numero che tira
-  subito (già adottato su delega).
-- **Nome e marchio:** fase dedicata, dopo l'accordo sul contratto.
+## Controlli di chiusura della Fase A (agenti, non l'owner)
 
-## Controlli ancora da fare prima di presentarla
-
-- Giro completo dei 189 percorsi del browser dopo le correzioni finali (l'ultimo, 188/188, le
-  precede).
-- Revisione distinta delle correzioni finali del 30/09 (oggi provate da test e sonde del
-  correttore).
-- Aggiornare nell'app il testo di «Cosa è pronto», che descrive ancora i limiti dell'incremento 10.
+- Regressione di chiusura del 01/10: **189/189 percorsi del browser** e **2662/2662 test Node**,
+  caricamento a 1440 e 390 senza errori ([rapporto](../changes/interview-01/final-regression.md)).
+  I tre percorsi prima rossi (`spells-plus`, `spells-plus-review`, `w2a1-shell`) sono verdi.
+- Testo «Cosa è pronto» nell'app aggiornato allo stato della candidata (01/10).
+- Ancora da fare: revisione distinta, in un'altra sessione, delle correzioni di chiusura del 01/10
+  sul candidato esatto.

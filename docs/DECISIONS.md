@@ -118,3 +118,26 @@ domande sui veri conflitti, modello/sforzo invariati, ricerche/skill conservate,
 vecchio guado/design-01 ritirati e d20 Folio intatto. Pubblicazione, spesa,
 migrazione e impegni esterni mantengono i gate. Nessuna garanzia di backend,
 multiplayer, sicurezza o persistenza reali deriva da una simulazione.
+
+## D-014 — prima le funzioni, poi l'aspetto (01/10/2026)
+
+Fonte: indicazione esplicita dell'owner nella task interview-01, in chat, il 01/10/2026, dopo la
+visita della candidata. L'aspetto grafico attuale non va bene, ma era previsto: avrà una fase
+dedicata in una sessione nuova. Adesso contano le funzioni: ogni funzione del prodotto deve essere
+esposta nel blueprint, raggiungibile e funzionante, così che l'owner abbia una visione completa;
+per valutarla chiede un documento **molto breve**, in tabella, che dica per ogni funzione dove si
+trova e da dove è stata copiata. Chiede anche un piano chiaro: definire l'app, gli schermi e le
+funzioni, poi l'aspetto; e di mettere al sicuro il codice con commit e push.
+
+**Effetto.** Il piano in [ROADMAP](ROADMAP.md) sostituisce la sequenza di D-013: Fase A contratto
+funzionale, B revisione dell'owner con congelamento dopo approvazione esplicita, C design visivo,
+D nome e brand, E implementazione reale. La mappa breve per l'owner è
+[FEATURE_MAP](interview/FEATURE_MAP.md); il censimento resta il dettaglio per gli agenti.
+L'aspetto attuale e [DESIGN.md](../design/blueprint/DESIGN.md) sono provvisori, non approvati e
+sostituibili nella Fase C, che non cambia le funzioni concordate nella Fase B (I-243).
+
+Restano invariati: le esclusioni già decise (musica ospitata, voce e video, vista 3D, marketplace,
+sessioni a pagamento, IA come DM), il gate di approvazione esplicita di BLUEPRINT_CONTRACT, d20
+Folio intatto e i permessi distinti per deploy, dati reali, spesa e impegni esterni. Commit e push
+restano del coordinatore secondo [WORKFLOW](WORKFLOW.md); il push del branch sul repository
+pubblico è una scelta dell'owner indicata in [NEXT](NEXT.md).

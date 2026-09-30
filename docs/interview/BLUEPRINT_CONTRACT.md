@@ -164,22 +164,31 @@ le correzioni delle tre revisioni finali
 blueprint; ogni pagina concettuale ha la sezione «Dove si trova ogni funzione nel blueprint».
 Restano aperte le decisioni Q164–Q168 di [OPEN](OPEN.md).
 
-## Stato operativo del 01/10/2026 — candidata pronta per la valutazione dell'owner
+## Stato operativo del 01/10/2026 — candidata funzionale, Fase B
 
-La candidata completa è pronta per la valutazione dell'owner. È identificata dal
+La candidata funzionale è completa e attende la valutazione dell'owner. L'owner ha precisato il
+01/10 ([D-014](../DECISIONS.md#d-014--prima-le-funzioni-poi-laspetto-01102026),
+[I-243](DECISIONS.md#i-243--prima-le-funzioni-laspetto-in-una-fase-dedicata)) che questa fase
+riguarda solo le funzioni: il piano a fasi è in [ROADMAP](../ROADMAP.md) (A contratto funzionale,
+B revisione dell'owner, C design visivo, D nome e brand, E implementazione reale). L'owner valuta
+navigando e leggendo la [mappa breve delle funzioni](FEATURE_MAP.md); l'aspetto attuale non è in
+valutazione ed è sostituibile nella Fase C senza cambiare le funzioni concordate.
+
+La versione è identificata dal
 [manifest](../../changes/interview-01/blueprint-candidate-manifest.json) del 01/10/2026 (sha256 di
-ogni file di `design/blueprint/`, di `docs/interview/*.md` e di `docs/NEXT.md`): identifica la
-versione, **non la approva**. Sintesi, visita, numeri, limiti e simulazioni:
-[BLUEPRINT_STATUS](BLUEPRINT_STATUS.md); stato di ogni capacità con il file di prova:
-[censimento](CAPABILITY_CENSUS.md); scelte delegate da preservare: I-237–I-242 in
+ogni file di `design/blueprint/`, di `docs/interview/*.md`, di `docs/NEXT.md`, `docs/ROADMAP.md`,
+`docs/DECISIONS.md` e dei percorsi del browser): identifica la versione, **non la approva**. Sintesi, visita, numeri, limiti e
+simulazioni: [BLUEPRINT_STATUS](BLUEPRINT_STATUS.md); stato di ogni capacità con il file di prova:
+[censimento](CAPABILITY_CENSUS.md) (521 PROVEN, 1 PARTIAL, 0 OPEN-DECISION, 6 EXCLUDED); scelte
+delegate da preservare: I-237–I-244 in
 [DECISIONS](DECISIONS.md#i-237--architettura-dellinformazione-copiata-dai-leader).
 
 Il gate di [Accordo e fissazione della versione](#accordo-e-fissazione-della-versione) resta
 invariato: visitare, fare clic o non rispondere non approvano. Dopo le correzioni chieste
 dall'owner e un'approvazione esplicita di una versione, si fissa la baseline (manifest della
-versione approvata, Markdown, censimento, prove e decisioni) e solo dopo si pianifica il prodotto
-reale, con i permessi distinti per deploy, dati reali, spesa e impegni esterni. Le decisioni
-dell'owner ancora aperte sono elencate in [NEXT](../NEXT.md).
+versione approvata, Markdown, censimento, prove e decisioni, commit e tag) e si passa alla Fase C;
+il prodotto reale (Fase E) mantiene i permessi distinti per deploy, dati reali, spesa e impegni
+esterni. I controlli di chiusura ancora aperti e le decisioni dell'owner sono in [NEXT](../NEXT.md).
 
 ## Regola per il prodotto reale: ogni identità riceve solo la propria proiezione
 

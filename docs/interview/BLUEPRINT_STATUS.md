@@ -1,11 +1,15 @@
 # Blueprint visuale — stato della costruzione
 
-## Candidata completa — sintesi per la valutazione dell'owner
+## Candidata funzionale — sintesi per la valutazione dell'owner
 
-**Stato: candidata completa, in attesa della valutazione dell'owner. Non è approvata.** La
-versione è identificata dal [manifest](../../changes/interview-01/blueprint-candidate-manifest.json)
-del 01/10/2026 (impronta sha256 di ogni file di `design/blueprint/`, di `docs/interview/*.md` e di
-`docs/NEXT.md`): il manifest identifica, non approva. Il gate di
+**Stato al 01/10/2026: candidata funzionale completa, in attesa della valutazione dell'owner
+(Fase B del [piano](../ROADMAP.md)). Non è approvata.** Direzione dell'owner del 01/10
+([D-014](../DECISIONS.md#d-014--prima-le-funzioni-poi-laspetto-01102026)): in questa fase contano
+solo le funzioni; l'aspetto si rifà nella Fase C. L'owner legge la
+[mappa breve delle funzioni](FEATURE_MAP.md) (119 righe per tutte le 528 capacità). La versione è
+identificata dal [manifest](../../changes/interview-01/blueprint-candidate-manifest.json) del
+01/10/2026 (impronta sha256 di ogni file di `design/blueprint/`, di `docs/interview/*.md`, di
+`docs/NEXT.md`, `docs/ROADMAP.md`, `docs/DECISIONS.md` e dei percorsi del browser): il manifest identifica, non approva. Il gate di
 [BLUEPRINT_CONTRACT](BLUEPRINT_CONTRACT.md#accordo-e-fissazione-della-versione) resta invariato:
 la baseline si fissa solo dopo un'approvazione esplicita dell'owner.
 
@@ -18,41 +22,43 @@ python3 changes/interview-01/blueprint-checks/serve-nocache.py
 ```
 
 Aprire [http://127.0.0.1:8879/](http://127.0.0.1:8879/). La barra della dimostrazione, fuori
-dall'app, ha «Visita come» (Giocatore o DM), «Cosa è pronto» (oggi «48 pronte · 0 da costruire ·
-0 con errori») e «Ripristina esempio». Dati sintetici, salvati solo in quel browser. Le date
+dall'app, ha «Visita come» (Giocatore o DM), «Cosa è pronto» («48 pronte · 0 da costruire · 0 con
+errori») e «Ripristina esempio». Dati sintetici, salvati solo in quel browser. Le date
 dell'esempio seguono il giorno della visita (`sample-clock.mjs`: nessuna data è nel futuro della
 visita e «Il sigillo della torre» è sempre il giovedì successivo alle 20:30); il calendario del
 mondo di gioco è indipendente. Interfaccia in italiano, inglese in Preferenze.
 
 ### Che cosa contiene, area per area
 
-Architettura completa, con il prodotto copiato per ogni struttura, in
-[NAVIGATION](NAVIGATION.md#architettura-dellinformazione-della-candidata); aspetto in
-[DESIGN.md](../../design/blueprint/DESIGN.md).
+Ogni funzione con il suo posto e il prodotto copiato: [FEATURE_MAP](FEATURE_MAP.md). Architettura
+completa con il prodotto copiato per ogni struttura:
+[NAVIGATION](NAVIGATION.md#architettura-dellinformazione-della-candidata). Aspetto provvisorio in
+[DESIGN.md](../../design/blueprint/DESIGN.md) (non approvato, si rifà nella Fase C).
 
-| Area         | Dove                               | Che cosa c'è                                                                                                                                                                                                                                                                             | Modello                       |
-| ------------ | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------- |
-| Inizio       | intestazione › Inizio              | «Continua a giocare» con l'immagine della campagna, prossimo appuntamento nella propria ora, il proprio personaggio, «Dove eravamo rimasti», accesso rapido, campagne, discussioni, «Trova un tavolo», novità, guide e supporto; per il DM la prossima sessione e la Preparazione        | Roll20 «My Games», D&D Beyond |
-| Personaggi   | intestazione › Personaggi          | elenco (proprie, della campagna e affidate), creazione a sezioni o rapida, personaggi pronti, ricostruzione a metà avventura, avanzamento e revisione; scheda a sette categorie con la stessa Livia di Tavolo e campagna                                                                 | D&D Beyond                    |
-| Campagna     | intestazione › Campagne › campagna | barra laterale a cinque gruppi (Campagna, Racconto, Ambientazione, Gioco, Gestione DM; «Strumenti» per il giocatore), «Entra al Tavolo»; sessioni reali, diario, mondo, membri, sicurezza, impostazioni, dati, integrazioni, assistente                                                  | Kanka, World Anvil            |
-| Preparazione | campagna › Preparazione (DM)       | quattro gruppi: Scene (scene, regioni e trappole, movimento e griglia), Incontri, Materiali (materiali, tabelle e mazzi, tesori, mercanti), Scaletta e avventure                                                                                                                         | Foundry, Roll20               |
-| Tavolo       | «Entra al Tavolo»                  | mappa con attrezzi a sinistra, barra laterale a sezioni con sotto-schede a destra, hotbar in basso, ritratti di turno in alto in combattimento, menu della pedina a sottomenu, menu «Sessione» del DM; combattimento, reazioni, condizioni, riposi, esplorazione, dadi fisici e digitali | BG3, Owlbear, Foundry, Roll20 |
-| Biblioteca   | intestazione › Biblioteca          | Disponibili, La mia Biblioteca, Campagna, Le mie creazioni, Pacchetti di compatibilità, Compendio SRD 5.2.1, Immagini e file; editor homebrew con revisioni                                                                                                                              | D&D Beyond, Foundry compendi  |
-| Servizi      | intestazione, a destra             | Cerca (⌘K, comandi e sinonimi), Appunti personali, Notifiche e richieste, Preferenze, Aiuto, stato della connessione, Account e profilo; al Tavolo anche il menu «App» e «Torna alla campagna»                                                                                           | Foundry, Alchemy, D&D Beyond  |
+| Area         | Dove                               | Che cosa c'è                                                                                                                                                                                                                                                                                         | Modello                       |
+| ------------ | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------- |
+| Inizio       | intestazione › Inizio              | ripresa del gioco, prossimo appuntamento nella propria ora, il proprio personaggio, «Dove eravamo rimasti», campagne, discussioni, «Trova un tavolo», primi passi, novità, guide e supporto; per il DM la prossima sessione e la Preparazione                                                        | Roll20 «My Games», D&D Beyond |
+| Personaggi   | intestazione › Personaggi          | elenco (proprie, della campagna e affidate), creazione a sezioni, rapida, da personaggi pronti o con il DM, ricostruzione a metà avventura, avanzamento e revisione; scheda a sette categorie con la stessa Livia di Tavolo e campagna                                                               | D&D Beyond                    |
+| Campagna     | intestazione › Campagne › campagna | barra laterale a cinque gruppi (Campagna, Racconto, Ambientazione, Gioco, Gestione DM; «Strumenti» per il giocatore), «Entra al Tavolo»; sessioni reali, diario, mondo, membri, sicurezza, impostazioni, dati, integrazioni, assistente                                                              | Kanka, World Anvil            |
+| Preparazione | campagna › Preparazione (DM)       | quattro gruppi: Scene (scene, regioni e trappole, movimento e griglia), Incontri, Materiali (materiali, tabelle e mazzi, tesori, mercanti), Scaletta e avventure; «Genera…»; mappe da immagine, video o Universal VTT                                                                                | Foundry, Roll20               |
+| Tavolo       | «Entra al Tavolo»                  | mappa con attrezzi a sinistra, barra laterale a nove sezioni con sotto-schede, barra delle azioni in basso, ritratti di turno, menu della pedina a sottomenu (anche bersaglio T e barre), menu «Sessione» del DM, finestre staccabili; combattimento, reazioni, esplorazione, dadi fisici e digitali | BG3, Owlbear, Foundry, Roll20 |
+| Biblioteca   | intestazione › Biblioteca          | Disponibili, La mia Biblioteca, Campagna, Le mie creazioni, Avventure (DM), Pacchetti di compatibilità, Compendio SRD 5.2.1, Immagini e file; editor homebrew con revisioni                                                                                                                          | D&D Beyond, Foundry compendi  |
+| Servizi      | intestazione, a destra             | Cerca (⌘K, anche i comandi della pagina aperta), Appunti personali, Notifiche e richieste, Preferenze (dispositivo, personali, campagna), Aiuto, connessione, Account e profilo; al Tavolo anche il menu «App» e «Torna alla campagna»                                                               | Foundry, Alchemy, D&D Beyond  |
 
 ### Numeri e prove
 
-| Misura                    | Valore                                                                                                                                                                                                                                                                                                    |
-| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Aree                      | core più 48 aree registrate (B12–B60; B31 è solo stile), B11 registro, B61–B62 struttura e architettura dell'informazione                                                                                                                                                                                 |
-| Capacità del censimento   | 528: **511 PROVEN** (13 solo test Node, 15 simulazione), **1 PARTIAL** (X-05), **10 OPEN-DECISION**, **6 EXCLUDED**; stato e file di prova per riga in [CAPABILITY_CENSUS](CAPABILITY_CENSUS.md#totali-dellelenco)                                                                                        |
-| Test Node                 | `node --test design/blueprint/tests/*.test.mjs`: **2628/2628** il 30/09 dopo le correzioni finali (219 file di test)                                                                                                                                                                                      |
-| Percorsi del browser      | 189 script in [blueprint-checks](../../changes/interview-01/blueprint-checks/README.md). Ultimo giro completo 188/188 (1519 esiti) il 30/09, prima delle correzioni finali; dopo le correzioni 70/70 percorsi delle aree toccate, compreso il nuovo `final-fixes-journey.js`                              |
-| Audit per area (25–26/09) | 14 file su 519 capacità, da utente alla prima visita ([audit](../../changes/interview-01/audit/))                                                                                                                                                                                                         |
-| Re-audit (27/09 e 29/09)  | delle 231 righe che non funzionavano, 192 funzionavano dopo P1–P10 ([reaudit](../../changes/interview-01/audit/reaudit.md)); il re-audit 3 ha ricontrollato le righe dei pacchetti R1–R8 e i suoi residui sono stati corretti lo stesso giorno ([residui](../../changes/interview-01/audit/residuals.md)) |
-| Revisione di completezza  | 93 capacità: 85 funzionanti, 7 parziali e 1 inciampo, tutti corretti dopo; un programma ha premuto 6979 comandi su 198 superfici: nessun errore di pagina, 10 comandi senza effetto visibile (residuo F9) ([rapporto](../../changes/interview-01/final-review-completeness.md))                           |
-| Revisione di privacy      | riservatezza verificata con 60 testi segreti dell'esempio e canarini per ruolo; 1 P1 (l'espulso leggeva le schede) corretto ([rapporto](../../changes/interview-01/final-review-privacy.md))                                                                                                              |
-| Revisione UX              | 40 compiti da utente nuovo: 21 lisci, 15 con esitazione, 4 bloccati; tutti i P1 e i P2 corretti tranne il riposo del giocatore (Q164) ([rapporto](../../changes/interview-01/final-review-ux.md), [correzioni](../../changes/interview-01/final-fixes.md))                                                |
+| Misura                              | Valore                                                                                                                                                                                                                                                                                                                                                                   |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Aree                                | core più 48 aree registrate (B12–B60; B31 è solo stile), B11 registro, B61–B62 struttura e architettura dell'informazione                                                                                                                                                                                                                                                |
+| Capacità del censimento             | 528: **521 PROVEN** (18 simulazione, nessuna provata da un solo test Node), **1 PARTIAL** (X-05), **0 OPEN-DECISION**, **6 EXCLUDED**; stato e file di prova per riga in [CAPABILITY_CENSUS](CAPABILITY_CENSUS.md#totali-dellelenco)                                                                                                                                     |
+| Test Node                           | `node --test design/blueprint/tests/*.test.mjs`: **2662/2662** il 01/10 dopo la regressione finale (220 file di test; 2659/2659 prima)                                                                                                                                                                                                                                   |
+| Percorsi del browser                | 189 script in [blueprint-checks](../../changes/interview-01/blueprint-checks/README.md). Regressione finale del 01/10 dopo la chiusura: primo giro 183/189, giro finale **189/189** (1529 esiti) con due difetti dell'app corretti; caricamento pulito a 1440 e 390, giocatore e DM, senza errori ([regressione finale](../../changes/interview-01/final-regression.md)) |
+| Audit per area (25–26/09)           | 14 file su 519 capacità, da utente alla prima visita ([audit](../../changes/interview-01/audit/))                                                                                                                                                                                                                                                                        |
+| Re-audit (27/09 e 29/09)            | delle 231 righe che non funzionavano, 192 funzionavano dopo P1–P10 ([reaudit](../../changes/interview-01/audit/reaudit.md)); il re-audit 3 ha ricontrollato le righe dei pacchetti R1–R8 e i suoi residui sono stati corretti lo stesso giorno ([residui](../../changes/interview-01/audit/residuals.md))                                                                |
+| Revisione di completezza (chiusura) | 528 capacità: 507 esposte e funzionanti, 6 parziali, 9 assenti (poi costruite), 6 escluse; 108 ricontrollate nel browser; un programma ha premuto 7439 comandi su 214 superfici: nessun errore di pagina, 14 comandi muti poi corretti ([rapporto](../../changes/interview-01/final-review-completeness.md))                                                             |
+| Revisione di privacy (chiusura)     | canarini per ruolo e testi segreti: tengono le correzioni precedenti; 3 P1 su creature nascoste (istantanea, elenco delle pedine, righe condivise), 2 P2 e 1 P3, tutti corretti ([rapporto](../../changes/interview-01/final-review-privacy.md))                                                                                                                         |
+| Revisione di trovabilità            | 40 compiti senza guida: 24 lisci, 15 con esitazione, 1 bloccato (prova segreta chiesta dal DM), tutti i P1 e P2 corretti ([rapporto](../../changes/interview-01/final-review-findability.md))                                                                                                                                                                            |
+| Correzioni di chiusura (01/10)      | dieci capacità costruite, rilievi di privacy e trovabilità chiusi ([final-fixes](../../changes/interview-01/final-fixes.md#chiusura-delle-funzioni-01102026)); non ancora riviste da un'altra sessione                                                                                                                                                                   |
 
 ### Limiti noti e simulazioni dichiarate
 
@@ -60,22 +66,26 @@ Architettura completa, con il prodotto copiato per ogni struttura, in
   nessun account, server, sincronizzazione o rete reali. La riservatezza è un filtro al momento
   del disegno: per il prodotto reale vale la regola «ogni identità riceve solo la propria
   proiezione» di [BLUEPRINT_CONTRACT](BLUEPRINT_CONTRACT.md#regola-per-il-prodotto-reale-ogni-identità-riceve-solo-la-propria-proiezione).
-- **Simulazioni dichiarate** ([I-233](DECISIONS.md#i-233--capacità-in-attesa-dellowner-incluse-come-simulazioni-dichiarate)):
-  assistente IA senza modello (anche il «modello locale»), integrazioni (Discord e Avrae,
-  calendario, API e webhook, moduli per campagna), tavoli pubblici e moderazione, catalogo
-  pubblico dell'homebrew, dadi connessi («Simula il lancio»), pacchetti di compatibilità.
-  Generatori e grafo delle relazioni funzionano in locale, inclusi su delega. Le decisioni per il
-  prodotto reale sono in [NEXT](../NEXT.md).
+- **Simulazioni dichiarate** ([I-233](DECISIONS.md#i-233--capacità-in-attesa-dellowner-incluse-come-simulazioni-dichiarate),
+  [I-244](DECISIONS.md#i-244--chiusura-delle-funzioni-scelte-delegate-del-01102026)): assistente
+  IA senza modello (anche il «modello locale»), integrazioni (Discord e Avrae, calendario, API e
+  webhook, moduli per campagna), tavoli pubblici e moderazione, catalogo pubblico dell'homebrew,
+  dadi connessi, pacchetti di compatibilità, un solo dispositivo a turno, verifica in due
+  passaggi, età e consenso. Generatori e grafo delle relazioni funzionano in locale. Le decisioni
+  per il prodotto reale sono in [NEXT](../NEXT.md).
 - **Prove.** Chromium di Playwright su macOS, dati sintetici, nessun dispositivo reale, nessun
-  lettore di schermo, nessun test con persone; dadi digitali casuali. La regressione di tutti i
-  189 percorsi dopo le correzioni finali non è ancora stata eseguita.
-- **Residui dichiarati** ([correzioni finali](../../changes/interview-01/final-fixes.md#non-corretto-con-la-ragione)):
-  dieci comandi o invii vuoti senza messaggio sotto il campo (F9), preferenze delle notifiche in
-  due posti (X-05), ritocchi UX F23–F27, domande Q164–Q168 in [OPEN](OPEN.md). Il testo di «Cosa
-  è pronto» descrive ancora i limiti dell'incremento 10 («Il contratto completo è ancora in
-  costruzione…»).
-- **Aspetto.** Sistema visivo in [DESIGN.md](../../design/blueprint/DESIGN.md), copiato dai
-  prodotti di riferimento; nome, marchio e rifinitura finale restano fasi successive.
+  lettore di schermo, nessun test con persone; dadi digitali casuali. Tre percorsi del browser
+  restano rossi e una regressione completa dopo la chiusura non è ancora stata fatta
+  ([NEXT](../NEXT.md)).
+- **Residui dichiarati** ([chiusura](../../changes/interview-01/final-fixes.md#non-corretto-con-la-ragione)):
+  notifiche del riposo fra i ruoli, barra delle azioni del DM che mostra Livia fuori
+  combattimento, collegamento fra una voce «Negozio» del Mondo e il suo mercante, preferenze
+  delle notifiche in due posti (X-05); le voci solo grafiche sono nell'[arretrato della fase
+  grafica](../../changes/interview-01/visual-phase-backlog.md). Il testo di «Cosa è pronto»
+  descrive ancora i limiti dell'incremento 10. Domande Q164–Q168 in [OPEN](OPEN.md).
+- **Aspetto.** Il sistema visivo di [DESIGN.md](../../design/blueprint/DESIGN.md) è provvisorio,
+  non approvato e sostituibile nella Fase C ([I-243](DECISIONS.md#i-243--prima-le-funzioni-laspetto-in-una-fase-dedicata));
+  nome e marchio sono la Fase D.
 
 ## Storico della costruzione (23–30/09/2026)
 
@@ -432,6 +442,6 @@ della candidata completa. Continuità del passaggio a Claude:
 
 ## Stato al 30/09/2026 — candidata completa e correzioni finali
 
-Sostituito dalla [sintesi della candidata](#candidata-completa--sintesi-per-la-valutazione-dellowner)
+Sostituito dalla [sintesi della candidata](#candidata-funzionale--sintesi-per-la-valutazione-dellowner)
 in cima a questo file, che corregge anche i conteggi della stesura del 30/09 (cinque PARTIAL già
 funzionanti nel re-audit 3, le MISSING diventate OPEN-DECISION).

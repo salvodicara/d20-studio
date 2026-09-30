@@ -269,24 +269,24 @@ Una riga per funzione del [censimento](../CAPABILITY_CENSUS.md): stato della can
 ### Personaggi — creazione e avanzamento
 
 - **PG-01** Creazione per sezioni navigabili; riepilogo che applica una volta — PROVEN · [audit/home-creation][ev-home-creation]. Dove: Home › «Crea un personaggio» › «Salva e avanti» through 11 sections › Riepilogo › «Crea scheda»
-- **PG-02** Bozza immediata, riprendi/scarta, uscita protetta, ricarica — PROVEN · [audit/home-creation][ev-home-creation]. Dove: Navigating away with unsaved edits asks «Conservare le modifiche alla bozza?» (Scarta solo le modifiche non salvate / Resta nella bozza…
+- **PG-02** Bozza immediata, riprendi/scarta, uscita protetta, ricarica — PROVEN · [final-review-completeness][ev-final-review]. Dove: Navigating away with unsaved edits asks «Conservare le modifiche alla bozza?» (Scarta solo le modifiche non salvate / Resta nella bozza…
 - **PG-03** Scelte mancanti segnalate; riepilogo con aspetti da verificare — PROVEN · [audit/reaudit][ev-reaudit]. Dove: Empty +2/+1 is one (!) error; «Correggi sezione» focuses origin.backgroundBonuses.str (p1-builder-phone).
 - **PG-04** Caratteristiche: serie, 27 punti, 4d6 digitale/fisico, manuale con fonte — PROVEN · [audit/home-creation][ev-home-creation]. Dove: Caratteristiche › Metodo
 - **PG-05** Origine 2024: background con talento e +2/+1 o +1/+1/+1, lignaggi — PROVEN · [audit/reaudit][ev-reaudit]. Dove: Soldato shows only FOR/DES/COS with the reason, origin feat «Aggressore selvaggio», (!) da assegnare; Elf lineage choice listed.
 - **PG-06** Selettore contestuale bloccato sulla scelta; crea homebrew e torna — PROVEN · [audit/reaudit3-a][ev-reaudit3-a]. Dove: Player › Personaggi › «Crea personaggio» › «Classi e punti ferita» › «Sfoglia le classi…» › Mago › «Crea variante nell’editor homebrew…»
 - **PG-07** Ricostruire una scheda con risorse già spese e storia ignota — PROVEN · [audit/home-creation][ev-home-creation]. Dove: Personaggi › «Ricostruisci una scheda»
-- **PG-08** Avanza/Rivedi con bozza, confronto e applicazione sullo stato attuale — PROVEN · [audit/reaudit][ev-reaudit]. Dove: «Avanza» › (opens on Identità) › rail Classi › level 2 typed by hand › Metodo PF › Riepilogo («PF massimi 13 → 22») › confirm › «Applica…
+- **PG-08** Avanza/Rivedi con bozza, confronto e applicazione sullo stato attuale — PROVEN · [final-review-completeness][ev-final-review]. Dove: «Avanza» › (opens on Identità) › rail Classi › level 2 typed by hand › Metodo PF › Riepilogo («PF massimi 13 → 22») › confirm › «Applica…
 - **PG-09** Percorso rapido di livello 1 e personaggi pronti da reclamare — PROVEN · [final-review-completeness][ev-final-review]. Dove: «Percorso rapido» (class, background and species cards, name, summary, «Crea personaggio») produced Pip, a level-1 Ladro
 - **PG-10** Suggerimenti di nome e caratteristiche "Aggiungi/Casuale" — PROVEN · [final-review-completeness][ev-final-review]. Dove: name chips (Sefa, Marco, Ada …) and «Suggerisci altri»
 - **PG-11** Prerequisiti applicati con eccezione esplicita e segnalata — PROVEN · [audit/home-creation][ev-home-creation]. Dove: Capacità e talenti › «Talenti bloccati dai requisiti» › «Consenti eccezione e scegli…» › reason › «Consenti eccezione»
-- **PG-12** Competenza duplicata liberata con avviso della nuova scelta — PROVEN · solo test Node · [audit/reaudit][ev-reaudit]. Dove: (correzione, provata da test) DDB duplicate-proficiency detection. A skill chosen both for the class and by the species is no longer cleared silently: the panel says «Percezione è scelta due volte: dalla classe…
+- **PG-12** Competenza duplicata liberata con avviso della nuova scelta — PROVEN · [final-review-completeness][ev-final-review]. Dove: (correzione, provata da test) DDB duplicate-proficiency detection. A skill chosen both for the class and by the species is no longer cleared silently: the panel says «Percezione è scelta due volte: dalla classe…
 - **PG-13** Equipaggiamento iniziale: pacchetti classe/background o oro, riapribile — PROVEN · [audit/home-creation][ev-home-creation]. Dove: Equipaggiamento › «Scegli pacchetti iniziali…» › Fighter A/B/C (155 gp) and background A/B (50 gp) › «Usa questa dotazione»
 - **PG-14** Fonti del personaggio per categoria, con avviso di opzioni nascoste — PROVEN · [audit/home-creation][ev-home-creation]. Dove: Rail › Fonti
 - **PG-15** Multiclasse con scelte per classe — PROVEN · [audit/home-creation][ev-home-creation]. Dove: «Avanza di livello» › Classi › «Aggiungi classe» › Mago › «Ordine dei livelli» (two selects) › Metodo PF
 - **PG-16** Scendere di livello, modificare scelte passate, rifacimento completo — PROVEN · [final-review-completeness][ev-final-review]. Dove: «Rivedi scelte» › Classi › level 1 › Riepilogo › confirm › «Applica alla scheda»
 - **PG-17** Gestione XP/traguardi — PROVEN · [final-review-completeness][ev-final-review]. Dove: DM › Gruppo › «Assegna PE e monete» opens a dialog with XP
 - **PG-18** Progressioni non di classe (doni, benedizioni, tracce) — PROVEN · [audit/home-creation][ev-home-creation]. Dove: Sheet › Capacità › «Doni» › choose a boon › «Sblocca
-- **PG-19** Co-costruzione DM+giocatore sulla stessa bozza — PROVEN · [audit/reaudit][ev-reaudit]. Dove: Identità › «Costruisci con il DM…» › «Condividi con il DM» › edit › «Pubblica modifiche»
+- **PG-19** Co-costruzione DM+giocatore sulla stessa bozza — PROVEN · [final-review-completeness][ev-final-review]. Dove: Identità › «Costruisci con il DM…» › «Condividi con il DM» › edit › «Pubblica modifiche»
 
 ### Personaggi — scheda
 
@@ -299,13 +299,13 @@ Una riga per funzione del [censimento](../CAPABILITY_CENSUS.md): stato della can
 - **PG-26** Ordine di cumulo dei modificatori esplicito — PROVEN · [audit/sheet][ev-sheet]. Dove: Clic su «CA» (anche in Gioco) › «Modifiche nell'ordine di cumulo» + «Ordine di applicazione
 - **PG-27** 0 PF: tiri salvezza contro morte, stabile, morte esplicita, ritorno in vita — PROVEN · [audit/reaudit][ev-reaudit]. Dove: 0 HP death box, «Riporta a 1 PF», explicit «Morto» and «Riporta in vita…».
 - **PG-28** Condizioni e Indebolimento dalla scheda, con descrizione ed effetti — PROVEN · [audit/reaudit][ev-reaudit]. Dove: «+ Condizione» › «Avvelenato»: 2 clicks; exhaustion segments 1–6.
-- **PG-29** Difese: resistenze, immunità, vulnerabilità con fonti e voci proprie — PROVEN · [audit/sheet][ev-sheet]. Dove: Chip «Difese Nessuna» (o «Gestisci difese») › Tipo, Contro, Fonte «Personalizzata (accordo del tavolo)», Nome, Nota › «Aggiungi difesa»
+- **PG-29** Difese: resistenze, immunità, vulnerabilità con fonti e voci proprie — PROVEN · [final-review-completeness][ev-final-review]. Dove: Chip «Difese Nessuna» (o «Gestisci difese») › Tipo, Contro, Fonte «Personalizzata (accordo del tavolo)», Nome, Nota › «Aggiungi difesa»
 - **PG-30** Sensi e velocità personalizzati, scelta di quello mostrato — PROVEN · [audit/reaudit][ev-reaudit]. Dove: One «Velocità e sensi» dialog with shown speed and shown sense.
 - **PG-31** Abilità e competenze con tiri — PROVEN · [audit/sheet][ev-sheet]. Dove: Elenco «Abilità» con pallino di competenza, caratteristica e valore
 - **PG-32** Abilità personalizzate e preferite in alto — PROVEN · [audit/reaudit][ev-reaudit]. Dove: «Modifica» › nome, caratteristica, competenza/maestria, bonus, nota › «Aggiungi abilità»
 - **PG-33** Ispirazione Eroica attivabile e visibile al DM — PROVEN · [audit/reaudit][ev-reaudit]. Dove: Tavolo › «Riepilogo del gruppo» non la mostra
 - **PG-34** Contatori e usi limitati con recupero breve/lungo — PROVEN · [audit/reaudit][ev-reaudit]. Dove: Limited uses with «Usa»; pips focusable (p2-focus).
-- **PG-35** Recupero all'alba e cariche ricaricabili — PROVEN · solo test Node · [audit/reaudit][ev-reaudit]. Dove: (correzione, provata da test) dnd5e dawn recovery: the «Ricarica all'alba» re-render already worked (verified: it appears as soon as the clock passes 06:00); added dawn recovery for features: `rest-time.mjs` `dawnRows`…
+- **PG-35** Recupero all'alba e cariche ricaricabili — PROVEN · [final-review-completeness][ev-final-review]. Dove: (correzione, provata da test) dnd5e dawn recovery: the «Ricarica all'alba» re-render already worked (verified: it appears as soon as the clock passes 06:00); added dawn recovery for features: `rest-time.mjs` `dawnRows`…
 - **PG-36** Filtri economia d'azione e azioni generiche 2024 elencate — PROVEN · [audit/sheet][ev-sheet]. Dove: Chip «Tutte 20 / Attacco 3 / Azione 16 / Azione bonus 1 / Reazione 2 / Altro 1 / Usi limitati 5» + «Azioni in combattimento (2024)» +…
 - **PG-37** Armi con proprietà e Maestria — PROVEN · [audit/reaudit][ev-reaudit]. Dove: Bastone ferrato: «Versatile 1d8», «Maestria: Rovesciamento» chips.
 - **PG-38** Azioni personalizzate con tiro e danno — PROVEN · [audit/reaudit][ev-reaudit]. Dove: «Azione personalizzata» on the sheet opens the quick-bar action dialog; list inclusion by p2-actions tests.
@@ -327,7 +327,7 @@ Una riga per funzione del [censimento](../CAPABILITY_CENSUS.md): stato della can
 - **PG-51** Slot per livello e slot del Patto separati — PROVEN · [audit/spells-inventory][ev-spells-inventory]. Dove: Magie › riga «Magia del Patto · livello 1: 1 / 1» (separata dagli slot normali) › «Lancia» su Charme su persone › la finestra propone…
 - **PG-52** Preparazione collegata al repertorio giocabile — PROVEN · [audit/spells-inventory][ev-spells-inventory]. Dove: Iria › Magie › «Gestisci magie» › pannello «Libro» › «Prepara» › «Modifiche non confermate +1» › «Conferma preparazione»
 - **PG-53** Gestione incantesimi conosciuti/preparati con filtri di fonte — PROVEN · [final-review-completeness][ev-final-review]. Dove: Livia’s sheet › Magie › «Gestisci magie» › «Lista di classe»
-- **PG-54** Liste riutilizzabili di preparati — PROVEN · [audit/spells-inventory][ev-spells-inventory]. Dove: Gestisci magie › «Liste salvate» › nome › «Salva le preparate come lista» › «Richiama»
+- **PG-54** Liste riutilizzabili di preparati — PROVEN · [final-review-completeness][ev-final-review]. Dove: Gestisci magie › «Liste salvate» › nome › «Salva le preparate come lista» › «Richiama»
 - **PG-55** Confronto fra incantesimi — PROVEN · [audit/spells-inventory][ev-spells-inventory]. Dove: «Confronta» su due righe (lista o pannello) › barra «Confronto (2)» › «Confronta» › tabella › «Torna alla scelta»
 - **PG-56** Lancio come rituale (+10 minuti) — PROVEN · [final-review-completeness][ev-final-review]. Dove: Riga › «Come rituale» › finestra già impostata «Come rituale: +10 minuti, nessuno slot» › «Lancia come rituale»
 - **PG-57** Varianti di livello raccolte in un'icona; dialogo d'uso con consumo — PROVEN · [audit/spells-inventory][ev-spells-inventory]. Dove: «1° · 3/4 / 2° · 1/2» › «2°» › finestra «Consuma: Slot di livello 2: 1 → 0 · Livello 2 (base 1)» › «Lancia»
@@ -343,7 +343,7 @@ Una riga per funzione del [censimento](../CAPABILITY_CENSUS.md): stato della can
 - **PG-64** Ricerca, filtri, raggruppamenti e colonne — PROVEN · [audit/reaudit][ev-reaudit]. Dove: Sort by weight, value column.
 - **PG-65** Contenitori annidati con capacità e peso escluso — PROVEN · [audit/spells-inventory][ev-spells-inventory]. Dove: Riga › «Altro» › «Sposta, passa o copia…» › destinazione › «Conferma»
 - **PG-66** Monete: gestione, conversione, per contenitore, trasferimento — PROVEN · [final-review-completeness][ev-final-review]. Dove: Inventario › «Gestisci monete» › «Converti monete…» / «Metti o prendi da un contenitore…» / «Passa o offri a un'altra creatura…»
-- **PG-67** Dividere una pila; spostare vs copiare fra attori con permessi — PROVEN · [audit/spells-inventory][ev-spells-inventory]. Dove: Altro › «Dividi la pila…» › «Dividi»
+- **PG-67** Dividere una pila; spostare vs copiare fra attori con permessi — PROVEN · [final-review-completeness][ev-final-review]. Dove: Altro › «Dividi la pila…» › «Dividi»
 - **PG-68** Sintonia: tre posti e oggetti che la richiedono — PROVEN · [audit/spells-inventory][ev-spells-inventory]. Dove: Carta «Sintonia 2/3» (tre rombi) › «Gestisci sintonia» (filtro e posti) › «Sintonizza» › riposo breve o «Registra come già avvenuto» con…
 - **PG-69** Munizioni collegate all'attacco — PROVEN · [audit/reaudit][ev-reaudit]. Dove: Bow outside combat rolls and spends an arrow; «Regola e calcolo» opens.
 - **PG-70** Peso e ingombro facoltativi con varianti — PROVEN · [audit/reaudit][ev-reaudit]. Dove: Movement shows the effective speed with «−3 m ingombro» (p4-inventory).
@@ -367,11 +367,11 @@ Una riga per funzione del [censimento](../CAPABILITY_CENSUS.md): stato della can
 
 ### Personaggi — gestione, esportazione e condivisione
 
-- **PG-85** Collegamento esplicito personale → campagna con destinatari e consenso — PROVEN · [audit/reaudit3-a][ev-reaudit3-a]. Dove: Player › Campagne › Gruppo › «Aggiungi un mio personaggio»
+- **PG-85** Collegamento esplicito personale → campagna con destinatari e consenso — PROVEN · [final-review-completeness][ev-final-review]. Dove: Player › Campagne › Gruppo › «Aggiungi un mio personaggio»
 - **PG-86** Elenco personaggi con ricerca, ordinamento e azioni Copia/Elimina/Lascia campagna — PROVEN · [final-review-completeness][ev-final-review]. Dove: Personaggi › campo «Cerca per nome, livello, classe, specie o campagna» («druida» → 1 di 4) › «Ordina per»
-- **PG-87** Privacy: solo campagna / privato / pubblico via link in sola lettura — PROVEN · [audit/features-management][ev-features-management]. Dove: Scheda › «Gestisci personaggio» › «Cambia privacy» › «Pubblica con link» › «Salva privacy» → dialogo «Condividi» con link e QR › «Apri…
+- **PG-87** Privacy: solo campagna / privato / pubblico via link in sola lettura — PROVEN · [final-review-completeness][ev-final-review]. Dove: Scheda › «Gestisci personaggio» › «Cambia privacy» › «Pubblica con link» › «Salva privacy» → dialogo «Condividi» con link e QR › «Apri…
 - **PG-88** Copia indipendente (anche come migrazione di edizione) — PROVEN · [audit/reaudit][ev-reaudit]. Dove: Copy dialog: «Regole di destinazione» and «Cosa cambia».
-- **PG-89** Libreria fuori campagna: collegamento vivo vs istantanea, rilascia, trasferisci — PROVEN · [audit/reaudit][ev-reaudit]. Dove: Link/copy through a campaign picker (only one sample campaign to pick).
+- **PG-89** Libreria fuori campagna: collegamento vivo vs istantanea, rilascia, trasferisci — PROVEN · [final-review-completeness][ev-final-review]. Dove: Link/copy through a campaign picker (only one sample campaign to pick).
 - **PG-90** Esporta PDF compilabile e stampa — PROVEN · [final-review-completeness][ev-final-review]. Dove: Scheda › «Gestisci personaggio» › «Scarica PDF»
 - **PG-91** Esporta/importa la scheda nel formato proprio — PROVEN · [audit/features-management][ev-features-management]. Dove: «Gestisci personaggio» › «Esporta dati
 - **PG-92** Import da formati terzi documentati, mai scraping fragile — PROVEN · [audit/reaudit][ev-reaudit]. Dove: Foundry actor preview (mapped/not imported) and import, level 3, 28 HP.

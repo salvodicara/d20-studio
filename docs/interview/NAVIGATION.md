@@ -311,8 +311,12 @@ verifica anche le capacità esterne che non erano nella prima checklist.
 
 ## Architettura dell'informazione della candidata
 
-Letta il 30/09/2026 nell'app in esecuzione (1440 × 900, italiano, come DM e come giocatore,
-esempio appena ripristinato). Regole per chi aggiunge un comando:
+Letta il 30/09/2026 e riletta il 01/10/2026 dopo la chiusura delle funzioni, nell'app in esecuzione
+(1440 × 900, italiano, come DM e come giocatore, esempio appena ripristinato). È l'architettura
+finale della candidata funzionale (Fase B del [piano](../ROADMAP.md)); la mappa breve di tutte le
+funzioni con il loro posto è [FEATURE_MAP](FEATURE_MAP.md). L'aspetto non fa parte di questa
+architettura e si rifà nella Fase C ([I-243](DECISIONS.md#i-243--prima-le-funzioni-laspetto-in-una-fase-dedicata)).
+Regole per chi aggiunge un comando:
 [registry plan §5.2](../../changes/interview-01/blueprint-registry-plan.md#52-dove-mettere-un-comando-regola-per-chi-costruisce-unarea);
 tassonomie chiuse e validate in `registry.mjs`:
 [§5.3](../../changes/interview-01/blueprint-registry-plan.md#53-architettura-dellinformazione-dopo-le-48-aree-b62-2526092026);
@@ -328,12 +332,26 @@ scelte da preservare sono registrate in [I-237](DECISIONS.md#i-237--architettura
 | Servizi, a destra   | Cerca (⌘K: pagine, comandi, sinonimi), Appunti personali, Notifiche e richieste (campanella con conteggio), Preferenze, Aiuto («?» o F1), stato della connessione, Account e profilo | Owlbear (azioni in alto, VTL-231); Foundry Quick Insert e Alchemy OmniSearch (SV-02); Quest Portal (campanella, VTL-007); Foundry impostazioni per ambito (SV-10) |
 | Solo al Tavolo      | «App» (menu con i servizi che non entrano) e «Torna alla campagna»                                                                                                                   | Owlbear; sul telefono ciò che non entra va nel menu App (registry plan §5.2, regola 6)                                                                            |
 
+Dentro i servizi dell'intestazione:
+
+| Servizio              | Struttura                                                                                                                                                                  | Copiato da                                                  |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| Cerca (⌘K)            | risultati per tipo con filtro «Categoria»; `>` solo comandi; indicizza da sola pannelli, strumenti, comandi del menu della pedina, botteghe aperte e «Su questa pagina»    | Foundry Quick Insert, Alchemy OmniSearch, Kanka             |
+| Notifiche e richieste | in cima «Richieste in attesa» (tiri e reazioni), poi le notifiche con i filtri per categoria                                                                               | Quest Portal (campanella), Kanka, Fantasy Grounds           |
+| Preferenze            | tre ambiti dichiarati: «Su questo dispositivo» (aspetto, suoni, dispositivo condiviso, offline…), «Personali» (lettura e colori, movimento, unità, tiri…), «Campagna» (DM) | Foundry impostazioni client/utente/mondo                    |
+| Account e profilo     | Profilo (anche «Età e consenso»), Accesso e servizi (anche «Verifica in due passaggi»), Privacy, I miei dati, Esci                                                         | D&D Beyond (account Wizards), Roll20                        |
+| Aiuto                 | aiuto della pagina aperta («?» o F1), tour e suggerimenti; su Inizio la colonna Novità · Guide · Supporto                                                                  | Fantasy Grounds «?», Foundry Tours, D&D Beyond «What's New» |
+| Connessione           | pagina «Offline e sincronizzazione»: stato, modifiche in coda, voci disponibili offline                                                                                    | D&D Beyond, Notion, LegendKeeper                            |
+
 ### Campagna
 
 Colonna laterale a sinistra: nome della campagna, ruolo, **Entra al Tavolo**, poi i gruppi. I
 gruppi si aprono e si chiudono, lo stato è ricordato per identità, il gruppo della sezione aperta
-resta aperto; sul telefono «Tutte le sezioni» elenca tutto per gruppo. Copiato da Kanka (gruppi di
-moduli, CMP-23; barra scura, voce aperta come riga piena) e dalle categorie di World Anvil.
+resta aperto; un gruppo aperto in fondo alla finestra scorre fino a mostrare le sue sezioni.
+«Tutte le sezioni» elenca tutto per gruppo: su computer in cima alla colonna, prima dei gruppi
+(dal 01/10: con due gruppi aperti le ultime intestazioni finivano sotto una finestra di 900 px),
+sul telefono in fondo alla striscia. Copiato da Kanka (gruppi di moduli, CMP-23; barra scura, voce
+aperta come riga piena), dalle categorie di World Anvil e dal salto rapido di D&D Beyond (DDB-060).
 
 | Gruppo                     | Sezioni (DM)                                                                              | Giocatore                                     |
 | -------------------------- | ----------------------------------------------------------------------------------------- | --------------------------------------------- |
@@ -394,36 +412,36 @@ azioni in basso, ordine dei turni in alto ([registry plan §5](../../changes/int
 | In alto (in combattimento) | ritratti di turno: chi agisce con doppia cornice chiara, alleati teal, nemici cremisi; «Avvia combattimento» apre la finestra dell'iniziativa per riga (d20, «Sorpreso»)                                                                                                                                                                                                                                                                                                           | BG3 (CRP-090), Solasta, bandierine di D&D Beyond Maps (DDB-137); roll call di Foundry                                          |
 | Attrezzi a sinistra        | gruppi: **Seleziona e muovi** (Muovi, Pianifica percorso, Sposta vista, Seleziona più pedine), **Misura e sagome** (Misura, Righello a due livelli, Linea di vista, Sagoma), **Disegna e annota** (Disegna, Spillo; il giocatore ha solo Disegna), **Nebbia e visione** (DM: Nebbia, Luci, Barriere), **Puntatore**, **Strumenti del DM** (Teletrasporta, Posiziona il gruppo, Pedina a più facce, Regioni e trappole, Punto di ricerca; in combattimento anche Attacco di gruppo) | Foundry scene controls (FVT-108), Roll20 (R20-127); aspetto Owlbear Rodeo 2                                                    |
 | Zoom, in basso a destra    | Trova la pedina, Ingrandisci, Riduci, Centra la scena                                                                                                                                                                                                                                                                                                                                                                                                                              | D&D Beyond Maps (DDB-120), Owlbear                                                                                             |
-| Menu «Sessione» (DM)       | in alto a destra della mappa, sopra l'ordine di turno: Sessione (apre il pannello), Pausa, Nascondi scena, Conto alla rovescia, Orologi di progresso, Gruppo; il pannello Scena › Sessione ha anche gruppo diviso, presenze, «Vedi come», vista spettatore e racconto di fine sessione                                                                                                                                                                                             | Owlbear (menu della stanza sopra l'HUD); Roll20 (nastri del gruppo diviso)                                                     |
+| Menu «Sessione» (DM)       | in alto a destra della mappa, sopra l'ordine di turno: Sessione (apre il pannello), Pausa, Nascondi scena, Conto alla rovescia, Orologi di progresso, Gruppo; finché la sessione non è avviata, accanto «Sessione non avviata» con «Avvia ora» e «Non ora»; il pannello Scena › Sessione ha anche gruppo diviso, presenze, «Vedi come», vista spettatore e racconto di fine sessione                                                                                               | Owlbear (menu della stanza sopra l'HUD); Roll20 (nastri del gruppo diviso)                                                     |
 | Barra laterale destra      | colonna di schede-icona, in cima «Comprimi» e «Tutti i pannelli» (elenco per sezione, interruttore «Nella barra», «Stacca» per aprire un pannello in una finestra propria); una scheda per sezione, i pannelli della sezione come sotto-schede su una riga che scorre; ultima scheda e sotto-scheda ricordate per identità                                                                                                                                                         | Foundry sidebar (FVT-007) e pop-out V14 (FVT-199), Roll20, D&D Beyond Maps (DDB-133); sotto-schede come i filtri di D&D Beyond |
 | In basso: hotbar           | identità, PF, risorse (Azione, Bonus, Reazione, Movimento); pagine «Azioni» (Armi, Incantesimi, Comuni: Scatto, Schivata, Disimpegno; «Mosse speciali» accanto) e «Barra rapida»; modalità dei dadi, «Tiri e risultati», Reazioni; comandi Muovi, Rialzati (se prono), Azioni della scheda, Tira i dadi, Esc · Annulla preparazione, Annulla ultima modifica, **Termina turno** per ultimo; al turno di un'altra creatura del giocatore la hotbar passa a quella                   | BG3 (CRP-098/099) e HUD Argon per Foundry (FVT-135)                                                                            |
-| Menu della pedina          | clic destro o pressione lunga; doppio clic apre la scheda. In cima: Condizioni, Apri la scheda, Centra sulla mappa, Aggiungi alla selezione, Punti ferita…, Esamina (DM), Cerca; poi i sottomenu (frecce destra/sinistra, Esc)                                                                                                                                                                                                                                                     | Foundry Token HUD (FVT-119), D&D Beyond (DDB-117), menu contestuale di Owlbear                                                 |
+| Menu della pedina          | clic destro o pressione lunga; doppio clic apre la scheda; il tasto T mette la pedina fra i bersagli (Maiusc+T ne aggiunge). In cima: Condizioni, Apri la scheda, Centra sulla mappa, Aggiungi alla selezione, Punti ferita…, Esamina (DM), Cerca; poi i sottomenu (frecce destra/sinistra, Esc)                                                                                                                                                                                   | Foundry Token HUD (FVT-119), D&D Beyond (DDB-117), menu contestuale di Owlbear                                                 |
 | Telefono (≤ 720 px)        | la mappa prima, il pannello dopo; le schede sono una barra fissata in basso con «Mappa» per prima e «Tutti i pannelli» per ultima; entrando la mappa viene in vista una volta                                                                                                                                                                                                                                                                                                      | Quest Portal (barra in basso, VTL-008), D&D Beyond mobile (DDB-060), Owlbear (VTL-010)                                         |
 
 Sezioni della barra laterale (sotto-schede):
 
-| Sezione         | DM                                                       | Giocatore                              |
-| --------------- | -------------------------------------------------------- | -------------------------------------- |
-| Creatura        | Creatura, Riepilogo del gruppo                           | Creatura                               |
-| Chat            | Registro, Dadi, Sicurezza                                | uguale                                 |
-| Combattimento   | Combattimento, Incontro, Regole di movimento             | Combattimento                          |
-| Scena           | Aggiungi creature, Scena, Sessione, Annotazioni, Visione | Scena, Annotazioni, Visione            |
-| Esplorazione    | Mondo, Viaggio e accampamento                            | uguale                                 |
-| Oggetti         | Bottino, Bottega                                         | solo quando il DM li apre ai giocatori |
-| Documenti       | Materiali, Missioni, Immagini e file                     | uguale                                 |
-| Tabelle e mazzi | un pannello                                              | uguale                                 |
-| Consultazione   | Compendio, Schermo del DM                                | Compendio                              |
+| Sezione         | DM                                                                                                                       | Giocatore                                                                  |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------- |
+| Creatura        | Creatura, Riepilogo del gruppo                                                                                           | Creatura                                                                   |
+| Chat            | Registro (con «Macro», «Istantanea», «Voto»; il DM ha «Chiedi un tiro»), Dadi (Tira, Richieste, Impostazioni), Sicurezza | uguale, senza «Chiedi un tiro»; i dadi karmici sono un'impostazione del DM |
+| Combattimento   | Combattimento, Incontro, Regole di movimento                                                                             | Combattimento                                                              |
+| Scena           | Aggiungi creature, Scena, Sessione, Annotazioni, Visione                                                                 | Scena, Annotazioni, Visione                                                |
+| Esplorazione    | Mondo, Viaggio e accampamento                                                                                            | uguale                                                                     |
+| Oggetti         | Bottino, Bottega                                                                                                         | solo quando il DM li apre ai giocatori                                     |
+| Documenti       | Materiali, Missioni, Immagini e file                                                                                     | uguale                                                                     |
+| Tabelle e mazzi | un pannello                                                                                                              | uguale                                                                     |
+| Consultazione   | Compendio, Schermo del DM                                                                                                | Compendio                                                                  |
 
 Sottomenu del menu della pedina (un sottomenu con un solo comando visibile mostra il comando
 stesso):
 
-| Sottomenu    | Comandi (DM)                                                                                                                                                                  | Giocatore, sulla propria pedina               |
-| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- |
-| Azioni       | Trasforma…, Quota…, Nasconditi…                                                                                                                                               | uguale                                        |
-| Aspetto      | Colore del bordo, Dimensione, Ruota, Rivela aspetto…, Aura…, Nota sulla pedina…, Lati (pedina a più facce)…, Immagini della pedina…, Ritaglia il ritratto…, Ritratto e bordo… | senza Rivela aspetto, Lati e Ritaglia         |
-| Visibilità   | Nascondi ai giocatori (Maiusc+H), Visibile solo a…, Rinomina…, Nascondi il nome ai giocatori, Visione e luce…, Nascondi identità…                                             | solo «Visione e luce…», mostrato direttamente |
-| Bottino      | comando diretto                                                                                                                                                               | —                                             |
-| Strumenti DM | Porta una cavalcatura qui, Blocca la posizione (Maiusc+L), Copia, Togli dalla scena (Canc), Metti fuori mappa, Copia in un'altra campagna…, Scheda esterna…                   | solo «Scheda esterna…», mostrato direttamente |
+| Sottomenu    | Comandi (DM)                                                                                                                                                                                       | Giocatore, sulla propria pedina               |
+| ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- |
+| Azioni       | Bersaglio (T), Trasforma…, Quota…, Nasconditi…                                                                                                                                                     | uguale                                        |
+| Aspetto      | Barre della pedina…, Colore del bordo, Dimensione, Ruota, Rivela aspetto…, Aura…, Nota sulla pedina…, Lati (pedina a più facce)…, Immagini della pedina…, Ritaglia il ritratto…, Ritratto e bordo… | senza Rivela aspetto, Lati e Ritaglia         |
+| Visibilità   | Nascondi ai giocatori (Maiusc+H), Visibile solo a…, Rinomina…, Nascondi il nome ai giocatori, Visione e luce…, Nascondi identità…                                                                  | solo «Visione e luce…», mostrato direttamente |
+| Bottino      | comando diretto                                                                                                                                                                                    | —                                             |
+| Strumenti DM | Porta una cavalcatura qui, Blocca la posizione (Maiusc+L), Copia, Togli dalla scena (Canc), Metti fuori mappa, Copia in un'altra campagna…, Scheda esterna…                                        | solo «Scheda esterna…», mostrato direttamente |
 
 ## Dove si trova ogni funzione nel blueprint — candidata del 01/10/2026
 
@@ -432,9 +450,9 @@ Una riga per funzione del [censimento](CAPABILITY_CENSUS.md): stato della candid
 ### Servizi e impostazioni
 
 - **SV-01** Ricerca nell'app su personaggi e voci accessibili — PROVEN · [audit/services][ev-services]. Dove: Lente in alto (o ⌘K) › «livia» › Invio › scheda di Livia
-- **SV-02** Palette di comandi con prefissi, filtro contestuale, inserimento — PROVEN · [final-fixes][ev-final-fixes]. Dove: Intestazione › «Cerca» (⌘K): comandi, pagine e sinonimi naturali (bottino, segreto, sintonia, sondaggio…)
-- **SV-03** Ricerca con tolleranza ai refusi, gruppi per categoria, filtri — PROVEN · [final-fixes][ev-final-fixes]. Dove: Intestazione › «Cerca» (⌘K): risultati per tipo con filtri; sinonimi naturali per ogni funzione
-- **SV-04** Creazione rapida di qualsiasi voce — PROVEN · [audit/reaudit][ev-reaudit]. Dove: K › Creazione rapida) › Persona › Titolo › Crea
+- **SV-02** Palette di comandi con prefissi, filtro contestuale, inserimento — PROVEN · [close-fixes][ev-close-fixes]. Dove: Intestazione › «Cerca» (⌘K): comandi e pagine, più ogni pannello e strumento del Tavolo, i comandi del menu della pedina, le botteghe aperte e i comandi visibili nella pagina («Su questa pagina»)
+- **SV-03** Ricerca con tolleranza ai refusi, gruppi per categoria, filtri — PROVEN · [close-fixes][ev-close-fixes]. Dove: Intestazione › «Cerca» (⌘K): risultati per tipo con filtri, refusi tollerati, etichette dell’interfaccia indicizzate da sole
+- **SV-04** Creazione rapida di qualsiasi voce — PROVEN · [final-review-completeness][ev-final-review]. Dove: K › Creazione rapida) › Persona › Titolo › Crea
 - **SV-05** Appunti personali per identità, anche senza campagna — PROVEN · [final-review-completeness][ev-final-review]. Dove: «Appunti personali» › Nuovo appunto › Contesto (predefinito «Le lanterne di Bruma», da cambiare in «Personale · senza campagna») ›…
 - **SV-06** Richieste pendenti sempre raggiungibili — PROVEN · [audit/services][ev-services]. Dove: Da Campagne: campanella («4 notifiche») › «Richieste in attesa: 3 richieste…» › «Apri tiri e risultati» › Tavolo con «Risolvi tiro» per…
 - **SV-07** Centro notifiche per categoria (inviti, sessioni, esportazioni, richieste) — PROVEN · [audit/services][ev-services]. Dove: Campanella › chip per categoria (Tutte, Non lette, Inviti, Richieste di tiro, Attività del gruppo, Chat e discussioni, Altre aree) ›…
@@ -456,37 +474,37 @@ Una riga per funzione del [censimento](CAPABILITY_CENSUS.md): stato della candid
 - **SV-23** Tastiera nei percorsi, focus visibile, Esc coerente — PROVEN · [audit/services][ev-services]. Dove: Il focus è sempre visibile (contorno oro di 3 px)
 - **SV-24** Prove con lettore di schermo (menu a frecce, caselle etichettate) — PROVEN · [audit/reaudit][ev-reaudit]. Dove: Menu con role=menu e navigazione a frecce
 - **SV-25** Profilo: nome visualizzato e avatar — PROVEN · [audit/services][ev-services]. Dove: Icona persona › Account e profilo › Profilo › «Salvo» › Salva nome
-- **SV-26** Metodi d'accesso e servizi collegati, distinti dal login — PROVEN · [audit/services][ev-services]. Dove: Account › Accesso e servizi
+- **SV-26** Metodi d'accesso e servizi collegati, distinti dal login — PROVEN · [final-review-completeness][ev-final-review]. Dove: Account › Accesso e servizi
 - **SV-27** Esportare i propri dati; cancellare l'account con avviso delle conseguenze — PROVEN · [final-review-completeness][ev-final-review]. Dove: Account › I miei dati › «Esporta i miei dati» scarica un JSON solo con i miei dati
-- **SV-28** Politica d'età e consenso dei genitori — OPEN-DECISION · requisito legale ([I-233][i-233]); oggi età dichiarata negli annunci e filtro 18+ · [audit/reaudit][ev-reaudit]. Dove: Negli annunci pubblici c'è «Età: Nessun limite dichiarato dal DM» e il filtro «Mostra annunci per adulti (18+)»
-- **SV-29** Segnalare, bloccare, codice di condotta — PROVEN · simulazione · [audit/services][ev-services]. Dove: Tavoli pubblici › annuncio › «Segnala annuncio» (motivi, screenshot facoltativo) › Invia
+- **SV-28** Politica d'età e consenso dei genitori — PROVEN · [close-fixes][ev-close-fixes] · simulazione; la regola per paese resta una decisione legale ([I-233][i-233]). Dove: Account › Profilo › «Età e consenso»: fascia d’età, consenso del genitore sotto i 14 anni; Tavoli pubblici: sotto i 18 niente annunci 18+, sotto i 14 senza consenso nessuna candidatura
+- **SV-29** Segnalare, bloccare, codice di condotta — PROVEN · simulazione · [final-review-completeness][ev-final-review]. Dove: Tavoli pubblici › annuncio › «Segnala annuncio» (motivi, screenshot facoltativo) › Invia
 - **SV-30** Offline simulato: privato locale, condiviso bloccato, stato visibile — PROVEN · [final-review-completeness][ev-final-review]. Dove: Preferenze › «Simula assenza di rete»
 - **SV-31** Scegliere che cosa è disponibile offline — PROVEN · [audit/services][ev-services]. Dove: Icona nuvola › Offline e sincronizzazione › «Rendi disponibile» per voce o «Rendi disponibile tutto»
-- **SV-32** Coda delle modifiche e conflitti alla riconnessione — PROVEN · [audit/services][ev-services]. Dove: Storia › «Storia e legami» modificata e messa in coda
+- **SV-32** Coda delle modifiche e conflitti alla riconnessione — PROVEN · [final-review-completeness][ev-final-review]. Dove: Storia › «Storia e legami» modificata e messa in coda
 - **SV-33** Archiviazione del browser non disponibile segnalata — PROVEN · [audit/services][ev-services]. Dove: Con localStorage e IndexedDB bloccati compare subito il banner «Salvataggio locale non disponibile… i dati precedenti non vengono…
 - **SV-34** Stato della connessione e riconnessione automatica — PROVEN · [audit/reaudit][ev-reaudit]. Dove: setOffline → «Senza rete…», back → «In linea…».
 - **SV-35** Undo locale con autore e registro — PROVEN · [audit/services][ev-services]. Dove: Danno 2 › «Annulla ultima modifica»
 - **SV-36** Conferme proporzionate alle azioni distruttive — PROVEN · [audit/services][ev-services]. Dove: Personaggi › «Elimina Iria» › «Sposta nel cestino»
 - **SV-37** Errori specifici con azione suggerita — PROVEN · [audit/reaudit3-c][ev-reaudit3-c]. Dove: Sweep of ~75 views (31 campaign-section views, 23 as DM and 8 as player; the 9 Settings tabs; the 5 Integrations tabs; every Table sidebar tab and bottom-bar page as DM and as player; Home,…
 - **SV-38** Inoltro di tiri e avvisi a Discord — PROVEN · simulazione · [final-review-completeness][ev-final-review]. Dove: Integrazioni › Discord: webhook masked «••••0001», channel preview, private rolls not relayed
-- **SV-39** Feed calendario delle sessioni — PROVEN · simulazione · [audit/reaudit][ev-reaudit]. Dove: Home «Prossimo appuntamento» offers «Aggiungi al calendario».
+- **SV-39** Feed calendario delle sessioni — PROVEN · simulazione · [final-review-completeness][ev-final-review]. Dove: Home «Prossimo appuntamento» offers «Aggiungi al calendario».
 - **SV-40** Collegare una scheda esterna a una pedina — PROVEN · [audit/services][ev-services]. Dove: Clic destro o pressione lunga sulla pedina › «Scheda esterna…» › URL e visibilità › Salva il link
-- **SV-41** API pubblica e connettori — PROVEN · simulazione · [audit/reaudit][ev-reaudit]. Dove: API token in two steps; palette «token API».
+- **SV-41** API pubblica e connettori — PROVEN · simulazione · [final-review-completeness][ev-final-review]. Dove: API token in two steps; palette «token API».
 - **SV-42** Estensioni di terze parti per campagna — PROVEN · simulazione · [final-review-completeness][ev-final-review]. Dove: Integrazioni › Moduli with dependencies; disabled Save explains «Nessuna modifica da salvare»
-- **SV-43** Assistente AI con citazioni su fonti autorizzate — PROVEN · simulazione · [audit/services][ev-services]. Dove: Apri campagna › GESTIONE DM › Assistente › Consenso e dati › «Attiva l'assistente…»
-- **SV-44** Resoconto AI rivisto prima della condivisione, consenso alla registrazione — PROVEN · simulazione · solo test Node · [audit/reaudit][ev-reaudit]. Dove: (correzione, provata da test) Settings, preferences, integrations, account, drafts and similar events are never recap sources, moments or entities; a period with none says «Nessun evento di gioco…» (refusal) and a…
-- **SV-45** Scrittura assistita nelle note e generazione di personaggi — PROVEN · simulazione · [audit/services][ev-services]. Dove: Assistente › Scrivi › Tema «PNG da un'idea» › Richiesta › Genera
-- **SV-46** Modello proprio o locale — PROVEN · simulazione · [audit/reaudit3-c][ev-reaudit3-c]. Dove: Gestione DM › Assistente › «Consenso e dati» › «Attiva l’assistente…» (dialog lists what it reads and never reads) › «Motore delle risposte (solo per te)» › «Modello locale su questo…
+- **SV-43** Assistente AI con citazioni su fonti autorizzate — PROVEN · simulazione · [final-review-completeness][ev-final-review]. Dove: Apri campagna › GESTIONE DM › Assistente › Consenso e dati › «Attiva l'assistente…»
+- **SV-44** Resoconto AI rivisto prima della condivisione, consenso alla registrazione — PROVEN · simulazione · [final-review-completeness][ev-final-review]. Dove: (correzione, provata da test) Settings, preferences, integrations, account, drafts and similar events are never recap sources, moments or entities; a period with none says «Nessun evento di gioco…» (refusal) and a…
+- **SV-45** Scrittura assistita nelle note e generazione di personaggi — PROVEN · simulazione · [final-review-completeness][ev-final-review]. Dove: Assistente › Scrivi › Tema «PNG da un'idea» › Richiesta › Genera
+- **SV-46** Modello proprio o locale — PROVEN · simulazione · [final-review-completeness][ev-final-review]. Dove: Gestione DM › Assistente › «Consenso e dati» › «Attiva l’assistente…» (dialog lists what it reads and never reads) › «Motore delle risposte (solo per te)» › «Modello locale su questo…
 - **SV-47** Aiuto contestuale "?" per pagina — PROVEN · [final-review-completeness][ev-final-review]. Dove: Icona «?» o F1 sul Tavolo: «Aiuto · Tavolo», cosa si fa qui, avvia il tour, segnala un problema, «Torna alla pagina»
 - **SV-48** Suggerimenti alla prima occorrenza, archiviati e ripristinabili — PROVEN · [audit/reaudit][ev-reaudit]. Dove: Si accendono da Aiuto › «Tour e suggerimenti» (porta a Inizio › Guide, fuori dal Tavolo) › casella
 - **SV-49** Tour facoltativi ripristinabili — PROVEN · [final-review-completeness][ev-final-review]. Dove: Aiuto › «Avvia il tour «Il Tavolo»», 6 passi
 - **SV-50** Suggerimenti durante l'attesa — PROVEN · [audit/reaudit][ev-reaudit]. Dove: Pause overlay shows a tip or rule of the day.
 - **SV-51** Stato del servizio, diagnostica e segnalazione di un problema — PROVEN · [final-review-completeness][ev-final-review]. Dove: Inizio › scheda Supporto: stato del servizio, incidenti, Diagnostica, «Segnala un problema» (toglie i dati personali, mostra…
 - **SV-52** Anteprime facoltative di funzioni sperimentali — PROVEN · [audit/services][ev-services]. Dove: Inizio › Supporto › Anteprime delle funzioni › «Inizio compatto»
-- **SV-53** Annunci pubblici e candidature per trovare un gruppo — PROVEN · simulazione · [audit/services][ev-services]. Dove: Inizio › «Cerca un tavolo» (filtri: lingua, formato, giorno e ora nel mio fuso, nuovi giocatori, 18+) › Apri annuncio › Candidati…
+- **SV-53** Annunci pubblici e candidature per trovare un gruppo — PROVEN · simulazione · [final-review-completeness][ev-final-review]. Dove: Inizio › «Cerca un tavolo» (filtri: lingua, formato, giorno e ora nel mio fuso, nuovi giocatori, 18+) › Apri annuncio › Candidati…
 - **SV-54** Sessioni a pagamento con DM professionista — EXCLUDED · [I-233][i-233] · sessioni a pagamento. Dove: «pagamento» e «prezzo» non danno risultati
 - **SV-55** AI come DM — EXCLUDED · [I-233][i-233] · IA come DM. Dove: L'assistente dice «Da decidere al tavolo… L'assistente non li inventa»
-- **SV-56** Verifica in due passaggi dell'account — OPEN-DECISION · [Q167][q167] · capacità oltre il censimento. Dove: Account › Accesso e servizi ha le passkey, non un secondo fattore
+- **SV-56** Verifica in due passaggi dell'account — PROVEN · [close-fixes][ev-close-fixes] · simulazione (app di autenticazione simulata). Dove: Account › Accesso e servizi › «Verifica in due passaggi»: codice a sei cifre e 10 codici di recupero; all’accesso chiede il secondo passaggio
 
 ### Trasversale
 
@@ -494,20 +512,21 @@ Una riga per funzione del [censimento](CAPABILITY_CENSUS.md): stato della candid
 - **X-02** Pannelli consultabili mentre il gioco continua — PROVEN · [audit/reaudit][ev-reaudit]. Dove: Player log has no preset/service line.
 - **X-03** Correzioni per conseguenza registrate invece di un undo globale — PROVEN · [audit/reaudit][ev-reaudit]. Dove: Ogni annullamento diventa una voce «Correzione … Annullato: …»
 - **X-04** Salvataggio esplicito o automatico dichiarato per ogni editor — PROVEN · [audit/services][ev-services]. Dove: L'editor degli appunti dice «Bozza privata salvata su questo dispositivo» o «Modifiche non salvate»
-- **X-05** Insieme fisso di superfici di comando (azione, strumento, menu, popover, modale, avviso) — PARTIAL · preferenze delle notifiche in due posti (campanella e Preferenze) · [final-fixes][ev-final-fixes]. Dove: Finestre: «Annulla» ed Esc tornano alla superficie d'origine (Preferenze › «Ripristina predefiniti…»); le preferenze delle notifiche restano sia nella campanella sia in Preferenze
-- **X-06** Menu contestuale con equivalente touch e da tastiera per ogni oggetto — PROVEN · [final-fixes][ev-final-fixes]. Dove: Clic destro, pressione lunga o Maiusc+F10 su una scheda in Personaggi, una riga dell'inventario o un incantesimo: menu con i comandi della riga
-- **X-07** Trascinamento come collegamento universale, sempre con alternativa accessibile — PROVEN · [final-fixes][ev-final-fixes]. Dove: Tavolo › Consultazione › Compendio: trascina una creatura sulla mappa (DM), un oggetto o un incantesimo su una pedina o sulla scheda; «Aggiungi…» resta l'alternativa da tastiera
+- **X-05** Insieme fisso di superfici di comando (azione, strumento, menu, popover, modale, avviso) — PARTIAL · preferenze delle notifiche in due posti (campanella e Preferenze) · [final-review-completeness][ev-final-review]. Dove: Finestre: «Annulla» ed Esc tornano alla superficie d'origine (Preferenze › «Ripristina predefiniti…»); le preferenze delle notifiche restano sia nella campanella sia in Preferenze
+- **X-06** Menu contestuale con equivalente touch e da tastiera per ogni oggetto — PROVEN · [final-review-completeness][ev-final-review]. Dove: Clic destro, pressione lunga o Maiusc+F10 su una scheda in Personaggi, una riga dell'inventario o un incantesimo: menu con i comandi della riga
+- **X-07** Trascinamento come collegamento universale, sempre con alternativa accessibile — PROVEN · [final-review-completeness][ev-final-review]. Dove: Tavolo › Consultazione › Compendio: trascina una creatura sulla mappa (DM), un oggetto o un incantesimo su una pedina o sulla scheda; «Aggiungi…» resta l'alternativa da tastiera
 - **X-08** Registro unico dei comandi → barra, riga, tooltip, scorciatoia — PROVEN · [audit/services][ev-services]. Dove: Riposi Y → J: il tooltip diventa «Riposi (J)», cambiano aria-keyshortcuts, la riga in ⌘K («…
-- **X-09** Aritmetica nei campi numerici — PROVEN · [final-fixes][ev-final-fixes]. Dove: Scheda › Punti ferita: -5, +3, =12 o 25-3+2 e Invio; anche in «Correggi i punti ferita» e nel menu della pedina
-- **X-10** Finestre staccabili per più schermi — PROVEN · [final-fixes][ev-final-fixes]. Dove: Tavolo › «Tutti i pannelli» › «Stacca» accanto a ogni pannello: finestra separata e sincronizzata
+- **X-09** Aritmetica nei campi numerici — PROVEN · [final-review-completeness][ev-final-review]. Dove: Scheda › Punti ferita: -5, +3, =12 o 25-3+2 e Invio; anche in «Correggi i punti ferita» e nel menu della pedina
+- **X-10** Finestre staccabili per più schermi — PROVEN · [close-fixes][ev-close-fixes]. Dove: Tavolo › «Tutti i pannelli» › «Stacca»: finestra sincronizzata; i comandi che agiscono sulla mappa girano nella finestra principale, che torna in primo piano; ✕ chiude la finestra
 - **X-11** Comandi personali e sequenze riutilizzabili senza codice — PROVEN · [audit/services][ev-services]. Dove: Tavolo › scheda «Barra rapida» › casella «+» › Percezione (ci sono anche «Tiro salvato (formula)» e «Sequenza di passi») › Aggiungi ›…
-- **X-12** Macro con codice o scripting — OPEN-DECISION · [GAP-01][gap-01] · script con codice non scelto ([I-233][i-233]). Dove: «macro» e «script» non danno risultati
+- **X-12** Macro con codice o scripting — PROVEN · [close-fixes][ev-close-fixes] · linguaggio dell’app in un recinto; script JavaScript (Roll20 Mod) resta una scelta dell’owner ([GAP-01][gap-01]). Dove: Chat › «Macro» o Cerca «macro»: tira, imposta, se … allora, di, sussurra; al massimo 30 righe e 6 tiri, ogni tiro in chat
 
 <!-- Riferimenti delle prove (stato delle capacità) -->
 
 [ev-campaign-hub-world]: ../../changes/interview-01/audit/campaign-hub-world.md
 [ev-campaign-settings-data]: ../../changes/interview-01/audit/campaign-settings-data.md
 [ev-features-management]: ../../changes/interview-01/audit/features-management.md
+[ev-close-fixes]: ../../changes/interview-01/final-fixes.md#chiusura-delle-funzioni-01102026
 [ev-final-fixes]: ../../changes/interview-01/final-fixes.md
 [ev-final-review]: ../../changes/interview-01/final-review-completeness.md
 [ev-home-creation]: ../../changes/interview-01/audit/home-creation.md

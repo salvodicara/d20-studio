@@ -1,5 +1,11 @@
 # Intervista di prodotto — in corso
 
+**Direzione prevalente D-014/I-243, 01/10/2026:** prima le funzioni, poi l'aspetto. Il piano a
+fasi (A contratto funzionale, B revisione dell'owner, C design visivo, D nome e brand, E prodotto
+reale) è in [ROADMAP](../ROADMAP.md); l'owner valuta la candidata con la
+[mappa breve delle funzioni](FEATURE_MAP.md); [NEXT](../NEXT.md) resta l'unico punto operativo. I
+paragrafi che seguono sono le direzioni precedenti, valide dove non contraddette.
+
 **Direzione prevalente D-013/I-218, 23/09/2026:** l'owner valuta un unico
 [blueprint visuale navigabile](BLUEPRINT_CONTRACT.md) completo; il Markdown
 rimane sincronizzato per gli agenti, senza lettura obbligatoria dell'owner.

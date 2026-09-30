@@ -1,4 +1,32 @@
-# Sequenza di lavoro — D-013 / I-218
+# Piano — D-014 (01/10/2026)
+
+Direzione dell'owner del 01/10/2026 ([D-014](DECISIONS.md#d-014--prima-le-funzioni-poi-laspetto-01102026)):
+prima si definiscono l'app, le funzioni e gli schermi; l'aspetto grafico si fa dopo, in una fase
+dedicata. Il passo operativo corrente è sempre in [NEXT](NEXT.md); la mappa breve delle funzioni è
+[FEATURE_MAP](interview/FEATURE_MAP.md).
+
+| Fase                                      | Che cosa si fa                                                                                                                                                                                                                                                                                                                                                  | Quando è finita                                                                                                                                                                                |
+| ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **A. Contratto funzionale** (in chiusura) | Tutte le funzionalità presenti, raggiungibili e funzionanti nel blueprint, con schermi e interazioni copiati dal mercato; la mappa breve delle funzioni per l'owner; il Markdown per gli agenti sincronizzato con l'app.                                                                                                                                        | Censimento senza lacune di costruzione, revisioni di chiusura corrette, mappa breve scritta, candidata identificata dal [manifest](../changes/interview-01/blueprint-candidate-manifest.json). |
+| **B. Revisione dell'owner**               | L'owner naviga l'app e legge la [mappa](interview/FEATURE_MAP.md), chiede correzioni in chat; l'agente corregge e ripresenta.                                                                                                                                                                                                                                   | Approvazione **esplicita** dell'owner: si congela la versione (nuovo manifest, commit e tag) come contratto dell'app. Visitare o non rispondere non approvano.                                 |
+| **C. Design visivo** (sessione dedicata)  | Direzione e sistema grafico copiati dai riferimenti, prodotto per prodotto, applicati al blueprint **senza cambiare le funzioni**. L'aspetto attuale e [DESIGN.md](../design/blueprint/DESIGN.md) sono provvisori, non approvati e sostituibili; l'arretrato grafico già raccolto è in [visual-phase-backlog](../changes/interview-01/visual-phase-backlog.md). | Approvazione dell'owner dell'aspetto; le funzioni della Fase B restano identiche (stessi percorsi e test).                                                                                     |
+| **D. Nome e brand**                       | Fase dedicata già prevista ([D-005](DECISIONS.md)): nome, posizionamento, marchio; `d20 Studio` resta un nome di lavoro.                                                                                                                                                                                                                                        | Scelta dell'owner; nessun acquisto di domini o annuncio senza autorizzazione.                                                                                                                  |
+| **E. Piano di implementazione reale**     | Architettura, dati, sicurezza (ogni identità riceve solo la propria proiezione), backend, costruzione a incrementi con test e review in un'altra sessione, staging, rilascio.                                                                                                                                                                                   | Rilascio solo con autorizzazione esplicita per deploy, dati reali, spesa e impegni esterni. d20 Folio resta invariato fino al rilascio del sostituto ([D-009](DECISIONS.md)).                  |
+
+Regole che valgono in tutte le fasi: le decisioni dell'owner stanno in [DECISIONS](DECISIONS.md), le
+scelte delegate in [DECISIONS dell'intervista](interview/DECISIONS.md); ogni funzione copia un prodotto esistente; il
+blueprint è una simulazione locale, non una garanzia di backend, sicurezza o multiplayer reali;
+le esclusioni dell'owner restano (musica ospitata, voce e video, vista 3D, marketplace, sessioni a
+pagamento, IA come DM).
+
+## Storico (non più operativo)
+
+La sequenza che segue è quella di D-013 / I-218 (23/09/2026). È conservata per la storia delle
+decisioni ed è sostituita dal piano qui sopra: la fase «Concordare e fissare il contratto» è ora
+la Fase B, «Rifinire lo stile e l'identità» è divisa nelle Fasi C e D, «Prove mirate e
+implementazione reale» e «Transizione e rilascio» sono la Fase E.
+
+### Sequenza di lavoro — D-013 / I-218 (storica)
 
 Il risultato corrente è un contratto visuale navigabile con Markdown
 sincronizzato per gli agenti. [BLUEPRINT_CONTRACT](interview/BLUEPRINT_CONTRACT.md)

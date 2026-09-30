@@ -1,28 +1,33 @@
 # Un'app intera: struttura proposta e percorso di costruzione
 
-**Candidata del 01/10/2026, in attesa della valutazione dell'owner (non approvata).** L'app intera
-descritta qui è costruita come [blueprint visuale navigabile](BLUEPRINT_CONTRACT.md) in
-`design/blueprint/`, con il Markdown sincronizzato per gli agenti. Sintesi, visita, numeri e limiti:
-[BLUEPRINT_STATUS](BLUEPRINT_STATUS.md); struttura effettiva e prodotto copiato per ogni
-struttura: [NAVIGATION](NAVIGATION.md#architettura-dellinformazione-della-candidata); passo
-operativo: [NEXT](../NEXT.md). Le sezioni sotto, dal 22/09, restano valide come intento; dove
+**Candidata funzionale del 01/10/2026, in attesa della valutazione dell'owner (Fase B del
+[piano](../ROADMAP.md); non approvata).** L'app intera descritta qui è costruita come
+[blueprint visuale navigabile](BLUEPRINT_CONTRACT.md) in `design/blueprint/`, con il Markdown
+sincronizzato per gli agenti. L'owner la valuta con la [mappa breve delle funzioni](FEATURE_MAP.md);
+sintesi, visita, numeri e limiti: [BLUEPRINT_STATUS](BLUEPRINT_STATUS.md); struttura effettiva e
+prodotto copiato per ogni struttura: [NAVIGATION](NAVIGATION.md#architettura-dellinformazione-della-candidata);
+passo operativo: [NEXT](../NEXT.md). Le sezioni sotto, dal 22/09, restano valide come intento; dove
 descrivono uno stato di costruzione («non costruito», «parziale») sono storiche.
 
 ## La struttura realizzata
 
-| Destinazione | Nella candidata                                                                                                                                                            | Modello                       |
-| ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------- |
-| Intestazione | Inizio · Personaggi · Campagne · Biblioteca; a destra Cerca (⌘K), Appunti personali, Notifiche e richieste, Preferenze, Aiuto, connessione, Account e profilo              | D&D Beyond, Owlbear, Foundry  |
-| Inizio       | ripresa di personaggio, campagna e sessione; lavoro da riprendere; campagne, discussioni, «Trova un tavolo»; per il DM la prossima sessione e la Preparazione              | Roll20 «My Games», D&D Beyond |
-| Personaggi   | elenco e creazione; scheda a sette categorie (Azioni, Magie, Inventario, Capacità, Storia, Note, Extra), la stessa usata al Tavolo e in campagna                           | D&D Beyond                    |
-| Campagna     | barra laterale a gruppi Campagna, Racconto, Ambientazione, Gioco, Gestione DM («Strumenti» per il giocatore) ed «Entra al Tavolo»                                          | Kanka, World Anvil            |
-| Preparazione | gruppi Scene, Incontri, Materiali, Scaletta e avventure; salvare, rivelare e attivare restano comandi distinti                                                             | Foundry, Roll20               |
-| Tavolo       | attrezzi a sinistra, barra laterale a sezioni con sotto-schede a destra, hotbar in basso, ritratti di turno in alto, menu della pedina a sottomenu, menu «Sessione» del DM | BG3, Owlbear, Foundry, Roll20 |
-| Biblioteca   | contenuti disponibili, personali e di campagna, homebrew con revisioni, pacchetti di compatibilità, Compendio SRD 5.2.1, immagini e file                                   | D&D Beyond, Foundry           |
+Architettura finale della candidata funzionale; l'aspetto è provvisorio e si rifà nella Fase C.
+
+| Destinazione | Nella candidata                                                                                                                                                                                                  | Modello                       |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------- |
+| Intestazione | Inizio · Personaggi · Campagne · Biblioteca; a destra Cerca (⌘K), Appunti personali, Notifiche e richieste, Preferenze (tre ambiti), Aiuto, connessione, Account e profilo                                       | D&D Beyond, Owlbear, Foundry  |
+| Inizio       | ripresa di personaggio, campagna e sessione; lavoro da riprendere; campagne, discussioni, «Trova un tavolo»; primi passi; Novità · Guide · Supporto; per il DM la prossima sessione e la Preparazione            | Roll20 «My Games», D&D Beyond |
+| Personaggi   | elenco e creazione (a sezioni, rapida, pronti, con il DM); scheda a sette categorie (Azioni, Magie, Inventario, Capacità, Storia, Note, Extra), la stessa usata al Tavolo e in campagna                          | D&D Beyond                    |
+| Campagna     | barra laterale a gruppi Campagna, Racconto, Ambientazione, Gioco, Gestione DM («Strumenti» per il giocatore) ed «Entra al Tavolo»                                                                                | Kanka, World Anvil            |
+| Preparazione | gruppi Scene, Incontri, Materiali, Scaletta e avventure; salvare, rivelare e attivare restano comandi distinti                                                                                                   | Foundry, Roll20               |
+| Tavolo       | attrezzi a sinistra, barra laterale a nove sezioni con sotto-schede a destra, barra delle azioni in basso, ritratti di turno in alto, menu della pedina a sottomenu, menu «Sessione» del DM, finestre staccabili | BG3, Owlbear, Foundry, Roll20 |
+| Biblioteca   | contenuti disponibili, personali e di campagna, homebrew con revisioni, avventure, pacchetti di compatibilità, Compendio SRD 5.2.1, immagini e file                                                              | D&D Beyond, Foundry           |
 
 Dove mettere un comando nuovo: [registry plan §5](../../changes/interview-01/blueprint-registry-plan.md#5-struttura-del-tavolo-e-dove-mettere-un-comando-b61-24092026); aspetto e fonte di ogni scelta visiva:
 [DESIGN.md](../../design/blueprint/DESIGN.md); scelte da preservare: [I-237](DECISIONS.md#i-237--architettura-dellinformazione-copiata-dai-leader)
-e [I-238](DECISIONS.md#i-238--sistema-visivo-del-blueprint-in-designmd).
+e [I-244](DECISIONS.md#i-244--chiusura-delle-funzioni-scelte-delegate-del-01102026); il sistema
+visivo di [I-238](DECISIONS.md#i-238--sistema-visivo-del-blueprint-in-designmd) è provvisorio fino
+alla Fase C ([I-243](DECISIONS.md#i-243--prima-le-funzioni-laspetto-in-una-fase-dedicata)).
 
 I tre percorsi sotto (giocatore, DM, uso parziale) sono visitabili con i dati d'esempio: la stessa
 Livia, gli stessi PF e oggetti fra Inizio, scheda, campagna e Tavolo (capacità X-01, PROVEN).
@@ -47,12 +52,12 @@ già scritti restano validi; i loro casi residui rimangono nel registro.
 
 ## Avanzamento leggibile — 01/10/2026
 
-| Passaggio                     | Dove siamo                                                                                                                  | Risultato da raggiungere                                                                                        |
-| ----------------------------- | --------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| Copertura delle capacità      | 528 capacità nel [censimento](CAPABILITY_CENSUS.md#totali-dellelenco): 511 PROVEN, 1 PARTIAL, 10 OPEN-DECISION, 6 EXCLUDED. | Ogni capacità pertinente ha un trattamento esplicito, senza limitarsi ai marchi principali.                     |
-| Visuale e Markdown collegati  | Candidata completa costruita e sincronizzata con questo Markdown; prove in [BLUEPRINT_STATUS](BLUEPRINT_STATUS.md).         | Un unico artefatto navigabile con comandi, stati e risultati provati, allineato al Markdown.                    |
-| Accordo sul contratto         | Candidata presentata, identificata dal manifest del 01/10/2026; nessuna approvazione.                                       | L'owner visita, corregge e approva esplicitamente una versione; visuale e Markdown diventano una sola baseline. |
-| Stile finale e prodotto reale | Sistema visivo provvisorio in [DESIGN.md](../../design/blueprint/DESIGN.md); prodotto reale non iniziato.                   | Dopo l'accordo, rifinitura estetica e implementazione rispettano il contratto; prove reali prima del rilascio.  |
+| Passaggio                      | Dove siamo                                                                                                                                                                         | Risultato da raggiungere                                                                                        |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| Copertura delle capacità       | 528 capacità nel [censimento](CAPABILITY_CENSUS.md#totali-dellelenco): 521 PROVEN, 1 PARTIAL, 0 OPEN-DECISION, 6 EXCLUDED; raggruppate in 119 righe nella [mappa](FEATURE_MAP.md). | Ogni capacità pertinente ha un trattamento esplicito, senza limitarsi ai marchi principali.                     |
+| Visuale e Markdown collegati   | Candidata funzionale completa e sincronizzata con questo Markdown (Fase A in chiusura); prove in [BLUEPRINT_STATUS](BLUEPRINT_STATUS.md).                                          | Un unico artefatto navigabile con comandi, stati e risultati provati, allineato al Markdown.                    |
+| Accordo sul contratto          | Fase B: candidata presentata, identificata dal manifest del 01/10/2026; nessuna approvazione.                                                                                      | L'owner visita, corregge e approva esplicitamente una versione; visuale e Markdown diventano una sola baseline. |
+| Aspetto, nome e prodotto reale | Fasi C (design visivo), D (nome e brand), E (implementazione reale) del [piano](../ROADMAP.md); l'aspetto di [DESIGN.md](../../design/blueprint/DESIGN.md) è provvisorio.          | Rifinitura estetica e implementazione rispettano il contratto; prove reali prima del rilascio.                  |
 
 La grafica provvisoria consente di costruire ora il blueprint. Non occorre
 terminare o far leggere tutto il Markdown prima di mostrarlo. L'agente è

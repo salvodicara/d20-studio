@@ -4777,3 +4777,54 @@ resta aperto e l'intervista continua una domanda alla volta.
   (adottato su delega, da confermare).
 - **Limiti:** nessuna nuova esclusione o inclusione dedotta dalla consegna; l'elenco operativo
   delle decisioni aperte è in [NEXT](../NEXT.md).
+
+## I-243 — prima le funzioni, l'aspetto in una fase dedicata
+
+- **Provenienza:** owner, 01/10/2026, in chat dopo la visita della candidata
+  ([D-014](../DECISIONS.md#d-014--prima-le-funzioni-poi-laspetto-01102026)).
+- **Decisione:** questa fase riguarda solo le funzioni: ognuna presente, raggiungibile nel suo
+  posto naturale e funzionante, copiata da un prodotto esistente. L'owner la valuta navigando e
+  leggendo la [mappa breve delle funzioni](FEATURE_MAP.md) (una tabella per area: funzione, dove
+  si trova, da quale prodotto, per chi); il [censimento](CAPABILITY_CENSUS.md) resta il dettaglio
+  per gli agenti. Il piano a fasi A–E è in [ROADMAP](../ROADMAP.md).
+- **Aggiorna I-238:** il sistema visivo di [DESIGN.md](../../design/blueprint/DESIGN.md) e
+  l'aspetto attuale sono **provvisori, non approvati e sostituibili** nella Fase C (design
+  visivo, sessione dedicata). Restano validi come vincoli minimi il contrasto WCAG AA, il fuoco
+  visibile e i segni mai affidati al solo colore; tutto il resto si può rifare. Le voci solo
+  grafiche raccolte finora sono in
+  [visual-phase-backlog](../../changes/interview-01/visual-phase-backlog.md).
+- **Da preservare:** la Fase C non cambia funzioni, percorsi, permessi o dati concordati nella
+  Fase B; un cambiamento di funzione torna all'owner.
+- **Limiti:** nessuna approvazione del contratto o dell'aspetto; nessuna nuova esclusione.
+
+## I-244 — chiusura delle funzioni: scelte delegate del 01/10/2026
+
+- **Provenienza:** revisioni di chiusura di completezza, privacy e trovabilità e correzioni del
+  01/10/2026 ([final-fixes](../../changes/interview-01/final-fixes.md#chiusura-delle-funzioni-01102026)),
+  sotto I-236, I-240, I-243. Registrate per gli agenti che implementeranno il prodotto.
+- **Decisione:** le dieci capacità rimaste «da decidere» sono costruite, perché la direzione del
+  01/10 esclude solo sei funzioni. Scelte prese su delega, ciascuna copiata da un prodotto:
+  - bersaglio persistente con il tasto T, visto da tutti (Foundry «Target»); tiri `[[1d8+3]]`
+    dentro i messaggi (Roll20, Foundry); barre 2 e 3 sulla pedina lette dalla scheda (Foundry,
+    Roll20); mappe video fino a 2 MB nella demo, ferme con le animazioni ridotte (Foundry);
+    meteo animato per scena (Foundry «Weather Effect»);
+  - un solo dispositivo a turno con schermo di passaggio (BG3, cooperativa locale), verifica in
+    due passaggi e fascia d'età con consenso del genitore sotto i 14 anni: **simulazioni
+    dichiarate** come gli altri servizi d'account (I-241);
+  - dadi karmici come impostazione della campagna **spenta di serie**, solo per i d20 digitali
+    dei giocatori, ogni ritiro scritto nel registro (BG3); resta la domanda
+    [Q166](OPEN.md#q166--dadi-karmici);
+  - macro con un linguaggio proprio dell'app in un recinto (tira, imposta, se … allora, di,
+    sussurra; al massimo 30 righe e 6 tiri), **mai JavaScript**, ogni tiro visibile in chat
+    (Roll20 Mod, Foundry, Avrae). Script veri come Roll20 Mod restano una scelta dell'owner
+    ([GAP-01](REFERENCE_COVERAGE.md)) per la sicurezza.
+- **Privacy (aggiorna I-240):** una sola regola di vista decide che cosa vede ogni identità
+  (nebbia, buio, muri) e vale ovunque, non solo sulla mappa: istantanee, elenchi, ordine dei
+  turni, distanze, etichette, ritratti, fumetti, vista spettatore. Le righe condivise non nominano
+  creature nascoste; il DM può chiedere una prova segreta («Chi vede il risultato: Tutti / Solo
+  DM»); una visibilità non permessa a un ruolo è rifiutata, mai allargata a «Tutti».
+- **Aggiorna I-242:** X-12 e TV-156 non sono più funzioni assenti ma funzioni visibili con una
+  scelta dell'owner sopra; [Q167](OPEN.md#q167--capacità-dei-leader-oltre-il-censimento) è
+  chiusa. Esclusioni invariate.
+- **Limiti:** nel blueprint la riservatezza resta un filtro al disegno su un solo dispositivo;
+  nel prodotto reale ogni identità riceve solo la propria proiezione.
