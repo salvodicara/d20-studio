@@ -161,6 +161,14 @@ async (rootPage) => {
     .getByRole("button", { name: "Apri" })
     .click();
   await page.waitForFunction(() => /#campaign\?.*tab=handouts/.test(location.hash));
+  // Close regression (01/10/2026): «Apri» opens the material itself (B15 viewer, opened just
+  // after Materiali renders). Wait for it and close it before leaving: moving on as soon as the
+  // address changed raced that viewer, which then stayed open over the media page on a busy
+  // machine (a hash change does not close a dialog).
+  const viewer = page.locator("#dialog[open]");
+  await viewer.locator("#dialog-title", { hasText: "La lettera" }).waitFor();
+  await viewer.locator("footer [data-close]").first().click();
+  await page.locator("#dialog[open]").waitFor({ state: "detached" });
   await page.goto(base + "#media?id=m-letter");
   await button("Elimina").click();
   const other = page.locator("#dialog [data-media-delete-other]");

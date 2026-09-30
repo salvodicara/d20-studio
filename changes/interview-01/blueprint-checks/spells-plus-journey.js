@@ -203,6 +203,10 @@ async (rootPage) => {
         state.actors.iria.spells.find((r) => r.id === "iria-detect-magic").prepared,
       "confirmed preparation wrong",
     );
+    // Close regression (01/10/2026): since the final review's UX F10 (D&D Beyond: the spell
+    // list right under the tabs) a closed window is one line and its rule sits behind «Perché?».
+    // Open it, then read both sentences as before.
+    await page.locator('.spl-window[data-spl-window="closed"] .spl-window-why summary').click();
     check(
       (await page.locator(".spl-window").innerText()).includes(
         "Preparazione non modificabile ora",

@@ -1,4 +1,119 @@
-# Correzioni finali dopo le tre revisioni: prove
+# Correzioni finali dopo le revisioni: prove
+
+Due giri, dal più recente: la **chiusura delle funzioni** del 01/10 e le **correzioni finali** del
+30/09.
+
+## Chiusura delle funzioni (01/10/2026)
+
+01/10/2026 · worktree `d20-studio-interview-01` (branch `codex/interview-01`, candidata `5b7223b`
+più queste modifiche, non committate: committa il coordinatore) · un solo scrittore (Claude Code,
+Opus 5.5) · sessioni del browser `d20-close-fix` e `d20-close-fix-j` · server
+`http://127.0.0.1:8879/` senza cache · prove in
+`~/Workspace/Codex/d20-blueprint-evidence/2026-10-01/close-fix/` (fuori dal checkout: `scripts/`,
+`logs/`, `shots/`, `copies/`). Solo dati sintetici. Direzione dell'owner del 01/10: **in questa
+fase contano solo le funzioni**, l'aspetto si rifà dopo; le voci solo grafiche sono in
+[visual-phase-backlog](visual-phase-backlog.md). Rilievi da tre revisioni di chiusura:
+[completezza](final-review-completeness.md), [privacy](final-review-privacy.md),
+[trovabilità](final-review-findability.md).
+
+### In breve
+
+- **Le dieci capacità che mancavano ci sono e funzionano** (tabella sotto): bersaglio persistente,
+  tiri dentro la chat, barre sulla pedina, mappe video, meteo animato, un solo dispositivo a turno,
+  verifica in due passaggi, età e consenso, macro con codice, dadi karmici. Il censimento passa a
+  **521 PROVEN, 1 PARTIAL (X-05, scelta), 0 OPEN-DECISION, 6 EXCLUDED**.
+- **Privacy: i tre P1, i due P2 e il P3 sono chiusi.** La nebbia e il buio ora valgono ovunque,
+  non solo sulla mappa: istantanea della chat, elenco delle pedine, selezione, ordine dei turni,
+  distanze, etichette, ritratti, fumetti della chat e vista spettatore. Una creatura nascosta non
+  compare più nelle righe condivise (tiro dalla scheda, oggetto dal Compendio, richieste). La CD
+  nascosta resta nascosta anche nelle richieste dal diario.
+- **Funzioni e trovabilità:** il DM chiede una prova segreta («Solo DM»); una condizione si toglie
+  dalla scheda con due clic; il doppio clic sulla pedina apre la scheda anche nel browser vero; le
+  finestre staccate fanno ciò che promettono; la ricerca trova da sola ogni pannello, strumento,
+  comando del menu della pedina, bottega aperta e i comandi visibili nella pagina.
+- **Due scelte restano all'owner, sopra funzioni già visibili:** tenere i dadi karmici (spenti di
+  serie, raccomandazione: toglierli, [Q166](../../docs/interview/OPEN.md)) e permettere, oltre al
+  linguaggio delle macro in recinto, veri script JavaScript come Roll20 Mod (GAP-01, sicurezza).
+- Suite Node **2659/2659**; **40/40** percorsi del browser delle aree toccate, verdi.
+
+### Le dieci capacità nuove: dove sono e da dove vengono
+
+| ID     | Funzione                      | Come ci si arriva                                                                                                                                                                                                                                | Modello copiato                            |
+| ------ | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------ |
+| TV-150 | Bersaglio persistente         | Tavolo: seleziona una pedina e premi **T** (Maiusc+T ne aggiunge un'altra), o menu della pedina › Azioni › «Bersaglio (T)». Mirino nel colore di chi mira, visto da tutti; Dardo di fuoco parte già sul bersaglio («… sul bersaglio Sentinella») | Foundry «Target»                           |
+| TV-151 | Tiri dentro la chat           | Registro e chat: «Colpisco [[1d8+3]]» → nel messaggio compare il numero, formula e dadi al passaggio del mouse                                                                                                                                   | Roll20 e Foundry, tiri inline              |
+| TV-152 | Barre di risorse sulla pedina | Menu della pedina › Aspetto › «Barre della pedina…»: barra 2 e 3 (slot, PF temporanei, usi, Dadi Vita), per chi controlla o per tutti                                                                                                            | Foundry barre 1/2, Roll20 tre barre        |
+| TV-153 | Mappe video                   | Preparazione › scena › «Carica un'immagine o un video» (WebM, MP4, 2 MB nella demo)                                                                                                                                                              | Foundry sfondi WebM/MP4                    |
+| TV-154 | Meteo animato                 | DM: Cerca «meteo sulla scena» o Viaggio › Meteo › «Meteo sulla scena…»: pioggia, temporale, neve, nebbia, vento                                                                                                                                  | Foundry «Weather Effect»                   |
+| TV-155 | Un solo dispositivo a turno   | Preferenze › «Dispositivo condiviso» o Cerca «dispositivo condiviso»: a ogni turno di un'altra persona lo schermo si copre, «Sono il DM: continua»                                                                                               | BG3 cooperativa locale, hot seat           |
+| TV-156 | Dadi karmici (spenti)         | DM: Tavolo › Dadi › Impostazioni › «Dadi karmici» o Cerca «dadi karmici». Solo d20 digitali dei giocatori; ogni ritiro scritto nel registro                                                                                                      | BG3 «Karmic Dice»                          |
+| SV-56  | Verifica in due passaggi      | Account › Accesso e servizi › «Attiva la verifica in due passaggi…»: codice dell'app (simulata) e 10 codici di recupero; all'accesso chiede il codice                                                                                            | Account Wizards di D&D Beyond, Roll20 2FA  |
+| SV-28  | Età e consenso                | Account › Profilo › «Età e consenso»: sotto i 14 anni serve il consenso di un genitore per i tavoli pubblici; sotto i 18 niente annunci 18+                                                                                                      | D&D Beyond con k-ID, Roll20 13/16          |
+| X-12   | Macro con codice              | Registro e chat › «Macro» o Cerca «macro»: `tira`, `imposta`, `se … allora`, `di`, `sussurra`, `@destrezza`…; ogni tiro compare in chat                                                                                                          | Roll20 Mod, Foundry script, Avrae Draconic |
+
+### Rilievi e correzioni
+
+| Rilievo                                                              | Gravità | Che cosa è cambiato                                                                                                                                                       | Modello                                                                    | Prova                                                                                                         |
+| -------------------------------------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| Istantanea della chat ignora la nebbia                               | P1      | L'immagine segue la vista di chi la scatta (del gruppo per il DM): creature sotto la nebbia escluse, buio dipinto                                                         | BG3 modalità foto; Foundry                                                 | test; `close-fix/logs/j-snapshot-fog-journey.log`: nell'anteprima solo Livia e Mira                           |
+| «Pedine in scena» nomina e localizza creature sotto la nebbia        | P1      | Una regola sola in fog-vision («chi vede questa identità»): elenco, selezione, turni, distanze, etichette, ritratti, fumetti                                              | Foundry: una pedina non vista non si elenca né si prende di mira           | test; `logs/cap-b.log`: elenco del giocatore «Livia, Mira»                                                    |
+| Righe condivise che nominano una creatura nascosta                   | P1      | Tiro del DM per una creatura nascosta parte «Solo DM» (vassoio e scheda); oggetto o magia dal Compendio: riga privata; richieste: nominano solo chi i giocatori vedono    | Fantasy Grounds, Roll20 «whisper to GM»; convenzione del menu della pedina | test; `logs/cap-p.log`: il giocatore non legge «CNRYD4»                                                       |
+| Il DM non può chiedere una prova segreta                             | P1      | Modulo «Chiedi un tiro» e richiesta dal diario: «Chi vede il risultato: Tutti / Solo DM (tiro segreto)»; il giocatore tira senza vedere il valore                         | Monk's TokenBar, tiro cieco di Foundry                                     | test; `logs/cap-a.log`                                                                                        |
+| Nove capacità non esposte, SV-28 parziale                            | P1      | Costruite (tabella sopra)                                                                                                                                                 | vedi tabella                                                               | test per ognuna; `logs/cap-c.log`, `cap-d.log`, `cap-e.log`                                                   |
+| Richiesta dal diario mostra la CD nascosta                           | P2      | Stessa regola del vassoio: «CD nascosta» e carta in chat                                                                                                                  | ramo del vassoio                                                           | `logs/cap-p.log`: «Tiro salvezza su Destrezza · CD nascosta → Doran, Livia, Mira»                             |
+| Vista spettatore disegna la quota sotto la nebbia                    | P2      | Le decorazioni di una creatura non vista non si disegnano                                                                                                                 | Foundry                                                                    | `logs/j-spectator-fog.log`: disegnata solo Livia                                                              |
+| Comandi muti nelle finestre staccate                                 | P2      | «Chiedi un tiro», «mostra sulla mappa», «Nascondi interfaccia», «Centra» girano nella finestra principale, che torna in primo piano; «✕» chiude la finestra               | Foundry V14 pop-out                                                        | `logs/cap-c.log`: il vassoio si apre nella principale, Livia selezionata, finestra chiusa                     |
+| Doppio clic sulla pedina                                             | P2      | Due pressioni sulla stessa pedina entro 0,4 s aprono la scheda (la prima ridisegna la mappa)                                                                              | Foundry, doppio clic sulla tela                                            | `logs/cap-a.log`: scheda di Livia aperta con un vero doppio clic                                              |
+| Togliere una condizione costa 5 passi                                | P2      | La pastiglia apre l'elenco; la condizione attiva si toglie con un clic (motivo registrato da solo)                                                                        | D&D Beyond, icone di stato di Foundry                                      | test; `logs/cap-a.log`                                                                                        |
+| La ricerca non trova etichette visibili                              | P2      | Indice automatico: pannelli, strumenti, comandi del Tavolo e del menu della pedina, botteghe aperte, sezioni della scheda, più «Su questa pagina»                         | Alchemy OmniSearch, Kanka, Obsidian                                        | test; `logs/cap-s.log`: «tempo narrativo», «barriere», «avvia sessione», «compra», «stampa», «legame» trovano |
+| Sessione mai avviata                                                 | P2      | Sulla mappa del DM: «Sessione non avviata» con «Avvia ora» e «Non ora»; comando «Avvia o termina la sessione»                                                             | eventi di Discord, StartPlaying                                            | `logs/cap-b.log`                                                                                              |
+| Opzioni della nebbia sotto la didascalia                             | P2      | Con una barra degli strumenti aperta la didascalia si fa trasparente                                                                                                      | Owlbear                                                                    | `logs/cap-b.log`: «Copri tutto» in cima al punto cliccato                                                     |
+| Salire di livello non chiede le magie del mago                       | P2      | Solo le magie nuove del livello («trucchetti 0/1 · magie da aggiungere al libro 0/2 · già sulla scheda 5»); «Da rivedere» dice perché; il riepilogo elenca le magie nuove | D&D Beyond level up                                                        | test; `logs/cap-e.log`                                                                                        |
+| Telefono: comandi della scheda fuori schermo                         | P2      | Vanno a capo: «Gestisci personaggio», «Rivedi scelte», «Vai al Tavolo» nello schermo                                                                                      | D&D Beyond mobile                                                          | `logs/cap-m2.log`                                                                                             |
+| Telefono: chat a tutto schermo, comandi della scena sopra lo schermo | P2      | Entrando si vedono i comandi della scena e la mappa; un campo del pannello non prende il fuoco                                                                            | Owlbear, Roll20 mobile                                                     | `logs/cap-m.log`: intestazione a y 0                                                                          |
+| Esploratore senza attacchi                                           | P2      | «Carica statistiche» nella barra delle azioni                                                                                                                             | Foundry (attori SRD con azioni)                                            | `logs/cap-d.log`: poi «melee-attack»                                                                          |
+| Mercanti difficili da trovare                                        | P2      | «Bottega: Carro di Tessa» nella ricerca per «compra», «bottega», «mercante» (per il DM anche chiusa, verso Preparazione)                                                  | Foundry/Obsidian; Item Piles                                               | `logs/cap-s.log`: Invio apre la scheda Bottega                                                                |
+| Una visibilità non ammessa diventa «Tutti»                           | P3      | Rifiutata con il motivo                                                                                                                                                   | le altre validazioni del dominio                                           | test                                                                                                          |
+| Ricerca con sinonimi scritti a mano                                  | P3      | Vedi indice automatico; più parole naturali per carte, nomi, stampa, legami                                                                                               | Alchemy, Kanka                                                             | test                                                                                                          |
+| Comandi muti fuori dalle finestre                                    | P3      | «Cerca» vuoto dice cosa serve; «Aggiorna scelte e PF» spento con il motivo senza classe; «Tempo narrativo» mostra di essere già aperto                                    | D&D Beyond, Kanka                                                          | test della suite                                                                                              |
+| Censimento sovrastimato                                              | P3      | TV-14, SV-02, SV-03, X-10 ora provati nel browser; righe aggiornate                                                                                                       | —                                                                          | [CAPABILITY_CENSUS](../../docs/interview/CAPABILITY_CENSUS.md)                                                |
+| Modalità dei dadi in due posti                                       | P3      | La barra delle azioni segue la scelta «Dadi» del vassoio e delle Preferenze, e viceversa; la scheda mostra «Dadi digitali / Dadi fisici» accanto a «Gioco / Modifica»     | D&D Beyond, un solo interruttore                                           | test; `journeys.log`: `sheet-plus-journey`                                                                    |
+| Dardo incantato potenziato                                           | P3      | «Distribuisci 4 dardi» e «Dardi assegnati 2/4»                                                                                                                            | BG3                                                                        | test della suite                                                                                              |
+| Bozze da salvare due volte                                           | P3      | Il bottone principale si riattiva alla prima modifica: un clic salva e pubblica                                                                                           | Kanka, Notion                                                              | suite (editor della campagna)                                                                                 |
+| Bottino vuoto sulla creatura sconfitta                               | P3      | «Bottino» dal menu della pedina parte con l'equipaggiamento del blocco, come «Concludi incontro»                                                                          | Item Piles                                                                 | test                                                                                                          |
+
+### Non corretto, con la ragione
+
+- **Riposo tra i ruoli (P3):** la notifica del riposo al DM sta in «Altre aree»; un combattimento
+  che interrompe un riposo in attesa non lo dice al giocatore; la pagina Sessioni ha due gruppi
+  «Partecipo/Forse». Tre ritocchi di notifiche e testi fra tre aree: nessuna funzione manca, si
+  riprendono con la fase grafica e dei testi.
+- **La barra delle azioni del DM mostra Livia fuori combattimento (P3):** togliere la selezione
+  predefinita del DM tocca molti percorsi del Tavolo; il DM sceglie comunque con un clic.
+- **Mercanti (P2, parte):** manca il collegamento fra una voce «Negozio» del Mondo e il suo mercante
+  (Kanka) e l'apertura della bottega con un doppio clic sulla pedina del mercante (Item Piles):
+  il mercante d'esempio non ha una pedina. La bottega ora si trova dalla ricerca.
+- **Etichette della barra laterale al fuoco (P3):** è una scelta di aspetto, nell'arretrato grafico.
+- **«+ Aggiungi» vuoto nella Storia:** sposta il fuoco sul campo da riempire; non è muto.
+
+### Test e percorsi
+
+- Nuovo file `design/blueprint/tests/close-fixes.test.mjs` (un test per rilievo o capacità),
+  aggiornati cinque test (in quattro file) che fissavano il comportamento vecchio (elenchi del menu della pedina, testo
+  «età e consenso», pastiglia della condizione, doppio clic, intestazione della scheda sul
+  telefono).
+- Suite: `node --test design/blueprint/tests/*.test.mjs` → **2659/2659** (erano 2628).
+- Sonde nel browser (`close-fix/scripts/cap-*.body.js`, esiti `logs/cap-*.log`): tutte verdi.
+- Percorsi rilanciati delle aree toccate (`logs/journeys.log`): **40/40 verdi** (39 delle aree
+  toccate più `builder-journey`, che `builder-advance-journey` chiede prima). Sei erano rossi al
+  primo giro: quattro per file di prova non copiati nella cartella nuova, uno per un bottone con lo
+  stesso nome («Avvia sessione» del chip, ora «Avvia ora») e uno, `knowledge-journey`, per un falso
+  doppio clic (due clic sulla stessa pedina in momenti diversi): il doppio clic ora vale solo per la
+  stessa identità e al massimo un ridisegno fra le due pressioni. Due percorsi della
+  nebbia controllavano che la quota e la distanza di una creatura non vista fossero nascoste con il
+  CSS; ora non sono proprio disegnate: il controllo accetta entrambi i casi.
+
+## Correzioni del 30/09/2026
 
 30/09/2026 · worktree `d20-studio-interview-01` (branch `codex/interview-01`, lavoro non
 committato) · un solo scrittore (Claude Code, Opus 5.5) · sessione del browser `d20-final-fix` ·
@@ -10,7 +125,7 @@ sintetici. Ruolo: correggere i rilievi delle revisioni finali di
 [UX](final-review-ux.md), più sei voci aperte note, copiando ogni volta il modello di mercato
 indicato.
 
-## In breve
+### In breve
 
 - **Tutti i P1 e i P2 corretti, partendo da un test rosso**, tranne il riposo del giocatore
   legato al DM (UX F12, P2), che è una scelta dell'owner (Q164). X-05 resta PARTIAL per le
@@ -45,12 +160,12 @@ indicato.
   in OPEN, stato del 30/09 in BLUEPRINT_CONTRACT e BLUEPRINT_STATUS, regola «ogni identità riceve
   solo la propria proiezione» per il prodotto reale.
 
-## Rilievi e correzioni
+### Rilievi e correzioni
 
 Colonne: rilievo (revisione · codice), prodotto copiato, cosa cambia, test, prova nel browser
 (sonda in `logs/`, cattura in `shots/`).
 
-### P1
+#### P1
 
 | Rilievo                                                   | Copiato da                                           | Cosa cambia                                                                                                                                                                                                                     | Test                                     | Browser                                                                                                  |
 | --------------------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | -------------------------------------------------------------------------------------------------------- |
@@ -64,7 +179,7 @@ Colonne: rilievo (revisione · codice), prodotto copiato, cosa cambia, test, pro
 | UX F6 · riga di stato sotto la hotbar                     | BG3 (suggerimento sopra la fila delle risorse)       | `captionLift` la mette 8 px sopra la parte più alta misurata della HUD; larghezza massima 600 px                                                                                                                                | «UX P1 F6…»                              | `s7`, `s8`, `shots/s7-caption-measure.png`, `shots/s8-caption-combat-player.png`                         |
 | UX F7 · «Tira» del vassoio sotto la piega                 | Owlbear Rodeo (dadi, visibilità e tiro insieme)      | ordine: chi, formula, dadi, dadi fisici, chi vede, «Tira»; modalità, aiuto, CD e pila dopo                                                                                                                                      | `dice-tray` e `damage-tray` (aggiornati) | `s9`, `shots/s9-tray.png`, `shots/s9-tray-dm.png`                                                        |
 
-### P2
+#### P2
 
 | Rilievo                                                 | Copiato da                                                              | Cosa cambia                                                                                                                                                                       | Test                                        | Browser                                                                                    |
 | ------------------------------------------------------- | ----------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------ |
@@ -89,7 +204,7 @@ Colonne: rilievo (revisione · codice), prodotto copiato, cosa cambia, test, pro
 | UX F21 · testi da sviluppatori                          | tono di D&D Beyond                                                      | frasi d'azione; «Perché alcune capacità non agiscono da sole?» ripiegato; niente «Concessione annotata» su ogni incantesimo                                                       | «P2 F21…»                                   | `shots/s4-builder-top.png`                                                                 |
 | UX F22 · Inizio del DM con i testi del giocatore        | Roll20 «My Games»                                                       | titolo e bottoni del DM: «La prossima sessione», «Preparazione», «Prepara la sessione»                                                                                            | «P2 F22…»                                   | `s30`, `shots/s30-home.png`                                                                |
 
-### P3 e voci aperte note
+#### P3 e voci aperte note
 
 | Rilievo                                                                | Copiato da                                     | Cosa cambia                                                                                                     | Test                                   | Browser                       |
 | ---------------------------------------------------------------------- | ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | -------------------------------------- | ----------------------------- |
@@ -113,7 +228,7 @@ Le sei voci aperte note (panoramica della campagna, sotto-schede in tre righe, f
 chip delle Preferenze, card di Inizio, mappa del telefono all'apertura) sono chiuse: righe F20,
 F9, F26 e F18 qui sopra.
 
-## Non corretto, con la ragione
+### Non corretto, con la ragione
 
 | Voce                                                                                                                                                                             | Ragione                                                                                                                                                                                                                            |
 | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -134,7 +249,7 @@ F9, F26 e F18 qui sopra.
 | UX F28 · «Confronta» su ogni incantesimo                                                                                                                                         | requisito dell'owner MAG-04 (confronto affiancato); il riferimento più vicino è il confronto degli oggetti di BG3                                                                                                                  |
 | Censimento: CA-61, CA-75, CA-88, SV-28, SV-37, SV-46 ancora PARTIAL                                                                                                              | fuori dai rilievi delle revisioni finali; il censimento dice per ognuna cosa manca                                                                                                                                                 |
 
-## Percorsi del browser
+### Percorsi del browser
 
 Nuovo: `final-fixes-journey.js` (IT 1440, clic e tasti veri, stato pulito): sorpresa di Livia e
 Mira (due d20, il più basso; Doran uno), menu «Sessione» sopra l'ordine di turno (6 righe, ognuna
@@ -188,7 +303,7 @@ d'esempio copiati nella cartella delle prove (`not-an-image.txt`, `glass-ruins-c
 `big-680kb.png`, `noise0-3.png`). La regressione completa di tutti i percorsi resta alla fase
 successiva.
 
-## Test
+### Test
 
 `node --test design/blueprint/tests/*.test.mjs`: **2628/2628** (46 test nuovi in
 `tests/final-fixes.test.mjs`; aggiornati a comportamenti voluti `combat`, `reactions` (slot dei

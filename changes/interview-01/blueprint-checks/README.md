@@ -601,3 +601,47 @@ right after the pointer moved and was red once in a long run, green alone and ri
 `p4-prep`: a timing flake, not a behaviour change. The full order is now 189 scripts: add
 `final-fixes-journey.js` after `residuals-b-journey.js`. A full run of all 189 after the final
 fixes has not been done yet; the last full run (188/188) predates them.
+
+Full run after the final fixes (single runner, one journey per command under a 200 s alarm;
+evidence `/Users/salvatoredicara/Workspace/Codex/d20-blueprint-evidence/2026-10-01/regress/`,
+`results-sweep1.txt`): 184/189 (1497 `passed`); red `rest-time`, `b61-table-structure`,
+`spells-plus`, `spells-plus-review`, `w2a1-shell`.
+
+Close review fixes (01/10/2026, single writer; evidence
+`/Users/salvatoredicara/Workspace/Codex/d20-blueprint-evidence/2026-10-01/close-fix/`): no new
+journey script; the capabilities built that day are probed by `close-fix/scripts/cap-*.body.js`
+outside the checkout. Journeys updated to intended changes, each with a dated «Close review»
+comment: `fog-vision` and `fog-vision-review` (a creature under the fog is no longer drawn at all:
+its elevation badge and distance row count 0, or are hidden in older builds). Six reds on the
+first run, none fixed by editing a journey: four needed the sample files copied into the new
+evidence folder (see the notes of the final fixes); in the app, the session chip's button became
+«Avvia ora», so «Avvia sessione» names only the «Sessione» panel's button, and a double press now
+needs the same identity and at most one map redraw between the presses, so `knowledge-journey`'s
+two separate clicks on a token stay single clicks.
+40/40 touched-area journeys green (`close-fix/logs/journeys.log`, with `builder-journey` before
+`builder-advance-journey`). Rerun of the five reds of the full run after the close fixes
+(`2026-10-01/feature-map/logs/journeys.log`, session `d20-featmap-j`): `b61-table-structure` and
+`rest-time` green; `spells-plus` («closed message missing»), `spells-plus-review` («the player
+is not told who can grant an exception») and `w2a1-shell` (at 1440 a campaign section is not in
+the rail and `[data-campaign-sections]` is not visible there) still red, not yet diagnosed. A full
+run of all 189 after the close fixes has not been done yet.
+
+Close regression on the functional candidate (01/10/2026, single runner; session
+`d20-close-regress` for the full runs, `d20-close-probe` for probes and for reruns against a staged
+copy of the app with the fixes on port 8880 while the first run kept the candidate untouched;
+evidence `/Users/salvatoredicara/Workspace/Codex/d20-blueprint-evidence/2026-10-01/close-regress/`):
+Node suite 2659/2659 at the start and 2662/2662 at the end (three «close regression» tests in
+`tests/close-fixes.test.mjs`); all 189 scripts of `scripts/order.txt`, one per command under a
+200 s alarm: first run 183/189, final run 189/189 (1529 `passed`, no journey with fewer steps than
+the full run after the final fixes). App fixes, test first: a press that became a drag no longer
+starts the double press that opens the sheet (TV-14 of the close review; `gestures-and-views` and
+`p6-map-movement` dragged the same token twice in a row and got the sheet instead of the move);
+at 1440 × 900 «Tutte le sezioni» now leads the desktop campaign rail and a group unfolded near the
+window's bottom scrolls its sections into view (`w2a1-shell`: with «Entra al Tavolo» above the rail
+and two groups open, «Ambientazione» sat at y 909 and «Tutte le sezioni» existed only on the
+phone). Journeys updated to intended changes or races, assertions kept, each with a dated «Close
+regression» comment: `spells-plus` and `spells-plus-review` (a closed preparation window keeps its
+rule behind «Perché?», UX F10 of the final review: open it, then read), `media-review2` («Apri» on a
+use opens the material's viewer; wait for it and close it before leaving, instead of racing it on a
+busy machine). Fresh load with cleared storage at 1440 and 390, player and DM: 0 page errors, 0
+console errors, 0 warnings, no horizontal overflow. Report: `changes/interview-01/final-regression.md`.

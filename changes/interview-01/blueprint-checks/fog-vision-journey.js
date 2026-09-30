@@ -291,9 +291,11 @@ async (rootPage) => {
       "Player sees goblins under the fog",
     );
     check(await tokenShown("livia"), "Player does not see Livia in the revealed path");
+    // Close review 01/10 (privacy P2-5): a creature under the fog has no badge at all (not drawn),
+    // or, from older builds, a hidden one.
     check(
-      (await page.locator('[data-token-for="goblin-1"]').count()) === 1 &&
-        !(await page.locator('[data-token-for="goblin-1"]').isVisible()),
+      (await page.locator('[data-token-for="goblin-1"]').count()) === 0 ||
+        !(await page.locator('[data-token-for="goblin-1"]').first().isVisible()),
       "The Sentinella's elevation badge shows through the fog",
     );
     await shot("03-player-fog-opaque");

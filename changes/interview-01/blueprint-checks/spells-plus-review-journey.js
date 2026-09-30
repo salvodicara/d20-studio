@@ -252,6 +252,9 @@ async (rootPage) => {
     await page.waitForTimeout(250);
     await setRole("player");
     await openSpells("livia");
+    // Close regression (01/10/2026): since the final review's UX F10 a closed window is one
+    // line; who can grant an exception is said behind «Perché?». Open it, then read it.
+    await page.locator('.spl-window[data-spl-window="closed"] .spl-window-why summary').click();
     check(
       (await page.locator(".spl-window").innerText()).includes("chiedi al DM"),
       "the player is not told who can grant an exception",

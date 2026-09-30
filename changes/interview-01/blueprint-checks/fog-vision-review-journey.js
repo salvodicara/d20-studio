@@ -225,9 +225,10 @@ async (rootPage) => {
           .filter((line) => /Sentinella|Esploratore/.test(line))
           .join(" / "),
     );
+    // Close review 01/10 (privacy P1-2): the unseen creature's distance row is not drawn at all.
     check(
-      (await page.locator('#content [data-annot-dist="goblin-1"]').count()) === 1 &&
-        !(await page.locator('#content [data-annot-dist="goblin-1"]').isVisible()),
+      (await page.locator('#content [data-annot-dist="goblin-1"]').count()) === 0 ||
+        !(await page.locator('#content [data-annot-dist="goblin-1"]').first().isVisible()),
       "The Sentinella's distance row is still shown",
     );
     check(
