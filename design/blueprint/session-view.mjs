@@ -52,6 +52,7 @@ import { previewMovement } from "./state.mjs";
 import { beginMovement } from "./combat.mjs";
 import { hasCondition } from "./conditions.mjs";
 import { seesAsAudience } from "./token-menu.mjs";
+import { unseenTokens } from "./fog-vision-domain.mjs";
 import { safetyHud, bindSafetyHud } from "./safety-ui.mjs";
 import { setSelectedActor } from "./table.mjs";
 import { formatNumber } from "./ui.mjs";
@@ -1193,7 +1194,16 @@ export function visibleTokens(state, scene, viewer) {
     // is in the token's audience sees it; the shared screen shows only what all see.
     const audience =
       viewer !== "spectator" && seesAsAudience(state, state.ext?.["token-menu"], token, viewer);
-    return own || audience || (!actor.hidden && !token.hidden && token.visible !== false);
+    // Close review 01/10 (privacy P1/P2-5): what the fog or the dark hides from this viewer
+    // (the shared screen sees as an identity with no creature) is not drawn either.
+    return (
+      own ||
+      audience ||
+      (!actor.hidden &&
+        !token.hidden &&
+        token.visible !== false &&
+        !unseenTokens(state, scene.id, viewer).has(token.actorId))
+    );
   });
 }
 
@@ -1490,6 +1500,9 @@ const ui = {
   playAs: null, // P10 TV-112: member the DM plays for at the Table (Alchemy "play as")
   scrollTo: null, // P10 TV-130/131: the Session panel part to bring into view
   menu: false, // visual pass 2: the DM's «Sessione» menu on the map is open
+  startLater: false, // close review 01/10: the DM chose «Non ora» on the not-started chip
+  handoff: null, // TV-155: the identity asked to take the shared device
+  acceptedTurn: "", // TV-155: the combat turn whose hand-over was answered
 };
 export function resetUI() {
   ui.viewAs = null;
@@ -1500,6 +1513,8 @@ export function resetUI() {
   ui.ribbonPick.clear();
   ui.displayNotice = null;
   ui.menu = false;
+  ui.startLater = false;
+  ui.handoff = null;
 }
 export const uiState = ui;
 
@@ -2012,6 +2027,65 @@ function viewAsMarkup(ctx) {
   return `<div class="session-view-as"><div class="session-view-banner" role="region" aria-label="${ctx.esc(ctx.t(`Vista come ${name}`, `Viewing as ${name}`))}"><span>${ctx.icon("eye")}<strong>${ctx.esc(ctx.t(`Stai vedendo il Tavolo come ${name}`, `You are viewing the Table as ${name}`))}</strong><small>${ctx.t("Quello che fai qui entra nel registro come «DM per", "What you do here is logged as “DM for")} ${ctx.esc(name)}${ctx.t("». Note e schede private del giocatore restano private.", "”. The player’s private notes and sheets stay private.")}</small></span>${btn(ctx, "exit-view", ctx.t("Esci dalla vista", "Exit view"), { cls: "primary" })}</div>${body}</div>`;
 }
 
+// ---------------------------------------------------------------- shared device (TV-155)
+
+// Close review 01/10 (BG3 local co-op, the hot seat of turn-based games): one device for the
+// whole table. When the turn passes to a creature another identity plays, the Table hides
+// behind a hand-over screen until that person takes the device; nothing of the previous
+// identity's private view stays on screen. Device setting, off by default.
+export const SHARED_DEVICE = "session-view-device.shared";
+export function sharedDeviceOn(ctx) {
+  try {
+    return ctx.registry?.getSetting(ctx, SHARED_DEVICE) === true;
+  } catch {
+    return false;
+  }
+}
+/** Who plays the creature whose turn it is: "player" or "dm" (null outside combat). */
+export function turnIdentity(state) {
+  if (!state.combat?.active) return null;
+  const actor = state.actors?.[state.combat.order?.[state.combat.turn]];
+  if (!actor) return null;
+  return canControlActor(actor, "player", state) && actor.owner !== "dm" ? "player" : "dm";
+}
+/** The identity the device must pass to, or null when the one holding it may go on. */
+export function handoffTo(ctx) {
+  if (!sharedDeviceOn(ctx)) return null;
+  if (ui.handoff && ui.handoff !== ctx.role) return ui.handoff;
+  const next = turnIdentity(ctx.state);
+  return next && next !== ctx.role && ui.acceptedTurn !== combatKey(ctx.state) ? next : null;
+}
+const combatKey = (state) =>
+  state.combat?.active ? `${state.combat.round}:${state.combat.turn}` : "";
+function handoffMarkup(ctx) {
+  const next = handoffTo(ctx);
+  const acting = ctx.state.combat?.active
+    ? ctx.state.actors?.[ctx.state.combat.order[ctx.state.combat.turn]]
+    : null;
+  // Only a creature everyone sees is named on the hand-over screen.
+  const named = acting && !acting.hidden ? ` (${ctx.esc(acting.name)})` : "";
+  const who = next === "dm" ? ctx.t("al DM", "to the DM") : ctx.t("al giocatore", "to the player");
+  return `<section class="session-view-handoff" data-sv-handoff aria-labelledby="sv-handoff-title"><h1 id="sv-handoff-title">${ctx.t("Passa il dispositivo", "Pass the device")} ${who}${named}</h1><p>${ctx.t("Un solo dispositivo per tutto il tavolo: lo schermo resta coperto finché chi gioca il turno non lo prende.", "One device for the whole table: the screen stays covered until whoever plays the turn takes it.")}</p><div class="toolbar"><button type="button" class="button primary" data-sv-handoff-take="${next}">${next === "dm" ? ctx.t("Sono il DM: continua", "I am the DM: continue") : ctx.t("Sono il giocatore: continua", "I am the player: continue")}</button><button type="button" class="button quiet" data-sv-handoff-stay>${ctx.t("Resta a me per questo turno", "Keep it for this turn")}</button></div></section>`;
+}
+function takeDevice(ctx, next) {
+  ui.handoff = null;
+  ui.acceptedTurn = combatKey(ctx.state);
+  const select = globalThis.document?.querySelector("#demo-role");
+  if (!select || select.value === next) return ctx.render();
+  select.value = next;
+  select.dispatchEvent(new Event("change", { bubbles: true }));
+}
+function bindHandoff(el, ctx) {
+  el.querySelector("[data-sv-handoff-take]")?.addEventListener("click", (event) =>
+    takeDevice(ctx, event.currentTarget.dataset.svHandoffTake),
+  );
+  el.querySelector("[data-sv-handoff-stay]")?.addEventListener("click", () => {
+    ui.handoff = null;
+    ui.acceptedTurn = combatKey(ctx.state);
+    ctx.render();
+  });
+  el.querySelector("[data-sv-handoff-take]")?.focus({ preventScroll: true });
+}
 function renderCover(ctx) {
   const kind = coverKind(ctx);
   if (kind === "view-as") return viewAsMarkup(ctx);
@@ -2267,6 +2341,13 @@ function renderHud(ctx, view) {
   const live = currentSession(slice);
   if (dm && !live && lastSession(slice)?.status === "ended")
     chips.push(`<p class="session-view-chip">${ctx.t("Sessione conclusa", "Session ended")}</p>`);
+  // Close review 01/10 (Discord scheduled events and StartPlaying: «Start event» when the
+  // table meets): at the Table with no session running, the DM is offered to start it, since
+  // presence and the automatic session story follow the running session.
+  else if (dm && !live && !ui.startLater)
+    chips.push(
+      `<p class="session-view-chip is-warn session-view-start-chip" data-sv-chip="not-started">${ctx.t("Sessione non avviata: presenze e racconto automatico partono quando la avvii.", "Session not started: presence and the automatic story begin when you start it.")} <button type="button" class="session-view-hud-button" data-sv="start" aria-label="${ctx.t("Avvia ora la sessione", "Start the session now")}" title="${ctx.t("Avvia ora la sessione", "Start the session now")}">${ctx.t("Avvia ora", "Start now")}</button><button type="button" class="session-view-hud-button" data-sv="start-later" aria-label="${ctx.t("Non ora: avvia la sessione più tardi", "Not now: start the session later")}" title="${ctx.t("Non ora: avvia la sessione più tardi", "Not now: start the session later")}">${ctx.t("Non ora", "Not now")}</button></p>`,
+    );
   // P10 TV-115 (Roll20 party ribbons on top of the map): while the party is split every
   // group has its ribbon, the one at the Table marked, so players see where the others are.
   // A scene players have not been shown stays unnamed for them.
@@ -2796,6 +2877,10 @@ function bindCommon(el, ctx) {
     show: () => actions.show(ctx),
     start: () =>
       actions.start(ctx, { hidden: Boolean(el.querySelector("[data-sv-start-hidden]")?.checked) }),
+    "start-later": () => {
+      ui.startLater = true;
+      ctx.render();
+    },
     end: () => openEnd(ctx),
     reopen: () => openReopen(ctx),
     regroup: () => {
@@ -3417,6 +3502,56 @@ export function register(registry) {
     bind: (el, ctx) => bindCover(el, ctx),
   });
   registry.add("table-panel", {
+    id: "session-view-handoff",
+    label: L("Passa il dispositivo", "Pass the device"),
+    placement: "cover",
+    order: 1,
+    when: (ctx) => Boolean(handoffTo(ctx)),
+    render: (ctx) => handoffMarkup(ctx),
+    bind: (el, ctx) => bindHandoff(el, ctx),
+  });
+  registry.add("settings", {
+    id: "session-view-device",
+    label: L("Dispositivo condiviso", "Shared device"),
+    scope: "device",
+    fields: [
+      {
+        id: "shared",
+        label: L(
+          "Un solo dispositivo per tutto il tavolo: a ogni turno chiede di passarlo (hot seat)",
+          "One device for the whole table: each turn asks to pass it on (hot seat)",
+        ),
+        type: "boolean",
+        default: false,
+      },
+    ],
+  });
+  registry.add("command", {
+    id: "session-view.pass-device",
+    label: L(
+      "Passa il dispositivo (gioco su un solo dispositivo)",
+      "Pass the device (one-device play)",
+    ),
+    description: L(
+      "Un solo dispositivo per tutto il tavolo, a turno: copri lo schermo e passalo a chi gioca",
+      "One device for the whole table, in turns: cover the screen and pass it to whoever plays",
+    ),
+    keywords: [
+      L("dispositivo condiviso", "shared device"),
+      L("un solo dispositivo", "one device"),
+      L("hot seat", "hot seat"),
+      L("cooperativa locale", "local co-op"),
+    ],
+    group: "table",
+    when: () => notDetached(),
+    run: (ctx) => {
+      if (!sharedDeviceOn(ctx)) ctx.registry.setSetting(ctx, SHARED_DEVICE, true);
+      ui.handoff = ctx.role === "dm" ? "player" : "dm";
+      if (ctx.view?.page !== "table") ctx.navigate("table");
+      else ctx.render();
+    },
+  });
+  registry.add("table-panel", {
     id: "session-view-controls",
     section: "scene",
     label: L("Sessione", "Session"),
@@ -3510,6 +3645,25 @@ export function register(registry) {
       setTimeout(go, 0);
     } else go();
   };
+  // Close review 01/10 (SV-02, findability): «avvia sessione» and «fine sessione» find the
+  // Session panel's state card, where the session starts and ends.
+  registry.add("command", {
+    id: "session-view.lifecycle",
+    label: L("Avvia o termina la sessione", "Start or end the session"),
+    description: L(
+      "Stato della sessione al Tavolo: avvia, termina o riapri; presenze e racconto partono da qui",
+      "Session state at the Table: start, end or reopen; presence and the story begin here",
+    ),
+    keywords: [
+      L("avvia sessione", "start session"),
+      L("inizia la sessione", "begin the session"),
+      L("fine sessione", "end session"),
+      L("termina la sessione", "finish the session"),
+      L("chiudi la sessione", "close the session"),
+    ],
+    when: (ctx) => notDetached() && runsSession(ctx.state, ctx.role),
+    run: (ctx) => openPart(ctx, "sv-state"),
+  });
   registry.add("command", {
     id: "session-view.timer",
     label: L("Conto alla rovescia (timer)", "Countdown (timer)"),

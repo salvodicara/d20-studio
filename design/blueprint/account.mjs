@@ -179,7 +179,35 @@ function normalizeProfile(raw, fallback) {
     privacy: { showLastSeen: raw.privacy?.showLastSeen === true },
     lastSeenAt: date(raw.lastSeenAt) ? raw.lastSeenAt : fallback.lastSeenAt,
     deletion,
+    ...normalizeSecurity(raw),
   };
+}
+// SV-56 and SV-28 (close review 01/10): kept only when present, so older saves are unchanged.
+function normalizeSecurity(raw) {
+  const out = {};
+  const tf = raw.twoFactor;
+  if (isObject(tf) && text(tf.secret, 64) && /^[A-Z2-7]{16,32}$/.test(tf.secret))
+    out.twoFactor = {
+      secret: tf.secret,
+      enabled: tf.enabled === true,
+      enabledAt: date(tf.enabledAt) ? tf.enabledAt : null,
+      recovery: (Array.isArray(tf.recovery) ? tf.recovery : [])
+        .filter((code) => isObject(code) && /^[a-z0-9]{4}-[a-z0-9]{4}$/.test(code.code))
+        .slice(0, 10)
+        .map((code) => ({ code: code.code, used: code.used === true })),
+    };
+  if (isObject(raw.pendingSecondStep) && Object.hasOwn(PROVIDERS, raw.pendingSecondStep.provider))
+    out.pendingSecondStep = { provider: raw.pendingSecondStep.provider };
+  const age = raw.age;
+  if (isObject(age) && AGE_BANDS.includes(age.band))
+    out.age = {
+      band: age.band,
+      birthYear: Number.isInteger(age.birthYear) ? age.birthYear : null,
+      consent: ["none", "pending", "granted"].includes(age.consent) ? age.consent : "none",
+      parent: text(age.parent, 120) ? age.parent : "",
+      at: date(age.at) ? age.at : null,
+    };
+  return out;
 }
 export function normalizeAccount(slice, fromVersion = SLICE_VERSION, now = Date.now()) {
   if (fromVersion > SLICE_VERSION) throw Error("Account data comes from a newer version");
@@ -562,6 +590,190 @@ export function unlinkService(draft, identityId, service, { now = Date.now() } =
     refuse("Il servizio non è collegato.", "The service is not linked.");
   profile.linked = profile.linked.filter((l) => l.service !== service);
 }
+// ---------------------------------------------------------------- two-step verification (SV-56)
+
+// Close review 01/10 (Wizards account behind D&D Beyond and Roll20: an authenticator app code
+// after the sign-in method, ten single-use recovery codes). Demonstration: the «app» is a
+// simulation that shows the code of the moment; no secret leaves this browser and nothing is
+// sent anywhere. A real product uses RFC 6238 TOTP on its server.
+const BASE32 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
+const WINDOW_MS = 30000;
+function fnv(text) {
+  let hash = 0x811c9dc5;
+  for (let i = 0; i < text.length; i++) {
+    hash ^= text.charCodeAt(i);
+    hash = Math.imul(hash, 0x01000193) >>> 0;
+  }
+  return hash >>> 0;
+}
+/** The simulated authenticator's six digits for `secret` in the 30-second window of `at`. */
+export function demoCode(secret, at = Date.now()) {
+  return String(fnv(`${secret}:${Math.floor(at / WINDOW_MS)}`) % 1000000).padStart(6, "0");
+}
+const codeOk = (secret, code, at) => {
+  const typed = String(code ?? "").replace(/\s+/g, "");
+  return [0, -WINDOW_MS].some((shift) => demoCode(secret, at + shift) === typed);
+};
+function randomText(length, alphabet) {
+  const bytes = new Uint8Array(length);
+  globalThis.crypto.getRandomValues(bytes);
+  return [...bytes].map((b) => alphabet[b % alphabet.length]).join("");
+}
+export function beginTwoFactor(draft, identityId, { now = Date.now() } = {}) {
+  const profile = mutableProfile(draft, identityId, now);
+  requireEditable(profile);
+  if (profile.twoFactor?.enabled)
+    refuse("La verifica in due passaggi è già attiva.", "Two-step verification is already on.");
+  profile.twoFactor = {
+    secret: randomText(16, BASE32),
+    enabled: false,
+    enabledAt: null,
+    recovery: [],
+  };
+  return profile.twoFactor.secret;
+}
+export function confirmTwoFactor(draft, identityId, code, { now = Date.now() } = {}) {
+  const profile = mutableProfile(draft, identityId, now);
+  requireEditable(profile);
+  const tf = profile.twoFactor;
+  if (!tf || tf.enabled) refuse("Avvia prima l’attivazione.", "Start the set-up first.");
+  if (!codeOk(tf.secret, code, now))
+    refuse(
+      "Il codice non corrisponde: scrivi le sei cifre che l’app mostra ora.",
+      "The code does not match: type the six digits the app shows now.",
+    );
+  tf.enabled = true;
+  tf.enabledAt = iso(now);
+  const alphabet = "abcdefghjkmnpqrstuvwxyz23456789";
+  tf.recovery = Array.from({ length: 10 }, () => ({
+    code: `${randomText(4, alphabet)}-${randomText(4, alphabet)}`,
+    used: false,
+  }));
+  return tf.recovery.map((row) => row.code);
+}
+export function disableTwoFactor(draft, identityId, code, { now = Date.now() } = {}) {
+  const profile = mutableProfile(draft, identityId, now);
+  requireEditable(profile);
+  const tf = profile.twoFactor;
+  if (!tf?.enabled)
+    refuse("La verifica in due passaggi non è attiva.", "Two-step verification is off.");
+  if (!codeOk(tf.secret, code, now))
+    refuse(
+      "Serve il codice dell’app per disattivarla.",
+      "The app’s code is needed to turn it off.",
+    );
+  delete profile.twoFactor;
+}
+/** Second step of a sign-in: the app's code, or one unused recovery code (spent). */
+export function verifySecondStep(draft, identityId, code, { now = Date.now() } = {}) {
+  const profile = mutableProfile(draft, identityId, now);
+  const tf = profile.twoFactor;
+  if (!profile.pendingSecondStep || !tf?.enabled)
+    refuse("Nessun accesso in attesa del codice.", "No sign-in is waiting for a code.");
+  const typed = String(code ?? "")
+    .trim()
+    .toLowerCase();
+  const recovery = tf.recovery.find((row) => !row.used && row.code === typed);
+  if (!recovery && !codeOk(tf.secret, typed, now))
+    refuse(
+      "Codice non valido: usa le sei cifre dell’app o un codice di recupero non usato.",
+      "Invalid code: use the app’s six digits or an unused recovery code.",
+    );
+  if (recovery) recovery.used = true;
+  delete profile.pendingSecondStep;
+  profile.session = "account";
+  profile.lastSeenAt = iso(now);
+  return { recovery: Boolean(recovery), left: tf.recovery.filter((row) => !row.used).length };
+}
+
+// ---------------------------------------------------------------- age and consent (SV-28)
+
+// Close review 01/10 (D&D Beyond through k-ID, Roll20's 13/16 limits, StartPlaying 18+): the
+// account records an age band, never the birth date. Under the digital-consent age a parent
+// must agree before public tables and adult listings; teens never see adult listings. The
+// threshold is Italy's 14 years (GDPR art. 8, Codice privacy art. 2-quinquies); the product's
+// final policy per country is a legal decision (I-233). Demonstration: no email is sent.
+export const AGE_BANDS = Object.freeze(["child", "teen", "adult"]);
+export const CONSENT_AGE = 14;
+export function ageBand(birthYear, now = Date.now()) {
+  const age = new Date(now).getUTCFullYear() - birthYear;
+  return age < CONSENT_AGE ? "child" : age < 18 ? "teen" : "adult";
+}
+export function declareAge(draft, identityId, birthYear, { now = Date.now() } = {}) {
+  const profile = mutableProfile(draft, identityId, now);
+  requireEditable(profile);
+  const year = Number(birthYear);
+  const current = new Date(now).getUTCFullYear();
+  if (!Number.isInteger(year) || year < current - 120 || year > current - 3)
+    refuse("Scrivi un anno di nascita valido.", "Type a valid birth year.");
+  const band = ageBand(year, now);
+  profile.age = {
+    band,
+    birthYear: null,
+    consent: band === "child" ? "none" : "granted",
+    parent: "",
+    at: iso(now),
+  };
+  return band;
+}
+export function requestParentConsent(draft, identityId, email, { now = Date.now() } = {}) {
+  const profile = mutableProfile(draft, identityId, now);
+  if (profile.age?.band !== "child")
+    refuse(
+      "Il consenso del genitore serve solo sotto i 14 anni.",
+      "Parental consent is needed only under 14.",
+    );
+  const clean = String(email ?? "").trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clean) || clean.length > 120)
+    refuse("Scrivi l’email di un genitore.", "Type a parent’s email.");
+  profile.age.consent = "pending";
+  profile.age.parent = clean.replace(/^(.).*(@.*)$/, "$1…$2");
+  profile.age.at = iso(now);
+}
+/** Demonstration only: the parent's answer, which a real product receives by email. */
+export function answerParentConsent(draft, identityId, granted, { now = Date.now() } = {}) {
+  const profile = mutableProfile(draft, identityId, now);
+  if (profile.age?.consent !== "pending")
+    refuse("Nessuna richiesta di consenso in attesa.", "No consent request is pending.");
+  profile.age.consent = granted ? "granted" : "none";
+  profile.age.at = iso(now);
+}
+/**
+ * What the age policy allows this identity: public tables (listings and joining) and adult
+ * (18+) listings. Undeclared ages keep today's behaviour (declared per listing).
+ */
+export function agePolicy(state, identityId) {
+  const age = profileOf(state, identityId).age;
+  if (!age) return { declared: false, publicTables: true, adultListings: true, reason: null };
+  if (age.band === "adult")
+    return { declared: true, publicTables: true, adultListings: true, reason: null };
+  if (age.band === "teen")
+    return {
+      declared: true,
+      publicTables: true,
+      adultListings: false,
+      reason: L(
+        "Sotto i 18 anni gli annunci per adulti restano nascosti.",
+        "Under 18, adult listings stay hidden.",
+      ),
+    };
+  return {
+    declared: true,
+    publicTables: age.consent === "granted",
+    adultListings: false,
+    reason:
+      age.consent === "granted"
+        ? L(
+            "Sotto i 14 anni gli annunci per adulti restano nascosti.",
+            "Under 14, adult listings stay hidden.",
+          )
+        : L(
+            "Sotto i 14 anni i tavoli pubblici si aprono dopo il consenso di un genitore (Account › Profilo).",
+            "Under 14, public tables open after a parent’s consent (Account › Profile).",
+          ),
+  };
+}
+
 // Signing out and back in (simulated). The last sign-in is the account's, not a
 // campaign's.
 export function signOut(draft, identityId, { now = Date.now() } = {}) {
@@ -578,8 +790,14 @@ export function signIn(draft, identityId, provider, { now = Date.now() } = {}) {
       `Nessun account con ${PROVIDERS[provider]?.it ?? "questo metodo"} in questa dimostrazione: usa un metodo collegato.`,
       `No account uses ${PROVIDERS[provider]?.en ?? "this method"} in this demonstration: use a linked method.`,
     );
+  // SV-56: with two-step verification the sign-in waits for the second step.
+  if (profile.twoFactor?.enabled) {
+    profile.pendingSecondStep = { provider };
+    return { secondStep: true };
+  }
   profile.session = "account";
   profile.lastSeenAt = iso(now);
+  return { secondStep: false };
 }
 // IN-10 «Crea un account per salvare»: the trial identity becomes an account with the
 // chosen sign-in method; its trial data is kept (the shell then makes it the device data).
@@ -1089,7 +1307,42 @@ function profileTab(ctx, profile) {
     : "";
   return `<div class="account-grid"><section class="panel" aria-labelledby="account-name-title"><h2 id="account-name-title">${ctx.t("Nome visualizzato", "Display name")}</h2><form data-account-name-form><label class="field">${ctx.t("Nome che vedono i membri", "Name members see")}<input name="displayName" data-account-name maxlength="32" autocomplete="nickname" value="${ctx.esc(value)}"${locked}></label><p class="muted">${ctx.t("Compare nell’elenco dei membri, nel diario, nelle sessioni e in chat di tutte le tue campagne. Il nome del personaggio non cambia.", "It appears in the member list, journal, sessions and chat of all your campaigns. Your character’s name does not change.")}</p><p class="muted">${ctx.t("Da 2 a 32 caratteri; non un ruolo (DM, GM, Master) né il nome di un altro membro delle tue campagne.", "2 to 32 characters; not a role (DM, GM, Master) nor the name of another member of your campaigns.")}</p><button type="submit" class="button primary"${locked}>${ctx.t("Salva nome", "Save name")}</button></form>${history ? `<h3>${ctx.t("Nomi precedenti", "Previous names")}</h3><ul class="item-list account-history">${history}</ul>` : ""}</section>
   <section class="panel" aria-labelledby="account-avatar-title"><h2 id="account-avatar-title">${ctx.t("Avatar", "Avatars")}</h2><p class="muted">${ctx.t(`Tieni fino a ${MAX_AVATARS} avatar e scegli quello da mostrare. Le iniziali restano come riserva.`, `Keep up to ${MAX_AVATARS} avatars and choose the one to show. Initials remain as the fallback.`)}</p><ul class="account-avatars">${avatars}</ul>${removed}<div class="toolbar"><label class="button account-upload${full || locked ? " is-disabled" : ""}">${ctx.t("Carica immagine", "Upload image")}<input type="file" data-account-upload accept="image/png,image/jpeg,image/webp,image/gif"${locked || (full ? ' disabled aria-describedby="account-avatars-why"' : "")}></label><button type="button" class="button" data-account-emblem${locked || (full ? ' disabled aria-describedby="account-avatars-why"' : "")}>${ctx.t("Crea emblema", "Create emblem")}</button></div><p class="muted" id="account-avatars-why">${full ? ctx.t(`Hai ${MAX_AVATARS} avatar: eliminane uno per aggiungerne altri.`, `You have ${MAX_AVATARS} avatars: delete one to add more.`) : ctx.t("PNG, JPEG, WebP o GIF fino a 2 MB, ritagliata al centro.", "PNG, JPEG, WebP or GIF up to 2 MB, cropped to the centre.")}</p>${ui.uploadBusy ? `<p role="status">${ctx.t("Preparazione dell’immagine…", "Preparing the image…")}</p>` : ""}${ui.uploadError ? `<p class="error" role="alert" data-account-upload-error>${ctx.esc(ui.uploadError)}</p>` : ""}</section>
-  ${previewHTML(ctx)}</div>`;
+  ${previewHTML(ctx)}${agePanel(ctx, profile)}</div>`;
+}
+/** SV-28: the age band and, under 14, the parent's consent (k-ID, Roll20). */
+function agePanel(ctx, profile) {
+  const age = profile.age;
+  const locked = profile.deletion ? LOCKED : "";
+  const bandName = {
+    child: ctx.t("sotto i 14 anni", "under 14"),
+    teen: ctx.t("tra 14 e 17 anni", "14 to 17"),
+    adult: ctx.t("maggiorenne", "adult"),
+  };
+  let body;
+  if (!age)
+    body = `<form data-account-age-form><label class="field">${ctx.t("Anno di nascita", "Birth year")}<input name="year" type="number" inputmode="numeric" min="1900" max="2030" step="1" required${locked}></label><p class="muted">${ctx.t("Si conserva solo la fascia d’età, non l’anno. Sotto i 14 anni serve il consenso di un genitore per i tavoli pubblici; sotto i 18 gli annunci per adulti restano nascosti.", "Only the age band is kept, not the year. Under 14 a parent’s consent is needed for public tables; under 18 adult listings stay hidden.")}</p><button type="submit" class="button"${locked}>${ctx.t("Salva la fascia d’età", "Save the age band")}</button></form>`;
+  else if (age.band !== "child")
+    body = `<p>${ctx.t("Fascia d’età", "Age band")}: <strong data-account-age-band>${ctx.esc(bandName[age.band])}</strong>.</p>${age.band === "teen" ? `<p class="muted">${ctx.t("Gli annunci per adulti (18+) dei tavoli pubblici restano nascosti.", "Adult (18+) public table listings stay hidden.")}</p>` : ""}`;
+  else
+    body = `<p>${ctx.t("Fascia d’età", "Age band")}: <strong data-account-age-band>${ctx.esc(bandName.child)}</strong> · ${ctx.t("consenso del genitore", "parent’s consent")}: <strong data-account-consent>${age.consent === "granted" ? ctx.t("dato", "given") : age.consent === "pending" ? ctx.t("in attesa", "pending") : ctx.t("non ancora chiesto", "not asked yet")}</strong></p>${
+      age.consent === "none"
+        ? `<form data-account-consent-form><label class="field">${ctx.t("Email di un genitore o tutore", "A parent’s or guardian’s email")}<input name="email" type="email" autocomplete="off" required${locked}></label><button type="submit" class="button"${locked}>${ctx.t("Chiedi il consenso", "Ask for consent")}</button></form>`
+        : age.consent === "pending"
+          ? `<p class="muted">${ctx.t(`Richiesta inviata a ${age.parent} (simulazione: nessuna email parte).`, `Request sent to ${age.parent} (simulation: no email is sent).`)}</p><div class="toolbar"><button type="button" class="button" data-account-consent-answer="yes">${ctx.t("Simula: il genitore acconsente", "Simulate: the parent agrees")}</button><button type="button" class="button quiet" data-account-consent-answer="no">${ctx.t("Simula: il genitore rifiuta", "Simulate: the parent declines")}</button></div>`
+          : `<p class="muted">${ctx.t("I tavoli pubblici sono aperti; gli annunci per adulti restano nascosti.", "Public tables are open; adult listings stay hidden.")}</p>`
+    }`;
+  return `<section class="panel" aria-labelledby="account-age-title" data-account-age><h2 id="account-age-title">${ctx.t("Età e consenso", "Age and consent")}</h2>${body}</section>`;
+}
+/** SV-56: the two-step verification panel of «Accesso e servizi». */
+function twoFactorPanel(ctx, profile) {
+  const tf = profile.twoFactor;
+  const locked = profile.deletion ? LOCKED : "";
+  const left = tf?.enabled ? tf.recovery.filter((row) => !row.used).length : 0;
+  return `<section class="panel" aria-labelledby="account-2fa-title" data-account-2fa><h2 id="account-2fa-title">${ctx.t("Verifica in due passaggi", "Two-step verification")}</h2><p class="muted">${ctx.t("Dopo il metodo d’accesso, chiede il codice a sei cifre di un’app di autenticazione. Dimostrazione: l’app è simulata qui sotto.", "After the sign-in method, it asks for the six-digit code of an authenticator app. Demonstration: the app is simulated below.")}</p>${
+    tf?.enabled
+      ? `<p><span class="badge" data-account-2fa-state>${ctx.t("Attiva", "On")}</span> ${ctx.t("dal", "since")} ${ctx.esc(day(ctx, tf.enabledAt))} · ${ctx.t("codici di recupero rimasti", "recovery codes left")}: <strong>${left}</strong>/10</p><p class="muted" data-account-2fa-app>${ctx.t("App di autenticazione (simulata)", "Authenticator app (simulated)")}: <strong>${demoCode(tf.secret)}</strong></p><button type="button" class="button quiet" data-account-2fa-off${locked}>${ctx.t("Disattiva…", "Turn off…")}</button>`
+      : `<p><span class="badge" data-account-2fa-state>${ctx.t("Non attiva", "Off")}</span></p><button type="button" class="button" data-account-2fa-on${locked}>${ctx.t("Attiva la verifica in due passaggi…", "Turn on two-step verification…")}</button>`
+  }</section>`;
 }
 function accessTab(ctx, profile) {
   const locked = profile.deletion ? LOCKED : "";
@@ -1110,6 +1363,7 @@ function accessTab(ctx, profile) {
     })
     .join("");
   return `<div class="account-grid"><section class="panel" aria-labelledby="account-methods-title"><h2 id="account-methods-title">${ctx.t("Metodi d’accesso", "Sign-in methods")}</h2><p class="muted">${ctx.t("Servono per entrare nell’account. Dimostrazione: nessuna autenticazione reale e nessun fornitore contattato.", "They let you into the account. Demonstration: no real authentication and no provider is contacted.")}</p><ul class="item-list">${methods}</ul>${only ? `<p class="account-note" id="account-only-why">${ctx.t("È l’unico metodo d’accesso: aggiungine un altro prima di rimuoverlo.", "It is the only sign-in method: add another before removing it.")}</p>` : ""}${addable.length ? `<div class="toolbar account-add">${addable.map((p) => `<button type="button" class="button" data-account-add-method="${p}"${locked}>${ctx.t("Aggiungi", "Add")} ${ctx.esc(ctx.label(PROVIDERS[p]))}</button>`).join("")}</div>` : ""}</section>
+  ${twoFactorPanel(ctx, profile)}
   <section class="panel" aria-labelledby="account-services-title"><h2 id="account-services-title">${ctx.t("Servizi collegati", "Linked services")}</h2><p class="muted">${ctx.t("Un servizio collegato non è un metodo d’accesso: non puoi entrare con Discord.", "A linked service is not a sign-in method: you cannot sign in with Discord.")}</p><ul class="item-list">${services}</ul></section>
   <section class="panel" aria-labelledby="account-session-title"><h2 id="account-session-title">${ctx.t("Questo browser", "This browser")}</h2><p>${ctx.t("Hai effettuato l’accesso come", "Signed in as")} <strong>${ctx.esc(displayNameOf(ctx.state, ctx.role, ctx.lang))}</strong>.</p><p>${ctx.t("Ultimo accesso all’account (lo vedi solo tu)", "Last sign-in to the account (only you see it)")}: <strong data-account-own-sign-in>${ctx.esc(when(ctx, profile.lastSeenAt))}</strong>.</p><p class="muted">${ctx.t("Per uscire usa «Esci» in cima alla pagina o nel menu dell’account. Finché non accedi di nuovo, questo browser mostra solo la schermata d’accesso: pagine, ricerca, notifiche e comandi restano chiusi; restano lingua e preferenze del dispositivo.", "To sign out use “Sign out” at the top of the page or in the account menu. Until you sign in again, this browser shows only the sign-in screen: pages, search, notifications and commands stay closed; language and device preferences remain.")}</p></section></div>`;
 }
@@ -1295,6 +1549,9 @@ function sandboxScreen(ctx) {
     )}</div><button type="button" class="button quiet" data-account-trial-continue>${ctx.t("Continua a provare", "Keep trying")}</button></div></section>`;
 }
 function signInScreen(ctx, profile) {
+  // SV-56: after the method, the second step (the app's code or a recovery code).
+  if (profile.pendingSecondStep && profile.twoFactor?.enabled)
+    return `<section class="account-signin" aria-labelledby="account-signin-title"><div class="panel"><h2 id="account-signin-title">${ctx.t("Verifica in due passaggi", "Two-step verification")}</h2><p>${ctx.t("Scrivi il codice a sei cifre dell’app di autenticazione, oppure un codice di recupero non ancora usato.", "Type the six-digit code of your authenticator app, or an unused recovery code.")}</p><form data-account-second-step><label class="field">${ctx.t("Codice", "Code")}<input name="code" autocomplete="one-time-code" inputmode="text" maxlength="9" required data-account-second-code></label><button type="submit" class="button primary">${ctx.t("Verifica e accedi", "Verify and sign in")}</button></form><p class="muted" data-account-2fa-app>${ctx.t("App di autenticazione (simulata)", "Authenticator app (simulated)")}: <strong>${demoCode(profile.twoFactor.secret)}</strong> · ${ctx.t("cambia ogni 30 secondi", "changes every 30 seconds")}</p></div></section>`;
   return `<section class="account-signin" aria-labelledby="account-signin-title"><div class="panel"><h2 id="account-signin-title">${ctx.t("Accedi a d20 Studio", "Sign in to d20 Studio")}</h2><p>${ctx.t("Per usare personaggi, campagne, appunti e Tavolo accedi di nuovo.", "Sign in again to use characters, campaigns, notes and the Table.")}</p><p class="muted" data-account-closed>${ctx.t("Finché non accedi, le altre pagine, la ricerca, le notifiche e i comandi restano chiusi; dopo l’accesso torni alla pagina che avevi chiesto. Lingua e preferenze del dispositivo restano in «Preferenze».", "Until you sign in, other pages, search, notifications and commands stay closed; after signing in you return to the page you asked for. Language and device preferences remain in “Preferences”.")}</p><p class="muted">${ctx.t("Dimostrazione: scegli un metodo. Nessuna password, nessuna finestra del fornitore, nessun dato inviato.", "Demonstration: choose a method. No password, no provider window, no data sent.")}</p><div class="account-signin-methods">${Object.keys(
     PROVIDERS,
   )
@@ -1597,6 +1854,91 @@ function signOutNow(ctx) {
   if (done) ctx.toast(ctx.t("Sei uscito da questo browser.", "You signed out of this browser."));
   return done;
 }
+// SV-56 and SV-28 controls (two-step verification, age and consent).
+function bindSecurity(root, ctx) {
+  root.querySelector("[data-account-2fa-on]")?.addEventListener("click", () => {
+    let secret = null;
+    if (
+      !run(
+        ctx,
+        ctx.t("Verifica in due passaggi: attivazione", "Two-step verification: set-up"),
+        (draft) => (secret = beginTwoFactor(draft, ctx.role)),
+      )
+    )
+      return;
+    const key = secret.replace(/(.{4})/g, "$1 ").trim();
+    ctx.dialog(
+      ctx.t("Attiva la verifica in due passaggi", "Turn on two-step verification"),
+      `<ol><li>${ctx.t("Aggiungi l’account all’app di autenticazione con questa chiave", "Add the account to your authenticator app with this key")}: <code data-account-2fa-key>${ctx.esc(key)}</code></li><li>${ctx.t("Scrivi il codice a sei cifre che l’app mostra ora.", "Type the six-digit code the app shows now.")}</li></ol><p class="muted" data-account-2fa-app>${ctx.t("App di autenticazione (simulata)", "Authenticator app (simulated)")}: <strong>${demoCode(secret)}</strong></p><label class="field">${ctx.t("Codice dell’app", "App code")}<input name="code" autocomplete="one-time-code" inputmode="numeric" maxlength="6" required></label>`,
+      {
+        submitLabel: ctx.t("Attiva", "Turn on"),
+        onSubmit: (data) => {
+          let codes = null;
+          const done = run(
+            ctx,
+            ctx.t("Verifica in due passaggi attivata", "Two-step verification turned on"),
+            (draft) => (codes = confirmTwoFactor(draft, ctx.role, data.get("code"))),
+          );
+          if (!done) return false;
+          const text = codes.join("\n");
+          ctx.dialog(
+            ctx.t("Codici di recupero", "Recovery codes"),
+            `<p>${ctx.t("Ognuno vale una volta, se non hai l’app. Conservali in un posto sicuro: non li vedrai più.", "Each works once, if you do not have the app. Keep them somewhere safe: you will not see them again.")}</p><ul class="account-recovery" data-account-recovery>${codes.map((code) => `<li><code>${ctx.esc(code)}</code></li>`).join("")}</ul><a class="button" download="d20-studio-codici-di-recupero.txt" href="data:text/plain;charset=utf-8,${encodeURIComponent(text)}">${ctx.t("Scarica i codici", "Download the codes")}</a>`,
+            { cancelLabel: ctx.t("Li ho conservati", "I kept them") },
+          );
+        },
+      },
+    );
+  });
+  root.querySelector("[data-account-2fa-off]")?.addEventListener("click", () =>
+    ctx.dialog(
+      ctx.t("Disattivare la verifica in due passaggi?", "Turn off two-step verification?"),
+      `<p>${ctx.t("L’accesso tornerà a chiedere solo il metodo d’accesso.", "Signing in will ask only for the sign-in method again.")}</p><label class="field">${ctx.t("Codice dell’app", "App code")}<input name="code" autocomplete="one-time-code" inputmode="numeric" maxlength="6" required></label>`,
+      {
+        submitLabel: ctx.t("Disattiva", "Turn off"),
+        onSubmit: (data) =>
+          run(
+            ctx,
+            ctx.t("Verifica in due passaggi disattivata", "Two-step verification turned off"),
+            (draft) => disableTwoFactor(draft, ctx.role, data.get("code")),
+          )
+            ? undefined
+            : false,
+      },
+    ),
+  );
+  root.querySelector("[data-account-age-form]")?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const year = new FormData(event.currentTarget).get("year");
+    run(
+      ctx,
+      ctx.t("Fascia d’età registrata", "Age band recorded"),
+      (draft) => declareAge(draft, ctx.role, year),
+      {
+        focus: "[data-account-age] h2",
+      },
+    );
+  });
+  root.querySelector("[data-account-consent-form]")?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const email = new FormData(event.currentTarget).get("email");
+    run(ctx, ctx.t("Consenso del genitore richiesto", "Parent’s consent requested"), (draft) =>
+      requestParentConsent(draft, ctx.role, email),
+    );
+  });
+  root
+    .querySelectorAll("[data-account-consent-answer]")
+    .forEach((button) =>
+      button.addEventListener("click", () =>
+        run(
+          ctx,
+          ctx.t("Risposta del genitore (simulata)", "Parent’s answer (simulated)"),
+          (draft) =>
+            answerParentConsent(draft, ctx.role, button.dataset.accountConsentAnswer === "yes"),
+        ),
+      ),
+    );
+}
 export function bindAccount(root, ctx) {
   const profile = profileOf(ctx.state, ctx.role);
   bindCommon(root, ctx);
@@ -1682,17 +2024,53 @@ export function bindAccount(root, ctx) {
         return;
       const identity = ctx.role;
       const back = ctx.view?.requested;
+      let step = null;
       const done = run(
         ctx,
         ctx.t("Accesso effettuato", "Signed in"),
-        (draft) => signIn(draft, identity, b.dataset.accountSignin),
-        { focus: "[data-account-heading]", signIn: true },
+        (draft) => (step = signIn(draft, identity, b.dataset.accountSignin)),
+        { focus: "[data-account-second-code], [data-account-heading]", signIn: true },
       );
       if (!done) return;
+      if (step?.secondStep) {
+        ctx.toast(
+          ctx.t(
+            "Serve il secondo passaggio: il codice dell’app.",
+            "The second step is needed: the app’s code.",
+          ),
+        );
+        return;
+      }
       ctx.toast(ctx.t("Accesso effettuato (simulato).", "Signed in (simulated)."));
       if (back?.page && back.page !== ACCOUNT_ID) ctx.navigate(back.page, routeParams(back));
     };
   });
+  root.querySelector("[data-account-second-step]")?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const code = new FormData(event.currentTarget).get("code");
+    const back = ctx.view?.requested;
+    let result = null;
+    const done = run(
+      ctx,
+      ctx.t("Accesso effettuato", "Signed in"),
+      (draft) => (result = verifySecondStep(draft, ctx.role, code)),
+      { focus: "[data-account-heading]", signIn: true },
+    );
+    if (!done) return;
+    ctx.toast(
+      result?.recovery
+        ? ctx.t(
+            `Accesso con un codice di recupero: ne restano ${result.left}.`,
+            `Signed in with a recovery code: ${result.left} left.`,
+          )
+        : ctx.t(
+            "Accesso effettuato con la verifica in due passaggi.",
+            "Signed in with two-step verification.",
+          ),
+    );
+    if (back?.page && back.page !== ACCOUNT_ID) ctx.navigate(back.page, routeParams(back));
+  });
+  bindSecurity(root, ctx);
   // Profile: display name with an unsaved-draft guard.
   const nameInput = root.querySelector("[data-account-name]");
   nameInput?.addEventListener("input", () => {

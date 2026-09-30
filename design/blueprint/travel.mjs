@@ -570,7 +570,7 @@ function weatherHTML(ctx, c) {
   // The empty choice follows the World calendar (B42): it names the season it gives now.
   const calendarSeason = D.weatherSeason(ctx.state, null, cid(ctx));
   const controls = dm
-    ? `<div class="travel-form-grid"><label class="field">${ctx.t("Clima", "Climate")}<select data-travel-climate>${D.CLIMATES.map((x) => `<option value="${x.id}"${x.id === climate ? " selected" : ""}>${esc(ctx, pick(ctx, x.name))}</option>`).join("")}</select></label><label class="field">${ctx.t("Stagione", "Season")}<select data-travel-season><option value=""${c.weather.season ? "" : " selected"}>${ctx.t("Dal calendario", "From the calendar")} (${esc(ctx, pick(ctx, D.SEASONS.find((s) => s.id === calendarSeason)?.name))})</option>${D.SEASONS.map((x) => `<option value="${x.id}"${x.id === c.weather.season ? " selected" : ""}>${esc(ctx, pick(ctx, x.name))}</option>`).join("")}</select></label></div><div class="toolbar">${button(ctx, "data-travel-weather-roll", ctx.t("Genera il meteo", "Generate weather"))}${button(ctx, "data-travel-weather-set", ctx.t("Cambia", "Change"), "quiet")}${day && !day.hidden ? `<label class="travel-check-label"><input type="checkbox" data-travel-weather-share${day.shared ? " checked" : ""}> ${ctx.t("Mostra ai giocatori", "Show to players")}</label>` : ""}${day && !day.hidden && D.MAP_WEATHER[day.conditionId] ? `<label class="travel-check-label"><input type="checkbox" data-travel-weather-map${day.onMap ? " checked" : ""}> ${ctx.t("Sulla mappa", "On the map")}</label>` : ""}</div><p class="muted">${sourceLink(ctx, D.AUTHORED.weather)}</p>`
+    ? `<div class="travel-form-grid"><label class="field">${ctx.t("Clima", "Climate")}<select data-travel-climate>${D.CLIMATES.map((x) => `<option value="${x.id}"${x.id === climate ? " selected" : ""}>${esc(ctx, pick(ctx, x.name))}</option>`).join("")}</select></label><label class="field">${ctx.t("Stagione", "Season")}<select data-travel-season><option value=""${c.weather.season ? "" : " selected"}>${ctx.t("Dal calendario", "From the calendar")} (${esc(ctx, pick(ctx, D.SEASONS.find((s) => s.id === calendarSeason)?.name))})</option>${D.SEASONS.map((x) => `<option value="${x.id}"${x.id === c.weather.season ? " selected" : ""}>${esc(ctx, pick(ctx, x.name))}</option>`).join("")}</select></label></div><div class="toolbar">${button(ctx, "data-travel-weather-roll", ctx.t("Genera il meteo", "Generate weather"))}${button(ctx, "data-travel-weather-set", ctx.t("Cambia", "Change"), "quiet")}${day && !day.hidden ? `<label class="travel-check-label"><input type="checkbox" data-travel-weather-share${day.shared ? " checked" : ""}> ${ctx.t("Mostra ai giocatori", "Show to players")}</label>` : ""}${day && !day.hidden && D.MAP_WEATHER[day.conditionId] ? `<label class="travel-check-label"><input type="checkbox" data-travel-weather-map${day.onMap ? " checked" : ""}> ${ctx.t("Sulla mappa", "On the map")}</label>` : ""}${dmOf(ctx) ? button(ctx, "data-travel-scene-weather", ctx.t("Meteo sulla scena…", "Weather on the scene…"), "quiet") : ""}</div><p class="muted">${sourceLink(ctx, D.AUTHORED.weather)}</p>`
     : "";
   return `<section class="travel-card" aria-labelledby="travel-weather-title"><h3 id="travel-weather-title">${ctx.t("Meteo di oggi", "Today’s weather")}</h3>${body}${controls}</section>`;
 }
@@ -1198,6 +1198,7 @@ function bindJourney(root, ctx) {
       ),
     "change",
   );
+  on(root, "[data-travel-scene-weather]", () => openSceneWeather(ctx));
   on(root, "[data-travel-weather-roll]", () =>
     rollDialog(ctx, {
       title: ctx.t("Meteo del giorno", "Weather of the day"),
@@ -1640,22 +1641,62 @@ function layerSVG(ctx, tableView) {
       : "";
   return `<g class="travel-layer">${lights}${points}${ghost}</g>`;
 }
+// TV-154, close review 01/10 (Foundry scene «Weather Effect»): the effect is animated — rain
+// and snow fall, leaves drift, fog breathes — by moving an oversized tile band by one tile
+// (a seamless loop); reduced motion keeps it still. Picture content, never interface.
+const WEATHER_TILES = {
+  rain: [24, `<path d="M4 0 L0 12 M16 8 L12 20" class="travel-rain-line"/>`],
+  storm: [20, `<path d="M4 0 L-1 14 M14 6 L9 20" class="travel-rain-line is-heavy"/>`],
+  snow: [
+    30,
+    `<circle cx="6" cy="8" r="1.8" class="travel-snow-dot"/><circle cx="21" cy="22" r="1.4" class="travel-snow-dot"/>`,
+  ],
+  wind: [
+    60,
+    `<path d="M8 12 q6 -6 12 0 q-6 6 -12 0Z" class="travel-leaf"/><path d="M38 44 q5 -5 10 0 q-5 5 -10 0Z" class="travel-leaf"/><path d="M0 30 h26 M34 54 h20" class="travel-gust"/>`,
+  ],
+};
 function weatherSVG(ctx, tableView) {
   const scene = tableView?.scene;
   if (!scene) return "";
-  const day = D.todayWeather(ctx.state, campaignOf(ctx), ctx.role, cid(ctx));
-  if (!day || day.hidden || !day.onMap) return "";
-  const kind = D.MAP_WEATHER[day.conditionId];
+  const kind = D.mapWeatherFor(ctx.state, campaignOf(ctx), ctx.role, scene.id, cid(ctx));
   if (!kind) return "";
   const w = scene.width || 1000,
     h = scene.height || 650;
-  const pattern =
-    kind === "rain"
-      ? `<pattern id="travel-rain" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M4 0 L0 12 M16 8 L12 20" class="travel-rain-line"/></pattern>`
-      : kind === "snow"
-        ? `<pattern id="travel-snow" width="30" height="30" patternUnits="userSpaceOnUse"><circle cx="6" cy="8" r="1.8" class="travel-snow-dot"/><circle cx="21" cy="22" r="1.4" class="travel-snow-dot"/></pattern>`
-        : "";
-  return `<g class="travel-weather-layer travel-weather-${kind}" aria-hidden="true">${pattern ? `<defs>${pattern}</defs>` : ""}<rect width="${w}" height="${h}" ${kind === "fog" ? 'class="travel-fog"' : `fill="url(#travel-${kind})"`}/></g>`;
+  if (kind === "fog")
+    return `<g class="travel-weather-layer travel-weather-fog" data-travel-weather-layer="fog" aria-hidden="true"><rect width="${w}" height="${h}" class="travel-fog travel-weather-anim"/></g>`;
+  const [size, tile] = WEATHER_TILES[kind] ?? WEATHER_TILES.rain;
+  const id = `travel-${kind}-${ctx.esc(scene.id)}`;
+  return `<g class="travel-weather-layer travel-weather-${kind}" data-travel-weather-layer="${kind}" aria-hidden="true" style="--travel-tile:${size}px"><defs><clipPath id="${id}-clip"><rect width="${w}" height="${h}"/></clipPath><pattern id="${id}" width="${size}" height="${size}" patternUnits="userSpaceOnUse">${tile}</pattern></defs><g clip-path="url(#${id}-clip)"><rect class="travel-weather-anim" x="${-size}" y="${-size}" width="${w + size * 2}" height="${h + size * 2}" fill="url(#${id})"/>${kind === "storm" ? `<rect class="travel-flash" width="${w}" height="${h}"/>` : ""}</g></g>`;
+}
+/** DM: the scene's weather effect (Foundry scene configuration «Weather Effect»). */
+function openSceneWeather(ctx) {
+  const sceneId = ctx.state.activeSceneId;
+  const current = campaignOf(ctx).sceneWeather?.[sceneId] ?? "auto";
+  ctx.dialog(
+    ctx.t("Meteo sulla scena", "Weather on the scene"),
+    `<p class="muted">${ctx.t("Un effetto animato sopra la mappa, visto da tutti al Tavolo. «Dal meteo del giorno» segue il meteo generato quando è «Sulla mappa». Con le animazioni ridotte resta fermo.", "An animated effect over the map, seen by everyone at the Table. “From the day’s weather” follows the generated weather when it is “On the map”. With reduced motion it stays still.")}</p><fieldset class="travel-fieldset"><legend>${ctx.t("Effetto", "Effect")}</legend>${Object.entries(
+      D.SCENE_WEATHER,
+    )
+      .map(
+        ([id, name]) =>
+          `<label class="check-field"><input type="radio" name="kind" value="${id}"${id === current ? " checked" : ""}> ${esc(ctx, pick(ctx, name))}</label>`,
+      )
+      .join("")}</fieldset>`,
+    {
+      submitLabel: ctx.t("Applica alla scena", "Apply to the scene"),
+      onSubmit: (data) => {
+        const kind = String(data.get("kind") ?? "auto");
+        act(
+          ctx,
+          ctx.t("Meteo sulla scena: ", "Weather on the scene: ") +
+            pick(ctx, D.SCENE_WEATHER[kind] ?? D.SCENE_WEATHER.auto),
+          (draft, slice) => D.setSceneWeather(draft, slice, sceneId, kind, ctx.role),
+          { dialog: true },
+        );
+      },
+    },
+  );
 }
 function bindLayer(el, ctx, table) {
   applyRouteTab(ctx, table);
@@ -2020,6 +2061,27 @@ export function register(registry) {
     id: "travel-rests",
     label: L("Riposi", "Rests"),
     collect: (ctx) => restNotifications(ctx),
+  });
+  registry.add("command", {
+    id: "travel.scene-weather",
+    label: L(
+      "Meteo sulla scena: pioggia, neve, nebbia, vento…",
+      "Weather on the scene: rain, snow, fog, wind…",
+    ),
+    description: L(
+      "Effetto meteo animato sopra la mappa della scena, per tutti al Tavolo",
+      "Animated weather effect over the scene’s map, for everyone at the Table",
+    ),
+    keywords: [
+      L("meteo animato", "animated weather"),
+      L("effetto meteo", "weather effect"),
+      L("pioggia sulla mappa", "rain on the map"),
+      L("neve", "snow"),
+    ],
+    group: "table",
+    roles: ["dm"],
+    when: (ctx) => dmOf(ctx) && Boolean(ctx.state.activeSceneId),
+    run: (ctx) => openSceneWeather(ctx),
   });
   registry.add("command", {
     id: "travel.open",

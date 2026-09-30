@@ -535,7 +535,9 @@ export function normalizeChat(slice, fromVersion = CHAT_VERSION) {
   const threads = (Array.isArray(forum.threads) ? forum.threads : [])
     .map(normalizeThread)
     .filter(Boolean);
+  const macros = normalizeMacros(raw.macros);
   return {
+    ...(Object.keys(macros).length ? { macros } : {}),
     seq: Math.max(Number.isInteger(raw.seq) ? raw.seq : 0, ...messages.map((m) => m.seq), 0),
     messages,
     clearedAt: iso(raw.clearedAt),
@@ -554,6 +556,306 @@ export function normalizeChat(slice, fromVersion = CHAT_VERSION) {
     },
   };
 }
+
+// ---------------------------------------------------------------- macros with code (X-12)
+
+// Close review 01/10 (Roll20 Mod, Foundry script macros, Avrae's Draconic): a macro is a
+// short program of its own line language, read by this parser and run in a sandbox: never
+// JavaScript, no page, network or other identity's data, no loops, bounded lines and rolls.
+// Whether the real product also allows script modules (Roll20 Mod) is an owner decision.
+export const MACRO_LIMITS = Object.freeze({
+  lines: 30,
+  rolls: 6,
+  chars: 2000,
+  name: 40,
+  count: 20,
+});
+const MACRO_ATTRS = Object.freeze({
+  forza: ["ability", "str"],
+  str: ["ability", "str"],
+  destrezza: ["ability", "dex"],
+  dex: ["ability", "dex"],
+  costituzione: ["ability", "con"],
+  con: ["ability", "con"],
+  intelligenza: ["ability", "int"],
+  int: ["ability", "int"],
+  saggezza: ["ability", "wis"],
+  wis: ["ability", "wis"],
+  carisma: ["ability", "cha"],
+  cha: ["ability", "cha"],
+  pf: ["field", "hp"],
+  hp: ["field", "hp"],
+  pfmax: ["field", "maxHp"],
+  maxhp: ["field", "maxHp"],
+  ca: ["field", "ac"],
+  ac: ["field", "ac"],
+  livello: ["field", "level"],
+  level: ["field", "level"],
+  competenza: ["pb"],
+  pb: ["pb"],
+});
+/** The numbers a macro may read from the character it runs for (@destrezza, @pf…). */
+export function macroAttributes(actor) {
+  const out = {};
+  const level = Math.max(1, Number(actor?.level) || 1);
+  for (const [name, [kind, key]] of Object.entries(MACRO_ATTRS))
+    out[name] =
+      kind === "ability"
+        ? Math.floor(((Number(actor?.abilities?.[key]) || 10) - 10) / 2)
+        : kind === "pb"
+          ? (actor?.combatProfile?.proficiencyBonus ?? Math.ceil(level / 4) + 1)
+          : Number(actor?.[key]) || 0;
+  return out;
+}
+const macroFail = (line, it, en) => fail(`Riga ${line}: ${it}`, `Line ${line}: ${en}`);
+const NAME = /^[a-zà-ù_][a-zà-ù0-9_]{0,20}$/i;
+const KEYWORDS = {
+  roll: ["tira", "roll"],
+  set: ["imposta", "set"],
+  if: ["se", "if"],
+  then: ["allora", "then"],
+  say: ["di", "say"],
+  whisper: ["sussurra", "whisper"],
+};
+const isWord = (word, kind) => KEYWORDS[kind].includes(String(word).toLowerCase());
+function parseStatement(text, line) {
+  const trimmed = text.trim();
+  const [head, ...rest] = trimmed.split(/\s+/);
+  const body = trimmed.slice(head.length).trim();
+  if (isWord(head, "roll") || isWord(head, "set")) {
+    const match = body.match(/^([^=\s]+)\s*=\s*(.+)$/);
+    if (!match || !NAME.test(match[1]))
+      macroFail(line, "serve «NOME = …».", "“NAME = …” is needed.");
+    return isWord(head, "roll")
+      ? { kind: "roll", name: match[1].toLowerCase(), formula: match[2].trim(), line }
+      : { kind: "set", name: match[1].toLowerCase(), expr: parseExpr(match[2], line), line };
+  }
+  if (isWord(head, "say") || isWord(head, "whisper")) {
+    const match = body.match(/^"([^"]{1,300})"$/);
+    if (!match) macroFail(line, "il testo va tra virgolette.", "the text goes between quotes.");
+    return { kind: isWord(head, "say") ? "say" : "whisper", text: match[1], line };
+  }
+  if (isWord(head, "if")) {
+    const at = rest.findIndex((word) => isWord(word, "then"));
+    if (at < 1)
+      macroFail(line, "serve «se CONDIZIONE allora …».", "“if CONDITION then …” is needed.");
+    const condition = parseExpr(rest.slice(0, at).join(" "), line);
+    const then = parseStatement(rest.slice(at + 1).join(" "), line);
+    if (then.kind === "if") macroFail(line, "un «se» per riga.", "one “if” per line.");
+    return { kind: "if", condition, then, line };
+  }
+  return macroFail(
+    line,
+    `comando sconosciuto «${head}»: usa tira, imposta, se, di, sussurra.`,
+    `unknown command “${head}”: use roll, set, if, say, whisper.`,
+  );
+}
+// Expressions: numbers, names, @attributes, + - * / ( ), comparisons, e/and, o/or, non/not.
+function tokens(source, line) {
+  const out = [];
+  const re = /\s*(\d+|@?[a-zà-ù_][a-zà-ù0-9_]*|<=|>=|==|!=|[-+*/()<>])/iy;
+  let at = 0;
+  const text = String(source);
+  while (at < text.length) {
+    if (!text.slice(at).trim()) break;
+    re.lastIndex = at;
+    const match = re.exec(text);
+    if (!match) macroFail(line, "espressione non valida.", "invalid expression.");
+    out.push(match[1].toLowerCase());
+    at = re.lastIndex;
+  }
+  return out;
+}
+function parseExpr(source, line) {
+  const list = tokens(source, line);
+  let i = 0;
+  const peek = () => list[i];
+  const take = () => list[i++];
+  const primary = () => {
+    const token = take();
+    if (token === undefined) macroFail(line, "espressione incompleta.", "incomplete expression.");
+    if (token === "(") {
+      const inner = or();
+      if (take() !== ")") macroFail(line, "manca «)».", "missing “)”.");
+      return inner;
+    }
+    if (token === "-") return { op: "neg", a: primary() };
+    if (["non", "not"].includes(token)) return { op: "not", a: primary() };
+    if (/^\d+$/.test(token)) return { num: Number(token) };
+    if (token.startsWith("@")) {
+      if (!Object.hasOwn(MACRO_ATTRS, token.slice(1)))
+        macroFail(line, `attributo sconosciuto ${token}.`, `unknown attribute ${token}.`);
+      return { attr: token.slice(1) };
+    }
+    if (NAME.test(token)) return { name: token };
+    return macroFail(line, `«${token}» fuori posto.`, `“${token}” out of place.`);
+  };
+  const binary = (next, ops) => () => {
+    let left = next();
+    while (ops.includes(peek())) {
+      const op = take();
+      left = { op, a: left, b: next() };
+    }
+    return left;
+  };
+  const mul = binary(primary, ["*", "/"]);
+  const add = binary(mul, ["+", "-"]);
+  const cmp = binary(add, ["<", "<=", ">", ">=", "==", "!="]);
+  const and = binary(cmp, ["e", "and"]);
+  const or = binary(and, ["o", "or"]);
+  const tree = or();
+  if (i < list.length) macroFail(line, `«${list[i]}» fuori posto.`, `“${list[i]}” out of place.`);
+  return tree;
+}
+function evalExpr(node, env, line) {
+  if ("num" in node) return node.num;
+  if ("attr" in node) return env.attrs[node.attr] ?? 0;
+  if ("name" in node) {
+    if (!Object.hasOwn(env.vars, node.name))
+      macroFail(
+        line,
+        `«${node.name}» non ha ancora un valore.`,
+        `“${node.name}” has no value yet.`,
+      );
+    return env.vars[node.name];
+  }
+  const a = evalExpr(node.a, env, line);
+  if (node.op === "neg") return -a;
+  if (node.op === "not") return a ? 0 : 1;
+  const b = evalExpr(node.b, env, line);
+  switch (node.op) {
+    case "+":
+      return a + b;
+    case "-":
+      return a - b;
+    case "*":
+      return a * b;
+    case "/":
+      return b === 0
+        ? macroFail(line, "divisione per zero.", "division by zero.")
+        : Math.floor(a / b);
+    case "<":
+      return a < b ? 1 : 0;
+    case "<=":
+      return a <= b ? 1 : 0;
+    case ">":
+      return a > b ? 1 : 0;
+    case ">=":
+      return a >= b ? 1 : 0;
+    case "==":
+      return a === b ? 1 : 0;
+    case "!=":
+      return a !== b ? 1 : 0;
+    case "e":
+    case "and":
+      return a && b ? 1 : 0;
+    default:
+      return a || b ? 1 : 0;
+  }
+}
+/** Parses a macro's source; throws with the line of the first mistake. */
+export function parseMacro(source) {
+  const text = String(source ?? "");
+  if (text.length > MACRO_LIMITS.chars)
+    fail("La macro supera 2000 caratteri.", "The macro exceeds 2000 characters.");
+  const lines = text
+    .split("\n")
+    .map((raw, index) => ({ raw: raw.trim(), line: index + 1 }))
+    .filter((row) => row.raw && !row.raw.startsWith("#"));
+  if (!lines.length) fail("La macro è vuota.", "The macro is empty.");
+  if (lines.length > MACRO_LIMITS.lines)
+    fail("Al massimo 30 righe per macro.", "At most 30 lines per macro.");
+  return lines.map((row) => parseStatement(row.raw, row.line));
+}
+/**
+ * Runs a parsed macro: `roll(formula)` returns {total, detail} (the app's digital dice). The
+ * result is what the chat posts: the lines said, the whispers to the DM and every roll, so
+ * the table sees each die a macro threw (no hidden reroll).
+ */
+export function runMacro(program, { attrs = {}, roll }) {
+  const env = { attrs, vars: {} };
+  const out = { says: [], whispers: [], rolls: [] };
+  const fill = (text) =>
+    text.replace(/\{([a-zà-ù_][a-zà-ù0-9_]*)\}/gi, (whole, name) =>
+      Object.hasOwn(env.vars, name.toLowerCase()) ? String(env.vars[name.toLowerCase()]) : whole,
+    );
+  const exec = (statement) => {
+    if (statement.kind === "roll") {
+      if (out.rolls.length >= MACRO_LIMITS.rolls)
+        macroFail(statement.line, "al massimo 6 tiri per macro.", "at most 6 rolls per macro.");
+      const formula = statement.formula.replace(/@([a-zà-ù_]+)/gi, (whole, name) => {
+        const key = name.toLowerCase();
+        if (!Object.hasOwn(MACRO_ATTRS, key))
+          macroFail(
+            statement.line,
+            `attributo sconosciuto ${whole}.`,
+            `unknown attribute ${whole}.`,
+          );
+        return String(attrs[key] ?? 0);
+      });
+      const expanded = formula.replace(/\+-/g, "-").replace(/--/g, "+");
+      const result = roll(expanded);
+      env.vars[statement.name] = result.total;
+      out.rolls.push({ name: statement.name, formula: statement.formula, expanded, ...result });
+    } else if (statement.kind === "set")
+      env.vars[statement.name] = evalExpr(statement.expr, env, statement.line);
+    else if (statement.kind === "say") out.says.push(fill(statement.text));
+    else if (statement.kind === "whisper") out.whispers.push(fill(statement.text));
+    else if (evalExpr(statement.condition, env, statement.line)) exec(statement.then);
+  };
+  for (const statement of program) exec(statement);
+  return out;
+}
+function normalizeMacros(raw) {
+  const out = {};
+  for (const [role, list] of Object.entries(object(raw) ? raw : {})) {
+    if (!/^[a-z0-9][a-z0-9-]{0,39}$/.test(role) || !Array.isArray(list)) continue;
+    const kept = list
+      .filter(
+        (macro) =>
+          object(macro) &&
+          typeof macro.id === "string" &&
+          typeof macro.name === "string" &&
+          macro.name.trim() &&
+          macro.name.length <= MACRO_LIMITS.name &&
+          typeof macro.source === "string" &&
+          macro.source.length <= MACRO_LIMITS.chars,
+      )
+      .slice(0, MACRO_LIMITS.count)
+      .map((macro) => ({ id: macro.id, name: macro.name, source: macro.source }));
+    if (kept.length) out[role] = kept;
+  }
+  return out;
+}
+/** Saves (adds or replaces) one of the author's macros after checking it parses. */
+export function saveMacro(slice, role, { id, name, source }) {
+  const clean = String(name ?? "").trim();
+  if (!clean || clean.length > MACRO_LIMITS.name)
+    fail(
+      "Dai alla macro un nome (massimo 40 caratteri).",
+      "Give the macro a name (40 characters at most).",
+    );
+  parseMacro(source);
+  slice.macros ??= {};
+  const list = (slice.macros[role] ??= []);
+  const existing = id ? list.find((macro) => macro.id === id) : null;
+  if (existing) Object.assign(existing, { name: clean, source: String(source) });
+  else {
+    if (list.length >= MACRO_LIMITS.count)
+      fail("Al massimo 20 macro per persona.", "At most 20 macros per person.");
+    list.push({
+      id: id || "macro-" + (list.length + 1) + "-" + Date.now().toString(36),
+      name: clean,
+      source: String(source),
+    });
+  }
+}
+export function deleteMacro(slice, role, id) {
+  const list = slice.macros?.[role] ?? [];
+  if (!list.some((macro) => macro.id === id)) fail("Macro non trovata.", "Macro not found.");
+  slice.macros[role] = list.filter((macro) => macro.id !== id);
+}
+export const macrosOf = (slice, role) => slice?.macros?.[role] ?? [];
 
 // ---------------------------------------------------------------- slash commands
 
@@ -733,6 +1035,29 @@ export function rangeAudience(state, speakerActorId, rangeId) {
  * Builds a validated message from composer input (`input.text` may start with a command).
  * Returns `{ help: true }` for /help. Throws {it, en} errors for invalid input.
  */
+// TV-151, close review 01/10 (Roll20 and Foundry inline rolls): «Colpisco [[1d8+3]]» rolls
+// the formula when the message is sent; the message keeps each result beside its words, so
+// every reader sees the same numbers (rolled once, digital dice, never re-rolled on read).
+export const INLINE_ROLL = /\[\[([^[\]]{1,40})\]\]/g;
+export const MAX_INLINE_ROLLS = 5;
+/** The formulas a text asks to roll inline, in order (at most MAX_INLINE_ROLLS). */
+export const inlineFormulas = (text) =>
+  [...String(text ?? "").matchAll(INLINE_ROLL)].slice(0, MAX_INLINE_ROLLS).map((m) => m[1].trim());
+/** Keeps only well-formed results, one per formula of the text, in order. */
+function cleanInline(rolls, text) {
+  const formulas = inlineFormulas(text);
+  if (!Array.isArray(rolls) || !formulas.length) return null;
+  const out = formulas.map((formula, index) => {
+    const roll = rolls[index];
+    return roll &&
+      roll.formula === formula &&
+      Number.isFinite(roll.total) &&
+      typeof roll.detail === "string"
+      ? { formula, total: roll.total, detail: roll.detail.slice(0, 160) }
+      : { formula, total: null, detail: "", error: true };
+  });
+  return out;
+}
 export function composeMessage(state, role, input, { now }) {
   const parsed = parseCommand(input.text ?? "");
   if (parsed.help) return { help: true };
@@ -835,6 +1160,7 @@ export function composeMessage(state, role, input, { now }) {
     image,
     card: merged.card ? copy(merged.card) : null,
     snapshot,
+    inlineRolls: cleanInline(merged.inlineRolls, body),
     vote:
       kind === "vote"
         ? { question: body, ballots: {}, closed: false, closedBy: null, closedAt: null }
@@ -1186,6 +1512,7 @@ export function projectMessage(state, message, role, { perspective = null, lang 
     image: readable && message.image ? { ...message.image } : null,
     card: message.card ? copy(message.card) : null,
     snapshot: message.snapshot ? copy(message.snapshot) : null,
+    inlineRolls: readable && message.inlineRolls ? copy(message.inlineRolls) : null,
   };
   if (message.vote) {
     const tally = voteTally(message.vote);

@@ -331,7 +331,8 @@ test("summary next to HP shows vital state, HP and grouped chips and opens the s
   assert.match(html, />22</);
   assert.match(html, /Temporary HP[^<]*<[^>]*>3</);
   assert.match(html, /Conscious/);
-  assert.match(html, /data-conditions-chip="poisoned">Poisoned<span[^>]*> ×2</);
+  // Close review 01/10: a controller's chip is a button that opens the condition list.
+  assert.match(html, /data-conditions-chip="poisoned"><button[^>]*>Poisoned<span[^>]*> ×2</);
   assert.match(html, /data-conditions-chip="exhaustion">Exhaustion<span[^>]*> 2</);
   const root = parse(html);
   assert.equal(root.querySelectorAll("[data-conditions-entry]").length, 1, "one entry point");

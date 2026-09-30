@@ -11,6 +11,7 @@
 
 import * as D from "./sheet-plus-domain.mjs";
 import { rollDie } from "./state.mjs";
+import { hiddenFromPlayers } from "./character-access.mjs";
 import { getEffectiveSpeed, speedBreakdown, getEffectiveActor } from "./forms-companions.mjs";
 import { startCharacterBuilder } from "./character-builder.mjs";
 import { addAttackModifierProvider } from "./combat.mjs";
@@ -123,6 +124,12 @@ const whyReason = (ctx, key, reason) =>
  * posto», review P2-6 of B34; D&D Beyond's dice setting, Foundry's manual dice): the roll
  * window opens on it. Without the dice tray, digital as before.
  */
+// Close review 01/10 (D&D Beyond's one dice setting, P3): the sheet shows the dice its numbers
+// roll with and changes them in one click; the same choice as the dice tray and the action bar.
+function diceToggle(ctx) {
+  const now = rememberedDice(ctx);
+  return `<div class="shp-mode shp-dice" role="group" aria-label="${ctx.t("Dadi dei tiri della scheda", "Dice of the sheet’s rolls")}"><button type="button" data-shp="dice" data-mode="digital" aria-pressed="${now === "digital"}">${ctx.t("Dadi digitali", "Digital dice")}</button><button type="button" data-shp="dice" data-mode="physical" aria-pressed="${now === "physical"}">${ctx.t("Dadi fisici", "Physical dice")}</button></div>`;
+}
 function rememberedDice(ctx) {
   try {
     return (area ?? ctx.registry)?.getSetting(ctx, "dice-tray.dice") === "physical"
@@ -369,7 +376,7 @@ function renderBar(ctx, actor) {
     }),
   ].join("");
   const modeToggle = canEdit
-    ? `<div class="shp-mode" role="group" aria-label="${ctx.t("Modalità della scheda", "Sheet mode")}"><button type="button" data-shp="mode" data-mode="play" aria-pressed="${!edit}">${icon("play")}<span>${ctx.t("Gioco", "Play")}</span></button><button type="button" data-shp="mode" data-mode="edit" aria-pressed="${edit}">${icon("pen")}<span>${ctx.t("Modifica", "Edit")}</span></button></div>`
+    ? `<div class="shp-mode" role="group" aria-label="${ctx.t("Modalità della scheda", "Sheet mode")}"><button type="button" data-shp="mode" data-mode="play" aria-pressed="${!edit}">${icon("play")}<span>${ctx.t("Gioco", "Play")}</span></button><button type="button" data-shp="mode" data-mode="edit" aria-pressed="${edit}">${icon("pen")}<span>${ctx.t("Modifica", "Edit")}</span></button></div>${diceToggle(ctx)}`
     : `<span class="badge">${ctx.t("Consultazione", "View only")}</span>`;
   const xpBlock =
     actor.kind === "character"
@@ -1161,6 +1168,12 @@ function rollNow(ctx, actorId, input) {
   let logId = null;
   const profile = D.rollProfile(ctx.state, actorId, input.kind, input.subject);
   const title = `${actor.name} · ${ctx.label(profile.label)}`;
+  // Close review 01/10 (privacy P1-3): the line of a hidden creature's roll stays the DM's.
+  const hidden =
+    ctx.role !== "player" &&
+    actor.owner !== "player" &&
+    input.audience !== "public" &&
+    hiddenFromPlayers(ctx.state, actorId);
   commitSheet(
     ctx,
     actorId,
@@ -1170,6 +1183,7 @@ function rollNow(ctx, actorId, input) {
       return record;
     },
     {
+      ...(hidden ? { visibility: "private" } : {}),
       afterCommit: (state) => {
         const entry = state.log?.at(-1);
         if (!entry || entry.label !== title || !record) return;
@@ -1791,6 +1805,7 @@ function useFavorite(ctx, actorId, kind, id, root) {
 // Controls that re-render the sheet in place: the keyboard focus returns to the same
 // control (same action and data, same section) instead of falling to the page body.
 const IN_PLACE = new Set([
+  "dice",
   "pip",
   "restore",
   "mode",
@@ -1864,6 +1879,10 @@ function bindArea(el, ctx, actorArg) {
     ui.focus = IN_PLACE.has(action) && event.detail === 0 ? focusKey(control) : null;
     attempt(ctx, () => {
       if (action === "mode") return setMode(ctx, control.dataset.mode);
+      if (action === "dice") {
+        (area ?? ctx.registry).setSetting(ctx, "dice-tray.dice", control.dataset.mode);
+        return ctx.render();
+      }
       if (action === "undo") return ctx.undo();
       if (action === "stat") return openStat(ctx, id, control.dataset.key);
       if (action === "info")

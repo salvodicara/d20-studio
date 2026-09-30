@@ -666,6 +666,84 @@ a.travel-source {
 .travel-fog {
   fill: rgba(220, 225, 228, 0.22);
 }
+/* TV-154, close review 01/10 (Foundry «Weather Effect»): the band moves by one tile and
+   loops; storm flashes; fog breathes. Still with reduced motion. */
+.travel-rain-line.is-heavy {
+  stroke: rgba(191, 218, 240, 0.5);
+  stroke-width: 1.8;
+}
+.travel-leaf {
+  fill: rgba(196, 150, 72, 0.6);
+}
+.travel-gust {
+  stroke: rgba(235, 240, 245, 0.28);
+  stroke-width: 1.2;
+  fill: none;
+}
+.travel-flash {
+  fill: #f5f7ff;
+  opacity: 0;
+}
+.travel-weather-anim {
+  --travel-shift: var(--travel-tile, 24px);
+}
+.travel-weather-rain .travel-weather-anim,
+.travel-weather-storm .travel-weather-anim {
+  animation: travel-fall 0.5s linear infinite;
+}
+.travel-weather-snow .travel-weather-anim {
+  animation: travel-drift 3.2s linear infinite;
+}
+.travel-weather-wind .travel-weather-anim {
+  animation: travel-blow 2.4s linear infinite;
+}
+.travel-weather-fog .travel-weather-anim {
+  animation: travel-breathe 7s ease-in-out infinite alternate;
+}
+.travel-weather-storm .travel-flash {
+  animation: travel-flash 9s linear infinite;
+}
+@keyframes travel-fall {
+  to {
+    transform: translate(calc(var(--travel-shift) * -0.3), var(--travel-shift));
+  }
+}
+@keyframes travel-drift {
+  to {
+    transform: translate(calc(var(--travel-shift) * 0.2), var(--travel-shift));
+  }
+}
+@keyframes travel-blow {
+  to {
+    transform: translate(var(--travel-shift), calc(var(--travel-shift) * 0.1));
+  }
+}
+@keyframes travel-breathe {
+  from {
+    opacity: 0.55;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes travel-flash {
+  0%,
+  93%,
+  96%,
+  100% {
+    opacity: 0;
+  }
+  94%,
+  95.5% {
+    opacity: 0.35;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .travel-weather-anim,
+  .travel-flash {
+    animation: none !important;
+  }
+}
 
 @container table-panel (max-width: 600px) {
   .travel-rank {
@@ -697,4 +775,9 @@ a.travel-source {
   font-size: var(--text-xs);
   font-weight: 400;
   overflow-wrap: anywhere;
+}
+
+/* The storm's flash is off in the photosensitive mode (Preferences), as other flashes are. */
+:root[data-pref-photosensitive="on"] .travel-flash {
+  display: none;
 }

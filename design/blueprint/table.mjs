@@ -14,7 +14,7 @@ import {
 import { policyOf, isEnemyFor } from "./campaign-settings-domain.mjs";
 import { viewState as specialMovesView, canDragToken, ridesOn } from "./special-moves.mjs";
 import { model as fogModel } from "./fog-vision.mjs";
-import { fogHiddenAt, canSee } from "./fog-vision-domain.mjs";
+import { fogHiddenAt, canSee, unseenTokens } from "./fog-vision-domain.mjs";
 import {
   pathDraft,
   setPathDraft,
@@ -289,6 +289,119 @@ export function setSelectedActor(id) {
   selected = id;
   deselected = false;
 }
+
+// Close review 01/10 (X-10, Foundry V14 pop-out): a detached window carries its panel's own
+// controls; the ones that act on the map or the sidebar run in the main Table window, which
+// comes to the front, and the panel's close button closes the window. Only these named
+// controls travel between the windows (never a selector taken from the message).
+const RELAY_TYPE = "d20-table-relay";
+export const RELAYED_CONTROLS = Object.freeze({
+  "show-token": { selector: "[data-chat-show-token]", attr: "chat-show-token" },
+  "chat-request": { selector: "[data-chat-request]" },
+  "sv-clean": { selector: '[data-sv="clean"]' },
+  "sv-home": { selector: '[data-sv="home"]' },
+});
+const CLOSE_CONTROLS = "[data-chat-close], [data-table-drawer-close]";
+/** Which relayed control a press in a pop-out window is, with its value, or null. */
+export function relayedControl(target) {
+  for (const [control, entry] of Object.entries(RELAYED_CONTROLS)) {
+    const el = target?.closest?.(entry.selector);
+    if (el) return { control, value: entry.attr ? el.getAttribute(`data-${entry.attr}`) : null };
+  }
+  return null;
+}
+/** The selector a relayed control resolves to in the main window's panel. */
+export function relayedSelector(control, value) {
+  const entry = RELAYED_CONTROLS[control];
+  if (!entry) return null;
+  if (!entry.attr) return entry.selector;
+  if (typeof value !== "string" || !/^[A-Za-z0-9_:-]{1,80}$/.test(value)) return null;
+  return `[data-${entry.attr}="${value}"]`;
+}
+let relayCtx = null;
+// TV-14: the last left press on a token survives the redraw that the press itself causes.
+const DOUBLE_PRESS_MS = 400;
+let lastTokenPress = null;
+let doublePressAt = -Infinity;
+let mapBinds = 0; // one per map bind: a double press spans at most the redraw its first press made
+let openFromToken = () => false;
+let relayShowTab = null;
+let relayInstalled = false;
+function runRelayed(data, tries = 0) {
+  const ctx = relayCtx;
+  const selector = relayedSelector(data.control, data.value);
+  if (!ctx || !selector || tries > 8) return;
+  const again = () => setTimeout(() => runRelayed(data, tries + 1), 60);
+  if (String(ctx.view?.tab ?? "").startsWith("window:")) return;
+  if (ctx.view?.page !== "table") {
+    ctx.navigate("table");
+    return again();
+  }
+  const panel = document.querySelector("#content #table-sidebar-panel");
+  if (!panel || panel.hidden || panel.dataset.tablePanel !== data.panel) {
+    relayShowTab?.(data.panel);
+    return again();
+  }
+  panel.querySelector(selector)?.click();
+}
+function installRelay() {
+  if (relayInstalled || typeof globalThis.window?.addEventListener !== "function") return;
+  relayInstalled = true;
+  window.addEventListener("message", (event) => {
+    if (event.origin !== location.origin || event.data?.type !== RELAY_TYPE) return;
+    if (typeof event.data.panel !== "string" || !RELAYED_CONTROLS[event.data.control]) return;
+    runRelayed({ panel: event.data.panel, control: event.data.control, value: event.data.value });
+  });
+}
+function bindPanelWindow(root, ctx, panelId) {
+  const host = root.querySelector(".table-window");
+  if (!host) return;
+  host.addEventListener(
+    "click",
+    (event) => {
+      const t = ctx.t;
+      if (event.target.closest?.(CLOSE_CONTROLS)) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        window.close();
+        setTimeout(() => {
+          if (!window.closed)
+            ctx.toast(
+              t(
+                "Chiudi questa finestra dal browser: non l’ha aperta il Tavolo.",
+                "Close this window from the browser: the Table did not open it.",
+              ),
+            );
+        }, 150);
+        return;
+      }
+      const relayed = relayedControl(event.target);
+      if (!relayed) return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      const main = window.opener && !window.opener.closed ? window.opener : null;
+      if (!main) {
+        ctx.toast(
+          t(
+            "Questo comando agisce sulla mappa: aprilo dal Tavolo nella finestra principale.",
+            "This command acts on the map: use it from the Table in the main window.",
+          ),
+          true,
+        );
+        return;
+      }
+      main.postMessage({ type: RELAY_TYPE, panel: panelId, ...relayed }, location.origin);
+      main.focus();
+      ctx.toast(
+        t(
+          "Fatto nella finestra principale del Tavolo, ora in primo piano.",
+          "Done in the main Table window, now in front.",
+        ),
+      );
+    },
+    true,
+  );
+}
 export function resetTableView({ forget = false } = {}) {
   deactivateTool();
   mapResizeObserver?.disconnect();
@@ -298,6 +411,7 @@ export function resetTableView({ forget = false } = {}) {
   resetPathDrafts();
   selected = "livia";
   followedTurn = null;
+  lastTokenPress = null;
   mode = "move";
   zoom = 1;
   pan = { x: 0, y: 0 };
@@ -335,6 +449,7 @@ export function renderTable(ctx) {
     return `<section class="table-cover">${ctx.registry.slot("table-panel", cover, ctx, { scene, selectedActorId: selected, mode, zoom, pan: { ...pan } })}</section>`;
   if (!scene)
     return `<div class="empty-state"><h1>${t("Nessuna scena attiva", "No active scene")}</h1></div>`;
+  const unseen = unseenTokens(state, scene.id, ctx.role);
   const canObserve = (id) => {
     const subject = state.actors[id];
     const token = scene.tokens.find((token) => token.actorId === id);
@@ -345,7 +460,12 @@ export function renderTable(ctx) {
       // C3 (CA-57): the session runner of a hand-off sees the hidden tokens the DM sees.
       (ctx.canControl(subject) ||
         runsSession(state, ctx.role) ||
-        (!subject.hidden && !token?.hidden && token?.visible !== false)),
+        (!subject.hidden &&
+          !token?.hidden &&
+          token?.visible !== false &&
+          // Close review 01/10 (privacy P1, Foundry): a creature under the fog or out of
+          // sight is not drawn, listed in the turn order or selectable.
+          !unseen.has(id))),
     );
   };
   // B13 (campaign-members): the Table shows the campaign in play, so a sheet outside it is
@@ -1010,6 +1130,10 @@ function renderStandButton(ctx, actorId) {
     : `<button class="button" data-table="stand">${ctx.t("Rialzati", "Stand up")}${amount}</button>`;
 }
 export function bindTable(root, ctx) {
+  const popout = String(ctx.view?.tab ?? "").startsWith("window:");
+  if (!popout) relayCtx = ctx;
+  installRelay();
+  if (popout) bindPanelWindow(root, ctx, decodeURIComponent(ctx.view.tab.slice(7)));
   bindFormsSummary(root, ctx);
   bindConditionsSummary(root, ctx);
   // X-07: an item or spell from the compendium dropped on the Creature tab joins that sheet.
@@ -1029,6 +1153,7 @@ export function bindTable(root, ctx) {
   mapResizeObserver?.disconnect();
   clearResponsiveLayout?.();
   clearTableKeyboard?.();
+  mapBinds += 1;
   const compactLayout = matchMedia("(max-width: 720px)");
   const arrangeActions = () => {
     if (!root.isConnected) return;
@@ -1148,11 +1273,19 @@ export function bindTable(root, ctx) {
   sizeTouchTokens();
   // Final review F18 (Owlbear, BG3: on a phone the map comes first): entering the Table
   // brings the map into view once, as the map link in the tab bar does.
+  // Close review 01/10 (Owlbear and Roll20 mobile: map first, scene header in view): the
+  // scene's commands above the map stay on screen, and a remembered panel below never takes
+  // the focus (on a real phone its field would open the keyboard over the map).
   if (compactLayout.matches && !phoneMapShown) {
     phoneMapShown = true;
-    requestAnimationFrame(() =>
-      root.querySelector(".table-stage")?.scrollIntoView?.({ block: "start", behavior: "instant" }),
-    );
+    requestAnimationFrame(() => {
+      const active = document.activeElement;
+      if (active?.closest?.("#table-sidebar-panel") && active.matches?.("input, textarea, select"))
+        active.blur();
+      (
+        root.querySelector(".table-topline") ?? root.querySelector(".table-stage")
+      )?.scrollIntoView?.({ block: "start", behavior: "instant" });
+    });
   }
   // F18 (Owlbear's snackbar): on a phone the map's message shows above the action bar for a
   // few seconds when its words change, then gets out of the way.
@@ -1242,6 +1375,7 @@ export function bindTable(root, ctx) {
   const model = sidebarModel?.role === ctx.role ? sidebarModel : null;
   const sectionOf = (id) =>
     model?.sections.find((section) => section.panels.some((p) => p.id === id)) ?? null;
+  relayShowTab = (id) => showTab(id, id, false);
   const showTab = (id, focus = id, toggle = true) => {
     const memory = sidebarFor(ctx.role);
     const section = model?.sections.find((entry) => entry.id === id && !entry.legacy);
@@ -1273,18 +1407,24 @@ export function bindTable(root, ctx) {
   };
   // Final review P3 TV-14 (Foundry and Roll20: a double-click on a token opens its sheet): the
   // full sheet of a creature this viewer controls, otherwise its Creature tab.
-  svg.addEventListener?.("dblclick", (event) => {
-    if (mode !== "move") return;
-    const id = event.target.closest?.("[data-actor]")?.getAttribute("data-actor");
+  openFromToken = (id) => {
     const subject = id ? state.actors[id] : null;
-    if (!subject) return;
-    event.preventDefault();
+    if (!subject) return false;
+    doublePressAt = globalThis.performance?.now?.() ?? Date.now();
     if (ctx.canControl(subject) && canViewActor(subject, ctx.role, state))
       openSheetOverlay(ctx, id, "actions");
     else {
       setSelectedActor(id);
       showTab("creature", "creature", false);
     }
+    return true;
+  };
+  svg.addEventListener?.("dblclick", (event) => {
+    if (mode !== "move") return;
+    // The two presses already opened it (the map redraws on the first press).
+    if ((globalThis.performance?.now?.() ?? Date.now()) - doublePressAt < 600) return;
+    const id = event.target.closest?.("[data-actor]")?.getAttribute("data-actor");
+    if (openFromToken(id)) event.preventDefault();
   });
   root
     .querySelectorAll("[data-table-drawer]")
@@ -1319,7 +1459,10 @@ export function bindTable(root, ctx) {
     ctx.render();
   });
   root.querySelector("[data-table-map-link]")?.addEventListener("click", () => {
-    root.querySelector(".table-stage")?.scrollIntoView?.({ block: "start" });
+    // Close review 01/10: the scene header (DM: combat, scenes, rests, time) comes with it.
+    (root.querySelector(".table-topline") ?? root.querySelector(".table-stage"))?.scrollIntoView?.({
+      block: "start",
+    });
     root.querySelector("#battle-map")?.focus({ preventScroll: true });
   });
   // B61 review: "All panels" lists every panel, also those beyond the strip's visible part
@@ -1833,6 +1976,34 @@ export function bindTable(root, ctx) {
       return;
     }
     if (e.button !== 0) return;
+    // Close review 01/10 (TV-14, Foundry reads the double click on the canvas itself): the
+    // first press redraws the map, so the browser never fires dblclick; two left presses on
+    // the same token within DOUBLE_PRESS_MS open its sheet.
+    if (token && mode === "move") {
+      const at = globalThis.performance?.now?.() ?? Date.now();
+      const last = lastTokenPress;
+      lastTokenPress = {
+        actorId: token.dataset.actor,
+        at,
+        x: e.clientX,
+        y: e.clientY,
+        bind: mapBinds,
+        role: ctx.role,
+      };
+      if (
+        last &&
+        last.actorId === token.dataset.actor &&
+        last.role === ctx.role &&
+        mapBinds - last.bind <= 1 &&
+        at - last.at < DOUBLE_PRESS_MS &&
+        Math.hypot(e.clientX - last.x, e.clientY - last.y) < 12
+      ) {
+        lastTokenPress = null;
+        e.preventDefault();
+        openFromToken(token.dataset.actor);
+        return;
+      }
+    }
     if (token) {
       selected = token.dataset.actor;
       deselected = false;
@@ -1880,7 +2051,12 @@ export function bindTable(root, ctx) {
       return;
     }
     if (dragging) {
-      if (Math.hypot(p.x - dragging.start.x, p.y - dragging.start.y) > 5) dragging.moved = true;
+      if (Math.hypot(p.x - dragging.start.x, p.y - dragging.start.y) > 5) {
+        // Close regression 01/10 (Foundry: a drag leaves the click sequence): a press that
+        // became a drag is never the first half of a double press that opens the sheet.
+        dragging.moved = true;
+        lastTokenPress = null;
+      }
       if (dragging.moved) draw(p);
     } else if (
       !deselected &&

@@ -793,8 +793,10 @@ test("P2 F11 (D&D Beyond mobile: one-line header, quick boxes on the main page o
     css.replace(/\s+/g, " "),
     /\.character-sheet:not\(\[data-character-page="abilities"\]\):not\( ?\[data-character-page="tab"\]\[data-character-category="actions"\] ?\)/,
   );
-  // The breadcrumb and the sheet's chips keep one row that scrolls on a phone.
-  assert.match(css, /\.character-breadcrumb \{[^}]*flex-wrap: nowrap/);
+  // Close review 01/10 (exposure P2): on a phone the breadcrumb and the sheet's commands wrap
+  // instead of scrolling out of the screen, so «Gestisci personaggio» stays in view.
+  assert.match(css, /\.character-breadcrumb \{[^}]*flex-wrap: wrap/);
+  assert.doesNotMatch(css, /\.character-breadcrumb \{[^}]*overflow-x: auto/);
 });
 
 test("P2 F11: a strip scrolled to its open tab never cuts the first visible tab (whole tabs, as D&D Beyond)", async () => {
@@ -937,10 +939,13 @@ test("P3 (state.mjs acceptedRolls convention): a tray roll «Io e il DM» reache
 
 test("P3 TV-14 (Foundry and Roll20: double-click a token opens its sheet)", () => {
   const table = readFileSync(new URL("../table.mjs", import.meta.url), "utf8");
-  const bind = table.slice(table.indexOf('svg.addEventListener?.("dblclick"'));
-  assert.ok(bind.length > 0, "the map listens to double-clicks");
+  // Close review 01/10: the double press is read on the map itself (openFromToken), and the
+  // browser's dblclick stays as a second way in; both open the same thing.
+  const bind = table.slice(table.indexOf("openFromToken = (id) =>"));
+  assert.ok(bind.length > 0, "the map opens a token on a double press");
   assert.match(bind.slice(0, 900), /openSheetOverlay\(ctx, id, "actions"\)/);
   assert.match(bind.slice(0, 900), /showTab\("creature"/);
+  assert.match(table, /svg\.addEventListener\?\.\("dblclick"/);
 });
 
 test("P3 F26 (DESIGN §2: labels in all-small-caps, never text-transform)", async () => {

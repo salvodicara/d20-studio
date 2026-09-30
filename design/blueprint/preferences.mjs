@@ -21,6 +21,7 @@ import { canViewActor, isActorAvailable } from "./character-access.mjs";
 import { hasCombatPreview, handleCombatMap } from "./combat-ui.mjs";
 import { rollVisibleTo } from "./registry.mjs";
 import { installTooltips, scrollIntoStrip } from "./ui.mjs";
+import { unseenTokens } from "./fog-vision-domain.mjs";
 
 export { KEYS } from "./preferences-domain.mjs";
 
@@ -1442,7 +1443,12 @@ function observable(ctx, scene) {
       isActorAvailable(subject) &&
       (!subject.companion || canViewActor(subject, ctx.role, state)) &&
       (subject.visibility !== "private" || canViewActor(subject, ctx.role, state)) &&
-      (ctx.canControl(subject) || (!subject.hidden && !token.hidden && token.visible !== false)),
+      (ctx.canControl(subject) ||
+        (!subject.hidden &&
+          !token.hidden &&
+          token.visible !== false &&
+          // Close review 01/10: the sheet-only list follows the Table's fog and sight.
+          !unseenTokens(state, scene.id, ctx.role).has(token.actorId))),
     );
   });
 }

@@ -26,6 +26,7 @@ import * as hb from "./homebrew.mjs";
 import { registerTextEmbed, parseDamageRef, parseRewardRef } from "./text-embeds.mjs";
 import * as HD from "./homebrew-editor-domain.mjs";
 import { packCreatureNpc } from "./compat-packs.mjs";
+import { hiddenFromPlayers } from "./character-access.mjs";
 
 const ID = "compendium";
 const ROLLS = "compendium-rolls";
@@ -1348,8 +1349,11 @@ function hostTips(el, ctx, { applyActorId = null } = {}) {
 function actorName(ctx, actor) {
   return pick(actor?.name, ctx.lang);
 }
-function sheetOptions(actor) {
-  return actor.visibility === "private" ? privateLocal : {};
+// Close review 01/10 (privacy P1-3): a change on a creature hidden from the players names it
+// only in the DM's own log (the token menu's commitByVisibility convention).
+function sheetOptions(actor, state) {
+  if (actor.visibility === "private") return privateLocal;
+  return hiddenFromPlayers(state, actor.id) ? { visibility: "private" } : {};
 }
 // dnd5e "Apply" on condition references (FVT-176): opens the existing Conditions panel for
 // the chosen creature with the condition preselected; origin and end are set there.
@@ -1418,7 +1422,7 @@ export function addToSheet(ctx, entry, actorId, { quantity = 1, grantName = "" }
         target.spells ??= [];
         target.spells.push(data.sheetSpellRow(entry, { id: uid(), grantName: grantName.trim() }));
       },
-      sheetOptions(actor),
+      sheetOptions(actor, ctx.state),
     );
     return { tab: "spells" };
   }
@@ -1442,7 +1446,7 @@ export function addToSheet(ctx, entry, actorId, { quantity = 1, grantName = "" }
           { name: row.name },
         );
       },
-      sheetOptions(actor),
+      sheetOptions(actor, ctx.state),
     );
     return { tab: "inventory" };
   }

@@ -35,6 +35,7 @@ import {
 
 import { createSceneNPC, placeSceneToken } from "./preparation.mjs";
 import * as SA from "./scene-assets-domain.mjs";
+import { unseenTokens } from "./fog-vision-domain.mjs";
 
 const SAFE_ID = /^[A-Za-z0-9_-]+$/;
 export const DRAG_TYPE = "application/x-d20-media";
@@ -48,7 +49,12 @@ export function canObserve(ctx, scene, actorId) {
     isActorAvailable(actor) &&
     (!actor.companion || canViewActor(actor, ctx.role, ctx.state)) &&
     (actor.visibility !== "private" || canViewActor(actor, ctx.role, ctx.state)) &&
-    (ctx.canControl(actor) || (!actor.hidden && !token?.hidden && token?.visible !== false)),
+    (ctx.canControl(actor) ||
+      (!actor.hidden &&
+        !token?.hidden &&
+        token?.visible !== false &&
+        // Close review 01/10: no portrait of a creature the fog or the dark hides.
+        !(scene && unseenTokens(ctx.state, scene.id, ctx.role).has(actorId)))),
   );
 }
 

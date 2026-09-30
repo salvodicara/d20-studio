@@ -159,6 +159,8 @@ test("the area registers its menu items, layers, tool, panel, slice and hotkeys"
   assert.deepEqual(store.state.ext["token-menu"], seedSlice());
   const dm = registry.list("token-menu", ctx, target(ctx, "goblin-1")).map((c) => c.id);
   assert.deepEqual(dm, [
+    // Close review 01/10 TV-150 (Foundry Target): in the «Azioni» submenu, key T.
+    "token-menu-target",
     "token-menu-conditions",
     "token-menu-sheet",
     "token-menu-center",
@@ -169,6 +171,8 @@ test("the area registers its menu items, layers, tool, panel, slice and hotkeys"
     "token-menu-audience",
     "token-menu-rename",
     "token-menu-hide-name",
+    // Close review 01/10 TV-152 (Foundry bars, Roll20 three bars).
+    "token-menu-bars",
     "token-menu-ring",
     "token-menu-size",
     "token-menu-rotate",
@@ -180,17 +184,19 @@ test("the area registers its menu items, layers, tool, panel, slice and hotkeys"
   // A player observing a DM creature: only what an observer may do.
   assert.deepEqual(
     registry.list("token-menu", ctx, target(ctx, "goblin-1")).map((c) => c.id),
-    ["token-menu-center", "token-menu-pick"],
+    ["token-menu-target", "token-menu-center", "token-menu-pick"],
   );
   // Own character: HP-bearing commands but no DM-only ones, and no copying of a PC.
   assert.deepEqual(
     registry.list("token-menu", ctx, target(ctx, "livia")).map((c) => c.id),
     [
+      "token-menu-target",
       "token-menu-conditions",
       "token-menu-sheet",
       "token-menu-center",
       "token-menu-pick",
       "token-menu-transform",
+      "token-menu-bars",
       "token-menu-ring",
       "token-menu-size",
       "token-menu-rotate",
@@ -217,6 +223,9 @@ test("the area registers its menu items, layers, tool, panel, slice and hotkeys"
     "token-menu.polymorph": null,
     "token-menu.transform": null,
     "token-menu.revert-form": null,
+    // Close review 01/10 TV-150 (Foundry: T targets, Shift+T adds).
+    "token-menu.target": "T",
+    "token-menu.target-add": "Shift+T",
   });
   assert.deepEqual(
     registry.conflicts().filter((c) => c.dropped.startsWith("token-menu")),

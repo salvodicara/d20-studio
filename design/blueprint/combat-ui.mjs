@@ -42,6 +42,8 @@ export { turnLogOptions } from "./combat-tracker-domain.mjs";
 import * as inv from "./inventory-plus-domain.mjs";
 import { rollDie } from "./state.mjs";
 import { formatNumber } from "./ui.mjs";
+import { unseenTokens } from "./fog-vision-domain.mjs";
+import { runsSession } from "./table-spatial.mjs";
 
 // Optional neighbours (areas, DEVELOPMENT.md W2b1): the dice tray's audiences (B34) for
 // «Chi vede» and its connected dice (C6, R2 TV-95). Absent, their options are not offered.
@@ -60,6 +62,18 @@ export const neighboursReady = Promise.all([
 const drafts = new Map();
 const physicalDrafts = new Map();
 let diceMode = "digital";
+// Close review 01/10 (D&D Beyond's one dice setting): the action bar and the dice tray share
+// the remembered choice (Preferenze › Tiri e dadi, the tray's «Dadi»); changing one changes
+// the other.
+const TRAY_DICE = "dice-tray.dice";
+function sharedDice(ctx) {
+  try {
+    const value = ctx.registry?.getSetting?.(ctx, TRAY_DICE);
+    return value === "physical" || value === "digital" ? value : null;
+  } catch {
+    return null;
+  }
+}
 let recentAttempt = "";
 const key = (ctx, actorId) => [ctx.role, ctx.state.activeSceneId, actorId].join(":");
 export function resetCombatUI() {
@@ -111,10 +125,56 @@ export function previewRollMode(ctx, actorId, targetId) {
 // preview for a creature with its choice already made (slot level or item charges); the
 // Table then shows it exactly as if the action had been picked from the action bar.
 export function prepareCombatAction(ctx, actorId, actionId, selection = {}) {
+  const targeted = targetedSelection(ctx, actorId, actionId);
   drafts.set(key(ctx, actorId), {
     actionId,
-    selection: { targetIds: [], allocations: [], ...structuredClone(selection) },
+    selection: { ...targeted, ...structuredClone(selection) },
+    pinned: [...targeted.targetIds],
   });
+}
+/**
+ * TV-150, close review 01/10 (Foundry: an attack or a spell uses the user's targets): a new
+ * preview starts on the targets this identity set with T or the token menu, when it can see
+ * them; a single-target action takes the first, a multi-target one each of them once.
+ */
+export function targetedSelection(ctx, actorId, actionId) {
+  const selection = { targetIds: [], allocations: [] };
+  const list = ctx.state.ext?.["token-menu"]?.targets?.[ctx.role];
+  if (!Array.isArray(list) || !list.length) return selection;
+  const scene = ctx.state.scenes?.find((entry) => entry.id === ctx.state.activeSceneId);
+  if (!scene) return selection;
+  const runner = runsSession(ctx.state, ctx.role);
+  const unseen = unseenTokens(ctx.state, scene.id, ctx.role);
+  const seen = list.filter((id) => {
+    const token = scene.tokens?.find((entry) => entry.actorId === id);
+    const actor = ctx.state.actors?.[id];
+    return (
+      id !== actorId &&
+      token &&
+      actor &&
+      (runner ||
+        ctx.canControl?.(actor) ||
+        (!actor.hidden && !token.hidden && token.visible !== false && !unseen.has(id)))
+    );
+  });
+  const action = getDefinition(ctx, actorId, actionId);
+  if (!seen.length || !action) return selection;
+  if (action.targetMode === "single") selection.targetIds = [seen[0]];
+  else if (action.targetMode === "multiple") {
+    selection.allocations = seen.map((id) => ({ actorId: id, count: 1 }));
+    selection.targetIds = [...seen];
+  }
+  return selection;
+}
+// Close review 01/10 (BG3 projectile counter): an upcast Magic Missile names its real number
+// of darts, and the targets say how many are assigned (1/4).
+function dartsText(ctx, action, preview) {
+  const darts = preview?.action?.dartCount;
+  if (action?.id !== "magic-missile" || !darts) return null;
+  return ctx.t(
+    `Distribuisci ${darts} dardi prima di tirare: ciascuno infligge 1d4 + 1 forza.`,
+    `Assign ${darts} darts before rolling: each deals 1d4 + 1 force damage.`,
+  );
 }
 const actionName = (ctx, action) =>
   ctx.label(action?.name || action?.actionName || action?.actionId || "");
@@ -441,6 +501,7 @@ export function renderCombatBar(ctx, actorId, extra = "") {
   const filters = tabs.length
     ? `<span class="combat-filters" role="group" aria-label="${esc(t("Filtra per costo", "Filter by cost"))}">${tabs.map(([id, label]) => `<button type="button" class="combat-filter${id === filter ? " active" : ""}" data-combat-filter="${id}" aria-pressed="${id === filter}" aria-label="${esc(label)}" title="${esc(label)}">${id === "all" ? icon("grid") : `<span class="combat-cost combat-cost-${id}" aria-hidden="true"></span>`}</button>`).join("")}</span>`
     : "";
+  diceMode = sharedDice(ctx) ?? diceMode;
   return `<section class="combat-bar" aria-label="${t("Azioni disponibili", "Available actions")}"><div class="combat-bar-heading"><strong>${t("Azioni", "Actions")}</strong><label>${t("Dadi", "Dice")} <select data-combat-mode aria-label="${t("Modalità dei dadi dell’azione", "Action dice mode")}"><option value="digital" ${diceMode === "digital" ? "selected" : ""}>${t("Digitali", "Digital")}</option><option value="physical" ${diceMode === "physical" ? "selected" : ""}>${t("Fisici", "Physical")}</option></select></label><button class="text-button" data-combat-requests>${icon("bell")} ${t("Tiri e risultati", "Rolls and results")}${pendingCombatCount(ctx) ? " · " + pendingCombatCount(ctx) : ""}</button></div><div class="combat-actions">${filters}${groups}</div>${extra ? `<div class="combat-dock">${extra}</div>` : ""}</section>`;
 }
 // ---------------------------------------------------------------- active effects (TV-85)
@@ -522,7 +583,7 @@ export function renderCombatInspector(ctx, actorId) {
               )
             : t("Questa azione non richiede un bersaglio.", "This action needs no target.");
   const targets = p?.targets || [];
-  return `<section id="combat-detail" class="combat-detail" aria-label="${t("Preparazione privata", "Private preview")}"><div class="section-heading"><h3>${esc(actionName(ctx, a))}</h3><button class="icon-button" data-combat-cancel aria-label="${t("Annulla mossa", "Cancel move")}">${ctx.icon("close")}</button></div><span class="badge">${t("Anteprima · nessun consumo", "Preview · no resources spent")}</span><p>${esc(ctx.label(a.shortDescription || ""))}</p><p class="combat-instructions">${instructions}</p><dl class="combat-facts"><div><dt>${t("Costo", "Cost")}</dt><dd>${p?.cost?.action === 0 ? t("Movimento", "Movement") : t("Azione", "Action")}${a.cost?.slotLevel ? " + " + t("slot di ", "level ") + a.cost.slotLevel : ""}</dd></div>${a.rangeMeters ? `<div><dt>${t("Gittata", "Range")}</dt><dd>${formatNumber(ctx.lang, a.rangeMeters)} m</dd></div>` : ""}</dl>${p?.approach?.required ? `<div class="approach-preview"><strong>${t("Avvicinati e attacca", "Approach and attack")}</strong><p>${p.approach.movement ? t("Distanza", "Distance") + ": " + formatNumber(ctx.lang, p.approach.movement.distance) + " m · " + t("Costo movimento", "Movement cost") + ": " + formatNumber(ctx.lang, p.approach.movement.totalCost) + " m" : t("Nessun percorso percorribile.", "No traversable path.")}</p><p>${t("Il clic autorizza il percorso mostrato e l’attacco all’arrivo. Nessuno Scatto automatico; se il percorso completo è impossibile, non parti.", "Click authorizes the shown path and the attack on arrival. No automatic Dash; if the complete path is unavailable, you do not start.")}</p>${diceMode === "physical" ? `<p>${t("Lancia i dadi fisici soltanto all’arrivo, quando compare la richiesta.", "Roll physical dice only after arriving, when the request appears.")}</p>` : ""}</div>` : ""}<p class="combat-formula">${formulaHTML(ctx, a, p)}</p>${a.onHitProneMaxSize ? `<p class="effect-note">${t("Se colpisce una creatura di taglia Media o inferiore, il bersaglio diventa Prono: l’app lo applica con fonte e origine. Taglia o immunità non registrate restano da verificare.", "On a hit against a Medium or smaller creature, the target has the Prone condition: the app applies it with source and origin. Unrecorded size or immunities stay to be verified.")}</p>` : ""}${a.attackType === "melee" ? `<label class="prep-check"><input type="checkbox" data-combat-flag="knockout" ${draft.selection.knockout ? "checked" : ""}> ${t("Colpo non letale: se lo porterebbe a 0 PF, resta a 1 PF, Privo di sensi, e inizia un riposo breve", "Knock out: if it would drop to 0 HP, it stays at 1 HP, Unconscious, and starts a Short Rest")}</label>` : ""}${p?.conditionRules ? rollSummaryHTML(ctx, p) : ""}${conditionFactsHTML(ctx, p, draft)}${a.attackType === "melee" && pathDraft(ctx, actorId).length ? `<label class="prep-check"><input type="checkbox" data-combat-waypoints ${draft.selection.waypoints?.length ? "checked" : ""}> ${t("Passa dai punti del percorso preparato", "Follow the prepared path points")}</label>` : ""}${a.handsOptions ? gripHTML(ctx, getDefinition(ctx, actorId, draft.actionId) ?? a, draft) : ""}${a.slotLevels ? `<label class="field">${t("Slot da usare", "Spell slot")}<select data-combat-param="slotLevel">${a.slotLevels.map((slot) => `<option value="${slot.level}" ${(draft.selection.slotLevel || 1) === slot.level ? "selected" : ""}>${t("Livello ", "Level ")}${slot.level} · ${slot.remaining}/${slot.max} ${t("disponibili", "available")}</option>`).join("")}</select></label>` : ""}${a.kind === "attack" ? `<label class="field">${t("Circostanze dichiarate", "Declared circumstances")}<select data-combat-param="rollMode"><option value="normal" ${!draft.selection.rollMode || draft.selection.rollMode === "normal" ? "selected" : ""}>${t("Tiro normale", "Normal roll")}</option><option value="advantage" ${draft.selection.rollMode === "advantage" ? "selected" : ""}>${t("Vantaggio", "Advantage")}</option><option value="disadvantage" ${draft.selection.rollMode === "disadvantage" ? "selected" : ""}>${t("Svantaggio", "Disadvantage")}</option></select></label>${ammoChoiceHTML(ctx, actorId, a)}<label class="field combat-bonus">${t("Aggiungi bonus al tiro per colpire", "Add a bonus to the attack roll")}<input type="number" min="-10" max="10" step="1" inputmode="numeric" data-combat-param="situationalBonus" value="${draft.selection.situationalBonus ?? 0}"><small class="muted">${t("Un bonus di circostanza deciso al tavolo (es. +2 da una posizione favorevole): si somma al tiro.", "A circumstance bonus agreed at the table (e.g. +2 from a favourable position): it adds to the roll.")}</small></label>${attackOptionsHTML(ctx, draft)}` : ""}${targets.length ? `<h4>${t("Creature note coinvolte", "Known creatures affected")}</h4><ul class="combat-targets">${targets.map((target) => `<li><span>${esc(displayName(ctx.state, target.actorId, ctx.role) || ctx.label(target.name || ""))}</span>${targetMode === "multiple" ? `<span class="target-counter"><button data-dart-minus="${esc(target.actorId)}" aria-label="${t("Togli un dardo a ", "Remove a dart from ") + esc(ctx.label(target.name))}">−</button><strong>${draft.selection.allocations?.find((x) => x.actorId === target.actorId)?.count || 1}</strong><button data-dart-plus="${esc(target.actorId)}" aria-label="${t("Aggiungi un dardo a ", "Add a dart to ") + esc(ctx.label(target.name))}">+</button></span>` : ""}</li>`).join("")}</ul>` : targetMode === "area" ? `<p>${t("Nessuna creatura nota nell’area.", "No known creature in the area.")}</p>` : ""}${p?.reasons?.length ? `<ul class="combat-reasons" id="combat-execute-reason">${p.reasons.map((r) => `<li>${esc(reasonText(ctx, r))}</li>`).join("")}</ul>` : !p?.available && !["single", "destination"].includes(targetMode) ? `<p class="combat-reasons" id="combat-execute-reason">${t("La mossa non è ancora pronta: completa la scelta nella mappa o qui sopra.", "The move is not ready yet: complete the choice on the map or above.")}</p>` : ""}${!["single", "destination"].includes(targetMode) ? `<button class="button primary combat-execute" data-combat-execute ${p?.available ? "" : 'disabled aria-describedby="combat-execute-reason"'}>${targetMode === "area" || targetMode === "multiple" ? t("Lancia ", "Cast ") + esc(actionName(ctx, a)) : esc(actionName(ctx, a))}</button>` : ""}${targetMode === "area" && draft.placed ? `<button class="button" data-combat-reaim>${t("Riorienta area", "Adjust area")}</button>` : ""}<button class="text-button" data-combat-rule>${t("Regola e calcolo", "Rule and calculation")}</button></section>`;
+  return `<section id="combat-detail" class="combat-detail" aria-label="${t("Preparazione privata", "Private preview")}"><div class="section-heading"><h3>${esc(actionName(ctx, a))}</h3><button class="icon-button" data-combat-cancel aria-label="${t("Annulla mossa", "Cancel move")}">${ctx.icon("close")}</button></div><span class="badge">${t("Anteprima · nessun consumo", "Preview · no resources spent")}</span><p>${esc(dartsText(ctx, a, p) ?? ctx.label(a.shortDescription || ""))}</p><p class="combat-instructions">${instructions}</p><dl class="combat-facts"><div><dt>${t("Costo", "Cost")}</dt><dd>${p?.cost?.action === 0 ? t("Movimento", "Movement") : t("Azione", "Action")}${a.cost?.slotLevel ? " + " + t("slot di ", "level ") + a.cost.slotLevel : ""}</dd></div>${a.rangeMeters ? `<div><dt>${t("Gittata", "Range")}</dt><dd>${formatNumber(ctx.lang, a.rangeMeters)} m</dd></div>` : ""}</dl>${p?.approach?.required ? `<div class="approach-preview"><strong>${t("Avvicinati e attacca", "Approach and attack")}</strong><p>${p.approach.movement ? t("Distanza", "Distance") + ": " + formatNumber(ctx.lang, p.approach.movement.distance) + " m · " + t("Costo movimento", "Movement cost") + ": " + formatNumber(ctx.lang, p.approach.movement.totalCost) + " m" : t("Nessun percorso percorribile.", "No traversable path.")}</p><p>${t("Il clic autorizza il percorso mostrato e l’attacco all’arrivo. Nessuno Scatto automatico; se il percorso completo è impossibile, non parti.", "Click authorizes the shown path and the attack on arrival. No automatic Dash; if the complete path is unavailable, you do not start.")}</p>${diceMode === "physical" ? `<p>${t("Lancia i dadi fisici soltanto all’arrivo, quando compare la richiesta.", "Roll physical dice only after arriving, when the request appears.")}</p>` : ""}</div>` : ""}<p class="combat-formula">${formulaHTML(ctx, a, p)}</p>${a.onHitProneMaxSize ? `<p class="effect-note">${t("Se colpisce una creatura di taglia Media o inferiore, il bersaglio diventa Prono: l’app lo applica con fonte e origine. Taglia o immunità non registrate restano da verificare.", "On a hit against a Medium or smaller creature, the target has the Prone condition: the app applies it with source and origin. Unrecorded size or immunities stay to be verified.")}</p>` : ""}${a.attackType === "melee" ? `<label class="prep-check"><input type="checkbox" data-combat-flag="knockout" ${draft.selection.knockout ? "checked" : ""}> ${t("Colpo non letale: se lo porterebbe a 0 PF, resta a 1 PF, Privo di sensi, e inizia un riposo breve", "Knock out: if it would drop to 0 HP, it stays at 1 HP, Unconscious, and starts a Short Rest")}</label>` : ""}${p?.conditionRules ? rollSummaryHTML(ctx, p) : ""}${conditionFactsHTML(ctx, p, draft)}${a.attackType === "melee" && pathDraft(ctx, actorId).length ? `<label class="prep-check"><input type="checkbox" data-combat-waypoints ${draft.selection.waypoints?.length ? "checked" : ""}> ${t("Passa dai punti del percorso preparato", "Follow the prepared path points")}</label>` : ""}${a.handsOptions ? gripHTML(ctx, getDefinition(ctx, actorId, draft.actionId) ?? a, draft) : ""}${a.slotLevels ? `<label class="field">${t("Slot da usare", "Spell slot")}<select data-combat-param="slotLevel">${a.slotLevels.map((slot) => `<option value="${slot.level}" ${(draft.selection.slotLevel || 1) === slot.level ? "selected" : ""}>${t("Livello ", "Level ")}${slot.level} · ${slot.remaining}/${slot.max} ${t("disponibili", "available")}</option>`).join("")}</select></label>` : ""}${a.kind === "attack" ? `<label class="field">${t("Circostanze dichiarate", "Declared circumstances")}<select data-combat-param="rollMode"><option value="normal" ${!draft.selection.rollMode || draft.selection.rollMode === "normal" ? "selected" : ""}>${t("Tiro normale", "Normal roll")}</option><option value="advantage" ${draft.selection.rollMode === "advantage" ? "selected" : ""}>${t("Vantaggio", "Advantage")}</option><option value="disadvantage" ${draft.selection.rollMode === "disadvantage" ? "selected" : ""}>${t("Svantaggio", "Disadvantage")}</option></select></label>${ammoChoiceHTML(ctx, actorId, a)}<label class="field combat-bonus">${t("Aggiungi bonus al tiro per colpire", "Add a bonus to the attack roll")}<input type="number" min="-10" max="10" step="1" inputmode="numeric" data-combat-param="situationalBonus" value="${draft.selection.situationalBonus ?? 0}"><small class="muted">${t("Un bonus di circostanza deciso al tavolo (es. +2 da una posizione favorevole): si somma al tiro.", "A circumstance bonus agreed at the table (e.g. +2 from a favourable position): it adds to the roll.")}</small></label>${attackOptionsHTML(ctx, draft)}` : ""}${targets.length ? `<h4>${t("Creature note coinvolte", "Known creatures affected")}${targetMode === "multiple" && p?.action?.dartCount ? ` <span class="badge" data-combat-darts>${t("Dardi assegnati", "Darts assigned")} ${(draft.selection.allocations ?? []).reduce((sum, x) => sum + (x.count || 0), 0)}/${p.action.dartCount}</span>` : ""}</h4><ul class="combat-targets">${targets.map((target) => `<li><span>${esc(displayName(ctx.state, target.actorId, ctx.role) || ctx.label(target.name || ""))}</span>${targetMode === "multiple" ? `<span class="target-counter"><button data-dart-minus="${esc(target.actorId)}" aria-label="${t("Togli un dardo a ", "Remove a dart from ") + esc(ctx.label(target.name))}">−</button><strong>${draft.selection.allocations?.find((x) => x.actorId === target.actorId)?.count || 1}</strong><button data-dart-plus="${esc(target.actorId)}" aria-label="${t("Aggiungi un dardo a ", "Add a dart to ") + esc(ctx.label(target.name))}">+</button></span>` : ""}</li>`).join("")}</ul>` : targetMode === "area" ? `<p>${t("Nessuna creatura nota nell’area.", "No known creature in the area.")}</p>` : ""}${p?.reasons?.length ? `<ul class="combat-reasons" id="combat-execute-reason">${p.reasons.map((r) => `<li>${esc(reasonText(ctx, r))}</li>`).join("")}</ul>` : !p?.available && !["single", "destination"].includes(targetMode) ? `<p class="combat-reasons" id="combat-execute-reason">${t("La mossa non è ancora pronta: completa la scelta nella mappa o qui sopra.", "The move is not ready yet: complete the choice on the map or above.")}</p>` : ""}${targetMode === "single" && draft.pinned?.length && draft.selection.targetIds?.[0] === draft.pinned[0] ? `<button class="button primary combat-execute" data-combat-execute ${p?.available ? "" : 'disabled aria-describedby="combat-execute-reason"'}>${esc(actionName(ctx, a))} · ${t("sul bersaglio", "on the target")} ${esc(displayName(ctx.state, draft.pinned[0], ctx.role) ?? "")}</button>` : ""}${!["single", "destination"].includes(targetMode) ? `<button class="button primary combat-execute" data-combat-execute ${p?.available ? "" : 'disabled aria-describedby="combat-execute-reason"'}>${targetMode === "area" || targetMode === "multiple" ? t("Lancia ", "Cast ") + esc(actionName(ctx, a)) : esc(actionName(ctx, a))}</button>` : ""}${targetMode === "area" && draft.placed ? `<button class="button" data-combat-reaim>${t("Riorienta area", "Adjust area")}</button>` : ""}<button class="text-button" data-combat-rule>${t("Regola e calcolo", "Rule and calculation")}</button></section>`;
 }
 // The damage formula of the move: dice, the damage modifier and a weapon's own bonus (BI-24).
 function formulaHTML(ctx, a, p) {
@@ -591,7 +652,9 @@ export function handleCombatMap(ctx, actorId, kind, point, targetId) {
   if (a.targetMode === "area" || a.targetMode === "destination")
     draft.selection.point = { x: point.x, y: point.y };
   if (a.targetMode === "area" && ["click", "release"].includes(kind)) draft.placed = true;
-  else if (a.targetMode === "single") draft.selection.targetIds = targetId ? [targetId] : [];
+  // TV-150: pointing at another creature previews it; elsewhere the persistent target stays.
+  else if (a.targetMode === "single")
+    draft.selection.targetIds = targetId ? [targetId] : [...(draft.pinned ?? [])];
   else if (a.targetMode === "multiple" && kind === "click" && targetId) {
     const assignments = draft.selection.allocations || (draft.selection.allocations = []);
     const old = assignments.find((t) => t.actorId === targetId);
@@ -932,7 +995,9 @@ function openActionMenu(ctx, anchor, point, run) {
 function prepareWith(ctx, actorId, actionId, choice) {
   const existing = drafts.get(key(ctx, actorId));
   const selection =
-    existing?.actionId === actionId ? existing.selection : { targetIds: [], allocations: [] };
+    existing?.actionId === actionId
+      ? existing.selection
+      : targetedSelection(ctx, actorId, actionId);
   if (choice.rollMode === "normal") delete selection.rollMode;
   else if (choice.rollMode) selection.rollMode = choice.rollMode;
   if (choice.forceCritical) selection.forceCritical = true;
@@ -972,8 +1037,10 @@ export function bindCombatUI(root, ctx, actorId, onPrepare = () => {}) {
       else
         drafts.set(key(ctx, actorId), {
           actionId: b.dataset.combatAction,
-          selection: { targetIds: [], allocations: [] },
+          selection: targetedSelection(ctx, actorId, b.dataset.combatAction),
         });
+      const started = drafts.get(key(ctx, actorId));
+      if (started) started.pinned = [...started.selection.targetIds];
       ctx.render();
     };
     if (b.dataset.combatKind !== "attack") return;
@@ -1018,6 +1085,12 @@ export function bindCombatUI(root, ctx, actorId, onPrepare = () => {}) {
     .forEach((b) => (b.onclick = () => ctx.openSheet?.(actorId, "actions")));
   root.querySelector("[data-combat-mode]")?.addEventListener("change", (e) => {
     diceMode = e.target.value;
+    try {
+      if (sharedDice(ctx) !== null && sharedDice(ctx) !== diceMode)
+        ctx.registry.setSetting(ctx, TRAY_DICE, diceMode);
+    } catch {
+      /* signed out or storage refused: the bar's own choice still applies */
+    }
   });
   root
     .querySelector("[data-combat-requests]")

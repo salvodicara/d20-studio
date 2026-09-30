@@ -134,3 +134,16 @@ export function sheetEditStatus(state, actor, viewer) {
     canControlActor(actor, viewer, state) && !(viewer === "dm" && player && !own && !dmAllowed);
   return { owner: actor.owner ?? null, own, player, dmAllowed, canEdit };
 }
+
+/**
+ * Close review 01/10 (privacy P1-3): a creature hidden from the players, by its own flag or by
+ * its token on the active scene (the token menu's «Nascondi», B12). What the DM does on it
+ * stays out of shared lines (Fantasy Grounds hides GM rolls; Roll20 whispers NPC rolls).
+ */
+export function hiddenFromPlayers(state, actorId) {
+  const actor = state?.actors?.[actorId];
+  if (!actor) return false;
+  const scene = state.scenes?.find((entry) => entry.id === state.activeSceneId);
+  const token = scene?.tokens?.find((entry) => entry.actorId === actorId);
+  return Boolean(actor.hidden || token?.hidden || token?.visible === false);
+}

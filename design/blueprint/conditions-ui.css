@@ -479,6 +479,23 @@
   font-size: var(--text-sm);
   font-weight: 600;
 }
+/* Close review 01/10: a controller's chip is a button that opens the condition list. */
+.conditions-chip:has(> .conditions-chip-manage) {
+  padding: 0;
+}
+.conditions-chip-manage {
+  min-height: 40px;
+  padding: 3px 10px;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.conditions-chip-manage:focus-visible {
+  outline: 2px solid var(--focus, currentColor);
+  outline-offset: 2px;
+}
 .conditions-count {
   color: var(--accent);
   font-weight: 600;

@@ -1631,7 +1631,8 @@ export function register(registry) {
         (entry) => entry.sourceActorId === target.actorId,
       );
       if (!parcel && ctx.role === "dm") {
-        const name = ctx.state.actors[target.actorId]?.name ?? "";
+        const actor = ctx.state.actors[target.actorId];
+        const name = actor?.name ?? "";
         commitLoot(
           ctx,
           ctx.t(`Bottino preparato: ${name}`, `Loot started: ${name}`),
@@ -1640,6 +1641,12 @@ export function register(registry) {
               ...target,
               label: ctx.t("Bottino", "Loot"),
             });
+            // Close review 01/10 (Item Piles: a defeated creature becomes loot with what it
+            // carried): the stat block's gear starts in the parcel, as «Concludi incontro» does.
+            const creatureId = actor?.compendiumRef?.id ?? actor?.encounterBlock?.creatureId;
+            if (creatureId && getById(creatureId)?.gear?.length && !parcel.items?.length)
+              for (const item of cleanGearFromStatBlock(creatureId))
+                addParcelItem(draft, s, ctx.role, parcel.id, item);
           },
           { hidden: true },
         );

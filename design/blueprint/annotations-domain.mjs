@@ -17,6 +17,7 @@
 
 import { canControlActor, canViewActor, isActorAvailable } from "./character-access.mjs";
 import { sampleDate } from "./sample-clock.mjs";
+import { unseenTokens } from "./fog-vision-domain.mjs";
 
 export const ID = "annotations";
 export const VERSION = 1;
@@ -516,7 +517,12 @@ export function observable(state, scene, actorId, role) {
     (!actor.companion || canViewActor(actor, role, state)) &&
     (actor.visibility !== "private" || canViewActor(actor, role, state)) &&
     (canControlActor(actor, role, state) ||
-      (!actor.hidden && !token.hidden && token.visible !== false)),
+      (!actor.hidden &&
+        !token.hidden &&
+        token.visible !== false &&
+        // Close review 01/10 (privacy P2-5): a creature under the fog or out of sight has no
+        // badge, distance or tooltip, at the Table and on the spectator screen alike.
+        !unseenTokens(state, scene.id, role).has(actorId))),
   );
 }
 

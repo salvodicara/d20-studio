@@ -1602,6 +1602,40 @@ export const MAP_WEATHER = Object.freeze({
   "heavy-snow": "snow",
   fog: "fog",
 });
+/**
+ * TV-154, close review 01/10 (Foundry scene «Weather Effect»): an animated effect chosen for
+ * one scene, independent of the day's weather. "auto" follows today's weather when the DM
+ * put it on the map; the others draw their effect for everyone at the Table.
+ */
+export const SCENE_WEATHER = Object.freeze({
+  auto: L("Dal meteo del giorno", "From the day’s weather"),
+  none: L("Nessun effetto", "No effect"),
+  rain: L("Pioggia", "Rain"),
+  storm: L("Temporale", "Storm"),
+  snow: L("Neve", "Snow"),
+  fog: L("Nebbia", "Fog"),
+  wind: L("Vento e foglie", "Wind and leaves"),
+});
+export function setSceneWeather(state, slice, sceneId, kind, role) {
+  requireDm(state, role);
+  if (!Object.hasOwn(SCENE_WEATHER, kind))
+    throw fail("Effetto meteo sconosciuto.", "Unknown weather effect.");
+  if (!(state.scenes ?? []).some((scene) => scene.id === sceneId))
+    throw fail("La scena non esiste più.", "The scene no longer exists.");
+  const c = ensureCampaign(slice, campaignIdOf(state));
+  c.sceneWeather = object(c.sceneWeather) ? c.sceneWeather : {};
+  if (kind === "auto") delete c.sceneWeather[sceneId];
+  else c.sceneWeather[sceneId] = kind;
+  return kind;
+}
+/** The effect drawn on a scene for this viewer: the scene's own, else the day's on the map. */
+export function mapWeatherFor(state, c, role, sceneId, cid = campaignIdOf(state)) {
+  const own = c?.sceneWeather?.[sceneId];
+  if (own && own !== "auto") return own === "none" ? null : own;
+  const day = todayWeather(state, c, role, cid);
+  if (!day || day.hidden || !day.onMap) return null;
+  return day.conditionId === "storm" ? "storm" : (MAP_WEATHER[day.conditionId] ?? null);
+}
 /** Today's weather as this viewer may read it (a player only when shared). */
 export function todayWeather(state, c, role, cid = campaignIdOf(state)) {
   const day = c?.weather?.days?.[now(state, cid).day];

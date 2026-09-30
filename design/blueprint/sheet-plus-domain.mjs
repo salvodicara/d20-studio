@@ -19,7 +19,12 @@
 // not model stays a visible, reasoned override: nothing is inferred from a name.
 
 import { rollDie } from "./state.mjs";
-import { canControlActor, canViewActor, isCampaignActor } from "./character-access.mjs";
+import {
+  canControlActor,
+  canViewActor,
+  isCampaignActor,
+  hiddenFromPlayers,
+} from "./character-access.mjs";
 import {
   getEffectiveActor,
   getEffectiveSpeed,
@@ -2534,6 +2539,15 @@ export function recordRoll(
   let audience = POLICY_AUDIENCES.includes(chosenAudience)
     ? chosenAudience
     : (rollPolicy(draft, actorId).audience ?? "public");
+  // Close review 01/10 (privacy P1-3; Fantasy Grounds, Roll20 NPC whisper): a roll the DM
+  // makes for a creature hidden from the players starts hidden unless one is chosen.
+  if (
+    !POLICY_AUDIENCES.includes(chosenAudience) &&
+    actor.owner !== "player" &&
+    role !== "player" &&
+    hiddenFromPlayers(draft, actorId)
+  )
+    audience = "self";
   if (role === "dm" && (audience === "gm" || audience === "blind")) audience = "self";
   if (isPersonal(actor)) audience = "self";
   if (!["digital", "physical"].includes(mode))

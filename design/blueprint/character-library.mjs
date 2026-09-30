@@ -3729,6 +3729,37 @@ export function register(registry) {
     group: "services",
     run: shareFromHere,
   });
+  // Close review 01/10 (SV-02, D&D Beyond «Manage»): export, print, PDF, privacy and delete
+  // are found by the words people type, for the open sheet or the viewer's own character.
+  registry.add("command", {
+    id: `${ID}.manage`,
+    label: {
+      it: "Gestisci personaggio: esporta, stampa, PDF, privacy",
+      en: "Manage character: export, print, PDF, privacy",
+    },
+    description: {
+      it: "stampa la scheda, esporta il personaggio in JSON, scarica PDF, privacy, copia, elimina",
+      en: "print the sheet, export the character as JSON, download PDF, privacy, copy, delete",
+    },
+    keywords: [
+      { it: "stampa", en: "print" },
+      { it: "esporta personaggio", en: "export character" },
+      { it: "scarica pdf", en: "download pdf" },
+    ],
+    group: "services",
+    when: (ctx) =>
+      Object.values(ctx.state.actors ?? {}).some(
+        (actor) => playable(actor) && actor.owner === ctx.role,
+      ),
+    run: (ctx) => {
+      const open = ctx.view.page === "characters" && ctx.state.actors?.[ctx.view.id];
+      const own = Object.values(ctx.state.actors ?? {}).filter(
+        (actor) => playable(actor) && actor.owner === ctx.role,
+      );
+      const actor = open && open.owner === ctx.role ? open : own[0];
+      return openManage(ctx, actor.id);
+    },
+  });
   // PG-85: «Aggiungi un mio personaggio» on the campaign's Party page.
   registry.add("service", {
     id: `${ID}-add-own`,

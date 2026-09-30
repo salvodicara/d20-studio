@@ -1775,16 +1775,77 @@ function quickTry(ctx, fn) {
     ctx.toast?.(message(ctx, error), true);
   }
 }
-/** Two clicks (D&D Beyond conditions panel): «+ Condizione», then the condition. */
+/**
+ * Close review 01/10 (D&D Beyond conditions pane, Foundry status icons: a second click
+ * removes it): ends, in one change, every application of a condition this viewer may end.
+ * The reason is recorded for it; a correction of the term keeps its own reason in the panel.
+ */
+export function quickEnd(ctx, actorId, conditionId) {
+  const o = overviewOf(ctx, actorId);
+  const ids = (o.instances ?? [])
+    .filter((i) => i.id === conditionId && i.permissions?.canEnd !== false)
+    .map((i) => i.instanceId);
+  if (!ids.length)
+    throw Error(
+      ctx.t(
+        "Questa condizione viene da un’origine che non termini da qui: apri «Danni, cure e condizioni».",
+        "This condition comes from an origin you do not end here: open “Damage, healing and conditions”.",
+      ),
+    );
+  const reason = ctx.t("Tolta dalla scheda", "Removed from the sheet");
+  const selection = (instanceId) => ({ kind: "end", instanceId, reason });
+  const first = domain.previewConditionChange(ctx.state, actorId, selection(ids[0]), ctx.role);
+  if (!first.canApply) throw Error(message(ctx, first.errors[0]));
+  if (ctx.offline && !first.commit?.local)
+    throw Error(
+      ctx.t(
+        "Senza rete: riconnettiti per applicare questa modifica condivisa.",
+        "Offline: reconnect to apply this shared change.",
+      ),
+    );
+  ctx.commit(
+    ctx.t("Condizione terminata", "Condition ended") +
+      ": " +
+      name(ctx, definition(conditionId)?.name ?? ""),
+    (draft) => {
+      for (const instanceId of ids) {
+        const preview = domain.previewConditionChange(
+          draft,
+          actorId,
+          selection(instanceId),
+          ctx.role,
+        );
+        if (!preview.canApply) throw Error(message(ctx, preview.errors[0]));
+        const result = domain.applyConditionChange(
+          draft,
+          actorId,
+          selection(instanceId),
+          ctx.role,
+          {
+            operationId: uid(),
+            reviewKey: preview.reviewKey,
+            online: !ctx.offline,
+          },
+        );
+        ctx.applyConditionFollowUps?.(draft, result);
+      }
+    },
+    first.commit,
+  );
+}
+/**
+ * Two clicks (D&D Beyond conditions panel): «+ Condizione» (or a condition's chip), then the
+ * condition. An active one is pressed: a click on it ends it (close review 01/10).
+ */
 function openQuickAdd(ctx, actorId) {
   const o = overviewOf(ctx, actorId);
   const active = new Set(o.active.map((g) => g.id));
-  const body = `<div class="conditions-quick-add" data-conditions-quick-list="${attr(ctx, actorId)}"><p class="muted">${ctx.t("Un clic la applica fino a rimozione. Causa, durata e origine riservata si scelgono in «Condizioni e stato».", "One click applies it until removed. Cause, duration and a private origin are chosen in “Conditions and status”.")}</p><ul class="conditions-catalog">${CATALOG.filter(
+  const body = `<div class="conditions-quick-add" data-conditions-quick-list="${attr(ctx, actorId)}"><p class="muted">${ctx.t("Un clic applica una condizione fino a rimozione; un clic su una attiva (evidenziata) la toglie. Causa, durata e origine riservata si scelgono in «Danni, cure e condizioni».", "One click applies a condition until removed; one click on an active (highlighted) one removes it. Cause, duration and a private origin are chosen in “Damage, healing and conditions”.")}</p><ul class="conditions-catalog">${CATALOG.filter(
     (d) => d.id !== "exhaustion",
   )
     .map(
       (d) =>
-        `<li><button type="button" class="conditions-definition" data-conditions-quick-apply="${attr(ctx, d.id)}"${active.has(d.id) ? ' aria-pressed="true"' : ""} title="${attr(ctx, (d.supported ?? []).map((e) => name(ctx, e)).join(" · "))}"><strong>${ctx.esc(name(ctx, d.name))}</strong><small>${ctx.esc(ctx.lang === "it" ? d.name.en : d.name.it)}</small></button></li>`,
+        `<li><button type="button" class="conditions-definition" data-conditions-quick-apply="${attr(ctx, d.id)}" aria-pressed="${active.has(d.id)}" title="${attr(ctx, (d.supported ?? []).map((e) => name(ctx, e)).join(" · "))}"><strong>${ctx.esc(name(ctx, d.name))}</strong><small>${active.has(d.id) ? ctx.t("attiva · clic per toglierla", "active · click to remove") : ctx.esc(ctx.lang === "it" ? d.name.en : d.name.it)}</small></button></li>`,
     )
     .join(
       "",
@@ -1804,6 +1865,11 @@ function openQuickAdd(ctx, actorId) {
     n.addEventListener("click", () => {
       const id = n.dataset.conditionsQuickApply;
       quickTry(ctx, () => {
+        if (n.getAttribute("aria-pressed") === "true") {
+          quickEnd(ctx, actorId, id);
+          ctx.closeDialog?.();
+          return;
+        }
         quickCommit(
           ctx,
           actorId,
@@ -2083,10 +2149,17 @@ export function renderConditionsSummary(ctx, actorId, { embedded = false } = {})
   } catch {
     return "";
   }
-  const chips = o.active.map(
-    (g) =>
-      `<li class="conditions-chip" data-conditions-chip="${attr(ctx, g.id)}">${ctx.esc(name(ctx, g.name))}${g.id === "exhaustion" ? `<span class="conditions-count"> ${g.level}</span>` : g.count > 1 ? `<span class="conditions-count"> ×${g.count}</span>` : ""}</li>`,
-  );
+  // Close review 01/10 (D&D Beyond: a condition is clicked to manage it): a controller's chip
+  // opens the same two-click list, where the active condition is ended with one click.
+  const manage = o.permissions.canControl;
+  const chips = o.active.map((g) => {
+    const text = `${ctx.esc(name(ctx, g.name))}${g.id === "exhaustion" ? `<span class="conditions-count"> ${g.level}</span>` : g.count > 1 ? `<span class="conditions-count"> ×${g.count}</span>` : ""}`;
+    return `<li class="conditions-chip" data-conditions-chip="${attr(ctx, g.id)}">${
+      manage && g.id !== "exhaustion"
+        ? `<button type="button" class="conditions-chip-manage" data-conditions-chip-manage="${attr(ctx, actorId)}" aria-haspopup="dialog" title="${attr(ctx, ctx.t("Gestisci o togli la condizione", "Manage or remove the condition"))}" aria-label="${attr(ctx, `${name(ctx, g.name)}: ${ctx.t("gestisci o togli", "manage or remove")}`)}">${text}</button>`
+        : text
+    }</li>`;
+  });
   const deathBox = deathBoxHTML(ctx, o);
   const concentrating = ctx.state.actors[actorId]?.concentration;
   if (concentrating?.active && canSeeConcentration(ctx, actorId))
@@ -2121,6 +2194,7 @@ export function bindConditionsSummary(root, ctx) {
     openConditions(ctx, { actorId: n.dataset.conditionsEntry, tab: n.dataset.conditionsTab }),
   );
   on("data-conditions-quick-add", (n) => openQuickAdd(ctx, n.dataset.conditionsQuickAdd));
+  on("data-conditions-chip-manage", (n) => openQuickAdd(ctx, n.dataset.conditionsChipManage));
   on("data-conditions-exhaustion-level", (n) =>
     setExhaustion(
       ctx,

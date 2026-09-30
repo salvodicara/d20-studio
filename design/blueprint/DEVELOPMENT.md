@@ -862,3 +862,115 @@ decisions: [final fixes](../../changes/interview-01/final-fixes.md)). What other
 
 Tests: `tests/final-fixes.test.mjs`; the tests of the areas above; browser probes in the evidence
 folder of the report.
+
+## Close review fixes (01/10/2026)
+
+One writer closed the functional, privacy, exposure and findability findings of the three
+closing reviews and built the ten census capabilities left open (evidence and decisions:
+[final fixes](../../changes/interview-01/final-fixes.md#chiusura-delle-funzioni-01102026)). What
+other areas code against:
+
+- **One sight rule (privacy P1-1/P1-2/P2-5, Foundry hides unseen tokens).**
+  `fog-vision-domain.unseenTokens(state, sceneId, role, { asParty })` is the set of creatures an
+  identity cannot see (manual fog, darkness, walls), empty for whoever runs the session and for a
+  scene with neither fog nor vision; cached per state. `tokenSight(state, scene, view)` is the
+  computation behind it and behind `fog-vision.model`; `viewOf(state, sceneId, role)` builds the
+  view from the state alone; `sightMask(state, sceneId, role)` gives the dark cell runs of a
+  picture. Every "does this viewer see this token" check uses it: `table.mjs canObserve` (token,
+  turn order, selection), `token-menu.observesToken`, `annotations-domain.observable` (badges,
+  distances), `special-moves-domain.observes` (labels), `media-table.canObserve` (portraits),
+  `session-view.visibleTokens` (spectator), chat bubbles and speaker links, the sheet-only list and
+  `chat.snapshotSource` (the DM's picture is the party's).
+- **Hidden creatures (privacy P1-3).** `character-access.hiddenFromPlayers(state, actorId)`: the
+  actor or its token on the active scene is hidden. A roll the session runner makes for such a
+  creature starts «Solo DM» (`dice-tray` default audience, `sheet-plus-domain.recordRoll`, the sheet's
+  click-to-roll commit is private); a Compendium item or spell dropped on it is a private line.
+- **DM requests.** `dice-tray.commitRequest(ctx, input, origin)` is the one way a request is sent
+  (tray and journal embed): the shared line names only the targets players see and the DC as they
+  may read it (C1), carries `logLabel` (TV-92 card), and stays private for hidden-only targets or
+  a contest with a hidden side. `input.audience` is `"public"` or `"blind"`
+  (`roll-requests.REQUEST_AUDIENCES`, Foundry blind GM roll): a blind request sets
+  `attempt.audience = "blind"`, the player rolls and reads no value (`requestGroups` row
+  `readable: false`), the answer's line has no value.
+- **Fail closed.** `dice-tray-domain.prepareRoll` refuses an audience the role may not use
+  (`code: "audience"`) instead of widening it to everyone.
+- **Pop-out windows (X-10, Foundry V14).** `table.RELAYED_CONTROLS` names the panel controls that
+  act on the map or sidebar (`[data-chat-show-token]`, `[data-chat-request]`, `[data-sv="clean"]`,
+  `[data-sv="home"]`); in a `window:` route they post `{type: "d20-table-relay", panel, control,
+value}` to the opener, which opens the panel and presses the same control (never a selector from
+  the message: `relayedSelector` validates the value). The panel's close button closes the window.
+- **Double press on a token (TV-14).** The first press redraws the map, so the browser never fires
+  `dblclick`: two left presses on the same `data-actor` within `DOUBLE_PRESS_MS` (400 ms) in Move, by the
+  same identity and with at most one map redraw between them (`mapBinds`), open it
+  (`openFromToken`); `resetTableView` forgets the last press; the browser's `dblclick` stays as a
+  second way in.
+- **Search (SV-02/SV-03).** `command-palette.labelIndex(ctx)` indexes, by their labels, the Table's
+  sidebar panels and map tools, the core scene commands (rests, time, combat), token-menu commands
+  (opened on the viewer's token), the sheet sections and the shops (`Bottega: <name>`; closed ones
+  for the DM); `pageControls(ctx)` lists the named controls on screen as «Su questa pagina» (a tab
+  or fold opens, any other control is focused and framed, `.cmdk-found`, and waits for Enter).
+- **Conditions on the sheet.** `conditions-ui.quickEnd(ctx, actorId, conditionId)` ends every
+  endable application in one change with a recorded reason; a controller's chip opens the quick
+  list, where an active condition is pressed and one click ends it.
+- **New Table capabilities.** Targets (TV-150): `token-menu.targetsOf/toggleTarget/clearTargets`,
+  slice field `targets[role]`, keys T and Shift+T, map layer `token-menu-targets`;
+  `combat-ui.targetedSelection` starts a single- or multi-target preview on them and a preview
+  keeps them as `pinned` (hover previews another creature, «sul bersaglio» executes). Bars
+  (TV-152): `token-menu.barOptions/setTokenBars`, token entry `bar2`/`bar3` `{attr, show}`, layer
+  `token-menu-bars`. Inline rolls (TV-151): `chat-domain.inlineFormulas`, message `inlineRolls`
+  rolled once by `chat.rollInline` before composing; `composeMessage` keeps only results matching
+  the text. Video maps (TV-153): `preparation.backgroundKind`, `VIDEO_PATTERN`, `MAX_VIDEO_BYTES`
+  (2 MB), `renderSceneBase` draws a muted looping `<video>` (still with reduced motion). Scene
+  weather (TV-154): `travel-domain.SCENE_WEATHER/setSceneWeather/mapWeatherFor`, animated layer
+  `travel-weather`. Shared device (TV-155): device setting `session-view-device.shared`, cover panel
+  `session-view-handoff`, `handoffTo(ctx)`, `turnIdentity(state)`. Karmic dice (TV-156): campaign
+  setting `dice-tray-campaign.karmic` (off), `dice-tray-domain.karmicDraw`, slice `karma[role]`,
+  record `karmic` and the log line name each rethrow.
+- **Macros with code (X-12).** `chat-domain.parseMacro/runMacro/saveMacro/deleteMacro/macrosOf`:
+  a line language (tira, imposta, se … allora, di, sussurra, `@attributes`), parsed by its own
+  parser, never evaluated as JavaScript; at most 30 lines and 6 rolls; slice `macros[role]`
+  (private, local). `chat.runMacroNow` posts the result with every roll as inline rolls.
+- **Account (SV-56, SV-28).** `account.beginTwoFactor/confirmTwoFactor/disableTwoFactor/
+verifySecondStep/demoCode` (simulated authenticator, 10 single-use recovery codes; `signIn`
+  returns `{secondStep}` and keeps the session signed out until the code);
+  `account.declareAge/requestParentConsent/answerParentConsent/agePolicy` (only the age band is
+  kept; consent age 14). `community` reads `agePolicy` through its optional neighbour.
+- **Other seams.** `session-view` chip `not-started` («Avvia ora», «Non ora») and command
+  `session-view.lifecycle`; `encounter-builder` dock panel `encounter-builder-dock-load`
+  («Carica statistiche» in the action bar of a creature with no attack); builder level up:
+  class spell grants carry `levelUp {from, to, cantrips, known, onSheet}` and the warning
+  `levelup-spells`; build sections carry `warnings` (the reason of «Da rivedere»);
+  `levelChanges().spellsGained`; the action bar's dice mode follows `dice-tray.dice`; the
+  Magic Missile preview names its darts and the assigned count; creature loot started from the
+  token gets the stat block's gear; campaign editors re-enable their main button on any edit.
+
+Tests: `tests/close-fixes.test.mjs`; the tests of the areas above; browser probes in the evidence
+folder of the report.
+
+## Regressions around the close review (01/10/2026)
+
+Browser journeys, not unit tests, found these; they are recorded so the next writer starts from
+them (evidence outside the checkout, `~/Workspace/Codex/d20-blueprint-evidence/2026-10-01/`).
+
+- **Full run after the final fixes, before the closing reviews** (`regress/results-sweep1.txt`):
+  184/189 green, 1497 `passed`. Red: `rest-time`, `b61-table-structure`, `spells-plus`,
+  `spells-plus-review`, `w2a1-shell`.
+- **After the close review fixes**: the 40 journeys of the touched areas are green
+  (`close-fix/logs/journeys.log`). Rerun of the five reds (`feature-map/logs/journeys.log`):
+  `rest-time` and `b61-table-structure` green (timing on a loaded machine); still red and not
+  diagnosed: `spells-plus` («closed message missing»: after confirming a preparation the spell
+  window does not show «Preparazione non modificabile ora»), `spells-plus-review` («the player
+  is not told who can grant an exception»: no «chiedi al DM»; both depend on whether the
+  preparation window is open, `spells-plus.mjs` `window.open`) and `w2a1-shell` (at 1440 a
+  campaign section is neither in the rail nor reachable through `[data-campaign-sections]`,
+  which is not visible at that width). Diagnose each test-first: decide whether the behaviour or the
+  journey's expectation is out of date before changing either.
+- **What the close fixes changed for checks.** A creature the viewer cannot see is **not drawn**
+  (no badge, distance row, label or portrait in the DOM), instead of being hidden with CSS:
+  checks accept `count() === 0` or a hidden element (`fog-vision-journey`,
+  `fog-vision-review-journey`). The session chip's button is «Avvia ora», so it no longer shares
+  the accessible name «Avvia sessione» with the «Sessione» panel. A double press opens the sheet
+  only for the same identity with at most one map redraw between the presses, so two separate
+  clicks on the same token in a journey are not a double press (`knowledge-journey`). Journeys
+  that read sample files from their evidence folder need those files copied first.
+- A full run of all 189 journeys after the close fixes has not been done yet.

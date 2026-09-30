@@ -50,6 +50,7 @@ import { ITEMS } from "./srd-sample.mjs";
 import { skills as SKILL_LIST, abilities as ABILITY_LIST } from "./character-rules.mjs";
 import { itemFromCatalog } from "./party-stash.mjs";
 import { runsSession } from "./table-spatial.mjs";
+import { unseenTokens } from "./fog-vision-domain.mjs";
 
 export const ID = "special-moves";
 export const VERSION = 1;
@@ -587,7 +588,11 @@ export function observes(state, actorId, role, scene = sceneOf(state)) {
     (!actor.companion || canViewActor(actor, role, state)) &&
     (actor.visibility !== "private" || canViewActor(actor, role, state)) &&
     (canControlActor(actor, role, state) ||
-      (!actor.hidden && !token.hidden && token.visible !== false)),
+      (!actor.hidden &&
+        !token.hidden &&
+        token.visible !== false &&
+        // Close review 01/10 (privacy P1): the fog and the dark hide its name label too.
+        !(scene && unseenTokens(state, scene.id, role).has(actorId)))),
   );
 }
 /** Altitude above the ground in metres: B18's token elevation when its area is present. */

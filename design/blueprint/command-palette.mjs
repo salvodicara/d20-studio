@@ -21,6 +21,7 @@ import * as content from "./campaign-content.mjs";
 import { canViewActor } from "./character-access.mjs";
 import * as hb from "./homebrew.mjs";
 import * as srd from "./srd-compendium.mjs";
+import { runsSession } from "./table-spatial.mjs";
 
 const ID = "command-palette";
 const L = (it, en) => Object.freeze({ it, en });
@@ -251,6 +252,7 @@ const TYPES = {
   class: [L("Classe", "Class"), 5],
   page: [L("Pagina", "Page"), 6],
   command: [L("Comando", "Command"), 7],
+  control: [L("Su questa pagina", "On this page"), 7],
   provider: [L("Contenuto", "Content"), 8],
   filter: [L("Filtro", "Filter"), 9],
   help: [L("Guida", "Guide"), 9],
@@ -536,7 +538,6 @@ const COMMAND_ALIASES = Object.freeze({
     "elimina il mio account",
     "delete account",
   ],
-  "random-tables.open": ["incontro casuale", "incontri casuali", "random encounter"],
   "encounter-builder.open": ["rinforzi", "ondate di nemici", "reinforcements"],
   "special-moves.tray": [
     "saltare",
@@ -562,6 +563,19 @@ const COMMAND_ALIASES = Object.freeze({
   "token-menu.add-creature": ["pedine numerate", "numera le pedine", "numbered tokens"],
   "chat.snapshot": ["istantanea della scena", "foto della scena", "scene snapshot"],
   "preferences.open": ["dadi 3d", "animazione dei dadi", "3d dice"],
+  // Close review 01/10 (completeness F4): the natural words that found nothing.
+  "random-tables.open": [
+    "incontro casuale",
+    "incontri casuali",
+    "random encounter",
+    "mazzo di carte",
+    "mazzi di carte",
+    "pesca una carta",
+    "deck of cards",
+    "draw a card",
+  ],
+  "generators.names": ["nome casuale", "nomi casuali", "nome a caso", "random name"],
+  "quickbar.slot-1": ["macro", "macro della barra", "hotbar macro"],
 });
 const aliasesOf = (id) => COMMAND_ALIASES[id] ?? [];
 function aliasPages(ctx) {
@@ -604,6 +618,15 @@ function aliasPages(ctx) {
       L(`Magie di ${own.name}`, `${own.name}’s spells`),
       ["trascrivi", "trascrivere", "libro degli incantesimi", "copy spells"],
       sheet("spells"),
+    );
+    add(
+      "story",
+      L(
+        `Storia di ${own.name}: tratti, ideali, legami, difetti`,
+        `${own.name}’s story: traits, ideals, bonds, flaws`,
+      ),
+      ["legame", "legami", "ideali", "difetti", "tratti", "bonds", "ideals", "flaws"],
+      sheet("story"),
     );
     add(
       "level",
@@ -1282,6 +1305,299 @@ function placeName(ctx, command) {
   const place = PLACES[command.group] ?? PLACES[command.extension];
   return place ?? (GROUPS[command.group] || L("Comando", "Command"));
 }
+// ------------------------------------------------------------------ every visible label
+
+// Close review 01/10 (SV-02/SV-03; Alchemy OmniSearch and Kanka index every command, tab and
+// panel label, Foundry and Obsidian every tool): what the interface shows by name is found by
+// that name, without a hand-written synonym list. Table panels and map tools, the core scene
+// commands, sheet sections, token-menu commands and open shops come from the registry; the
+// controls on screen come from the page itself.
+const later = (fn, tries = 0) =>
+  setTimeout(() => {
+    if (fn() === false && tries < 12) later(fn, tries + 1);
+  }, 60);
+function pressOnPage(ctx, page, selector, params = {}) {
+  if (ctx.view?.page !== page) ctx.navigate(page, params);
+  later(() => {
+    const el = globalThis.document?.querySelector?.(`#content ${selector}`);
+    if (!el) return false;
+    el.click();
+    return true;
+  });
+  return true;
+}
+/** Opens a Table panel without closing it when it is already the open one. */
+function openTablePanel(ctx, id) {
+  if (ctx.view?.page !== "table") ctx.navigate("table");
+  later(() => {
+    const doc = globalThis.document;
+    const open = doc?.querySelector?.(`#content #table-sidebar-panel[data-table-panel="${id}"]`);
+    if (open && !open.hidden) return true;
+    const handle = doc?.querySelector?.(`#content [data-table-drawer="${id}"]`);
+    if (!handle) return false;
+    handle.click();
+    return true;
+  });
+  return true;
+}
+/** Right-clicks a token (its menu) and opens a submenu, as a person would. */
+function openTokenMenu(ctx, actorId, submenu) {
+  if (ctx.view?.page !== "table") ctx.navigate("table");
+  later(() => {
+    const doc = globalThis.document;
+    const token = doc?.querySelector?.(`#content #battle-map .map-token[data-actor="${actorId}"]`);
+    if (!token) return false;
+    const box = token.getBoundingClientRect();
+    token.dispatchEvent(
+      new MouseEvent("contextmenu", {
+        bubbles: true,
+        cancelable: true,
+        clientX: box.x + box.width / 2,
+        clientY: box.y + box.height / 2,
+        button: 2,
+      }),
+    );
+    if (submenu)
+      later(() => {
+        const category = doc.querySelector(`[data-token-menu-category="${submenu}"]`);
+        if (!category) return false;
+        category.click();
+        return true;
+      });
+    return true;
+  });
+  return true;
+}
+const SAFE_KEY = /^[A-Za-z0-9_.:-]{1,80}$/;
+export function labelIndex(ctx) {
+  const r = reg(ctx);
+  const list = (point, ...args) => {
+    try {
+      return r?.list(point, ctx, ...args) ?? [];
+    } catch {
+      return [];
+    }
+  };
+  const items = [];
+  const add = (key, title, where, run, words = []) =>
+    items.push({
+      key: "label:" + key,
+      type: "command",
+      title,
+      names: [title.it, title.en],
+      keywords: words.flatMap((w) => (typeof w === "string" ? [w] : [w.it, w.en])),
+      excerpt: where,
+      row: { id: "label:" + key, command: { label: title, run } },
+    });
+  const labelOf = (c) =>
+    typeof c.label === "string" ? L(c.label, c.label) : L(c.label?.it ?? "", c.label?.en ?? "");
+  const runner = runsSession(ctx.state, ctx.role);
+  if (campaignReadable(ctx)) {
+    const table = L("Tavolo", "Table");
+    for (const panel of list("table-panel").filter(
+      (c) => ["sidebar-tab", "drawer"].includes(c.placement) && SAFE_KEY.test(c.id),
+    ))
+      add("panel:" + panel.id, labelOf(panel), L("Tavolo · pannello", "Table · panel"), (c) =>
+        openTablePanel(c, panel.id),
+      );
+    for (const tool of list("table-tool").filter((c) => SAFE_KEY.test(c.id) && c.label))
+      add(
+        "tool:" + tool.id,
+        labelOf(tool),
+        L("Tavolo · strumento della mappa", "Table · map tool"),
+        (c) => pressOnPage(c, "table", `[data-tool="${tool.id}"]`),
+      );
+    // The core scene commands at the top of the Table (B61).
+    add(
+      "rests",
+      L("Riposi: riposo breve o lungo", "Rests: short or long rest"),
+      table,
+      (c) => (c.openRest ? (c.openRest(), true) : pressOnPage(c, "table", '[data-table="rests"]')),
+      ["riposo breve", "riposo lungo", "dadi vita", "short rest", "long rest", "hit dice"],
+    );
+    if (runner) {
+      add(
+        "time",
+        L(
+          "Tempo di gioco: tempo narrativo, riposi e tempo",
+          "Game time: narrative time, rests and time",
+        ),
+        table,
+        (c) =>
+          c.openGameTime
+            ? (c.openGameTime(), true)
+            : pressOnPage(c, "table", '[data-table="time"]'),
+        [
+          "tempo narrativo",
+          "riposi e tempo",
+          "avanza tempo",
+          "avanza il tempo",
+          "passa il tempo",
+          "orologio di gioco",
+          "advance time",
+          "pass time",
+        ],
+      );
+      add(
+        "combat",
+        ctx.state.combat?.active
+          ? L("Concludi incontro: fine del combattimento", "End encounter: end of combat")
+          : L("Avvia combattimento", "Start combat"),
+        table,
+        (c) => pressOnPage(c, "table", '[data-table="combat"]'),
+        ctx.state.combat?.active
+          ? ["fine combattimento", "termina combattimento", "concludi incontro", "end combat"]
+          : ["inizia combattimento", "tira iniziativa", "start combat", "roll initiative"],
+      );
+    }
+    // Open shops (findability P2; Foundry and Obsidian list what is open as a result): the
+    // player finds «Bottega: <name>» by «compra», «bottega» or «mercante»; the DM also finds
+    // the closed ones, which open in Preparation.
+    const merchants = ctx.state.ext?.loot?.merchants ?? [];
+    for (const merchant of merchants) {
+      if (!merchant?.id || !SAFE_KEY.test(merchant.id)) continue;
+      const here = !merchant.sceneId || merchant.sceneId === ctx.state.activeSceneId;
+      const open = merchant.open === true && here;
+      if (!open && !runner) continue;
+      const words = [
+        "compra",
+        "comprare",
+        "vendi",
+        "mercante",
+        "negozio",
+        "bottega",
+        "buy",
+        "shop",
+        "merchant",
+      ];
+      add(
+        "shop:" + merchant.id,
+        L(`Bottega: ${merchant.name}`, `Shop: ${merchant.name}`),
+        open
+          ? L("Tavolo · Oggetti · bottega aperta", "Table · Items · open shop")
+          : L("Preparazione · Mercanti · bottega chiusa", "Preparation · Merchants · closed shop"),
+        (c) =>
+          open
+            ? openTablePanel(c, "loot-shop")
+            : (c.navigate("preparation", { tab: "loot-merchants" }), true),
+        words,
+      );
+    }
+    // Token-menu commands (B12, Foundry Token HUD): found by name, opened on a token.
+    const scene = ctx.state.scenes?.find((entry) => entry.id === ctx.state.activeSceneId);
+    const ownToken = scene?.tokens?.find((t) => {
+      const actor = ctx.state.actors?.[t.actorId];
+      return actor?.kind === "character" && ctx.canControl?.(actor);
+    });
+    const npcToken = runner
+      ? scene?.tokens?.find((t) => ctx.state.actors?.[t.actorId]?.kind === "npc")
+      : null;
+    const seen = new Set();
+    for (const token of [ownToken, npcToken].filter(Boolean)) {
+      const target = { actorId: token.actorId, tokenId: token.id, sceneId: scene.id };
+      for (const entry of list("token-menu", target)) {
+        if (seen.has(entry.id) || !entry.label || !SAFE_KEY.test(entry.id)) continue;
+        seen.add(entry.id);
+        const sub = TOKEN_SUBMENUS[entry.submenu];
+        const name = ctx.state.actors[token.actorId]?.name ?? "";
+        add(
+          "token:" + entry.id,
+          labelOf(entry),
+          L(
+            `Menu della pedina (${name})${sub ? " › " + sub.it : ""}`,
+            `Token menu (${name})${sub ? " › " + sub.en : ""}`,
+          ),
+          (c) => openTokenMenu(c, token.actorId, entry.submenu ?? null),
+        );
+      }
+    }
+  }
+  // Sheet sections of the viewer's own character (D&D Beyond's categories, B62).
+  const own = Object.values(ctx.state.actors ?? {}).find(
+    (a) => a?.kind === "character" && !a.companion && a.owner === ctx.role,
+  );
+  if (own)
+    for (const tab of list("sheet-tab", own).filter((c) => SAFE_KEY.test(c.id) && c.label))
+      add(
+        "sheet:" + tab.id,
+        L(`${labelOf(tab).it} · ${own.name}`, `${labelOf(tab).en} · ${own.name}`),
+        L("Scheda del personaggio", "Character sheet"),
+        (c) => (c.navigate("characters", { id: own.id, tab: tab.id }), true),
+      );
+  return items;
+}
+const TOKEN_SUBMENUS = {
+  actions: L("Azioni", "Actions"),
+  look: L("Aspetto", "Appearance"),
+  visibility: L("Visibilità", "Visibility"),
+  items: L("Oggetti", "Items"),
+  dm: L("Strumenti DM", "DM tools"),
+};
+/**
+ * The named controls on screen now (Obsidian and Alchemy find the command in front of you):
+ * choosing one brings it into view and focuses it, and a tab or a fold opens at once; any
+ * other control waits for Enter, so a search never presses a button by itself.
+ */
+export function pageControls(ctx, doc = globalThis.document) {
+  const root = doc?.querySelector?.("#content");
+  if (!root) return [];
+  const items = [];
+  const seen = new Set();
+  for (const old of root.querySelectorAll("[data-cmdk-control]"))
+    old.removeAttribute("data-cmdk-control");
+  const nodes = root.querySelectorAll(
+    'button, [role="tab"], [role="menuitem"], summary, a[href^="#"], [data-tool]',
+  );
+  let index = 0;
+  for (const el of nodes) {
+    if (items.length >= 120) break;
+    if (el.closest?.("[hidden], dialog, .table-panel-index")) continue;
+    if (el.disabled || el.getAttribute?.("aria-disabled") === "true") continue;
+    const box = el.getBoundingClientRect?.();
+    if (!box || (!box.width && !box.height)) continue;
+    const label = String(
+      el.getAttribute("aria-label") || el.textContent || el.getAttribute("title") || "",
+    )
+      .replace(/\s+/g, " ")
+      .trim();
+    if (label.length < 3 || label.length > 70 || seen.has(label.toLowerCase())) continue;
+    seen.add(label.toLowerCase());
+    const mark = `cmdk-${index++}`;
+    el.setAttribute("data-cmdk-control", mark);
+    const opens =
+      el.matches('[role="tab"], summary, [aria-haspopup], [data-tool], a[href^="#"]') ||
+      el.hasAttribute("data-table-drawer");
+    items.push({
+      key: "control:" + label,
+      type: "control",
+      title: L(label, label),
+      names: [label],
+      excerpt: opens
+        ? L("Su questa pagina · si apre", "On this page · opens")
+        : L("Su questa pagina · premi Invio per usarlo", "On this page · press Enter to use it"),
+      row: {
+        id: "control:" + mark,
+        command: {
+          label: L(label, label),
+          run: () => {
+            later(() => {
+              const target = doc.querySelector(`[data-cmdk-control="${mark}"]`);
+              if (!target) return false;
+              target.scrollIntoView?.({ block: "center" });
+              target.focus?.({ preventScroll: true });
+              target.classList.add("cmdk-found");
+              setTimeout(() => target.classList.remove("cmdk-found"), 2400);
+              if (opens) target.click();
+              return true;
+            });
+            return true;
+          },
+        },
+      },
+    });
+  }
+  return items;
+}
 function commandItems(ctx, { withPages = false } = {}) {
   return rowsFor(ctx)
     .filter((row) => withPages || !row.command.page)
@@ -1457,7 +1773,11 @@ export function searchPalette(ctx, text, { filter = null } = {}) {
   }
   const failed = new Set();
   const core = [...coreItems(ctx, failed), ...commandItems(ctx)];
-  const every = [...core, ...providerItems(ctx, parsed.query, { failed })];
+  const every = [
+    ...core,
+    ...(parsed.query ? [...labelIndex(ctx), ...pageControls(ctx)] : []),
+    ...providerItems(ctx, parsed.query, { failed }),
+  ];
   const pool = active ? every.filter((item) => inFilter(active, item)) : every;
   if (!parsed.query) {
     if (active)
@@ -1515,6 +1835,7 @@ function rank(ctx, pool, query) {
 // on top (D&D Beyond and Alchemy grouped results, SV-03).
 const RESULT_GROUPS = [
   ["commands", L("Comandi", "Commands"), ["command"]],
+  ["here", L("Su questa pagina", "On this page"), ["control"]],
   ["characters", L("Personaggi e PNG", "Characters and NPCs"), ["character", "companion", "npc"]],
   [
     "campaign",

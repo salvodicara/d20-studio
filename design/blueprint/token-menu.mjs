@@ -40,6 +40,7 @@ import { openTransform } from "./forms-ui.mjs";
 import { iconPath } from "./ui.mjs";
 import * as SRD from "./srd-compendium.mjs";
 import { packCreature, packCreatures } from "./compat-packs.mjs";
+import { unseenTokens } from "./fog-vision-domain.mjs";
 
 const ID = "token-menu";
 const DRAWER = "token-menu-creatures";
@@ -177,6 +178,15 @@ export function normalizeSlice(value) {
     if (rotation) entry.rotation = rotation;
     if (Array.isArray(raw.audience))
       entry.audience = [...new Set(raw.audience.filter((id) => typeof id === "string"))];
+    // TV-152: the token's extra bars (Foundry bar 2, Roll20 bars 2 and 3).
+    for (const bar of ["bar2", "bar3"])
+      if (
+        isObject(raw[bar]) &&
+        typeof raw[bar].attr === "string" &&
+        BAR_ATTR.test(raw[bar].attr) &&
+        ["owner", "all"].includes(raw[bar].show)
+      )
+        entry[bar] = { attr: raw[bar].attr, show: raw[bar].show };
     if (Object.keys(entry).length) out.tokens[tokenId] = entry;
   }
   for (const [groupId, raw] of Object.entries(isObject(value?.groups) ? value.groups : {})) {
@@ -196,6 +206,12 @@ export function normalizeSlice(value) {
     }
     if (Object.keys(entry).length) out.names[actorId] = entry;
   }
+  // TV-150: each identity's persistent targets (Foundry user targets).
+  for (const [role, list] of Object.entries(isObject(value?.targets) ? value.targets : {}))
+    if (Array.isArray(list) && list.length) {
+      out.targets ??= {};
+      out.targets[role] = [...new Set(list.filter((id) => typeof id === "string"))].slice(0, 12);
+    }
   return out;
 }
 const sliceOf = (state) => (isObject(state?.ext?.[ID]) ? state.ext[ID] : seedSlice());
@@ -220,17 +236,33 @@ const requireDM = (role, state = null) => {
     throw localized("dm-only", "Solo il DM può farlo.", "Only the DM can do this.");
 };
 
-/** Mirror of the Table's own rule (table.mjs renderTable): the viewer sees this token. */
+/** The scene a token stands on (the active scene first). */
+function sceneOfToken(state, token) {
+  const active = activeScene(state);
+  if (active?.tokens?.includes(token) || active?.tokens?.some((t) => t.id === token?.id))
+    return active;
+  return state?.scenes?.find((scene) => scene.tokens?.includes(token)) ?? null;
+}
+/**
+ * Mirror of the Table's own rule (table.mjs renderTable): the viewer sees this token. Close
+ * review 01/10 (privacy P1, Foundry): a creature under the fog or out of the viewer's sight
+ * is not seen either, so it is neither listed, selected nor measured.
+ */
 export function observesToken(state, token, role) {
   const subject = state?.actors?.[token?.actorId];
-  return Boolean(
-    token &&
-    isActorAvailable(subject) &&
-    (!subject.companion || canViewActor(subject, role, state)) &&
-    (subject.visibility !== "private" || canViewActor(subject, role, state)) &&
-    (canControlActor(subject, role, state) ||
-      (!subject.hidden && !token.hidden && token.visible !== false)),
-  );
+  if (
+    !(
+      token &&
+      isActorAvailable(subject) &&
+      (!subject.companion || canViewActor(subject, role, state)) &&
+      (subject.visibility !== "private" || canViewActor(subject, role, state))
+    )
+  )
+    return false;
+  if (canControlActor(subject, role, state)) return true;
+  if (subject.hidden || token.hidden || token.visible === false) return false;
+  const scene = sceneOfToken(state, token);
+  return !scene || !unseenTokens(state, scene.id, role).has(token.actorId);
 }
 
 /** Party characters a DM can choose as the audience of a token (Smoke & Spectre). */
@@ -260,6 +292,232 @@ export function seesAsAudience(state, slice, token, viewer) {
     const actor = state.actors[id];
     return actor?.kind === "character" && canControlActor(actor, viewer, state);
   });
+}
+// ---------------------------------------------------------------- resource bars (TV-152)
+
+// Close review 01/10 (Foundry bar 1 and bar 2 bound to an attribute, Roll20's three bars): the
+// HP bar stays the first; two more bars show a resource of the sheet, read live, to its
+// controller only or to everyone at the Table.
+export const BAR_ATTR =
+  /^(temp-hp|slots:[1-9]|pact|feature:[A-Za-z0-9_:.-]{1,80}|hit-dice:d(6|8|10|12))$/;
+/** The resources an actor offers as bars: {attr, label, value, max}. */
+export function barOptions(actor, lang = "it") {
+  if (!actor) return [];
+  const pick = (v) => (typeof v === "object" && v ? (v[lang] ?? v.it) : String(v ?? ""));
+  const out = [
+    {
+      attr: "temp-hp",
+      label: lang === "en" ? "Temporary HP" : "PF temporanei",
+      value: Math.max(0, Number(actor.tempHp) || 0),
+      max: Math.max(1, Number(actor.maxHp) || 1),
+    },
+  ];
+  for (const [level, pool] of Object.entries(actor.spellSlots ?? {}))
+    if (Number(pool?.max) > 0)
+      out.push({
+        attr: `slots:${level}`,
+        label: lang === "en" ? `Level ${level} spell slots` : `Slot di ${level}° livello`,
+        value: Math.max(0, pool.max - (Number(pool.used) || 0)),
+        max: pool.max,
+      });
+  if (Number(actor.pactSlots?.max) > 0)
+    out.push({
+      attr: "pact",
+      label: lang === "en" ? "Pact slots" : "Slot del Patto",
+      value: Math.max(0, actor.pactSlots.max - (Number(actor.pactSlots.used) || 0)),
+      max: actor.pactSlots.max,
+    });
+  for (const feature of actor.features ?? [])
+    if (Number.isInteger(feature?.max) && feature.max > 0 && typeof feature.id === "string")
+      out.push({
+        attr: `feature:${feature.id}`,
+        label: pick(feature.name),
+        value: Math.max(0, feature.max - (Number(feature.used) || 0)),
+        max: feature.max,
+      });
+  for (const [die, pool] of Object.entries(actor.hitDice ?? {}))
+    if (Number(pool?.max) > 0 && /^d(6|8|10|12)$/.test(die))
+      out.push({
+        attr: `hit-dice:${die}`,
+        label: lang === "en" ? `Hit Dice ${die}` : `Dadi Vita ${die}`,
+        value: Math.max(0, pool.max - (Number(pool.used) || 0)),
+        max: pool.max,
+      });
+  return out.filter((row) => BAR_ATTR.test(row.attr));
+}
+export function setTokenBars(ctx, target, bars) {
+  const actor = ctx.state.actors[target.actorId];
+  const token = tokenOfActor(sceneById(ctx.state, target.sceneId), target.actorId);
+  if (!token || !actor || !controls(ctx, target.actorId))
+    throw localized(
+      "bars",
+      "Solo chi controlla la pedina ne sceglie le barre.",
+      "Only the token’s controller chooses its bars.",
+    );
+  const allowed = new Set(barOptions(actor, ctx.lang).map((row) => row.attr));
+  const clean = {};
+  for (const bar of ["bar2", "bar3"]) {
+    const wanted = bars?.[bar];
+    if (!wanted?.attr) continue;
+    if (!allowed.has(wanted.attr) || !["owner", "all"].includes(wanted.show))
+      throw localized(
+        "bars",
+        "Scegli una risorsa della scheda per la barra.",
+        "Choose a sheet resource for the bar.",
+      );
+    clean[bar] = { attr: wanted.attr, show: wanted.show };
+  }
+  commitChange(
+    ctx,
+    ctx.t(`Barre della pedina: ${actor.name}`, `Token bars: ${actor.name}`),
+    (draft) => {
+      const slice = draft.ext[ID];
+      const entry = writableEntry(slice, token.id);
+      delete entry.bar2;
+      delete entry.bar3;
+      Object.assign(entry, clean);
+      tidyEntry(slice, token.id);
+    },
+  );
+}
+function openBars(ctx, target) {
+  closeMenu(false);
+  const actor = ctx.state.actors[target.actorId];
+  const token = tokenOfActor(sceneById(ctx.state, target.sceneId), target.actorId);
+  const entry = entryOf(sliceOf(ctx.state), token?.id);
+  const options = barOptions(actor, ctx.lang);
+  const field = (bar, n) => {
+    const now = entry[bar] ?? { attr: "", show: "owner" };
+    return `<fieldset class="token-menu-bars-field"><legend>${ctx.t(`Barra ${n}`, `Bar ${n}`)}</legend><label class="field">${ctx.t("Risorsa", "Resource")}<select name="${bar}-attr"><option value="">${ctx.t("Nessuna", "None")}</option>${options.map((row) => `<option value="${ctx.esc(row.attr)}"${row.attr === now.attr ? " selected" : ""}>${ctx.esc(row.label)} (${row.value}/${row.max})</option>`).join("")}</select></label><label class="field">${ctx.t("Chi la vede", "Who sees it")}<select name="${bar}-show"><option value="owner"${now.show === "owner" ? " selected" : ""}>${ctx.t("Chi controlla la pedina e il DM", "The token’s controller and the DM")}</option><option value="all"${now.show === "all" ? " selected" : ""}>${ctx.t("Tutti al Tavolo", "Everyone at the Table")}</option></select></label></fieldset>`;
+  };
+  ctx.dialog(
+    ctx.t(`Barre della pedina · ${actor?.name ?? ""}`, `Token bars · ${actor?.name ?? ""}`),
+    `<p class="muted">${ctx.t("La prima barra resta quella dei punti ferita. Le altre mostrano una risorsa della scheda sotto la pedina e si aggiornano da sole.", "The first bar stays the hit points. The others show a sheet resource under the token and update by themselves.")}</p>${field("bar2", 2)}${field("bar3", 3)}`,
+    {
+      submitLabel: ctx.t("Salva le barre", "Save the bars"),
+      onSubmit: (data) => {
+        const read = (bar) =>
+          data.get(`${bar}-attr`)
+            ? {
+                attr: String(data.get(`${bar}-attr`)),
+                show: String(data.get(`${bar}-show`) ?? "owner"),
+              }
+            : null;
+        setTokenBars(ctx, target, { bar2: read("bar2"), bar3: read("bar3") });
+      },
+    },
+  );
+}
+/** The extra bars under the tokens, for whoever may see each one. */
+function barsSvg(ctx, tableView) {
+  const scene = tableView?.scene;
+  if (!scene) return "";
+  const slice = sliceOf(ctx.state);
+  const parts = [];
+  for (const token of scene.tokens ?? []) {
+    const entry = entryOf(slice, token.id);
+    if (!entry.bar2 && !entry.bar3) continue;
+    const actor = ctx.state.actors[token.actorId];
+    if (!actor || !observesToken(ctx.state, token, ctx.role)) continue;
+    const mine = controls(ctx, token.actorId) || dm(ctx);
+    const rows = barOptions(actor, ctx.lang);
+    ["bar2", "bar3"].forEach((bar, index) => {
+      const setting = entry[bar];
+      if (!setting || (setting.show !== "all" && !mine)) return;
+      const row = rows.find((r) => r.attr === setting.attr);
+      if (!row) return;
+      const y = token.y + 35 + index * 6;
+      const width = (44 * Math.min(row.value, row.max)) / Math.max(1, row.max);
+      parts.push(
+        `<g class="token-bar" data-token-for="${ctx.esc(token.actorId)}" data-token-bar="${bar}" pointer-events="none"><title>${ctx.esc(`${row.label}: ${row.value}/${row.max}`)}</title><rect x="${token.x - 22}" y="${y}" width="44" height="4" rx="2" fill="#111b25"/><rect x="${token.x - 22}" y="${y}" width="${width}" height="4" rx="2" fill="${index ? "#c9a24a" : "#6f9fd8"}"/></g>`,
+      );
+    });
+  }
+  return parts.length ? `<g class="token-bars" aria-hidden="true">${parts.join("")}</g>` : "";
+}
+
+// ---------------------------------------------------------------- persistent targets (TV-150)
+
+// Close review 01/10 (Foundry «Target», key T, markers in the user's colour): a target stays
+// until changed, everyone at the Table sees whose it is, and an attack or a spell of the
+// targeting identity starts on it. Only a token the identity sees can be targeted.
+export const TARGET_COLOURS = Object.freeze({ player: "#6cb4ee", dm: "#e2a33b" });
+export const targetColour = (role) => TARGET_COLOURS[role] ?? "#c7a7ff";
+export function targetsOf(state, role) {
+  const list = state?.ext?.[ID]?.targets?.[role];
+  return Array.isArray(list) ? list.filter((id) => typeof id === "string") : [];
+}
+/** Targets of `role` that `viewer` sees on the active scene (the ones an attack may use). */
+export function visibleTargets(state, role, viewer = role) {
+  const scene = activeScene(state);
+  return targetsOf(state, role).filter((id) => {
+    const token = tokenOfActor(scene, id);
+    return token && observesToken(state, token, viewer);
+  });
+}
+export function toggleTarget(ctx, actorId, { add = false } = {}) {
+  const scene = activeScene(ctx.state);
+  const token = tokenOfActor(scene, actorId);
+  if (!token || !observesToken(ctx.state, token, ctx.role))
+    throw localized(
+      "target",
+      "Puoi prendere di mira solo una pedina che vedi sulla scena.",
+      "You can target only a token you see on the scene.",
+    );
+  const current = targetsOf(ctx.state, ctx.role);
+  const on = !current.includes(actorId);
+  const name = ctx.state.actors[actorId]?.name ?? "";
+  ctx.commit(
+    on
+      ? ctx.t(`Bersaglio: ${name}`, `Target: ${name}`)
+      : ctx.t(`Bersaglio tolto: ${name}`, `Target cleared: ${name}`),
+    (draft) => {
+      const slice = draft.ext[ID];
+      slice.targets = isObject(slice.targets) ? slice.targets : {};
+      const list = targetsOf(draft, ctx.role).filter((id) => id !== actorId);
+      // Foundry: T targets one token; Shift+T adds it to the others.
+      slice.targets[ctx.role] = on ? [...(add ? list : []), actorId].slice(-12) : list;
+    },
+    { visibility: "private", undoable: false },
+  );
+  return on;
+}
+export function clearTargets(ctx) {
+  if (!targetsOf(ctx.state, ctx.role).length) return false;
+  ctx.commit(
+    ctx.t("Bersagli tolti", "Targets cleared"),
+    (draft) => {
+      if (isObject(draft.ext[ID].targets)) delete draft.ext[ID].targets[ctx.role];
+    },
+    { visibility: "private", undoable: false },
+  );
+  return true;
+}
+/** The map markers: a reticle in the owner's colour, a pip for the others' targets. */
+function targetsSvg(ctx, tableView) {
+  const scene = tableView?.scene;
+  const all = ctx.state.ext?.[ID]?.targets;
+  if (!scene || !isObject(all)) return "";
+  const parts = [];
+  for (const [role, list] of Object.entries(all)) {
+    const colour = targetColour(role);
+    const own = role === ctx.role;
+    (Array.isArray(list) ? list : []).forEach((actorId) => {
+      const token = tokenOfActor(scene, actorId);
+      if (!token || !observesToken(ctx.state, token, ctx.role)) return;
+      const r = 30 * sizeScale(entryOf(sliceOf(ctx.state), token.id).size ?? "medium");
+      const x = token.x,
+        y = token.y;
+      const who =
+        role === "dm" ? ctx.t("del DM", "the DM’s") : ctx.t("di un giocatore", "a player’s");
+      parts.push(
+        own
+          ? `<g class="token-target is-own" data-token-for="${ctx.esc(actorId)}" data-token-target="${ctx.esc(actorId)}" stroke="${colour}" fill="none" stroke-width="3" pointer-events="none"><title>${ctx.esc(ctx.t("Il tuo bersaglio", "Your target"))}</title><path d="M${x - r} ${y - r + 10}V${y - r}H${x - r + 10} M${x + r - 10} ${y - r}H${x + r}V${y - r + 10} M${x + r} ${y + r - 10}V${y + r}H${x + r - 10} M${x - r + 10} ${y + r}H${x - r}V${y + r - 10}"/><circle cx="${x}" cy="${y}" r="${r + 4}" stroke-dasharray="4 6" stroke-width="1.5"/></g>`
+          : `<g class="token-target" data-token-for="${ctx.esc(actorId)}" pointer-events="none"><title>${ctx.esc(ctx.t(`Bersaglio ${who}`, `Target of ${who}`))}</title><circle cx="${x - r + 4}" cy="${y - r + 4}" r="6" fill="${colour}" stroke="#111b25" stroke-width="1.5"/></g>`,
+      );
+    });
+  }
+  return parts.length ? `<g class="token-targets" aria-hidden="true">${parts.join("")}</g>` : "";
 }
 /** "all" (everyone), "dm" (hidden from every player) or "some" (hidden + audience). */
 export function visibilityMode(slice, token) {
@@ -1428,6 +1686,25 @@ function itemDefinitions() {
     tokenOfActor(sceneById(ctx.state, target.sceneId), target.actorId);
   return [
     {
+      id: "token-menu-target",
+      label: L("Bersaglio (T)", "Target (T)"),
+      icon: "center",
+      order: 5,
+      group: "token-menu.creature",
+      submenu: "actions",
+      when: (ctx, target) => visibleHere(ctx, target),
+      run: (ctx, target) => {
+        closeMenu(false);
+        const on = toggleTarget(ctx, target.actorId);
+        const name = ctx.state.actors[target.actorId]?.name ?? "";
+        ctx.toast(
+          on
+            ? ctx.t(`Bersaglio: ${name}`, `Target: ${name}`)
+            : ctx.t("Bersaglio tolto", "Target cleared"),
+        );
+      },
+    },
+    {
       id: "token-menu-conditions",
       label: L("Condizioni", "Conditions"),
       icon: "conditions",
@@ -1527,6 +1804,16 @@ function itemDefinitions() {
       roles: ["dm"],
       when: (ctx, target) => ctx.state.actors[target.actorId]?.kind === "npc",
       run: (ctx, target) => runHideName(ctx, target),
+    },
+    {
+      id: "token-menu-bars",
+      label: L("Barre della pedina…", "Token bars…"),
+      icon: "size",
+      order: 69,
+      group: "token-menu.look",
+      submenu: "look",
+      when: (ctx, target) => visibleHere(ctx, target) && controls(ctx, target.actorId),
+      run: (ctx, target) => openBars(ctx, target),
     },
     {
       id: "token-menu-ring",
@@ -4839,6 +5126,63 @@ export function register(registry) {
         return runCommand(ctx, itemId);
       },
     });
+  // TV-150 (Foundry: T targets the token, Shift+T adds it; the search finds «bersaglio»).
+  for (const [id, key, extend, it, en] of [
+    [
+      "token-menu.target",
+      "T",
+      false,
+      "Prendi di mira la pedina selezionata",
+      "Target the selected token",
+    ],
+    [
+      "token-menu.target-add",
+      "Shift+T",
+      true,
+      "Aggiungi la pedina ai bersagli",
+      "Add the token to the targets",
+    ],
+  ])
+    add("command", {
+      id,
+      label: L(it, en),
+      description: L("bersaglio, prendi di mira, mira, target", "target, aim"),
+      keywords: [L("bersaglio", "target"), L("prendi di mira", "take aim")],
+      shortcut: key,
+      context: "table",
+      group: "token-menu",
+      run: (ctx) => {
+        const target = commandTarget(ctx);
+        const on = toggleTarget(ctx, target.actorId, { add: extend });
+        const name = ctx.state.actors[target.actorId]?.name ?? "";
+        ctx.toast(
+          on
+            ? ctx.t(`Bersaglio: ${name}`, `Target: ${name}`)
+            : ctx.t("Bersaglio tolto", "Target cleared"),
+        );
+      },
+    });
+  add("command", {
+    id: "token-menu.target-clear",
+    label: L("Togli tutti i miei bersagli", "Clear all my targets"),
+    keywords: [L("bersagli", "targets")],
+    context: "table",
+    group: "token-menu",
+    when: (ctx) => targetsOf(ctx.state, ctx.role).length > 0,
+    run: (ctx) => clearTargets(ctx),
+  });
+  add("map-layer", {
+    id: "token-menu-bars",
+    label: L("Barre delle pedine", "Token bars"),
+    order: 65,
+    svg: (ctx, tableView) => barsSvg(ctx, tableView),
+  });
+  add("map-layer", {
+    id: "token-menu-targets",
+    label: L("Bersagli", "Targets"),
+    order: 66,
+    svg: (ctx, tableView) => targetsSvg(ctx, tableView),
+  });
   // DDB-118: the Select tool has its own key, V (as the Table's R, X and O tool keys).
   add("command", {
     id: "token-menu.select-tool",

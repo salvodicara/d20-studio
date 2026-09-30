@@ -810,9 +810,16 @@ kbd {
 .campaign-group-items[hidden] {
   display: none;
 }
-/* B61 review: "All sections" exists for the phone's sideways strip only. */
+/* Close regression 01/10 (D&D Beyond's quick-jump, the Table's «Tutti i pannelli»): with
+   «Entra al Tavolo» above the rail, two open groups push the last group headings below a
+   900 px window, so «All sections» now leads the desktop rail too: any section in 2 clicks. */
+.campaign-sections {
+  display: flex;
+  flex-direction: column;
+}
 .campaign-sidebar .campaign-sections-all {
-  display: none;
+  order: -1;
+  margin-bottom: 6px;
 }
 .page-heading {
   display: flex;
@@ -1919,6 +1926,7 @@ body:has(.table-window) :is(.demo-strip, .app-header, .table-return, .save-warni
   .campaign-sections {
     display: flex;
     align-items: stretch;
+    flex-direction: row;
   }
   .campaign-sections > nav {
     flex: 1 1 auto;
@@ -1926,6 +1934,8 @@ body:has(.table-window) :is(.demo-strip, .app-header, .table-return, .save-warni
   }
   .campaign-sidebar .campaign-sections-all {
     display: flex;
+    order: 0;
+    margin-bottom: 0;
     padding: 10px 12px;
     border-left: 1px solid var(--line);
     border-radius: 0;
@@ -4298,4 +4308,20 @@ body:has(.table-window) :is(.demo-strip, .app-header, .table-return, .save-warni
     border-radius: 2px;
     background: var(--line-strong);
   }
+}
+
+/* Close review 01/10 (findability P2, Owlbear: tool options stay in view): while a map tool's
+   option bar is open over the map's bottom edge, the scale caption steps out of its way; its
+   live message is still announced. */
+.map-container:has(#battle-map .fv-bar, #battle-map .annotations-bar) > .map-caption {
+  opacity: 0;
+}
+
+/* TV-153, close review 01/10 (Foundry WebM/MP4 scene backgrounds): a video map fills the
+   scene exactly as a picture does. */
+.scene-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
 }

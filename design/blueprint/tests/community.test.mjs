@@ -1312,7 +1312,9 @@ test("UI: filters apply, the 18+ box reveals adult listings, block and unblock f
   ctx.view = { page: "community", tab: "conduct", id: "" };
   html = UI.renderCommunityPage(ctx, api);
   assert.match(html, /Harassment or insults/);
-  assert.match(html, /Requirement to be set for the real product/);
+  // Close review 01/10 (SV-28): the age band lives in the account; the country rule stays open.
+  assert.match(html, /remains an open legal decision/);
+  assert.match(html, /data-community-age-open/);
   // Clear filters from the empty state.
   click({ communityAct: "clear-filters" });
   assert.equal(UI.viewState().filters.mature, false);

@@ -496,3 +496,9 @@ details.cmdk-control-group > summary {
   background: none;
   text-align: inherit;
 }
+
+/* Close review 01/10: a control found by the search is framed for a moment where it stands. */
+.cmdk-found {
+  outline: 3px solid var(--accent, #e2c17b) !important;
+  outline-offset: 3px;
+}

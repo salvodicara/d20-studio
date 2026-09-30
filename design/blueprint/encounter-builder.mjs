@@ -29,6 +29,7 @@ import { getEntry } from "./srd-compendium.mjs";
 import { initiativeConditionHint } from "./preparation.mjs";
 // C3 (CA-57, Owlbear GM hand-off): the member running the session prepares encounters too.
 import { runsSession } from "./session-view.mjs";
+import { listActions } from "./combat.mjs";
 
 // The area id as a literal (the same value as D.ID): read at module evaluation, it must not
 // depend on encounter-builder-domain having finished loading (the domain imports preparation,
@@ -2338,6 +2339,29 @@ function npcToolsHTML(ctx, actor) {
       : ""
   }${melee ? `<p class="muted eb-npc-attack">${ctx.t("Attacco", "Attack")}: <strong>${ctx.esc(ctx.label(melee.name))}</strong> ${melee.attackBonus >= 0 ? "+" : ""}${melee.attackBonus} · ${melee.damageDice.map((d) => `${d.count}d${d.sides}`).join("+")}${melee.damageModifier ? (melee.damageModifier > 0 ? "+" : "") + melee.damageModifier : ""}</p>` : ""}<details class="eb-npc-paste"><summary>${ctx.t("Incolla riga del blocco", "Paste a stat block line")}</summary><label class="field">${ctx.t("Riga di un attacco (da PDF o manuale)", "An attack line (from a PDF or book)")}<textarea rows="2" maxlength="400" data-eb-npc-line="${id}" placeholder="${ctx.esc(ctx.t("Scimitarra. Attacco in mischia: +4, portata 1,5 m. 5 (1d6 + 2) danni taglienti.", "Scimitar. Melee Attack Roll: +4, reach 5 ft. Hit: 5 (1d6 + 2) Slashing damage."))}"></textarea></label><output class="eb-npc-parsed" data-eb-npc-parsed role="status"></output><p class="muted eb-why" id="eb-npc-why-${id}" data-eb-npc-why>${ctx.t("Incolla una riga con tiro per colpire e danni: «Conferma» si attiva quando la riconosco.", "Paste a line with an attack bonus and damage: “Confirm” turns on once it is recognised.")}</p><button type="button" class="button" data-eb-npc-confirm="${id}" disabled aria-describedby="eb-npc-why-${id}">${ctx.t("Conferma l’attacco", "Confirm the attack")}</button></details></div>`;
 }
+/**
+ * Close review 01/10 (P2; Foundry's SRD actors come with their actions): a DM creature whose
+ * action bar has no attack yet but whose name matches a stat block offers «Carica
+ * statistiche» in the action bar itself, where its turn is played.
+ */
+export function dockLoadOffer(ctx, actorId) {
+  const actor = ctx.state.actors?.[actorId];
+  if (!runs(ctx) || actor?.kind !== "npc" || actor.companion) return null;
+  let attacks = 0;
+  try {
+    attacks = listActions(ctx.state, actorId).filter((a) => a.kind === "attack").length;
+  } catch {
+    return null;
+  }
+  if (attacks) return null;
+  return D.blockOffer(ctx.state, sliceOf(ctx.state), actorId);
+}
+function dockLoadHTML(ctx, actorId) {
+  const offer = dockLoadOffer(ctx, actorId);
+  if (!offer) return "";
+  const name = D.blockName(offer.block, ctx.lang);
+  return `<button type="button" class="button eb-dock-load" data-eb-npc-load="${ctx.esc(actorId)}" title="${ctx.esc(ctx.t(`Nessun attacco sulla scheda: carica il blocco «${name}» (PF ${offer.block.hp.average}, CA ${offer.block.ac})`, `No attack on the sheet: load the “${name}” block (HP ${offer.block.hp.average}, AC ${offer.block.ac})`))}">${ctx.t("Carica statistiche", "Load statistics")}</button>`;
+}
 function parsedText(ctx, result) {
   if (!result)
     return ctx.t(
@@ -2433,6 +2457,15 @@ export function register(registry) {
     when: (ctx, tableView) =>
       runsFor(ctx) && Boolean(npcToolsHTML(ctx, ctx.state.actors?.[tableView?.selectedActorId])),
     render: (ctx, tableView) => npcToolsHTML(ctx, ctx.state.actors?.[tableView?.selectedActorId]),
+    bind: (el, ctx) => bindNpcTools(el, ctx),
+  });
+  registry.add("table-panel", {
+    id: `${ID}-dock-load`,
+    label: L("Carica statistiche", "Load statistics"),
+    placement: "dock",
+    order: 10,
+    when: (ctx, tableView) => Boolean(dockLoadOffer(ctx, tableView?.selectedActorId)),
+    render: (ctx, tableView) => dockLoadHTML(ctx, tableView?.selectedActorId),
     bind: (el, ctx) => bindNpcTools(el, ctx),
   });
   registry.add("sheet-section", {

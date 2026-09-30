@@ -1053,3 +1053,13 @@ body:has(.session-view-display) :is(.demo-strip, .app-header, .table-return, .sa
     max-width: calc(100% - 16px);
   }
 }
+
+/* TV-155, close review 01/10 (hot seat): the hand-over screen covers the whole Table. */
+.session-view-handoff {
+  display: grid;
+  place-content: center;
+  gap: var(--space-3, 16px);
+  min-height: min(70vh, 640px);
+  padding: 32px 16px;
+  text-align: center;
+}

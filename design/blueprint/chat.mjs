@@ -14,6 +14,9 @@ import { isCampaignMember } from "./campaign-content.mjs";
 import { SUMMARY_POLICY } from "./srd-sample.mjs";
 import { avatarHTML, publishedAvatar } from "./account-avatar.mjs";
 import { filterChatMarkup } from "./safety-ui.mjs";
+import { unseenTokens, sightMask, barrierType } from "./fog-vision-domain.mjs";
+import { runsSession } from "./table-spatial.mjs";
+import { rollDie } from "./state.mjs";
 
 const ID = chat.CHAT_ID;
 const L = (it, en) => ({ it, en });
@@ -379,8 +382,53 @@ function commitChat(ctx, label, mutate, { whisper = false } = {}) {
   });
 }
 // Posts a composed message; validation runs before the commit so a refusal changes nothing.
+/**
+ * TV-151 (Roll20/Foundry inline rolls): each [[formula]] of the text rolled once with the
+ * dice tray's formula rules and digital dice, before the message is composed.
+ */
+export function rollInline(text, draw = rollDie) {
+  const formulas = chat.inlineFormulas(text);
+  if (!formulas.length || !tray) return null;
+  return formulas.map((formula) => {
+    try {
+      const result = tray.evaluate(tray.parseFormula(formula), (sides) => draw(sides));
+      const detail = result.groups
+        .map(
+          (g) =>
+            `${g.sign < 0 ? "− " : ""}${g.count}d${g.sides} [${g.faces
+              .map((f) => (f.kept ? f.value : `~${f.value}~`))
+              .join(", ")}]`,
+        )
+        .concat(
+          result.constant
+            ? [`${result.constant > 0 ? "+" : "−"} ${Math.abs(result.constant)}`]
+            : [],
+        )
+        .join(" ");
+      return { formula, total: result.total, detail };
+    } catch {
+      return { formula, total: null, detail: "", error: true };
+    }
+  });
+}
+/** A message's text with each [[formula]] replaced by its rolled result (escaped). */
+export function inlineTextHTML(ctx, item) {
+  const text = ctx.esc(item.text ?? "");
+  if (!item.inlineRolls?.length || item.scrambled) return text;
+  let index = 0;
+  return text.replace(/\[\[([^[\]]{1,40})\]\]/g, (whole) => {
+    const roll = item.inlineRolls[index++];
+    if (!roll) return whole;
+    if (roll.error || roll.total === null)
+      return `<span class="chat-inline-roll is-error" title="${ctx.esc(ctx.t("Formula non valida", "Invalid formula"))}">${whole}</span>`;
+    const title = `${roll.formula}: ${roll.detail} = ${roll.total}`;
+    return `<span class="chat-inline-roll" tabindex="0" title="${ctx.esc(title)}" aria-label="${ctx.esc(`${ctx.t("Tiro", "Roll")} ${title}`)}">${ctx.esc(String(roll.total))}</span>`;
+  });
+}
 function post(ctx, input, label) {
   const now = new Date().toISOString();
+  if (!input.inlineRolls && chat.inlineFormulas(input.text).length)
+    input = { ...input, inlineRolls: rollInline(input.text) };
   const preview = chat.composeMessage(ctx.state, ctx.role, input, { now });
   if (preview.help) return preview;
   // An attachment that does not fit is refused before the commit and again inside it, so
@@ -473,7 +521,13 @@ function speakerOnMap(ctx, actorId) {
   const actor = ctx.state.actors?.[actorId];
   if (!token || !actor || !isActorAvailable(actor) || !canViewActor(actor, ctx.role, ctx.state))
     return false;
-  return ctx.canControl(actor) || (!actor.hidden && !token.hidden && token.visible !== false);
+  return (
+    ctx.canControl(actor) ||
+    (!actor.hidden &&
+      !token.hidden &&
+      token.visible !== false &&
+      !unseenTokens(ctx.state, scene.id, ctx.role).has(actorId))
+  );
 }
 function speakerHTML(ctx, item) {
   if (!speakerOnMap(ctx, item.speakerActorId))
@@ -679,7 +733,7 @@ export function itemHTML(ctx, item) {
     return `<li class="chat-item chat-system" ${base}${search(item.text)}><time datetime="${ctx.esc(item.at)}">${clock(ctx, item.at)}</time> ${ctx.esc(item.text)}</li>`;
   const cls = `chat-item chat-msg chat-kind-${ctx.esc(item.kind)}${item.whisper ? " chat-whisper" : ""}${item.hidden ? " chat-is-hidden" : ""}`;
   const textHTML = item.text
-    ? `<div class="chat-text${item.scrambled ? " chat-scrambled" : ""}">${ctx.esc(item.text)}</div>`
+    ? `<div class="chat-text${item.scrambled ? " chat-scrambled" : ""}">${inlineTextHTML(ctx, item)}</div>`
     : "";
   const searchable = search(
     `${item.speakerName} ${item.scrambled ? "" : item.text} ${item.card ? ctx.label(item.card.name) : ""}`,
@@ -687,7 +741,7 @@ export function itemHTML(ctx, item) {
   if (item.kind === "desc")
     return `<li class="${cls}" ${base}${searchable}><div class="chat-desc"><div class="chat-head"><span class="chat-desc-label">${t("Narrazione", "Narration")}</span><time datetime="${ctx.esc(item.at)}">${clock(ctx, item.at)}</time>${menuHTML(ctx, item)}</div>${whisperLine(ctx, item)}${textHTML}${imageHTML(ctx, item)}</div></li>`;
   if (item.kind === "emote")
-    return `<li class="${cls}" ${base}${searchable}><div class="chat-emote-row"><div class="chat-text chat-emote">${speakerHTML(ctx, item)} ${ctx.esc(item.text)}</div><time datetime="${ctx.esc(item.at)}">${clock(ctx, item.at)}</time>${menuHTML(ctx, item)}</div>${whisperLine(ctx, item)}${imageHTML(ctx, item)}</li>`;
+    return `<li class="${cls}" ${base}${searchable}><div class="chat-emote-row"><div class="chat-text chat-emote">${speakerHTML(ctx, item)} ${inlineTextHTML(ctx, item)}</div><time datetime="${ctx.esc(item.at)}">${clock(ctx, item.at)}</time>${menuHTML(ctx, item)}</div>${whisperLine(ctx, item)}${imageHTML(ctx, item)}</li>`;
   if (item.kind === "share")
     return `<li class="${cls}" ${base}${searchable}>${headHTML(ctx, item, t("condivide", "shares"))}${whisperLine(ctx, item)}${cardHTML(ctx, item)}${textHTML}</li>`;
   if (item.kind === "vote")
@@ -835,6 +889,7 @@ function composerHTML(ctx, d) {
     <button type="button" class="button quiet" data-chat-share data-chat-focus="share" ${shareable ? "" : 'disabled aria-describedby="chat-share-why"'} title="${shareable ? "" : t("Scegli un tuo personaggio", "Choose one of your characters")}">${t("Condividi", "Share")}</button>
     <button type="button" class="button quiet" data-chat-vote data-chat-focus="vote">${t("Voto", "Vote")}</button>
     <button type="button" class="button quiet" data-chat-snapshot data-chat-focus="snapshot">${t("Istantanea", "Snapshot")}</button>
+    <button type="button" class="button quiet" data-chat-macros data-chat-focus="macros">${t("Macro", "Macros")}</button>
     ${dm && ctx.registry?.get?.("command", "dice-tray.request", ctx) ? `<button type="button" class="button quiet" data-chat-request data-chat-focus="request" title="${t("Chiedi una prova o un tiro salvezza ai giocatori (Dadi › Richieste)", "Ask the players for a check or a save (Dice › Requests)")}">${t("Chiedi un tiro", "Request a roll")}</button>` : ""}
     <button type="button" class="button quiet chat-help-toggle" data-chat-help aria-expanded="${ui.showHelp}" aria-controls="chat-help" data-chat-focus="help" title="${t("Comandi della chat", "Chat commands")}" aria-label="${t("Comandi della chat", "Chat commands")}">/?</button>
   </div>
@@ -844,6 +899,7 @@ function composerHTML(ctx, d) {
     <li><code>/mood ${t("preoccupata testo", "worried text")}</code> ${t("tono", "mood")} · <code>/vote ${t("domanda", "question")}</code> ${t("voto sì/no", "yes/no vote")}</li>
     ${dm ? `<li><code>/desc</code> ${t("narrazione", "narration")} · <code>/as "${t("Guardia", "Guard")}" ${t("testo", "text")}</code> ${t("parla come PNG", "speaks as an NPC")} · <code>/emas</code> ${t("azione di un PNG", "NPC action")}</li>` : ""}
     <li><code>/r d20+5</code> ${t("apre «Tira i dadi» già compilato: scegli dado fisico o digitale", "opens “Roll dice” filled in: choose a physical or digital die")}</li>
+    <li><code>[[1d8+3]]</code> ${t("dentro una frase: tirato all’invio con dadi digitali, il risultato resta nel messaggio", "inside a sentence: rolled on sending with digital dice, the result stays in the message")}</li>
     <li>${t("↑ richiama i messaggi inviati; Tab completa il nome dopo /w. Incolla o trascina un’immagine nel campo.", "↑ recalls sent messages; Tab completes the name after /w. Paste or drop an image into the field.")}</li>
   </ul></div>
 </form>`;
@@ -1122,6 +1178,162 @@ function openShare(ctx, { actorId: requested = null, entryId = null } = {}) {
     },
   );
 }
+// ---------------------------------------------------------------- macros (X-12)
+
+// Close review 01/10 (Roll20 Collections › Macros and Mod, Foundry's macro directory, Avrae
+// Draconic): each identity keeps its own macros; one runs for the speaking character (or the
+// selected one) in the chat's sandbox language and posts what it says with every roll.
+const MACRO_HELP = (t) =>
+  `<details class="chat-macro-help"><summary>${t("Come si scrive una macro", "How to write a macro")}</summary><ul><li><code>tira attacco = 1d20+@destrezza+@competenza</code> ${t("tira e ricorda il totale", "rolls and keeps the total")}</li><li><code>imposta danno = attacco - 10</code> ${t("calcola (+ − × ÷, confronti, e/o/non)", "computes (+ − × ÷, comparisons, and/or/not)")}</li><li><code>se attacco >= 13 allora di "Colpito! {danno}"</code> ${t("una condizione per riga", "one condition per line")}</li><li><code>di "…"</code> ${t("scrive in chat", "writes in the chat")} · <code>sussurra "…"</code> ${t("scrive solo al DM", "writes to the DM only")}</li><li><code>@forza @destrezza @costituzione @intelligenza @saggezza @carisma @pf @pfmax @ca @livello @competenza</code></li></ul><p class="muted">${t("Niente cicli e niente codice del browser: al massimo 30 righe e 6 tiri, e ogni tiro compare in chat.", "No loops and no browser code: at most 30 lines and 6 rolls, and every roll shows in the chat.")}</p></details>`;
+function macroActorId(ctx) {
+  const d = draftFor(ctx);
+  const speaking = speakerActor(d);
+  if (speaking) return speaking;
+  const own = Object.values(ctx.state.actors ?? {}).find(
+    (actor) => actor?.kind === "character" && !actor.companion && ctx.canControl?.(actor),
+  );
+  return own?.id ?? null;
+}
+function detailOf(result) {
+  return result.groups
+    .map(
+      (g) =>
+        `${g.sign < 0 ? "− " : ""}${g.count}d${g.sides} [${g.faces.map((f) => f.value).join(", ")}]`,
+    )
+    .concat(
+      result.constant ? [`${result.constant > 0 ? "+" : "−"} ${Math.abs(result.constant)}`] : [],
+    )
+    .join(" ");
+}
+/** Runs one of this identity's macros and posts its result (also a test seam). */
+export function runMacroNow(ctx, macroId, draw = rollDie) {
+  const macro = chat.macrosOf(slice(ctx.state), ctx.role).find((entry) => entry.id === macroId);
+  if (!macro)
+    throw Object.assign(Error("Macro not found."), {
+      it: "Macro non trovata.",
+      en: "Macro not found.",
+    });
+  if (!tray)
+    throw Object.assign(Error("dice"), {
+      it: "Servono i dadi del Tavolo.",
+      en: "The Table’s dice are needed.",
+    });
+  const actorId = macroActorId(ctx);
+  const actor = actorId ? ctx.state.actors[actorId] : null;
+  const result = chat.runMacro(chat.parseMacro(macro.source), {
+    attrs: chat.macroAttributes(actor),
+    roll: (formula) => {
+      const rolled = tray.evaluate(tray.parseFormula(formula), (sides) => draw(sides));
+      return { total: rolled.total, detail: detailOf(rolled) };
+    },
+  });
+  const said = result.says.join(" · ");
+  const rolls = result.rolls.map((r) => `${r.name} [[${r.expanded}]]`).join(", ");
+  const text = `«${macro.name}»${said ? ": " + said : ""}${rolls ? ` (${rolls})` : ""}`;
+  const inline = [
+    ...(rollInline(said, draw) ?? []),
+    ...result.rolls.map((r) => ({ formula: r.expanded, total: r.total, detail: r.detail })),
+  ];
+  const d = draftFor(ctx);
+  post(ctx, { ...inputOf(d), text, image: null, inlineRolls: inline }, ctx.t("macro", "macro"));
+  for (const whisper of result.whispers)
+    post(
+      ctx,
+      {
+        ...inputOf(d),
+        text: `«${macro.name}»: ${whisper}`,
+        image: null,
+        to: ctx.role === "dm" ? "self" : "dm",
+        range: "all",
+      },
+      ctx.t("sussurro", "whisper"),
+    );
+  return result;
+}
+function openMacroEditor(ctx, macro = null) {
+  const t = ctx.t;
+  ctx.dialog(
+    macro
+      ? t(`Modifica la macro «${macro.name}»`, `Edit the macro “${macro.name}”`)
+      : t("Nuova macro", "New macro"),
+    `<label class="field">${t("Nome", "Name")}<input name="name" maxlength="${chat.MACRO_LIMITS.name}" required value="${ctx.esc(macro?.name ?? "")}" autocomplete="off"></label><label class="field">${t("Codice della macro", "Macro code")}<textarea name="source" rows="8" maxlength="${chat.MACRO_LIMITS.chars}" spellcheck="false" required>${ctx.esc(macro?.source ?? 'tira attacco = 1d20+@destrezza+@competenza\ntira danno = 1d4+@destrezza\nse attacco >= 13 allora di "Colpito: {danno} danni"\nse attacco < 13 allora di "Mancato"')}</textarea></label>${MACRO_HELP(t)}<p class="error" role="alert" data-chat-macro-error hidden></p>`,
+    {
+      submitLabel: t("Salva la macro", "Save the macro"),
+      onSubmit: (data, form) => {
+        try {
+          ctx.commit(
+            t("Macro salvata", "Macro saved"),
+            (draft) =>
+              chat.saveMacro(slice(draft), ctx.role, {
+                id: macro?.id ?? null,
+                name: data.get("name"),
+                source: data.get("source"),
+              }),
+            { local: true, visibility: "private", undoable: false },
+          );
+        } catch (error) {
+          const box = form?.querySelector?.("[data-chat-macro-error]");
+          if (box) {
+            box.textContent = errorText(ctx, error);
+            box.hidden = false;
+          }
+          return false;
+        }
+        setTimeout(() => openMacros(ctx), 0);
+      },
+    },
+  );
+}
+function openMacros(ctx) {
+  const t = ctx.t;
+  const list = chat.macrosOf(slice(ctx.state), ctx.role);
+  const actorId = macroActorId(ctx);
+  ctx.dialog(
+    t("Macro", "Macros"),
+    `<p class="muted">${t("Le tue macro, solo tue. Girano per", "Your macros, yours only. They run for")} <strong>${ctx.esc(actorId ? ctx.state.actors[actorId]?.name : t("nessun personaggio", "no character"))}</strong> ${t("(chi parla in chat) e scrivono in chat con tutti i tiri.", "(the chat speaker) and write in the chat with every roll.")}</p>${
+      list.length
+        ? `<ul class="item-list chat-macro-list">${list.map((macro) => `<li class="item-row" data-chat-macro="${ctx.esc(macro.id)}"><span><strong>${ctx.esc(macro.name)}</strong></span><span class="toolbar"><button type="button" class="button primary" data-chat-macro-run="${ctx.esc(macro.id)}">${t("Esegui", "Run")}</button><button type="button" class="button quiet" data-chat-macro-edit="${ctx.esc(macro.id)}">${t("Modifica", "Edit")}</button><button type="button" class="button quiet danger" data-chat-macro-delete="${ctx.esc(macro.id)}" aria-label="${ctx.esc(t("Elimina ", "Delete ") + macro.name)}">${t("Elimina", "Delete")}</button></span></li>`).join("")}</ul>`
+        : `<p>${t("Nessuna macro ancora.", "No macros yet.")}</p>`
+    }<button type="button" class="button" data-chat-macro-new>${t("Nuova macro", "New macro")}</button>${MACRO_HELP(t)}`,
+    { cancelLabel: t("Chiudi", "Close") },
+  );
+  const root = globalThis.document?.querySelector("#dialog");
+  root
+    ?.querySelector("[data-chat-macro-new]")
+    ?.addEventListener("click", () => openMacroEditor(ctx));
+  root?.querySelectorAll("[data-chat-macro-edit]").forEach((button) =>
+    button.addEventListener("click", () =>
+      openMacroEditor(
+        ctx,
+        list.find((macro) => macro.id === button.dataset.chatMacroEdit),
+      ),
+    ),
+  );
+  root?.querySelectorAll("[data-chat-macro-run]").forEach((button) =>
+    button.addEventListener("click", () => {
+      try {
+        runMacroNow(ctx, button.dataset.chatMacroRun);
+        ctx.closeDialog?.();
+      } catch (error) {
+        ctx.toast(errorText(ctx, error), true);
+      }
+    }),
+  );
+  root?.querySelectorAll("[data-chat-macro-delete]").forEach((button) =>
+    button.addEventListener("click", () => {
+      try {
+        ctx.commit(
+          t("Macro eliminata", "Macro deleted"),
+          (draft) => chat.deleteMacro(slice(draft), ctx.role, button.dataset.chatMacroDelete),
+          { local: true, visibility: "private", undoable: false },
+        );
+        openMacros(ctx);
+      } catch (error) {
+        ctx.toast(errorText(ctx, error), true);
+      }
+    }),
+  );
+}
 function openVote(ctx) {
   const t = ctx.t;
   ctx.dialog(
@@ -1144,6 +1356,9 @@ function openVote(ctx) {
 
 // BG3 photo mode as a recap snapshot (CRP-165): the active scene as every player sees it,
 // never the DM's view (no hidden tokens, no secret doors), as a self-contained SVG image.
+// Close review 01/10 (privacy P1): BG3 photographs what the player's camera sees, so the
+// picture follows the Table's projection: a player's own sight, the party's for the DM (Fog
+// Preview); creatures under the fog or in the dark are left out and the darkness is painted.
 export function snapshotSource(ctx) {
   const state = ctx.state;
   const scene = state.scenes?.find((s) => s.id === state.activeSceneId);
@@ -1156,6 +1371,9 @@ export function snapshotSource(ctx) {
   const width = Math.min(4000, Math.max(300, Number(scene.width) || 1000));
   const height = Math.min(4000, Math.max(300, Number(scene.height) || 650));
   const grid = Math.min(300, Math.max(10, Number(scene.gridSize) || 50));
+  const unseen = unseenTokens(state, scene.id, ctx.role, {
+    asParty: runsSession(state, ctx.role),
+  });
   const visible = (scene.tokens ?? []).filter((token) => {
     const actor = state.actors?.[token.actorId];
     return (
@@ -1165,11 +1383,18 @@ export function snapshotSource(ctx) {
       (!actor.companion || canViewActor(actor, "player", state)) &&
       !actor.hidden &&
       !token.hidden &&
-      token.visible !== false
+      token.visible !== false &&
+      !unseen.has(token.actorId)
     );
   });
+  const mask = sightMask(state, scene.id, ctx.role)
+    .map(
+      (run) =>
+        `<rect x="${run.x}" y="${run.y}" width="${run.w}" height="${run.h}" fill="#05080c" fill-opacity="${run.remembered ? 0.6 : 1}"/>`,
+    )
+    .join("");
   const walls = (scene.walls ?? [])
-    .filter((wall) => !wall.secret)
+    .filter((wall) => !wall.secret && barrierType(wall) !== "invisible")
     .map(
       (wall) =>
         `<line x1="${Number(wall.a?.x) || 0}" y1="${Number(wall.a?.y) || 0}" x2="${Number(wall.b?.x) || 0}" y2="${Number(wall.b?.y) || 0}" stroke="${wall.kind === "door" ? "#c99a52" : "#e5dcc0"}" stroke-width="6" stroke-linecap="round"/>`,
@@ -1186,7 +1411,7 @@ export function snapshotSource(ctx) {
     })
     .join("");
   const caption = `${scene.name}${state.combat?.active ? ` · round ${state.combat.round}` : ""}`;
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height + 44}" width="${width}" height="${height + 44}">${renderSceneBase(scene, ctx)}${scene.gridVisible === false ? "" : `<defs><pattern id="g" x="${Number(scene.gridOffsetX) || 0}" y="${Number(scene.gridOffsetY) || 0}" width="${grid}" height="${grid}" patternUnits="userSpaceOnUse"><path d="M ${grid} 0 H0 V${grid}" fill="none" stroke="#d9c79c" stroke-opacity=".18" stroke-width="1"/></pattern></defs><rect width="${width}" height="${height}" fill="url(#g)"/>`}${walls}${tokens}<rect y="${height}" width="${width}" height="44" fill="#111b25"/><text x="16" y="${height + 29}" font-family="Georgia, serif" font-size="20" fill="#f0e9d8">${esc(caption)}</text></svg>`;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height + 44}" width="${width}" height="${height + 44}">${renderSceneBase(scene, ctx)}${scene.gridVisible === false ? "" : `<defs><pattern id="g" x="${Number(scene.gridOffsetX) || 0}" y="${Number(scene.gridOffsetY) || 0}" width="${grid}" height="${grid}" patternUnits="userSpaceOnUse"><path d="M ${grid} 0 H0 V${grid}" fill="none" stroke="#d9c79c" stroke-opacity=".18" stroke-width="1"/></pattern></defs><rect width="${width}" height="${height}" fill="url(#g)"/>`}${walls}${tokens}${mask ? `<g data-snapshot-sight="dark" shape-rendering="crispEdges">${mask}</g>` : ""}<rect y="${height}" width="${width}" height="44" fill="#111b25"/><text x="16" y="${height + 29}" font-family="Georgia, serif" font-size="20" fill="#f0e9d8">${esc(caption)}</text></svg>`;
   return {
     src: "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg),
     sceneId: scene.id,
@@ -1201,7 +1426,7 @@ function openSnapshot(ctx) {
   chat.checkAttachmentRoom(ctx.state, slice(ctx.state), snapshot.src.length);
   ctx.dialog(
     t("Istantanea della scena", "Scene snapshot"),
-    `<p>${t("La scena come la vedono i giocatori: niente pedine nascoste né porte segrete. Resta nell’archivio della chat per il resoconto e si può salvare come immagine.", "The scene as players see it: no hidden tokens or secret doors. It stays in the chat archive for the recap and can be saved as an image.")}</p><img class="chat-snapshot-preview" src="${ctx.esc(snapshot.src)}" alt="${ctx.esc(t("Anteprima dell’istantanea di", "Snapshot preview of") + " " + snapshot.sceneName)}"><label class="field">${t("Didascalia (facoltativa)", "Caption (optional)")}<input name="caption" maxlength="200" autocomplete="off"></label>`,
+    `<p>${t("La scena come la vedono i giocatori: niente pedine nascoste né porte segrete, e ciò che la nebbia o il buio coprono resta coperto. Resta nell’archivio della chat per il resoconto e si può salvare come immagine.", "The scene as players see it: no hidden tokens or secret doors, and what the fog or the dark covers stays covered. It stays in the chat archive for the recap and can be saved as an image.")}</p><img class="chat-snapshot-preview" src="${ctx.esc(snapshot.src)}" alt="${ctx.esc(t("Anteprima dell’istantanea di", "Snapshot preview of") + " " + snapshot.sceneName)}"><label class="field">${t("Didascalia (facoltativa)", "Caption (optional)")}<input name="caption" maxlength="200" autocomplete="off"></label>`,
     {
       submitLabel: t("Condividi l’istantanea", "Share the snapshot"),
       onSubmit: (data) => {
@@ -1577,6 +1802,9 @@ function bindPanel(el, ctx, table = null) {
   panel
     .querySelector("[data-chat-snapshot]")
     ?.addEventListener("click", () => openDialogSafely(ctx, () => openSnapshot(ctx)));
+  panel
+    .querySelector("[data-chat-macros]")
+    ?.addEventListener("click", () => openDialogSafely(ctx, () => openMacros(ctx)));
   // F16: «Chiedi un tiro» beside the chat field runs the dice tray's request command.
   panel.querySelector("[data-chat-request]")?.addEventListener("click", () => {
     const command = ctx.registry?.get?.("command", "dice-tray.request", ctx);
@@ -1824,8 +2052,13 @@ function bubblesSVG(ctx, tableView) {
       const token = scene.tokens.find((entry) => entry.actorId === item.speakerActorId);
       const actor = state.actors[item.speakerActorId];
       if (!token || !actor || !isActorAvailable(actor)) return "";
+      // Close review 01/10 (Foundry): no bubble over a creature the fog or the dark hides.
       const observable =
-        ctx.canControl(actor) || (!actor.hidden && !token.hidden && token.visible !== false);
+        ctx.canControl(actor) ||
+        (!actor.hidden &&
+          !token.hidden &&
+          token.visible !== false &&
+          !unseenTokens(state, scene.id, ctx.role).has(actor.id));
       if (!observable) return "";
       const raw = item.kind === "emote" ? `${item.speakerName} ${item.text}` : item.text;
       const line = raw.length > 42 ? raw.slice(0, 41) + "…" : raw;
@@ -2313,6 +2546,17 @@ export function register(registry) {
     label: L("Istantanea della scena nella chat", "Scene snapshot to the chat"),
     group: "chat",
     run: (ctx) => openDialogSafely(ctx, () => openSnapshot(ctx)),
+  });
+  registry.add("command", {
+    id: "chat.macros",
+    label: L("Macro con codice…", "Macros with code…"),
+    description: L(
+      "Macro e script: tira, calcola, condizioni, scrive in chat per il tuo personaggio",
+      "Macros and scripts: roll, compute, conditions, write to the chat for your character",
+    ),
+    keywords: [L("macro", "macro"), L("script", "script"), L("codice", "code")],
+    group: "chat",
+    run: (ctx) => openDialogSafely(ctx, () => openMacros(ctx)),
   });
   registry.add("command", {
     id: "chat.archive",

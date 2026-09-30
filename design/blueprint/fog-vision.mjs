@@ -125,28 +125,13 @@ export function model(ctx, scene) {
     sharedMemory,
   });
   const cfg = view.cfg;
-  const lit = D.buildLighting(ctx.state, scene, cfg);
-  const viewers = view.viewers.map((id) => D.buildViewer(ctx.state, scene, id)).filter(Boolean);
-  const opaque = view.mode !== "dm";
-  const seesPoint = (p) =>
-    !D.fogHiddenAt(scene, cfg.fog, p) &&
-    (!view.vision || viewers.some((v) => D.canSee(v, lit, p).visible));
-  const rim = (t) => [
-    { x: t.x, y: t.y },
-    { x: t.x + 18, y: t.y },
-    { x: t.x - 18, y: t.y },
-    { x: t.x, y: t.y + 18 },
-    { x: t.x, y: t.y - 18 },
-  ];
-  const hiddenTokens = [],
-    clones = [];
-  if (opaque)
-    for (const token of scene.tokens ?? []) {
-      const visible = rim(token).some(seesPoint);
-      if (view.controlled.includes(token.actorId)) {
-        if (!seesPoint({ x: token.x, y: token.y })) clones.push(token.actorId);
-      } else if (!visible) hiddenTokens.push(token.actorId);
-    }
+  // Close review 01/10 (privacy P1): the one rule of what this identity sees, shared with the
+  // token list, selection, snapshot and decorations through D.unseenTokens.
+  const { lit, viewers, opaque, seesPoint, hiddenTokens, clones } = D.tokenSight(
+    ctx.state,
+    scene,
+    view,
+  );
   const hiddenDoors = [];
   if (opaque)
     for (const wall of scene.walls ?? []) {

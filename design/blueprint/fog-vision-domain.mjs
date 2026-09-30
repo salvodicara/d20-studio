@@ -8,7 +8,7 @@
 // Geometry comes from the scene's walls and doors (increment 4, spatial.mjs).
 import { visibilityPolygon, validateSceneGeometry, previewTokenPlacement } from "./spatial.mjs";
 import { hasCondition } from "./conditions.mjs";
-import { isActorAvailable, isCampaignActor } from "./character-access.mjs";
+import { canControlActor, isActorAvailable, isCampaignActor } from "./character-access.mjs";
 import { runsSession } from "./table-spatial.mjs";
 
 export const ID = "fog-vision";
@@ -756,6 +756,137 @@ export function viewFor(state, sceneId, options) {
     memoryActors: [...new Set(memoryActors)],
     controlled: mode === "player" ? own : mode === "as-token" ? own : [],
   };
+}
+
+// ------------------------------------------------------------------------------ sight of an identity
+
+/**
+ * What the identity of `view` sees of the tokens on `scene` (close review 01/10, privacy P1):
+ * `hiddenTokens` are the creatures it cannot see (manual fog, darkness, walls), `clones` its
+ * own tokens standing outside its sight, `seesPoint(p)` the point test behind both. One rule
+ * for the Table's drawing, its token list and selection, the chat snapshot and the map
+ * decorations (Foundry: an unseen token is neither drawn, listed, selectable nor targetable).
+ */
+export function tokenSight(state, scene, view, lit = buildLighting(state, scene, view.cfg)) {
+  const cfg = view.cfg;
+  const viewers = view.viewers.map((id) => buildViewer(state, scene, id)).filter(Boolean);
+  const opaque = view.mode !== "dm";
+  const seesPoint = (p) =>
+    !fogHiddenAt(scene, cfg.fog ?? [], p) &&
+    (!view.vision || viewers.some((v) => canSee(v, lit, p).visible));
+  const rim = (t) => [
+    { x: t.x, y: t.y },
+    { x: t.x + 18, y: t.y },
+    { x: t.x - 18, y: t.y },
+    { x: t.x, y: t.y + 18 },
+    { x: t.x, y: t.y - 18 },
+  ];
+  const hiddenTokens = [],
+    clones = [];
+  if (opaque)
+    for (const token of scene.tokens ?? []) {
+      if (view.controlled.includes(token.actorId)) {
+        if (!seesPoint({ x: token.x, y: token.y })) clones.push(token.actorId);
+      } else if (!rim(token).some(seesPoint)) hiddenTokens.push(token.actorId);
+    }
+  return { lit, viewers, opaque, seesPoint, hiddenTokens, clones };
+}
+const campaignSetting = (state, key) => state?.ext?.["core-settings"]?.campaign?.[key] === true;
+/**
+ * The view of an identity that does not run the session, read from the state alone (the
+ * campaign's shared vision and memory settings included). `asParty` is the DM's Fog Preview:
+ * what the party sees, for a picture meant for the players.
+ */
+export function viewOf(state, sceneId, role, { asParty = false } = {}) {
+  return viewFor(state, sceneId, {
+    role,
+    controls: (id) => Boolean(state.actors?.[id]) && canControlActor(state.actors[id], role, state),
+    preview: asParty,
+    sharedVision: campaignSetting(state, "fog-vision.shared-vision"),
+    sharedMemory: campaignSetting(state, "fog-vision.shared-memory"),
+  });
+}
+const NONE = Object.freeze(new Set());
+const sightCache = new WeakMap();
+/**
+ * The ids of the creatures on a scene that `role` cannot see now. Empty for whoever runs the
+ * session and for a scene with neither manual fog nor dynamic vision. Cached per state and
+ * per what moves the answer (token positions, doors, fog, lights), so every consumer may ask.
+ */
+export function unseenTokens(state, sceneId, role, options = {}) {
+  const scene = sceneOf(state, sceneId);
+  if (!scene || !sliceOf(state) || (runsSession(state, role) && !options.asParty)) return NONE;
+  const cfg = sceneConfig(state, scene.id);
+  if (!cfg.fog?.length && cfg.vision !== true) return NONE;
+  const key = [
+    scene.id,
+    role,
+    options.asParty ? "party" : "own",
+    (scene.tokens ?? []).map((t) => `${t.actorId}:${t.x},${t.y}`).join(";"),
+    (scene.walls ?? []).map((w) => (w.open ? 1 : 0)).join(""),
+    cfg.fog.length,
+    cfg.lights.length,
+    cfg.phase,
+    cfg.vision,
+  ].join("|");
+  let bucket = sightCache.get(state);
+  if (!bucket) sightCache.set(state, (bucket = new Map()));
+  if (!bucket.has(key))
+    bucket.set(
+      key,
+      new Set(tokenSight(state, scene, viewOf(state, scene.id, role, options)).hiddenTokens),
+    );
+  return bucket.get(key);
+}
+/**
+ * The picture's darkness for `role` (chat snapshot, BG3 photo mode): runs of grid cells the
+ * identity does not see now, `remembered` where its explored memory shows the map dimmed.
+ * The DM's picture is the party's (Fog Preview). Empty when nothing is hidden.
+ */
+export function sightMask(state, sceneId, role) {
+  const scene = sceneOf(state, sceneId);
+  if (!scene || !sliceOf(state)) return [];
+  const cfg = sceneConfig(state, scene.id);
+  if (!cfg.fog?.length && cfg.vision !== true) return [];
+  const view = viewOf(state, scene.id, role, { asParty: runsSession(state, role) });
+  const { seesPoint } = tokenSight(state, scene, view);
+  const memory = view.vision ? memoryBits(state, scene.id, view.memoryActors) : null;
+  const { cell, cols, rows } = gridOf(scene);
+  const runs = [];
+  for (let row = 0; row < rows; row++) {
+    let start = -1,
+      kind = null;
+    const close = (col) => {
+      if (start >= 0)
+        runs.push({
+          x: start * cell,
+          y: row * cell,
+          w: (col - start) * cell,
+          h: cell,
+          remembered: kind === "memory",
+        });
+      start = -1;
+      kind = null;
+    };
+    for (let col = 0; col < cols; col++) {
+      const index = row * cols + col;
+      const p = cellCenter(scene, index);
+      const next = seesPoint(p)
+        ? null
+        : memory && bitAt(memory, index) && !fogHiddenAt(scene, cfg.fog ?? [], p)
+          ? "memory"
+          : "dark";
+      if (next !== kind) {
+        close(col);
+        if (next) {
+          start = col;
+          kind = next;
+        }
+      }
+    }
+    close(cols);
+  }
+  return runs;
 }
 
 // ------------------------------------------------------------------------------ memory

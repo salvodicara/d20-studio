@@ -425,7 +425,7 @@ function collection(ctx) {
   };
   const list = view
     ? `<section><h2>${ctx.esc(jp.labelText(ctx, view.name))}${view.shared ? "" : ` <span class="badge">${ctx.t("Solo io", "Only me")}</span>`}</h2>${jp.renderViewResult(ctx, view)}${view.owner === ctx.role ? `<button type="button" class="button quiet" data-jp-delete-view="${ctx.esc(view.id)}">${ctx.t("Elimina questa vista", "Delete this view")}</button>` : ""}</section>`
-    : `<form class="campaign-search" data-campaign-search><label class="field">${ctx.t("Cerca nel testo accessibile", "Search accessible text")}<input type="search" data-campaign-query value="${ctx.esc(f.query)}"></label>${!notes ? `<label class="field">${ctx.t("Tipo", "Type")}<select data-campaign-filter><option value="">${ctx.t("Tutti", "All")}</option>${types.map(([value, label]) => `<option value="${value}" ${f.type === value ? "selected" : ""}>${ctx.esc(label)}</option>`).join("")}</select></label>` : ""}<button type="submit" class="button">${ctx.t("Cerca", "Search")}</button>${f.query || f.type ? `<button type="button" class="button quiet" data-campaign-clear>${ctx.t("Azzera filtri", "Clear filters")}</button>` : ""}</form>${drafts(ctx, "content")}<section><h2>${ctx.t("Voci che puoi leggere", "Entries you can read")} (${entries.length})</h2>${entries.length ? `${entries.map(row).join("")}<p class="campaign-meta campaign-hint">${ctx.t("Clic destro (o pressione lunga) su una voce: apri, modifica, elimina.", "Right-click (or long-press) an entry: open, edit, delete.")}</p>` : `<p class="campaign-empty">${f.query || f.type ? ctx.t("Nessuna voce corrisponde. Prova un altro testo o azzera i filtri.", "No matching entries. Try other text or clear the filters.") : notes ? ctx.t("Nessun appunto ancora. «Nuovo appunto» o il tasto N ne crea uno in un passo.", "No notes yet. “New note” or the N key creates one in one step.") : ctx.t("Non ci sono ancora voci accessibili. Puoi iniziare anche con poche righe.", "No accessible entries yet. A few lines are enough to begin.")}</p>`}</section>`;
+    : `<form class="campaign-search" data-campaign-search><label class="field">${ctx.t("Cerca nel testo accessibile", "Search accessible text")}<input type="search" data-campaign-query value="${ctx.esc(f.query)}"></label>${!notes ? `<label class="field">${ctx.t("Tipo", "Type")}<select data-campaign-filter><option value="">${ctx.t("Tutti", "All")}</option>${types.map(([value, label]) => `<option value="${value}" ${f.type === value ? "selected" : ""}>${ctx.esc(label)}</option>`).join("")}</select></label>` : ""}<button type="submit" class="button">${ctx.t("Cerca", "Search")}</button>${f.query || f.type ? `<button type="button" class="button quiet" data-campaign-clear>${ctx.t("Azzera filtri", "Clear filters")}</button>` : ""}<p class="campaign-meta" role="status" data-campaign-search-hint></p></form>${drafts(ctx, "content")}<section><h2>${ctx.t("Voci che puoi leggere", "Entries you can read")} (${entries.length})</h2>${entries.length ? `${entries.map(row).join("")}<p class="campaign-meta campaign-hint">${ctx.t("Clic destro (o pressione lunga) su una voce: apri, modifica, elimina.", "Right-click (or long-press) an entry: open, edit, delete.")}</p>` : `<p class="campaign-empty">${f.query || f.type ? ctx.t("Nessuna voce corrisponde. Prova un altro testo o azzera i filtri.", "No matching entries. Try other text or clear the filters.") : notes ? ctx.t("Nessun appunto ancora. «Nuovo appunto» o il tasto N ne crea uno in un passo.", "No notes yet. “New note” or the N key creates one in one step.") : ctx.t("Non ci sono ancora voci accessibili. Puoi iniziare anche con poche righe.", "No accessible entries yet. A few lines are enough to begin.")}</p>`}</section>`;
   return (
     (currentReturn(ctx)
       ? backButton(ctx, ctx.t("Torna al punto di partenza", "Return to where you started"))
@@ -653,6 +653,13 @@ function dirty(root, ctx) {
   working.reviewKey = null;
   working.error = "";
   working.reason = "";
+  // Close review 01/10 (Kanka and Notion: autosave and one «Pubblica»): as soon as something
+  // changes the main button works again, since one press saves the draft and applies it.
+  const apply = root.querySelector("[data-campaign-apply]");
+  if (apply?.disabled) {
+    apply.disabled = false;
+    apply.removeAttribute?.("aria-describedby");
+  }
   const status = root.querySelector("[data-campaign-status]");
   if (status)
     status.textContent = ctx.t(
@@ -1509,6 +1516,20 @@ export function bindCampaign(root, ctx) {
   if (search)
     search.onsubmit = (event) => {
       event.preventDefault();
+      // Close review 01/10 (D&D Beyond and Kanka: an empty search says what it needs).
+      const typed = root.querySelector("[data-campaign-query]").value.trim();
+      const kind = root.querySelector("[data-campaign-filter]")?.value || "";
+      const current = searches.get(searchKey(ctx));
+      if (!typed && !kind && !current?.query && !current?.type) {
+        const hint = search.querySelector("[data-campaign-search-hint]");
+        if (hint)
+          hint.textContent = ctx.t(
+            "Scrivi una parola da cercare o scegli un tipo.",
+            "Type a word to search for or choose a type.",
+          );
+        root.querySelector("[data-campaign-query]")?.focus();
+        return;
+      }
       searches.set(searchKey(ctx), {
         query: root.querySelector("[data-campaign-query]").value.trim(),
         type: root.querySelector("[data-campaign-filter]")?.value || "",

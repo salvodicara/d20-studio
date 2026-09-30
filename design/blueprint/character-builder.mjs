@@ -397,7 +397,7 @@ export function renderCharacterBuilder(ctx) {
   return `<div class="page-heading builder-heading"><div><h1>${ctx.t(...(kindNames[draft.kind] || kindNames.create))}</h1><p>${ctx.esc(summaryName(ctx, draft))} · ${ctx.t("Bozza privata", "Private draft")}</p></div><div class="toolbar"><button class="button quiet" data-builder-return>${draft.actorId ? ctx.t("Torna alla scheda", "Back to sheet") : ctx.t("Torna ai personaggi", "Back to characters")}</button><button class="button" data-builder-save>${ctx.t("Salva bozza", "Save draft")}</button><button class="button quiet" data-builder-discard>${ctx.t("Scarta bozza", "Discard draft")}</button></div></div><p class="builder-status" role="status" data-builder-status>${session.dirty ? ctx.t("Modifiche non salvate · bozza privata", "Unsaved changes · private draft") : ctx.storageError ? ctx.t("Solo in questa scheda: memoria del browser non disponibile", "Only in this tab: browser storage unavailable") : ctx.t("Bozza privata salvata su questo dispositivo", "Private draft saved on this device")}</p><div class="builder-layout"><nav class="builder-sections" aria-label="${ctx.t("Sezioni della costruzione", "Character building sections")}">${BUILD_SECTIONS.map(
     (item) => {
       const status = sections.find((value) => value.id === item.id) || { status: "incomplete" };
-      return `<button type="button" class="builder-section-link" data-builder-section="${item.id}" ${section === item.id ? 'aria-current="step"' : ""}><span>${ctx.esc(ctx.label(item.name))}</span><small class="${status.status === "review" ? "builder-attention" : ""}">${ctx.t(...(statusNames[status.status] || statusNames.incomplete))}${status.errors?.[0] ? `<span class="builder-section-reason"> · ${ctx.esc(msg(ctx, status.errors[0]))}</span>` : ""}</small></button>`;
+      return `<button type="button" class="builder-section-link" data-builder-section="${item.id}" ${section === item.id ? 'aria-current="step"' : ""}><span>${ctx.esc(ctx.label(item.name))}</span><small class="${status.status === "review" ? "builder-attention" : ""}">${ctx.t(...(statusNames[status.status] || statusNames.incomplete))}${(status.errors?.[0] ?? (status.status === "review" ? status.warnings?.[0] : null)) ? `<span class="builder-section-reason"> · ${ctx.esc(msg(ctx, status.errors?.[0] ?? status.warnings[0]))}</span>` : ""}</small></button>`;
     },
   ).join(
     "",
@@ -481,7 +481,7 @@ function renderSection(ctx, draft, catalog, preview, section) {
       })
       .join(
         "",
-      )}${campaignPolicy(ctx)?.multiclass === "forbidden" ? `<button class="button" type="button" data-builder-add-class disabled aria-describedby="builder-multiclass-lock">${t("Aggiungi classe", "Add class")}</button><p id="builder-multiclass-lock" class="builder-manual-note">${t("Multiclasse non consentito in questa campagna: regola della casa del DM.", "Multiclassing is not allowed in this campaign: a DM house rule.")}</p>` : `<button class="button" type="button" data-builder-add-class>${t("Aggiungi classe", "Add class")}</button>`}<p><strong>${t("Livello totale: ", "Total level: ")}${total}</strong></p><button type="button" class="button" data-builder-refresh>${t("Aggiorna scelte e PF", "Update choices and HP")}</button>${classes.length > 1 && total <= 20 ? `<fieldset><legend>${t("Ordine dei livelli · prima classe distinta", "Level order · first class is distinct")}</legend><div class="form-grid">${Array.from({ length: Math.max(0, total) }, (_, index) => select(ctx, `levelOrder.${index}`, t("Livello totale ", "Total level ") + (index + 1), classes.map((row) => (catalog.classes || []).find((entry) => entry.id === row.classId)).filter(Boolean))).join("")}</div></fieldset>` : ""}${advancementLine(ctx, draft)}${renderHitPoints(ctx, draft, total, preview)}</form>`;
+      )}${campaignPolicy(ctx)?.multiclass === "forbidden" ? `<button class="button" type="button" data-builder-add-class disabled aria-describedby="builder-multiclass-lock">${t("Aggiungi classe", "Add class")}</button><p id="builder-multiclass-lock" class="builder-manual-note">${t("Multiclasse non consentito in questa campagna: regola della casa del DM.", "Multiclassing is not allowed in this campaign: a DM house rule.")}</p>` : `<button class="button" type="button" data-builder-add-class>${t("Aggiungi classe", "Add class")}</button>`}<p><strong>${t("Livello totale: ", "Total level: ")}${total}</strong></p>${classes.length ? `<button type="button" class="button" data-builder-refresh>${t("Aggiorna scelte e PF", "Update choices and HP")}</button>` : `<button type="button" class="button" data-builder-refresh disabled aria-describedby="builder-refresh-why">${t("Aggiorna scelte e PF", "Update choices and HP")}</button><p class="builder-manual-note" id="builder-refresh-why">${t("Scegli prima una classe: scelte e PF dipendono da classe e livello.", "Choose a class first: choices and HP depend on class and level.")}</p>`}${classes.length > 1 && total <= 20 ? `<fieldset><legend>${t("Ordine dei livelli · prima classe distinta", "Level order · first class is distinct")}</legend><div class="form-grid">${Array.from({ length: Math.max(0, total) }, (_, index) => select(ctx, `levelOrder.${index}`, t("Livello totale ", "Total level ") + (index + 1), classes.map((row) => (catalog.classes || []).find((entry) => entry.id === row.classId)).filter(Boolean))).join("")}</div></fieldset>` : ""}${advancementLine(ctx, draft)}${renderHitPoints(ctx, draft, total, preview)}</form>`;
   if (section === "origin") {
     const bg = (catalog.backgrounds || []).find((item) => item.id === d.origin?.backgroundId),
       species = (catalog.species || []).find((item) => item.id === d.origin?.speciesId);
@@ -1102,7 +1102,13 @@ function renderSpells(ctx, draft, catalog, preview) {
                 : value.id === spellId && value.grantId === id,
             );
         const chosen = allSpells.filter((spell) => has(selection, spell.id));
-        return `<fieldset><legend>${esc(ctx.label(grant.name || id))}</legend><p class="builder-breakdown">${t("Trucchetti", "Cantrips")} ${chosen.filter((spell) => spell.level === 0).length}/${grant.cantripCount} · ${t("Magie conosciute", "Known spells")} ${chosen.filter((spell) => spell.level > 0).length}/${grant.knownCount} · ${t("Preparate", "Prepared")} ${prepared.filter((entry) => entry.grantId === id).length}/${grant.preparedCount} · ${t("Livello massimo", "Maximum level")} ${grant.maxLevel}</p>${
+        // Close review 01/10 (D&D Beyond level up): only this level's new spells are asked;
+        // the spells already on the sheet count for the earlier levels.
+        const up = grant.levelUp;
+        const counts = up
+          ? `${t(`Nuove al livello ${up.to}`, `New at level ${up.to}`)}: ${t("trucchetti", "cantrips")} ${chosen.filter((spell) => spell.level === 0).length}/${up.cantrips} · ${t("magie da aggiungere al libro", "spells to add to the book")} ${chosen.filter((spell) => spell.level > 0).length}/${up.known} · ${t("già sulla scheda", "already on the sheet")}: ${up.onSheet} · ${t("Livello massimo", "Maximum level")} ${grant.maxLevel}`
+          : `${t("Trucchetti", "Cantrips")} ${chosen.filter((spell) => spell.level === 0).length}/${grant.cantripCount} · ${t("Magie conosciute", "Known spells")} ${chosen.filter((spell) => spell.level > 0).length}/${grant.knownCount} · ${t("Preparate", "Prepared")} ${prepared.filter((entry) => entry.grantId === id).length}/${grant.preparedCount} · ${t("Livello massimo", "Maximum level")} ${grant.maxLevel}`;
+        return `<fieldset><legend>${esc(ctx.label(grant.name || id))}</legend><p class="builder-breakdown" data-builder-spell-counts="${esc(id)}">${counts}</p>${
           id === "background:magic-initiate"
             ? select(
                 ctx,
@@ -1226,7 +1232,15 @@ export function levelChanges(before, after) {
     }))
     .filter((row) => row.from !== row.to)
     .sort((a, b) => a.level - b.level);
+  // Close review 01/10: the spells a level up adds are part of what changes on the sheet.
+  const known = new Set(
+    (before.spells ?? []).flatMap((spell) => [spell.id, spell.catalogId].filter(Boolean)),
+  );
+  const spellsGained = (after.spells ?? []).filter(
+    (spell) => !known.has(spell.id) && !known.has(spell.catalogId),
+  );
   return {
+    spellsGained,
     level: { from: before.level, to: after.level },
     maxHp: { from: before.maxHp, to: after.maxHp },
     proficiencyBonus: {
@@ -1259,6 +1273,12 @@ function compareBlock(ctx, changes) {
       ? [
           t("Privilegi nuovi", "New features"),
           `<span class="is-gained">+ ${names(changes.gained)}</span>`,
+        ]
+      : null,
+    changes.spellsGained?.length
+      ? [
+          t("Magie nuove", "New spells"),
+          `<span class="is-gained">+ ${names(changes.spellsGained)}</span>`,
         ]
       : null,
     changes.lost.length

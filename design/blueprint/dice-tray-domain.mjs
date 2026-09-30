@@ -717,7 +717,41 @@ export function normalizeSlice(saved, fromVersion) {
             Object.entries(value.policies).filter(([, p]) => p && typeof p === "object"),
           )
         : {},
+    // TV-156: each identity's run of low digital d20s (karmic dice, off by default).
+    karma: Object.fromEntries(
+      Object.entries(value.karma && typeof value.karma === "object" ? value.karma : {}).filter(
+        ([role, n]) => /^[a-z0-9-]{1,40}$/.test(role) && Number.isInteger(n) && n >= 0 && n < 100,
+      ),
+    ),
   };
+}
+// ---------------------------------------------------------------- karmic dice (TV-156)
+
+// Close review 01/10 (BG3 «Karmic Dice», a game setting that is off unless chosen): an
+// authored reading, since BG3 does not publish its rule. After KARMA_STREAK digital d20s in a
+// row showing KARMA_LOW or less, a player's next digital d20 that would show KARMA_LOW or less
+// is thrown once more and the new face is kept; the roll says so. Physical and connected dice
+// and the DM's dice are never touched. It changes the fairness of the table: owner decision.
+export const KARMA_LOW = 5;
+export const KARMA_STREAK = 2;
+/**
+ * A draw that applies karma to the d20s of one roll. `streak` is the identity's current run;
+ * the result reports the run after the roll and each rethrown face.
+ */
+export function karmicDraw(draw, streak) {
+  const report = { streak, rethrown: [] };
+  const next = (sides, extra) => {
+    let face = draw(sides, extra);
+    if (sides !== 20) return face;
+    if (face <= KARMA_LOW && report.streak >= KARMA_STREAK) {
+      const again = draw(sides, extra);
+      report.rethrown.push({ from: face, to: again });
+      face = again;
+    }
+    report.streak = face <= KARMA_LOW ? report.streak + 1 : 0;
+    return face;
+  };
+  return { next, report };
 }
 const newId = (prefix) =>
   `${prefix}-${globalThis.crypto?.randomUUID?.() ?? Date.now().toString(36) + Math.random().toString(36).slice(2)}`;
@@ -1182,6 +1216,14 @@ export function prepareRoll(slice, state, raw, role) {
       );
   }
   const allowed = audiencesFor(role);
+  // Close review 01/10 (privacy P3-6): an audience this role may not use is refused, never
+  // widened to everyone (fail closed, as every other check of this domain).
+  if (raw?.audience !== undefined && raw?.audience !== null && !allowed.includes(raw.audience))
+    fail(
+      "Questa visibilità del tiro non è disponibile per te: scegli chi vede il risultato.",
+      "This roll visibility is not available to you: choose who sees the result.",
+      { code: "audience" },
+    );
   let audience = allowed.includes(raw?.audience) ? raw.audience : "public";
   // A personal, hidden or out-of-campaign sheet never rolls for the table (same rule as
   // the core's accepted rolls and B56).

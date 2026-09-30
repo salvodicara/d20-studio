@@ -38,6 +38,12 @@ import { disguises, maskNames } from "./conditions.mjs";
 const text = (it, en) => ({ it, en });
 const copy = (value) => (value === undefined ? undefined : JSON.parse(JSON.stringify(value)));
 export const REQUEST_KINDS = Object.freeze(["save", "check", "skill", "contest"]);
+/**
+ * Who sees a requested roll's result (close review 01/10, P1; Monk's TokenBar request roll
+ * modes, Foundry «Blind GM roll»): everyone, or only the DM (the player rolls and never
+ * reads the value: a secret Perception or Insight check).
+ */
+export const REQUEST_AUDIENCES = Object.freeze(["public", "blind"]);
 export const MAX_TARGETS = 8;
 const AUTO_FAIL = "auto-fail";
 
@@ -118,6 +124,9 @@ export function createRequest(
   const rollMode = ["advantage", "disadvantage"].includes(input?.rollMode)
     ? input.rollMode
     : "normal";
+  const audience = input?.audience ?? "public";
+  if (!REQUEST_AUDIENCES.includes(audience))
+    fail("Scegli chi vede il risultato.", "Choose who sees the result.", { code: "audience" });
   const created = [];
   const enqueue = (actorId, test, extra) => {
     if (!allowed.has(actorId))
@@ -162,12 +171,16 @@ export function createRequest(
           createdAt: now ?? new Date().toISOString(),
           origin: copy(origin),
           requestedBy: role,
+          ...(audience === "blind" ? { audience } : {}),
           // The log line the request wrote: the chat shows it as the request card (TV-92).
           ...(logLabel ? { logLabel: String(logLabel) } : {}),
         },
       },
       authority,
     );
+    // A blind request's faces travel with the DM's audience (state.mjs acceptedRolls,
+    // combat.canSeeAttemptValues): the 3D dice, the Registro and the queue hide them.
+    if (audience === "blind") attempt.audience = "blind";
     const request = attempt.requests[0];
     if (request.status === "pending" && (effects.advantage.length || effects.disadvantage.length))
       request.conditionReasons = {
@@ -277,7 +290,9 @@ export function requestGroups(state, slice, role) {
       role === "dm" ||
       (request.personal === true
         ? request.owner === role
-        : runner || plays || (actor.owner === "player" && actor.visibility !== "private"));
+        : runner ||
+          (meta.audience !== "blind" &&
+            (plays || (actor.owner === "player" && actor.visibility !== "private"))));
     const visibleName =
       role === "dm" ||
       canViewActor(actor, role, state) ||
@@ -350,6 +365,7 @@ export function requestGroups(state, slice, role) {
         dc: dcShown ? (meta.dc ?? null) : null,
         dcHidden: !dcShown && Number.isInteger(meta.dc),
         rollMode: meta.rollMode ?? request.rollMode,
+        audience: meta.audience ?? "public",
         createdAt: meta.createdAt ?? null,
         origin: copy(meta.origin ?? null),
         // Closed lives on the queue attempts, with the rolls it withdrew: one snapshot, so

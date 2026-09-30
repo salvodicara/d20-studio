@@ -36,6 +36,20 @@ import {
 
 const MAX_IMAGE_BYTES = 1024 * 1024;
 const IMAGE_PATTERN = /^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/;
+// TV-153, close review 01/10 (Foundry WebM/MP4 scene backgrounds): an animated map. The
+// local demonstration keeps it in the browser's storage, so its limit is small.
+export const MAX_VIDEO_BYTES = 2 * 1024 * 1024;
+export const VIDEO_PATTERN = /^data:video\/(webm|mp4);base64,[A-Za-z0-9+/=]+$/;
+const VIDEO_TYPES = ["video/webm", "video/mp4"];
+/** A scene background: a picture, a video or nothing, within its size limit. */
+export function backgroundKind(value) {
+  if (typeof value !== "string" || !value) return null;
+  if (IMAGE_PATTERN.test(value) && value.length <= Math.ceil((MAX_IMAGE_BYTES * 4) / 3) + 100)
+    return "image";
+  if (VIDEO_PATTERN.test(value) && value.length <= Math.ceil((MAX_VIDEO_BYTES * 4) / 3) + 100)
+    return "video";
+  return null;
+}
 const NUMERIC_FIELDS = {
   width: [300, 4000],
   height: [300, 4000],
@@ -87,11 +101,7 @@ export function validateSceneDraft(scene) {
     )
       errors.push({ field, code: "range", min, max });
   }
-  if (
-    fields.background &&
-    (!IMAGE_PATTERN.test(fields.background) ||
-      fields.background.length > Math.ceil((MAX_IMAGE_BYTES * 4) / 3) + 100)
-  )
+  if (fields.background && !backgroundKind(fields.background))
     errors.push({ field: "background", code: "image" });
   if (!errors.some((error) => error.code === "range") && validateSceneGeometry(scene).length)
     errors.push({ field: "geometry", code: "geometry" });
@@ -439,10 +449,15 @@ export function initiativeConditionHint(ctx, actor) {
 export function renderSceneBase(scene, ctx) {
   const width = Math.min(4000, Math.max(300, Number(scene.width) || 1000));
   const height = Math.min(4000, Math.max(300, Number(scene.height) || 650));
-  const image =
-    typeof scene.background === "string" && IMAGE_PATTERN.test(scene.background)
-      ? scene.background
-      : "";
+  const kind = backgroundKind(scene.background);
+  const image = kind === "image" ? scene.background : "";
+  if (kind === "video") {
+    // Reduced motion (system or Preferences) keeps the first frame still.
+    const still =
+      globalThis.document?.documentElement?.dataset?.motion === "reduced" ||
+      globalThis.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches === true;
+    return `<rect width="${width}" height="${height}" fill="#34413b"/><foreignObject width="${width}" height="${height}" class="scene-video-fo" pointer-events="none"><video xmlns="http://www.w3.org/1999/xhtml" class="scene-video" data-scene-video src="${ctx.esc(scene.background)}" ${still ? "" : "autoplay loop"} muted playsinline preload="auto" aria-hidden="true"></video></foreignObject>`;
+  }
   const template = scene.template || "courtyard";
   const structures =
     template === "camp"
@@ -607,7 +622,7 @@ function renderEditor(ctx, scene) {
       <label class="field">${ctx.t("Descrizione per il gruppo", "Description for the party")}<textarea name="publicDescription" rows="3" maxlength="2000" data-prep-field>${ctx.esc(draft.publicDescription)}</textarea></label>
       <label class="field">${ctx.t("Note riservate ai DM", "DM-only notes")}<textarea name="description" rows="4" maxlength="4000" data-prep-field>${ctx.esc(draft.description)}</textarea></label></section>
       <section class="panel"><h2>${ctx.t("Mappa", "Map")}</h2><label class="field">${ctx.t("Base", "Base")}<select name="template" data-prep-field><option value="blank" ${draft.template === "blank" ? "selected" : ""}>${ctx.t("Superficie vuota", "Blank surface")}</option><option value="courtyard" ${draft.template === "courtyard" ? "selected" : ""}>${ctx.t("Cortile", "Courtyard")}</option><option value="camp" ${draft.template === "camp" ? "selected" : ""}>${ctx.t("Accampamento", "Camp")}</option></select></label>
-      <label class="field prep-upload">${ctx.t("Carica un’immagine", "Upload an image")}<input type="file" accept="image/png,image/jpeg,image/webp" data-prep-upload ${editor.loading ? 'disabled aria-describedby="prep-status"' : ""}><span class="muted">PNG, JPG, WebP · ${ctx.t("fino a 1 MB in questa dimostrazione locale", "up to 1 MB in this local demonstration")}</span></label>
+      <label class="field prep-upload">${ctx.t("Carica un’immagine o un video", "Upload an image or a video")}<input type="file" accept="image/png,image/jpeg,image/webp,video/webm,video/mp4" data-prep-upload ${editor.loading ? 'disabled aria-describedby="prep-status"' : ""}><span class="muted">PNG, JPG, WebP ${ctx.t("fino a 1 MB", "up to 1 MB")} · ${ctx.t("video animato", "animated video")} WebM, MP4 ${ctx.t("fino a 2 MB", "up to 2 MB")} (${ctx.t("dimostrazione locale", "local demonstration")})</span></label>
       ${draft.background ? `<p class="muted">${ctx.esc(draft.imageName || ctx.t("Mappa caricata", "Uploaded map"))}${draft.imageWidth ? ` · ${draft.imageWidth} × ${draft.imageHeight} px` : ""}</p><button type="button" class="button quiet" data-prep-remove-image>${ctx.t("Rimuovi immagine", "Remove image")}</button>${draft.imageWidth >= 300 && draft.imageWidth <= 4000 && draft.imageHeight >= 300 && draft.imageHeight <= 4000 ? `<button type="button" class="button quiet" data-prep-image-size>${ctx.t("Usa dimensioni dell’immagine", "Use image dimensions")}</button>` : ""}` : ""}
       <div class="form-grid">${field(ctx, "width", ctx.t("Larghezza (pixel)", "Width (pixels)"), "number", 'min="300" max="4000" step="1"')}${field(ctx, "height", ctx.t("Altezza (pixel)", "Height (pixels)"), "number", 'min="300" max="4000" step="1"')}</div>
       <p class="muted">${ctx.t("L’immagine si adatta a queste dimensioni. Non crea muri o luci automaticamente.", "The image fits these dimensions. It does not automatically create walls or lights.")}</p></section>
@@ -1173,6 +1188,23 @@ function saveEditor(root, ctx) {
   } else save();
 }
 
+function readVideo(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error("read"));
+    reader.onload = () => {
+      const url = String(reader.result);
+      if (!VIDEO_PATTERN.test(url)) return reject(new Error("type"));
+      const video = document.createElement("video");
+      video.muted = true;
+      video.onerror = () => reject(new Error("decode"));
+      video.onloadedmetadata = () =>
+        resolve({ url, width: video.videoWidth || 1000, height: video.videoHeight || 650 });
+      video.src = url;
+    };
+    reader.readAsDataURL(file);
+  });
+}
 function readImage(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -1358,6 +1390,44 @@ export function bindPreparation(root, ctx) {
     const file = event.target.files[0];
     if (!file) return;
     editor.oversize = null;
+    if (VIDEO_TYPES.includes(file.type)) {
+      event.target.value = "";
+      if (file.size === 0 || file.size > MAX_VIDEO_BYTES) {
+        showEditorError(
+          root,
+          ctx.t(
+            `Il video pesa ${(file.size / 1048576).toFixed(1)} MB: in questa dimostrazione locale il limite è 2 MB. La mappa precedente è conservata.`,
+            `The video weighs ${(file.size / 1048576).toFixed(1)} MB: this local demonstration allows 2 MB. The previous map is preserved.`,
+          ),
+        );
+        return;
+      }
+      captureForm(root);
+      const target = editor;
+      target.loading = true;
+      ctx.render();
+      try {
+        const video = await readVideo(file);
+        if (editor !== target || !runs(ctx)) return;
+        Object.assign(editor.draft, {
+          background: video.url,
+          imageName: file.name,
+          imageWidth: video.width,
+          imageHeight: video.height,
+        });
+        editor.error = "";
+      } catch {
+        if (editor === target)
+          editor.error = ctx.t(
+            "Il file non è leggibile come video WebM o MP4. La mappa precedente è conservata.",
+            "The file cannot be read as a WebM or MP4 video. The previous map is preserved.",
+          );
+      } finally {
+        target.loading = false;
+        if (editor === target) ctx.render();
+      }
+      return;
+    }
     if (!["image/png", "image/jpeg", "image/webp"].includes(file.type) || file.size === 0) {
       showEditorError(
         root,

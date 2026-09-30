@@ -1521,6 +1521,14 @@ export function previewCharacterDraft(state, id, role) {
       );
       continue;
     }
+    const knownCount = c.id === "wizard" ? 6 + 2 * (row.level - 1) : preparedCount;
+    // Close review 01/10 (D&D Beyond level up: «Add 2 spells to your spellbook»): a level up
+    // of a sheet the builder never recorded asks only the new level's spells; what the sheet
+    // already has counts for the earlier levels.
+    const base = levelUpOnly ? baseClassLevel(c.id) : 0;
+    const baseCantrips = base ? (progress.cantrips[base - 1] ?? 0) : 0;
+    const basePrepared = base ? (progress.prepared[base - 1] ?? 0) : 0;
+    const baseKnown = base ? (c.id === "wizard" ? 6 + 2 * (base - 1) : basePrepared) : 0;
     spellGrants.push({
       id: "class:" + c.id,
       name: c.name,
@@ -1528,9 +1536,20 @@ export function previewCharacterDraft(state, id, role) {
       spellcastingAbility: c.spellcastingAbility,
       cantripCount,
       preparedCount,
-      knownCount: c.id === "wizard" ? 6 + 2 * (row.level - 1) : preparedCount,
+      knownCount,
       maxLevel,
       source: c.source,
+      ...(levelUpOnly && base
+        ? {
+            levelUp: {
+              from: base,
+              to: row.level,
+              cantrips: Math.max(0, cantripCount - baseCantrips),
+              known: Math.max(0, knownCount - baseKnown),
+              onSheet: (live?.spells ?? []).filter((spell) => !spell.buildManaged).length,
+            },
+          }
+        : {}),
     });
   }
   if (background?.featId?.startsWith("magic-initiate")) {
@@ -1661,6 +1680,36 @@ export function previewCharacterDraft(state, id, role) {
         "Completa le magie concesse da " + grant.name.it + ".",
         "Complete spells granted by " + grant.name.en + ".",
       );
+    if (grant.levelUp) {
+      const cantrips = selectedDefs.filter((s) => s?.level === 0).length;
+      const known = selectedDefs.filter((s) => s?.level > 0).length;
+      const { cantrips: needC, known: needK, to } = grant.levelUp;
+      if (cantrips < needC || known < needK)
+        warn(
+          "levelup-spells",
+          "spells",
+          `${grant.name.it} al livello ${to}: ${[
+            needC
+              ? `scegli ${needC} trucchett${needC === 1 ? "o" : "i"} nuov${needC === 1 ? "o" : "i"} (${cantrips}/${needC})`
+              : "",
+            needK
+              ? `aggiungi ${needK} magi${needK === 1 ? "a" : "e"} al libro (${known}/${needK})`
+              : "",
+          ]
+            .filter(Boolean)
+            .join(" e ")}.`,
+          `${grant.name.en} at level ${to}: ${[
+            needC
+              ? `choose ${needC} new cantrip${needC === 1 ? "" : "s"} (${cantrips}/${needC})`
+              : "",
+            needK
+              ? `add ${needK} spell${needK === 1 ? "" : "s"} to the book (${known}/${needK})`
+              : "",
+          ]
+            .filter(Boolean)
+            .join(" and ")}.`,
+        );
+    }
     if (
       prepared.length > grant.preparedCount ||
       new Set(prepared.map((s) => s.id)).size !== prepared.length ||
@@ -2151,6 +2200,8 @@ export function previewCharacterDraft(state, id, role) {
   const sections = BUILD_SECTIONS.map((s) => ({
     ...s,
     errors: errors.filter((e) => e.section === s.id),
+    // Close review 01/10: a section «Da rivedere» says why (its first check).
+    warnings: warnings.filter((e) => e.section === s.id),
     status: errors.some((e) => e.section === s.id)
       ? "incomplete"
       : warnings.some((e) => e.section === s.id)

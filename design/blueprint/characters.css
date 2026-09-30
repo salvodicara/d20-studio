@@ -1039,13 +1039,14 @@ button.character-inspiration:hover {
   .character-band .character-inspiration {
     font-size: 13px;
   }
-  /* Final review F11 (D&D Beyond mobile: the header on one line): the way back, the sheet's
-     chips and commands in one row that scrolls; the name is the heading below. */
+  /* Final review F11, close review 01/10 (exposure P2): the way back, the sheet's chips and
+     commands wrap onto the next line instead of scrolling out of the screen, so «Gestisci
+     personaggio», «Rivedi scelte» and «Vai al Tavolo» are always in view (D&D Beyond mobile
+     keeps «Manage» on screen). The look of this header belongs to the visual phase. */
   .character-breadcrumb {
     margin-bottom: 0;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    scrollbar-width: none;
+    flex-wrap: wrap;
+    overflow-x: visible;
   }
   .character-breadcrumb > *,
   .character-breadcrumb .clib-sheet-bar,
@@ -1054,9 +1055,10 @@ button.character-inspiration:hover {
   }
   .character-breadcrumb .clib-sheet-bar {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     align-items: center;
     gap: 6px;
+    max-width: 100%;
   }
   .character-breadcrumb > .muted {
     display: none;
@@ -1082,9 +1084,11 @@ button.character-inspiration:hover {
     gap: 10px;
     margin-bottom: 0;
   }
+  /* Close review 01/10 (exposure P2): the sheet's commands wrap instead of scrolling off the
+     screen, so «Rivedi scelte» and «Vai al Tavolo» stay in view on a phone. */
   .character-heading .toolbar {
-    flex-wrap: nowrap;
-    overflow-x: auto;
+    flex-wrap: wrap;
+    overflow-x: visible;
     max-width: 100%;
     padding-bottom: 4px;
   }

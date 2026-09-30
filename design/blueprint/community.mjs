@@ -19,6 +19,21 @@ import * as D from "./community-domain.mjs";
 import { readLocalFile } from "./media-ui.mjs";
 import { bindTextEmbeds, renderTextWithEmbeds } from "./text-embeds.mjs";
 
+// SV-28, close review 01/10 (k-ID, Roll20 13/16): the account's age band and parent's
+// consent, read through the account area when it is built (optional neighbour).
+let account = null;
+export const neighboursReady = import("./account.mjs").then(
+  (module) => (account = module),
+  () => null,
+);
+const policyFor = (ctx) =>
+  account?.agePolicy?.(ctx.state, ctx.role) ?? {
+    declared: false,
+    publicTables: true,
+    adultListings: true,
+    reason: null,
+  };
+
 const L = (it, en) => ({ it, en });
 const SUBTABS = ["status", "listing", "public", "players"];
 
@@ -395,6 +410,13 @@ function openApply(ctx, api, listingId) {
     ctx.toast(ctx.label(blocker), true);
     return;
   }
+  // SV-28: under the consent age a parent's consent opens public tables; 18+ listings stay
+  // closed to anyone the account knows is a minor.
+  const age = policyFor(ctx);
+  if (!age.publicTables || (listing.mature && !age.adultListings)) {
+    ctx.toast(ctx.label(age.reason), true);
+    return;
+  }
   const seats = D.seatInfo(ctx.state, slice, listing);
   const waiting = D.joinsWaitlist(ctx.state, slice, listing);
   const body = `<p class="muted">${
@@ -673,7 +695,12 @@ function renderFilters(ctx) {
   const bands = BANDS.map(([value, label]) =>
     option(value, ctx.esc(ctx.label(label)), f.band === value),
   ).join("");
-  return `<form class="community-filters panel" data-community-form="filters" role="search" aria-label="${ctx.t("Filtri di ricerca", "Search filters")}"><h2 class="community-filters-title">${ctx.t("Cerca un tavolo", "Find a table")}</h2><label class="field">${ctx.t("Parole chiave", "Keywords")}<input type="search" name="q" value="${ctx.esc(ui.typedQ ?? f.q)}" placeholder="${ctx.t("titolo, DM, tema…", "title, DM, theme…")}"></label><div class="community-filter-grid"><label class="field">${ctx.t("Lingua", "Language")}<select name="language">${option("any", ctx.t("Tutte", "All"), f.language === "any")}${option("it", "Italiano", f.language === "it")}${option("en", "English", f.language === "en")}</select></label><label class="field">${ctx.t("Formato", "Format")}<select name="format">${option("any", ctx.t("Tutti", "All"), f.format === "any")}${option("campaign", ctx.t("Campagna", "Campaign"), f.format === "campaign")}${option("one-shot", "One-shot", f.format === "one-shot")}</select></label><label class="field">${ctx.t("Giorno (ora tua)", "Day (your time)")}<select name="day">${option("any", ctx.t("Qualsiasi", "Any"), f.day === "any")}${days}</select></label><label class="field">${ctx.t("Inizio (ora tua)", "Start (your time)")}<select name="band">${option("any", ctx.t("Qualsiasi", "Any"), f.band === "any")}${bands}</select></label></div><label class="check-field"><input type="checkbox" name="newcomers"${checked(f.newcomers)}> ${ctx.t("Accoglie nuovi giocatori", "Welcomes new players")}</label><label class="check-field"><input type="checkbox" name="mature"${checked(f.mature)}> ${ctx.t("Mostra annunci per adulti (18+)", "Show adult listings (18+)")}</label><p class="muted community-zone">${ctx.t(`Orari nel tuo fuso: ${ctx.esc(zone())}. Sistema: D&D 2024 (SRD 5.2.1).`, `Times in your time zone: ${ctx.esc(zone())}. System: D&D 2024 (SRD 5.2.1).`)}</p><div class="toolbar"><button class="button primary" type="submit">${ctx.t("Cerca", "Search")}</button><button class="button quiet" type="button" data-community-act="clear-filters">${ctx.t("Azzera filtri", "Clear filters")}</button></div></form>`;
+  return `<form class="community-filters panel" data-community-form="filters" role="search" aria-label="${ctx.t("Filtri di ricerca", "Search filters")}"><h2 class="community-filters-title">${ctx.t("Cerca un tavolo", "Find a table")}</h2><label class="field">${ctx.t("Parole chiave", "Keywords")}<input type="search" name="q" value="${ctx.esc(ui.typedQ ?? f.q)}" placeholder="${ctx.t("titolo, DM, tema…", "title, DM, theme…")}"></label><div class="community-filter-grid"><label class="field">${ctx.t("Lingua", "Language")}<select name="language">${option("any", ctx.t("Tutte", "All"), f.language === "any")}${option("it", "Italiano", f.language === "it")}${option("en", "English", f.language === "en")}</select></label><label class="field">${ctx.t("Formato", "Format")}<select name="format">${option("any", ctx.t("Tutti", "All"), f.format === "any")}${option("campaign", ctx.t("Campagna", "Campaign"), f.format === "campaign")}${option("one-shot", "One-shot", f.format === "one-shot")}</select></label><label class="field">${ctx.t("Giorno (ora tua)", "Day (your time)")}<select name="day">${option("any", ctx.t("Qualsiasi", "Any"), f.day === "any")}${days}</select></label><label class="field">${ctx.t("Inizio (ora tua)", "Start (your time)")}<select name="band">${option("any", ctx.t("Qualsiasi", "Any"), f.band === "any")}${bands}</select></label></div><label class="check-field"><input type="checkbox" name="newcomers"${checked(f.newcomers)}> ${ctx.t("Accoglie nuovi giocatori", "Welcomes new players")}</label>${(() => {
+    const age = policyFor(ctx);
+    return age.adultListings
+      ? `<label class="check-field"><input type="checkbox" name="mature"${checked(f.mature)}> ${ctx.t("Mostra annunci per adulti (18+)", "Show adult listings (18+)")}</label>`
+      : `<label class="check-field"><input type="checkbox" name="mature" disabled aria-describedby="community-age-why"> ${ctx.t("Mostra annunci per adulti (18+)", "Show adult listings (18+)")}</label><p class="muted" id="community-age-why">${ctx.esc(ctx.label(age.reason))}</p>`;
+  })()}<p class="muted community-zone">${ctx.t(`Orari nel tuo fuso: ${ctx.esc(zone())}. Sistema: D&D 2024 (SRD 5.2.1).`, `Times in your time zone: ${ctx.esc(zone())}. System: D&D 2024 (SRD 5.2.1).`)}</p><div class="toolbar"><button class="button primary" type="submit">${ctx.t("Cerca", "Search")}</button><button class="button quiet" type="button" data-community-act="clear-filters">${ctx.t("Azzera filtri", "Clear filters")}</button></div></form>`;
 }
 function readFilters(form) {
   const data = new FormData(form);
@@ -716,7 +743,14 @@ function listingCard(ctx, api, row) {
 }
 function renderFind(ctx, api) {
   const slice = sliceOf(ctx, api);
-  const result = D.searchListings(ctx.state, slice, ctx.role, ui.filters, now(), zone());
+  const result = D.searchListings(
+    ctx.state,
+    slice,
+    ctx.role,
+    { ...ui.filters, mature: ui.filters.mature && policyFor(ctx).adultListings },
+    now(),
+    zone(),
+  );
   const notes = [
     result.hiddenMature
       ? `<p class="muted">${ctx.t(
@@ -1360,7 +1394,7 @@ function renderConduct(ctx, api) {
     accepted?.revision === D.CONDUCT_REVISION
       ? `<p><span class="badge is-positive">${ctx.t(`Accettato il ${day(ctx, accepted.at)}`, `Accepted on ${day(ctx, accepted.at)}`)}</span></p>`
       : `<button class="button primary" data-community-act="accept-conduct">${ctx.t("Accetto il codice di condotta", "I accept the code of conduct")}</button>`
-  }</section><section class="community-block community-age" aria-labelledby="community-age-title"><h2 id="community-age-title">${ctx.t("Età e consenso", "Age and consent")}</h2><p><strong>${ctx.t("Requisito da stabilire per il prodotto reale (decisione legale aperta).", "Requirement to be set for the real product (open legal decision).")}</strong></p><ul><li>${ctx.t("Roll20: non utilizzabile sotto i 13 anni negli Stati Uniti e sotto i 16 nell’Unione Europea.", "Roll20: not usable under 13 in the United States and under 16 in the European Union.")}</li><li>${ctx.t("StartPlaying: solo maggiorenni.", "StartPlaying: adults only.")}</li><li>${ctx.t("D&D Beyond: data di nascita e paese all’accesso, consenso dei genitori per i minori.", "D&D Beyond: date of birth and country at sign-in, parental consent for minors.")}</li></ul><p class="muted">${ctx.t("Questa simulazione non chiede né conserva date di nascita. Un annuncio 18+ chiede solo una dichiarazione a chi si candida.", "This simulation neither asks for nor stores dates of birth. An 18+ listing only asks applicants for a declaration.")}</p></section><section class="community-block" aria-labelledby="community-reports-title"><h2 id="community-reports-title">${ctx.t("Le mie segnalazioni", "My reports")}</h2>${
+  }</section><section class="community-block community-age" aria-labelledby="community-age-title"><h2 id="community-age-title">${ctx.t("Età e consenso", "Age and consent")}</h2><p>${ctx.t("La tua fascia d’età si dichiara in Account › Profilo › «Età e consenso»: sotto i 14 anni un genitore acconsente prima dei tavoli pubblici; sotto i 18 gli annunci per adulti restano nascosti. La regola per ogni paese del prodotto reale resta una decisione legale aperta.", "Your age band is declared in Account › Profile › “Age and consent”: under 14 a parent agrees before public tables; under 18 adult listings stay hidden. The rule for each country of the real product remains an open legal decision.")}</p><p><button type="button" class="button" data-community-age-open>${ctx.t("Apri Età e consenso", "Open Age and consent")}</button></p><ul><li>${ctx.t("Roll20: non utilizzabile sotto i 13 anni negli Stati Uniti e sotto i 16 nell’Unione Europea.", "Roll20: not usable under 13 in the United States and under 16 in the European Union.")}</li><li>${ctx.t("StartPlaying: solo maggiorenni.", "StartPlaying: adults only.")}</li><li>${ctx.t("D&D Beyond: data di nascita e paese all’accesso, consenso dei genitori per i minori.", "D&D Beyond: date of birth and country at sign-in, parental consent for minors.")}</li></ul><p class="muted">${ctx.t("La simulazione conserva solo la fascia d’età, mai la data di nascita. Un annuncio 18+ chiede anche una dichiarazione a chi si candida.", "The simulation keeps only the age band, never the date of birth. An 18+ listing also asks applicants for a declaration.")}</p></section><section class="community-block" aria-labelledby="community-reports-title"><h2 id="community-reports-title">${ctx.t("Le mie segnalazioni", "My reports")}</h2>${
     reports.length
       ? `<ul class="community-rows">${reports
           .map(
@@ -1793,6 +1827,9 @@ function onChange(ctx, api, event) {
   }
 }
 export function bindCommunity(root, ctx, api) {
+  root
+    .querySelector("[data-community-age-open]")
+    ?.addEventListener("click", () => ctx.navigate("account", { tab: "profile" }));
   root.addEventListener("click", (event) => onClick(ctx, api, event, root));
   root.addEventListener("submit", (event) => onSubmit(ctx, api, event));
   root.addEventListener("change", (event) => onChange(ctx, api, event));

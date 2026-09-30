@@ -25,7 +25,7 @@ import * as requests from "./roll-requests.mjs";
 import * as dice3d from "./dice-3d.mjs";
 import { openRoll } from "./combat-ui.mjs";
 import { registerTextEmbed } from "./text-embeds.mjs";
-import { canControlActor, canViewActor } from "./character-access.mjs";
+import { canControlActor, canViewActor, hiddenFromPlayers } from "./character-access.mjs";
 import { SPELLS } from "./srd-sample.mjs";
 import { disguises, maskNames } from "./conditions.mjs";
 
@@ -36,6 +36,7 @@ let area = null;
 // ---------------------------------------------------------------- per-viewer UI memory
 
 const blankRequestDraft = () => ({
+  audience: "public",
   kind: "save",
   ability: "dex",
   skill: "athletics",
@@ -137,6 +138,10 @@ export function motionReduced(ctx) {
 }
 /** Who sees a roll by default: the character's policy (PG-48), else the personal setting. */
 const defaultAudience = (ctx, actorId = null) => {
+  // Close review 01/10 (privacy P1-3; Fantasy Grounds hides GM rolls, Roll20 whispers NPC
+  // rolls to the GM): the DM's roll for a creature hidden from the players starts hidden.
+  if (actorId && runs(ctx) && hiddenFromPlayers(ctx.state, actorId))
+    return ctx.role === "dm" ? "self" : "gm";
   const own = actorId ? domain.policyOf(sliceOf(ctx), actorId) : null;
   const value = own?.set ? own.audience : setting(ctx, `${ID}.audience`, "public");
   const allowed = domain.audiencesFor(ctx.role);
@@ -150,6 +155,8 @@ const audienceNow = (ctx, actorId = ui.actorId) =>
     ? ui.audience
     : defaultAudience(ctx, actorId || null);
 const announcePolicy = (ctx) => setting(ctx, `${ID}-campaign.announce`, true) !== false;
+/** TV-156: karmic dice for players' digital d20s, a campaign choice that starts off. */
+export const karmaOn = (ctx) => setting(ctx, `${ID}-campaign.karmic`, false) === true;
 /** The remembered dice choice for rolls in place: digital, or physical faces asked. */
 const savedDice = (ctx) =>
   setting(ctx, `${ID}.dice`, "digital") === "physical" ? "physical" : "digital";
@@ -265,8 +272,13 @@ export function rollFromTray(ctx, raw, { faces, faceModes, devices } = {}) {
     );
   const at = now();
   const id = `roll-${globalThis.crypto.randomUUID()}`;
+  // TV-156: a player's digital d20s pass through karma when the campaign chose it.
+  const karmic =
+    karmaOn(ctx) && ctx.role !== "dm" && !faces && prepared.mode === "digital"
+      ? domain.karmicDraw(die(ctx), slice.karma?.[ctx.role] ?? 0)
+      : null;
   const options = {
-    draw: die(ctx),
+    draw: karmic ? karmic.next : die(ctx),
     faces,
     faceModes,
     devices,
@@ -279,7 +291,12 @@ export function rollFromTray(ctx, raw, { faces, faceModes, devices } = {}) {
   const drawn = [...preview.values];
   let record = null;
   ui.fresh = { id, at: Date.now() };
-  const label = rollLabel(ctx, preview);
+  const rethrown = karmic?.report.rethrown ?? [];
+  const label =
+    rollLabel(ctx, preview) +
+    (rethrown.length
+      ? ` · ${ctx.t("dadi karmici", "karmic dice")}: ${rethrown.map((r) => `${r.from} → ${r.to}`).join(", ")}`
+      : "");
   ctx.commit(
     label,
     (draft) => {
@@ -290,6 +307,11 @@ export function rollFromTray(ctx, raw, { faces, faceModes, devices } = {}) {
       // W2b1 integration (additive): the log line this roll wrote, so the chat (B17) shows
       // that line as the roll's card, as it did for the Table's old free roll.
       record.logLabel = label;
+      if (karmic) {
+        const tray = area.slice(draft);
+        tray.karma = { ...(tray.karma ?? {}), [ctx.role]: karmic.report.streak };
+        if (rethrown.length) record.karmic = rethrown;
+      }
     },
     commitOptionsFor(preview),
   );
@@ -1491,6 +1513,15 @@ const skillOptions = (ctx, value) =>
     (s) =>
       `<option value="${s.id}" ${s.id === value ? "selected" : ""}>${esc(ctx, pick(s.name, ctx.lang))}</option>`,
   ).join("");
+/**
+ * «Chi vede il risultato» of a DM request (close review 01/10, P1; Monk's TokenBar request
+ * roll modes): everyone, or only the DM, the player rolling without reading the value.
+ */
+function requestAudienceField(ctx, current, attrs = "data-dtray-rq-audience") {
+  const option = (value, label) =>
+    `<label class="dtray-seg"><input type="radio" ${attrs.startsWith("name=") ? attrs : `name="dtray-rq-audience" ${attrs}`} value="${value}" ${value === current ? "checked" : ""}><span>${esc(ctx, label)}</span></label>`;
+  return `<fieldset class="dtray-fieldset"><legend>${ctx.t("Chi vede il risultato", "Who sees the result")}</legend><div class="dtray-segmented" role="radiogroup" aria-label="${ctx.t("Chi vede il risultato", "Who sees the result")}">${option("public", ctx.t("Tutti", "Everyone"))}${option("blind", ctx.t("Solo DM (tiro segreto)", "DM only (secret roll)"))}</div><p class="muted dtray-hint">${ctx.t("Con «Solo DM» il giocatore tira ma non vede il risultato, come un tiro cieco di Foundry.", "With «DM only» the player rolls without seeing the result, like Foundry’s blind roll.")}</p></fieldset>`;
+}
 function requestForm(ctx) {
   const d = ui.requestDraft;
   const actors = requests.requestableActors(ctx.state);
@@ -1516,6 +1547,7 @@ ${
     : `<div class="form-grid dtray-grid">${testFields("", d, true)}<label class="field">${ctx.t("CD (facoltativa)", "DC (optional)")}<input type="number" min="1" max="40" step="1" inputmode="numeric" value="${esc(ctx, d.dc)}" data-dtray-rq="dc"></label><label class="field">${ctx.t("Modalità", "Mode")}<select data-dtray-rq="rollMode"><option value="normal" ${d.rollMode === "normal" ? "selected" : ""}>${ctx.t("Normale", "Normal")}</option><option value="advantage" ${d.rollMode === "advantage" ? "selected" : ""}>${ctx.t("Vantaggio", "Advantage")}</option><option value="disadvantage" ${d.rollMode === "disadvantage" ? "selected" : ""}>${ctx.t("Svantaggio", "Disadvantage")}</option></select></label></div>
 <fieldset class="dtray-fieldset dtray-targets"><legend>${ctx.t("A chi", "To whom")}</legend>${actors.map((a) => `<label class="check-field"><input type="checkbox" value="${esc(ctx, a.id)}" data-dtray-rq-target ${d.actorIds.includes(a.id) ? "checked" : ""}> ${esc(ctx, a.name)}${a.kind === "npc" ? ` <span class="muted">(${ctx.t("creatura del DM", "DM creature")})</span>` : a.owner === "dm" ? ` <span class="muted">(${ctx.t("la tiri tu", "you roll it")})</span>` : ""}</label>`).join("")}</fieldset>`
 }
+${requestAudienceField(ctx, d.audience ?? "public")}
 <p class="error" role="alert" data-dtray-request-error${ui.requestError ? "" : " hidden"}>${esc(ctx, ui.requestError)}</p>
 <button type="submit" class="button primary" data-dtray-request-send>${ctx.icon("bell")} ${ctx.t("Invia la richiesta", "Send the request")}</button></form>`;
 }
@@ -1668,7 +1700,7 @@ ${
     ctx.t("Chi vede i tuoi tiri di solito", "Who usually sees your rolls"),
   )}</div>
 <label class="check-field"><input type="checkbox" data-dtray-setting-bool="spell-fx" ${setting(ctx, `${ID}.spell-fx`, true) ? "checked" : ""}> ${ctx.t("Effetti visivi degli incantesimi sulla mappa", "Spell visual effects on the map")}</label>
-${ctx.role === "dm" ? `<h4 class="dtray-subhead">${ctx.t("Tiri nascosti (campagna)", "Hidden rolls (campaign)")}</h4><label class="check-field"><input type="checkbox" data-dtray-announce ${announcePolicy(ctx) ? "checked" : ""}> ${ctx.t("Annuncia ai giocatori i tiri nascosti, senza risultato", "Announce hidden rolls to players, without the result")}</label>` : ""}
+${ctx.role === "dm" ? `<h4 class="dtray-subhead">${ctx.t("Tiri nascosti (campagna)", "Hidden rolls (campaign)")}</h4><label class="check-field"><input type="checkbox" data-dtray-announce ${announcePolicy(ctx) ? "checked" : ""}> ${ctx.t("Annuncia ai giocatori i tiri nascosti, senza risultato", "Announce hidden rolls to players, without the result")}</label><label class="check-field"><input type="checkbox" data-dtray-karmic ${karmaOn(ctx) ? "checked" : ""}> ${ctx.t("Dadi karmici (come BG3), spenti di serie", "Karmic dice (like BG3), off by default")}</label><p class="muted dtray-hint">${ctx.t("Solo i d20 digitali dei giocatori: dopo due risultati da 1 a 5 di fila, il terzo da 1 a 5 si ritira e il registro lo scrive. I dadi fisici non cambiano mai.", "Only players’ digital d20s: after two results of 1 to 5 in a row, a third of 1 to 5 is rerolled and the log says so. Physical dice never change.")}</p>` : karmaOn(ctx) ? `<p class="muted dtray-hint" data-dtray-karmic-note>${ctx.t("In questa campagna i dadi karmici sono attivi: un terzo d20 digitale da 1 a 5 di fila si ritira, e il registro lo scrive.", "Karmic dice are on in this campaign: a third digital d20 of 1 to 5 in a row is rerolled, and the log says so.")}</p>` : ""}
 </section>
 ${b56 ? `<section class="dtray-b56" aria-labelledby="dtray-b56-title"><h4 class="dtray-subhead" id="dtray-b56-title">${ctx.t("Prova i dadi 3D", "Try the 3D dice")}</h4>${safeRender(() => dice3d.renderDrawer(ctx, tableView))}</section>` : ""}`;
 }
@@ -1964,12 +1996,15 @@ function answerRequest(
   const dc = Number.isInteger(answered.dc)
     ? ` · ${answered.total >= answered.dc ? ctx.t("successo", "success") : ctx.t("fallimento", "failure")}`
     : "";
-  // A creature the DM plays answers privately, as its rolls are private in the log.
-  const options = requests.requestIsPrivate(ctx.state, request.actorId)
-    ? { visibility: "private" }
-    : {};
+  // A creature the DM plays answers privately, as its rolls are private in the log; a
+  // blind request (close review 01/10) keeps its value out of the roller's line too.
+  const blind = attempt.audience === "blind";
+  const options =
+    blind || requests.requestIsPrivate(ctx.state, request.actorId) ? { visibility: "private" } : {};
   ctx.commit(
-    `${actor?.name} · ${title}: [${answered.values.join(", ")}] ${domain.signed(answered.modifier)} = ${answered.total}${dc} · ${known ? ctx.t("risultato riapplicato", "result reapplied") : modeOf(ctx, { mode: physical ? "physical" : "digital", devices })}`,
+    blind
+      ? `${actor?.name} · ${title}: ${ctx.t("tiro segreto, risultato solo al DM", "secret roll, result for the DM only")} · ${modeOf(ctx, { mode: physical ? "physical" : "digital", devices })}`
+      : `${actor?.name} · ${title}: [${answered.values.join(", ")}] ${domain.signed(answered.modifier)} = ${answered.total}${dc} · ${known ? ctx.t("risultato riapplicato", "result reapplied") : modeOf(ctx, { mode: physical ? "physical" : "digital", devices })}`,
     (draft) => {
       requests.answerRequest(draft, attemptId, requestId, faces, ctx.role, {
         mode: physical ? "physical" : "digital",
@@ -1983,29 +2018,23 @@ function answerRequest(
   delete ui.requestFaces[requestId];
   delete ui.physicalOpen[requestId];
 }
-function sendRequest(ctx) {
-  const d = ui.requestDraft;
-  ui.requestError = "";
-  const input =
-    d.kind === "contest"
-      ? { kind: "contest", sides: d.contest.map((side) => ({ ...side })) }
-      : {
-          kind: d.kind,
-          ability: d.ability,
-          skill: d.skill,
-          dc: d.dc,
-          rollMode: d.rollMode,
-          actorIds: [...(d.actorIds ?? [])],
-        };
+/**
+ * One DM request, sent from the tray or a journal embed: the shared line names the DC as
+ * players may read it (C1) and only the creatures they see (close review 01/10, privacy
+ * P1-3: a hidden creature is never named in a shared line, «Shared audit labels must not
+ * reveal a hidden source»). A request that only concerns hidden creatures stays private.
+ * The line is the request's card in the chat (TV-92, `logLabel`).
+ */
+export function commitRequest(ctx, input, origin) {
   const trial = structuredClone(ctx.state);
   const id = globalThis.crypto.randomUUID();
   const at = now();
-  requests.createRequest(trial, input, ctx.role, { id, now: at, origin: { kind: "tray" } });
+  requests.createRequest(trial, input, ctx.role, { id, now: at, origin });
   const group = requests.requestGroups(trial, sliceOf(ctx), ctx.role).find((g) => g.groupId === id);
-  const names = group.rows
+  const seen = group.rows.filter((r) => !hiddenFromPlayers(ctx.state, r.actorId));
+  const names = seen
     .map((r) => (typeof r.name === "string" ? r.name : pick(r.name, ctx.lang)))
     .join(", ");
-  // C1: the shared line names the DC as players may read it; the DM's card keeps it.
   const shared = {
     ...group,
     title: requests.titleWithDc(
@@ -2017,15 +2046,45 @@ function sendRequest(ctx) {
           : "hidden",
     ),
   };
-  const label = `${ctx.t("Richiesta del DM", "DM request")}: ${input.kind === "contest" ? groupTitle(ctx, group) : groupTitle(ctx, shared)} → ${names}`;
-  ctx.commit(label, (draft) =>
-    requests.createRequest(draft, input, ctx.role, {
-      id,
-      now: at,
-      origin: { kind: "tray" },
-      logLabel: label,
-    }),
+  const secret =
+    input.audience === "blind"
+      ? ` · ${ctx.t("risultato solo al DM", "result for the DM only")}`
+      : "";
+  const label = `${ctx.t("Richiesta del DM", "DM request")}: ${input.kind === "contest" ? groupTitle(ctx, group) : groupTitle(ctx, shared)}${secret} → ${names}`;
+  const hiddenSide = seen.length < group.rows.length && (input.kind === "contest" || !seen.length);
+  ctx.commit(
+    label,
+    (draft) =>
+      requests.createRequest(draft, input, ctx.role, {
+        id,
+        now: at,
+        origin,
+        logLabel: label,
+      }),
+    hiddenSide ? { visibility: "private" } : {},
   );
+  return group;
+}
+function sendRequest(ctx) {
+  const d = ui.requestDraft;
+  ui.requestError = "";
+  const input =
+    d.kind === "contest"
+      ? {
+          kind: "contest",
+          sides: d.contest.map((side) => ({ ...side })),
+          audience: d.audience ?? "public",
+        }
+      : {
+          kind: d.kind,
+          ability: d.ability,
+          skill: d.skill,
+          dc: d.dc,
+          rollMode: d.rollMode,
+          actorIds: [...(d.actorIds ?? [])],
+          audience: d.audience ?? "public",
+        };
+  commitRequest(ctx, input, { kind: "tray" });
 }
 /**
  * «Tira» on a request card in the chat (TV-92, dnd5e request card with its roll button):
@@ -2723,6 +2782,9 @@ function bindRequestsSection(root, ctx) {
         if (/kind$/.test(key)) rerender(ctx, `[data-dtray-rq="${key}"]`);
       });
     });
+    form
+      .querySelectorAll("[data-dtray-rq-audience]")
+      .forEach((input) => input.addEventListener("change", () => (d.audience = input.value)));
     form.querySelectorAll("[data-dtray-rq-target]").forEach((input) =>
       input.addEventListener("change", () => {
         d.actorIds = [...form.querySelectorAll("[data-dtray-rq-target]:checked")].map(
@@ -2736,6 +2798,7 @@ function bindRequestsSection(root, ctx) {
         sendRequest(ctx);
         ui.requestDraft = {
           ...blankRequestDraft(),
+          audience: d.audience,
           actorIds: d.actorIds,
           kind: d.kind === "contest" ? "contest" : d.kind,
           ability: d.ability,
@@ -2893,6 +2956,11 @@ function bindLookSection(root, ctx) {
     .querySelector("[data-dtray-announce]")
     ?.addEventListener("change", (event) =>
       settingChange(`${ID}-campaign.announce`, event.target.checked, "[data-dtray-announce]"),
+    );
+  root
+    .querySelector("[data-dtray-karmic]")
+    ?.addEventListener("change", (event) =>
+      settingChange(`${ID}-campaign.karmic`, event.target.checked, "[data-dtray-karmic]"),
     );
   const local = { local: true, visibility: "private", undoable: false };
   // TV-95: the connected dice panel (Pixels pattern, simulated). Pairing and the per-type
@@ -3219,6 +3287,11 @@ function requestToast(ctx, attemptId) {
   const attempt = ctx.state.combatAttempts.find((a) => a.id === attemptId);
   const request = attempt?.requests[0];
   if (!request || request.status !== "resolved") return ctx.t("Tiro registrato.", "Roll recorded.");
+  if (attempt.audience === "blind" && !runs(ctx))
+    return ctx.t(
+      "Tiro registrato: il risultato è solo per il DM.",
+      "Roll recorded: the result is for the DM only.",
+    );
   const verdict = Number.isInteger(request.dc)
     ? ` · ${request.total >= request.dc ? ctx.t("successo", "success") : ctx.t("fallimento", "failure")}`
     : "";
@@ -3269,20 +3342,19 @@ function bindEmbed(el, ctx, ref) {
       (test.dc !== null ? ` · ${ctx.t("CD", "DC")} ${test.dc}` : "");
     ctx.dialog(
       `${ctx.t("Chiedi", "Request")}: ${title}`,
-      `<p class="muted">${ctx.t("Diventa una carta di richiesta: chi gioca ogni creatura tira con dadi fisici o digitali. Nessuna conseguenza automatica.", "It becomes a request card: whoever plays each creature rolls with physical or digital dice. No automatic consequence.")}</p><fieldset class="dtray-fieldset"><legend>${ctx.t("A chi", "To whom")}</legend>${actors.map((a) => `<label class="check-field"><input type="checkbox" name="actor" value="${esc(ctx, a.id)}" ${a.kind === "character" ? "checked" : ""}> ${esc(ctx, a.name)}</label>`).join("")}</fieldset><label class="field">${ctx.t("Modalità", "Mode")}<select name="rollMode"><option value="normal">${ctx.t("Normale", "Normal")}</option><option value="advantage">${ctx.t("Vantaggio", "Advantage")}</option><option value="disadvantage">${ctx.t("Svantaggio", "Disadvantage")}</option></select></label>`,
+      `<p class="muted">${ctx.t("Diventa una carta di richiesta: chi gioca ogni creatura tira con dadi fisici o digitali. Nessuna conseguenza automatica.", "It becomes a request card: whoever plays each creature rolls with physical or digital dice. No automatic consequence.")}</p><fieldset class="dtray-fieldset"><legend>${ctx.t("A chi", "To whom")}</legend>${actors.map((a) => `<label class="check-field"><input type="checkbox" name="actor" value="${esc(ctx, a.id)}" ${a.kind === "character" ? "checked" : ""}> ${esc(ctx, a.name)}</label>`).join("")}</fieldset><label class="field">${ctx.t("Modalità", "Mode")}<select name="rollMode"><option value="normal">${ctx.t("Normale", "Normal")}</option><option value="advantage">${ctx.t("Vantaggio", "Advantage")}</option><option value="disadvantage">${ctx.t("Svantaggio", "Disadvantage")}</option></select></label>${requestAudienceField(ctx, "public", 'name="audience"')}`,
       {
         submitLabel: ctx.t("Invia la richiesta", "Send the request"),
         onSubmit: (data) => {
-          const input = { ...test, rollMode: data.get("rollMode"), actorIds: data.getAll("actor") };
-          const id = globalThis.crypto.randomUUID();
-          const at = now();
-          const origin = { kind: "journal", ref };
-          const trial = structuredClone(ctx.state);
-          requests.createRequest(trial, input, ctx.role, { id, now: at, origin });
-          const names = input.actorIds.map((a) => ctx.state.actors[a]?.name).join(", ");
-          ctx.commit(`${ctx.t("Richiesta del DM", "DM request")}: ${title} → ${names}`, (draft) =>
-            requests.createRequest(draft, input, ctx.role, { id, now: at, origin }),
-          );
+          const input = {
+            ...test,
+            rollMode: data.get("rollMode"),
+            actorIds: data.getAll("actor"),
+            audience: data.get("audience") === "blind" ? "blind" : "public",
+          };
+          // Close review 01/10 (privacy P2-4, P1-3): the tray's own rule, so the line names
+          // the DC as players may read it and only the creatures they see, as a card.
+          commitRequest(ctx, input, { kind: "journal", ref });
           ctx.toast(
             ctx.t(
               "Richiesta inviata: la trovano nella campanella e al Tavolo › Dadi › Richieste.",
@@ -3514,6 +3586,15 @@ export function register(registry) {
         type: "boolean",
         default: true,
       },
+      {
+        id: "karmic",
+        label: L(
+          "Dadi karmici (come BG3): dopo due d20 digitali da 1 a 5 di fila, un giocatore ritira il terzo se è ancora da 1 a 5",
+          "Karmic dice (like BG3): after two digital d20s of 1 to 5 in a row, a player rerolls the third if it is 1 to 5 again",
+        ),
+        type: "boolean",
+        default: false,
+      },
     ],
   });
   registry.add("table-panel", {
@@ -3540,6 +3621,20 @@ export function register(registry) {
   // "Type of Roll"): the description carries the synonyms the palette matches.
   // Final review F16 (Foundry's roll request and GM roll mode, Roll20's /gmroll): the DM finds
   // «Chiedi un tiro» and the secret roll by what they type, and beside the chat field.
+  // TV-156 (BG3 «Karmic Dice»): the campaign choice is found by its name.
+  registry.add("command", {
+    id: `${ID}.karmic`,
+    label: L("Dadi karmici (impostazione della campagna)", "Karmic dice (campaign setting)"),
+    description: L(
+      "Dadi karmici come BG3: spenti di serie; li accende o spegne il DM",
+      "Karmic dice like BG3: off by default; the DM turns them on or off",
+    ),
+    keywords: [L("dadi karmici", "karmic dice"), L("sfortuna", "bad luck")],
+    group: "dice",
+    context: "table",
+    roles: ["dm"],
+    run: (ctx) => openTraySection(ctx, "look", "[data-dtray-karmic]"),
+  });
   registry.add("command", {
     id: `${ID}.request`,
     label: L("Chiedi un tiro ai giocatori…", "Ask the players for a roll…"),
@@ -3551,6 +3646,7 @@ export function register(registry) {
       L("richiesta di tiro", "roll request"),
       L("chiedi un tiro", "request a roll"),
       L("prova contrapposta", "contested check"),
+      L("prova segreta ai giocatori", "secret check for players"),
       L("tiro salvezza di gruppo", "group saving throw"),
       L("prova di gruppo", "group check"),
     ],

@@ -1153,3 +1153,20 @@ details.chat-menu > .chat-menu-list {
 .chat-passive .chat-tag {
   margin-right: 4px;
 }
+
+/* TV-151, close review 01/10 (Roll20 inline roll): the rolled number in the sentence, with the
+   formula and the dice on hover or focus. */
+.chat-inline-roll {
+  display: inline-block;
+  min-width: 1.6em;
+  padding: 0 6px;
+  border: 1px solid var(--frame-soft, currentColor);
+  border-radius: 6px;
+  font-weight: 700;
+  text-align: center;
+  cursor: help;
+}
+.chat-inline-roll.is-error {
+  font-weight: 400;
+  opacity: 0.7;
+}
