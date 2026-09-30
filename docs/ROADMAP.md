@@ -1,19 +1,23 @@
-# Sequenza di lavoro — aggiornata da D-012
+# Sequenza di lavoro — D-013 / I-218
 
-Il proprietario definisce il prodotto con gli agenti prima dei mock. La ricerca già svolta resta
-un input; le precedenti mappe del guado e la sequenza basata su quel solo scenario sono ritirate.
-Questa roadmap descrive le fasi, non anticipa pagine o funzionalità da approvare nell'intervista.
+Il risultato corrente è un contratto visuale navigabile con Markdown
+sincronizzato per gli agenti. [BLUEPRINT_CONTRACT](interview/BLUEPRINT_CONTRACT.md)
+definisce criteri e autorità; [NEXT](NEXT.md) conserva l'unica azione operativa.
+La precisazione dell'owner supera la precedente sequenza «approvare tutto il
+Markdown prima di un prototipo», preservando ricerca e decisioni già acquisite.
 
-| Fase                                       | Lavoro                                                                                                                                                                                        | Condizione per proseguire                                                                                                                     |
-| ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| Fondazione e ricerca disponibili           | Conservare repository, workflow, fonti, mercato e inventario dei diciannove lavori; approfondire solo domande emerse.                                                                         | Evidenza distinta da inferenze e preferenze; nessun nuovo avvio della ricerca da zero.                                                        |
-| **Adesso: intervista sul prodotto intero** | Grill-me con il proprietario, una domanda alla volta. Scopo, persone, funzioni, ruoli, automazioni e percorsi; poi ogni pagina concettuale, sezione, comando, stato ed eccezione in Markdown. | Tutte le aree discusse, lacune rilevanti risolte, contratto complessivo approvato esplicitamente dal proprietario. Nessun limite di sessioni. |
-| Mock e direzione visuale                   | Rappresentare il contratto concordato con alternative confrontabili. Scelte di aspetto e composizione arrivano qui.                                                                           | Proprietario approva la direzione; eventuali incoerenze di prodotto richiedono modifica esplicita del contratto.                              |
-| Prototipi e verifica                       | Provare interazioni, regole, ruoli, recupero e fattibilità del contratto; affinare senza cambiare il prodotto implicitamente.                                                                 | Comportamenti verificati, limiti dichiarati, revisione separata. Gli agenti non simulano approvazioni o playtest umani.                       |
-| Nome, posizione e brand                    | Una volta chiari prodotto ed esperienza, concordare identità e nome definitivo.                                                                                                               | Scelta del proprietario; acquisti e impegni restano separatamente autorizzati.                                                                |
-| Implementazione                            | Realizzare il contratto approvato in incrementi verificabili, conservando la visione intera.                                                                                                  | Test pertinenti, app in esecuzione, review indipendente e integrazione controllata.                                                           |
-| Transizione e rilascio                     | Preparare coesistenza, export/import, ripristino e passaggio dalla produzione esistente.                                                                                                      | Autorizzazione specifica per deployment, dati reali, spesa e release.                                                                         |
+| Fase                                         | Risultato concreto                                                                                                                       | Condizione per avanzare                                                                                                                       |
+| -------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Adesso: costruire il blueprint integrato** | Una sola app locale navigabile con dati dimostrativi, ruoli, pagine, pannelli, comandi ed esiti; Markdown aggiornato in parallelo.       | Copertura verificata da funzioni e indici esterni; percorsi e interazioni provati, lacune risolte e review distinta. Non basta avere il menu. |
+| Concordare e fissare il contratto            | L'owner visita e corregge la candidata; dopo approvazione esplicita si identifica la versione del visuale e del Markdown corrispondente. | Un'unica baseline funzionale, nessuna divergenza nascosta; l'owner non deve leggere tutto il corpus.                                          |
+| Rifinire lo stile e l'identità               | Direzione estetica coerente, finiture e branding; il nome rimane provvisorio finché scelto.                                              | Scelte visive approvate senza reinterpretare arbitrariamente comportamento e struttura. Nessun acquisto implicito.                            |
+| Prove mirate e implementazione reale         | Rischi tecnici, regole, dati, autorità, rete e poi percorsi reali completi con persistenza.                                              | Piano, test adeguati, app in esecuzione, review e integrazione secondo WORKFLOW; il prototipo non è promosso automaticamente a produzione.    |
+| Transizione e rilascio                       | Copertura del contratto, recupero, coesistenza e trasferimenti verificati.                                                               | Autorizzazioni specifiche per deploy, release, spese e migrazioni reali; d20 Folio invariato fino al passaggio concordato.                    |
 
-Durante l'intervista: nessuna prova visuale, immagine, wireframe grafico, demo, prototipo o codice,
-neppure usa-e-getta. Le skill si applicano entro questo vincolo esplicito. Le decisioni confermate
-non si riaprono arbitrariamente; una necessità reale di revisione va spiegata e autorizzata.
+I-180/I-190/I-202/I-215 conservano ricerca ampia e scelte ordinarie delegate.
+D-013/I-218 autorizza il codice dimostrativo locale necessario al blueprint:
+non chiedere un sì per ogni funzione o schermata. Gli aggiornamenti mostrano
+risultati collegati; domande soltanto sui conflitti sostanziali non risolti.
+Grafica provvisoria non significa funzioni omesse. Prove della simulazione e
+prove dell'app reale restano distinte. Nessuna scadenza, taglio di rilascio,
+spesa o garanzia di fattibilità universale introdotti da questa sequenza.

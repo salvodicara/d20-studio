@@ -89,3 +89,32 @@ Dopo l'approvazione, il contratto è la baseline dei mock e non si riapre per in
 dell'agente. Una contraddizione reale si presenta al proprietario con una proposta di modifica e
 impatti; non si nasconde e non si cambia silenziosamente. Produzione, dati, spesa e pubblicazione
 mantengono tutti i vincoli già stabiliti. Il nome resta provvisorio.
+
+## D-013 — contratto visuale navigabile con Markdown sincronizzato (23/09/2026)
+
+Fonte: nuova precisazione esplicita dell'owner nella task interview-01, I-218.
+Il Markdown rimane necessario come riferimento per gli agenti; l'owner vuole
+valutare l'intera app attraverso un percorso visuale navigabile, con tutte le
+funzioni, pagine e pulsanti pertinenti e i loro comportamenti. Grafica
+provvisoria ammessa, stile definitivo successivo. La responsabilità della
+copertura appartiene all'agente, non alla lettura capillare del proprietario.
+
+**Supersede D-012 nel vincolo di sequenza:** sono ora autorizzati la costruzione
+e la prova di un prototipo visuale locale interattivo per definire e concordare
+il contratto, compreso il codice dimostrativo necessario. Non occorre prima
+l'approvazione del contratto Markdown completo. La successiva implementazione
+del prodotto reale rimane dopo l'accordo esplicito sul blueprint completo.
+Non è un'approvazione retroattiva delle illustrazioni o delle vecchie mappe.
+
+Dopo correzioni e approvazione dell'owner si fissa una versione coerente del
+blueprint visuale e del Markdown corrispondente come contratto per gli agenti.
+La grafica provvisoria non è stile finale; gli agenti non possono modificare
+arbitrariamente il comportamento concordato durante la rifinitura estetica
+o l'implementazione. [BLUEPRINT_CONTRACT](interview/BLUEPRINT_CONTRACT.md)
+definisce risultato, verifica e fissazione della baseline.
+
+Restano ricerca ampia e pattern consolidati, delega delle scelte ordinarie,
+domande sui veri conflitti, modello/sforzo invariati, ricerche/skill conservate,
+vecchio guado/design-01 ritirati e d20 Folio intatto. Pubblicazione, spesa,
+migrazione e impegni esterni mantengono i gate. Nessuna garanzia di backend,
+multiplayer, sicurezza o persistenza reali deriva da una simulazione.

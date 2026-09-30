@@ -18,14 +18,28 @@ approved the actual candidate, findings are resolved or explicitly dispositioned
 coordinator has integrated it and updated the shared handoff. Requesting a review is not completion.
 An unclosed correctness defect cannot be relabeled a preference to pass a gate.
 
-## Owner interview gate — D-012
+## Visual contract and owner approval — D-013 / I-218
 
-Current objective: the complete product interview, not design or implementation. Record functional
-pages in Markdown and wait for each owner answer. Routine research autonomy and the absence of a
-recruited playtest requirement do not replace this interview. No mock, prototype or code until the
-owner explicitly approves the complete contract. The owner requested a next-session prompt for
-this reset; do not dispatch that session automatically. A later handoff must continue the interview
-while the gate is open. The retained research and installed skills are inputs, not settled answers.
+Current objective: one complete, locally navigable visual blueprint, with the
+Markdown contract synchronized for agents. The owner evaluates the experience
+visually; agents own coverage and consistency checks. ROADMAP gives the sequence,
+NEXT the current task, and interview/BLUEPRINT_CONTRACT.md the acceptance criteria.
+Ordinary choices remain delegated; ask one question for a substantive unresolved
+conflict while continuing independent work.
+
+D-013 explicitly authorizes local interactive prototype code before full-contract
+approval, superseding D-012's original sequencing restriction. Build and exercise
+real navigation and demonstration behavior with synthetic data; label simulated
+network, permissions and persistence accurately. A prototype test proves its
+interaction, not production security or multiplayer. A control without behavior
+is an unfinished item, not completed coverage.
+
+After explicit owner approval of the identified version, retain the visual
+blueprint, matching Markdown, coverage and review evidence as one baseline.
+Final visual styling can follow without silently changing agreed behavior.
+Production implementation and the existing publication, spending and data gates
+remain separate. Silence or browsing do not approve a version. Preserve model,
+effort, research and skills; old retired maps are not default input.
 
 ## Autonomous phase handoff
 
@@ -38,7 +52,7 @@ only after that exact candidate passes both statuses and is integrated.
 Before dispatch, inventory tasks, branches and worktrees. Resume an existing matching task;
 otherwise create exactly one successor for the next bounded phase objective. Use the saved
 project and one isolated worktree under `~/Workspace/Codex`; identify the accountable writer.
-Set the recommended model/effort explicitly. Wait for a startup confirmation; a queued
+Preserve the owner-selected model/effort unless the owner explicitly requests a change. Wait for a startup confirmation; a queued
 clientThreadId is not a real threadId. Transmit the predecessor's actual threadId and host,
 integrated SHA/check evidence and this continuing authorization. Then finish the handoff turn.
 The successor verifies the base and takes ownership before archiving that predecessor with
