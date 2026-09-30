@@ -584,3 +584,87 @@
 .int-add-calendar .button {
   margin-top: 8px;
 }
+
+/* «Aggiungi al calendario» (owner request 01/10/2026): one button and one small menu of
+   calendars (Eventbrite, AddEvent), on the core menu plate of the app's other menus
+   (.prep-menu); on a phone it opens in place under its button instead of floating. */
+.int-cal-menu,
+.int-card-calendar .int-cal-menu {
+  position: relative;
+  padding: 0;
+  border: 0;
+}
+.int-cal-menu > summary,
+.int-card-calendar .int-cal-menu > summary {
+  list-style: none;
+  padding-block: 0;
+  cursor: pointer;
+}
+.int-cal-menu > summary::-webkit-details-marker {
+  display: none;
+}
+.int-cal-list {
+  display: grid;
+  gap: 2px;
+}
+.int-cal-menu > .int-cal-list,
+.int-card-calendar .int-cal-menu > .int-cal-list {
+  margin: 0;
+  position: absolute;
+  inset-inline-start: 0;
+  top: calc(100% + 4px);
+  z-index: 20;
+  width: max-content;
+  min-width: 240px;
+  max-width: min(320px, calc(100vw - 32px));
+  padding: 6px;
+  background: var(--raised);
+  border: 1px solid var(--frame-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-2);
+}
+.int-cal-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 44px;
+  padding: 10px 12px;
+  color: var(--text);
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  font: inherit;
+  text-align: start;
+  text-decoration: none;
+  cursor: pointer;
+}
+.int-cal-item:hover {
+  background: color-mix(in srgb, var(--raised) 90%, var(--text));
+}
+.int-cal-out {
+  color: var(--muted);
+}
+.int-cal-note {
+  margin: 4px 12px 6px;
+  max-width: 34ch;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.int-cal-list.is-inline .int-cal-note {
+  max-width: none;
+}
+@media (max-width: 720px) {
+  .int-cal-menu[open] {
+    flex-basis: 100%;
+  }
+  .int-cal-menu > .int-cal-list,
+  .int-card-calendar .int-cal-menu > .int-cal-list {
+    position: static;
+    width: auto;
+    min-width: 0;
+    max-width: none;
+    margin-top: 6px;
+    box-shadow: none;
+  }
+}

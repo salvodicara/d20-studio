@@ -11,10 +11,14 @@
 //   documented example format) and API and webhooks (Kanka CMP-213, DiceCloud API CMP-09).
 // - Table: token menu "External sheet…" / "Open external sheet" (Owlbear Sheet from Beyond,
 //   VTL-034) and a line in the Creature inspector when a readable link exists.
-// - Command palette: download the next session (.ics) and open the integrations.
+// - «Aggiungi al calendario» (owner request 01/10/2026): one button and one menu on every
+//   session in Campaign › Sessions, on Home's next appointment and in the Calendar tab; the
+//   same choices in a dialog from the palette and from a session notice (B24).
+// - Command palette: add the next session to a calendar and open the integrations.
 // Domain rules: integrations-domain.mjs. Synthetic data only.
 
 import * as D from "./integrations-domain.mjs";
+import * as CE from "./calendar-export.mjs";
 import { importCharacter } from "./character-library.mjs";
 
 // W2b1 integration: the dice tray's domain (B34), loaded without making the integrations
@@ -625,7 +629,7 @@ function calendarTab(ctx) {
   const feed = D.feedOf(sliceOf(ctx.state), ctx.role);
   const duration = rec.calendar.durationHours;
   const nextBlock = next
-    ? `<div class="int-next" data-int-next="${ctx.esc(next.id)}"><p class="int-next-title"><strong>${ctx.esc(next.title || ctx.t("Sessione", "Session"))}</strong></p><p data-int-next-time>${ctx.esc(sessionTime(ctx, next))} <small>(${ctx.esc(next.timeZone || "UTC")})</small></p><p class="muted">${ctx.esc(ctx.t(`Durata nel calendario: ${duration} h`, `Calendar duration: ${duration} h`))}</p><div class="toolbar"><button type="button" class="button primary" data-int-ics>${ctx.t("Scarica .ics", "Download .ics")}</button></div></div>`
+    ? `<div class="int-next" data-int-next="${ctx.esc(next.id)}"><p class="int-next-title"><strong>${ctx.esc(next.title || ctx.t("Sessione", "Session"))}</strong></p><p data-int-next-time>${ctx.esc(sessionTime(ctx, next))} <small>(${ctx.esc(next.timeZone || "UTC")})</small></p><p class="muted">${ctx.esc(ctx.t(`Durata nel calendario: ${duration} h`, `Calendar duration: ${duration} h`))}</p>${sessionCalendarHTML(ctx, next, { bell: false })}</div>`
     : `<div class="empty-state int-empty" data-int-no-session><p>${ctx.t("Nessuna sessione in programma.", "No session scheduled.")}</p><button type="button" class="button" data-int-open-sessions>${ctx.t("Apri Sessioni", "Open Sessions")}</button></div>`;
   const durationField = isDm(ctx)
     ? `<label class="field int-duration">${ctx.t("Durata indicata nel calendario", "Duration shown in calendars")}<select data-int-duration>${D.DURATIONS.map((h) => `<option value="${h}" ${h === duration ? "selected" : ""}>${h} h</option>`).join("")}</select></label>`
@@ -641,31 +645,29 @@ function downloadNext(ctx) {
     ctx.toast(ctx.t("Nessuna sessione in programma.", "No session scheduled."), true);
     return false;
   }
-  const text = D.buildIcs(ctx.state, [next], {
-    durationHours: record(ctx).calendar.durationHours,
-    lang: ctx.lang,
-  });
-  download(D.icsFileName(ctx.state, next), "text/calendar;charset=utf-8", text);
-  ctx.toast(
-    ctx.t(
-      "File .ics scaricato: aprilo con il tuo calendario.",
-      "The .ics file is downloaded: open it with your calendar.",
-    ),
-  );
-  return true;
+  return downloadSession(ctx, next.id);
 }
 
 // ---------------------------------------------------------------- Add to calendar (CA-47, SV-39)
-// On each session card and on Home's next appointment (Sesh `/link`, StartPlaying «Add to
-// calendar», Roll20's «Next Game» card): the session's own .ics file or the personal link
-// that updates itself, and the reminder bell with the same choices as Preferenze ›
-// Notifiche (one setting, never a second copy).
+// One «Aggiungi al calendario» button wherever a session date is shown (each session in
+// Campaign › Sessions, Home's «Prossimo appuntamento», the Calendar tab here), opening one
+// small menu as Eventbrite, AddEvent, Sesh and Discord event pages do (owner request
+// 01/10/2026): Google Calendar, Outlook.com, Microsoft 365 and Yahoo open in a new tab with
+// the session filled in (calendar-export.mjs); Apple Calendar and every other app take the
+// .ics file; a date of a recurring series also offers the whole series (.ics with RRULE). The
+// palette and the notification centre open the same choices in a dialog, with the personal
+// feed (Sesh `/link`). Nothing is sent by itself: the person checks and saves in their own
+// calendar. The reminder bell keeps the choices of Preferenze › Notifiche (one setting).
 function sessionOf(ctx, sessionId) {
   return (ctx.state.campaign?.sessions ?? []).find((row) => row.id === sessionId) ?? null;
 }
 function calendarReady(ctx) {
   return Boolean(cidOf(ctx)) && on(ctx, "calendar");
 }
+const addable = (row) =>
+  row?.status === "scheduled" &&
+  typeof row.startsAt === "string" &&
+  Date.parse(row.startsAt) > Date.now();
 function reminderValue(ctx, id) {
   try {
     return registryRef.getSetting(ctx, `${REMINDER_SECTION}.${id}`) === true;
@@ -674,14 +676,142 @@ function reminderValue(ctx, id) {
   }
 }
 const remindersOn = (ctx) => REMINDERS.filter(([id]) => reminderValue(ctx, id));
-export function sessionCalendarHTML(ctx, row) {
-  if (!calendarReady(ctx) || row?.status !== "scheduled" || !row.startsAt) return "";
-  if (Date.parse(row.startsAt) < Date.now()) return "";
-  const active = remindersOn(ctx);
-  const bell = registryRef?.get("settings", REMINDER_SECTION)
-    ? `<button type="button" class="button quiet int-bell${active.length ? " is-on" : ""}" data-int-card-reminders="${ctx.esc(row.id)}" aria-pressed="${active.length > 0}">${ctx.icon("bell")}<span>${active.length ? ctx.esc(ctx.t("Promemoria: ", "Reminders: ") + active.map(([, label]) => say(ctx, label)).join(", ")) : ctx.t("Promemoria", "Reminders")}</span></button>`
+// The event links back to this app's sessions page when it runs on the web; otherwise
+// (tests) to the reserved address of the domain.
+function appLink() {
+  const loc = globalThis.location;
+  return /^https?:$/.test(loc?.protocol ?? "")
+    ? `${loc.origin}${loc.pathname}#campaign?tab=sessions`
+    : null;
+}
+const eventOptions = (ctx) => ({
+  durationHours: record(ctx).calendar.durationHours,
+  lang: ctx.lang,
+  link: appLink(),
+});
+function calendarChoicesHTML(ctx, session) {
+  const event = D.sessionEvent(ctx.state, session, eventOptions(ctx));
+  const series = D.seriesFor(ctx.state, session.id);
+  const sid = ctx.esc(session.id);
+  const newTab = ctx.t(" (si apre in una nuova scheda)", " (opens in a new tab)");
+  const links = CE.calendarLinks(event)
+    .map(
+      (link) =>
+        `<a class="int-cal-item" href="${ctx.esc(link.url)}" target="_blank" rel="noopener noreferrer" data-int-cal-link="${link.id}">${ctx.esc(say(ctx, link.label))}<span class="visually-hidden">${newTab}</span><span class="int-cal-out" aria-hidden="true">↗</span></a>`,
+    )
+    .join("");
+  const seriesItem = series
+    ? `<button type="button" class="int-cal-item" data-int-cal-series="${sid}">${ctx.esc(ctx.t(`Tutta la serie (.ics, ${series.sessions.length} date)`, `Whole series (.ics, ${series.sessions.length} dates)`))}</button><p class="int-cal-note">${ctx.t("Google, Outlook e Yahoo aggiungono solo questa data: per tutta la serie usa il file.", "Google, Outlook and Yahoo add this date only: for the whole series use the file.")}</p>`
     : "";
-  return `<div class="int-card-calendar toolbar"><button type="button" class="button" data-int-card-calendar="${ctx.esc(row.id)}">${ctx.icon("clock")}<span>${ctx.t("Aggiungi al calendario", "Add to calendar")}</span></button>${bell}</div>`;
+  return `<p class="int-cal-note">${ctx.t("Si apre il tuo calendario con la sessione già compilata: controlli e salvi tu. Nulla viene inviato da solo.", "Your calendar opens with the session filled in: you check it and save it. Nothing is sent by itself.")}</p>${links}<button type="button" class="int-cal-item" data-int-cal-ics="${sid}">${ctx.t("Apple Calendario o altro (.ics)", "Apple Calendar or other (.ics)")}</button>${seriesItem}`;
+}
+/** The button and its menu for one session row (Campaign › Sessions, Home, Calendar tab). */
+export function sessionCalendarHTML(ctx, row, { bell = true } = {}) {
+  if (!calendarReady(ctx) || !addable(row)) return "";
+  const active = remindersOn(ctx);
+  const bellHTML =
+    bell && registryRef?.get("settings", REMINDER_SECTION)
+      ? `<button type="button" class="button quiet int-bell${active.length ? " is-on" : ""}" data-int-card-reminders="${ctx.esc(row.id)}" aria-pressed="${active.length > 0}">${ctx.icon("bell")}<span>${active.length ? ctx.esc(ctx.t("Promemoria: ", "Reminders: ") + active.map(([, label]) => say(ctx, label)).join(", ")) : ctx.t("Promemoria", "Reminders")}</span></button>`
+      : "";
+  const title = row.title || ctx.t("Sessione", "Session");
+  return `<div class="int-card-calendar toolbar"><details class="int-cal-menu" data-int-cal-menu="${ctx.esc(row.id)}"><summary class="button">${ctx.icon("clock")}<span>${ctx.t("Aggiungi al calendario", "Add to calendar")}</span></summary><div class="int-cal-list" role="group" aria-label="${ctx.esc(ctx.t(`Aggiungi «${title}» al calendario`, `Add “${title}” to your calendar`))}">${calendarChoicesHTML(ctx, row)}<button type="button" class="int-cal-item" data-int-cal-feed="${ctx.esc(row.id)}">${ctx.t("Tutte le sessioni, sempre aggiornate…", "Every session, always up to date…")}</button></div></details>${bellHTML}</div>`;
+}
+function downloadSession(ctx, sessionId, { series = false } = {}) {
+  const session = sessionOf(ctx, sessionId);
+  if (!session) return false;
+  const found = series ? D.seriesFor(ctx.state, sessionId) : null;
+  const text = found
+    ? D.buildSeriesIcs(ctx.state, found, eventOptions(ctx))
+    : D.buildIcs(ctx.state, [session], eventOptions(ctx));
+  const name = D.icsFileName(ctx.state, found ? found.sessions[0] : session, {
+    series: Boolean(found),
+  });
+  download(name, "text/calendar;charset=utf-8", text);
+  ctx.toast(
+    found
+      ? ctx.t(
+          "File .ics della serie scaricato: aprilo con il tuo calendario.",
+          "The series .ics file is downloaded: open it with your calendar.",
+        )
+      : ctx.t(
+          "File .ics scaricato: aprilo con il tuo calendario.",
+          "The .ics file is downloaded: open it with your calendar.",
+        ),
+  );
+  return true;
+}
+// The choices' handlers; `done` closes the menu or the dialog they sit in. A link keeps its
+// own default (the browser opens the new tab) and closes after it.
+function bindCalendarChoices(root, ctx, done) {
+  root
+    .querySelectorAll("[data-int-cal-link]")
+    .forEach((link) => link.addEventListener("click", () => setTimeout(done, 0)));
+  root.querySelectorAll("[data-int-cal-ics]").forEach((button) =>
+    button.addEventListener("click", () => {
+      done();
+      downloadSession(ctx, button.dataset.intCalIcs);
+    }),
+  );
+  root.querySelectorAll("[data-int-cal-series]").forEach((button) =>
+    button.addEventListener("click", () => {
+      done();
+      downloadSession(ctx, button.dataset.intCalSeries, { series: true });
+    }),
+  );
+  root.querySelectorAll("[data-int-cal-feed]").forEach((button) =>
+    button.addEventListener("click", () => {
+      done();
+      openAddToCalendar(ctx, button.dataset.intCalFeed);
+    }),
+  );
+}
+// An open menu closes on Escape (focus back on its button), on a press outside it and when
+// another one opens, like the app's other menus (preparation.mjs PR-05); bound once.
+const OPEN_MENUS = "details.int-cal-menu[open]";
+let menusBound = false;
+function bindMenusClose() {
+  const doc = globalThis.document;
+  if (menusBound || typeof doc?.addEventListener !== "function") return;
+  menusBound = true;
+  doc.addEventListener("pointerdown", (event) => {
+    doc.querySelectorAll(OPEN_MENUS).forEach((menu) => {
+      if (!menu.contains(event.target)) menu.open = false;
+    });
+  });
+  doc.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") return;
+    doc.querySelectorAll(OPEN_MENUS).forEach((menu) => {
+      if (!menu.contains(doc.activeElement)) return;
+      menu.open = false;
+      menu.querySelector("summary")?.focus();
+      event.preventDefault();
+    });
+  });
+  doc.addEventListener(
+    "toggle",
+    (event) => {
+      const menu = event.target;
+      if (!menu?.matches?.("details.int-cal-menu") || !menu.open) return;
+      doc.querySelectorAll(OPEN_MENUS).forEach((other) => {
+        if (other !== menu) other.open = false;
+      });
+      // A menu opened near the window's bottom scrolls into view (the campaign rail does too).
+      menu.querySelector(".int-cal-list")?.scrollIntoView?.({ block: "nearest" });
+    },
+    true,
+  );
+}
+export function bindSessionCalendar(el, ctx) {
+  bindMenusClose();
+  el.querySelectorAll("details.int-cal-menu").forEach((menu) =>
+    bindCalendarChoices(menu, ctx, () => {
+      menu.open = false;
+      menu.querySelector("summary")?.focus();
+    }),
+  );
+  el.querySelectorAll("[data-int-card-reminders]").forEach((button) => {
+    button.onclick = () => openReminders(ctx);
+  });
 }
 export function openAddToCalendar(ctx, sessionId = null) {
   const session = sessionId ? sessionOf(ctx, sessionId) : D.nextSession(ctx.state, ctx.role);
@@ -699,8 +829,8 @@ export function openAddToCalendar(ctx, sessionId = null) {
   ctx.dialog(
     ctx.t("Aggiungi al calendario", "Add to calendar"),
     `<div class="int-add-calendar" data-int-add-calendar>${
-      session
-        ? `<p><strong>${ctx.esc(session.title || ctx.t("Sessione", "Session"))}</strong> · ${ctx.esc(sessionTime(ctx, session))} <small>(${ctx.esc(session.timeZone || "UTC")})</small></p><h3>${ctx.t("Solo questa sessione", "This session only")}</h3><p class="muted">${ctx.t("Un file .ics da aprire con Apple Calendario, Outlook o Google Calendar.", "An .ics file to open with Apple Calendar, Outlook or Google Calendar.")}</p><button type="button" class="button primary" data-int-add-ics="${ctx.esc(session.id)}">${ctx.t("Scarica il file .ics", "Download the .ics file")}</button>`
+      addable(session)
+        ? `<p><strong>${ctx.esc(session.title || ctx.t("Sessione", "Session"))}</strong> · ${ctx.esc(sessionTime(ctx, session))} <small>(${ctx.esc(session.timeZone || "UTC")})</small></p><h3>${ctx.t("Questa sessione", "This session")}</h3><div class="int-cal-list is-inline" role="group" aria-label="${ctx.t("Scegli il tuo calendario", "Choose your calendar")}">${calendarChoicesHTML(ctx, session)}</div>`
         : `<p class="muted">${ctx.t("Nessuna sessione in programma: il link del calendario aggiungerà da solo quelle che fisserete.", "No session scheduled: the calendar link will add the ones you schedule by itself.")}</p>`
     }<h3>${ctx.t("Tutte le sessioni, sempre aggiornate", "All sessions, always up to date")}</h3><p class="muted">${ctx.t("Il tuo link personale (webcal): aggiungilo una volta e il calendario si aggiorna da solo. Qui è simulato.", "Your personal link (webcal): add it once and the calendar updates itself. Simulated here.")}</p>${
       feed
@@ -710,21 +840,7 @@ export function openAddToCalendar(ctx, sessionId = null) {
     { cancelLabel: ctx.t("Chiudi", "Close") },
   );
   const box = globalThis.document?.querySelector?.("#dialog [data-int-add-calendar]");
-  box?.querySelector("[data-int-add-ics]")?.addEventListener("click", () => {
-    if (!session) return;
-    const text = D.buildIcs(ctx.state, [session], {
-      durationHours: record(ctx).calendar.durationHours,
-      lang: ctx.lang,
-    });
-    download(D.icsFileName(ctx.state, session), "text/calendar;charset=utf-8", text);
-    ctx.closeDialog?.();
-    ctx.toast(
-      ctx.t(
-        "File .ics scaricato: aprilo con il tuo calendario.",
-        "The .ics file is downloaded: open it with your calendar.",
-      ),
-    );
-  });
+  if (box) bindCalendarChoices(box, ctx, () => ctx.closeDialog?.());
   box
     ?.querySelector("[data-int-add-feed-copy]")
     ?.addEventListener("click", () =>
@@ -1291,7 +1407,7 @@ export function bindSection(el, ctx) {
     ),
   );
   // Calendar
-  onAll("[data-int-ics]", "click", () => downloadNext(ctx));
+  bindSessionCalendar(el, ctx);
   onAll("[data-int-open-sessions]", "click", () => ctx.navigate("campaign", { tab: "sessions" }));
   onAll("[data-int-duration]", "change", (node) => {
     ui.focus = "[data-int-duration]";
@@ -1669,28 +1785,24 @@ export function register(registry) {
       globalThis.document?.querySelector?.('#content [data-int-token-form] [name="name"]')?.focus();
     },
   });
-  // Home's «Prossimo appuntamento» card (P1 home-ui) presses this service.
+  // The notification centre's «Aggiungi al calendario» on a session notice (B24) runs this
+  // service with the session's id; without one it opens the next session.
   registry.add("service", {
     id: "integrations-add-to-calendar",
     label: L("Aggiungi al calendario", "Add to calendar"),
     icon: "clock",
-    when: (ctx) => calendarReady(ctx) && Boolean(D.nextSession(ctx.state, ctx.role)),
-    run: (ctx) => openAddToCalendar(ctx),
+    when: (ctx) => calendarReady(ctx),
+    run: (ctx, sessionId = null) =>
+      openAddToCalendar(ctx, typeof sessionId === "string" ? sessionId : null),
   });
   registry.add("campaign-section", {
     id: "integrations.session",
     label: L("Aggiungi al calendario e promemoria", "Add to calendar and reminders"),
     when: (ctx, row) =>
       typeof row?.id === "string" && typeof row?.status === "string" && "startsAt" in row,
-    render: (ctx, row) => sessionCalendarHTML(ctx, row),
-    bind: (el, ctx) => {
-      el.querySelectorAll("[data-int-card-calendar]").forEach((button) => {
-        button.onclick = () => openAddToCalendar(ctx, button.dataset.intCardCalendar);
-      });
-      el.querySelectorAll("[data-int-card-reminders]").forEach((button) => {
-        button.onclick = () => openReminders(ctx);
-      });
-    },
+    // Home's «Prossimo appuntamento» renders this same block without the bell.
+    render: (ctx, row, options) => sessionCalendarHTML(ctx, row, options),
+    bind: (el, ctx) => bindSessionCalendar(el, ctx),
   });
   registry.add("command", {
     id: "integrations.open",

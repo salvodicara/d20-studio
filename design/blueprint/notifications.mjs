@@ -440,6 +440,7 @@ function sessionNotices(state, role, { now, reminders, timeZone }) {
     }[kind];
     out.push({
       id: `session:${session.id}:${session.revision}`,
+      sessionId: session.id,
       category: "sessions",
       by: last.changedBy ?? session.organizerId ?? null,
       time: last.createdAt ?? session.createdAt ?? null,
@@ -471,6 +472,7 @@ function sessionNotices(state, role, { now, reminders, timeZone }) {
     if (!due) continue;
     out.push({
       id: `reminder:${session.id}:${session.revision}:${due.id}`,
+      sessionId: session.id,
       category: "reminders",
       by: null,
       time: new Date(start - due.ms).toISOString(),
@@ -890,13 +892,37 @@ function normalize(entry) {
       : [],
   };
 }
+// A notice of a session still to come carries «Aggiungi al calendario» when the calendar
+// service (B55) is available: the same choices as the session's own menu (owner request
+// 01/10/2026; Sesh and Discord event notices link to the event's calendar options).
+function calendarAction(ctx, entry) {
+  const service = entry.sessionId
+    ? ctx.registry?.get?.("service", "integrations-add-to-calendar", ctx)
+    : null;
+  const session = service
+    ? ctx.state.campaign?.sessions?.find((row) => row.id === entry.sessionId)
+    : null;
+  if (session?.status !== "scheduled" || !(Date.parse(session.startsAt) > Date.now())) return [];
+  return [
+    {
+      id: "calendar",
+      label: text("Aggiungi al calendario", "Add to calendar"),
+      run: (context) => context.registry.run(service, context, entry.sessionId),
+    },
+  ];
+}
 function collectCore(ctx) {
   const prefs = notificationPreferences(ctx);
   return deriveCoreNotifications(ctx.state, ctx.role, { reminders: prefs.reminders }).map(
     (entry) => {
       const arrival = memory.arrivals[`${ID}:${entry.id}`];
+      const actions = calendarAction(ctx, entry);
       // Requests and shares carry no timestamp in the data: the arrival in this browser.
-      return { ...entry, time: entry.time ?? arrival?.time ?? entry.dataTime ?? null };
+      return {
+        ...entry,
+        ...(actions.length ? { actions } : {}),
+        time: entry.time ?? arrival?.time ?? entry.dataTime ?? null,
+      };
     },
   );
 }

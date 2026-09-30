@@ -13,6 +13,8 @@ import * as clib from "../character-library.mjs";
 import * as N from "../notifications.mjs";
 import * as D from "../integrations-domain.mjs";
 import * as I from "../integrations.mjs";
+import * as SP from "../sessions-plus-domain.mjs";
+import { renderAppointment } from "../home-ui.mjs";
 import { useSampleClock } from "../sample-clock.mjs";
 
 // The example's real-time stamps as authored (the week of Thursday 17 September 2026,
@@ -556,7 +558,8 @@ test("calendar: .ics of the next session with the correct UTC instant, escaping 
   assert.match(ics, /\r\nDTSTART:20271002T190000Z\r\n/);
   assert.match(ics, /\r\nDTEND:20271002T220000Z\r\n/);
   assert.match(ics, /\r\nDTSTAMP:20270901T100000Z\r\n/);
-  assert.match(ics, /SUMMARY:Le lanterne di Bruma: La torre\\, piano\\; secondo/);
+  // Title «Campagna · sessione» (owner request 01/10/2026).
+  assert.match(ics, /SUMMARY:Le lanterne di Bruma · La torre\\, piano\\; secondo/);
   assert.ok(
     ics.split("\r\n").every((line) => new TextEncoder().encode(line).length <= 75),
     "folded at 75 octets",
@@ -584,6 +587,130 @@ test("calendar: .ics of the next session with the correct UTC instant, escaping 
     D.buildIcs(h.ctx.state, [next], { durationHours: h.rec.calendar.durationHours }),
     /DTEND:20271002T230000Z/,
   );
+});
+
+// «Aggiungi al calendario» (owner request 01/10/2026; Eventbrite, AddEvent, Sesh): one button
+// and one small menu wherever a session date is shown.
+const hrefs = (html) => [...html.matchAll(/<a [^>]*href="([^"]+)"/g)].map((m) => m[1]);
+
+test("calendar menu: four web calendars in new tabs, the .ics, the feed; nothing sent", () => {
+  const h = harness({ role: "player" });
+  const id = scheduleSession(h, { title: "La torre", localTime: inDays(3) });
+  const row = h.ctx.state.campaign.sessions.find((s) => s.id === id);
+  const html = I.sessionCalendarHTML(h.ctx, row);
+  assert.match(
+    html,
+    /<details class="int-cal-menu" data-int-cal-menu="[^"]+"><summary class="button"/,
+  );
+  assert.match(html, /<span>Aggiungi al calendario<\/span><\/summary>/);
+  const links = hrefs(html);
+  assert.deepEqual(
+    links.map((href) => new URL(href.replace(/&amp;/g, "&")).host),
+    ["calendar.google.com", "outlook.live.com", "outlook.office.com", "calendar.yahoo.com"],
+  );
+  assert.equal(
+    (html.match(/target="_blank" rel="noopener noreferrer"/g) ?? []).length,
+    4,
+    "every external link opens a new tab without an opener",
+  );
+  const google = new URL(links[0].replace(/&amp;/g, "&")).searchParams;
+  assert.equal(google.get("text"), "Le lanterne di Bruma · La torre");
+  assert.equal(google.get("ctz"), "Europe/Rome");
+  assert.equal(
+    google.get("dates").split("/")[0],
+    `${inDays(3).slice(0, 10).replace(/-/g, "")}T210000`,
+  );
+  assert.match(html, /data-int-cal-ics="[^"]+">Apple Calendario o altro \(\.ics\)/);
+  assert.match(html, /controlli e salvi tu/, "the menu says nothing is sent by itself");
+  assert.match(html, /data-int-cal-feed=/);
+  assert.ok(!html.includes("data-int-cal-series"), "no series item for a single date");
+  assert.match(html, /data-int-card-reminders=/, "the reminder bell stays beside the menu");
+  assert.ok(
+    !I.sessionCalendarHTML(h.ctx, row, { bell: false }).includes("data-int-card-reminders"),
+  );
+  // A past, cancelled or unscheduled session, or the calendar switched off: no menu.
+  assert.equal(I.sessionCalendarHTML(h.ctx, { ...row, status: "cancelled" }), "");
+  h.as("dm");
+  h.ctx.commit("modulo", (draft) => {
+    draft.ext.integrations.campaigns.lanterns.modules.calendar = false;
+  });
+  assert.equal(I.sessionCalendarHTML(h.ctx, row), "");
+  assert.equal(fetched, 0);
+});
+
+test("calendar menu: a series date offers the whole series and says the web links add one date", () => {
+  const h = harness({ role: "dm" });
+  h.ctx.commit("Serie", (draft) => {
+    draft.campaign.sessions = [];
+    SP.createSeries(
+      draft,
+      {
+        title: "Giovedì a Bruma",
+        startDate: inDays(2).slice(0, 10),
+        time: "21:00",
+        timeZone: "Europe/Rome",
+        frequency: "biweekly",
+        count: 4,
+        seats: "",
+      },
+      "dm",
+    );
+  });
+  const row = h.ctx.state.campaign.sessions[0];
+  const html = I.sessionCalendarHTML(h.ctx, row);
+  assert.match(html, /data-int-cal-series="[^"]+">Tutta la serie \(\.ics, 4 date\)/);
+  assert.match(html, /Google, Outlook e Yahoo aggiungono solo questa data/);
+  // The palette and a notice open the same choices in a dialog, with the personal feed.
+  assert.equal(I.openAddToCalendar(h.ctx, row.id), true);
+  const dialog = h.dialogs.at(-1);
+  assert.equal(dialog.title, "Aggiungi al calendario");
+  assert.equal(hrefs(dialog.body).length, 4);
+  assert.match(dialog.body, /data-int-cal-series=/);
+  assert.match(dialog.body, /Tutte le sessioni, sempre aggiornate/);
+  assert.match(dialog.body, /data-int-add-feed-create/);
+});
+
+test("calendar: Home's «Prossimo appuntamento» shows the same menu, without the bell", () => {
+  const h = harness({ role: "dm" });
+  h.ctx.commit("Nessuna sessione", (draft) => {
+    draft.campaign.sessions = [];
+  });
+  scheduleSession(h, { title: "Serata a casa", localTime: inDays(3) });
+  h.as("player");
+  const html = renderAppointment(h.ctx);
+  assert.match(html, /data-ext-slot="campaign-section:integrations\.session"/);
+  assert.match(html, /<details class="int-cal-menu"/);
+  assert.equal(hrefs(html).length, 4);
+  assert.ok(!html.includes("data-int-card-reminders"), "the bell stays on the session card");
+  assert.ok(!html.includes('data-service="integrations-add-to-calendar"'));
+});
+
+test("calendar: a session notice carries «Aggiungi al calendario»", () => {
+  const h = harness({ role: "player" });
+  const id = scheduleSession(h, { title: "Serata nuova", localTime: inDays(4) });
+  const notice = N.centreModel(h.ctx).items.find((item) =>
+    h.ctx.label(item.title).includes("Serata nuova"),
+  );
+  assert.ok(notice, "the new session is announced");
+  const action = notice.actions.find((a) => a.id === "calendar");
+  assert.equal(h.ctx.label(action.label), "Aggiungi al calendario");
+  action.run(h.ctx);
+  assert.equal(h.dialogs.at(-1).title, "Aggiungi al calendario");
+  assert.match(h.dialogs.at(-1).body, /Serata nuova/);
+  // Cancelled: the notice stays, the calendar action does not.
+  h.as("dm");
+  h.ctx.commit("annulla", (draft) => {
+    const draftId = `cancel-${id}`;
+    sessions.createSessionDraft(draft, { id: draftId, kind: "cancel", sessionId: id }, "dm");
+    const preview = sessions.previewSessionDraft(draft, draftId, "dm");
+    sessions.applySessionDraft(draft, draftId, { reviewKey: preview.reviewKey }, "dm");
+  });
+  h.as("player");
+  const cancelled = N.centreModel(h.ctx).items.find((item) =>
+    h.ctx.label(item.title).includes("Sessione annullata"),
+  );
+  assert.ok(cancelled);
+  assert.ok(!cancelled.actions.some((a) => a.id === "calendar"));
 });
 
 test("calendar: personal feed link per identity, rotated privately; reminders are B24 settings", () => {

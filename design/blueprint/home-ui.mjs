@@ -216,14 +216,19 @@ export function renderAppointment(ctx) {
           .join("")}</ul>`
       : ""
   }</div><div class="toolbar home-appointment-actions">${next.current ? "" : `<button class="button" data-home-campaign="${ctx.esc(next.campaignId)}">${t("Dettagli della campagna", "Campaign details")}</button>`}${
-    // P9 SV-39 (shared edit): «Aggiungi al calendario» calls the integrations calendar
-    // export (StartPlaying «Add to calendar», Sesh /link) when that service is available.
-    next.current && ctx.registry?.get?.("service", "integrations-add-to-calendar", ctx)
-      ? `<button class="button" data-service="integrations-add-to-calendar">${t("Aggiungi al calendario", "Add to calendar")}</button>`
+    // P9 SV-39, owner request 01/10/2026: «Aggiungi al calendario» is the session's own menu
+    // from the integrations area (Google, Outlook, Microsoft 365, Yahoo, .ics), the same block
+    // as each session in Campaign › Sessions, without its reminder bell; absent when that
+    // area is not built or its calendar is switched off.
+    next.current
+      ? (ctx.registry?.slot?.("campaign-section", "integrations.session", ctx, next.session, {
+          bell: false,
+        }) ?? "")
       : ""
   }${openSessions}</div></section>`;
 }
 export function bindAppointment(el, ctx) {
+  ctx.registry?.bindSlots(el, ctx, { points: ["campaign-section"] });
   el.querySelectorAll("[data-home-campaign]").forEach((button) =>
     button.addEventListener("click", () =>
       ctx.navigate("campaigns", { id: button.dataset.homeCampaign }),

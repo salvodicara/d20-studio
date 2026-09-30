@@ -974,3 +974,30 @@ them (evidence outside the checkout, `~/Workspace/Codex/d20-blueprint-evidence/2
   clicks on the same token in a journey are not a double press (`knowledge-journey`). Journeys
   that read sample files from their evidence folder need those files copied first.
 - A full run of all 189 journeys after the close fixes has not been done yet.
+
+## Add to calendar (01/10/2026)
+
+Owner request: saving a session date to an external calendar must be easy (evidence and
+decisions: [calendar export](../../changes/interview-01/calendar-export.md)).
+
+- `calendar-export.mjs` (core, pure): `googleCalendarUrl`, `outlookCalendarUrl(event, {work})`,
+  `yahooCalendarUrl`, `calendarLinks`, `vtimezoneLines(zone, from, to)`,
+  `recurrenceOf(sessions, stepDays)`, `ruleText`. An event is
+  `{title, description, location, start, end, timeZone}`.
+  Google gets local wall times plus `ctz` (UTC stamps for a UTC zone); Outlook and Yahoo UTC.
+- `integrations-domain`: `sessionEvent(state, session, {durationHours, lang, link})` (title
+  «Campagna · sessione», agreed time and zone, campaign link), `buildIcs(..., {link})` (UTC
+  instants), `seriesFor(state, sessionId, now)` (reads B51's slice raw) and `buildSeriesIcs`:
+  one VEVENT with `RRULE`, `DTSTART;TZID` and its `VTIMEZONE`, `EXDATE` for missing steps, any
+  off-cadence date as its own UTC VEVENT. `icsFileName(state, session, {series})`.
+- `integrations.sessionCalendarHTML(ctx, row, {bell})` is the one «Aggiungi al calendario»
+  menu (`details.int-cal-menu`, links with `target="_blank" rel="noopener noreferrer"`,
+  `[data-int-cal-ics]`, `[data-int-cal-series]`, `[data-int-cal-feed]`), rendered by the
+  campaign-section `integrations.session` in each session row, by Home's appointment through
+  `registry.slot("campaign-section", "integrations.session", ctx, session, {bell: false})` and
+  in the Calendar tab. `openAddToCalendar(ctx, sessionId)` shows the same choices in a dialog;
+  the service `integrations-add-to-calendar` runs it with a session id. Core session notices
+  carry `sessionId`, and `notifications.collectCore` adds that service as a notice action.
+
+Tests: `tests/calendar-export.test.mjs`, `tests/integrations.test.mjs`; browser:
+`calendar-export-journey.js`, `p9-sessions-journey.js`, `integrations-journey.js`.

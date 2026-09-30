@@ -10,6 +10,10 @@
 // - Avrae `!campaign <url>` (SVC-116, DDB-195): the DM links a channel; linked channels are
 //   listed and can be removed; public rolls appear there.
 // - Sesh `/link` iCal feed (SVC-065) and opt-in reminders (SVC-064, kept in B24 settings).
+// - «Aggiungi al calendario» (Eventbrite, AddEvent; owner request 01/10/2026): the one
+//   exception to the reserved addresses. Its Google, Outlook, Microsoft 365 and Yahoo links
+//   (calendar-export.mjs) are real: a person's own click opens that service in a new tab with
+//   the session filled in, and saving there is theirs. Nothing is sent without that click.
 // - Owlbear Sheet from Beyond / External Links (VTL-034): a sheet URL on a token, opened in
 //   a new tab; nothing is imported.
 // - Avrae `!import` / `!update` (DDB-194): a documented source format, preview, then import;
@@ -22,6 +26,7 @@ import { LABEL_PREFIX, parseFreeRoll, rollKindName } from "./chat-domain.mjs";
 import { campaignMembers, isCampaignMember, listCampaignEntries } from "./campaign-content.mjs";
 import { canControlActor, canViewActor, isCampaignActor } from "./character-access.mjs";
 import { sampleDate } from "./sample-clock.mjs";
+import * as CE from "./calendar-export.mjs";
 
 export const ID = "integrations";
 export const VERSION = 1;
@@ -984,52 +989,164 @@ function fold(line) {
   out.push(current);
   return out.join("\r\n ");
 }
+// «Aggiungi al calendario» (owner request 01/10/2026): one event model feeds the .ics file and
+// the web-calendar links of calendar-export.mjs. Title «Campagna · sessione»; the description
+// repeats the agreed local time and zone and carries the campaign link.
+const sessionName = (session, lang) => session?.title || (lang === "en" ? "Session" : "Sessione");
+/** Where the campaign's sessions open: the app's own address when the caller knows it. */
+export const sessionLink = (state, session) =>
+  `https://${HOST}/campaigns/${state.campaign?.id ?? "campaign"}/sessions/${session?.id ?? ""}`;
+function eventDescription({ name, agreed, durationHours, link, lang }) {
+  return lang === "en"
+    ? `Campaign: ${name}\nAgreed time: ${agreed}\nPlanned duration: ${durationHours} h\nOpen the campaign: ${link}`
+    : `Campagna: ${name}\nOra concordata: ${agreed}\nDurata prevista: ${durationHours} h\nApri la campagna: ${link}`;
+}
+/**
+ * One session as a calendar event: {title, description, location, start, end, timeZone, link}.
+ * Start and end are the session's explicit instant and that instant plus the duration; the
+ * zone is the one agreed for the session.
+ */
+export function sessionEvent(state, session, { durationHours = 3, lang = "it", link = null } = {}) {
+  const name = state.campaign?.name ?? "d20 Studio";
+  const url = link || sessionLink(state, session);
+  const start = Date.parse(session.startsAt);
+  const timeZone = session.timeZone || "UTC";
+  return {
+    title: `${name} · ${sessionName(session, lang)}`,
+    description: eventDescription({
+      name,
+      agreed: `${session.localTime?.replace("T", " ") ?? ""} (${timeZone})`.trim(),
+      durationHours,
+      link: url,
+      lang,
+    }),
+    location: url,
+    start,
+    end: start + durationHours * 3600e3,
+    timeZone,
+    link: url,
+  };
+}
+const icsHead = (name) => [
+  "BEGIN:VCALENDAR",
+  "VERSION:2.0",
+  "PRODID:-//d20 Studio//Blueprint B55//IT",
+  "CALSCALE:GREGORIAN",
+  "METHOD:PUBLISH",
+  `X-WR-CALNAME:${icsText(name)}`,
+];
+const icsDone = (lines) => lines.map(fold).join("\r\n") + "\r\n";
+function singleEvent(state, session, { durationHours, now, lang, link }) {
+  const cid = state.campaign?.id ?? "campaign";
+  const event = sessionEvent(state, session, { durationHours, lang, link });
+  return [
+    "BEGIN:VEVENT",
+    `UID:${session.id}@${cid}.${HOST}`,
+    `SEQUENCE:${Math.max(0, (session.revision ?? 1) - 1)}`,
+    `DTSTAMP:${icsDate(now)}`,
+    `DTSTART:${icsDate(event.start)}`,
+    `DTEND:${icsDate(event.end)}`,
+    `SUMMARY:${icsText(event.title)}`,
+    `DESCRIPTION:${icsText(event.description)}`,
+    `URL:${event.link}`,
+    "STATUS:CONFIRMED",
+    "END:VEVENT",
+  ];
+}
 /**
  * An iCalendar file (RFC 5545) with one VEVENT per appointment. Start and end are UTC
  * instants (the session's explicit instant); the agreed local time and zone are repeated
- * in the description, like the app shows them.
+ * in the description, like the app shows them. `link` is the campaign address to carry.
  */
 export function buildIcs(
   state,
   sessions,
-  { durationHours = 3, now = Date.now(), lang = "it" } = {},
+  { durationHours = 3, now = Date.now(), lang = "it", link = null } = {},
 ) {
+  const lines = icsHead(state.campaign?.name ?? "d20 Studio");
+  for (const session of sessions)
+    lines.push(...singleEvent(state, session, { durationHours, now, lang, link }));
+  lines.push("END:VCALENDAR");
+  return icsDone(lines);
+}
+/**
+ * A B51 recurring series as seen by `seriesFor`: {id, title, frequency, stepDays, sessions}
+ * (its upcoming scheduled dates, soonest first), read from that area's slice without
+ * importing it. Null for a session outside a series or with fewer than two dates left.
+ */
+export function seriesFor(state, sessionId, now = Date.now()) {
+  const slice = state.ext?.["sessions-plus"];
+  const seriesId = slice?.sessionMeta?.[sessionId]?.seriesId;
+  const series = list(slice?.series).find((row) => row?.id === seriesId);
+  const stepDays = { weekly: 7, biweekly: 14 }[series?.frequency];
+  if (!series || !stepDays) return null;
+  const byId = new Map(list(state.campaign?.sessions).map((row) => [row?.id, row]));
+  const sessions = list(series.sessionIds)
+    .map((id) => byId.get(id))
+    .filter(
+      (row) =>
+        row?.status === "scheduled" &&
+        typeof row.startsAt === "string" &&
+        Date.parse(row.startsAt) > now,
+    )
+    .sort((a, b) => a.startsAt.localeCompare(b.startsAt));
+  if (sessions.length < 2) return null;
+  return { id: series.id, title: series.title, frequency: series.frequency, stepDays, sessions };
+}
+/**
+ * The whole series in one file: the dates that follow its cadence as one VEVENT with RRULE,
+ * DTSTART/DTEND in the series zone (TZID and its VTIMEZONE) so every date keeps its local
+ * time across a daylight-saving change, EXDATE for the missing steps; any other date (moved,
+ * another zone) as its own VEVENT in UTC.
+ */
+export function buildSeriesIcs(
+  state,
+  series,
+  { durationHours = 3, now = Date.now(), lang = "it", link = null } = {},
+) {
+  const rule = CE.recurrenceOf(series?.sessions ?? [], series?.stepDays);
+  if (!rule) return buildIcs(state, series?.sessions ?? [], { durationHours, now, lang, link });
   const cid = state.campaign?.id ?? "campaign";
   const name = state.campaign?.name ?? "d20 Studio";
+  const zone = rule.timeZone;
+  const first = Date.parse(rule.anchor.startsAt);
+  const last = Date.parse(rule.members.at(-1).startsAt);
+  const end = first + durationHours * 3600e3;
+  const url = link || sessionLink(state, rule.anchor);
+  const time = rule.localTime.slice(11);
+  const cadence =
+    rule.interval === 1
+      ? lang === "en"
+        ? `every week at ${time}`
+        : `ogni settimana alle ${time}`
+      : lang === "en"
+        ? `every ${rule.interval} weeks at ${time}`
+        : `ogni ${rule.interval} settimane alle ${time}`;
   const lines = [
-    "BEGIN:VCALENDAR",
-    "VERSION:2.0",
-    "PRODID:-//d20 Studio//Blueprint B55//IT",
-    "CALSCALE:GREGORIAN",
-    "METHOD:PUBLISH",
-    `X-WR-CALNAME:${icsText(name)}`,
+    ...icsHead(name),
+    ...CE.vtimezoneLines(zone, first, last + durationHours * 3600e3),
+    "BEGIN:VEVENT",
+    `UID:${series.id}@${cid}.${HOST}`,
+    `SEQUENCE:${rule.members.reduce((sum, s) => sum + Math.max(0, (s.revision ?? 1) - 1), 0)}`,
+    `DTSTAMP:${icsDate(now)}`,
+    `DTSTART;TZID=${zone}:${CE.localStamp(rule.localTime)}`,
+    `DTEND;TZID=${zone}:${CE.wallStamp(zone, end)}`,
+    `RRULE:${CE.ruleText(rule)}`,
+    ...(rule.exdates.length
+      ? [`EXDATE;TZID=${zone}:${rule.exdates.map(CE.localStamp).join(",")}`]
+      : []),
+    `SUMMARY:${icsText(`${name} · ${series.title || sessionName(rule.anchor, lang)}`)}`,
+    `DESCRIPTION:${icsText(eventDescription({ name, agreed: `${cadence} (${zone})`, durationHours, link: url, lang }))}`,
+    `URL:${url}`,
+    "STATUS:CONFIRMED",
+    "END:VEVENT",
   ];
-  for (const session of sessions) {
-    const start = Date.parse(session.startsAt);
-    const agreed =
-      `${session.localTime?.replace("T", " ") ?? ""} ${session.timeZone ?? "UTC"}`.trim();
-    lines.push(
-      "BEGIN:VEVENT",
-      `UID:${session.id}@${cid}.${HOST}`,
-      `SEQUENCE:${Math.max(0, (session.revision ?? 1) - 1)}`,
-      `DTSTAMP:${icsDate(now)}`,
-      `DTSTART:${icsDate(start)}`,
-      `DTEND:${icsDate(start + durationHours * 3600e3)}`,
-      `SUMMARY:${icsText(`${name}: ${session.title || (lang === "en" ? "Session" : "Sessione")}`)}`,
-      `DESCRIPTION:${icsText(
-        lang === "en"
-          ? `Campaign: ${name}. Agreed time: ${agreed}. Planned duration: ${durationHours} h.`
-          : `Campagna: ${name}. Ora concordata: ${agreed}. Durata prevista: ${durationHours} h.`,
-      )}`,
-      `URL:https://${HOST}/campaigns/${cid}/sessions/${session.id}`,
-      "STATUS:CONFIRMED",
-      "END:VEVENT",
-    );
-  }
+  for (const session of rule.singles)
+    lines.push(...singleEvent(state, session, { durationHours, now, lang, link }));
   lines.push("END:VCALENDAR");
-  return lines.map(fold).join("\r\n") + "\r\n";
+  return icsDone(lines);
 }
-export function icsFileName(state, session) {
+export function icsFileName(state, session, { series = false } = {}) {
   const slug = (value) =>
     String(value ?? "")
       .normalize("NFD")
@@ -1039,7 +1156,7 @@ export function icsFileName(state, session) {
       .replace(/^-|-$/g, "")
       .slice(0, 40) || "sessione";
   const day = session?.startsAt ? session.startsAt.slice(0, 10) : "feed";
-  return `${slug(state.campaign?.name)}-${day}.ics`;
+  return `${slug(state.campaign?.name)}-${series ? "serie-" : ""}${day}.ics`;
 }
 /** Sesh `/link`: each member's own feed address; rotating it retires the old one. */
 export function feedOf(slice, viewer) {
