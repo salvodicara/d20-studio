@@ -4870,3 +4870,34 @@ resta aperto e l'intervista continua una domanda alla volta.
 - **Scartati:** skill che duplicano impeccable o scaricano regole non fissate a una
   versione; nessuna spesa.
 
+## I-247 — pubblicazione, dadi karmici e script: scelte delegate dall'owner
+
+- **Provenienza:** owner, 01/10/2026, in chat: «Vai pubblica, non possiamo rischiare di perdere
+  il lavoro. Decidi tu se metterla pubblica o privata»; su dadi karmici e script: «Fai come vuoi».
+- **Pubblicazione:** il branch `codex/interview-01` e il tag `blueprint-functional-v1` vengono
+  pubblicati sul repository `salvodicara/d20-studio`, che resta pubblico come già previsto dalle
+  regole del progetto (nessuna credenziale, nessun dato reale, nessun contenuto senza licenza;
+  controllo eseguito prima del push). `main` non viene toccato.
+- **Dadi karmici (Q166):** restano come impostazione della campagna **spenta di serie**, solo per
+  i d20 digitali dei giocatori, con ogni ritiro nel registro e avviso ai giocatori: copia
+  l'opzione di Baldur's Gate 3 e, senza una scelta del DM, non altera nessun tiro.
+- **Script (GAP-01, X-12):** nessun linguaggio di programmazione generale (JavaScript o simili);
+  restano le macro dell'app (tiri, sequenze di comandi, esiti visibili), come raccomandato nel
+  censimento (C16) per utenti non programmatori e per la sicurezza.
+
+## I-248 — fase grafica: accordo su ogni dettaglio, per esempi e screenshot
+
+- **Provenienza:** owner, 01/10/2026, in chat: «È fondamentale che nella fase grafica ci
+  accordiamo davvero su OGNI dettaglio. Voglio screenshot di tutto perché sono troppo pigro per
+  andarmi a provare il sito. Lo farò quando avremo finito. Userò gli screenshot per scegliere.
+  Ricorda che il mio cervello ragiona per esempi».
+- **Regola per la Fase C:** ogni decisione visiva si presenta come **scelta numerata con esempi**:
+  per ciascuna opzione uno screenshot dell'app vera con quell'opzione applicata, affiancato
+  all'immagine del prodotto da cui è copiata e a una riga «elemento → prodotto → fonte». L'owner
+  sceglie per numero; nulla si applica a tutta l'app prima della sua scelta. Si coprono tutti i
+  dettagli: direzione generale, colori, caratteri, icone, pulsanti e campi, schede e pannelli,
+  pedine e mappa, barra delle azioni, ritratti del turno, dadi e animazioni, scheda del
+  personaggio, pagine della campagna, Biblioteca, telefono, tema chiaro. A ogni passaggio
+  l'owner riceve gli screenshot di tutte le superfici toccate; la prova interattiva dell'owner
+  avviene alla fine.
+

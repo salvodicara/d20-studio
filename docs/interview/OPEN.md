@@ -5178,6 +5178,9 @@ impostazione della campagna **spenta di serie**, solo per i d20 digitali dei gio
 ritiro scritto nel registro e l'avviso ai giocatori quando sono accesi (Tavolo › Dadi ›
 Impostazioni). Resta la domanda all'owner: tenerli o toglierli. La raccomandazione non cambia.
 
+**Chiusa il 01/10/2026 ([I-247](DECISIONS.md)):** l'owner delega («fai come vuoi»); restano come
+impostazione della campagna spenta di serie, copiata da BG3, con ogni ritiro nel registro.
+
 ## Q167 — capacità dei leader oltre il censimento
 
 **Stato: chiusa il 01/10/2026; era aperta dal 30/09/2026 (revisione di completezza B2–B8).** Mancano: bersaglio persistente

@@ -47,19 +47,26 @@ applicazione a tutte le aree, controllo visivo e di accessibilità, approvazione
 Usa impeccable come skill di design principale, review-animations per le animazioni,
 playwright-cli per le prove nel browser; icone da game-icons.net e Lucide con attribuzione;
 immagini raster con l'imagegen di Codex (prepara i prompt in file, mai API a pagamento).
+REGOLA DELL'OWNER (I-248): ci accordiamo su OGNI dettaglio per esempi. Ogni decisione visiva è
+una scelta numerata: per ogni opzione uno screenshot dell'app vera con quell'opzione applicata,
+affiancato all'immagine del prodotto copiato e a «elemento → prodotto → fonte». Io scelgo per
+numero guardando gli screenshot (non provo il sito fino alla fine). Nulla si applica a tutta
+l'app prima della mia scelta. Copri tutti i dettagli: direzione, colori, caratteri, icone,
+pulsanti e campi, pannelli e schede, pedine e mappa, barra delle azioni, ritratti del turno,
+dadi e animazioni, scheda del personaggio, campagna, Biblioteca, telefono, tema chiaro.
 Non cambiare funzioni, percorsi, permessi o dati: la suite Node e i percorsi del browser restano
-verdi. Contrasto WCAG AA, fuoco visibile, segni mai affidati al solo colore. Mandami screenshot
-a ogni passaggio sostanziale; spiega in italiano semplice; chiedimi solo le scelte vere.
+verdi. Contrasto WCAG AA, fuoco visibile, segni mai affidati al solo colore. Mandami gli
+screenshot di tutte le superfici toccate a ogni passaggio; spiega in italiano semplice.
 ```
 
-## Decisioni dell'owner ancora aperte
+## Decisioni dell'owner
 
-- **Pubblicare su GitHub:** il branch `codex/interview-01` e il tag sono solo locali; il
-  repository `salvodicara/d20-studio` è pubblico.
-- **Dadi karmici** ([Q166](interview/OPEN.md#q166--dadi-karmici)): presenti, spenti di default;
-  raccomandazione: toglierli. **Script oltre le macro dell'app** (GAP-01): sconsigliati.
-- **Prodotto reale:** età e consenso per paese (SV-28), integrazioni con account veri (GAP-17),
-  assistente IA vero (GAP-18), aree pubbliche e moderazione (Q161): nel blueprint sono simulati.
+- **Pubblicazione:** branch `codex/interview-01` e tag `blueprint-functional-v1` pubblicati su
+  GitHub (repository pubblico) il 01/10/2026 ([I-247](interview/DECISIONS.md)).
+- **Dadi karmici:** restano, spenti di serie (I-247). **Script:** solo le macro dell'app (I-247).
+- **Prodotto reale, ancora aperte:** età e consenso per paese (SV-28), integrazioni con account
+  veri (GAP-17), assistente IA vero (GAP-18), aree pubbliche e moderazione (Q161): nel blueprint
+  sono simulati.
 
 ## Controlli per gli agenti
 
