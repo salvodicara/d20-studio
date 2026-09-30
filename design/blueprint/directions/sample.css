@@ -1,0 +1,314 @@
+/* Sample art shared by every round-1 direction (Phase C, visual-01). Loaded by
+   directions/index.mjs while any direction is active; every rule starts with
+   :root[data-direction], so it is inert under «Attuale» and with no direction.
+
+   It only ASSIGNS images to the actor hooks of code-map §e: no frames, shapes or colours (each
+   direction.css does those, and loads after this file, so it may also re-crop). Files and
+   licences: assets/PROVENANCE.json and assets/ATTRIBUTION.md. The goblin files are 4:5 full
+   figures: a 370 px face square (0.5506 of the width) is shown, the same crop as the sprite
+   patterns in index.mjs. User art (media «Aspetto») is covered only while a direction is on. */
+
+/* livia: L1 Livia (assets/portraits/sample/livia.webp). */
+:root[data-direction] .home-page .character-resume[data-open-sheet="livia"] > .portrait,
+:root[data-direction] .home-page .home-chip[data-open-sheet="livia"] .portrait,
+:root[data-direction]
+  .character-sheet:has([data-shp-band="livia"])
+  .character-heading
+  .character-portrait,
+:root[data-direction]
+  .table-layout
+  .table-party-member[data-party-select="livia"]
+  .table-party-portrait,
+:root[data-direction] .table-layout .initiative-token[data-select="livia"] .token-dot,
+:root[data-direction]
+  .table-layout:has(
+    .map-token.selected[data-actor="livia"],
+    .table-party-member.is-selected[data-party-select="livia"],
+    #table-sidebar-panel [data-conditions-summary="livia"]
+  )
+  .hotbar-portrait,
+:root[data-direction]
+  .table-layout:has(
+    .map-token.selected[data-actor="livia"],
+    .table-party-member.is-selected[data-party-select="livia"],
+    #table-sidebar-panel [data-conditions-summary="livia"]
+  )
+  .inspector-person
+  .portrait,
+:root[data-direction]
+  .table-layout:has(
+    .map-token.selected[data-actor="livia"],
+    .table-party-member.is-selected[data-party-select="livia"],
+    #table-sidebar-panel [data-conditions-summary="livia"]
+  )
+  .table-tab-portrait {
+  background-image: url("../assets/portraits/sample/livia.webp");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: transparent;
+}
+:root[data-direction]
+  #battle-map
+  .map-token[data-actor="livia"]:not([data-token-form])
+  .token-display
+  > circle:first-child {
+  fill: url(#dir-sample-livia);
+}
+/* doran: D1 Doran (assets/portraits/sample/doran.webp). */
+:root[data-direction] .home-page .character-resume[data-open-sheet="doran"] > .portrait,
+:root[data-direction] .home-page .home-chip[data-open-sheet="doran"] .portrait,
+:root[data-direction]
+  .character-sheet:has([data-shp-band="doran"])
+  .character-heading
+  .character-portrait,
+:root[data-direction]
+  .table-layout
+  .table-party-member[data-party-select="doran"]
+  .table-party-portrait,
+:root[data-direction] .table-layout .initiative-token[data-select="doran"] .token-dot,
+:root[data-direction]
+  .table-layout:has(
+    .map-token.selected[data-actor="doran"],
+    .table-party-member.is-selected[data-party-select="doran"],
+    #table-sidebar-panel [data-conditions-summary="doran"]
+  )
+  .hotbar-portrait,
+:root[data-direction]
+  .table-layout:has(
+    .map-token.selected[data-actor="doran"],
+    .table-party-member.is-selected[data-party-select="doran"],
+    #table-sidebar-panel [data-conditions-summary="doran"]
+  )
+  .inspector-person
+  .portrait,
+:root[data-direction]
+  .table-layout:has(
+    .map-token.selected[data-actor="doran"],
+    .table-party-member.is-selected[data-party-select="doran"],
+    #table-sidebar-panel [data-conditions-summary="doran"]
+  )
+  .table-tab-portrait {
+  background-image: url("../assets/portraits/sample/doran.webp");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: transparent;
+}
+:root[data-direction]
+  #battle-map
+  .map-token[data-actor="doran"]:not([data-token-form])
+  .token-display
+  > circle:first-child {
+  fill: url(#dir-sample-doran);
+}
+/* mira: L3, provisional stand-in for Mira (assets/portraits/sample/mira.webp). */
+:root[data-direction] .home-page .character-resume[data-open-sheet="mira"] > .portrait,
+:root[data-direction] .home-page .home-chip[data-open-sheet="mira"] .portrait,
+:root[data-direction]
+  .character-sheet:has([data-shp-band="mira"])
+  .character-heading
+  .character-portrait,
+:root[data-direction]
+  .table-layout
+  .table-party-member[data-party-select="mira"]
+  .table-party-portrait,
+:root[data-direction] .table-layout .initiative-token[data-select="mira"] .token-dot,
+:root[data-direction]
+  .table-layout:has(
+    .map-token.selected[data-actor="mira"],
+    .table-party-member.is-selected[data-party-select="mira"],
+    #table-sidebar-panel [data-conditions-summary="mira"]
+  )
+  .hotbar-portrait,
+:root[data-direction]
+  .table-layout:has(
+    .map-token.selected[data-actor="mira"],
+    .table-party-member.is-selected[data-party-select="mira"],
+    #table-sidebar-panel [data-conditions-summary="mira"]
+  )
+  .inspector-person
+  .portrait,
+:root[data-direction]
+  .table-layout:has(
+    .map-token.selected[data-actor="mira"],
+    .table-party-member.is-selected[data-party-select="mira"],
+    #table-sidebar-panel [data-conditions-summary="mira"]
+  )
+  .table-tab-portrait {
+  background-image: url("../assets/portraits/sample/mira.webp");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: transparent;
+}
+:root[data-direction]
+  #battle-map
+  .map-token[data-actor="mira"]:not([data-token-form])
+  .token-display
+  > circle:first-child {
+  fill: url(#dir-sample-mira);
+}
+/* goblin-1: goblin-minion, «Sentinella» (assets/portraits/sample/goblin-1.webp). */
+:root[data-direction] .home-page .character-resume[data-open-sheet="goblin-1"] > .portrait,
+:root[data-direction] .home-page .home-chip[data-open-sheet="goblin-1"] .portrait,
+:root[data-direction]
+  .character-sheet:has([data-shp-band="goblin-1"])
+  .character-heading
+  .character-portrait,
+:root[data-direction]
+  .table-layout
+  .table-party-member[data-party-select="goblin-1"]
+  .table-party-portrait,
+:root[data-direction] .table-layout .initiative-token[data-select="goblin-1"] .token-dot,
+:root[data-direction]
+  .table-layout:has(
+    .map-token.selected[data-actor="goblin-1"],
+    .table-party-member.is-selected[data-party-select="goblin-1"],
+    #table-sidebar-panel [data-conditions-summary="goblin-1"]
+  )
+  .hotbar-portrait,
+:root[data-direction]
+  .table-layout:has(
+    .map-token.selected[data-actor="goblin-1"],
+    .table-party-member.is-selected[data-party-select="goblin-1"],
+    #table-sidebar-panel [data-conditions-summary="goblin-1"]
+  )
+  .inspector-person
+  .portrait,
+:root[data-direction]
+  .table-layout:has(
+    .map-token.selected[data-actor="goblin-1"],
+    .table-party-member.is-selected[data-party-select="goblin-1"],
+    #table-sidebar-panel [data-conditions-summary="goblin-1"]
+  )
+  .table-tab-portrait {
+  background-image: url("../assets/portraits/sample/goblin-1.webp");
+  background-position: 52% 0;
+  background-size: 181.6% auto;
+  background-repeat: no-repeat;
+  color: transparent;
+}
+:root[data-direction]
+  #battle-map
+  .map-token[data-actor="goblin-1"]:not([data-token-form])
+  .token-display
+  > circle:first-child {
+  fill: url(#dir-sample-goblin-1);
+}
+/* goblin-2: goblin-warrior, «Esploratore» (assets/portraits/sample/goblin-2.webp). */
+:root[data-direction] .home-page .character-resume[data-open-sheet="goblin-2"] > .portrait,
+:root[data-direction] .home-page .home-chip[data-open-sheet="goblin-2"] .portrait,
+:root[data-direction]
+  .character-sheet:has([data-shp-band="goblin-2"])
+  .character-heading
+  .character-portrait,
+:root[data-direction]
+  .table-layout
+  .table-party-member[data-party-select="goblin-2"]
+  .table-party-portrait,
+:root[data-direction] .table-layout .initiative-token[data-select="goblin-2"] .token-dot,
+:root[data-direction]
+  .table-layout:has(
+    .map-token.selected[data-actor="goblin-2"],
+    .table-party-member.is-selected[data-party-select="goblin-2"],
+    #table-sidebar-panel [data-conditions-summary="goblin-2"]
+  )
+  .hotbar-portrait,
+:root[data-direction]
+  .table-layout:has(
+    .map-token.selected[data-actor="goblin-2"],
+    .table-party-member.is-selected[data-party-select="goblin-2"],
+    #table-sidebar-panel [data-conditions-summary="goblin-2"]
+  )
+  .inspector-person
+  .portrait,
+:root[data-direction]
+  .table-layout:has(
+    .map-token.selected[data-actor="goblin-2"],
+    .table-party-member.is-selected[data-party-select="goblin-2"],
+    #table-sidebar-panel [data-conditions-summary="goblin-2"]
+  )
+  .table-tab-portrait {
+  background-image: url("../assets/portraits/sample/goblin-2.webp");
+  background-position: 43.4% 0;
+  background-size: 181.6% auto;
+  background-repeat: no-repeat;
+  color: transparent;
+}
+:root[data-direction]
+  #battle-map
+  .map-token[data-actor="goblin-2"]:not([data-token-form])
+  .token-display
+  > circle:first-child {
+  fill: url(#dir-sample-goblin-2);
+}
+/* The painted sample replaces the initial letter only: the name stays in aria-label and
+   .token-name. A sheet <img> (media art) gives way to the sample portrait behind it. */
+:root[data-direction]
+  #battle-map
+  .map-token[data-actor="livia"]:not([data-token-form])
+  .token-display
+  > text:first-of-type,
+:root[data-direction]
+  #battle-map
+  .map-token[data-actor="doran"]:not([data-token-form])
+  .token-display
+  > text:first-of-type,
+:root[data-direction]
+  #battle-map
+  .map-token[data-actor="mira"]:not([data-token-form])
+  .token-display
+  > text:first-of-type,
+:root[data-direction]
+  #battle-map
+  .map-token[data-actor="goblin-1"]:not([data-token-form])
+  .token-display
+  > text:first-of-type,
+:root[data-direction]
+  #battle-map
+  .map-token[data-actor="goblin-2"]:not([data-token-form])
+  .token-display
+  > text:first-of-type {
+  display: none;
+}
+:root[data-direction]
+  .character-sheet:has([data-shp-band="livia"])
+  .character-heading
+  .character-portrait
+  img,
+:root[data-direction]
+  .character-sheet:has([data-shp-band="doran"])
+  .character-heading
+  .character-portrait
+  img,
+:root[data-direction]
+  .character-sheet:has([data-shp-band="mira"])
+  .character-heading
+  .character-portrait
+  img,
+:root[data-direction]
+  .character-sheet:has([data-shp-band="goblin-1"])
+  .character-heading
+  .character-portrait
+  img,
+:root[data-direction]
+  .character-sheet:has([data-shp-band="goblin-2"])
+  .character-heading
+  .character-portrait
+  img {
+  opacity: 0;
+}
+/* The sample map of the old-watch courtyard, only when assets/maps/sample/old-watch.webp exists
+   (index.mjs sets data-sample-map="on" after a HEAD check). It paints the ground rect with the
+   userSpaceOnUse pattern (1000×650, pans and zooms with the scene) and hides the template
+   structures; walls, doors, grid and tokens stay live. An uploaded background (an <image> or a
+   video foreignObject) keeps priority. */
+:root[data-direction][data-sample-map="on"]
+  #battle-map:not(:has(> image, > foreignObject))
+  > rect:first-of-type {
+  fill: url(#dir-sample-scene);
+}
+:root[data-direction][data-sample-map="on"] #battle-map:not(:has(> image, > foreignObject)) > svg {
+  display: none;
+}

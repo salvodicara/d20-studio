@@ -1,6 +1,17 @@
 # d20 Studio — agent entry point
 
-## Current owner direction — D-013 / I-218 (23/09/2026)
+## Current phase — C, visual design (D-014 / I-243 / I-245 / I-248, 30/09/2026)
+
+The functional blueprint is frozen as tag `blueprint-functional-v1` (Phase B accepted, I-245).
+Phase C redesigns the look only, copying the market leaders surface by surface, without changing
+functions, routes, permissions, data, accessible names or test hooks. Visual mockups, prototypes
+and screenshots are authorized. Owner rule I-248: EVERY visual detail is decided by the owner
+through numbered options, each shown as a screenshot of the real app with that option applied,
+next to the copied product and an "element → product → source" row; nothing is applied app-wide
+before the owner's choice. Options live as dev-only directions (I-249). Read docs/NEXT.md, then
+changes/visual-01/task.md and changes/visual-01/choices.md. Earlier headings below are history.
+
+## Owner direction — D-013 / I-218 (23/09/2026), superseded in sequencing by D-014
 
 Build one integrated, locally navigable visual blueprint of the WHOLE app,
 with all included functions and contextual controls, while keeping the Markdown

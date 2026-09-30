@@ -4901,3 +4901,25 @@ resta aperto e l'intervista continua una domanda alla volta.
   l'owner riceve gli screenshot di tutte le superfici toccate; la prova interattiva dell'owner
   avviene alla fine.
 
+## I-249 — fase grafica: risorse locali con licenza e direzioni di prova
+
+- **Provenienza:** piano della Fase C (§0.3, [phase-c-plan](../../changes/visual-01/prep/phase-c-plan.md)),
+  sotto I-245, I-246 e I-248; scelta delegata del coordinatore della Fase C, 30/09/2026.
+- **Decisione:** il blueprint resta senza build e funziona offline: nessuna risorsa, CDN o SDK
+  remoto a runtime. Sono ammessi file locali copiati nel repository (caratteri OFL o Apache,
+  icone game-icons.net CC BY 3.0 e Lucide ISC, ornamenti CC0 o di pubblico dominio, immagini
+  generate per l'owner) solo con licenza e provenienza registrate sotto `design/blueprint/assets/`
+  e nella pagina «Fonti e attribuzione» della Biblioteca. `sw.js` non mette in cache, quindi non
+  c'è una lista da aggiornare. Pixel, caratteri e texture dei prodotti copiati non entrano mai
+  nel repository.
+- **Opzioni delle scelte numerate:** si costruiscono come **direzioni di prova** in
+  `design/blueprint/directions/<id>/`, attive solo con il selettore di sviluppo «Direzione»
+  accanto a «Visita come», fuori dall'app. Con «Attuale» l'app è identica al tag
+  `blueprint-functional-v1`. Una direzione non cambia funzioni, percorsi, permessi, dati, nomi
+  accessibili o agganci dei test.
+- **PRODUCT.md** alla radice riassume per la skill impeccable i fatti di prodotto già decisi, con
+  le fonti: non è una nuova autorità e non contiene scelte visive.
+- **Aggiorna:** la regola «No external assets/SDK» di [DEVELOPMENT](../../design/blueprint/DEVELOPMENT.md)
+  diventa «nessuna risorsa remota; file locali con licenza registrata».
+- **Limiti:** nessuna scelta visiva dell'owner; nulla si applica a tutta l'app prima della sua
+  scelta (I-248).

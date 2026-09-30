@@ -146,7 +146,16 @@ export function createScrollMemory(limit = 60) {
 }
 /** The path of a core icon (for menus that draw their own svg), or null. */
 export const iconPath = (name) => paths[name] ?? null;
+// Phase C (dev only): a direction may answer icon names with its own full
+// '<svg class="icon" … aria-hidden="true">…</svg>' string, or null to keep the core icon.
+// Set only by directions/index.mjs; with no override icon() is unchanged.
+let iconOverride = null;
+export function setIconOverride(fn) {
+  iconOverride = typeof fn === "function" ? fn : null;
+}
 export function icon(name) {
+  const alt = iconOverride?.(name);
+  if (alt) return alt;
   return (
     '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' +
     (paths[name] || paths.book) +

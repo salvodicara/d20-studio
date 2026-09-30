@@ -15,6 +15,8 @@ import { runsSession } from "./session-view.mjs";
 import { getEffectiveActor } from "./forms-companions.mjs";
 import { createStore, readSandbox, sandboxStorage, endSandbox, promoteSandbox } from "./state.mjs";
 import { esc, icon, logo, scrollIntoStrip, isNewPage, createScrollMemory } from "./ui.mjs";
+// Phase C (dev only): the «Direzione» selector; inert unless loopback + d20-dev-direction.
+import { startDirection, directionControl, bindDirection } from "./directions/index.mjs";
 import { installContextMenus } from "./context-menu.mjs";
 import { renderCharacters, bindCharacters } from "./characters.mjs";
 import * as preparation from "./preparation.mjs";
@@ -75,6 +77,7 @@ await loadExtensions(registry, {
     })),
   ],
 });
+await startDirection();
 // IN-10: a trial without an account runs on its own copy of the sample data.
 const sandbox = storage ? readSandbox(storage) : null;
 const store = createStore({ storage: sandbox ? sandboxStorage(storage) : storage });
@@ -752,7 +755,7 @@ function render() {
                       ? campaign.renderCampaign(ctx)
                       : library.renderLibrary(ctx);
   document.querySelector("#app").innerHTML =
-    `<aside class="demo-strip" aria-label="${t("Controlli della dimostrazione", "Demonstration controls")}"><span><strong>Blueprint</strong> ${t("in costruzione · dati di esempio", "in progress · sample data")}</span><div class="demo-controls"><label>${t("Visita come", "Visit as")} <select id="demo-role"><option value="player" ${role === "player" ? "selected" : ""}>${t("Giocatore", "Player")}</option><option value="dm" ${role === "dm" ? "selected" : ""}>DM</option></select></label><span id="ext-notice"></span><button data-service="scope">${t("Cosa è pronto", "What is ready")}</button><button data-service="reset">${t("Ripristina esempio", "Reset example")}</button></div></aside>
+    `<aside class="demo-strip" aria-label="${t("Controlli della dimostrazione", "Demonstration controls")}"><span><strong>Blueprint</strong> ${t("in costruzione · dati di esempio", "in progress · sample data")}</span><div class="demo-controls"><label>${t("Visita come", "Visit as")} <select id="demo-role"><option value="player" ${role === "player" ? "selected" : ""}>${t("Giocatore", "Player")}</option><option value="dm" ${role === "dm" ? "selected" : ""}>DM</option></select></label>${directionControl(t)}<span id="ext-notice"></span><button data-service="scope">${t("Cosa è pronto", "What is ready")}</button><button data-service="reset">${t("Ripristina esempio", "Reset example")}</button></div></aside>
   <header class="app-header ${isTable ? "table-header" : ""}"><button class="brand" data-nav="home" aria-label="d20 Studio">${logo()}<span>d20 <b>Studio</b></span></button>${isTable ? `<button class="button quiet" data-service="app-menu">${icon("menu")} App</button><button class="button quiet" data-nav="campaign" aria-label="${t("Torna alla campagna", "Back to campaign")}" title="${t("Torna alla campagna", "Back to campaign")}">${icon("arrow")}<span>${t("Torna alla campagna", "Back to campaign")}</span></button>` : `<nav aria-label="${t("Navigazione principale", "Main navigation")}">${nav}</nav>`}<div class="service-nav">${serviceButtons()}</div></header>
   ${sandboxBanner()}
   ${store.storageError ? `<p class="save-warning" role="alert">${t("Salvataggio locale non disponibile o dati precedenti illeggibili. Le modifiche restano in questa scheda; i dati precedenti non vengono sovrascritti.", "Local saving is unavailable or previous data is unreadable. Changes remain in this tab; previous data is not overwritten.")}</p>` : ""}
@@ -945,6 +948,7 @@ function bindShell() {
   document
     .querySelectorAll("[data-service]")
     .forEach((b) => (b.onclick = () => service(b.dataset.service)));
+  bindDirection(render);
   document.querySelector("#demo-role").onchange = (e) => {
     const nextRole = e.target.value;
     e.target.value = role;

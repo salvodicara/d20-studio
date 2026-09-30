@@ -1,0 +1,18 @@
+/* Phase C (dev only): the demo strip in direction mode. Loaded by directions/index.mjs only while
+   the «Direzione» selector is shown (code-map §a); every rule is keyed on #demo-direction, so it
+   matches nothing without it. At 390 px the extra control would overflow the strip sideways, so
+   the controls wrap. The tighter gaps keep the strip at two control rows (96 px at 390, measured
+   30/09) instead of three (128 px) with the longest option «1 · Baldur's Gate 3» selected. */
+@media (max-width: 720px) {
+  .demo-controls:has(#demo-direction) {
+    flex-wrap: wrap;
+    row-gap: 4px;
+    column-gap: 8px;
+  }
+  .demo-controls:has(#demo-direction) label {
+    gap: 6px;
+  }
+  .demo-controls #demo-direction {
+    padding-inline: 2px;
+  }
+}

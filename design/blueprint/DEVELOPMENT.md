@@ -18,7 +18,7 @@ State shape (version 1):
 
 Use existing shared classes: page-heading, page-heading h1, muted, button (.primary/.quiet/.danger), toolbar, tabs, active, split-layout, panel, field, form-grid, empty-state, item-list, item-row, badge, stats, stat, section-heading, error, table-wrap. All controls minimum 40px and visible focus. No fake disabled placeholder features counted as complete. Display local in-construction limits honestly; keep them outside normal product controls when possible.
 
-English source/comments; Italian default/English alternate. No external assets/SDK, no new applications, no production promises. Workers preserve others' edits and write evidence to their own changes/interview-01/blueprint-<area>-evidence.md.
+English source/comments; Italian default/English alternate. No remote assets, CDN or SDK at runtime (vendored local files with a recorded licence are allowed, I-249), no new applications, no production promises. Workers preserve others' edits and write evidence to their own changes/interview-01/blueprint-<area>-evidence.md.
 
 ## Integrated API additions
 

@@ -1,0 +1,37 @@
+{
+  "id": "map-sample-old-watch",
+  "path": "design/blueprint/assets/maps/sample/old-watch.webp",
+  "sha256": "6895bf96686c0873d162d497659d3f5ff291e30d2b7bb2fa4e57e80ea1ec2ac7",
+  "bytes": 324776,
+  "dimensions": "2000x1300 (2 px per scene unit; scene old-watch 1000x650, grid 50)",
+  "use": "Sample content: scene ground of 'old-watch' («Il cortile dell'osservatorio», campaign «Le lanterne di Bruma») while a round-1 direction is active. Walls, doors and measurements stay live data drawn by the app.",
+  "master": {
+    "path": "~/Workspace/Codex/d20-studio-visual-assets/masters/generated/old-watch-v1.png",
+    "sha256": "be5ff55a975964753aeba9117f1e5701b1dce8566fb20d5fe3169ce371c3567b",
+    "dimensions": "1536x1024",
+    "c2pa": "present in the master (claim generator OpenAI Media Service API; software agent ChatGPT; digital source type trainedAlgorithmicMedia); the WebP derivative does not carry it, so this record is the reference",
+    "raw_output": "~/.codex/generated_images/01a0f43f-50a9-74b0-9eac-9c7978df1ff3/exec-0eb39e53-b6b7-432f-ab00-667e81b00919.png (account data, never committed)"
+  },
+  "generator": "Codex built-in image_gen (owner ChatGPT plan)",
+  "generator_detail": "codex-cli 0.155.0-alpha.16.4, `codex exec --sandbox read-only`, feature image_generation, login: ChatGPT (OPENAI_API_KEY unset; no paid API)",
+  "date": "2026-09-30",
+  "codex_session_id": "01a0f43f-50a9-74b0-9eac-9c7978df1ff3",
+  "prompt_reference": "design/blueprint/assets/prompts/maps.md — MAP_01, «Prompt (attempt 1)»",
+  "reference_images": [
+    {
+      "what": "our own layout guide drawn from the scene data (no third-party pixels)",
+      "path": "~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/map-art/guide-input-3x2.png",
+      "sha256": "8e657f922a89ebab78ee40a4f917fb70b531058c62bde2f96f2b24d86f734f46",
+      "made_by": "map-art/make-guide.mjs (geometry from special-moves-domain.mjs COURTYARD_WALLS/DOORS and RUBBLE, regions-domain.mjs region-embers, preparation.mjs renderSceneBase)"
+    }
+  ],
+  "attempts": 1,
+  "alignment": "Accepted. Measured on the 2000x1300 mapping against the guide (overlay-v1.png): curtain-wall inner faces 0-5 units from the data lines; north-room walls within 4 units; both door leaves within 5 units, door openings within 5 units; well centre within 3 units, rim radius +4; the south-east room's north wall is painted 429-449 (data line 450 on its south face; courtyard face 12.5 units north of the guide band), the largest offset.",
+  "edits": [
+    "Uniform scale 2000/1536 of the 3:2 output, then drop the 16.67 px bands of outside ground that the 3:2 guide added above and below (magick -distort AffineProjection with viewport 2000x1300+0+0); geometry not shifted",
+    "Gaussian blur 0x0.7 at 2000x1300 to remove the generator's fine texture noise and meet the byte budget",
+    "cwebp -q 80 -m 6 -metadata none"
+  ],
+  "licence_note": "generated for the owner; likely not copyrightable (IT L.132/2025 art.25). OpenAI assigns the output to the owner; no third-party pixels, fonts, textures or logos; no text in the image.",
+  "owner_approval": "not yet (round 1 sample)"
+}
