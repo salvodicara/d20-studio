@@ -125,6 +125,15 @@
      16 px over its content, the session notice's commands on their own row → D&D Beyond sheet,
      site and Maps → facts §1, §3, §6; ddb-sheet-desktop-underdark-inventory-2025-frame.png,
      ddb-home-play-dnd-tiles-my-characters-2025-frame.png
+   - Fourth polish round (I-250, 01/10): whole 40 px favourite chips in the toggles' 13/18, one
+     28 px life-state box in the HP dialog too, a 40 px concentration ×, the spell sub-section
+     titles 16 px over their content, one height for every party portrait card, a 40 px HP chip
+     in the hotbar, one switch (40 × 22, red with a white knob; the theme red in the sheet), the
+     skills' names on the row's middle line, one CAST width, the Home cards' titles on one line
+     whether or not a header link sits beside them, wrapped rule links on the text edge → D&D
+     Beyond sheet (SKILLS, SPELLS «CAST», toggles), site cards and Maps portraits → facts §1, §3,
+     §6; ddb-sheet-desktop-live-presto-spells-1440x900.png, ddb-sheet-desktop-underdark-
+     inventory-2025-frame.png, ddb-home-play-dnd-tiles-my-characters-2025-frame.png
    Details, licences and the declared differences: SOURCES.md (Italian, for the owner). */
 
 /* ------------------------------------------------------------------ fonts (vendored, OFL)
@@ -764,6 +773,49 @@
   border-color: #e40712;
   background: radial-gradient(circle at 28px 50%, #ffffff 6px, transparent 6.5px) #e40712;
 }
+/* One switch everywhere (the core .switch, the campaign rules' switches, «Disponibile offline»,
+   «Ispirazione eroica»): a 40 × 22 track with a 12 px knob, on = the red filled with a white
+   knob — the sheet's theme red inside the character sheet, as its other active controls. They
+   had three «on» looks (#e40712 with a white knob, #ff5a4a with a dark one) and two sizes. */
+:root[data-direction="ddb"]:not([data-pref-theme="light"]) .cs-switch input:checked {
+  border-color: #e40712;
+  background: radial-gradient(circle at 28px 50%, #ffffff 6px, transparent 6.5px) #e40712;
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  :is(.offline-switch input, .dtray-switch input):checked
+  + :is(.offline-switch-track, .dtray-switch-track) {
+  border-color: #e40712;
+  background: #e40712;
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  :is(.offline-switch input, .dtray-switch input):checked
+  + :is(.offline-switch-track, .dtray-switch-track)::after {
+  background: #ffffff;
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.switch, .cs-switch input):checked {
+  border-color: #c53131;
+  background: radial-gradient(circle at 28px 50%, #ffffff 6px, transparent 6.5px) #c53131;
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.offline-switch input, .dtray-switch input):checked
+  + :is(.offline-switch-track, .dtray-switch-track) {
+  border-color: #c53131;
+  background: #c53131;
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"]) .dtray-switch-track {
+  /* The app's own switch geometry (styles.css .switch, offline.css), not a scale step. */
+  width: 40px;
+  height: 22px;
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"]) .dtray-switch-track::after {
+  top: var(--ddb-space-4);
+  left: var(--ddb-space-4);
+  width: var(--ddb-space-12);
+  height: var(--ddb-space-12);
+}
 
 /* Tabs: D&D Beyond's condensed caps with a 3 px underline in the red. Every tab row (here, the
    sheet's, the Home news panel's) is one recipe: 48 px, 12 px over and under, 8 px sides (the
@@ -1080,6 +1132,17 @@
   > .section-heading {
   gap: var(--ddb-space-8);
   margin-bottom: var(--ddb-space-16);
+}
+/* A header link («Tutte le campagne», «Tutte le discussioni», «Tutti gli annunci») keeps its
+   40 px target but no longer makes the title row 40 px: its box runs 6 px into the padding
+   above and below, so every card's title sits 24 px from its top edge and 16 px over its
+   content (the cards with a link had the title 6 px lower and 22 px over the content). */
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .home-page
+  :is(.cm-home, .chat-home, .community-home)
+  > .section-heading
+  > button {
+  margin-block: calc(var(--ddb-space-6) * -1);
 }
 :root[data-direction="ddb"]:not([data-pref-theme="light"]) .home-page .page-heading {
   margin-bottom: var(--ddb-space-24);
@@ -1742,16 +1805,48 @@
   background: rgb(12 16 19 / 0.82);
 }
 /* Favourites: split chips on the fields' dark well with the grey rim — the use half 40 px with
-   12 px sides and its words on one line, the tool half a 40 px square; a chip never shrinks. */
+   12 px sides and its words on one line, the tool half a 40 px square; a chip never shrinks.
+   The whole chip is 40 px like the effect toggles above it: the rim is drawn as an inset
+   outline over the halves (a border around them made it 42), and the chip no longer clips, so
+   a focused half shows its whole 3 px ring; the halves carry the 4 px corners themselves. */
 :root[data-direction="ddb"]:not([data-pref-theme="light"]) .character-sheet .shp-fav {
   flex: none;
-  border-color: #525c63;
+  border-width: 0;
   border-radius: var(--ddb-radius-4);
+  overflow: visible;
+  outline: var(--ddb-line-1) solid #525c63;
+  outline-offset: calc(var(--ddb-line-1) * -1);
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"]) .character-sheet .shp-fav.is-missing {
+  outline-style: dashed;
 }
 :root[data-direction="ddb"]:not([data-pref-theme="light"])
   .character-sheet
   :is(.shp-fav-use, .shp-fav-tool) {
+  border-radius: 0;
   background: #10161a;
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"]) .character-sheet .shp-fav-use {
+  border-radius: var(--ddb-radius-4);
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-fav:has(> .shp-fav-tool)
+  > .shp-fav-use {
+  border-start-end-radius: 0;
+  border-end-end-radius: 0;
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-fav-tool:last-of-type {
+  border-start-end-radius: var(--ddb-radius-4);
+  border-end-end-radius: var(--ddb-radius-4);
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-fav-use, .shp-fav-tool):focus-visible {
+  position: relative;
+  z-index: 1;
 }
 :root[data-direction="ddb"]:not([data-pref-theme="light"])
   .character-sheet
@@ -1760,8 +1855,8 @@
 }
 :root[data-direction="ddb"]:not([data-pref-theme="light"]) .character-sheet .shp-fav-use {
   padding: 0 var(--ddb-space-12);
-  font-size: var(--ddb-fs-14);
-  line-height: var(--ddb-lh-20);
+  font-size: var(--ddb-fs-13);
+  line-height: var(--ddb-lh-18);
   white-space: nowrap;
 }
 :root[data-direction="ddb"]:not([data-pref-theme="light"]) .character-sheet .shp-fav-tool {
@@ -2055,6 +2150,15 @@
   order: -1;
   min-width: 32px;
 }
+/* The abbreviation and the name on the row's middle line, level with the star, the proficiency
+   dot and the bonus box (the app aligns them by baseline at the top of the 40 px button, 8 px
+   above the rest of the row). Both are 14 px, so centring keeps one baseline. */
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-col-skills
+  .shp-row-name {
+  align-items: center;
+}
 /* A modified value is marked in D&D Beyond's blue (#1c9aef), never the alert red. */
 :root[data-direction="ddb"]:not([data-pref-theme="light"]) .character-sheet .shp-dot {
   background: #1c9aef;
@@ -2347,6 +2451,18 @@
 }
 :root[data-direction="ddb"]:not([data-pref-theme="light"]) .character-sheet .shp-action-group h3 {
   border-bottom-color: #333c41;
+}
+/* «Azioni in combattimento (2024)» and «Reazioni di tutti»: the line's links keep their 6 px
+   sides (hover and focus), but a link that wraps to the next line starts on the panel's text
+   edge, as the label does (it started 6 px in). */
+:root[data-direction="ddb"]:not([data-pref-theme="light"]) .character-sheet .shp-generic-line {
+  margin-inline-start: calc(var(--ddb-space-6) * -1);
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-generic-line
+  > strong {
+  margin-inline-start: var(--ddb-space-6);
 }
 :root[data-direction="ddb"]:not([data-pref-theme="light"])
   .character-sheet
@@ -3905,8 +4021,12 @@
 :root[data-direction="ddb"]:not([data-pref-theme="light"]) .character-sheet .spl-row-actions {
   gap: var(--ddb-space-4);
 }
-/* CAST: the theme-filled button of the spell table; DETAILS and COMPARE as quiet grey words. */
+/* CAST: the theme-filled button of the spell table, one width for «Lancia» and «Lancia ▾» (two
+   44 px steps), so the column of CAST buttons lines up as in D&D Beyond (the cantrip's was 16 px
+   narrower); DETAILS and COMPARE as quiet grey words. */
 :root[data-direction="ddb"]:not([data-pref-theme="light"]) .character-sheet .button.spl-cast {
+  justify-content: center;
+  min-width: calc(var(--ddb-control-44) * 2);
   border-color: #c53131;
   background: #c53131;
   color: #ffffff;
@@ -4693,11 +4813,12 @@
   > span:first-child {
   grid-row: 1;
 }
-/* Conditions, the turn's resources, the sheet's notes and forms on the scale. */
-:root[data-direction="ddb"]:not([data-pref-theme="light"])
-  :is(.character-sheet, .table-layout)
-  .conditions-vital {
+/* Conditions, the turn's resources, the sheet's notes and forms on the scale. The life state
+   («Cosciente») is one box wherever it shows — the sheet, the Table's panel and the HP dialog:
+   28 px, 12 px sides, 13/18 bold, white (the sheet had it grey, the dialog 30 px at 600). */
+:root[data-direction="ddb"]:not([data-pref-theme="light"]) .conditions-vital {
   padding-inline: var(--ddb-space-12);
+  color: #ffffff;
   font-size: var(--ddb-fs-13);
   font-weight: 700;
   line-height: var(--ddb-lh-18);
@@ -4706,7 +4827,8 @@
    dialog): D&D Beyond's 4 px boxes. The life state stays a 28 px box; each active condition is
    a 40 px chip on the fields' dark well with the grey rim drawn inside (so a controller's chip,
    the button that manages it, is 40 px too), its words 13/18 bold and centred; concentration
-   keeps the red rim, its × a 32 px square 4 px from the rim. */
+   keeps the red rim, its × a whole 40 px square at the chip's end (a hovered half keeps the
+   chip's rim). */
 :root[data-direction="ddb"]:not([data-pref-theme="light"]) .conditions-vital {
   border-radius: var(--ddb-radius-4);
 }
@@ -4738,7 +4860,7 @@
 }
 :root[data-direction="ddb"]:not([data-pref-theme="light"])
   .conditions-chip:has(> .conditions-chip-end) {
-  padding-inline-end: var(--ddb-space-4);
+  padding-inline-end: 0;
 }
 :root[data-direction="ddb"]:not([data-pref-theme="light"]) .conditions-chip-manage {
   display: inline-flex;
@@ -4751,12 +4873,18 @@
 :root[data-direction="ddb"]:not([data-pref-theme="light"])
   :is(.conditions-chip-manage, .conditions-chip-end):hover {
   background: #374045;
+  box-shadow: inset 0 0 0 var(--ddb-line-1) #525c63;
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .conditions-chip.is-concentration
+  > :is(.conditions-chip-manage, .conditions-chip-end):hover {
+  box-shadow: inset 0 0 0 var(--ddb-line-1) #e40712;
 }
 :root[data-direction="ddb"]:not([data-pref-theme="light"]) .conditions-chip-end {
   display: inline-grid;
   place-items: center;
-  min-width: var(--ddb-space-32);
-  min-height: var(--ddb-space-32);
+  min-width: var(--ddb-control-40);
+  min-height: var(--ddb-control-40);
   margin: 0;
   padding: 0;
   border-radius: var(--ddb-radius-4);
@@ -4990,8 +5118,10 @@
   margin-top: 0;
   border-top: 0;
 }
+/* «Incantesimi dagli oggetti» and «Focus e componenti» are panel titles too: 16 px over their
+   content, as every other panel title of the sheet's tabs (they had 8). */
 :root[data-direction="ddb"]:not([data-pref-theme="light"]) .character-sheet .spl-section > h3 {
-  margin: 0 0 var(--ddb-space-8);
+  margin: 0 0 var(--ddb-space-16);
   color: #f06a6a;
   font-family: var(--font-label);
   font-size: var(--ddb-caps-13);
@@ -5101,6 +5231,22 @@
   gap: var(--ddb-space-4);
   padding-bottom: var(--ddb-space-4);
 }
+/* Every portrait card one height: the HP bar's row is kept when a player does not see that
+   companion's hit points (Doran's card was 8 px shorter in the player's view, 4 on a phone). */
+:root[data-direction="ddb"]:not([data-pref-theme="light"]) .table-layout .table-party-member {
+  grid-template-rows: auto auto var(--ddb-space-4);
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-party.is-compact
+  .table-party-member {
+  grid-template-rows: auto var(--ddb-space-4);
+}
+@media (max-width: 720px) {
+  :root[data-direction="ddb"]:not([data-pref-theme="light"]) .table-layout .table-party-member {
+    grid-template-rows: auto var(--ddb-space-4);
+  }
+}
 /* The party's HP bar 4 px (the app's 5), so every portrait card is on the 2 px scale. */
 :root[data-direction="ddb"]:not([data-pref-theme="light"]) .table-layout .table-party-hp {
   height: var(--ddb-space-4);
@@ -5201,8 +5347,11 @@
   font-size: var(--ddb-fs-13);
   line-height: var(--ddb-lh-18);
 }
+/* The HP chip opens the hit points: a 40 px target on the computer too (it was 28; the phone
+   already had 40). */
 :root[data-direction="ddb"]:not([data-pref-theme="light"]) .table-hotbar .hotbar-hp {
   gap: var(--ddb-space-4);
+  min-height: var(--ddb-control-40);
   padding: 0 var(--ddb-space-8);
   font-size: var(--ddb-fs-12);
 }

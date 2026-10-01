@@ -128,7 +128,7 @@ file sotto) sono in `…/round1/bg3/_pairs/`.
 | Scheda · Inventario      | `sheet-inventory-dark-1440-bg3.png`                                                          | `bg3-panels-tooltip-skill.png` (barra del peso, griglia, ricerca); `bg3-panels-context-menu-inventory.jpg` (banda del gruppo «Adrianna»)                                                          | 1440 × 900             | `pair-inventory.png`                                                                                            |
 | Finestra dell'iniziativa | `dialog-initiative-dark-1440-bg3.png`                                                        | `bg3-panels-reactions-menu.png` (righe con la spunta); `bg3-dice-crop-roll-panel-advantage.png` (numero del risultato); `bg3-panels-subclass-select-steam.jpg` (cornice)                          | 1440 × 900             | `pair-initiative.png`, `pair-dialog.png`                                                                        |
 | Menu della pedina        | `token-menu-dark-1440-bg3.png`                                                               | `bg3-panels-context-menu-inventory.jpg` (ritaglio del menu)                                                                                                                                       | 1440 × 900             | `pair-token-menu.png`                                                                                           |
-| Menu del calendario      | sonda `probe-bg3/fix5/cal-390.png`, `cal-1440.png` («Aggiungi al calendario» aperto, Inizio) | `bg3-panels-context-menu-inventory.jpg` (ritaglio del menu)                                                                                                                                       | 390 × 844 e 1440 × 900 | `pair-calendar-menu.png`                                                                                        |
+| Menu del calendario      | sonda `probe-bg3/fix6/cal-390.png`, `cal-1440.png` («Aggiungi al calendario» aperto, Inizio) | `bg3-panels-context-menu-inventory.jpg` (ritaglio del menu)                                                                                                                                       | 390 × 844 e 1440 × 900 | `pair-calendar-menu.png`                                                                                        |
 | Fascia della scheda      | `sheet-dark-1440-bg3.png` (ritaglio della fascia)                                            | `bg3-sheet-examine-enemy.jpg` (riga STR–CHA, scudo)                                                                                                                                               | 1440 × 900             | `pair-band.png`                                                                                                 |
 
 ## Differenze dichiarate
@@ -229,6 +229,12 @@ file sotto) sono in `…/round1/bg3/_pairs/`.
   di 1 px vinceva sul bordo di 2 px (verificato di nuovo: «Entra al Tavolo» ha 2 px pieni). Anche i
   bottoni rotondi del Tavolo prendono quel colore. Le caselle di spunta tornano quelle del
   browser.
+- **Interruttori.** BG3 non ha interruttori a slitta: le sue scelte sì/no sono caselle. I tre
+  interruttori della scheda («Il DM può modificare questa scheda», «Ispirazione eroica»,
+  «Disponibile offline») e quello di base dell'app restano interruttori, nei colori di questa
+  opzione (pozzetto scuro, filo e pomello di bronzo; acceso crema col pomello scuro a destra) e
+  tutti della stessa misura (40 × 22 px, pomello di 12 px). Così un interruttore non si confonde
+  con una casella di spunta, come oggi.
 - **Menu della pedina.** Il menu contestuale di BG3 ha solo parole. Il nostro tiene in testa il
   gettone, il nome, i punti ferita modificabili e l'aiuto, e accanto a ogni comando la sua
   piccola icona (disegnata dall'app): sono dati e comandi che BG3 mette altrove. Le icone sono
@@ -266,16 +272,16 @@ Ogni spazio, carattere, interlinea, raggio, bordo e altezza dei comandi che ques
 viene da una sola scala, presa dalle misure di BG3 (`direction.css`, blocco «scales», gettoni
 `--bg3-*`). BG3 disegna la sua interfaccia su 3840 × 2160 a passi di 4 unità, cioè 2 px a 1080p.
 
-| Cosa                               | Valori                                                                                                                                                                                                                                                                                                                | Da dove viene                                                                                                           |
-| ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| Spazi (margini, rientri, distanze) | 2 · 4 · 6 · 8 · 12 · 16 · 24 · 32 · 48 px                                                                                                                                                                                                                                                                             | passo di 4 unità a 4K; 12 unità tra i bottoni del menu (6 px) e il doppio tra i gruppi (facts A5)                       |
-| Caratteri                          | 11 · 12 · 14 · 15 · 16 · 18 · 19 · 20 · 22 · 24 · 26 · 28 · 35 · 40 px (Tiny … Humongous)                                                                                                                                                                                                                             | `DefaultTheme.Fonts.xaml` di BG3 (facts A0.1); al telefono ogni passo sale di uno, come nell'interfaccia col controller |
-| Interlinee                         | 1 (numeri in un riquadro) · 1,1 · 1,15 · 1,4 (testo corrente)                                                                                                                                                                                                                                                         | rapporti di BG3: Humongous 88/80, Small 32/28 e Title 55/48, Intermediate 54/38                                         |
-| Raggi                              | 2 (caselle, lastre e ogni pannello) · 4 (etichette) · 6 (cornici dei ritratti) · 8 (tooltip, carte dei turni) px, più pillola e cerchio                                                                                                                                                                               | facts A1, A3                                                                                                            |
-| Bordi                              | 1 (filo dei pannelli) · 2 (bevel dei tooltip, cornici, bottoni rotondi) · 3 (cornici dei ritratti) · 5 (ghiera di «Termina turno») · 6 (separatore rosso) px                                                                                                                                                          | facts A1, A3                                                                                                            |
-| Altezze dei comandi                | 40 (bottone grande di BG3, anche minimo dell'app) · 44 (casella della barra e schede, per il tocco) · 28 (fascia dei PF) px                                                                                                                                                                                           | facts A3 (`Btn_big` 428 × 80 a 4K), A1 (slot 88 a 4K)                                                                   |
-| Geometria con nome                 | casella del deck 58 × 48 (telefono 64 × 52), disco «Termina turno» 98, riccioli 88 (48 al telefono), etichetta 22, losanga in colonna 214, colonna numerica 64, icona della casella 18, icona della barra in basso 24 px                                                                                              | facts A1, A3                                                                                                            |
-| Componenti                         | un solo campo (40 px, capsula, 16 px dentro, testo 16), una sola pillola (40 px, 4 · 16 px dentro, testo 14 seminegretto, scelta accesa in bronzo), una sola riga di menu (40 px, 4 · 8 px dentro, testo 18), una sola losanga (40 px, 24 px dentro; 16 al telefono), un solo bottone rotondo (40 px, ghiera di 2 px) | BG3: ricerca dell'inventario, `btn_pil`, menu contestuale, `Btn_big`, bottoni rotondi (facts A1, A3)                    |
+| Cosa                               | Valori                                                                                                                                                                                                                                                                                                                                                                                      | Da dove viene                                                                                                           |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Spazi (margini, rientri, distanze) | 2 · 4 · 6 · 8 · 12 · 16 · 24 · 32 · 48 px                                                                                                                                                                                                                                                                                                                                                   | passo di 4 unità a 4K; 12 unità tra i bottoni del menu (6 px) e il doppio tra i gruppi (facts A5)                       |
+| Caratteri                          | 11 · 12 · 14 · 15 · 16 · 18 · 19 · 20 · 22 · 24 · 26 · 28 · 35 · 40 px (Tiny … Humongous)                                                                                                                                                                                                                                                                                                   | `DefaultTheme.Fonts.xaml` di BG3 (facts A0.1); al telefono ogni passo sale di uno, come nell'interfaccia col controller |
+| Interlinee                         | 1 (numeri in un riquadro) · 1,1 · 1,15 · 1,4 (testo corrente)                                                                                                                                                                                                                                                                                                                               | rapporti di BG3: Humongous 88/80, Small 32/28 e Title 55/48, Intermediate 54/38                                         |
+| Raggi                              | 2 (caselle, lastre e ogni pannello) · 4 (etichette) · 6 (cornici dei ritratti) · 8 (tooltip, carte dei turni) px, più pillola e cerchio                                                                                                                                                                                                                                                     | facts A1, A3                                                                                                            |
+| Bordi                              | 1 (filo dei pannelli) · 2 (bevel dei tooltip, cornici, bottoni rotondi) · 3 (cornici dei ritratti) · 5 (ghiera di «Termina turno») · 6 (separatore rosso) px                                                                                                                                                                                                                                | facts A1, A3                                                                                                            |
+| Altezze dei comandi                | 40 (bottone grande di BG3, anche minimo dell'app) · 44 (casella della barra e schede, per il tocco) · 28 (fascia dei PF) px                                                                                                                                                                                                                                                                 | facts A3 (`Btn_big` 428 × 80 a 4K), A1 (slot 88 a 4K)                                                                   |
+| Geometria con nome                 | casella del deck 58 × 48 (telefono 64 × 52), disco «Termina turno» 98, riccioli 88 (48 al telefono), etichetta 22, losanga in colonna 214, colonna numerica 64, icona della casella 18, icona della barra in basso 24 px                                                                                                                                                                    | facts A1, A3                                                                                                            |
+| Componenti                         | un solo campo (40 px, capsula, 16 px dentro, testo 16), una sola pillola (40 px, 4 · 16 px dentro, testo 14 seminegretto, scelta accesa in bronzo), una sola riga di menu (40 px, 4 · 8 px dentro, testo 18), una sola losanga (40 px, 24 px dentro; 16 al telefono), un solo bottone rotondo (40 px, ghiera di 2 px), un solo interruttore (40 × 22, pomello di 12 px, 12 px dalle parole) | BG3: ricerca dell'inventario, `btn_pil`, menu contestuale, `Btn_big`, bottoni rotondi (facts A1, A3)                    |
 
 Controllo: lo strumento di verifica (`changes/visual-01/audit/`) sull'app vera, 20 schermate,
 01/10/2026, dopo il secondo giro di correzioni (`…/probe-bg3/fix2/audit/audit.md`; prima, la
@@ -586,6 +592,101 @@ Verifiche dopo l'ultima modifica del foglio di stile (13:28:06):
 - Le 15 schermate del giro 1 e il foglio di contatto sono stati rifatti dopo quell'ora
   (13:33–13:34) e aperti uno per uno. Le 31 coppie in `_pairs/` sono state rifatte da capo con
   `fix5/pairs.sh` (13:35–13:37), col menu del calendario aperto da `fix5/cal.cjs`.
+
+### Quarto giro di rifinitura (01/10/2026)
+
+Dopo la sesta verifica indipendente (`…/visual-01/notes/open-items-round4.json`, voce `bg3`: un
+punto medio e tre bassi, tutti fatti) e un quarto passaggio di I-250 con lo strumento di verifica,
+il campionario e le pagine intere (scheda, Inizio scorso, Magie, Inventario, Tavolo). Prove in
+`…/visual-01/probe-bg3/fix6/`: prima `audit-before/` (la misura delle 13:39, dopo l'ultima
+modifica del giro precedente), `specimen-before/`, `before/` (le 15 schermate del giro 1),
+`direction-before.css`; dopo `…/visual-01/audit/bg3/audit.md`, `audit-below-after/`,
+`specimen-after/`, `items/` (`items.cjs`: i quattro punti misurati nell'app vera).
+
+| Misura (20 schermate del giro 1)               | Prima        | Dopo         |
+| ---------------------------------------------- | ------------ | ------------ |
+| Valori di spazio distinti (fuori scala)        | 27 (14)      | 27 (14)      |
+| Distanze tra gli elementi (gap) distinte       | 11           | 10           |
+| Spazi sul passo di 2 px                        | 99,4 %       | 99,4 %       |
+| Altezze dei comandi                            | 22           | 23           |
+| Grandezze dei caratteri · stili di testo       | 16 · 71      | 16 · 71      |
+| Ombre                                          | 48           | 48           |
+| Colori (testo · fondo · bordo)                 | 21 · 28 · 33 | 21 · 28 · 33 |
+| Varianti dei bottoni (classi con più varianti) | 77 (11)      | 77 (11)      |
+| Varianti delle schede (linguette)              | 8            | 8            |
+| Varianti delle lastre e dei pannelli           | 41 (6)       | 41 (6)       |
+| Varianti di caselle e interruttori (classi)    | 6 (1)        | 8 (2)        |
+| Bottoni con il margine predefinito del browser | 0            | 0            |
+| Contrasto AA sotto soglia                      | 0 su 1219    | 0 su 1217    |
+
+| Misura (8 schermate a pagina intera)           | Prima     | Dopo      |
+| ---------------------------------------------- | --------- | --------- |
+| Valori di spazio distinti (fuori scala)        | 27 (12)   | 27 (12)   |
+| Varianti dei bottoni (classi con più varianti) | 73 (10)   | 73 (10)   |
+| Varianti delle lastre e dei pannelli           | 35 (4)    | 35 (4)    |
+| Bottoni con il margine predefinito del browser | 0         | 0         |
+| Contrasto AA sotto soglia                      | 0 su 1416 | 0 su 1416 |
+
+La misura a pagina intera «prima» è quella delle 13:39 (`fix5/audit-below-after/`, già dopo
+l'ultima modifica del giro precedente). Le due righe che salgono vengono dall'interruttore
+«Il DM può modificare questa scheda»: prima era disegnato come una casella di spunta (20 px),
+ora è l'interruttore (22 px), un componente a sé che lo strumento conta tra le caselle; le sue
+due varianti differiscono solo per la grandezza del testo ereditata a 1440 e a 390, che un
+interruttore non mostra (lo stesso vale per le caselle «Attiva» e per la spunta tonda).
+
+Cosa è cambiato:
+
+- **Anello del fuoco di «Termina turno»** (punto medio). L'anello di 3 px sta a 3 px dal disco,
+  come in «Attuale» (era a 7 px e usciva dalla finestra: in basso a 1440, a destra a 390). Ora
+  arriva a 898,5 px su 900 a 1440 e a 388 su 390 a 390 (`items/items-bg3.json`,
+  `items/endturn-focus-*.png`): copre il pixel esterno dell'anello azzurro e resta un anello
+  oro chiaro attorno a quello azzurro.
+- **Interruttori** (basso). La casella quadrata di bronzo non ridisegna più gli interruttori
+  (`.switch`, `.cs-switch`, `.dtray-switch`, `.offline-switch`; con `:where()`, quindi la regola
+  delle caselle pesa come prima). «Il DM può modificare questa scheda» torna un interruttore
+  accanto agli altri due; i tre hanno la stessa traccia di 40 × 22 px, lo stesso pomello di
+  12 px (quello di «Ispirazione eroica» era 44 × 26 con un pomello di 18) e le parole a 12 px
+  (erano 12, 8 e 10: sparisce la distanza di 10 px fuori scala). La traccia della riga parte
+  con la prima riga delle parole (il margine di 3 px dell'app la abbassava di 3 px).
+- **«Aggiungi al calendario»** (basso). Il riepilogo disegnato come losanga ha il crema delle
+  losanghe (`#e6dbc2`, come «Apri sessioni» sotto di lui); il giallo chiaro resta ai riepiloghi
+  che aprono una sezione («Novità precedenti», «Primi passi», «Perché?»).
+- **«Registra concentrazione»** (basso). Il blocco senza concentrazione è una colonna a ogni
+  larghezza, come le frasi col loro comando: titolo, stato e comando uno sotto l'altro, il
+  comando con le lettere sul filo del testo (a 1440 stava 12 px dopo «Nessun effetto in
+  corso.», sopra i suoi ultimi 4 px).
+- **Cura e Danno** (I-250, campionario). Nel riquadro dei punti ferita del Tavolo erano due
+  losanghe di bronzo; ora sono la losanga blu-verde e quella rossa, come nella fascia della
+  scheda.
+- **Inizio scorso, «Primi passi»** (I-250, sotto la piega). Senza il maiuscoletto
+  dell'app, «Primi passi» e «Da dove vuoi iniziare?» si leggevano come un'unica frase in
+  grassetto dello stesso colore: l'etichetta prende il bronzo e il peso delle altre etichette
+  (4,8:1 sul fondo, misura dello strumento).
+- **Scheda sotto la piega, «Chi può modificare la scheda»** (I-250). Il sottotitolo «Modifiche
+  del DM a questa scheda» sta 24 px sotto le parole dell'interruttore, la distanza tra i gruppi
+  (era 8, attaccato alla riga).
+
+Restano, e sono dichiarati, quelli dei giri precedenti. In più: l'interruttore conta come
+comando alto 22 px (è l'interruttore, non un bersaglio: il bersaglio è la riga di 44 px).
+
+Verifiche dopo l'ultima modifica del foglio di stile (15:11:09):
+
+- Sonda delle garanzie (`fix6/probe.cjs`, copia di quella del giro precedente, `fix6/probe/`,
+  `probe-390.txt`, `probe-1440.txt`; `fix6/cancel.cjs`, `cancel.txt`):
+  - intestazione del Tavolo su una fila (63 px) in combattimento, da DM e in esplorazione a 390;
+  - nessuno scorrimento laterale a 390 e a 1440;
+  - «Termina turno», «Annulla ultima modifica» ed «Esc · Annulla preparazione» interi sullo
+    schermo a 390, da giocatore e da DM;
+  - barra in basso alta 114 px a 1440;
+  - «Entra al Tavolo» tra 556 e 596 px a 390;
+  - sotto i 40 px restano solo i comandi della striscia di sviluppo e la fascia dei punti ferita
+    della barra.
+- Il test `tests/visual01-directions.test.mjs` passa (7 su 7). Nessuna regola senza prefisso
+  (`notes/prefix-audit.js`), nessun `!important`. Prettier passa.
+- Strumento di verifica: 20 stati su 20 e 8 su 8 a pagina intera, nessun testo sotto soglia AA.
+- Le 15 schermate del giro 1 e il foglio di contatto sono stati rifatti dopo quell'ora
+  (15:15–15:17) e aperti uno per uno. Le 31 coppie in `_pairs/` sono state cancellate e rifatte
+  da capo con `fix6/pairs.sh` (15:18–15:19), col menu del calendario aperto da `fix6/cal.cjs`.
 
 ## Licenze e attribuzioni
 

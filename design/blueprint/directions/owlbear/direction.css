@@ -134,7 +134,16 @@
      the news actions always on two lines → O15, MUI CardActions
    - selects with the outlined field's recipe; active conditions as the filter chips'
      40 px pills; the Exhaustion levels reached in the warning amber; the inventory's bag
-     toggles as 40 px icon buttons → O10, O12, MUI Chip, IconButton */
+     toggles as 40 px icon buttons → O10, O12, MUI Chip, IconButton
+   (01/10/2026, fourth polish round after the sixth verification, block «FOURTH POLISH ROUND»)
+   - «Torna al Tavolo» as the notices' info strip on the app bar's gutter, its action the quiet
+     text button → O14 info strip, MUI Button (text)
+   - one switch everywhere: Owlbear's 42 × 26 track, 24 px thumb, lavender when on; switch
+     labels body1 regular, 8 px from the track → bundle MuiSwitch (facts.md), O10, O16
+   - the vital-state chip as the status badges (24 px, caption); captions on their 20 px line;
+     the weapon properties as 40 px outlined chips → MUI Chip, typography
+   - Home: news as MUI list items (8 px), headings that wrap 8 px apart, the appointment's
+     actions on one line → MUI List, CardActions → O15 */
 
 /* ------------------------------------------------------------------ Roboto (vendored) */
 @font-face {
@@ -4020,7 +4029,8 @@
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
   .character-sheet
-  :is(.offline-switch, .invp .section-heading) {
+  .invp
+  .section-heading {
   gap: var(--ob-sp-15) var(--ob-sp-2);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .empty-state {
@@ -4966,4 +4976,212 @@
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .invp-toggle:hover {
   background: var(--ob-hover);
+}
+
+/* ================================================================== FOURTH POLISH ROUND */
+/* 01/10/2026, after the sixth verification (open-items-round4): the «Torna al Tavolo» strip,
+   one switch, the Home side card at 1440 × 900, one vital chip, the captions' 20 px line, the
+   Home headings' wrap gap and the appointment's actions. */
+
+/* «Torna al Tavolo» (Home and sheet once a Table session is open): the info strip of the
+   notices (white 5 % over the page, grey caption) under the app bar, on the app bar's own side
+   gutter; the action is the quiet text button (8 px inside, 8 px out so its label meets the
+   gutter), the note centred on the button's line. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-return {
+  align-items: center;
+  gap: var(--ob-sp-2);
+  padding: var(--ob-sp-05) var(--ob-sp-25);
+  border-bottom: var(--ob-bw-1) solid var(--line);
+  background: rgb(255 255 255 / 0.05);
+  color: var(--muted);
+  font-size: var(--ob-fs-caption);
+  line-height: var(--ob-lh-caption);
+  letter-spacing: var(--ob-track-caption);
+}
+@media (min-width: 1101px) {
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-return {
+    padding-inline: var(--ob-sp-3);
+  }
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-return button {
+  gap: var(--ob-sp-1);
+  min-height: var(--ob-h-sm);
+  margin-inline-start: calc(-1 * var(--ob-sp-1));
+  padding: var(--ob-sp-1);
+  border-radius: var(--radius-sm);
+  color: var(--accent);
+  font-family: var(--font-ui);
+  font-size: var(--ob-fs-button);
+  font-weight: 500;
+  line-height: var(--ob-lh-button);
+  letter-spacing: var(--ob-track-button);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-return button:hover {
+  background: rgb(187 153 255 / 0.08);
+}
+@media (max-width: 720px) {
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-return button {
+    font-size: var(--ob-fs-button-sm);
+  }
+}
+
+/* One switch (I-250): Owlbear's own MUI Switch (bundle MuiSwitch, facts.md 2B; O10 Snapping):
+   a 42 × 26 track with a 1 px outline on the darker paper, a 24 px thumb filling its height,
+   16 px of travel; on, the thumb lavender on a lavender 50 % track. The same recipe for the
+   core switch, the campaign rows' switch, the offline switch, the dice tray's inspiration
+   switch and the sheet's effect switches (the thumb's position says on or off, not only its
+   colour). */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(
+    .switch,
+    .cs-switch input,
+    .offline-switch-track,
+    .dtray-switch-track,
+    .character-sheet .shp-switch-knob
+  ) {
+  width: var(--ob-switch-w);
+  height: var(--ob-switch-h);
+  border: var(--ob-bw-1) solid var(--line-strong);
+  border-radius: var(--ob-radius-pill);
+  box-shadow: none;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(.offline-switch-track, .dtray-switch-track, .character-sheet .shp-switch-knob) {
+  background: var(--surface-2);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) :is(.switch, .cs-switch input) {
+  margin: 0;
+  background: radial-gradient(
+      circle at calc(var(--ob-icon) / 2) 50%,
+      #e0e0e0 calc(var(--ob-icon) / 2 - 0.5px),
+      transparent calc(var(--ob-icon) / 2)
+    )
+    var(--surface-2);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(.switch, .cs-switch input):checked {
+  border-color: var(--line-strong);
+  background: radial-gradient(
+      circle at calc(100% - var(--ob-icon) / 2) 50%,
+      var(--accent) calc(var(--ob-icon) / 2 - 0.5px),
+      transparent calc(var(--ob-icon) / 2)
+    )
+    rgb(187 153 255 / 0.5);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(.offline-switch-track, .dtray-switch-track, .character-sheet .shp-switch-knob)::after {
+  top: 0;
+  left: 0;
+  width: var(--ob-icon);
+  height: var(--ob-icon);
+  background: #e0e0e0;
+  box-shadow: none;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(
+    .offline-switch input:checked + .offline-switch-track,
+    .dtray-switch input:checked + .dtray-switch-track,
+    .character-sheet .shp-switch[aria-checked="true"] .shp-switch-knob,
+    .character-sheet .shp-switch.is-static.is-on .shp-switch-knob
+  ) {
+  border-color: var(--line-strong);
+  background: rgb(187 153 255 / 0.5);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(
+    .offline-switch input:checked + .offline-switch-track,
+    .dtray-switch input:checked + .dtray-switch-track
+  )::after {
+  transform: translateX(calc(var(--ob-switch-w) - var(--ob-icon) - 2 * var(--ob-bw-1)));
+  background: var(--accent);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(
+    .character-sheet .shp-switch[aria-checked="true"] .shp-switch-knob,
+    .character-sheet .shp-switch.is-static.is-on .shp-switch-knob
+  )::after {
+  left: calc(var(--ob-switch-w) - var(--ob-icon) - 2 * var(--ob-bw-1));
+  background: var(--accent);
+}
+
+/* Switch labels: MUI FormControlLabel, body1 regular in white, 8 px from the track (Owlbear's
+   switch margin); a helper line stays grey body2 (the app's labels were 400, 500 and 700, the
+   track 8, 12 and 16 px away). */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(.offline-switch, .dtray-switch, .cs-switch, .character-sheet .shp-switch) {
+  gap: var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(.character-sheet .offline-switch > span, .cs-switch strong) {
+  font-weight: 400;
+}
+
+/* The Home side card at 1440 × 900: its news as MUI list items, 8 px above and below each
+   (the app's 12; the first one starts right under the panel's head), so the card fits its
+   868 px sticky box and keeps its 24 px foot. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .home-news-item {
+  padding-block: var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .home-page
+  .home-panel
+  > .home-news
+  > .home-news-item:first-child {
+  padding-top: 0;
+}
+
+/* The vital-state chip is a status badge like the action-economy badges beside the actions
+   (a dot, a word, white 16 %): one size on the sheet and at the Table (it was 12 and 14 px,
+   30 px high), the small chip's 24 px, 8 px inside, the dot 4 px from a caption label. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .conditions-vital {
+  gap: var(--ob-sp-05);
+  min-height: var(--ob-h-xs);
+  padding: 0 var(--ob-sp-1);
+  font-size: var(--ob-fs-caption);
+  font-weight: 400;
+  line-height: var(--ob-lh-caption);
+  letter-spacing: normal;
+}
+
+/* Captions on their 20 px line (MUI caption 12/1.66) on Home and in the sheet (the app's 18):
+   small notes and meta lines, sources, the weapon set's «in mano»; the spell component badges
+   and the policy badges are small chips (24 px, as the other badges), the weapon properties
+   40 px outlined chips with the chips' 12 px inside and body2 label. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(.home-page, .character-sheet)
+  :is(small, .invp-sets em, .travel-source, .character-feature-source, .jp-source) {
+  line-height: var(--ob-lh-caption);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-badge, .ct-badge) {
+  min-height: var(--ob-h-xs);
+  line-height: var(--ob-lh-caption);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .ct-badge {
+  align-items: center;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .shp-prop {
+  padding-inline: var(--ob-sp-15);
+  font-size: var(--ob-fs-body2);
+  font-weight: 500;
+  line-height: var(--ob-lh-body2);
+  letter-spacing: var(--ob-track-body2);
+}
+
+/* Home headings that wrap (phone): one 8 px step between the title and what follows it, a
+   helper line or a text action (the app's 12, 8 and 0 px). */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .section-heading {
+  row-gap: var(--ob-sp-1);
+}
+
+/* «Prossimo appuntamento»: «Aggiungi al calendario» sits on the actions' line like «Apri
+   sessioni» (its wrapper kept the app's 8 px top margin, 4 px lower between 721 and 1100 px);
+   the actions' gap spaces the lines when they wrap. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .home-page
+  .home-appointment-actions
+  .int-card-calendar {
+  margin-block: 0;
 }

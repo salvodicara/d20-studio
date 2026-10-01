@@ -5,7 +5,8 @@
   passaggio di chiusura sulle misure); rifinito il 01/10/2026 dopo la terza verifica (giro di cura
   I-250: una sola ricetta per ogni tipo di componente, vedi «Coerenza (I-250)»); secondo giro di
   cura lo stesso giorno, dopo la quarta verifica (vedi «Secondo giro»); terzo giro lo stesso
-  giorno, dopo la quinta verifica (vedi «Terzo giro»).
+  giorno, dopo la quinta verifica (vedi «Terzo giro»); quarto giro lo stesso giorno, dopo la
+  sesta verifica (vedi «Quarto giro»).
 - **Direzione:** `ddb` («2 · D&D Beyond» nel selettore «Direzione»), Fase C, Scelta 1 — Direzione (I-248).
 - **File di questa opzione:** `direction.css` (tutto l'aspetto), `icons.mjs` (le icone),
   `assets/campaign-backdrop.webp` e `assets/creation-scene.webp` (due illustrazioni tue).
@@ -16,7 +17,8 @@
   elemento, comportamenti e i valori dei colori.
 - **Schermate:** `~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/round1/ddb/` (15
   schermate; le coppie «nostra · riferimento» sono in `round1/ddb/_pairs/`). Schermate e coppie
-  sono state rifatte dopo l'ultima modifica di `direction.css` (01/10/2026, 13:37).
+  sono state rifatte dopo l'ultima modifica di `direction.css` (01/10/2026, 15:24; schermate
+  15:25, coppie 15:27).
 
 ## In tre righe
 
@@ -97,6 +99,7 @@
 | Finestra dell'iniziativa: i combattenti come righe piatte su un filo (niente riquadri), l'ordine in grigio, il nome in grassetto sopra una riga grigia piccola, il d20 in un campo scuro arrotondato, il totale come numero bianco; TIRA TUTTI e INIZIA COMBATTIMENTO rossi, TIRA PNG con il bordo; la finestra con il titolo nel carattere dei titoli e le righe oro                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | D&D Beyond Maps, pannello «Combat Encounter» (4 PARTY MEMBERS, AUTO INITIATIVE, START COMBAT) nella finestra 2026                                          | `ddb-maps-combat-encounter-list-2024-frame.png` (manifest #60; <https://www.dndbeyond.com/posts/1841-roll-for-initiative-combat-tracking-comes-to-the>), `ddb-maps-conditions-modal-2026-frame.png`                                                                                   |
 | Menu della pedina: angoli vivi e un filo oro sottile; una fascia di testa più scura (l'icona della pedina in un quadrato arrotondato a bordo grigio, il nome nel carattere dei titoli molto nero, i punti ferita piccoli e grigi) sopra la fascia delle azioni; ogni azione con l'icona bianca a tratto e una parola breve in maiuscoletto grassetto grigio chiaro; fili sottili fra i gruppi                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | D&D Beyond Maps, menu della pedina 2026 (HP · ADD · ART · HIDE · RING · LOCK · MORE) e il suo pannello dei punti ferita                                    | `ddb-maps-token-menu-2026-frame.png`, `ddb-maps-token-hp-panel-2026-frame.png` (<https://www.dndbeyond.com/attachments/12/924/tokenmenu.gif>)                                                                                                                                         |
 | Tavolo in esplorazione: le zone della mappa (Brace ardenti, Scale per la cripta, la trappola) come gli spilli di Maps: un **rombo** scuro con il bordo oro e il glifo bianco, il nome in grassetto su una targhetta scura a estremità squadrate attaccata al rombo; i nomi degli spilli del DM («Pozzo del cortile») sulla stessa targhetta, staccati dalla punta dello spillo; il resto del Tavolo fuori dal combattimento come in combattimento (barra degli strumenti, gruppi scuri, pannello)                                                                                                                                                                                                                                                                                                                                                                                | D&D Beyond Maps, Scene Prep e spilli della mappa («A1: Boulders», «A2: Ocean Bay»)                                                                         | `ddb-maps-scene-prep-2026-frame.png` (<https://www.dndbeyond.com/attachments/13/105/scene-prep-main.gif>), `ddb-maps-tokens-ac-conditions-2026.png`                                                                                                                                   |
+| Quarto giro (I-250): un solo interruttore (40 × 22, rosso con il pallino bianco; nella scheda il rosso del tema), le abilità sulla riga di mezzo, i LANCIA tutti larghi uguali, ogni ritratto del gruppo alto uguale anche senza la barra dei punti ferita, i titoli dei riquadri dell'Inizio alla stessa altezza con o senza collegamento                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | Scheda D&D Beyond (interruttori, SKILLS, CAST a larghezza fissa), riquadri della home, ritratti di Maps                                                    | facts §1, §3, §6; `ddb-sheet-desktop-live-presto-spells-1440x900.png`, `ddb-home-play-dnd-tiles-my-characters-2025-frame.png`, `ddb-maps-initiative-portrait-strip-frame.png`                                                                                                         |
 
 ## Coppie per il confronto
 
@@ -460,6 +463,77 @@ parole del glossario, pastiglia dei punti ferita, filtro «Reazioni»), anello d
 3 px anche sulle condizioni. Rapporti: prima
 `…/visual-01/probe-ddb/polish-r3/audit-before/audit.md`, dopo `…/visual-01/audit/ddb/audit.md`;
 prove, campionario prima e dopo, misure e ritagli in `…/visual-01/probe-ddb/polish-r3/`.
+
+### Quarto giro (01/10/2026)
+
+Dopo la sesta verifica indipendente: quattro dettagli (i preferiti alti 42 px, «Cosciente»
+diverso nella finestra dei punti ferita, la × della concentrazione da 32 px, 8 px sotto due
+titoli delle Magie) e un altro passaggio sul campionario, sulla verifica delle misure e sulle
+parti sotto la prima schermata (scheda intera, Inizio scorso), che ha trovato altri sette
+dettagli.
+
+| Misura (20 schermate, tema scuro)        | Prima del giro  | Dopo il giro    |
+| ---------------------------------------- | --------------- | --------------- |
+| Valori di spaziatura (fuori scala)       | 28 (11)         | 29 (11)         |
+| Spaziature sul passo di 2 px             | 100 %           | 100 %           |
+| Altezze dei comandi                      | 19              | 17              |
+| Stili di testo                           | 72              | 72              |
+| Grandezze · pesi · interlinee            | 11 · 4 · 15     | 11 · 4 · 15     |
+| Raggi · spessori · ombre                 | 5 · 3 · 9       | 5 · 3 · 9       |
+| Colori: testo · fondo · bordo            | 15 · 33 · 25    | 15 · 32 · 25    |
+| Pulsanti: varianti (tipi con più di una) | 74 (13)         | 72 (13)         |
+| Campi · tendine: varianti                | 3 · 1           | 3 · 1           |
+| Linguette · etichette: varianti          | 10 · 6          | 10 · 6          |
+| Pulsanti con il riempimento del browser  | 0               | 0               |
+| Contrasto AA: errori · incerti, su testi | 0 · 151 su 1244 | 0 · 151 su 1244 |
+
+Le due altezze in meno sono la pastiglia dei punti ferita della barra delle azioni (28 px sul
+computer, ora 40 come sul telefono) e il ritratto di Doran nella colonna del gruppo (70 px nella
+vista del giocatore, ora 78 come gli altri); il colore di fondo in meno è il rosso chiaro
+dell'interruttore «Il DM può modificare questa scheda». Il valore di spaziatura in più è il
+−6 px con cui un collegamento alto 40 px sporge sopra e sotto una riga alta 28 (vedi sotto): è
+il rovescio del passo di 6 px, e toglie 6 px di vuoto invece di aggiungerne. Il resto di questo
+giro sta dove la verifica non guarda, ed è stato misurato a parte nella pagina vera:
+
+| Dove                                                            | Prima                                                                                                           | Dopo                                                                                       |
+| --------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| Scheda, preferiti (con 1–2 preferiti)                           | ogni preferito alto 42 px (un bordo di 1 px intorno al pulsante di 40), parole 14/20                            | 40 px in tutto, come gli interruttori degli effetti sopra; parole 13/18 come loro          |
+| Scheda, preferiti in modalità Modifica                          | l'anello di messa a fuoco del preferito tagliato dal riquadro                                                   | l'anello di 3 px intero (fotografato con la tastiera)                                      |
+| Finestra «Condizioni e stato» (Danni, cure e condizioni)        | «Cosciente» alto 30 px, peso 600, 13/19,5, 11 px ai lati; grigio nella scheda                                   | 28 px, 700, 13/18, 12 px ai lati, bianco: uguale nella scheda, nel Tavolo e nella finestra |
+| Condizione «(C) Benedizione», la ×                              | un quadrato di 32 px a 4 px dal bordo                                                                           | un quadrato di 40 px alla fine della condizione; al passaggio il bordo resta disegnato     |
+| Magie, «Incantesimi dagli oggetti» e «Focus e componenti»       | 8 px sotto il titolo                                                                                            | 16 px, come sotto ogni altro titolo dei pannelli                                           |
+| Scheda, ABILITÀ (anche nella prima schermata)                   | sigla e nome in alto nella riga, 8 px sopra stella, pallino e bonus                                             | sulla riga di mezzo, alla pari con stella, pallino e bonus                                 |
+| Magie, colonna di LANCIA                                        | «Lancia» del trucchetto largo 67 px, «Lancia ▾» 83: la colonna sfalsata di 16 px                                | una sola larghezza (88 px): i LANCIA uno sotto l'altro                                     |
+| Interruttori (offline, ispirazione eroica, regole della scheda) | tre aspetti «acceso» (rosso con pallino bianco, rosso chiaro con pallino scuro) e due misure (40 × 22, 44 × 26) | uno solo: 40 × 22, rosso con il pallino bianco (nella scheda il rosso del tema)            |
+| Inizio, riquadri con un collegamento nel titolo                 | titolo 6 px più in basso e 22 px sopra il contenuto (la riga alta 40 per il collegamento)                       | ogni titolo a 24 px dal bordo e 16 px sopra il contenuto, con o senza collegamento         |
+| Scheda, «Azioni in combattimento» e «Reazioni di tutti»         | i collegamenti che vanno a capo partono 6 px dentro il bordo del testo                                          | partono sul bordo del testo, come l'etichetta                                              |
+| Tavolo, colonna del gruppo (vista del giocatore)                | Doran 70 px (8 px meno degli altri: il giocatore non vede i suoi punti ferita); 42 px sul telefono              | tutti 78 px (50 sul telefono): la riga della barra resta anche vuota                       |
+
+Che cosa è cambiato, in breve:
+
+- **Preferiti:** il bordo grigio è disegnato dentro il preferito, non intorno: tutto il preferito
+  è alto 40 px; le parole hanno la misura degli interruttori della stessa striscia.
+- **Uno stato vitale e una condizione:** «Cosciente» è lo stesso riquadro ovunque, la × della
+  concentrazione è un comando da 40 px come gli altri.
+- **Interruttori:** uno solo in tutta l'app, come i pulsanti principali: rosso fuori dalla
+  scheda, rosso del tema dentro.
+- **Allineamenti:** le abilità sulla riga di mezzo, i LANCIA in colonna, i titoli dei riquadri
+  dell'Inizio alla stessa altezza, i collegamenti a capo sul bordo del testo.
+- **Tavolo:** la pastiglia dei punti ferita alta 40 px anche sul computer; ogni ritratto del
+  gruppo alto uguale.
+
+Restano come prima, di proposito: il marchio (Fase D, «Iowan Old Style» nell'intestazione del
+Tavolo), i due tipi di campo, le pagine della barra delle azioni un gradino più piccole sul
+telefono, e le misure legate alla larghezza o al posto elencate in «Coerenza (I-250)». Il filtro
+«Reazioni» (36 × 40 dentro un gruppo da 44) e le parole del glossario restano sotto i 40 px come
+oggi. Garanzie controllate dopo l'ultima modifica: intestazione del Tavolo su una riga a 390
+(64 px), Termina turno (118 × 40), Annulla ultima modifica e Annulla preparazione (40 × 40)
+visibili a 390, nessuno scorrimento laterale a 390 (Inizio, scheda, magie, inventario, Tavolo in
+esplorazione e in combattimento, giocatore e DM), barra delle azioni alta 116 px a 1440 (giocatore
+e DM), «Entra al Tavolo» fra 645 e 693 px a 390, i test della direzione (7 su 7) e Prettier.
+Rapporti: prima `…/visual-01/probe-ddb/polish-r4/audit-before/audit.md`, dopo
+`…/visual-01/audit/ddb/audit.md` (copia in `…/polish-r4/audit-after/`); prove, campionario prima e
+dopo, misure e ritagli in `…/visual-01/probe-ddb/polish-r4/`.
 
 ## Riferimenti aggiunti il 01/10/2026
 

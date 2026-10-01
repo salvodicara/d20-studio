@@ -33,7 +33,7 @@ di riferimento» in fondo) oppure la misura in `facts.md`.
 | Capolettera dei titoli in IM Fell English SC, rosso sangue di bue #6B2F36, 1,4 volte la riga (1,7 volte nelle righe del menu dell'Inizio)                                                                                                                                                                                                                                                                                                                                                                   | Iniziali lombarde rosse di WotR («Storandus», «Equipment», «Augmented»)     | `wotr-sheet-inventory-doll-1440.jpg` (W12), `wotr-table-tb-hud-inspect-fullattack-4k.jpg` (W1); facts §0.6                |
 | Pergamena #D9D2CA con inchiostro #1E1E2C; testo secondario #444653; il bordo della pagina un po' più scuro (#A89F92)                                                                                                                                                                                                                                                                                                                                                                                        | Carta fredda e opaca di tutti i pannelli                                    | W19 (campioni senza perdita), facts §0.2 e §0.5                                                                           |
 | Etichette color bronzo (#6A4A2C), scurite dal #8A5E37 misurato per arrivare a 4,5:1                                                                                                                                                                                                                                                                                                                                                                                                                         | Etichette dei campi «Casting time», «Damage Reduction»                      | `wotr-dialog-tooltip-spell-bless-fextralife.jpg` (W38), W1; facts §0.5                                                    |
-| Parole chiave e collegamenti prugna #703465 (#4F1F47 sulle righe grigie)                                                                                                                                                                                                                                                                                                                                                                                                                                    | Parole chiave nel testo delle regole                                        | W19; facts §0.5                                                                                                           |
+| Parole chiave e collegamenti prugna #703465 (#4F1F47 sulle righe grigie); i collegamenti che si aprono sul posto («Novità precedenti», «Regola d'ingombro…», «Visualizzazione…», «Perché?») e i «vedi tutto» dei fogli dell'Inizio in una sola ricetta, 15 px, 600                                                                                                                                                                                                                                          | Parole chiave nel testo delle regole                                        | W19; facts §0.5                                                                                                           |
 | Ferro annerito: barre #1A1A1C–#232026 con riflesso in alto, tessere #1C1C20, filo #5E5E6E                                                                                                                                                                                                                                                                                                                                                                                                                   | Cornici, piastre del piè di pagina, tessere degli strumenti                 | W1, W19; facts §0.3                                                                                                       |
 | Cornice di ferro da 6 px con una gemma viola (#AB56B1 / #6B3A6B) e piccole spine a ogni angolo, disegnata qui come geometria (`assets/iron-frame.svg`)                                                                                                                                                                                                                                                                                                                                                      | Cornice in ferro con filigrana gotica e gemme viola                         | W12, W1; facts §0.7                                                                                                       |
 | Prugna come unico colore attivo: linguetta aperta #36172C, cella disponibile #3C1129, pillole #5F485C, pulsante principale #60475C                                                                                                                                                                                                                                                                                                                                                                          | Scudo della linguetta aperta, celle d'azione, sottoschede, «CONTINUE»       | W12, W1, `wotr-sheet-character-summary-alignment-1440.jpg` (W15), `wotr-dialog-conversation-two-portraits-1080.jpg` (W34) |
@@ -42,7 +42,7 @@ di riferimento» in fondo) oppure la misura in `facts.md`.
 | Pulsanti: piastre di ferro quadrate con scritta chiara in maiuscoletto spaziato; il principale prugna chiaro (#60475C); premuto = prugna scuro con l'anello crema. Una sola misura ovunque (anche sulla targa della scena e nel menu della pedina): 40 px, margini 8/16, 15 px, spaziatura 0,04 em                                                                                                                                                                                                          | «BACK · NEXT», «CONTINUE»                                                   | W19, W34                                                                                                                  |
 | Campi grigi piatti (#C8C8C8) con inchiostro scuro e filo di ferro (3:1 sulla carta); alti 40 px come i pulsanti e i cartellini accanto                                                                                                                                                                                                                                                                                                                                                                      | Campo di ricerca                                                            | W19; facts §0.2                                                                                                           |
 | Finestre di dialogo: pergamena nella cornice di ferro, titolo con capolettera sopra la doppia riga da disegno (cerchio con mirino al centro), piede separato da una pennellata bronzo                                                                                                                                                                                                                                                                                                                       | Finestra del dialogo, scheda d'evento, suggerimento                         | W34, `wotr-dialog-global-map-event-card-1080.jpg` (W43), W38                                                              |
-| Pulsante di chiusura rotondo in ferro                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | «X» rotonda del libro                                                       | W12                                                                                                                       |
+| Pulsante di chiusura rotondo in ferro, uguale nelle finestre e nel menu della pedina (croce da 21 px)                                                                                                                                                                                                                                                                                                                                                                                                       | «X» rotonda del libro                                                       | W12                                                                                                                       |
 | Pennellate bronzo da 4 px fra le parti (#A68D79 → #876F57)                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Righe fra le voci del suggerimento                                          | W38; facts §0.7                                                                                                           |
 | Filigrana da disegno sulla carta (cerchi di compasso, linee di costruzione) al 9 %, disegnata qui (`assets/drafting.svg`)                                                                                                                                                                                                                                                                                                                                                                                   | Cerchi di compasso e appunti in filigrana sulla carta                       | W12, W19; facts §0.7                                                                                                      |
 | Angoli vivi ovunque; cerchi solo per i medaglioni (chiusura, Termina turno, totale d'iniziativa, contatori)                                                                                                                                                                                                                                                                                                                                                                                                 | «Corner radius = 0», medaglioni rotondi                                     | facts §0.7                                                                                                                |
@@ -70,29 +70,30 @@ di riferimento» in fondo) oppure la misura in `facts.md`.
 
 ### Scheda (Azioni, Magie, Inventario)
 
-| Elemento                                                                                                                                                                                                     | Prodotto copiato                                           | Fonte                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------- | -------------------------------------------------------- |
-| La scheda è un solo libro di pergamena nella cornice di ferro con le gemme, sulla scrivania scura                                                                                                            | Libro a tutto schermo                                      | W12, W15                                                 |
-| Nome grande con capolettera; «Maga · Livello 3» in corsivo bronzo; ritratto con filo crema, ferro e oro                                                                                                      | Colonna d'identità («Storandus», «Experience · Level 16»)  | W12                                                      |
-| Le caratteristiche come registro: abbreviazione color ruggine (#844833) in alto, modificatore grande, punteggio nella cella grigia, celle separate da righe puntinate bronzo, il registro chiuso da due fili | Tabella STR / STRENGTH · valore · modificatore             | W12, W15; facts §2                                       |
-| Tiri salvezza come il registro: «FOR» ruggine sopra il piccolo «Forza»; nella colonna Abilità il nome sta al centro della riga come nei tiri salvezza                                                        | «STR» sopra «STRENGTH»                                     | W12                                                      |
-| Punti ferita: cuore rosso scuro prima di «18 / 22», barra verde pura (#03FB05) su ferro                                                                                                                      | Distintivo a cuore, barre verdi dei PF                     | W12, W1                                                  |
-| «Cura» verde e «Danno» rosso sangue di bue come piastre                                                                                                                                                      | Verde «prerequisito soddisfatto», rosso delle iniziali     | W19                                                      |
-| Gruppi (Tiri salvezza, Abilità, Azione, Trucchetti, Livello 1, Addosso…) sotto bande di pennello cachi (#C8B99D) con capolettera e due fili che sporgono                                                     | «ATTACK», «PREREQUISITES», «ARMOR CLASS AND SAVING THROWS» | W12, W19                                                 |
-| Valori delle righe nel cartellino grigio (#BAB6B2), righe separate da puntini bronzo                                                                                                                         | Elenco delle abilità con il valore a sinistra              | W15, `wotr-sheet-skills-list-crop-fextralife.jpg` (W18)  |
-| Competenza come rombo prugna pieno                                                                                                                                                                           | Nodi e tacche a gemma                                      | W19                                                      |
-| Gioco / Modifica e Dadi digitali / fisici come pillole prugna                                                                                                                                                | Sottoschede prugna                                         | W15                                                      |
-| Barra dei PE sottile con il prugna della barra di caricamento                                                                                                                                                | Barra di caricamento #593155                               | `wotr-home-loading-screen-hint-1440.jpg` (W28)           |
-| «Cosciente» su banda salvia con il dischetto verde                                                                                                                                                           | Riga «prerequisito soddisfatto» #AFB2A6 / #607952          | W19                                                      |
-| Indebolimento 1–6 come tessere di ferro con la cifra chiara; i livelli raggiunti prugna con l'anello crema                                                                                                   | Tessere degli strumenti                                    | W1                                                       |
-| I quattro riquadri dell'inventario due per riga, così «Gestisci monete» e «Gestisci sintonia» stanno su una riga; i punti ferita «18 / 22» non vanno mai a capo                                              | Statistiche del peso e delle monete                        | W12                                                      |
-| Linguette delle sezioni: la barra di ferro del libro con lo scudo prugna e la gemma sotto                                                                                                                    | Barra superiore del libro                                  | W12, `wotr-sheet-spellbook-tooltip-fextralife.jpg` (W17) |
-| Risorse del turno come celle d'azione prugna                                                                                                                                                                 | Celle della barra delle azioni                             | W1                                                       |
-| Sezioni senza riquadro: ogni sezione si apre con una pennellata bronzo e il titolo sopra la doppia riga                                                                                                      | Pagine del libro                                           | W12, W19                                                 |
-| Magie e oggetti come righe grigie (#BAB6B2) con filo sottile; l'icona dell'oggetto su tessera scura con cornice grigio-ferro da 2 px                                                                         | Tessere degli incantesimi, righe della lista               | W17, W19                                                 |
-| Dati del lanciatore e i quattro riquadri dell'inventario come celle del registro con etichetta bronzo in maiuscoletto                                                                                        | Statistiche del lanciatore, peso e monete                  | W17, W12                                                 |
-| Slot degli incantesimi come rombi prugna, pieni se disponibili                                                                                                                                               | Dischi prugna dei livelli                                  | W17                                                      |
-| Peso trasportato come linea sottile col carico in prugna; set d'armi attivo in cornice viola #54254E                                                                                                         | Barra del peso, set d'armi I–IV                            | W12                                                      |
+| Elemento                                                                                                                                                                                                                                                                            | Prodotto copiato                                           | Fonte                                                    |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- | -------------------------------------------------------- |
+| La scheda è un solo libro di pergamena nella cornice di ferro con le gemme, sulla scrivania scura                                                                                                                                                                                   | Libro a tutto schermo                                      | W12, W15                                                 |
+| Nome grande con capolettera; «Maga · Livello 3» in corsivo bronzo; ritratto con filo crema, ferro e oro                                                                                                                                                                             | Colonna d'identità («Storandus», «Experience · Level 16»)  | W12                                                      |
+| Le caratteristiche come registro: abbreviazione color ruggine (#844833) in alto, modificatore grande, punteggio nella cella grigia, celle separate da righe puntinate bronzo, il registro chiuso da due fili                                                                        | Tabella STR / STRENGTH · valore · modificatore             | W12, W15; facts §2                                       |
+| Tiri salvezza come il registro: «FOR» ruggine sopra il piccolo «Forza»; nella colonna Abilità il nome sta al centro della riga come nei tiri salvezza                                                                                                                               | «STR» sopra «STRENGTH»                                     | W12                                                      |
+| Punti ferita: cuore rosso scuro prima di «18 / 22», barra verde pura (#03FB05) su ferro                                                                                                                                                                                             | Distintivo a cuore, barre verdi dei PF                     | W12, W1                                                  |
+| «Cura» verde e «Danno» rosso sangue di bue come piastre                                                                                                                                                                                                                             | Verde «prerequisito soddisfatto», rosso delle iniziali     | W19                                                      |
+| Gruppi (Tiri salvezza, Abilità, Azione, Trucchetti, Livello 1, Addosso…) sotto bande di pennello cachi (#C8B99D) con capolettera e due fili che sporgono                                                                                                                            | «ATTACK», «PREREQUISITES», «ARMOR CLASS AND SAVING THROWS» | W12, W19                                                 |
+| Valori delle righe nel cartellino grigio (#BAB6B2), righe separate da puntini bronzo                                                                                                                                                                                                | Elenco delle abilità con il valore a sinistra              | W15, `wotr-sheet-skills-list-crop-fextralife.jpg` (W18)  |
+| Competenza come rombo prugna pieno                                                                                                                                                                                                                                                  | Nodi e tacche a gemma                                      | W19                                                      |
+| Gioco / Modifica e Dadi digitali / fisici come pillole prugna                                                                                                                                                                                                                       | Sottoschede prugna                                         | W15                                                      |
+| Barra dei PE sottile con il prugna della barra di caricamento                                                                                                                                                                                                                       | Barra di caricamento #593155                               | `wotr-home-loading-screen-hint-1440.jpg` (W28)           |
+| «Cosciente» su banda salvia con il dischetto verde                                                                                                                                                                                                                                  | Riga «prerequisito soddisfatto» #AFB2A6 / #607952          | W19                                                      |
+| Indebolimento 1–6 come tessere di ferro con la cifra chiara; i livelli raggiunti prugna con l'anello crema                                                                                                                                                                          | Tessere degli strumenti                                    | W1                                                       |
+| I quattro riquadri dell'inventario due per riga, così «Gestisci monete» e «Gestisci sintonia» stanno su una riga; i punti ferita «18 / 22» non vanno mai a capo                                                                                                                     | Statistiche del peso e delle monete                        | W12                                                      |
+| Linguette delle sezioni: la barra di ferro del libro con lo scudo prugna e la gemma sotto                                                                                                                                                                                           | Barra superiore del libro                                  | W12, `wotr-sheet-spellbook-tooltip-fextralife.jpg` (W17) |
+| Risorse del turno come celle d'azione prugna                                                                                                                                                                                                                                        | Celle della barra delle azioni                             | W1                                                       |
+| Sezioni senza riquadro: ogni sezione si apre con una pennellata bronzo e il titolo sopra la doppia riga                                                                                                                                                                             | Pagine del libro                                           | W12, W19                                                 |
+| Magie e oggetti come righe grigie (#BAB6B2) con filo sottile; l'icona dell'oggetto su tessera scura con cornice grigio-ferro da 2 px                                                                                                                                                | Tessere degli incantesimi, righe della lista               | W17, W19                                                 |
+| Dati del lanciatore e i quattro riquadri dell'inventario come celle del registro con etichetta bronzo in maiuscoletto                                                                                                                                                               | Statistiche del lanciatore, peso e monete                  | W17, W12                                                 |
+| Slot degli incantesimi come rombi prugna, pieni se disponibili                                                                                                                                                                                                                      | Dischi prugna dei livelli                                  | W17                                                      |
+| Peso trasportato come linea sottile col carico in prugna; set d'armi attivo in cornice viola #54254E                                                                                                                                                                                | Barra del peso, set d'armi I–IV                            | W12                                                      |
+| Un solo interruttore (Ispirazione eroica, effetti, «Disponibile offline», «Il DM può modificare»): pozzetto di ferro quadrato 40 × 22 con la manopola quadrata da 14 px; acceso, pozzetto prugna #3C1129 e manopola gemma all'altro capo (la posizione lo dice, non solo il colore) | Interruttori a passi prugna                                | W15 [I]                                                  |
 
 ### Tavolo
 
@@ -129,8 +130,8 @@ di riferimento» in fondo) oppure la misura in `facts.md`.
 ## Coppie per il confronto
 
 Schermate nostre: `~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/round1/owlcat/`;
-le coppie già affiancate sono in `…/round1/owlcat/_pairs/` (rifatte il 01/10 alle 14:08, dopo il
-terzo giro di rifinitura; ogni pannello alla sua larghezza, con il nome del file sopra).
+le coppie già affiancate sono in `…/round1/owlcat/_pairs/` (rifatte il 01/10 alle 15:40–15:41, dopo il
+quarto giro di rifinitura; ogni pannello alla sua larghezza, con il nome del file sopra).
 
 | Coppia                   | Nostra schermata                                | Riferimento WotR                                                                                     |
 | ------------------------ | ----------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
@@ -151,7 +152,7 @@ terzo giro di rifinitura; ogni pannello alla sua larghezza, con il nome del file
 I file delle coppie seguono l'ordine della tabella: da `pair-01-inizio.jpg` a
 `pair-12-menu-pedina.jpg`, più `pair-13-barra.jpg`. Le coppie del telefono e delle magie e
 dell'esplorazione mostrano anche la schermata a 390 px accanto a quella a 1440. Lo script che le
-rifà è `probe-owlcat/fix3/pairs.sh` (fuori dal repository).
+rifà è `probe-owlcat/fix4/pairs.sh` (fuori dal repository).
 
 ## Differenze dichiarate
 
@@ -325,11 +326,64 @@ Le 15 schermate del giro 1 e il foglio dei provini sono stati rifatti alle 14:06
 l'ultima modifica, e le 13 coppie alle 14:07–14:08. Tutti i file sono stati aperti e guardati uno
 per uno.
 
+## Quarto giro di rifinitura del 01/10 (verifica indipendente)
+
+Ogni punto della verifica (`notes/open-items-round4.json`, voce `owlcat`: uno medio e tre bassi),
+con l'esito, più il controllo I-250 di questo giro. Misure: sonde in `probe-owlcat/fix4/`
+(`scripts/halo.cjs` per gli aloni dell'Inizio, cartella `halo/`; `scripts/switches.cjs` per gli
+interruttori e l'anello dei punti ferita, cartella `switches/`; `scripts/d20.cjs` sugli stati del
+kit, cartella `d20/`; `scripts/calmenu.cjs`, cartella `calmenu/`; `scripts/g-check.cjs` per le
+garanzie, cartelle `g390/`, `g390d/`, `g1440/`); CSS di prima in
+`probe-owlcat/fix4/direction-before-fix4.css`.
+
+| Punto         | Cosa diceva                                                                                                                                                                                                                                                                                                                                                                     | Esito                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Media         | L'alone del foglio di sopra scuriva i primi 17–20 px di «Le tue campagne»: senza schede recenti quello di «Dove eravamo rimasti» (una casella della griglia, che si dipinge dopo i blocchi normali), con le schede recenti quello di «Accesso rapido», posizionato nel giro 3 (−32 livelli a 390, −14 a 1440). Il commento del CSS («come fanno gli altri fogli») era sbagliato | Applicato: tutti i fogli dell'Inizio sono posizionati, quindi si dipingono in un solo strato nell'ordine della pagina e ognuno copre l'alone di quello sopra. Il libro delle novità resta «sticky» sopra 1100 px (posizione dell'app); sotto entra nello strato, senza lo spostamento di 16 px che l'app gli dà per lo «sticky». Sonda a 390 e a 1440, con e senza schede recenti, confrontando ogni foglio con e senza ombre: il bordo superiore di ogni foglio scurito di 0 livelli in tutti e quattro i casi (prima −36 su «Le tue campagne» a 390 e −17 a 1440 con le schede recenti); nessun foglio spostato, i nastri e la lettera inclinata al loro posto. Il commento ora dice il motivo vero (`halo/halo-390-rec-before-after.png`, `halo-390-norec-before-after.png`) |
+| Bassa         | I d20 della finestra dell'iniziativa (campi numerici) avevano le cifre circa 8 px a sinistra del centro, per lo spazio che Chromium tiene per le frecce                                                                                                                                                                                                                         | Applicato: i campi della ricetta numerica non tengono più quello spazio (`appearance: textfield`; le frecce senza aspetto e senza margine). Inchiostro a 23 px da entrambi i lati in tutti e cinque i campi (`d20/d20-row.png`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| Bassa         | Due misure di interruttore sulla stessa riga della Scheda: 44 × 26 con la manopola da 18 px («Ispirazione eroica») e 40 × 22 con la manopola da 12 px («Disponibile offline», «Il DM può modificare»)                                                                                                                                                                           | Applicato: un solo interruttore anche per gli effetti (prima 28 × 16): pozzetto di ferro quadrato 40 × 22, manopola quadrata da 14 px a 4 px dal bordo; acceso, pozzetto prugna #3C1129 e manopola gemma all'altro capo. La riga dell'etichetta resta il bersaglio da 40 px; l'anello del fuoco sta a 3 px come gli altri (l'app lo metteva a 2). Misurato a 1440 e 390, spento e acceso (`switches/sw-1440-grid.png`, `sw-390-grid.png`)                                                                                                                                                                                                                                                                                                                                       |
+| Bassa         | L'anello del fuoco dei punti ferita della scheda era di 2 px a 2 px, l'unico non curato                                                                                                                                                                                                                                                                                         | Applicato: 3 px a 3 px nel colore del fuoco, come ogni altro anello; misurato a 1440 e a 390 (`switches/hp-focus-*.png`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| (trovato qui) | A 1440 la lista «Aggiungi al calendario» aperta finiva sotto il libro delle novità: la lettera inclinata è uno strato a sé e la lista non poteva salire sopra i fogli che seguono                                                                                                                                                                                               | Applicato: mentre la lista è aperta la lettera passa davanti. La lista è in cima in tutti i punti misurati, a 1440 e a 390 (`calmenu/calmenu-1440.png`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+
+Controllo I-250 di questo giro (strumento sugli stati del giro 1 e sotto la piega, campionario
+`probe-owlcat/fix4/specimen-before/` e `specimen-after/`):
+
+- **Una chiusura sola.** La chiusura del menu della pedina ha la croce da 21 px, l'ombra e il
+  colore al passaggio della chiusura delle finestre (prima la croce era da 18 px, senza ombra).
+- **«Altre azioni» sulle righe dell'inventario** è la tessera quadrata da 40 px degli altri
+  comandi con il solo glifo (prima 55 × 40, con i margini di un pulsante con parole): 40 righe
+  sotto la piega.
+- **Collegamenti che si aprono sul posto**: «Regola d'ingombro…», «Visualizzazione…», «Perché?»,
+  «Novità precedenti» e l'elenco delle pedine del menu hanno una sola ricetta, 15 px, 600,
+  prugna (prima 13/400, 15/400 e 15/600). «Regola d'ingombro: standard (SRD 2024)» sta ancora su
+  una riga a 1440.
+- **«Tutte le discussioni»** è il «vedi tutto» del suo foglio, come «Tutte le campagne» e «Tutti
+  gli annunci»: parole prugna a filo del foglio (prima maiuscoletto con 16 px di rientro).
+- **Nessun colore nuovo:** il pozzetto acceso usa il prugna delle celle d'azione (#3C1129); con il
+  prugna delle linguette (#36172C) lo strumento contava un colore di fondo in più e due coppie
+  quasi uguali.
+
+Garanzie ricontrollate dopo l'ultima modifica (15:39:07):
+
+- la barra è alta 117 px a 1440 in ogni stato del Tavolo, anche con la finestra e il menu aperti;
+- a 390 px l'intestazione del Tavolo sta su una riga (63 px) in tutti gli stati del Tavolo;
+- la larghezza della pagina è 390 su 390 in tutti gli stati, finestra dell'iniziativa compresa;
+- Termina turno, Annulla e Annulla preparazione sono visibili e in cima a 390 (sotto il menu e la
+  finestra solo quando sono aperti, come oggi);
+- «Entra al Tavolo» finisce a 543 px;
+- nessun comando sotto i 40 px nell'intestazione, nella targa, nella barra, negli strumenti, nella
+  colonna e nell'Inizio;
+- 545 regole con 580 selettori, tutti con il prefisso; nessun `!important`, `text-transform` o
+  testo in `content`;
+- `tests/visual01-directions.test.mjs` passa 7 test su 7; Prettier è pulito.
+
+Le 15 schermate del giro 1 e il foglio dei provini sono stati rifatti alle 15:39, dopo l'ultima
+modifica, e le 13 coppie alle 15:40–15:41. Tutti i file sono stati aperti e guardati uno per uno.
+
 ## Coerenza (I-250)
 
 Strumento di verifica (`changes/visual-01/audit/`) sui 20 stati del giro 1 (1440 e 390, tema
 scuro) e, sotto la piega, su Inizio, Magie, Inventario e Tavolo a pagina intera (8 schermate).
-Tre misure:
+Quattro misure:
 
 - **Giro 2, prima:** CSS delle 10:39, cartelle `verify-owlcat/audit/` e
   `probe-owlcat/fix2/audit-below-before/`.
@@ -337,46 +391,58 @@ Tre misure:
   alle 13:00 (copia in `probe-owlcat/fix3/audit-before/`) e sotto la piega si usa
   `probe-owlcat/fix2/audit-below-after/`. Le piccole differenze dal «dopo» scritto nel giro 2
   vengono dalla nuova misura, non dal CSS.
-- **Giro 3, dopo:** CSS delle 14:03:07, cartelle `audit/owlcat/` e
+- **Giro 3, dopo:** CSS delle 14:03:07, cartelle `probe-owlcat/fix4/audit-before/` (la copia
+  della misura del giro 3, che è anche il «prima» del giro 4: il CSS non era cambiato) e
   `probe-owlcat/fix3/audit-below-after/`.
+- **Giro 4, dopo:** CSS delle 15:39:07, cartelle `audit/owlcat/` e
+  `probe-owlcat/fix4/audit-below-after/`.
 
 «—» vuol dire che quel valore non era stato annotato.
 
-| Misura (20 schermate del giro 1)                   | Giro 2, prima | Giro 3, prima | Giro 3, dopo |
-| -------------------------------------------------- | ------------- | ------------- | ------------ |
-| Valori di spazio distinti (fuori scala)            | 37 (25)       | 32 (20)       | 31 (20)      |
-| Spazi sul passo di 2 px                            | 94,5 %        | 99,0 %        | 99,4 %       |
-| Altezze dei comandi                                | 22            | 22            | 22           |
-| Grandezze · pesi · stili di testo                  | 11 · 5 · 76   | 11 · 3 · 75   | 11 · 3 · 72  |
-| Ombre                                              | 15            | 15            | 15           |
-| Colori (testo · fondo · bordo)                     | 23 · 25 · 23  | 23 · 25 · 24  | 23 · 25 · 24 |
-| Varianti dei bottoni                               | 77            | 76            | 69           |
-| Varianti dei campi di testo e numerici             | 3             | 2             | 2            |
-| Varianti dei menu a tendina                        | —             | 2             | 1            |
-| Varianti delle linguette (classi con più varianti) | 12            | 10 (3)        | 8 (1)        |
-| Varianti di etichette e pillole                    | 17            | 12            | 12           |
-| Varianti degli interruttori e caselle di spunta    | 4             | 3             | 3            |
-| Varianti delle lastre e dei pannelli               | 48            | 43            | 44           |
-| Bottoni con il margine predefinito del browser     | 0             | 0             | 0            |
-| Contrasto AA sotto soglia                          | 49 su 1230    | 0 su 1231     | 0 su 1227    |
+| Misura (20 schermate del giro 1)                   | Giro 2, prima | Giro 3, prima | Giro 3, dopo | Giro 4, dopo |
+| -------------------------------------------------- | ------------- | ------------- | ------------ | ------------ |
+| Valori di spazio distinti (fuori scala)            | 37 (25)       | 32 (20)       | 31 (20)      | 31 (20)      |
+| Spazi sul passo di 2 px                            | 94,5 %        | 99,0 %        | 99,4 %       | 99,4 %       |
+| Altezze dei comandi                                | 22            | 22            | 22           | 22           |
+| Grandezze · pesi · stili di testo                  | 11 · 5 · 76   | 11 · 3 · 75   | 11 · 3 · 72  | 11 · 3 · 72  |
+| Ombre                                              | 15            | 15            | 15           | 15           |
+| Colori (testo · fondo · bordo)                     | 23 · 25 · 23  | 23 · 25 · 24  | 23 · 25 · 24 | 23 · 25 · 24 |
+| Varianti dei bottoni                               | 77            | 76            | 69           | 67           |
+| Varianti dei campi di testo e numerici             | 3             | 2             | 2            | 2            |
+| Varianti dei menu a tendina                        | —             | 2             | 1            | 1            |
+| Varianti delle linguette (classi con più varianti) | 12            | 10 (3)        | 8 (1)        | 8 (1)        |
+| Varianti di etichette e pillole                    | 17            | 12            | 12           | 12           |
+| Varianti degli interruttori e caselle di spunta    | 4             | 3             | 3            | 3            |
+| Varianti delle lastre e dei pannelli               | 48            | 43            | 44           | 44           |
+| Bottoni con il margine predefinito del browser     | 0             | 0             | 0            | 0            |
+| Contrasto AA sotto soglia                          | 49 su 1230    | 0 su 1231     | 0 su 1227    | 0 su 1227    |
 
-| Misura (8 schermate a pagina intera)            | Giro 2, prima | Giro 3, prima | Giro 3, dopo |
-| ----------------------------------------------- | ------------- | ------------- | ------------ |
-| Valori di spazio distinti (fuori scala)         | 34 (23)       | 32 (21)       | 30 (19)      |
-| Spazi sul passo di 2 px                         | 91,7 %        | 98,6 %        | 99,7 %       |
-| Altezze dei comandi                             | 20            | 19            | 18           |
-| Grandezze · pesi · stili di testo               | 12 · 5 · 74   | 11 · 3 · 72   | 11 · 3 · 68  |
-| Varianti dei bottoni (classi con più varianti)  | —             | 75 (13)       | 68 (12)      |
-| Varianti dei menu a tendina                     | —             | 3             | 2            |
-| Varianti delle linguette                        | 11            | 9             | 7            |
-| Varianti di etichette e pillole                 | 13            | 11            | 11           |
-| Varianti degli interruttori e caselle di spunta | —             | 3             | 2            |
-| Varianti delle lastre e dei pannelli            | 37            | 34            | 35           |
-| Comandi e campi con i margini del browser       | 5             | 0             | 0            |
-| Contrasto AA sotto soglia                       | 28 su 1423    | 0 su 1423     | 0 su 1421    |
+| Misura (8 schermate a pagina intera)            | Giro 2, prima | Giro 3, prima | Giro 3, dopo | Giro 4, dopo |
+| ----------------------------------------------- | ------------- | ------------- | ------------ | ------------ |
+| Valori di spazio distinti (fuori scala)         | 34 (23)       | 32 (21)       | 30 (19)      | 30 (19)      |
+| Spazi sul passo di 2 px                         | 91,7 %        | 98,6 %        | 99,7 %       | 99,7 %       |
+| Altezze dei comandi                             | 20            | 19            | 18           | 18           |
+| Grandezze · pesi · stili di testo               | 12 · 5 · 74   | 11 · 3 · 72   | 11 · 3 · 68  | 11 · 3 · 68  |
+| Varianti dei bottoni (classi con più varianti)  | —             | 75 (13)       | 68 (12)      | 66 (11)      |
+| Varianti dei menu a tendina                     | —             | 3             | 2            | 2            |
+| Varianti delle linguette                        | 11            | 9             | 7            | 7            |
+| Varianti di etichette e pillole                 | 13            | 11            | 11           | 11           |
+| Varianti degli interruttori e caselle di spunta | —             | 3             | 2            | 2            |
+| Varianti delle lastre e dei pannelli            | 37            | 34            | 35           | 35           |
+| Comandi e campi con i margini del browser       | 5             | 0             | 0            | 0            |
+| Contrasto AA sotto soglia                       | 28 su 1423    | 0 su 1423     | 0 su 1421    | 0 su 1421    |
 
 C'è una variante di lastra in più perché, sul telefono, la piastra dei dadi è ora larga 142 px:
 lo strumento conta come lastra tutto ciò che supera i 120 px. Il disegno non cambia.
+
+Nel giro 4 i numeri dello strumento cambiano poco perché i pezzi rifiniti sono quasi tutti sotto
+la piega o non sono contati: le varianti dei bottoni scendono a 67 (12 classi) nel giro 1 e a 66
+(11 classi) sotto la piega (la tessera «Altre azioni» e i collegamenti che si aprono sul posto).
+Gli interruttori dell'Ispirazione, degli effetti e di «Disponibile offline» sono disegnati su uno
+`span` e lo strumento non li conta: l'unica misura è quella della sonda (`switches/`). Il bordo
+dei fogli dell'Inizio è misurato dalla sonda degli aloni (`halo/`).
+
+Che cosa è cambiato nel giro 4: vedi «Quarto giro di rifinitura» qui sopra.
 
 Che cosa è cambiato nel giro 3: vedi «Terzo giro di rifinitura» qui sopra.
 
@@ -407,10 +473,17 @@ Che cosa era cambiato nel giro 2:
 
 Restano, dichiarati:
 
-- **Bottoni.** 13 classi hanno più di una variante. Quasi tutte sono componenti diversi che lo
+- **Bottoni.** 12 classi hanno più di una variante. Quasi tutte sono componenti diversi che lo
   strumento mette nella stessa classe visiva: stelle dei preferiti, nomi delle righe, carte del
   gruppo, caselle delle caratteristiche, linguette dell'intestazione a 51 px come la barra di WotR,
-  il disco di Termina turno da 96 px, le icone di servizio da 42 px dell'app.
+  il disco di Termina turno da 96 px, le icone di servizio da 42 px dell'app. I nomi dei tiri
+  salvezza (16 px grassetto ruggine, «FOR» sopra «Forza», come il registro delle caratteristiche)
+  e quelli delle abilità (15 px) sono due disegni scelti, non una svista.
+- **Tre interruttori, uno per tipo.** La casella di spunta da 20 px (magie, iniziativa, «Colpo
+  critico»), la pillola dell'effetto (un pulsante da 40 px con l'interruttore dentro) e
+  l'interruttore unico 40 × 22. Lo strumento conta il campo di «Il DM può modificare» (22 px) fra
+  i comandi; gli altri interruttori sono disegnati su uno `span`. L'interruttore base `.switch`
+  del sistema non ha markup nell'app e resta com'è (si vede solo nel campionario).
 - **Due campi, non uno.** Il campo numerico (16 px grassetto al centro) e il campo di testo
   (15 px, 12 px dentro) sono due tipi diversi.
 - **Misure del telefono decise dall'app.** Le voci del menu della pedina e le linguette della

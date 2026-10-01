@@ -19,12 +19,15 @@
      capitals land on Demiplane's caps sizes: micro label 14 → ≈ 7 px caps (its 10 px Barlow
      caps), tag 16 → ≈ 8 px (its 11 px Overpass caps), button and tab 18; Cinzel is a
      capitals face, so box headers need no caps feature;
-   - one recipe per kind: game button 40 px, 18/700 caps, 8 × 16 padding; tab 18/700 caps with
-     12 px sides (sheet bar 56 px, other strips 40 px); tag 24 px, 16/700 caps, 0 × 8, radius 4;
-     text field 40 px, Roboto 16, 0 × 12 (selects too); number field 40 px, Barlow Condensed
-     18/700 centred, 0 × 8; switch: light knob on a 30 % white track, dice blue when on;
-     condition chip 40 px, 18/700 caps, 0 × 12; menu row 40 px (44 in the phone sheet, the
-     app's touch rule); party tile 96 px and turn-order chip 84 px (112 the current one);
+   - one recipe per kind: game button 40 px, 18/700 caps, 8 × 16 padding (also the worded turn
+     commands; only the five icon commands are dice circles); tab 18/700 caps with 12 px sides
+     (sheet bar 56 px, other strips 40 px); tag 24 px, 16/700 caps, 0 × 8, radius 4; text
+     field 40 px, Roboto 16, 0 × 12 (selects too); number field 40 px, Barlow Condensed 18/700
+     centred, 0 × 8 (d20s and every ±HP, the token menu's too); switch: light knob on a 30 %
+     white track, dice blue when on; condition chip 40 px with its edge, 18/700 caps, 0 × 12;
+     menu row 40 px (44 in the phone sheet, the app's touch rule); shell text action: the
+     site link, Barlow 14/600 #00ABFF, 8 × 0; game text action and fold: white 18/700 caps,
+     no box; party tile 96 px and turn-order chip 84 px (112 the current one);
    - two button voices: the shell's Barlow 14/600 as written (Home, header; #006FB8 the one
      CTA) and the game's condensed caps (sheet, Table, drawers, menus; dice blue #3276B5 the
      primary, ghost buttons as text actions on the column edge);
@@ -3240,11 +3243,19 @@
   letter-spacing: var(--label-tracking);
 }
 /* Turn commands = Demiplane's dice row: round 48 px dice-grey circles, the dice one the blue
-   FAB (#3276B5); End turn the blue CTA slab. */
+   FAB (#3276B5); End turn the blue CTA slab. Only the five icon commands are circles: the
+   worded ones («Rialzati · 4,5 m», and «Mappa» / «Dettagli mossa» of a phone preview) stay
+   game buttons (see «Worded turn commands» below). */
 :root[data-direction="demiplane"]:not([data-pref-theme="light"])
   .action-dock.table-hotbar
   > .toolbar
-  .button:not([data-table="end-turn"]) {
+  > .button:is(
+    [data-tool="move"],
+    [data-table="actions"],
+    [data-table="dice"],
+    [data-table="cancel"],
+    [data-table="undo"]
+  ) {
   border: 0;
   border-radius: 50%;
   background: var(--dp-grey);
@@ -3253,17 +3264,35 @@
 :root[data-direction="demiplane"]:not([data-pref-theme="light"])
   .action-dock.table-hotbar
   > .toolbar
-  .button:not([data-table="end-turn"]):hover:not(:disabled) {
+  > .button:is(
+    [data-tool="move"],
+    [data-table="actions"],
+    [data-table="dice"],
+    [data-table="cancel"],
+    [data-table="undo"]
+  ):hover:not(:disabled) {
   background: var(--dp-grey-hover);
 }
 :root[data-direction="demiplane"]:not([data-pref-theme="light"])
   .action-dock.table-hotbar
   > .toolbar
-  .button.active:not([data-table="end-turn"]),
+  > .button.active:is(
+    [data-tool="move"],
+    [data-table="actions"],
+    [data-table="dice"],
+    [data-table="cancel"],
+    [data-table="undo"]
+  ),
 :root[data-direction="demiplane"]:not([data-pref-theme="light"])
   .action-dock.table-hotbar
   > .toolbar
-  .button[aria-pressed="true"]:not([data-table="end-turn"]) {
+  > .button[aria-pressed="true"]:is(
+    [data-tool="move"],
+    [data-table="actions"],
+    [data-table="dice"],
+    [data-table="cancel"],
+    [data-table="undo"]
+  ) {
   background: var(--dp-gold);
   color: var(--dp-inset);
 }
@@ -3388,7 +3417,13 @@
     .table-layout
     > .action-dock.table-hotbar
     > .toolbar
-    > .button {
+    > .button:is(
+      [data-tool="move"],
+      [data-table="actions"],
+      [data-table="dice"],
+      [data-table="cancel"],
+      [data-table="undo"]
+    ) {
     width: var(--dp-h-large);
     height: var(--dp-h-large);
   }
@@ -3467,7 +3502,7 @@
     .table-layout
     > .action-dock.table-hotbar
     > .toolbar
-    > [data-table="end-turn"] {
+    > .button.primary[data-table="end-turn"] {
     font-size: var(--text-lg);
   }
   :root[data-direction="demiplane"]:not([data-pref-theme="light"])
@@ -3754,7 +3789,13 @@
     .table-layout
     > .action-dock.table-hotbar
     > .toolbar
-    > .button:not([data-table="end-turn"]) {
+    > .button:is(
+      [data-tool="move"],
+      [data-table="actions"],
+      [data-table="dice"],
+      [data-table="cancel"],
+      [data-table="undo"]
+    ) {
     width: var(--dp-h-control);
     min-width: var(--dp-h-control);
     height: var(--dp-h-control);
@@ -4111,12 +4152,9 @@
   .toolbar {
   gap: var(--space-2);
 }
-:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .int-cal-list {
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .int-cal-list {
   gap: var(--space-1);
   padding: var(--space-2);
-}
-:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .int-cal-item {
-  padding: var(--space-2) var(--space-3);
 }
 :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .shp-star {
   padding: 0;
@@ -4659,14 +4697,6 @@
   block-size: var(--dp-h-control);
   padding-block: 0;
 }
-/* Disclosure rows stay 40 px: the encumbrance rule wraps to two lines in its narrow box, so it
-   takes the title line height (two lines of 1.5 made it 42). */
-:root[data-direction="demiplane"]:not([data-pref-theme="light"])
-  .character-sheet
-  .invp-rule
-  > summary {
-  line-height: var(--dp-lh-tight);
-}
 /* Check boxes sit on their label's 8 px gap, not on Chromium's 3–4 px margin (the roll
    drawer, the sheet's combat policy, the spell filter). */
 :root[data-direction="demiplane"]:not([data-pref-theme="light"]) #dialog .ct-check input,
@@ -4849,12 +4879,13 @@
   min-width: var(--dp-h-control);
 }
 
-/* Number fields — the initiative drawer's d20s and ±HP on the sheet, in the Creature panel
-   and in the drawers — one recipe: the value chip's Barlow Condensed 700, centred, 0 × 8
-   inside the field's 1 px edge (18 px in a 40 px field; the sheet band's tall field keeps
-   24). The Creature panel's ±HP no longer keeps Chromium's 1 × 2 padding and Roboto. */
+/* Number fields — the initiative drawer's d20s and ±HP on the sheet, in the Creature panel,
+   in the drawers and in the token menu — one recipe: the value chip's Barlow Condensed 700,
+   centred, 0 × 8 inside the field's 1 px edge (18 px in a 40 px field; the sheet band's tall
+   field keeps 24). The Creature panel's ±HP no longer keeps Chromium's 1 × 2 padding and
+   Roboto, the token menu's no longer the text field's Roboto 16/400. */
 :root[data-direction="demiplane"]:not([data-pref-theme="light"])
-  :is(#dialog .ct-start-d20 input, .dt-hp-row .dt-amount) {
+  :is(#dialog .ct-start-d20 input, .dt-hp-row .dt-amount, .token-menu-hp input) {
   padding: 0 var(--space-2);
   font-family: var(--font-label);
   font-weight: 700;
@@ -4863,9 +4894,7 @@
   text-align: center;
 }
 :root[data-direction="demiplane"]:not([data-pref-theme="light"])
-  :is(.table-layout, dialog)
-  .dt-hp-row
-  .dt-amount {
+  :is(.table-layout .dt-hp-row .dt-amount, dialog .dt-hp-row .dt-amount, .token-menu-hp input) {
   font-size: var(--text-lg);
 }
 
@@ -4937,29 +4966,36 @@
   }
 }
 
-/* Home: «Tutte le discussioni» is the same «see all» link as «Tutte le campagne» and «Tutti
-   gli annunci»; the folds («Novità precedenti», «Cronologia degli incidenti») read as the
-   site's links too (they were gold Roboto). */
+/* Home: every quiet button is the site's text link, like «Tutte le campagne» and «Tutti gli
+   annunci» (cyan Barlow 14/600, 8 × 0, no border): «Tutte le discussioni», «Segna tutte come
+   lette», «Segna come letta», «Unisciti con un invito», «Nascondi i primi passi» (they were
+   white 8 × 16 buttons inside a 1 px transparent edge, so the «see all» links' right edges
+   differed by 1 px); after another button it keeps the game voice's 12 px step. The folds
+   («Novità precedenti», «Cronologia degli incidenti») read as the site's links too (they
+   were gold Roboto). */
 :root[data-direction="demiplane"]:not([data-pref-theme="light"])
   .home-dashboard
   .home-page
-  :is(.cm-home, .chat-home, .community-home)
-  > .section-heading
-  > .button.quiet {
+  .button.quiet {
   min-width: var(--dp-h-control);
   padding-inline: 0;
-  border-color: transparent;
+  border-width: 0;
   background: transparent;
   color: var(--dp-cyan);
 }
 :root[data-direction="demiplane"]:not([data-pref-theme="light"])
   .home-dashboard
   .home-page
-  :is(.cm-home, .chat-home, .community-home)
-  > .section-heading
-  > .button.quiet:hover:not(:disabled) {
+  .button.quiet:hover:not(:disabled) {
   background: transparent;
   color: var(--dp-hover-nav);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-dashboard
+  .home-page
+  .button
+  + .button.quiet {
+  margin-inline-start: var(--space-3);
 }
 /* «Accesso rapido» (shown once a sheet was opened on this device) is a flat site section like
    its neighbours, its title in Barlow 24/700 (it was a bordered box with a Cinzel title). */
@@ -5062,14 +5098,19 @@
   border-color: var(--dp-blue);
   background: radial-gradient(circle at 28px 50%, #ffffff 6px, transparent 6.5px) var(--dp-blue);
 }
-:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .offline-switch-track {
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .offline-switch-track {
   border-color: var(--line-strong);
   background: rgb(255 255 255 / 0.3);
 }
-:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .offline-switch-track::after {
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .offline-switch-track::after {
   background: #e0e0e0;
 }
 :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
   .offline-switch
   input:checked
   + .offline-switch-track {
@@ -5077,6 +5118,7 @@
   background: var(--dp-blue);
 }
 :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
   .offline-switch
   input:checked
   + .offline-switch-track::after {
@@ -5095,8 +5137,12 @@
 
 /* Active conditions are game tags at control height (the chip opens the condition list): the
    inset chip, a 1 px rule (gold for Concentration), condensed caps, 0 × 12 — they kept the
-   app's warm bronze plate and Roboto. */
-:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .conditions-chip {
+   app's warm bronze plate and Roboto. A controller's chip is its manage button, so the edge
+   and the inset sit on that button: 40 px tall in all (it was a 40 px button inside a 1 px
+   edge, 42). Sheet, Table and dialogs only. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout, dialog)
+  .conditions-chip {
   display: inline-flex;
   align-items: center;
   gap: var(--space-1);
@@ -5112,14 +5158,35 @@
   font-variant-caps: all-small-caps;
 }
 :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout, dialog)
   .conditions-chip:not(:has(> .conditions-chip-manage)),
-:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .conditions-chip-manage {
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout, dialog)
+  .conditions-chip-manage {
   padding: 0 var(--space-3);
 }
-:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .conditions-chip.is-concentration {
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout, dialog)
+  .conditions-chip:has(> .conditions-chip-manage) {
+  border-width: 0;
+  background: transparent;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout, dialog)
+  .conditions-chip-manage {
+  min-height: var(--dp-h-control);
+  border: var(--dp-b-1) solid var(--line);
+  border-radius: var(--radius-xs);
+  background: var(--dp-inset);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout, dialog)
+  .conditions-chip.is-concentration {
   border-color: var(--dp-gold);
 }
-:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .conditions-chip:hover {
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout, dialog)
+  :is(.conditions-chip:not(:has(> .conditions-chip-manage)), .conditions-chip-manage):hover {
   border-color: var(--line-strong);
 }
 
@@ -5255,4 +5322,161 @@
     .spl-stat dd small
   ) {
   font-weight: 600;
+}
+
+/* ================================================================== I-250, fourth polish
+   round (01/10): the verifier's open items, then the last same-kind differences. */
+
+/* Worded turn commands — «Rialzati · 4,5 m» when the creature is Prone, and on a phone preview
+   «Mappa» and «Dettagli mossa» — are the game button, never a turn circle: the 40 px inset
+   slab, 8 × 16, radius 4, as wide as its words on one line. They keep the app's grid spans
+   (at 1440 the stand command runs the three command columns, centred in its 48 px row). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-layout
+  > .action-dock.table-hotbar
+  > .toolbar
+  :is([data-table="stand"], .mobile-combat-link) {
+  min-width: var(--dp-h-control);
+  min-height: var(--dp-h-control);
+  padding: var(--space-2) var(--space-4);
+  white-space: nowrap;
+}
+@media (min-width: 721px) {
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar
+    > :is(.stand-control, [data-table="stand"]) {
+    align-self: center;
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar
+    > .stand-control {
+    padding-inline: 0;
+  }
+}
+
+/* The sheet's folds are text actions like every ghost command around them (white condensed
+   caps 18/700, as the HP widget's folds): «Perché?» on Magie, «Regola d'ingombro» and
+   «Visualizzazione» on Inventario (they were the app's gold Roboto 14). Linked SRD citations
+   keep the grey of the special moves' citations (the travel card's was gold). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-window-why, .invp-rule, .invp-view)
+  > summary {
+  color: #ffffff;
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+  line-height: var(--dp-lh-tight);
+}
+/* Disclosure rows stay 40 px: the encumbrance rule wraps to two lines of condensed caps in its
+   narrow box, so they stand on line height 1 (small caps are ≈ 9 px tall, so the lines still
+   clear each other; two lines of 1.2 made it 43). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .invp-rule
+  > summary {
+  line-height: var(--dp-lh-solid);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet a.travel-source {
+  color: var(--muted);
+}
+
+/* The condition chip's manage button takes the controls' 3 px focus ring (the app's is 2). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout, dialog)
+  .conditions-chip-manage:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* Home item titles are the shell's Barlow 16/700, as the discussions' titles: the Primi passi
+   fold («Da dove vuoi iniziare?»), the next appointment's campaign and the names in «Accesso
+   rapido» (all three were Roboto). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-page
+  :is(
+    .home-start-fold > summary strong,
+    .home-appointment-campaign strong,
+    .home-recent .home-chip strong
+  ) {
+  font-family: var(--dp-font-shell);
+  font-size: var(--text-md);
+  font-weight: 700;
+  line-height: var(--dp-lh-tight);
+}
+/* The calendar list under «Aggiungi al calendario» is a site menu, the token menu's surface:
+   Demiplane's dropdown (#1B1C22 inside a 1 px rule, radius 4, elevation 8; it was the app's
+   #3F3F3F card with a 16 px corner) with rows in the menus' Barlow 14/700, square, 40 px (44
+   on a phone, as the token menu's sheet). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-page
+  .int-cal-menu
+  > .int-cal-list {
+  border: var(--dp-b-1) solid var(--line);
+  border-radius: var(--radius-xs);
+  background: var(--dp-shell);
+  box-shadow: var(--shadow-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .int-cal-item {
+  min-height: var(--dp-h-control);
+  padding: var(--space-2) var(--space-3);
+  border-radius: 0;
+  font-family: var(--dp-font-shell);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+@media (max-width: 720px) {
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .int-cal-item {
+    min-height: var(--dp-h-tile);
+  }
+}
+
+/* The token menu's HP line reads as the sheet's: «PF» is a field label (condensed caps, grey;
+   it was gold Roboto 600) and «/ 22» the sheet band's denominator (Barlow Condensed 14/600)
+   beside the number field. Its active conditions are tags (they were Roboto pills): the tag recipe — 24 px,
+   0 × 8, radius 4, inset with a 1 px rule, condensed caps 16/700 — on the 8 px gap. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .token-menu .token-menu-hp label {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .token-menu .token-menu-hp-max {
+  font-family: var(--font-label);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  line-height: var(--dp-lh-tight);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .token-menu
+  .token-menu-conditions {
+  gap: var(--space-2);
+  margin: var(--space-1) 0 var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .token-menu
+  .token-menu-conditions
+  li {
+  box-sizing: border-box;
+  min-block-size: var(--dp-h-tag);
+  gap: var(--space-1);
+  padding: 0 var(--space-2);
+  border: var(--dp-b-1) solid var(--line);
+  border-radius: var(--radius-xs);
+  background: var(--dp-inset);
+  color: #ffffff;
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+  line-height: var(--dp-lh-tight);
 }

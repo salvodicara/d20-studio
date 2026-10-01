@@ -910,28 +910,29 @@
 :root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-page {
   --home-gap: var(--r20-sp-7);
 }
-@media (min-width: 1101px) {
-  :root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-layout {
-    column-gap: var(--r20-sp-7);
-  }
-  :root[data-direction="roll20"]:not([data-pref-theme="light"])
-    .home-layout
-    > .home-main
-    > :where(:not([data-ext-slot])),
-  :root[data-direction="roll20"]:not([data-pref-theme="light"])
-    .home-layout
-    > .home-main
-    > :where([data-ext-slot])
-    > :where(*) {
-    margin: 0 0 var(--r20-sp-7);
-  }
-  :root[data-direction="roll20"]:not([data-pref-theme="light"])
-    .home-layout
-    .home-main
-    .home-appointment {
-    margin: 0 0 var(--r20-sp-7);
-    padding: var(--r20-sp-7);
-  }
+/* One 24 px rhythm between the cards at every width (polish round 4): in one column the app's
+   20, 0, 28 and 36 px steps (appointment, characters, lists, news column) become the cards'
+   24, each card's bottom margin standing in for a row gap, as in the wide grid. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-layout {
+  gap: 0 var(--r20-sp-7);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .home-layout
+  > .home-main
+  > :where(:not([data-ext-slot])),
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .home-layout
+  > .home-main
+  > :where([data-ext-slot])
+  > :where(*) {
+  margin: 0 0 var(--r20-sp-7);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .home-layout
+  .home-main
+  .home-appointment {
+  margin: 0 0 var(--r20-sp-7);
+  padding: var(--r20-sp-7);
 }
 :root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-page .page-heading p {
   color: var(--muted);
@@ -1001,18 +1002,12 @@
   gap: var(--r20-sp-5);
   margin-top: 0;
 }
-/* «▶ Launch Game»: the Grimoire medium button (2.875rem) in the dark primary. */
+/* «▶ Launch Game»: the Grimoire medium button (2.875rem) in the dark primary, with the 20 px
+   glyph of every button (polish round 4: it drew 16 px, the smallest glyph on the largest
+   button). */
 :root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-page .resume-scene .button {
   min-height: var(--r20-ctl-lg);
   padding: 0 var(--r20-sp-7);
-}
-:root[data-direction="roll20"]:not([data-pref-theme="light"])
-  .home-page
-  .resume-scene
-  .button.primary
-  .icon {
-  width: var(--r20-sp-6);
-  height: var(--r20-sp-6);
 }
 /* Next session: Roll20's «Next Game Will Be» block — the date carries the weight. */
 :root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-layout .home-appointment h2,
@@ -1137,6 +1132,8 @@
   padding: var(--r20-sp-3) var(--r20-sp-5);
   border-bottom-color: var(--r20-edge);
 }
+/* One pill tab (polish round 4): the Table panel's sub-tabs and these share 40 px, 12 px sides,
+   8 px corners and 14/700 words. */
 :root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-tabs [role="tab"] {
   min-height: var(--r20-ctl);
   gap: var(--r20-sp-3);
@@ -1145,7 +1142,7 @@
   border-radius: var(--r20-r-2);
   color: var(--r20-p6);
   font-family: var(--font-ui);
-  font-size: var(--r20-fs-16);
+  font-size: var(--r20-fs-14);
   font-weight: 700;
   letter-spacing: 0;
   font-variant-caps: normal;
@@ -4035,14 +4032,18 @@
   font-size: var(--r20-fs-13);
   font-weight: 700;
 }
+/* The dice mode select is the option's one field (polish round 4): 16 px words like every other
+   field, under the strip's 13 px label. */
 :root[data-direction="roll20"]:not([data-pref-theme="light"])
   .table-layout
   .table-hotbar
   .combat-bar-heading
   select {
-  font-size: var(--r20-fs-13);
+  font-size: var(--r20-fs-16);
 }
-/* «Tiri e risultati» keeps its words only where the app shows them (wide windows, not tight). */
+/* «Tiri e risultati» keeps its words only where the app shows them (wide windows, not tight):
+   the macro bar's 13 px words with the macro chips' 16 px glyph. Where the app empties it to
+   its glyph it is an icon-only command and keeps the 20 px glyph. */
 @media (min-width: 1440px) {
   :root[data-direction="roll20"]:not([data-pref-theme="light"])
     .table-layout
@@ -4050,6 +4051,15 @@
     .combat-bar-heading
     .text-button {
     font-size: var(--r20-fs-13);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar:not(.is-tight)
+    .combat-bar-heading
+    .text-button
+    > .icon {
+    width: var(--r20-sp-6);
+    height: var(--r20-sp-6);
   }
 }
 :root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-tab-label {
@@ -4731,7 +4741,9 @@
 }
 /* Active conditions: one chip — the exhaustion cells' #353535 inside the grey rim, 40 px high
    with the words on its middle line, whether the chip is plain, opens its list or ends a
-   concentration (its × the 40 px square of every command). */
+   concentration (its × the 40 px square of every command). The rim is drawn inside the box
+   (polish round 4), so the chip is 40 px with its 40 px × and level with the exhaustion cells
+   (a 1 px border made it 42). */
 :root[data-direction="roll20"]:not([data-pref-theme="light"])
   :is(.character-sheet, .table-layout)
   .conditions-chip {
@@ -4740,16 +4752,23 @@
   gap: var(--r20-sp-2);
   min-height: var(--r20-ctl);
   padding: 0 var(--r20-sp-5);
-  border-color: var(--r20-tile-edge);
+  border: 0;
   border-radius: var(--r20-r-1);
   background: var(--r20-s2);
+  box-shadow: inset 0 0 0 var(--r20-bw-1) var(--r20-tile-edge);
   color: var(--text);
 }
 :root[data-direction="roll20"]:not([data-pref-theme="light"])
   :is(.character-sheet, .table-layout)
   .conditions-chip.is-concentration {
   padding-right: 0;
-  border-color: var(--r20-p6);
+  box-shadow: inset 0 0 0 var(--r20-bw-1) var(--r20-p6);
+}
+/* On the sheet the concentration rim is the sheet's light red (no lilac inside the sheet). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .conditions-chip.is-concentration {
+  box-shadow: inset 0 0 0 var(--r20-bw-1) var(--r20-sheet-light);
 }
 :root[data-direction="roll20"]:not([data-pref-theme="light"])
   :is(.character-sheet, .table-layout)
@@ -4814,4 +4833,187 @@
   flex: none;
   width: calc(var(--r20-sp-6) + var(--r20-sp-2));
   height: calc(var(--r20-sp-6) + var(--r20-sp-2));
+}
+
+/* ------------------------------------------------------------------ polish round 4 (I-250)
+   The fourth independent check (notes/open-items-round4.json, «roll20») and the I-250 pass on
+   the audit, the specimen and the pages below the fold. */
+/* «Torna al Tavolo»: the band that follows the open game onto every other page, under the nav
+   bar. A Grimoire notice band — the cards' #1F1F1F over their #2A2A2A rim — on the header's
+   gutter (32 px, 16 on a phone): the command in the one tertiary look (lilac Nunito 16/800 with
+   the button tracking and the 20 px glyph; its 16 px padding moves into the gutter, so the glyph
+   starts on the brand's edge), the note in the secondary grey at 14 px, both on the band's
+   middle line (the note sat 12 px above the command's words). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) #app > .table-return {
+  align-items: center;
+  gap: var(--r20-sp-6);
+  padding: var(--r20-sp-2) var(--r20-sp-8);
+  border-bottom: var(--r20-bw-1) solid var(--r20-edge);
+  background: var(--r20-s1);
+  color: var(--muted);
+  font-family: var(--font-ui);
+  font-size: var(--r20-fs-14);
+  line-height: var(--r20-lh-body);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) #app > .table-return > button {
+  gap: var(--r20-sp-5);
+  min-height: var(--r20-ctl);
+  margin-inline-start: calc(-1 * var(--r20-sp-6));
+  padding: 0 var(--r20-sp-6);
+  border-radius: var(--r20-r-2);
+  color: var(--r20-tertiary);
+  font-family: var(--font-display);
+  font-size: var(--r20-fs-16);
+  font-weight: 800;
+  line-height: var(--r20-lh-tight);
+  letter-spacing: var(--r20-track-btn);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) #app > .table-return > button:hover {
+  background: rgb(169 128 189 / 0.16);
+  color: var(--r20-p8);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  #app
+  > .table-return
+  > button
+  > .icon {
+  flex: none;
+  width: calc(var(--r20-sp-6) + var(--r20-sp-2));
+  height: calc(var(--r20-sp-6) + var(--r20-sp-2));
+}
+/* On a phone the command takes Grimoire's small size, as the scene's commands there (14 px, no
+   tracking, the glyph 8 px from its words), so the game's name stays on the command's line. */
+@media screen and (max-width: 720px) {
+  :root[data-direction="roll20"]:not([data-pref-theme="light"]) #app > .table-return {
+    padding-inline: var(--r20-sp-6);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"]) #app > .table-return > button {
+    gap: var(--r20-sp-4);
+    font-size: var(--r20-fs-14);
+    letter-spacing: 0;
+    text-align: start;
+  }
+}
+/* Inventory rows: the figures keep one column from row to row (Roll20's inventory table, S25).
+   Each row is a two-line grid — the item (glyph tile, name, tags, notes) on the left, the
+   figure columns on the right with the row's commands under them — and every figure column is
+   at least 72 px, so Qtà, Peso and Cariche stand at the same x whatever commands a row carries
+   (they moved between four positions). Below 561 px the app's own stacking stays. */
+@media (min-width: 561px) {
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .character-sheet
+    .invp-row:has(> .invp-cols) {
+    display: grid;
+    grid-template-columns: var(--r20-ctl) minmax(0, 1fr) auto;
+    grid-template-areas:
+      "icon main cols"
+      "icon main actions";
+    gap: var(--r20-sp-1) var(--r20-sp-6);
+    align-items: center;
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .character-sheet
+    .invp-row:has(> .invp-cols)
+    > .invp-row-icon {
+    grid-area: icon;
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .character-sheet
+    .invp-row:has(> .invp-cols)
+    > .invp-row-main {
+    grid-area: main;
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .character-sheet
+    .invp-row:has(> .invp-cols)
+    > .invp-cols {
+    grid-area: cols;
+    align-self: end;
+    justify-self: end;
+    gap: var(--r20-sp-5);
+    margin-left: 0;
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .character-sheet
+    .invp-row:has(> .invp-cols)
+    > .invp-row-actions {
+    grid-area: actions;
+    align-self: start;
+    justify-self: end;
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .character-sheet
+    .invp-row
+    > .invp-cols
+    > .invp-col {
+    min-width: calc(var(--r20-sp-9) + var(--r20-sp-7));
+  }
+}
+/* The initiative window's note: its inline «Apri preparazione» keeps the 40 px target without
+   stretching its line (the last line stood 27 px under the one above, on an 18 px leading). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .ct-start-note > .text-button {
+  display: inline-flex;
+  align-items: center;
+  margin-block: calc((var(--r20-fs-13) * var(--r20-lh-body) - var(--r20-ctl)) / 2);
+}
+/* «Il tuo personaggio»: the row's 8 px padding moves into the card's gutter, so the portrait
+   starts on the card title's edge (it stood 8 px in) and the hover tile overhangs it. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-page .character-resume {
+  width: calc(100% + 2 * var(--r20-sp-4));
+  margin-inline: calc(-1 * var(--r20-sp-4));
+}
+/* The sheet's sections stand one 24 px apart, the grid's gap (the areas' own 16, 18, 20 and 24 px
+   margins made 40 to 48 px steps between them). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tab-content
+  > *,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tab-content
+  > [data-ext-slot]
+  > * {
+  margin-block: 0;
+}
+/* The rolls panel ends on its padding (its policy line kept a 16 px margin under it). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .dtray-sheet-policy {
+  margin-bottom: 0;
+}
+/* Switches and check boxes on their line: no browser margin (the sheet's DM switch sat 3 px
+   low, «Solo pronte al lancio» kept the check box's 3–4 px). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .cs-switch input,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .spl-check input {
+  margin: 0;
+}
+/* Rule terms inside sentences: the dotted underline exactly under the word (no 1 px sides, no
+   2 px corners); the app's 40 px hit area around it stays. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .compendium-term {
+  padding: 0;
+  border-radius: 0;
+}
+/* The session button's status dots on the spacing scale. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .session-view-dots {
+  gap: var(--r20-sp-1);
+}
+/* Inventory rows on a phone: the scale's 8 and 16 px between the row's parts (the app's 14). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .invp-row {
+  gap: var(--r20-sp-4) var(--r20-sp-6);
+}
+/* The rules' word lists («Azioni in combattimento (2024): Attacco · Scatto …», «Reazioni di
+   tutti»): 16 px between the words and after the label, a wrapped line starting on the text's
+   edge (it stood 6 px in); each word keeps its 6 px hover tile, drawn into the gap. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-generic-line {
+  column-gap: var(--r20-sp-6);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-generic-line
+  strong {
+  margin-right: 0;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-generic-line
+  .shp-generic-open {
+  margin-inline: calc(-1 * var(--r20-sp-3));
 }

@@ -90,7 +90,14 @@
    - One box per kind ................ Inizio's tabs in the tabs' 40 px box, «Nuova» in the
                                         badges' small caps, one row value box, one dashed empty
                                         zone, the phone's page tabs and square glyphs as the
-                                        desktop's */
+                                        desktop's
+   Polish round 4 (01/10, notes/open-items-round4.json and I-250):
+   - Number fields ................... F12/F13 [O] every number field is the number box (16 bold,
+                                        centred, no spin buttons), the hit-point window included
+   - Vertical rhythm ................. F1 [O] Foundry's sidebar documents: 16 px between blocks,
+                                        24 over a titled group, 8 from a title to its commands;
+                                        the sheet's stacked panels on one 24 px gutter
+   - Open page in the header ......... the link keeps its 600 weight; the warm underline marks it */
 
 /* ------------------------------------------------------------------ fonts (vendored, OFL) */
 @font-face {
@@ -432,11 +439,12 @@
   background: rgb(239 230 216 / 0.06);
   color: var(--text);
 }
-/* The open page: Foundry's category list, a warm underline under bold cream words. */
+/* The open page: Foundry's category list, a warm underline under cream words. The weight stays
+   the links' 600 (round 4, I-250: one link look, and the label no longer widens when opened, as
+   the Table's sub-tabs); the underline is the mark, not the colour alone. */
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .nav-link.active {
   background: transparent;
   color: var(--text);
-  font-weight: 700;
   box-shadow: inset 0 calc(-1 * var(--fv-bw-2)) var(--fv-active);
 }
 /* Header services: the setup screen's square icon buttons (1 px light rim, dark fill). Every
@@ -645,10 +653,17 @@
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .table-hotbar select {
   padding-inline: var(--fv-sp-4);
 }
-/* A number box (the d20, the hit points, a quantity) shows its number centred: no spin
-   buttons, whose gutter set «18» 5–7 px left of centre (round 2). */
+/* A number box (the d20, the hit points, a quantity, every number field) shows its number
+   centred: no spin buttons, whose gutter set «18» 5–7 px left of centre (round 2). */
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
-  :is(.ct-start-d20 input, .dt-amount, .token-menu-hp input, .loot-qty input) {
+  :is(
+    .ct-start-d20 input,
+    .dt-amount,
+    .token-menu-hp input,
+    .loot-qty input,
+    .field input[type="number"],
+    .dt-correct .dt-field-row input
+  ) {
   appearance: textfield;
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
@@ -656,14 +671,18 @@
     .ct-start-d20 input,
     .dt-amount,
     .token-menu-hp input,
-    .loot-qty input
+    .loot-qty input,
+    .field input[type="number"],
+    .dt-correct .dt-field-row input
   )::-webkit-inner-spin-button,
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   :is(
     .ct-start-d20 input,
     .dt-amount,
     .token-menu-hp input,
-    .loot-qty input
+    .loot-qty input,
+    .field input[type="number"],
+    .dt-correct .dt-field-row input
   )::-webkit-outer-spin-button {
   margin: 0;
   appearance: none;
@@ -798,9 +817,12 @@
   background: rgb(5 4 9 / 0.7);
   border-bottom-color: rgb(239 230 216 / 0.08);
 }
+/* The title block sits 32 px above the panels (the app's 30 px is moved onto the spacing
+   scale, round 4). */
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page > .page-heading {
   position: relative;
   justify-content: center;
+  margin-bottom: var(--fv-sp-8);
   text-align: center;
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page > .page-heading > div {
@@ -993,6 +1015,22 @@
   :is(.resume-scene, .home-appointment)
   h2::after {
   background: linear-gradient(270deg, transparent, var(--fv-rule));
+}
+/* «Dove eravamo rimasti»: the recap's title sits 8 px over its text, the text 16 px over «Leggi
+   il resoconto» (the app's 1 em margins, 18 and 15 px, moved onto the spacing scale; round 4). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .home-page
+  .home-bottom
+  > section
+  > h3 {
+  margin-bottom: var(--fv-sp-4);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .home-page
+  .home-bottom
+  > section
+  > p {
+  margin-bottom: var(--fv-sp-6);
 }
 /* A panel's «see all» command is one link in every panel (Foundry's orange links): «Tutte le
    discussioni» is a quiet button in the app, the others are text links; it takes the link's
@@ -2108,14 +2146,32 @@
   font-weight: 700;
   text-align: center;
 }
-/* The Table's hit-point widget has the same number box, in Foundry's plum field. */
-:root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .dt-amount {
+/* Everywhere else the HP amount is the same number box in Foundry's plum field: the Table's
+   widget, and the hit-point window opened from the hotbar or a token, where it kept the
+   browser's grey field (1 × 2 px, #3B3B3B; round 4). It answers hover and focus as the fields. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .dt-amount {
   min-height: var(--fv-ctl);
   padding: 0 var(--fv-sp-3);
   border: var(--fv-bw-1) solid var(--fv-cool-4);
   border-radius: var(--fv-radius-1);
   background-color: var(--fv-cool-4);
   color: var(--text);
+  font-size: var(--fv-fs-16);
+  font-weight: 700;
+  text-align: center;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .dt-amount:hover:not(:disabled) {
+  border-color: var(--line-strong);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .dt-amount:focus-visible {
+  border-color: var(--fv-warm-1);
+}
+/* Every number field is a number box (round 4, I-250): the secondary ones too (temporary HP,
+   «Massimo ±», the three «Correggi» values, a birth year, a die face), so the HP disclosure
+   no longer shows two looks side by side. Each keeps its surface's fill and rim. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  :is(.field input[type="number"], .dt-correct .dt-field-row input) {
+  padding: 0 var(--fv-sp-3);
   font-size: var(--fv-fs-16);
   font-weight: 700;
   text-align: center;
@@ -2515,6 +2571,46 @@
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .section-heading {
   flex-wrap: wrap;
   row-gap: var(--fv-sp-4);
+}
+/* One gutter between the stacked panels of a sheet page (round 4, I-250): the page's own 24 px
+   grid gap. The app also gives the panels of «Azioni» a 16, 18, 20 or 24 px top margin, so the
+   gaps were 40–48 px, and 24 px around «Mosse». */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tab-content
+  > div
+  > .panel:first-child {
+  margin-top: 0;
+}
+/* A panel's note sits 16 px over what follows (the app's 1 em, 15 px), and a panel's last line
+   leaves no margin under it: the bottom of «Tiri» and «Chi può modificare la scheda» read 39 px
+   against the 24 px of every other panel. «Formula libera» is 8 px over «Tira», as «Tira» is
+   over its hint (the app's field margin is 18 px). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.qb-custom, .sm-sheet, .ct-policy-box, .cs-sheet, .shp-col-skills)
+  > p.muted {
+  margin-bottom: var(--fv-sp-6);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  .panel
+  > p:last-child {
+  margin-bottom: 0;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  .dtray-sheet-free
+  > .field {
+  margin-bottom: var(--fv-sp-4);
+}
+/* «Cambia…» sits on the middle of «Politica dei tiri», not 6 px above it (the button stood on
+   its icon's baseline). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  .dtray-sheet-policy
+  > .button {
+  vertical-align: middle;
 }
 /* dnd5e's item lists (D3 Inventory, D6/D7 Spells): one maroon header bar per section (white
    bold name, dark.less #491D25 → #311B1F), its rows in the blue-grey card under it, split by
@@ -3391,6 +3487,54 @@
 /* The inspector's group titles («Forme e creature collegate») sit 8 px over their commands. */
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .forms-summary > h3 {
   margin-bottom: var(--fv-sp-4);
+}
+/* One rhythm down the Creature panel (round 4, I-250), as Foundry's sidebar documents: 16 px
+   between its blocks (name, last move, state, commands), 24 px over a titled group, 8 px from
+   a title to its commands, and the move summary 16 px inside its two hairlines. The app's 12,
+   14, 18 and 22 px margins left a 52 px hole over «Scegli una mossa…» and the toolbar's 14 px
+   top margin beat the title's 8. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  > .inspector-person,
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .inspector-quick {
+  margin-bottom: var(--fv-sp-6);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  > .conditions-summary.embedded {
+  margin-bottom: var(--fv-sp-6);
+  padding-top: 0;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .forms-summary {
+  padding-block: var(--fv-sp-4) 0;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .table-layout
+  .forms-summary
+  > .forms-toolbar {
+  margin-block: 0;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .combat-detail {
+  margin-block: var(--fv-sp-6);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .table-layout
+  .combat-detail
+  > p:last-child {
+  margin-bottom: 0;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .inspector-buttons {
+  margin-top: var(--fv-sp-6);
+}
+/* The panels added below by other areas (regions, hit points, notes…) are titled groups: 24 px
+   over each (the app's 25). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  > .table-ext-panel {
+  margin-top: var(--fv-sp-7);
 }
 /* The inspector's commands keep their words on one line (Foundry's sidebar buttons): they
    share each row by their length instead of two even columns that broke «Scheda completa» onto

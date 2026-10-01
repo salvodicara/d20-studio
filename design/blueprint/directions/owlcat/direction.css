@@ -60,6 +60,8 @@
                                         by a «color» blend), bookmark ribbons at the spine
    - Active tile on iron ............. W1 lit rook tile #3A1129 + a cream ring (lightness and
                                         shape cue); hover lights the rim only
+   - One switch ...................... W15 plum stepper [I]: a square 40 × 22 iron well, 14 px
+                                        knob, plum #3C1129 with a gem knob at the far end when on
    - Icons ........................... game-icons.net (CC BY 3.0) filled glyphs on iron tiles
                                         (facts §0.7 c) and dark radial tiles for the hotbar (a);
                                         the rolls button a die (CSS mask) */
@@ -190,6 +192,11 @@
   --oc-slot: 48px;
   /* The glyph on an iron tile: the app's own 21 px square icon, at every width. */
   --oc-glyph: 21px;
+  /* One switch: the app's 40 × 22 well with a 14 px knob 4 px from the edge (its label row
+     keeps the 40 px target). */
+  --oc-switch-w: 40px;
+  --oc-switch-h: 22px;
+  --oc-knob: 14px;
   /* The app's own steps, moved onto the same scales. */
   --text-2xs: var(--oc-fs-11);
   --text-xs: var(--oc-fs-12);
@@ -1197,11 +1204,31 @@
   h2 {
   min-width: 160px;
 }
-/* «Accesso rapido» follows the grid of leaves above it: grid items paint after ordinary
-   blocks, so on the phone the halo of «Dove eravamo rimasti» fell across its top. Positioned,
-   it paints in order over the halo of the leaf above, as every other leaf does. */
-:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .home-recent {
+/* Every leaf paints in one layer, in page order, so each leaf covers the halo of the leaf
+   above it. Grid items («Il tuo personaggio», «Dove eravamo rimasti») and positioned leaves
+   paint after ordinary blocks: left static, the leaf under them («Accesso rapido» or «Le tue
+   campagne») wore their halo across its top. The letter-book stays sticky beside the leaves on
+   a wide screen (the app's own position); below 1101 px it joins the stack, without the
+   sticky offset (the app's top: 16px would push it down). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .home-page
+  :is(
+    .resume-scene,
+    .home-appointment,
+    .home-bottom > section,
+    .cm-home,
+    .home-recent,
+    .chat-home,
+    .community-home,
+    .home-start
+  ) {
   position: relative;
+}
+@media (max-width: 1100px) {
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .home-aside {
+    position: relative;
+    top: auto;
+  }
 }
 :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .section-heading {
   margin-bottom: var(--oc-sp-4);
@@ -1213,6 +1240,30 @@
   color: var(--oc-ink);
   font-size: var(--oc-fs-18);
   font-weight: 600;
+}
+/* «Tutte le discussioni» is a leaf's «see all» link, like «Tutte le campagne» and «Tutti gli
+   annunci» (the app drew it as a quiet button): plum words flush with the leaf's edge, not
+   small capitals 16 px in. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .home-page
+  .chat-home
+  > .section-heading
+  > .button.quiet {
+  padding-inline: 0;
+  color: var(--accent);
+  letter-spacing: 0;
+  font-variant-caps: normal;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .home-page
+  .chat-home
+  > .section-heading
+  > .button.quiet:hover:not(:disabled) {
+  background: transparent;
+  color: var(--accent-strong);
+  text-decoration: underline;
+  text-decoration-thickness: var(--oc-bw-1);
+  text-underline-offset: var(--oc-sp-2);
 }
 /* «Continua a giocare» is the open book: the left page a framed picture of the last scene
    (the menu's mirror), the right page the way in, a shadowed spine between them. */
@@ -1365,6 +1416,14 @@
     .home-main
     .home-appointment {
     rotate: -1.5deg;
+  }
+  /* Tilted, the letter is a layer of its own: its open «Aggiungi al calendario» list could not
+     rise over the letter-book below it. While the list is open the letter comes forward. */
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .home-layout
+    .home-main
+    .home-appointment:has(.int-cal-menu[open]) {
+    z-index: 1;
   }
 }
 :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .home-countdown {
@@ -1900,6 +1959,15 @@
 :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .character-hp-value {
   border-radius: var(--oc-radius);
 }
+/* Its focus ring is the page's one ring (3 px of the focus colour, 3 px out), not the app's
+   2 px accent outline. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-hp
+  .character-hp-value:focus-visible {
+  outline: var(--oc-bw-focus) solid var(--focus);
+  outline-offset: var(--oc-bw-focus);
+}
 :root[data-direction="owlcat"]:not([data-pref-theme="light"])
   .character-sheet
   .character-hp
@@ -1951,6 +2019,26 @@
   font-weight: 700;
   line-height: var(--oc-lh-tight);
   text-align: center;
+  appearance: textfield;
+}
+/* The d20s are number fields: Chromium keeps a slot for the spin buttons, which put their
+   figures 8 px left of the centre the text fields keep. Typed, not spun (WotR's fields). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(
+    .character-sheet .dt-amount,
+    .table-layout .dt-amount,
+    .ct-start-d20 input,
+    .token-menu-hp input
+  )::-webkit-inner-spin-button,
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(
+    .character-sheet .dt-amount,
+    .table-layout .dt-amount,
+    .ct-start-d20 input,
+    .token-menu-hp input
+  )::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 :root[data-direction="owlcat"]:not([data-pref-theme="light"])
   .character-sheet
@@ -2215,40 +2303,109 @@
 :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .shp-xpbar > span {
   background: linear-gradient(90deg, var(--oc-plum-bar), #793e70);
 }
-/* Effects: WotR's plum stepper look — a square switch, the knob a plum lozenge when on. */
+/* Effects: WotR's plum stepper look — a pill of paper holding the one switch below. */
 :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .shp-switch {
   border: var(--oc-bw-1) solid var(--oc-hairline);
   border-radius: var(--oc-radius);
   background: var(--oc-paper-hi);
   color: var(--oc-ink);
 }
-:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .shp-switch-knob {
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-switch[aria-checked="true"], .shp-switch.is-static.is-on) {
+  border-color: var(--oc-keyword);
+}
+/* One switch (I-250) for every on/off on the sheet and at the Table: the square iron well,
+   40 × 22, with a square 14 px knob 4 px from its edge; on, the well turns the HUD's plum and
+   the knob a gem at the far end, so its place says it, not the colour alone. The app drew
+   three sizes: 44 × 26 with an 18 px knob (Heroic Inspiration), 40 × 22 with a 12 px knob
+   (offline, the DM's edits) and 28 × 16 inside the effect pills. The label row stays the
+   40 px target. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout)
+  :is(.dtray-switch-track, .offline-switch-track, .shp-switch-knob, .cs-switch > input),
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout)
+  .dtray-switch
+  > input {
+  width: var(--oc-switch-w);
+  height: var(--oc-switch-h);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout)
+  :is(.dtray-switch-track, .offline-switch-track, .shp-switch-knob, .cs-switch > input) {
+  --oc-knob-inset: calc((var(--oc-switch-h) - 2 * var(--oc-bw-1) - var(--oc-knob)) / 2);
+  border: var(--oc-bw-1) solid var(--oc-iron-line);
   border-radius: var(--oc-radius);
   background: var(--oc-iron-deep);
   box-shadow: none;
 }
 :root[data-direction="owlcat"]:not([data-pref-theme="light"])
-  .character-sheet
-  .shp-switch-knob::after {
+  :is(.character-sheet, .table-layout)
+  :is(.dtray-switch-track, .offline-switch-track, .shp-switch-knob)::after {
+  top: var(--oc-knob-inset);
+  left: var(--oc-knob-inset);
+  width: var(--oc-knob);
+  height: var(--oc-knob);
   border-radius: var(--oc-radius);
   background: var(--oc-on-iron-dim);
 }
 :root[data-direction="owlcat"]:not([data-pref-theme="light"])
-  .character-sheet
-  .shp-switch[aria-checked="true"] {
-  border-color: var(--oc-keyword);
+  :is(.character-sheet, .table-layout)
+  .cs-switch
+  > input {
+  background:
+    linear-gradient(var(--oc-on-iron-dim), var(--oc-on-iron-dim)) var(--oc-knob-inset) 50% /
+      var(--oc-knob) var(--oc-knob) no-repeat,
+    var(--oc-iron-deep);
 }
 :root[data-direction="owlcat"]:not([data-pref-theme="light"])
-  .character-sheet
-  .shp-switch[aria-checked="true"]
-  .shp-switch-knob {
-  background: var(--oc-plum-tab);
+  :is(.character-sheet, .table-layout)
+  :is(
+    .dtray-switch input:checked + .dtray-switch-track,
+    .offline-switch input:checked + .offline-switch-track,
+    .shp-switch[aria-checked="true"] .shp-switch-knob,
+    .shp-switch.is-static.is-on .shp-switch-knob
+  ) {
+  border-color: var(--oc-gem-dark);
+  background: var(--oc-plum);
 }
 :root[data-direction="owlcat"]:not([data-pref-theme="light"])
-  .character-sheet
-  .shp-switch[aria-checked="true"]
-  .shp-switch-knob::after {
+  :is(.character-sheet, .table-layout)
+  :is(
+    .dtray-switch input:checked + .dtray-switch-track,
+    .offline-switch input:checked + .offline-switch-track,
+    .shp-switch[aria-checked="true"] .shp-switch-knob,
+    .shp-switch.is-static.is-on .shp-switch-knob
+  )::after {
   background: var(--oc-gem);
+}
+/* The far end: the app slides the tracks' knob 18 px, which already lands it 4 px from the
+   end of the 40 px well; the effect pill's knob moves by its left edge. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-switch[aria-checked="true"], .shp-switch.is-static.is-on)
+  .shp-switch-knob::after {
+  left: calc(100% - var(--oc-knob) - var(--oc-knob-inset));
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout)
+  .cs-switch
+  > input:checked {
+  border-color: var(--oc-gem-dark);
+  background:
+    linear-gradient(var(--oc-gem), var(--oc-gem)) calc(100% - var(--oc-knob-inset)) 50% /
+      var(--oc-knob) var(--oc-knob) no-repeat,
+    var(--oc-plum);
+}
+/* The tracks' focus ring stands 3 px out like every other ring (the app set 2 px there). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout)
+  :is(
+    .dtray-switch input:focus-visible + .dtray-switch-track,
+    .offline-switch input:focus-visible + .offline-switch-track
+  ) {
+  outline-offset: var(--oc-bw-focus);
 }
 :root[data-direction="owlcat"]:not([data-pref-theme="light"])
   .character-sheet
@@ -2589,6 +2746,16 @@
   background: radial-gradient(circle at 50% 40%, #4a3346, var(--oc-iron-deep) 75%);
   color: var(--oc-cream);
 }
+/* «Altre azioni» on an item row shows only its glyph (the app hides «Altro»): the square
+   40 px tile of the other glyph-only commands, not a 55 px button padded for words. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .invp-row-actions
+  > .button.quiet[data-invp="menu"] {
+  width: var(--oc-ctl);
+  padding: 0;
+  justify-content: center;
+}
 /* On the grey rows the bronze labels take the list ink and the plum keyword its deep plum
    (AA on #BAB6B2). */
 :root[data-direction="owlcat"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
@@ -2791,6 +2958,21 @@
   .invp-rule
   > summary {
   color: var(--oc-keyword);
+}
+/* Plum lines that open in place (I-250): the encumbrance rule, the view options, why a spell
+   window is closed, older news, the token menu's lists — one recipe, the news' «Novità
+   precedenti»: 15 px, 600, plum. The app drew them at 13/400, 15/400 and 15/600. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(
+    .character-sheet .invp-view,
+    .character-sheet .invp-rule,
+    .character-sheet .spl-window-why,
+    .home-page .home-details,
+    .token-menu-list-details
+  )
+  > summary {
+  font-size: var(--oc-fs-15);
+  font-weight: 600;
 }
 
 /* ------------------------------------------------------------------ Tavolo (turn-based HUD)
@@ -4220,11 +4402,18 @@
   border-radius: var(--oc-round);
   background: radial-gradient(circle at 40% 30%, #3a3438, var(--oc-iron-deep));
   color: var(--oc-on-iron);
+  box-shadow: var(--oc-shadow-plate);
 }
 :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .token-menu-close:hover {
   border-color: var(--oc-gem-dark);
   background: radial-gradient(circle at 40% 30%, #5a2c4c, var(--oc-plum));
-  color: #ffffff;
+  color: var(--oc-on-plum);
+}
+/* The same medallion as the windows' close (I-250): its cross at the 21 px glyph size, not the
+   menu rows' 18 px. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .token-menu-close .token-menu-icon {
+  width: var(--oc-glyph);
+  height: var(--oc-glyph);
 }
 :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .token-menu-hp {
   gap: var(--oc-sp-3);

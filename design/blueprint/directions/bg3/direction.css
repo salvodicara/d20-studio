@@ -776,9 +776,17 @@
 /* Check boxes: BG3's square check (the Reactions panel's «Ask», B30): a dark well in a
    bronze rim, a pale-gold tick when on (the tick's shape, not only a colour, says «on»).
    Radio buttons are its round sibling (the check medallion at the row's left in B30). High
-   contrast keeps the browser's own box. */
+   contrast keeps the browser's own box. Switches drawn as a slide track (the core .switch,
+   the sheet's «Il DM può modificare questa scheda», «Ispirazione eroica», «Disponibile
+   offline») stay switches (fourth verification: the first was a square box beside the two
+   tracks); :where() keeps the rule's weight. */
 :root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
-  :is(input[type="checkbox"], input[type="radio"]) {
+  :is(
+    input[type="checkbox"]:not(
+        :where(.switch, :is(.cs-switch, .dtray-switch, .offline-switch) > input)
+      ),
+    input[type="radio"]
+  ) {
   appearance: none;
   display: inline-grid;
   place-items: center;
@@ -797,11 +805,18 @@
   border-radius: var(--bg3-radius-round);
 }
 :root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
-  :is(input[type="checkbox"], input[type="radio"]):hover:not(:disabled) {
+  :is(
+    input[type="checkbox"]:not(
+        :where(.switch, :is(.cs-switch, .dtray-switch, .offline-switch) > input)
+      ),
+    input[type="radio"]
+  ):hover:not(:disabled) {
   border-color: var(--bg3-gold-rule);
 }
 :root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
-  input[type="checkbox"]:checked {
+  input[type="checkbox"]:not(
+    :where(.switch, :is(.cs-switch, .dtray-switch, .offline-switch) > input)
+  ):checked {
   border-color: var(--bg3-gold-rule);
   background:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M4.5 10.5l3.5 3.5 7.5-8' fill='none' stroke='%23fff2b3' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
@@ -813,6 +828,29 @@
   border-color: var(--bg3-gold-rule);
   background:
     radial-gradient(circle, #fff2b3 0 26%, transparent 32%), linear-gradient(#2c2016, #473425);
+}
+/* Switches: one switch (I-250), the app's slide track in the direction's tokens (a dark well,
+   a bronze rim and knob; the cream track and a dark knob when on, so the knob's side says
+   «on», not only the colour). «Ispirazione eroica» drew a larger track (44 × 26, an 18 px
+   knob): it takes the others' 40 × 22 with the 12 px knob, and the three labels stand 12 px
+   from their track (they were 12, 8 and 10). */
+:root[data-direction="bg3"] .dtray-switch-track {
+  width: var(--bg3-control);
+  height: var(--bg3-tag-h);
+}
+:root[data-direction="bg3"] .dtray-switch-track::after {
+  top: var(--bg3-space-2);
+  left: var(--bg3-space-2);
+  width: var(--bg3-space-5);
+  height: var(--bg3-space-5);
+}
+:root[data-direction="bg3"] :is(.dtray-switch, .offline-switch) {
+  gap: var(--bg3-space-5);
+}
+/* The row switch's 22 px track starts with its words' first line, centred on it within 2 px
+   (the app's 3 px margin, an off-scale value, set it 3 px low on the 22.4 px desktop line). */
+:root[data-direction="bg3"] .cs-switch input {
+  margin-top: 0;
 }
 /* Loose fields (number and text boxes outside a .field: the d20 boxes of the initiative
    window, the token menu's hit points) take the same capsule as every field. */
@@ -968,8 +1006,10 @@
   :is(.spl-row, .invp-row):hover {
   background: linear-gradient(rgb(19 15 11 / 0) 40%, #34312d);
 }
+/* A summary drawn as a lozenge («Aggiungi al calendario») keeps the lozenge's cream, as the
+   lozenge stacked under it (fourth verification). */
 :root[data-direction="bg3"]:not([data-pref-theme="light"])
-  :is(details > summary, .spl-window-why > summary) {
+  :is(details > summary:not(.button), .spl-window-why > summary) {
   color: var(--bg3-highlight);
 }
 /* Dialogs: BG3's framed panel («Select Subclass») — a near-black plate whose single thin
@@ -1419,6 +1459,13 @@
   border-radius: var(--radius-xs);
   background: var(--bg3-panel);
   box-shadow: var(--shadow-3);
+}
+/* «Primi passi» is a label over (or before) its title «Da dove vuoi iniziare?»: without the
+   app's small caps the two read as one bold run-on phrase in one colour (I-250, Home scrolled),
+   so the label takes the bronze and the weight of the direction's other labels. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .home-page .home-eyebrow {
+  color: var(--bg3-base);
+  font-weight: 600;
 }
 /* «Le lanterne di Bruma» is the menu: BG3's «Save File Information» preview beside the facts,
    then one vertical column of lozenges, Continue (teal) first and set apart from the rest. */
@@ -1975,12 +2022,18 @@
   background: #151513;
   color: var(--bg3-cream);
 }
-:root[data-direction="bg3"]:not([data-pref-theme="light"]) .character-sheet .dt-heal {
+/* Heal and Damage as the teal and the red lozenge wherever the hit-point widget stands (the
+   sheet's band and the Table's widget; I-250: the Table's were plain bronze lozenges). */
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout)
+  .dt-heal {
   --bg3-btn-body: linear-gradient(#063547, #0b4a63 50%, #063547);
   border-color: #6d5e4b;
   color: #eef6f7;
 }
-:root[data-direction="bg3"]:not([data-pref-theme="light"]) .character-sheet .dt-damage {
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout)
+  .dt-damage {
   --bg3-btn-body: linear-gradient(#3a0c12, #6a1220 50%, #3a0c12);
   border-color: rgb(224 25 73 / 0.7);
   color: #ffd3dc;
@@ -2198,6 +2251,16 @@
   :is(section.panel > h2:first-child, .ct-policy-box > h3, .cs-sheet > h2, .cs-sheet > h3) {
   margin-bottom: var(--bg3-space-6);
 }
+/* The sub-title under the switch row («Modifiche del DM a questa scheda») stands a group's
+   24 px below the row's words (the row's 8 px inset plus 16; it was 8, glued to the row,
+   I-250 below the fold). */
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tab-content
+  .cs-sheet
+  > h3 {
+  margin-top: var(--bg3-space-6);
+}
 :root[data-direction="bg3"]:not([data-pref-theme="light"]) .character-sheet .shp-mode {
   border-color: #6d5a3f;
   border-radius: var(--radius-pill);
@@ -2389,12 +2452,12 @@
   color: var(--bg3-base);
 }
 :root[data-direction="bg3"]:not([data-pref-theme="light"])
-  .character-sheet
+  :is(.character-sheet, .table-layout)
   .dt-heal:hover:not(:disabled) {
   --bg3-btn-body: linear-gradient(#0a4156, #13668a 50%, #0a4156);
 }
 :root[data-direction="bg3"]:not([data-pref-theme="light"])
-  .character-sheet
+  :is(.character-sheet, .table-layout)
   .dt-damage:hover:not(:disabled) {
   --bg3-btn-body: linear-gradient(#5a0d17, #9a0615 50%, #5a0d17);
 }
@@ -4206,12 +4269,15 @@
     repeating-conic-gradient(#d6c196 0deg 2.2deg, #5b4428 2.2deg 7.5deg) border-box;
   color: #ffffff;
 }
+/* Its 3 px ring sits 3 px out, as today's (fourth verification: at 7 px the ring passed the
+   window's edge, at the bottom at 1440 and at the right at 390): it covers the cyan rim's
+   outer pixel and stays a pale-gold ring around the cyan one. */
 :root[data-direction="bg3"]:not([data-pref-theme="light"])
   .table-layout
   > .action-dock.table-hotbar
   > .toolbar
   > .button.primary[data-table="end-turn"]:focus-visible {
-  outline-offset: 7px;
+  outline-offset: var(--bg3-line-3);
 }
 /* The hotbar's «Barra rapida» page (B53) with the actions page's pieces (second polish round,
    I-250; it kept the app's square buttons and menus): page arrows and tools as the turn
@@ -4753,12 +4819,16 @@
 }
 /* So each of those commands always starts its line: the column tools («Gestisci sensi»,
    «Gestisci velocità») and the items to use stand in a column at every width, and a sentence's
-   command stands under its sentence (4 px, the tools' row gap) instead of after it or wrapped. */
+   command stands under its sentence (4 px, the tools' row gap) instead of after it or wrapped.
+   The idle concentration block follows it too (fourth verification: at 1440 «Registra
+   concentrazione» stood 12 px after «Nessun effetto in corso.», over its last 4 px): title,
+   state and command in one column at every width, as on the phone. */
 :root[data-direction="bg3"]:not([data-pref-theme="light"])
   :is(
     .character-sheet .shp-col-tools,
     .character-sheet .sm-sheet > p:has(> .button.quiet),
     .character-sheet .dtray-sheet-policy,
+    .character-sheet .spl-concentration.is-idle,
     .table-layout .table-inspector .invp-inspector-item-list,
     .table-layout .table-inspector .invp-inspector-set
   ) {

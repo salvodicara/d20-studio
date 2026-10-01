@@ -611,6 +611,7 @@
   font-family: var(--font-label);
   font-size: var(--al-fs-caps);
   font-weight: 900;
+  line-height: var(--al-lh-sm);
   letter-spacing: var(--al-track-button);
   font-variant-caps: all-small-caps;
 }
@@ -743,6 +744,7 @@
 }
 /* The settings switch sits on the 2 px step beside its first line (the app nudges it 3 px). */
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .cs-switch input {
+  height: var(--al-sp-6);
   margin: var(--al-sp-05) 0 0;
 }
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) input,
@@ -1753,6 +1755,12 @@
   strong {
   color: var(--al-accent-text);
 }
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .home-page
+  .home-appointment-campaign
+  strong {
+  font-weight: 700;
+}
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .home-page .home-countdown {
   font-family: var(--font-display);
   font-size: var(--al-fs-lg);
@@ -1800,6 +1808,7 @@
   font-family: var(--font-display);
   font-size: var(--al-fs-lg);
   font-weight: 700;
+  line-height: var(--al-lh-lg);
 }
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
   .home-page
@@ -1813,6 +1822,7 @@
   font-family: var(--font-display);
   font-size: var(--al-fs-lg);
   font-weight: 700;
+  line-height: var(--al-lh-lg);
 }
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .home-page .hp-small small {
   white-space: nowrap;
@@ -2164,9 +2174,9 @@
   .character-sheet
   .character-heading-line {
   margin: 0;
-  font-size: var(--al-fs-sm);
-  font-weight: 600;
-  line-height: var(--al-lh-sm);
+  font-size: var(--al-fs-xs);
+  font-weight: var(--al-fw-ui-strong);
+  line-height: var(--al-lh-xs);
   letter-spacing: var(--al-track-label);
 }
 :root[data-direction="alchemy"]:not([data-pref-theme="light"])
@@ -2379,6 +2389,14 @@
   > span:first-child {
   color: var(--al-accent-text);
 }
+/* The HP figures are a 40 px control like every other (the app's 44); «/ 22» in the UI face's
+   plain figures, like the counters in the chips. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-hp
+  .character-hp-value {
+  min-height: var(--al-h-control);
+}
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
   .character-sheet
   .character-hp
@@ -2395,7 +2413,9 @@
   .character-hp-value
   strong
   small {
+  font-family: var(--font-ui);
   font-size: var(--al-fs-xs);
+  font-weight: var(--al-fw-ui-strong);
   line-height: var(--al-lh-xs);
 }
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
@@ -2598,6 +2618,7 @@
   .shp-row-name {
   font-size: var(--al-fs-sm);
   font-weight: 400;
+  line-height: var(--al-lh-sm);
 }
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
   .character-sheet
@@ -2613,6 +2634,7 @@
   border-radius: var(--al-r-inner);
   font-size: var(--al-fs-sm);
   font-weight: 600;
+  line-height: var(--al-lh-sm);
 }
 :root[data-direction="alchemy"]:not([data-pref-theme="light"]) .character-sheet .shp-value {
   background: transparent;
@@ -2682,6 +2704,7 @@
   border-radius: var(--al-r-pill);
   font-size: var(--al-fs-caps);
   font-weight: 900;
+  line-height: var(--al-lh-sm);
   letter-spacing: var(--al-track-button);
 }
 :root[data-direction="alchemy"]:not([data-pref-theme="light"])
@@ -3235,7 +3258,9 @@
   line-height: var(--al-lh-xs);
 }
 /* Scene title: floating at the top centre in the display face, the state under it in small
-   spaced words (T1 «River's Edge Tavern / ALCHEMY DISTRICT»); no plate. */
+   spaced words (T1 «River's Edge Tavern / ALCHEMY DISTRICT»); no plate. The state line and
+   the sheet's «Maga · Livello 3» are one accent kicker under a display title: Lexend 600 12,
+   tracked 1 (I-250). */
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
   .table-layout
   > .table-topline {
@@ -3258,7 +3283,7 @@
   > div
   > span {
   font-size: var(--al-fs-xs);
-  font-weight: 400;
+  font-weight: var(--al-fw-ui-strong);
   line-height: var(--al-lh-xs);
   letter-spacing: var(--al-track-label);
   text-shadow: var(--al-text-shadow);
@@ -3424,6 +3449,14 @@
   background: rgb(255 255 255 / 0.15);
   box-shadow: none;
 }
+/* One box per party member (I-250): a member whose HP the viewer may not see keeps the bar's
+   row (4 px and its 4 px gap) under the portrait, so the column stays evenly spaced (68 and 76
+   px members before). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-party-member:not(:has(> .table-party-hp))
+  > .table-party-portrait {
+  margin-block-end: var(--al-sp-2);
+}
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .table-party-name {
   padding: 0 var(--al-sp-1);
   border-radius: var(--al-r-mini);
@@ -3584,6 +3617,7 @@
   border-radius: var(--al-r-round);
   font-family: var(--font-ui);
   font-size: var(--al-fs-sm);
+  line-height: var(--al-lh-sm);
 }
 :root[data-direction="alchemy"]:not([data-pref-theme="light"]) .conditions-segment {
   border-color: var(--al-glass-border);
@@ -3635,6 +3669,9 @@
 }
 :root[data-direction="alchemy"]:not([data-pref-theme="light"]) .table-tab-portrait {
   border-color: var(--al-accent);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .table-tab-portrait {
+  font-weight: var(--al-fw-display);
 }
 /* The hotbar: Lumen's dice bar — one glass pill with the action slots; the player bar (the
    portrait in an accent ring on a split HP bar) leads it; the page tabs as a short segmented
@@ -3721,6 +3758,7 @@
   position: relative;
 }
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .hotbar-hp-unit {
+  line-height: var(--al-lh-sm);
   font-variant-caps: all-small-caps;
 }
 /* The page tabs are the segmented pills of the Home column and the sheet's Play / Edit switch
@@ -4147,7 +4185,11 @@
   }
   /* With the portrait the words get a 122 px column, where «Esplora la scena liberamente»
      broke on two lines and lifted the bar to 126 px (limit 120): the portrait and the name
-     with its HP pill share the first row, the state line runs under both on one line. */
+     with its HP pill share the first row, the state line runs under both. The state line is
+     the 10 px step (Alchemy's text-2xs metadata): «Puoi preparare una mossa fuori turno», the
+     longest, is 182 px in the card's 190 (at 12 px it was 219 and ran past the card). Widening
+     the card instead took 29 px from the dice-bar pill and hid two action slots at 1440. If a
+     longer line ever wraps, its two 12 px lines keep the bar at 118 px. */
   :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
     .table-layout
     > .action-dock.table-hotbar
@@ -4180,7 +4222,34 @@
     > span {
     grid-column: 1 / -1;
     margin-top: 0;
-    white-space: nowrap;
+    font-size: var(--al-fs-2xs);
+    line-height: var(--al-lh-2xs);
+  }
+}
+/* The hotbar's «Barra rapida» page: the page name in the UI face of the action slots (Lexend
+   600 14: «1/1 Combattimento» whole, where the display face cut it to «Comba…»), the ten slots
+   40 px tall like every slot of the bar and 50 px wide, so all ten fit the dice-bar pill at
+   1440 as today, and the row gap on the 8 px step. The tools keep scrolling sideways when the
+   pill is narrower than they are, as today. */
+@media (min-width: 721px) {
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .table-hotbar .qb {
+    --qb-slot: 50px;
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .table-hotbar .qb-row {
+    column-gap: var(--al-sp-2);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-hotbar
+    .qb-page-name {
+    max-width: 176px;
+    gap: var(--al-sp-1);
+    font-family: var(--font-ui);
+    font-size: var(--al-fs-sm);
+    font-weight: var(--al-fw-ui-strong);
+    line-height: var(--al-lh-sm);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .table-hotbar .qb-slot {
+    height: var(--al-h-control);
   }
 }
 /* Phone: the hotbar and the tab bar pinned under it are one opaque glass slab (what is under
@@ -4295,12 +4364,37 @@
     > .button {
     white-space: nowrap;
   }
-  /* The map tools fold out in a column of 4 px steps (8 on the desktop), so at the top of the
-     page the column ends above the pinned bar for the DM too. */
+  /* The map tools and their open group fold out in 4 px steps (8 on the desktop), so at the
+     top of the page the column ends above the pinned bar for the DM too. */
   :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
     .table-layout
-    .map-toolbar {
+    :is(.map-toolbar, .map-subtools) {
     gap: var(--al-sp-1);
+  }
+  /* The tool options (the DM's fog and view tools, the drawing tools) end 48 px higher than
+     the app's 64 (the DM's map row, point 17): at rest they stand 18 px above the zoom row
+     instead of over it (and the drawing bar no longer runs under the bar); at the top of the
+     page «▾ Riduci» ends above the floating turn resources, not under them and the bar. The
+     fog options start right of the open DM column (its pill ends at 108). */
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    #battle-map
+    :is(.fv-bottom, .annotations-bottom) {
+    bottom: calc(var(--al-sp-16) + var(--al-sp-12));
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    #battle-map
+    .fv-bottom {
+    left: calc(var(--al-sp-24) + var(--al-sp-6));
+  }
+  /* The page's foot clears the floating turn resources as it clears the bar: the panel ends
+     their height (24) plus their 8 px gap above the bar, so its last line («Aspetto nella
+     scheda») ends 24 px above them instead of under their bottom edge. */
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    > .table-sidebar-panel {
+    padding-bottom: calc(var(--al-sp-6) + var(--al-sp-2));
   }
   :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
     .table-layout:has(> .table-topline > .toolbar > :nth-child(3))
@@ -4443,6 +4537,7 @@
   border-radius: var(--al-r-inner);
   font-size: var(--al-fs-sm);
   font-weight: 400;
+  line-height: var(--al-lh-sm);
 }
 :root[data-direction="alchemy"]:not([data-pref-theme="light"])
   :is(.token-menu-item, .token-menu-back, .token-menu-toggle, .token-menu-swatch):hover {
@@ -4958,6 +5053,44 @@
 /* ------------------------------------------------------------------ type normalisation (A7) */
 /* The app's own fixed sizes, weights, trackings and line heights brought onto the one type
    scale, so the whole option renders a short list of styles: */
+/* line heights (I-250, fourth round): where the app's 1.5 reached 14 and 12 px text (14/21,
+   12/18) the line is the step's own, 14/20 and 12/16, as on every other line of those sizes;
+   a ratio set on a box whose text is another size would give a fractional line (12/17.14), so
+   each line is set where its size is. The SVG labels on the map draw no line box and keep
+   theirs. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  :is(.character-sheet, .table-layout, .token-menu, dialog)
+  :is(
+    .character-tabs > button,
+    .character-tabs-all,
+    .table-subtab,
+    .hotbar-hp-text,
+    .combat-bar-heading label,
+    .combat-bar-heading select,
+    .character-resource,
+    .shp-xp,
+    .shp-empty,
+    .shp-foot,
+    .combat-detail > p,
+    [id="dtray-sheet-formula-help"],
+    .token-menu-hp-max,
+    .ct-start-surprise
+  ) {
+  line-height: var(--al-lh-sm);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  :is(.character-sheet, .table-layout)
+  :is(.sm-source, .shp-prop) {
+  line-height: var(--al-lh-xs);
+}
+/* «Indebolimento» beside its six discs: one label in the sheet and the Creature panel (12 and
+   14 px before), the 12 px metadata line. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  :is(.character-sheet, .table-layout)
+  .conditions-exhaustion-label {
+  font-size: var(--al-fs-xs);
+  line-height: var(--al-lh-xs);
+}
 /* labels the app tracks by 0.05 em (dt, table heads, «Risorse del turno», «Effetti»): the field
    label grammar, Unbounded 700 caps from the 14 px step, tracking 1 */
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
@@ -5099,6 +5232,8 @@
   gap: var(--al-sp-2);
   min-block-size: var(--al-h-control);
   padding: 0 var(--al-sp-3);
+  font-size: var(--al-fs-sm);
+  line-height: var(--al-lh-sm);
 }
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .conditions-chips {
   gap: var(--al-sp-2);
@@ -5156,6 +5291,7 @@
   .sm-sheet
   h4 {
   margin: var(--al-sp-6) 0 var(--al-sp-2);
+  font-weight: var(--al-fw-ui-strong);
 }
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .token-menu-item kbd {
   padding: var(--al-sp-05) var(--al-sp-1);
@@ -5245,6 +5381,7 @@
   .sm-actions-table
   td {
   font-size: var(--al-fs-sm);
+  line-height: var(--al-lh-sm);
 }
 @media (max-width: 720px) {
   :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))

@@ -43,11 +43,17 @@
                     in bare chrome buttons, 18 px in the token menu's rows; one disabled
                     look; browser text margins (1em) restated as 16 px
    - surfaces ..... (round 3, I-250) Home and sheet plates flat with no line, 24 px inside and
-                    24 px apart (the sheet's special moves and turn strip included); plate
-                    titles 17 px ink whatever their level, sub-section labels 15 px copper;
-                    page gutter 32 / 48 px (32 below 1000 px, 24 / 16 on a phone); the
-                    Table's side panel 24 px inside, its sub-tabs 8 / 12 px; every bare
-                    icon button 21 px (the token menu's close too)
+                    24 px apart (the special moves included; the one-line turn strip 8 / 24 px,
+                    round 4); plate titles 17 px ink whatever their level, sub-section labels
+                    15 px copper; page gutter 32 / 48 px (32 below 1000 px, 24 / 16 on a
+                    phone); the Table's side panel 24 px inside, its sub-tabs 8 / 12 px;
+                    every bare icon button 21 px (the token menu's close too)
+   - rhythm ....... (round 4, I-250) inside a plate, a panel or a dialog: title 16 px over its
+                    content, blocks 16 px apart, a sub-section label 16 px under the block
+                    before it and 8 px over its own content, a caption 8 px under its block;
+                    every sheet plate's content 25 px in (24 px inside a 1 px line, the turn
+                    strip and the special moves too); the token menu's header, HP row and rows
+                    on one left and one right edge; dropdowns 40 px like fields
 
    Elemento → prodotto → fonte (facts.md section; [L] lossless sample, [J] JPEG sample)
    - UI sans Source Sans 3, caps 500 tracked
@@ -837,6 +843,12 @@
   background-color: var(--sunken);
   color: var(--sl-copper);
 }
+/* A dropdown is 40 px like every field: Chromium sets its line height to «normal» (21 px in
+   Source Sans 3), so the 8 px top and foot made 41; the 40 px minimum centres the value, as
+   in the dice-mode dropdown (round 4). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .field select {
+  padding-block: 0;
+}
 :root[data-direction="solasta"]:not([data-pref-theme="light"]) .field {
   font-size: var(--text-sm);
   font-weight: var(--sl-w-caps);
@@ -947,6 +959,14 @@
 :root[data-direction="solasta"]:not([data-pref-theme="light"]) .offline-switch > span {
   font-weight: var(--sl-w-text);
 }
+/* The app's 600 weight (the offline switch's name, the map's elevation and health badges)
+   takes the scale's 700 of names and numerals: three weights in all (round 4, I-250). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .offline-switch,
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  #battle-map
+  :is(.cs-health text, .annotations-elevation text) {
+  font-weight: var(--sl-w-strong);
+}
 /* Names on the map: the token and region labels in the strong weight of every name. */
 :root[data-direction="solasta"]:not([data-pref-theme="light"])
   #battle-map
@@ -1003,6 +1023,24 @@
   font-variant-caps: small-caps;
   letter-spacing: var(--sl-track-name);
   line-height: var(--sl-lh-title);
+}
+/* Every combat checkbox (the initiative rows, the sheet's reaction policy) drops the
+   browser's 3 px margins; the label's 8 px gap spaces it. In the initiative rows the number
+   takes a 20 px column and the creature's kind line starts under its name, 56 px in (number,
+   gap, 20 px box, gap): the app's calc() counts the number's 1.4em in the small line's own
+   em, so «Personaggio · Iniziativa +2» began 10 px left of «Livia» (round 4). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .ct-check input {
+  margin: 0;
+}
+@media (min-width: 721px) {
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .ct-start-row.is-included
+    .ct-start-who::before {
+    min-width: 20px;
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"]) .ct-start .ct-start-who small {
+    padding-left: calc(20px + 20px + 2 * var(--space-2));
+  }
 }
 /* The totals in the one numeral style of the sheet's cells (24 / 1.1 / 700, the sans, lining
    tabular figures), not a second serif style (critic F6, round 2). */
@@ -2026,17 +2064,22 @@
   margin-bottom: 0;
 }
 :root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .sm-sheet {
+  gap: 0;
   padding: var(--space-5);
+  border: var(--sl-hair) solid transparent;
   background: var(--sl-menu);
 }
 /* The turn's resources strip above them is the same plate (the app's #2a2c29 and blue edge);
-   the lines stay transparent, so every box keeps its size. */
+   the lines stay transparent, so every box keeps its size, and every plate's content starts
+   25 px in (24 px inside a 1 px line; round 4: the strip's label started at 13 and the
+   special moves at 24). The strip keeps its 8 px top and foot: it is one line. */
 :root[data-direction="solasta"]:not([data-pref-theme="light"])
   .character-sheet
   :is(.panel, .character-turn) {
   border-color: transparent;
 }
 :root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .character-turn {
+  padding-inline: var(--space-5);
   background: var(--sl-menu);
 }
 /* A plate's heading row wraps its command under the title when the column is narrow (on a
@@ -2060,13 +2103,101 @@
   :is(th, td):last-child {
   padding-right: 0;
 }
-/* A plate's title is the section title at every level: «Tiri» and «Reazioni» are h3 in the
-   markup, beside h2 plates («Azioni personalizzate», «Chi può modificare la scheda»). */
+/* A plate's title is the section title at every level: «Tiri», «Reazioni», «Homebrew
+   strutturato», «Livelli e rifacimento» and «Dotazione iniziale» are h3 in the markup, beside
+   h2 plates («Azioni personalizzate», «Chi può modificare la scheda»). */
 :root[data-direction="solasta"]:not([data-pref-theme="light"])
   .character-sheet
-  :is(.dtray-sheet-head > h3, .ct-policy-box > h3:first-child) {
+  :is(
+    .dtray-sheet-head > h3,
+    .ct-policy-box > h3:first-child,
+    .hbe-sheet > .section-heading > h3,
+    .bp-sheet > h3:first-child
+  ) {
   color: var(--sl-ink);
   font-size: var(--text-lg);
+}
+/* Plate rhythm (round 4, I-250): a plate's title sits 16 px over its content, as every
+   .section-heading does (the app's 8 px under «Tiri», «Chi può modificare la scheda» and the
+   builder's plates); blocks inside a plate are 16 px apart; a copper sub-section label sits
+   16 px under the block before it and 8 px over its own content, as the action groups' labels
+   do; a caption under its block (a hint, a bar's value) 8 px. A title inside a heading row
+   has no margin, so it shares the row's axis with its command (the h3's 16 px pushed
+   «Homebrew strutturato» 8 px above «Aggiungi homebrew…»). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .hbe-sheet
+  .section-heading
+  h3 {
+  margin-block: 0;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.bp-sheet > h3:first-child, .cs-sheet > h2) {
+  margin-bottom: var(--space-4);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.cs-sheet > h3, .sm-sheet h4) {
+  margin: var(--space-4) 0 var(--space-2);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .dtray-sheet-head {
+  margin-bottom: var(--space-2);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .dtray-sheet-policy {
+  margin-top: var(--space-2);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.item-list, .shp-note-section, .loot-list, .loot-inline-form) {
+  margin-top: var(--space-4);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-stats, .invp-summary) {
+  margin-bottom: var(--space-4);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.loot-coins, .loot-xp-total) {
+  margin-bottom: var(--space-2);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.loot-progress + p, .loot-inline-form + .loot-source) {
+  margin-top: var(--space-2);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .loot-inline-form {
+  column-gap: var(--space-2);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.loot-inline-form .field, .loot-inline-form > .button) {
+  margin-bottom: var(--space-2);
+}
+/* Home's «Dove eravamo rimasti»: the recap's copper label sits 8 px over its text, as every
+   sub-section label does (the app's 16). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .home-page
+  .home-bottom
+  > section
+  > .section-heading
+  + h3 {
+  margin-bottom: var(--space-2);
+}
+/* The «Note» plate's last section ends on the plate's 24 px inset (its last paragraph's
+   16 px bottom margin made 40); a section's «Nessuna nota.» sits 8 px under its label's
+   line, as a sub-section's content does (it touched the line). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-note-section
+  > :last-child {
+  margin-bottom: 0;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .shp-note-head + p {
+  margin-top: var(--space-2);
 }
 /* The stats column's plates (Tiri salvezza, Sensi, Abilità…): 12 px inside on every side
    (the app's 8 px top). */
@@ -3859,6 +3990,7 @@
   font-weight: var(--sl-w-strong);
   font-variant-caps: small-caps;
   letter-spacing: var(--sl-track-name);
+  line-height: var(--sl-lh-title);
 }
 :root[data-direction="solasta"]:not([data-pref-theme="light"])
   .character-sheet
@@ -4057,6 +4189,33 @@
   gap: var(--space-2);
   padding: var(--space-1) var(--space-3);
 }
+/* A condition chip that is not a button («(C) Benedizione ×», «Indebolimento 2») is
+   stretched to its row's 40 px by its button neighbours: its words sit on the row's axis
+   like theirs, not at the top (round 4, specimen); its end «×» drops the browser's 1 / 6 px. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  :is(.table-layout, .character-sheet)
+  .conditions-chip {
+  align-content: center;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  :is(.table-layout, .character-sheet)
+  .conditions-chip-end {
+  padding: 0;
+}
+/* «Indebolimento» names the six levels beside it: the field label's muted 14 px capitals on
+   the sheet and at the Table alike (they were 12 and 14 px lower-case). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  :is(.table-layout, .character-sheet)
+  .conditions-exhaustion
+  .conditions-exhaustion-label {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-sm);
+  font-weight: var(--sl-w-caps);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--sl-track-caps);
+  line-height: var(--sl-lh-tight);
+}
 :root[data-direction="solasta"]:not([data-pref-theme="light"]) kbd {
   padding: 0 var(--space-1);
 }
@@ -4111,11 +4270,58 @@
   :is(.shp-uses, .spl-pips) {
   margin-left: var(--space-2);
 }
+/* A uses count («1 di 1») is one token: it moves to the next line whole (on a phone «1» was
+   left alone under «1 di»). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .shp-uses {
+  white-space: nowrap;
+}
 :root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .spl-group > h3 {
-  margin-top: var(--space-5);
+  margin-top: var(--space-4);
 }
 :root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .spl-rows {
   margin-top: var(--space-2);
+}
+/* A spell group's rows hang from their label's rule, as the action groups' rows do: the
+   list's own top rule made a second line 8 px under it (round 4). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .spl-group
+  > h3
+  + .spl-rows {
+  border-top: 0;
+}
+/* The spell plate's blocks (round 4, I-250): the closed window, Concentration, the slot
+   pools, the filters, the list and its foot 16 px apart like every plate's blocks (they were
+   8, 8, 8, 24 and 12 px); the slot rows 8 px apart as rows of one list (20); the sections
+   under the list 24 px below it, on their rule (26); the first group's label (Trucchetti)
+   takes the list's 16 px, the next ones the sub-section label's 16 / 8 px (24 / 8). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .spl-main > * {
+  margin-block: 0;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .spl-main > * + * {
+  margin-top: var(--space-4);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .spl-main
+  > .spl-section {
+  margin-top: var(--space-5);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .spl-list
+  > :first-child
+  > h3:first-child {
+  margin-top: 0;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .spl-slots {
+  row-gap: var(--space-2);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .spl-slots
+  .character-slot-summary {
+  margin-bottom: 0;
 }
 :root[data-direction="solasta"]:not([data-pref-theme="light"])
   .character-sheet
@@ -4132,18 +4338,52 @@
 :root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout .inspector-buttons {
   margin-top: var(--space-4);
 }
+/* The Creature panel's blocks 16 px apart (round 4, I-250): the last move (12), «Forme e
+   creature collegate» (the app's 12 px padding added 28 above and 52 below), the panels
+   under the buttons (25); the forms label sits 8 px over its buttons like every
+   sub-section label. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  > .inspector-quick {
+  margin-bottom: var(--space-4);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  > .forms-summary {
+  padding-block: 0;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout .forms-summary > h3 {
+  margin: 0 0 var(--space-2);
+}
 :root[data-direction="solasta"]:not([data-pref-theme="light"])
   .table-layout
   .forms-summary
   .forms-toolbar {
-  margin: var(--space-4) 0 var(--space-5);
+  margin: 0;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  > .table-ext-panel {
+  margin-top: var(--space-5);
 }
 :root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout #combat-detail {
   margin-block: var(--space-4);
 }
+/* Body text keeps the body's 1.45 (the move hint had the app's 1.5). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout #combat-detail p {
+  line-height: var(--sl-lh-body);
+}
+/* The initiative dialog's blocks 16 px apart, like a plate's (round 4: 12, then 10 and 4
+   under the list); the footnote 8 px under the state line it explains. */
 :root[data-direction="solasta"]:not([data-pref-theme="light"])
   :is(.ct-start-tools, .ct-start-call, .ct-start-scene) {
-  margin-bottom: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .ct-start .ct-start-missing {
+  margin: var(--space-4) 0 var(--space-2);
 }
 :root[data-direction="solasta"]:not([data-pref-theme="light"]) #token-menu-hp-help {
   margin: var(--space-1) 0 var(--space-2);
@@ -4205,6 +4445,17 @@
   padding: var(--space-3);
   background: var(--sl-tip-head);
 }
+/* One left and one right edge in the menu (round 4, I-250): the header's medallion and
+   close, the HP row and its hint start and end where the rows' glyphs and chevrons do,
+   12 px inside the 8 px frame (they sat at 13, 9 and 21 px from the edge). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .token-menu-head {
+  padding-inline: calc(var(--space-2) + var(--space-3));
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .token-menu
+  :is(.token-menu-hp, .token-menu-help, .token-menu-error) {
+  padding-inline: var(--space-3);
+}
 :root[data-direction="solasta"]:not([data-pref-theme="light"]) .token-menu-title strong {
   color: var(--sl-tip-head-ink);
   font-family: var(--font-display);
@@ -4212,6 +4463,7 @@
   font-weight: var(--sl-w-strong);
   font-variant-caps: small-caps;
   letter-spacing: var(--sl-track-name);
+  line-height: var(--sl-lh-title);
 }
 :root[data-direction="solasta"]:not([data-pref-theme="light"]) .token-menu-title small {
   color: #4a4849;

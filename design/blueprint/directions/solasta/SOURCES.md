@@ -77,8 +77,8 @@ riferimento: non sono nel repository.
 Le nostre schermate sono in
 `~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/round1/solasta/`; le coppie già
 montate (nostra app a sinistra, riferimento a destra) sono in `_pairs/`. Schermate, foglio
-riassuntivo e coppie sono stati rifatti il 01/10/2026 alle 13:53–13:54, dopo l'ultima modifica
-del terzo giro (`direction.css` delle 13:52:00); le coppie si rifanno con
+riassuntivo e coppie sono stati rifatti il 01/10/2026 alle 15:39–15:40, dopo l'ultima modifica
+del quarto giro (`direction.css` delle 15:38:47); le coppie si rifanno con
 `…/visual-01/probe-solasta/pairs.sh`.
 
 | Vista                    | Nostra schermata                                                               | Riferimenti migliori                                                                                       | Coppia montata                                                                    |
@@ -246,6 +246,62 @@ barra; a 390 intestazione del Tavolo su una riga, «Termina turno», «Annulla u
 Inizio, scheda e Tavolo; «Entra al Tavolo» finisce a 580 px; nessun comando sotto i 40 px
 oltre al collegamento SRD dentro il testo, come prima.
 
+## Quarto giro (01/10/2026)
+
+La quarta verifica indipendente (`notes/open-items-round4.json`) ha lasciato cinque punti
+bassi, nessuno alto o medio. Misure, script e catture di prova sono in
+`~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/polish4-solasta/`.
+
+| Punto                                                                                                                    | Cosa è cambiato                                                                                                                                             |
+| ------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| «Homebrew strutturato», «Livelli e rifacimento» e «Dotazione iniziale» con l'etichetta rame da 15 px come titolo (basso) | Hanno il titolo di lastra da 17 px chiaro, come ogni altra lastra, a 16 px dal contenuto                                                                    |
+| «Homebrew strutturato» 8 px sopra il suo comando «Aggiungi homebrew…» (basso)                                            | Titolo e comando sullo stesso asse (0,4 px, come le altre intestazioni)                                                                                     |
+| La lastra «Note» con 40 px al piede invece di 24 (basso)                                                                 | 24 px al piede come ogni lastra; «Nessuna nota.» sta 8 px sotto la linea della sua sezione (la toccava)                                                     |
+| La striscia «Risorse del turno» 12 px più a sinistra del contenuto delle lastre (basso)                                  | La striscia ha 8 / 24 px dentro: la sua etichetta parte a 25 px dal bordo come il contenuto di ogni lastra (anche la tabella delle mosse, che partiva a 24) |
+| Due tendine alte 41 px (basso)                                                                                           | Tutte le tendine sono alte 40 px come i campi (oggetto dell'inventario, tipo di danno del DM, modalità dei dadi)                                            |
+| Schermate e coppie da rifare                                                                                             | Le 15 schermate, il foglio riassuntivo e le 14 coppie rifatti dopo l'ultima modifica (15:39–15:40), 15 su 15 senza problemi nel `manifest.json`             |
+
+Oltre ai punti della verifica, una ricetta per il ritmo verticale dentro lastre, pannelli e
+finestre (I-250), misurata su tutte le 7 linguette della scheda a 1440 e a 390
+(`polish4-solasta/rhythm-final.json`: nessuno spazio fra blocchi diverso da 16, 8 o 0 px):
+
+- **Lastre della scheda**: titolo a 16 px dal contenuto (sotto «Tiri», «Chi può modificare la
+  scheda» e le lastre del builder erano 8), blocchi a 16 px (le monete, la scorta, la lista
+  delle capacità e le note avevano 10, 12, 14 e 18), un'etichetta di sottosezione 16 px sotto
+  il blocco precedente e 8 px sopra il suo contenuto («Movimento», «Modifiche del DM»), una
+  didascalia 8 px sotto il suo blocco (la barra dell'esperienza, il valore delle monete).
+- **Magie**: la finestra chiusa, Concentrazione, gli slot, i filtri, la lista e il suo piede a
+  16 px (erano 8, 8, 8, 24 e 12), le righe degli slot a 8 px (20), le sezioni sotto la lista a
+  24 px sulla loro riga (26); ogni gruppo d'incantesimi pende dalla riga della sua etichetta,
+  come i gruppi d'azione (la lista aggiungeva una seconda riga 8 px più in basso).
+- **Pannello Creatura**: i blocchi a 16 px (l'ultima mossa 12, «Forme e creature collegate»
+  28 sopra e 52 sotto), i pannelli sotto i pulsanti a 24 (25); «Indebolimento» è l'etichetta
+  di campo tenue da 14 px in maiuscoletto sia nella scheda sia al Tavolo (era 12 e 14 px in
+  minuscolo).
+- **Finestra dell'iniziativa**: blocchi a 16 px (12, poi 10 e 4 sotto la lista); la riga
+  «Personaggio · Iniziativa +2» parte sotto il nome (10 px più a sinistra), le caselle di
+  spunta senza i 3 px del browser.
+- **Menu della pedina**: un solo bordo sinistro e destro per medaglione, chiusura, riga dei PF,
+  suggerimento e voci (erano a 13, 9 e 21 px dal bordo).
+- **Caratteri**: tre pesi soli (400 testo, 500 maiuscoletti, 700 nomi e cifre): il 600
+  dell'app (interruttore offline, distintivi di quota e salute sulla mappa) diventa 700; i nomi
+  di incantesimi, oggetti e della pedina hanno l'interlinea 1,2 dei titoli, il suggerimento
+  delle mosse l'1,45 del testo; «1 di 1» degli usi non va più a capo a metà.
+- **Inizio**: l'etichetta del resoconto sta 8 px sopra il suo testo (16).
+- **Campionario**: le condizioni composte «(C) Benedizione ×» e «Indebolimento 2» hanno la
+  scritta al centro del loro riquadro da 40 px, come le condizioni-pulsante accanto (era in
+  alto); la «×» perde i 6 px del browser.
+
+Le garanzie, rimisurate dopo l'ultima modifica (`polish4-solasta/guards/guards.json`, giocatore
+e DM): barra alta 112 px a 1440 × 900, 1366 × 768 e 1280 × 800, nessun riquadro fuori dalla
+barra; a 390 intestazione del Tavolo e targa della scena su una riga, «Termina turno»,
+«Annulla ultima modifica» e «Annulla preparazione» visibili, rotaia fissata a 844 px, nessuno
+scorrimento laterale su Inizio, scheda e Tavolo; «Entra al Tavolo» finisce a 580 px (390) e a
+597 px (1440); nessun comando sotto i 40 px oltre al collegamento SRD dentro il testo, come
+prima. Controlli statici: 547 regole, tutte col prefisso, nessun `!important`, nessun
+`text-transform`, nessun testo in `content`, ogni colore con la guardia del tema chiaro;
+`tests/visual01-directions.test.mjs` 7 su 7; Prettier pulito.
+
 ## Coerenza (I-250)
 
 Misure dello strumento `changes/visual-01/audit/audit.js --direction solasta` sui 10 stati del
@@ -253,22 +309,32 @@ giro 1 a 1440 e a 390 (20 catture, tema scuro). Secondo giro: «prima» 01/10 al
 `direction.css` delle 10:45 (copia in `polish2-solasta/audit-before/`); «dopo» sul
 `direction.css` delle 12:30:19, rimisurato alle 12:58 come punto di partenza del terzo giro
 (copia in `polish3-solasta/audit-before/`). Terzo giro: 01/10 alle 13:56, sul `direction.css`
-delle 13:52:00 (`audit/solasta/audit.md`, copia in `polish3-solasta/audit-after/`).
+delle 13:52:00 (copia in `polish3-solasta/audit-after/` e, come punto di partenza del quarto
+giro, in `polish4-solasta/audit-before/`). Quarto giro: 01/10 alle 15:40, sul `direction.css`
+delle 15:38:47 (`audit/solasta/audit.md`, copia in `polish4-solasta/audit-after/`).
 
-| Misura                                 | Secondo giro, prima                       | Secondo giro, dopo (terzo, prima)         | Terzo giro, dopo                          |
-| -------------------------------------- | ----------------------------------------- | ----------------------------------------- | ----------------------------------------- |
-| Elementi visibili                      | 2612                                      | 2581                                      | 2581                                      |
-| Spazi (padding, margini, gap)          | 41 valori, passo 2 px al 94 %, 27 anomali | 31 valori, passo 2 px al 98 %, 20 anomali | 27 valori, passo 2 px al 99 %, 15 anomali |
-| Altezze dei controlli                  | 19                                        | 17                                        | 17                                        |
-| Caratteri: misure · pesi · stili       | 11 · 4 · 78                               | 11 · 4 · 71                               | 11 · 4 · 71                               |
-| Raggi · spessori dei bordi · ombre     | 2 · 4 · 7                                 | 2 · 4 · 7                                 | 2 · 4 · 7                                 |
-| Colori: testo · fondo · bordo          | 28 · 40 · 24                              | 28 · 40 · 23 (9 coppie gemelle)           | 25 · 36 · 20 (2 coppie gemelle)           |
-| Pulsanti: classi visive · varianti     | 27 · 81 (12 classi con più varianti)      | 27 · 70 (11)                              | 27 · 69 (10)                              |
-| Etichette e filtri: classi · varianti  | 10 · 18 (4)                               | 8 · 12 (2)                                | 8 · 12 (2)                                |
-| Lastre: classi visive · varianti       | —                                         | 21 · 42 (12)                              | 20 · 43 (10)                              |
-| Tendine: varianti                      | 2                                         | 1                                         | 1                                         |
-| Pulsanti col riempimento del browser   | 0                                         | 0                                         | 0                                         |
-| Contrasto AA: errori su testi misurati | 1 su 1230                                 | 0 su 1217                                 | 0 su 1217                                 |
+| Misura                                 | Secondo giro, prima                       | Secondo giro, dopo (terzo, prima)         | Terzo giro, dopo                          | Quarto giro, dopo                          |
+| -------------------------------------- | ----------------------------------------- | ----------------------------------------- | ----------------------------------------- | ------------------------------------------ |
+| Elementi visibili                      | 2612                                      | 2581                                      | 2581                                      | 2595                                       |
+| Spazi (padding, margini, gap)          | 41 valori, passo 2 px al 94 %, 27 anomali | 31 valori, passo 2 px al 98 %, 20 anomali | 27 valori, passo 2 px al 99 %, 15 anomali | 26 valori, passo 2 px al 100 %, 13 anomali |
+| Altezze dei controlli                  | 19                                        | 17                                        | 17                                        | 17                                         |
+| Caratteri: misure · pesi · stili       | 11 · 4 · 78                               | 11 · 4 · 71                               | 11 · 4 · 71                               | 11 · 3 · 67                                |
+| Raggi · spessori dei bordi · ombre     | 2 · 4 · 7                                 | 2 · 4 · 7                                 | 2 · 4 · 7                                 | 2 · 4 · 7                                  |
+| Colori: testo · fondo · bordo          | 28 · 40 · 24                              | 28 · 40 · 23 (9 coppie gemelle)           | 25 · 36 · 20 (2 coppie gemelle)           | 25 · 36 · 20 (2 coppie gemelle)            |
+| Pulsanti: classi visive · varianti     | 27 · 81 (12 classi con più varianti)      | 27 · 70 (11)                              | 27 · 69 (10)                              | 27 · 69 (10)                               |
+| Etichette e filtri: classi · varianti  | 10 · 18 (4)                               | 8 · 12 (2)                                | 8 · 12 (2)                                | 8 · 12 (2)                                 |
+| Lastre: classi visive · varianti       | —                                         | 21 · 42 (12)                              | 20 · 43 (10)                              | 20 · 44 (11)                               |
+| Tendine: varianti                      | 2                                         | 1                                         | 1                                         | 1                                          |
+| Pulsanti col riempimento del browser   | 0                                         | 0                                         | 0                                         | 0                                          |
+| Contrasto AA: errori su testi misurati | 1 su 1230                                 | 0 su 1217                                 | 0 su 1217                                 | 0 su 1221                                  |
+
+Quarto giro: i pesi scendono a tre e gli stili di carattere da 71 a 67; gli spazi tornano
+tutti sul passo di 2 px (il rientro di 54,2 px e i margini di 3 px delle caselle
+dell'iniziativa erano gli ultimi fuori passo). Le lastre contano una variante in più per
+scelta: l'intestazione grigia del menu della pedina ha 12 / 20 px per allinearsi alle voci,
+mentre la scheda grigia del pannello Creatura, che ha lo stesso colore ma è un altro
+componente, resta a 12 px. Il campionario è stato fotografato prima e dopo, in
+`polish4-solasta/specimen-before/` e `specimen-after/`.
 
 Terzo giro, una ricetta per tipo (il campionario `directions/specimen.html?direction=solasta`
 è stato fotografato prima e dopo, in `polish3-solasta/specimen-before/` e `specimen-after/`):
@@ -334,16 +400,13 @@ Che cosa resta, di proposito:
   comandi da 12 px: è ciò che tiene l'intestazione su una riga a 390 px;
 - le misure fuori scala che rimangono sono la geometria della mappa e del Tavolo dell'app
   (margini 80 / 88 / 168, colonne, i 10 px delle file compatte del telefono, le righe di 1 px
-  fra i riquadri), i margini di 3 px delle caselle di spunta del browser, il rientro di 54,2 px
-  sotto i nomi nell'iniziativa e il marchio, che aspetta la Fase D;
+  fra i riquadri), i margini di 3 px dell'interruttore «Il DM può modificare questa scheda»
+  (un controllo del browser) e il marchio, che aspetta la Fase D;
 - le altezze frazionarie (137,5, 103,5, 19,5 px) vengono dalle interlinee 1,1 e 1,45 sui testi
   da 14–24 px: mezzo pixel, invisibile;
 - due coppie gemelle restano: l'oro di un segno della mappa dell'app e quello del marchio
   (Fase D), e `#2A2C29` dell'app per le righe dentro le lastre (finestra dell'iniziativa,
   proprietà delle armi), che devono distinguersi dalla lastra;
-- nel campionario, le condizioni composte «(C) Benedizione ×» e «Indebolimento 2» del pannello
-  laterale hanno la scritta in alto nel riquadro da 40 px: non compaiono negli stati del giro 1
-  e restano per il prossimo giro;
 - le linguette contano ancora 12 varianti perché la barra in basso del telefono (52 px) e le
   celle delle pagine della barra seguono la loro geometria a ogni larghezza;
 - i collegamenti e le caselle dentro il testo (fonti SRD, termini del glossario, caselle di
