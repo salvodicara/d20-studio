@@ -1,76 +1,68 @@
-# Prossimo passo — Fase C: design visivo in una sessione dedicata
+# Prossimo passo — Fase C: la risposta dell'owner alla Scelta 1
 
-**Stato al 01/10/2026.** Fase A (funzioni) fatta; Fase B accettata dall'owner con una sola
-aggiunta, i calendari esterni, già costruita ([I-245](interview/DECISIONS.md)). La versione
-funzionale è congelata con il tag locale `blueprint-functional-v1` sul branch
-`codex/interview-01` (worktree `~/Workspace/Codex/d20-studio-interview-01`) ed è identificata dal
-[manifest](../changes/interview-01/blueprint-candidate-manifest.json). Piano completo:
-[ROADMAP](ROADMAP.md). Mappa delle funzioni: [FEATURE_MAP](interview/FEATURE_MAP.md).
+**Stato al 01/10/2026.** La Fase C «Design visivo» è in corso nel worktree
+`~/Workspace/Codex/d20-studio-visual-01` (branch `codex/visual-01`, creato dal tag
+`blueprint-functional-v1`). Il codice funzionale è identico al tag: le opzioni grafiche sono
+«direzioni di prova» attive solo dal selettore di sviluppo «Direzione» (I-249). Stato, piano e
+prove: [task](../changes/visual-01/task.md); registro delle scelte numerate:
+[choices](../changes/visual-01/choices.md). Regole dell'owner: I-248 (ogni dettaglio si sceglie
+per numero da screenshot affiancati al prodotto copiato) e I-250 (alla fine un solo design
+coerente, curato in ogni padding, margine, bottone e carattere).
 
-## Come aprire l'app
+## Che cosa aspetta l'owner
+
+**Scelta 1 · Direzione**: un numero per superficie (Tavolo, Scheda, Inizio), anche diversi o
+mescolati («Tavolo 1 ma con i colori del 4»). Opzioni: 0 oggi · 1 Baldur's Gate 3 · 2 D&D Beyond
+· 3 Foundry VTT · 4 Owlbear Rodeo · 5 Solasta · 6 Roll20 · 7 Pathfinder: Wrath of the Righteous ·
+8 Alchemy RPG · 9 Demiplane.
+
+- Pagina principale: <https://claude.ai/artifact/CUAABqATcL7YtXBPN7G594>
+- Altri stati e componenti: <https://claude.ai/artifact/E1TMYtxZFsMnzxsCLR6UuP>
+
+## Come aprire l'app con una direzione
 
 ```sh
-cd ~/Workspace/Codex/d20-studio-interview-01
-python3 changes/interview-01/blueprint-checks/serve-nocache.py
+cd ~/Workspace/Codex/d20-studio-visual-01
+python3 changes/visual-01/serve.py
 ```
 
-Poi <http://127.0.0.1:8879/>. In alto, fuori dall'app: «Visita come» (Giocatore o DM) e
-«Ripristina esempio».
+Poi <http://127.0.0.1:8881/?direction=bg3#table> (oppure `ddb`, `foundry`, `owlbear`, `solasta`,
+`roll20`, `owlcat`, `alchemy`, `demiplane`; `current` per l'aspetto di oggi col selettore,
+`off` per toglierlo). Campionario dei componenti:
+<http://127.0.0.1:8881/directions/specimen.html?direction=bg3>.
 
-## Fase C pronta
+## Dopo la risposta
 
-- **Strumenti installati con prove** ([I-246](interview/DECISIONS.md)): impeccable 4.4.0,
-  review-animations, playwright-cli 0.1.22. All'avvio della fase si aggiungono nel worktree
-  grafico gli strumenti di test indicati nel piano (§1).
-- **Piano operativo, risorse e prove:** [changes/visual-01/prep](../changes/visual-01/prep/phase-c-plan.md)
-  (skill, icone game-icons.net e Lucide con attribuzione, caratteri con licenza OFL, generazione
-  delle immagini con l'imagegen di Codex sull'abbonamento esistente, immagini di d20 Folio
-  riusabili, materiale solo di riferimento come lo studio su BG3).
-- **Arretrato grafico già raccolto:** [visual-phase-backlog](../changes/interview-01/visual-phase-backlog.md).
-
-Prompt pronto per la nuova sessione:
-
-```text
-Progetto d20 Studio, Fase C «Design visivo» (docs/ROADMAP.md, I-243, I-245, I-246). Modello e
-sforzo come nella sessione interview-01. Crea un worktree nuovo in ~/Workspace/Codex/d20-studio-visual-01
-sul branch codex/visual-01 partendo dal tag blueprint-functional-v1 (branch codex/interview-01).
-Leggi nell'ordine: AGENTS.md, docs/NEXT.md, docs/ROADMAP.md, changes/visual-01/prep/phase-c-plan.md,
-changes/visual-01/prep/asset-inventory.md, changes/interview-01/visual-phase-backlog.md,
-design/blueprint/DEVELOPMENT.md, design/blueprint/DESIGN.md (solo input provvisorio, sostituibile).
-Obiettivo: l'aspetto dell'intera app copiato dai prodotti di riferimento, superficie per
-superficie (BG3 e Solasta per Tavolo, barra delle azioni e dadi; D&D Beyond per scheda e
-Biblioteca; Owlbear e Foundry per la mappa e i suoi attrezzi; Kanka e World Anvil per campagna
-e mondo). Per ogni elemento registra «elemento → prodotto copiato → fonte». Segui il metodo del
-piano: raccolta di riferimenti per superficie, 2-3 direzioni concrete costruite sull'app vera
-(Inizio, scheda, Tavolo) da mostrare all'owner con immagini, scelta dell'owner, sistema grafico,
-applicazione a tutte le aree, controllo visivo e di accessibilità, approvazione esplicita.
-Usa impeccable come skill di design principale, review-animations per le animazioni,
-playwright-cli per le prove nel browser; icone da game-icons.net e Lucide con attribuzione;
-immagini raster con l'imagegen di Codex (prepara i prompt in file, mai API a pagamento).
-REGOLA DELL'OWNER (I-248): ci accordiamo su OGNI dettaglio per esempi. Ogni decisione visiva è
-una scelta numerata: per ogni opzione uno screenshot dell'app vera con quell'opzione applicata,
-affiancato all'immagine del prodotto copiato e a «elemento → prodotto → fonte». Io scelgo per
-numero guardando gli screenshot (non provo il sito fino alla fine). Nulla si applica a tutta
-l'app prima della mia scelta. Copri tutti i dettagli: direzione, colori, caratteri, icone,
-pulsanti e campi, pannelli e schede, pedine e mappa, barra delle azioni, ritratti del turno,
-dadi e animazioni, scheda del personaggio, campagna, Biblioteca, telefono, tema chiaro.
-Non cambiare funzioni, percorsi, permessi o dati: la suite Node e i percorsi del browser restano
-verdi. Contrasto WCAG AA, fuoco visibile, segni mai affidati al solo colore. Mandami gli
-screenshot di tutte le superfici toccate a ogni passaggio; spiega in italiano semplice.
-```
-
-## Decisioni dell'owner
-
-- **Pubblicazione:** branch `codex/interview-01` e tag `blueprint-functional-v1` pubblicati su
-  GitHub (repository pubblico) il 01/10/2026 ([I-247](interview/DECISIONS.md)).
-- **Dadi karmici:** restano, spenti di serie (I-247). **Script:** solo le macro dell'app (I-247).
-- **Prodotto reale, ancora aperte:** età e consenso per paese (SV-28), integrazioni con account
-  veri (GAP-17), assistente IA vero (GAP-18), aree pubbliche e moderazione (Q161): nel blueprint
-  sono simulati.
+1. Registrare la risposta parola per parola come decisione I-2xx in
+   [DECISIONS dell'intervista](interview/DECISIONS.md) e aggiornare il registro.
+2. Giro 2 (scelte 2–5: colori, caratteri, icone, pulsanti e campi) dentro le direzioni scelte,
+   con il [campionario](../changes/visual-01/specimen/README.md) e screenshot numerati; se l'owner
+   mescola prodotti, mostrare per esempi la fusione in un solo linguaggio (I-250).
+3. Poi le scelte 6–15 del registro, il sistema unico (token, specifica per ogni componente,
+   [controllo dei valori](../changes/visual-01/audit/README.md) a zero fuori scala), l'applicazione a
+   tutte le aree, i 189 percorsi del browser e la suite Node verdi, la revisione in un'altra
+   sessione e l'approvazione esplicita dell'owner.
 
 ## Controlli per gli agenti
 
-- Chiusura del 01/10: 189/189 percorsi del browser, poi calendari esterni con 3 percorsi verdi;
-  test Node nel manifest ([rapporto finale](../changes/interview-01/final-regression.md),
-  [calendari](../changes/interview-01/calendar-export.md)).
-- Da fare: una revisione distinta, in un'altra sessione, delle correzioni di chiusura del 01/10.
+- Suite Node 2688/2688 al 01/10 (base 2681 + 7 del selettore). Con nessuna direzione l'app è
+  identica al tag (prova di effetto nullo in [code-map](../changes/visual-01/code-map.md) e nel
+  task).
+- Le direzioni non sono applicate a tutta l'app: valgono solo per gli screenshot e le prove.
+- Masters, riferimenti dei prodotti (solo consultazione) e prove fuori dal repository:
+  `~/Workspace/Codex/d20-studio-visual-assets/` e `~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/`.
+- Branch `codex/visual-01` solo locale: il push sul repository pubblico non è ancora stato fatto.
+
+Prompt per una sessione nuova:
+
+```text
+Progetto d20 Studio, Fase C «Design visivo». Lavora nel worktree ~/Workspace/Codex/d20-studio-visual-01
+(branch codex/visual-01). Leggi AGENTS.md, docs/NEXT.md, changes/visual-01/task.md e choices.md.
+Regole: I-248 (ogni dettaglio si decide con scelte numerate, screenshot dell'app vera affiancati
+al prodotto copiato) e I-250 (un solo design coerente, curato in ogni padding, margine, bottone,
+carattere). Se l'owner ha risposto alla Scelta 1, registra la risposta e prepara il Giro 2 (colori,
+caratteri, icone, pulsanti e campi) con il campionario dei componenti e le due pagine private
+aggiornate; altrimenti continua la rifinitura delle nove direzioni e ripubblica le pagine. Non
+cambiare funzioni, percorsi, permessi o dati; suite Node e percorsi del browser verdi; WCAG AA.
+Spiega in italiano semplice, manda screenshot di tutte le superfici toccate.
+```

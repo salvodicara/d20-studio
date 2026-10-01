@@ -45,9 +45,17 @@ risposta si registra parola per parola come decisione I-2xx.
   7 · Pathfinder: Wrath of the Righteous (Owlcat) · 8 · Alchemy RPG · 9 · Demiplane. Più stati
   per ogni opzione: Tavolo in esplorazione, scheda Magie e Inventario, finestra dell'iniziativa,
   menu della pedina.
-- **Stato:** opzioni 0–4 pubblicate nella pagina privata
-  <https://claude.ai/artifact/CUAABqATcL7YtXBPN7G594> (01/10/2026, versione 1); opzioni 5–9 e
-  stati in più in costruzione. In attesa della risposta dell'owner.
+- **Stato (01/10/2026):** tutte le 10 opzioni pubblicate nelle due pagine private —
+  [Scelta 1 · Direzione](https://claude.ai/artifact/CUAABqATcL7YtXBPN7G594) (Tavolo giocatore e
+  DM, Scheda, Inizio; computer e telefono) e [Scelta 1 · Altri stati](https://claude.ai/artifact/E1TMYtxZFsMnzxsCLR6UuP)
+  (esplorazione, Magie, Inventario, finestra dell'iniziativa, menu della pedina, e i campionari
+  di caratteri, pulsanti, campi, finestre) — più tre griglie mandate all'owner. Ogni direzione è
+  passata per costruzione, critica, correzione, due giri di rifinitura e verifica indipendente;
+  il terzo giro di rifinitura è in corso. **In attesa della risposta dell'owner.**
+- **Coerenza misurata (I-250, riepilogo in `~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/notes/audit-summary.md`):**
+  oggi 42 valori di spaziatura senza passo, 143 pulsanti con il padding di default del browser e
+  101 stili tipografici; le nove direzioni stanno fra 23 e 37 valori quasi tutti su un passo di
+  2 o 4 px, 0 pulsanti di default e 46–89 stili tipografici.
 
 ## Dopo le scelte: un solo sistema di design (I-250)
 

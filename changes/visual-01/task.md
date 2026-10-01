@@ -89,6 +89,13 @@ scelta numerata dell'owner, non solo direzione, icone e caratteri. Registro dell
   (Tavolo, Scheda, Inizio) e «Altri stati». In corso il secondo giro di rifinitura su tutte le
   direzioni con i punti aperti delle verifiche e la coerenza I-250.
 
+- 01/10/2026, chiusura del Giro 1: cattura uniforme di 150 screenshot (10 opzioni × 15 stati) e
+  40 ritagli del campionario; riepilogo del controllo dei valori per tutte le direzioni; pagine
+  private aggiornate (Scelta 1 versione 3, Altri stati versione 2) e tre griglie mandate
+  all'owner; commit locale `bb019df`. Terzo giro di rifinitura in corso sulle nove direzioni.
+
 ## Prossima azione
 
-Costruire le tre direzioni del Giro 1 e presentare all'owner la Scelta 1.
+Attendere la risposta dell'owner alla Scelta 1; intanto chiudere il terzo giro di rifinitura,
+ricatturare e ripubblicare le due pagine. Dopo la risposta: Giro 2 (scelte 2–5) secondo
+[NEXT](../../docs/NEXT.md).
