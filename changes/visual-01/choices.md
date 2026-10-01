@@ -40,6 +40,11 @@ risposta si registra parola per parola come decisione I-2xx.
   Livia, Doran e Mira (immagini generate per l'owner nella sessione Codex del 01/09) e dei goblin
   (ritratti SRD di d20 Folio), più una mappa dipinta del cortile se la generazione riesce. Le
   immagini dei personaggi e della mappa si decidono nelle scelte 7 e 9.
+- **Marchio e risposta a mix (01/10, I-251 e I-252):** ogni opzione ha il proprio marchio d20
+  (dado icosaedro disegnato in codice, scritta «d20 Studio» nello stile della direzione, icona
+  della scheda del browser), originale e mai copiato da un logo. L'owner può rispondere con un mix
+  («del 1 mi piace…, del 4 non mi piace…»): il risultato finale prende il meglio e lo supera in un
+  solo sistema (I-250).
 - **Altre cinque opzioni (01/10, richiesta dell'owner: «più stili hai per me meglio è», sempre
   copiati dai prodotti esistenti):** 5 · Solasta · 6 · Roll20 (Jumpgate e scheda D&D 2024) ·
   7 · Pathfinder: Wrath of the Righteous (Owlcat) · 8 · Alchemy RPG · 9 · Demiplane. Più stati

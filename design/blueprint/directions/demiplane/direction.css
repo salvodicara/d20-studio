@@ -2874,6 +2874,28 @@
   color: #ffffff;
   box-shadow: var(--shadow-2);
 }
+/* In combat the session notices (the DM's «Sessione non avviata… Avvia ora / Non ora», the
+   timer, the pinned clock) start 8 px under the turn order. They live in the map's HUD layer
+   (session-view.mjs renderHud), 60 px under the map's top in the app; this direction's turn
+   chips (84 px, the current one 112) start under the taller black scene plate (table.mjs
+   fitHud), so from 721 to 1600 px they covered the notice and «Avvia ora». The current chip
+   ends 209 px under the map's top beside a one-row plate (8 + 77 + 8 + 4 + 112), 257 px when
+   the plate's commands go under the scene's name (the DM's plate below about 1310 px).
+   Outside combat and on a phone the notices keep the app's place. */
+@media (min-width: 721px) {
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout:has(> .initiative)
+    .session-view-hud-stack {
+    top: calc(209px + var(--space-2));
+  }
+}
+@media (min-width: 721px) and (max-width: 1365px) {
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout:has(> .initiative)
+    .session-view-hud-stack {
+    top: calc(257px + var(--space-2));
+  }
+}
 /* Scale and hints: a black chip. */
 :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .map-container > .map-caption {
   border: var(--dp-b-1) solid var(--line);

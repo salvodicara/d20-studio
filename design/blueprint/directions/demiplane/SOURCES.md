@@ -233,6 +233,28 @@ piatto accanto a `demiplane-home-campaign-page-cyberpunk-2026.jpeg` e
     Personaggi, una garanzia di bersaglio («Copia» era 30 px). Le regole di superficie
     (condizioni, interruttore offline, menu del calendario) restano limitate alle loro pagine.
 
+## Correzione del 01/10: l'avviso del DM sotto l'ordine dei turni
+
+| Rilievo                                                                                                                                              | Causa                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Cosa è cambiato                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Tavolo del DM in combattimento a 1440×900: i riquadri dei turni (Livia … Mira) coprivano l'avviso «Sessione non avviata» e il suo «Avvia ora» (alto) | Gli avvisi di sessione stanno nello strato della mappa (`session-view.mjs`, `renderHud`), 60 px sotto il bordo alto della mappa come nell'app. Qui la targa nera della scena è alta 77 px e i riquadri dei turni 84 px (112 quello di turno): `fitHud` mette la fila 8 px sotto la targa, cioè fra 97 e 209 px dal bordo della mappa, e la fila centrata arriva fino alla colonna di destra larga 300 px dove sta l'avviso. Succedeva da 721 a 1600 px; a 1366 e a 1280 anche la targa copriva l'angolo sinistro dell'avviso. D&D Beyond, BG3 e Solasta avevano già spostato gli avvisi, Demiplane no | In combattimento, da 721 px in su, gli avvisi di sessione (avviso del DM, timer, orologio fissato) partono 8 px sotto il riquadro di turno: 217 px dal bordo alto della mappa con la targa su una riga, 265 px fino a 1365 px, dove la targa del DM va su due righe (sotto circa 1310 px). Fuori combattimento e sul telefono restano dove li mette l'app. Una sola regola di posizione, nessun cambio di misure, colori o testi |
+
+Prove (01/10, 8881, tema scuro, DM in combattimento al turno di Livia): a 1440×900, 1366×768 e
+1280×800 l'avviso sta a 323–427, 323–427 e 371–475 px dall'alto, non tocca né i riquadri dei turni
+né la targa, e `document.elementFromPoint` al centro di «Avvia ora» e di «Non ora» restituisce il
+pulsante stesso (prima, al centro di «Avvia ora» c'erano il ritratto di Mira a 1440, il riquadro di
+Mira a 1366 e la targa a 1280). Pulsanti 72 × 40 e 64 × 40, anello di fuoco di 3 px #00ABFF, barra
+delle azioni 113 px, nessuno scorrimento orizzontale. Scansione da 721 a 1920 px, DM e giocatore:
+nessuna sovrapposizione; il giocatore non ha avvisi nell'esempio, e targa, fila dei turni e barra
+restano come prima. Limiti rimasti: a 721×800 (mappa larga 200 px) «Non ora» finisce sotto la riga
+dei dadi della barra, mentre prima era «Avvia ora» a finire sotto i turni; a 390 la regola non si
+applica e i riquadri dei turni coprono ancora il testo dell'avviso, come oggi (limite già scritto nel
+README del kit). «Avvia ora» e «Non ora» però restano toccabili. Schermate di Demiplane rifatte
+con il kit in `board/shots/` e in `round1/demiplane/` (15 + 15, tutte ok, nessun errore in
+console), dopo l'ultima modifica di `direction.css`. Il foglio dei provini è
+`contact-dark-demiplane.png`, rifatto solo per Demiplane. La coppia `_pairs/06-tavolo-dm.png` non è
+stata rifatta e mostra ancora l'avviso coperto.
+
 ## Quarto giro di rifinitura (01/10, verifica indipendente e I-250)
 
 | Rilievo                                                          | Cosa è cambiato                                                                                                                                                                                                                                                                                                                                                                                                                 |

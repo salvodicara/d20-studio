@@ -8,7 +8,7 @@ functions, routes, permissions, data, accessible names or test hooks. Visual moc
 and screenshots are authorized. Owner rule I-248: EVERY visual detail is decided by the owner
 through numbered options, each shown as a screenshot of the real app with that option applied,
 next to the copied product and an "element → product → source" row; nothing is applied app-wide
-before the owner's choice. Options live as dev-only directions (I-249). Read docs/NEXT.md, then
+before the owner's choice. Options live as dev-only directions (I-249). I-250: the end result is ONE coherent design curated in every padding, margin, button and font. I-251: each direction has its own d20 (icosahedron) brand mark and wordmark style, original, never a copied logo. I-252: copy the leaders as much as possible but surpass them; the owner will mix what they like. Read docs/NEXT.md, then
 changes/visual-01/task.md and changes/visual-01/choices.md. Earlier headings below are history.
 
 ## Owner direction — D-013 / I-218 (23/09/2026), superseded in sequencing by D-014

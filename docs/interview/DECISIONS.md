@@ -4945,3 +4945,31 @@ resta aperto e l'intervista continua una domanda alla volta.
   bersagli, segni mai affidati al solo colore) invariata.
 - **Limiti:** non cambia funzioni, percorsi, permessi o dati; non anticipa le scelte numerate
   dell'owner (I-248).
+
+## I-251 — il marchio cambia con la direzione, sempre attorno al d20
+
+- **Provenienza:** owner, 01/10/2026, in chat durante la Fase C: «anche il logo e il brand, cioè
+  il nome dell'immagine, lo stile, d20 Studio, devono cambiare in base al tema»; «il brand ruoti
+  intorno al dado d20, all'icosaedro»; «considera anche un nuovo logo».
+- **Decisione:** ogni direzione di prova ha il proprio marchio: un d20 (icosaedro visto di fronte,
+  geometria vera disegnata in codice) e la scritta «d20 Studio» nello stile della direzione
+  (carattere, colori, materia, dettagli), più l'icona della scheda del browser. Il marchio è
+  originale: segue il linguaggio visivo del prodotto copiato ma non ne copia mai il logo.
+  Nessuna immagine generata per il dado (i generatori sbagliano la sua geometria): solo SVG.
+- **Aggiorna:** la regola della code-map «lasciare stare il marchio fino alla Fase D» vale solo
+  per l'aspetto attuale; il nome resta di lavoro e la scelta definitiva di nome e marchio resta
+  della Fase D (D-005).
+
+## I-252 — superare i modelli, non ricopiarli
+
+- **Provenienza:** owner, 01/10/2026, in chat: «non sceglierò di copiare pedissequamente un
+  prodotto già esistente come stile. Noi dobbiamo copiare il più possibile, ma superarlo e farlo
+  meglio»; «così poi ti posso dire cosa mi piace di uno, cosa non mi piace dell'altro e possiamo
+  fare un bel mix. Però cerca sempre la perfezione in ognuno di essi». Nota anche che vede
+  «molti dettagli che non tornano» (pulsanti, spaziature fra pulsanti, margini) e che «il
+  diavolo sta nei dettagli».
+- **Decisione:** le opzioni della Scelta 1 restano copie fedeli per farsi un'idea; la risposta
+  attesa dell'owner può essere un mix («mi piace questo di 1, non mi piace quello di 4»). Il
+  risultato finale prende il meglio dei prodotti e lo supera, in un solo sistema coerente
+  (I-250). Ogni opzione continua a essere rifinita nei dettagli (pulsanti, spazi, margini,
+  icone, caratteri) anche prima della scelta.
