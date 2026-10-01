@@ -4923,3 +4923,25 @@ resta aperto e l'intervista continua una domanda alla volta.
   diventa «nessuna risorsa remota; file locali con licenza registrata».
 - **Limiti:** nessuna scelta visiva dell'owner; nulla si applica a tutta l'app prima della sua
   scelta (I-248).
+
+## I-250 — un solo design coerente, curato in ogni dettaglio
+
+- **Provenienza:** owner, 01/10/2026, in chat durante la Fase C: dopo le scelte deve esserci «una
+  visione unica di design, coerente», «un design professionale, come se fosse stato architettato
+  da un team, curato nei minimi dettagli»: «non devi tralasciare nessun padding, nessun margine,
+  nessun bottone, nessun font». Chiede anche di continuare a lavorare in autonomia con più stili
+  possibili, sempre copiati dai prodotti esistenti e di altissima qualità.
+- **Regola per la Fase C:** le opzioni delle scelte numerate servono a decidere; il risultato è
+  **un unico sistema di design**, non un collage di prodotti. Anche se l'owner sceglie prodotti
+  diversi per superfici diverse, il coordinatore li fonde in un solo linguaggio: una scala di
+  spaziature, una scala tipografica con poche famiglie, una palette con ruoli, un solo set di
+  icone, raggi e ombre coerenti, e una specifica per ogni componente (pulsanti, campi, schede,
+  pannelli, dialoghi, menu, avvisi, barre, pedine, ritratti). La fusione si mostra all'owner con
+  esempi prima di applicarla.
+- **Controlli obbligatori prima dell'approvazione:** verifica automatica sui valori calcolati di
+  ogni superficie (padding, margini, spazi, dimensioni e famiglie dei caratteri, altezze dei
+  controlli, raggi, colori) contro i token del sistema, con zero valori fuori scala non
+  dichiarati; revisione visiva componente per componente; accessibilità (WCAG AA, fuoco visibile,
+  bersagli, segni mai affidati al solo colore) invariata.
+- **Limiti:** non cambia funzioni, percorsi, permessi o dati; non anticipa le scelte numerate
+  dell'owner (I-248).

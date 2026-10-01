@@ -64,6 +64,31 @@ scelta numerata dell'owner, non solo direzione, icone e caratteri. Registro dell
   l'imagegen di Codex, quattro direzioni (costruzione → critica → correzione → verifica),
   cattura uniforme per la tavola di confronto.
 
+- 01/10/2026 00:55, ondata 2 conclusa (19 agenti, nessun errore): impalcatura con prova di
+  effetto nullo (DOM identico; pixel identici salvo l'animazione dell'anello di selezione, che
+  varia anche fra due giri del tag), suite Node 2688/2688; mappa dipinta d'esempio allineata ai
+  muri al primo tentativo (una sola generazione Codex sull'abbonamento); quattro direzioni con
+  critica, correzione e verifica indipendenti (verdetti: bg3, foundry, owlbear «ship»; ddb «fix»
+  per uno screenshot superato, rifatto dalla cattura finale, e un allineamento delle pillole dei
+  tiri salvezza). Commit locale `ebb1b51` (nessun push).
+- 01/10/2026: l'owner chiede di continuare in autonomia con più stili possibile, sempre copiati
+  dai prodotti esistenti e di altissima qualità. Pubblicata la pagina privata della Scelta 1
+  (opzioni 0–4) e mandate tre griglie; avviate la ricerca su cinque prodotti in più (Solasta,
+  Roll20, Pathfinder WotR di Owlcat, Alchemy RPG, Demiplane) e l'estensione del kit di cattura a
+  cinque stati in più.
+
+- 01/10/2026: l'owner chiede che dopo le scelte ci sia un solo design coerente, curato in ogni
+  padding, margine, bottone e carattere: registrato come I-250 e nel registro delle scelte.
+- 01/10/2026, ondata 3: kit di cattura con 5 stati in più (esplorazione, Magie, Inventario,
+  finestra dell'iniziativa, menu della pedina); strumento di controllo dei valori calcolati
+  ([audit](audit/README.md): oggi 42 spaziature senza passo, 29 altezze di controlli, 108
+  varianti di pulsanti); pagina-campionario dei componenti con il markup reale
+  ([specimen](specimen/README.md)); direzioni 1–4 estese ai nuovi stati e rifinite; cinque
+  direzioni nuove costruite con critica, correzione e verifica (5 Solasta, 6 Roll20, 7
+  Pathfinder WotR, 8 Alchemy RPG, 9 Demiplane). Pubblicate due pagine private: Scelta 1
+  (Tavolo, Scheda, Inizio) e «Altri stati». In corso il secondo giro di rifinitura su tutte le
+  direzioni con i punti aperti delle verifiche e la coerenza I-250.
+
 ## Prossima azione
 
 Costruire le tre direzioni del Giro 1 e presentare all'owner la Scelta 1.

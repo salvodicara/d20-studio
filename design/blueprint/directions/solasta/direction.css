@@ -1,1 +1,4118 @@
-/* Direction «solasta» — Phase C round 1 «Scelta 1 — Direzione» (I-248). Skeleton: the builder fills it. */
+/* Direction «5 · Solasta» (id "solasta") — Phase C round 1 «Scelta 1 — Direzione» (I-248).
+   Solasta: Crown of the Magister (Tactical Adventures, 1.0 2021 and its DLC builds): the flat,
+   square «miniatures-game HUD» that is the opposite of BG3 — opaque plates with radius 0 and no
+   shadow, 1 px lighter separators, slate-blue combat plates and warm-charcoal menus, big
+   labelled verb tiles coloured by action family, tracked capitals in a humanist sans, names in
+   a bold caps-and-small-caps serif, no metal and no gilding. Solasta II is not used. Only the
+   grammar and the sampled values are copied: no Solasta pixel, texture, font, logo or frame
+   art is in the repository. Reference board (outside the repo):
+   ~/Workspace/Codex/d20-studio-visual-assets/references/solasta/ (facts.md, manifest.md; SLn
+   = manifest rows, SLCn = crops). The owner's page in Italian is SOURCES.md.
+
+   Contract (directions/README.md, code-map §0/§c/§f): every rule starts with
+   :root[data-direction="solasta"]:not([data-pref-theme="light"]) (round 1 is dark only: the
+   light theme keeps today's look, fonts included); the eight contrast tokens also
+   :not([data-pref-contrast="high"]); token colours also
+   :not([data-pref-vision]:not([data-pref-vision="standard"])). No !important, no content text,
+   no text-transform (capitals are font-variant-caps: all-small-caps + tracking), no markup.
+   40 px targets, the 3 px focus ring (here near-white) and «never colour alone» stay. The tool
+   column keeps its 40 px cells and the party column its 64 px width; the hotbar band measures
+   112 px (≤ 120), so the map box's margins follow it (0 80 168 88 at 1440: the zoom column's
+   room, the band plus the 40 px plates above it, the tool column) and the status line starts
+   at x 272 on the band's left edge, the zoom column 24 px from the map's right (critic F8).
+   Below 1440 px the tile wall narrows (68 px tiles, 13 px labels) and below 1366 px the
+   portrait block keeps only its HP cell, so every tile stays in the bar (round 2).
+
+   I-250 scales (one per kind; every padding, gap, size and radius below comes from them):
+   - space ........ 1 px hairline · 2 · 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 (--sl-hair, --sl-2,
+                    --space-1…8; Solasta 3 px cell gutters → 2, 10 px group gaps → 8)
+   - type ......... 12 · 13 · 14 · 15 · 17 · 20 · 24 · 32 · 56 (--text-2xs…3xl, --sl-text-hero);
+                    line-heights 1.1 caps/numerals · 1.2 titles · 1.45 body; tracking 0.06em
+                    caps · 0.04em names · 0.14em watermark
+   - weights ...... 400 text · 500 tracked capitals (every command, tab and label) · 700 names
+                    and numerals (one numeral style: 24/1.1/700, 32 for the sheet's HP)
+   - radius ....... 0 everywhere; 50 % only for round things (medallion, map tokens)
+   - borders ...... 1 px separators/outlines · 4 px active underline · 5 px teal rules
+   - heights ...... 40 px controls and rows · tile 76 × 84 px + 20 px group strip · the
+                    campaign banner 192 px and the party bust 128 × 192 px
+   - components ... (round 2, I-250) one recipe per kind: outline / filled / quiet button
+                    40 px, 8 / 16 px, 15 px caps 500; filter chip 40 px, 8 / 12 px, 15 px caps
+                    500; field 40 px, 8 / 12 px, 15 px; tabs in two tiers — primary (header,
+                    sheet tab bar) 20 px (15 on a phone), secondary (menu rows, sub-tabs,
+                    hotbar pages) 15 px; stat cell 12 / 8 px; icons 24 px in slate cells, 21 px
+                    in bare chrome buttons, 18 px in the token menu's rows; one disabled
+                    look; browser text margins (1em) restated as 16 px
+
+   Elemento → prodotto → fonte (facts.md section; [L] lossless sample, [J] JPEG sample)
+   - UI sans Source Sans 3, caps 500 tracked
+     0.06em (regular-looking capitals) ..... Solasta 1 controls ...... facts §2 (SLD2 closest)
+   - Section titles: sans caps, light ink .. GAMEPLAY, PERSONALITY ..... SL38, SL22
+   - Names/titles Crimson Pro 700 small caps
+     (proper names and dialog titles only) . Solasta 1 names ...... facts §2 (SLD1 ①)
+   - Italic serif for flavour lines ....... «Round 1», blurbs ......... facts §2 (SL1, SL34)
+   - Warm charcoal page #292525, menu
+     column #30302F, sheet column #2A2C29 .. menus and sheet ........... facts §1 [L SL32/33, J SL21]
+   - Slate combat plates #3B4B55, portrait
+     backdrop #2F4047, cell #424545 ........ combat HUD ................ facts §1/§4 [L SL1]
+   - Copper accent #F5B486, fill #D69E76,
+     line #B88C6F, underline #EDB68D ....... menu, tabs, chips ......... facts §1 [L SL32, SL1; J SL21]
+   - Ice #B5D3DE, sky #56BCF4, teal #5BB59A
+     (HP), mint #98E7AA (End turn) ......... tile inks, stats .......... facts §1 [L SL1]
+   - Header = sheet tab bar: black, tracked
+     caps copper, active white + 4 px line .. character sheet tabs ...... facts §5 [J SL21, SL22]
+   - Buttons: flat square copper outline;
+     primary filled copper; cancel rose .... menus, creation, dialogs .. facts §5/§6/§7 [J SL26, SL32]
+   - Fields and dropdowns: dark fill,
+     copper outline and chevron; search
+     fields underlined, no box ............ settings, spell search .... facts §6 (SL38), SL22
+   - Low-emphasis commands: bare copper
+     caps on the content's edge ............ CLOSE/SETTINGS rows ...... SL22, SL38
+   - Chips: flat dark-teal caps .......... personality chips ......... facts §5 [J SL26]
+   - Two-tone tooltip / inspector header . target card, item tooltip . facts §4/§5 [J SL4, SL21]
+   - Dialogs: centred plate, caps serif
+     title between rules, CANCEL/VALIDATE . Wild Shape modal .......... facts §7 (SL42), banner SLC3
+   - Home: right charcoal menu column of
+     40 px rows, chevrons, copper caps,
+     active row filled copper; watermark
+     title; campaign card = landscape
+     thumbnail with the name (sans 24) on
+     its foot; party card = tall bust ..... main menu, New Adventure .. facts §6 [L SL32, SL33]
+   - Sheet: CLOSE chip, round medallion,
+     spaced small-caps name, ability boxes
+     with graded modifier chips, derived
+     cells in sky blue ..................... character sheet .......... facts §5 [J SL21, SL26]
+   - Table: full-width row of portrait cards
+     with 5 px teal rules, ally slate / enemy
+     blood red, the active card taller ..... initiative bar ............ facts §4 [L SL1 SLC2]
+   - Verb tiles: pictogram over caps label,
+     colour = action family, group strip
+     under each group, End turn green tile . action panel .............. facts §4 [L SL1 SLC1]
+   - Portrait block: HP cell, teal numerals,
+     name in ice small caps ................ portrait block ............ facts §4 [L SL1]
+   - Party column: stacked cards, teal edge exploration party column .. facts §4 [J SL6]
+   - Map tools, zoom, page tabs: flat slate
+     cells, active = #80695C + copper line . weapon-set chips .......... facts §4 [L SL1]
+   - Map status line: translucent black log
+     with the dark roll chip; the plates
+     over the band on the band's edges ..... combat log ................ facts §4 [L SL1 SLC4]
+   - Token menu: grey header, slate body .. target card ............... facts §4 [J SL4]
+   - Scene plate: quest-tracker plate ..... quest tracker ............. facts §4 (SL2, SL6)
+   - Icons: game-icons.net solid glyphs ... action pictograms ......... facts §3; icons.mjs */
+
+/* ------------------------------------------------------------------ fonts (vendored, OFL) */
+@font-face {
+  font-family: "Source Sans 3";
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url("../../assets/fonts/source-sans-3/source-sans-3-latin-wght-normal.woff2") format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Source Sans 3";
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url("../../assets/fonts/source-sans-3/source-sans-3-latin-ext-wght-normal.woff2")
+    format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
+}
+@font-face {
+  font-family: "Crimson Pro";
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url("../../assets/fonts/crimson-pro/crimson-pro-latin-wght-normal.woff2") format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Crimson Pro";
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url("../../assets/fonts/crimson-pro/crimson-pro-latin-ext-wght-normal.woff2") format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
+}
+@font-face {
+  font-family: "Crimson Pro";
+  font-style: italic;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url("../../assets/fonts/crimson-pro/crimson-pro-latin-wght-italic.woff2") format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Crimson Pro";
+  font-style: italic;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url("../../assets/fonts/crimson-pro/crimson-pro-latin-ext-wght-italic.woff2") format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
+}
+/* While Source Sans 3 is still loading (font-display: swap) the text is set in the installed
+   Arial scaled to Source Sans 3's widths and line metrics (computed from the two fonts'
+   advances, 01/10: 92.5 % regular, 90 % bold), so the HUD fitter (table.mjs fitHud) measures
+   the same row widths before and after the swap (critic F1). No font file is added. */
+@font-face {
+  font-family: "Source Sans 3 Fallback";
+  font-style: normal;
+  font-weight: 200 549;
+  src: local("Arial"), local("ArialMT");
+  size-adjust: 92.5%;
+  ascent-override: 110.7%;
+  descent-override: 43.2%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Source Sans 3 Fallback";
+  font-style: normal;
+  font-weight: 550 900;
+  src: local("Arial Bold"), local("Arial-BoldMT");
+  size-adjust: 90%;
+  ascent-override: 113.8%;
+  descent-override: 44.4%;
+  line-gap-override: 0%;
+}
+
+/* ------------------------------------------------------------------ tokens (facts §1, §9.1) */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) {
+  /* Solasta's own palette. */
+  --sl-black: #020202; /* sheet tab bar */
+  --sl-page: #292525; /* menu pages */
+  --sl-menu: #30302f; /* main-menu column, dialogs */
+  --sl-panel: #2a2c29; /* sheet stats column */
+  --sl-cell: #424545; /* HP/AC and derived-stat cells */
+  --sl-slate: #3b4b55; /* main-action tile, combat plates */
+  --sl-slate-hover: #465863; /* not observed: one step lighter (INF) */
+  --sl-slate-used: #222a2e; /* unavailable tile */
+  --sl-bonus: #5f4945; /* bonus tile */
+  --sl-bonus-hover: #6d5450;
+  --sl-other: #323232; /* other/free tile */
+  --sl-other-hover: #3d3d3d;
+  --sl-pass: #344b3d; /* End turn tile */
+  --sl-pass-hover: #3e5848;
+  --sl-backdrop: #2f4047; /* portrait backdrop, panel */
+  --sl-ally-bg: #353847; /* initiative ally card */
+  --sl-strip: rgb(37 37 39 / 0.92); /* group label strip #252527 */
+  --sl-log: rgb(4 4 4 / 0.88); /* combat log */
+  --sl-log-line: #2d2d2d;
+  --sl-sep: #6c8089; /* 1 px separator on slate */
+  --sl-sep-warm: #666666; /* 1 px separator in the menu column */
+  --sl-edge: #43474a; /* ability box border */
+  --sl-ink: #dedcdc;
+  --sl-ink-bright: #f5f5f5;
+  --sl-white: #e4e7ea; /* pictograms and big numerals (#E4E7EA / #E8EAE7) */
+  --sl-ink-dim: #9b999a; /* Solasta #949494/#9B999A: the AA one */
+  --sl-ink-slate: #b7c4d0; /* caps on slate («FRIENDLY CREATURE») */
+  --sl-ice: #b5d3de;
+  --sl-copper: #f5b486;
+  --sl-copper-dim: #dbb9a4; /* inactive tab */
+  --sl-copper-fill: #d69e76;
+  --sl-copper-line: #b88c6f;
+  --sl-copper-rule: #edb68d; /* 4 px tab underline */
+  --sl-copper-chip: #80695c; /* active chip fill */
+  --sl-copper-well: #4a3934; /* INVENTORY button fill */
+  --sl-ink-on-copper: #241a15;
+  --sl-teal: #5bb59a;
+  --sl-teal-rule: #4f9e85;
+  --sl-sky: #56bcf4;
+  --sl-active: #4fc0ff;
+  --sl-ally: #8cb6ce;
+  --sl-enemy: #c8af75;
+  --sl-mint: #98e7aa;
+  --sl-rose: #764a48; /* CANCEL fill */
+  --sl-rose-ink: #ffc9c9; /* coral #F16970 lightened for AA on the rose fill */
+  --sl-neutral: #4c4c4c; /* JOURNAL / MENU / CLOSE chips */
+  --sl-chip-teal: #324d60; /* personality chip */
+  --sl-chip-teal-ink: #b5d3de; /* Solasta #BAD6E3, one with the ice ink */
+  --sl-tip-head: #c7c5c6;
+  --sl-tip-head-ink: #373638;
+  --sl-tip-body: #384d5e;
+  --sl-banner-rule: #baa6a6; /* banner rules */
+  --sl-beta: #e69999; /* BETA tag */
+  --sl-watermark: #8e8a88; /* Solasta #585656, lightened to 4.4:1 */
+  /* Modifier chips: Solasta's blue-saturation ramp (+0 grey … +4 vivid blue), each darkened
+     until its white digits reach 4.5:1. */
+  --sl-mod-0: #5c5c5c;
+  --sl-mod-1: #596c75;
+  --sl-mod-2: #4b6e82;
+  --sl-mod-3: #3a6e8e;
+  --sl-mod-4: #2a6c98;
+  /* The app's tokens. */
+  --bg: #292525;
+  --surface: #30302f;
+  --raised: #3b3938;
+  --canvas: #151716;
+  --accent: #f5b486;
+  --accent-ink: #241a15;
+  --danger: #f16970;
+  --positive: #5bb59a;
+  --surface-2: #2a2c29;
+  --sunken: #1e1c1b;
+  --header-bg: #020202;
+  --sidebar-bg: #2f4047;
+  --rail-bg: #020202;
+  --hotbar-bg: #2f4047;
+  --float-bg: rgb(4 4 4 / 0.88);
+  --float-border: #2d2d2d;
+  --scrim: rgb(2 2 2 / 0.72);
+  --accent-strong: #ffcda8;
+  --accent-soft: rgb(214 158 118 / 0.16);
+  --accent-line: #b88c6f;
+  --danger-strong: #764a48;
+  --danger-ink: #ffc9c9;
+  --danger-soft: rgb(241 105 112 / 0.14);
+  --positive-strong: #344b3d;
+  --positive-soft: rgb(91 181 154 / 0.14);
+  --warning: #f5b486;
+  --warning-soft: rgb(245 180 134 / 0.14);
+  --info: #56bcf4;
+  --info-soft: rgb(86 188 244 / 0.14);
+  --toast-bg: #384d5e;
+  --toast-ink: #dedcdc;
+  --toast-error-bg: #764a48;
+  --toast-error-ink: #ffc9c9;
+  --hp-full: #5bb59a;
+  --hp-mid: #f5b486;
+  --hp-low: #f16970;
+  --hp-down: #764a48;
+  --hp-temp: #56bcf4;
+  --hp-track: #1e2a30;
+  --res-action: #b5d3de;
+  --res-bonus: #f5b486;
+  --res-reaction: #e69999;
+  --res-move: #5bb59a;
+  --res-slot: #57bcf4;
+  --res-pact: #b48ae8;
+  --res-spent: #4b4d4f;
+  --turn-current: #4fc0ff;
+  --turn-ally: #4f9e85;
+  --turn-enemy: #6a0000;
+  --turn-done: #4b4d4f;
+  --endturn-bg: #344b3d;
+  --token-initial: #dedcdc;
+  --token-label: #dedcdc;
+  --token-label-halo: #1b1d1c;
+  --status-conditions: #f5b486;
+  --shadow-1: none;
+  --shadow-2: none;
+  --shadow-3: none;
+  --keyline-dark: rgb(0 0 0 / 0.6);
+}
+/* The eight contrast-sensitive tokens step aside for high contrast (code-map §c). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]) {
+  --text: #dedcdc;
+  --muted: #9b999a;
+  --line: #4a4746;
+  --focus: #f4f4f4;
+  --line-strong: #666666;
+  --frame: #6c8089;
+  --frame-soft: #4f5a60;
+  --placeholder: #8e8a88;
+}
+/* Grey text on Solasta's grey-blue cells and slate panels uses the slate caps ink
+   («FRIENDLY CREATURE» #B7C4D0), so it stays 4.5:1. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  :is(
+    .character-sheet .stat,
+    .character-sheet .shp-pill,
+    .character-sheet .spl-stat,
+    .character-sheet .invp-stat,
+    .table-layout .table-sidebar-panel,
+    .table-layout .table-hotbar,
+    .token-menu
+  ) {
+  --muted: #b7c4d0;
+}
+/* Token fills and rings step aside for the colour-vision palettes (preferences-journey). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  ) {
+  --token-ally-fill: #2f4047;
+  --token-ally-ring: #5bb59a;
+  --token-hostile-fill: #410000;
+  --token-hostile-ring: #e0574f;
+}
+/* Type and the I-250 scales. --text-* keep the preference calc form (preferences.css). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) {
+  --font-display: "Crimson Pro", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --font-ui:
+    "Source Sans 3", "Source Sans 3 Fallback", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-label:
+    "Source Sans 3", "Source Sans 3 Fallback", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --text-2xs: calc(12px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --text-xs: calc(13px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --text-sm: calc(14px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --text-md: calc(15px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --text-lg: calc(17px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --text-xl: calc(20px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --text-2xl: calc(24px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --text-3xl: calc(32px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --sl-text-hero: calc(56px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --sl-lh-tight: 1.1;
+  --sl-lh-title: 1.2;
+  --sl-lh-body: 1.45;
+  --sl-track-caps: 0.06em;
+  --sl-track-name: 0.04em;
+  --sl-track-hero: 0.14em;
+  --label-tracking: 0.06em;
+  --sl-w-text: 400;
+  --sl-w-caps: 500;
+  --sl-w-strong: 700;
+  --sl-hair: 1px;
+  --sl-2: 2px;
+  --sl-rule: 4px;
+  --sl-rule-teal: 5px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --sl-control: 40px;
+  --sl-tile-w: 76px;
+  --sl-tile-h: 84px;
+  --sl-tile-strip: 20px;
+  --sl-icon: 32px;
+  --sl-cell-w: 80px; /* HP/AC cell (SL1: 94 px@1080 ≈ 78 at 900) */
+  --sl-block-w: 176px; /* portrait block (SL1: 266 px@900, without the bust) */
+  --sl-banner-h: 192px; /* New Adventure's campaign thumbnail (SL33: 400 × 190 px) */
+  --sl-bust-w: 128px; /* New Adventure's party bust (SL33: about 150 × 250 px) */
+  --sl-bust-h: 192px;
+  --radius-xs: 0;
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-pill: 0;
+  --radius: 0;
+}
+
+/* ------------------------------------------------------------------ page and browser surfaces */
+/* The browser's own text margins (1em: 15 px under 15 px text, 19.95 px under an h4) become
+   the scale's 16 px. A cascade layer ranks below every unlayered rule, so this replaces only
+   the browser default: every margin the app sets keeps its value (round 2, I-250). */
+@layer solasta-defaults {
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    :is(h1, h2, h3, h4, p, ul, ol, dl) {
+    margin-block: var(--space-4);
+  }
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) body {
+  background: var(--sl-page);
+  line-height: var(--sl-lh-body);
+  font-variant-numeric: lining-nums;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) ::selection {
+  background: var(--sl-copper-chip);
+  color: var(--sl-ink-bright);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) * {
+  scrollbar-color: var(--sl-copper-line) transparent;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) :is(input, textarea) {
+  caret-color: var(--sl-copper);
+}
+/* Names and titles: Solasta's bold capitals and small capitals in the serif, kept for proper
+   names (a character, a scene, a spell, an item) and big-event titles (a dialog's title). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  :where(h1, .table-layout .inspector-person h2, .dialog-heading h2) {
+  font-family: var(--font-display);
+  font-weight: var(--sl-w-strong);
+  font-variant-caps: small-caps;
+  letter-spacing: var(--sl-track-name);
+  line-height: var(--sl-lh-title);
+  color: var(--sl-ink);
+}
+/* Section titles: Solasta's group labels (GAMEPLAY, PERSONALITY, MAIN ACTIONS) — tracked
+   capitals in the sans, light ink; the sub-sections below them in copper (h3). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  h2:where(:not(.table-layout .inspector-person h2, .dialog-heading h2)) {
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  font-weight: var(--sl-w-caps);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--sl-track-caps);
+  line-height: var(--sl-lh-tight);
+  color: var(--sl-ink);
+}
+/* Section labels: the tracked copper capitals of Solasta's table headers («TITLE ▼»). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) h3 {
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: var(--sl-w-caps);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--sl-track-caps);
+  line-height: var(--sl-lh-tight);
+  color: var(--sl-copper);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .muted {
+  color: var(--muted);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  :is(button, a, [tabindex]):focus-visible {
+  outline-color: var(--focus);
+}
+/* The disclosure lines styled as commands get the app's 3 px ring too. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) summary:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+/* Generic chrome glyphs that stay the core line paths (plus, arrows, menu, panel, grid) are
+   drawn heavier, so they sit with the solid game-icons glyphs. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .icon[stroke="currentColor"] {
+  stroke-width: 2.2;
+}
+/* The brand waits for Phase D: the logo and wordmark keep today's colours and face. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .brand {
+  color: #efe7d6;
+  font-family:
+    "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", "URW Palladio L", Georgia,
+    serif;
+  font-weight: 400;
+  font-variant-caps: normal;
+  letter-spacing: 0.01em;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  :is(.brand .icon, .brand .logo, .brand b) {
+  color: #dfbd78;
+}
+
+/* ------------------------------------------------------------------ shared chrome: header */
+/* The header is Solasta's character-sheet tab bar: a black band, the pages as tracked copper
+   capitals, the open one white over a 4 px copper underline (SL21, SL22). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .app-header {
+  background: var(--sl-black);
+  border-bottom: var(--sl-hair) solid #1e1e1e;
+}
+/* The header's spacing on the scale (round 2: the app's 3 / 5 / 9 / 18 / 28 / 30 px). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .app-header nav {
+  gap: var(--space-1);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .app-header .service-nav {
+  gap: var(--space-1);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .app-header .brand {
+  gap: var(--space-2);
+}
+@media (min-width: 721px) {
+  :root[data-direction="solasta"]:not([data-pref-theme="light"]) .app-header {
+    gap: var(--space-6);
+    padding: var(--space-4) var(--space-6);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"]) .app-header.table-header {
+    gap: var(--space-4);
+    padding-block: var(--space-2);
+  }
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .demo-strip {
+  background: #0e0e0e;
+  border-bottom-color: #1e1e1e;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .nav-link {
+  position: relative;
+  border-radius: 0;
+  color: var(--sl-copper-dim);
+  font-family: var(--font-label);
+  font-weight: var(--sl-w-caps);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--sl-track-caps);
+  line-height: var(--sl-lh-tight);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .nav-link .icon {
+  display: none;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .nav-link:hover {
+  background: transparent;
+  color: var(--sl-copper);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .nav-link.active {
+  background: transparent;
+  color: var(--sl-ink-bright);
+  box-shadow: inset 0 calc(-1 * var(--sl-rule)) var(--sl-copper-rule);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .icon-button {
+  border-radius: 0;
+  color: var(--sl-copper-dim);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .icon-button:hover {
+  background: var(--sl-copper-well);
+  color: var(--sl-copper);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .icon-button {
+  width: var(--sl-control);
+  height: var(--sl-control);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .ext-count {
+  top: var(--space-1);
+  right: var(--space-1);
+  min-width: var(--space-4);
+  height: var(--space-4);
+  padding: 0 var(--space-1);
+  border-radius: 0;
+  background: var(--sl-beta);
+  color: var(--sl-ink-on-copper);
+}
+
+/* ------------------------------------------------------------------ shared chrome: controls */
+/* Square icon controls are centred cells: no browser button padding (1 px 6 px). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  :is(
+    .icon-button,
+    .map-tool,
+    .table-tab,
+    .table-sidebar-toggle,
+    .table-panels-all,
+    .conditions-segment,
+    .shp-star,
+    .token-menu-close,
+    .table-map-link
+  ) {
+  padding: 0;
+}
+@media (min-width: 721px) {
+  :root[data-direction="solasta"]:not([data-pref-theme="light"]) .nav-link {
+    min-height: var(--sl-control);
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--text-xl);
+  }
+}
+@media (max-width: 720px) {
+  :root[data-direction="solasta"]:not([data-pref-theme="light"]) .app-header nav .nav-link {
+    font-size: var(--text-md);
+  }
+}
+
+/* Buttons: Solasta's flat square outline buttons (CHANGE CAMPAIGN, NEW LOCATION): a 1 px copper
+   line, the label in tracked copper capitals; the primary one filled copper (the active menu
+   row, with dark ink for AA); CANCEL rose. Hover is not observed in Solasta: the INVENTORY
+   button's copper well. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .button {
+  border: var(--sl-hair) solid var(--sl-copper-line);
+  border-radius: 0;
+  background: transparent;
+  color: var(--sl-copper);
+  font-family: var(--font-label);
+  font-weight: var(--sl-w-caps);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--sl-track-caps);
+  line-height: var(--sl-lh-tight);
+  box-shadow: none;
+}
+/* One geometry for every button at every width (40 px, 8 / 16 px, 15 px capitals); the few
+   compact rows the app measures on a phone (the Table's header, scene plate and hotbar)
+   re-state their cells in the phone blocks below. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .button {
+  min-height: var(--sl-control);
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--text-md);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .button:hover:not(:disabled) {
+  background: var(--sl-copper-well);
+  border-color: var(--sl-copper);
+  color: var(--sl-copper);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .button:active:not(:disabled) {
+  background: var(--sl-copper-chip);
+  color: var(--sl-ink-bright);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .button.primary {
+  border-color: var(--sl-copper-fill);
+  background: var(--sl-copper-fill);
+  color: var(--sl-ink-on-copper);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .button.primary:hover:not(:disabled) {
+  border-color: var(--sl-copper);
+  background: var(--sl-copper);
+  color: var(--sl-ink-on-copper);
+}
+/* Low-emphasis commands (quiet buttons and text buttons): one style, Solasta's bare copper
+   capitals that start on the same edge as the content they belong to — no side padding, the
+   target still 40 px tall and at least 40 px wide; hover brightens the copper. Rows of them
+   keep 24 px between their words. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .button.quiet {
+  min-width: var(--sl-control);
+  padding-inline: 0;
+  border-color: transparent;
+  background: transparent;
+  text-align: start;
+}
+/* The disclosure lines that act as commands («Visualizzazione…», «Regola d'ingombro…»,
+   «Perché?», the HP widget's «Correggi i punti ferita», «Registro PF»…) take the same copper
+   capitals. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  :is(
+    .character-sheet .invp-view > summary,
+    .character-sheet .invp-details > summary,
+    .character-sheet .spl-window-why > summary,
+    .dt-more > summary
+  ) {
+  box-sizing: border-box;
+  min-height: var(--sl-control);
+  color: var(--sl-copper);
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: var(--sl-w-caps);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--sl-track-caps);
+  line-height: var(--sl-lh-tight);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .button.quiet:hover:not(:disabled) {
+  border-color: transparent;
+  background: transparent;
+  color: var(--accent-strong);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  :is(
+    .toolbar,
+    .shp-col-tools,
+    .shp-action-tools,
+    .invp-row-actions,
+    .spl-row-actions,
+    .knowledge-actions,
+    .loot-row-actions
+  ):has(> :is(.button.quiet, .text-button)) {
+  column-gap: var(--space-5);
+}
+/* A command keeps its words on one line (40 px), as every button does: «Gestisci monete» and
+   «Nuova azione personalizzata» wrapped to 51 px in their narrow columns (round 2). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  :is(.invp-coins-stat > .button, .section-heading > .button) {
+  white-space: nowrap;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .button.danger {
+  border-color: var(--sl-rose);
+  background: var(--sl-rose);
+  color: var(--sl-rose-ink);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .button.danger:hover:not(:disabled) {
+  border-color: var(--sl-rose-ink);
+  background: var(--sl-rose);
+  color: var(--sl-ink-bright);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .button.active {
+  border-color: var(--sl-copper-line);
+  background: var(--sl-copper-chip);
+  color: var(--sl-ink-bright);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .button:disabled {
+  border-color: var(--sl-edge);
+  background: transparent;
+  color: var(--sl-ink-dim);
+}
+/* One disabled look for every kind (round 2): the primary and danger fills give way to the
+   neutral outline, so a disabled command never reads as a muddy copper or rose block. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  :is(.button.primary, .button.danger, .button.active):disabled {
+  border-color: var(--sl-edge);
+  background: transparent;
+  color: var(--sl-ink-dim);
+}
+/* Low specificity for the size: the HUD fitter's compact rows (is-tight, the phone) keep
+   their own sizes. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  :where(.text-button:not(.combat-bar-heading .text-button)) {
+  font-size: var(--text-md);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .text-button {
+  min-height: var(--sl-control);
+  padding-block: var(--space-2);
+  color: var(--sl-copper);
+  font-family: var(--font-label);
+  font-weight: var(--sl-w-caps);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--sl-track-caps);
+  line-height: var(--sl-lh-tight);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .text-button:hover:not(:disabled) {
+  color: var(--accent-strong);
+}
+/* Fields: the settings dropdown — a dark well, a 1 px copper line, copper text and chevron;
+   text inputs keep the neutral line and turn copper on focus. Every field is 40 px tall with
+   8 / 12 px padding and 15 px text (the initiative dialog's d20 boxes and the token menu's HP
+   box included). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  :is(
+    .field input,
+    .field select,
+    .field textarea,
+    input[type="search"],
+    .ct-start-d20 input,
+    .token-menu-hp input
+  ) {
+  min-height: var(--sl-control);
+  padding: var(--space-2) var(--space-3);
+  border: var(--sl-hair) solid var(--sl-sep-warm);
+  border-radius: 0;
+  background: var(--sunken);
+  color: var(--sl-ink);
+  font-size: var(--text-md);
+  line-height: var(--sl-lh-tight);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  :is(
+    .field input,
+    .field select,
+    .field textarea,
+    input[type="search"],
+    .ct-start-d20 input,
+    .token-menu-hp input
+  ):hover:not(:disabled) {
+  border-color: var(--sl-copper-line);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  :is(
+    .field input,
+    .field select,
+    .field textarea,
+    input[type="search"],
+    .ct-start-d20 input,
+    .token-menu-hp input
+  ):focus-visible {
+  border-color: var(--sl-copper);
+}
+/* Search: Solasta's «Search by name» — no box, a 1 px underline, copper on focus (SL22). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) input[type="search"] {
+  padding-inline: 0;
+  border-width: 0 0 var(--sl-hair);
+  border-color: var(--sl-ink-dim);
+  background: transparent;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  :is(.ct-start-d20 input, .token-menu-hp input) {
+  box-sizing: border-box;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) select {
+  border: var(--sl-hair) solid var(--sl-copper-line);
+  border-radius: 0;
+  background-color: var(--sunken);
+  color: var(--sl-copper);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .field {
+  font-size: var(--text-sm);
+  font-weight: var(--sl-w-caps);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--sl-track-caps);
+  color: var(--muted);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  :is(.field input, .field select, .field textarea) {
+  font-size: var(--text-md);
+  font-variant-caps: normal;
+  letter-spacing: 0;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  :is(input[type="checkbox"], input[type="radio"], input[type="range"], progress) {
+  accent-color: var(--sl-copper-fill);
+}
+/* Switches: Solasta's square checkbox language — a square track, a square knob. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .switch {
+  border-color: var(--sl-sep-warm);
+  border-radius: 0;
+  background:
+    linear-gradient(var(--sl-ink-dim), var(--sl-ink-dim)) var(--space-1) 50% / var(--space-3)
+      var(--space-3) no-repeat,
+    var(--sunken);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .switch:checked {
+  border-color: var(--sl-copper-fill);
+  background:
+    linear-gradient(var(--sl-ink-on-copper), var(--sl-ink-on-copper)) calc(100% - var(--space-1))
+      50% / var(--space-3) var(--space-3) no-repeat,
+    var(--sl-copper-fill);
+}
+/* Chips: Solasta's flat dark-teal personality chips (FORMAL, LAWFULNESS). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .badge {
+  border: 0;
+  border-radius: 0;
+  padding: var(--sl-2) var(--space-2);
+  background: var(--sl-chip-teal);
+  color: var(--sl-chip-teal-ink);
+  font-family: var(--font-label);
+  font-size: var(--text-sm);
+  font-weight: var(--sl-w-caps);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--sl-track-caps);
+  line-height: var(--sl-lh-tight);
+}
+/* Tabs: tracked copper capitals; the open one white over the 4 px copper underline. Two
+   tiers (round 2): the primary bars (the header's pages, the sheet's tab bar) 20 px on a
+   desktop and 15 px on a phone; every secondary tab (these, the Home menu rows, the sidebar's
+   sub-tabs, the hotbar's pages) 15 px at every width. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .tabs {
+  gap: var(--space-2);
+  border-bottom: var(--sl-hair) solid var(--line);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .tabs button {
+  min-height: var(--sl-control);
+  padding: var(--space-2) var(--space-3);
+  border-bottom: var(--sl-rule) solid transparent;
+  color: var(--sl-copper-dim);
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  line-height: var(--sl-lh-tight);
+  font-weight: var(--sl-w-caps);
+  letter-spacing: var(--sl-track-caps);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .tabs button:hover {
+  color: var(--sl-copper);
+  border-bottom-color: transparent;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .tabs button.active {
+  color: var(--sl-ink-bright);
+  border-bottom-color: var(--sl-copper-rule);
+}
+/* Panels: opaque flat plates, no rounding, no shadow, one dark edge. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .panel {
+  border: var(--sl-hair) solid var(--line);
+  border-radius: 0;
+  background: var(--sl-menu);
+  padding: var(--space-5);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .stat {
+  border: 0;
+  border-radius: 0;
+  background: var(--sl-cell);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .stat > span {
+  color: var(--sl-ink-slate);
+  font-size: var(--text-sm);
+  font-weight: var(--sl-w-caps);
+  letter-spacing: var(--sl-track-caps);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .stat strong {
+  color: var(--sl-sky);
+  font-weight: var(--sl-w-strong);
+}
+/* Small counts and key hints: 12 px (the scale's smallest step). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  :is(.ext-count, .home-page .home-count, kbd) {
+  font-size: var(--text-2xs);
+  line-height: var(--sl-lh-tight);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  :is(kbd, .spl-badge, .conditions-vital, .character-sheet .character-resource) {
+  font-weight: var(--sl-w-caps);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .offline-switch > span {
+  font-weight: var(--sl-w-text);
+}
+/* Names on the map: the token and region labels in the strong weight of every name. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  #battle-map
+  :is(.token-name, .regions-label) {
+  font-weight: var(--sl-w-strong);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .empty-state {
+  border: var(--sl-hair) dashed var(--sl-sep-warm);
+  border-radius: 0;
+}
+
+/* ------------------------------------------------------------------ dialogs, menus, toast */
+/* Dialogs: the Wild Shape modal — a centred opaque plate, the title in bold serif capitals
+   between hairline rules (the banner's pale rose-grey rule), flat caps buttons below. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) dialog {
+  border: var(--sl-hair) solid var(--sl-sep-warm);
+  border-radius: 0;
+  background: var(--sl-menu);
+  box-shadow: none;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) dialog::backdrop {
+  background: var(--scrim);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .dialog-heading {
+  padding: var(--space-4) var(--space-5);
+  border-bottom: 0;
+  background: linear-gradient(var(--sl-banner-rule), var(--sl-banner-rule)) var(--space-5)
+    calc(100% - var(--space-1)) / calc(100% - 2 * var(--space-5)) var(--sl-hair) no-repeat;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .dialog-heading h2 {
+  font-size: var(--text-2xl);
+  color: var(--sl-ink-bright);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .dialog-body {
+  padding: var(--space-5);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) dialog footer {
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-5);
+  border-top: var(--sl-hair) solid var(--line);
+  background: var(--sl-menu);
+}
+/* A command keeps one line (40 px); a narrow footer wraps whole buttons instead. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) dialog footer > .button {
+  white-space: nowrap;
+}
+/* The initiative dialog's combatants carry their names in the name serif, as every proper
+   name does (critic F9). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .ct-start-who > strong {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--sl-w-strong);
+  font-variant-caps: small-caps;
+  letter-spacing: var(--sl-track-name);
+  line-height: var(--sl-lh-title);
+}
+/* The totals in the one numeral style of the sheet's cells (24 / 1.1 / 700, the sans, lining
+   tabular figures), not a second serif style (critic F6, round 2). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .ct-start-total {
+  padding: 0 var(--space-1);
+  font-family: var(--font-ui);
+  font-size: var(--text-2xl);
+  font-weight: var(--sl-w-strong);
+  line-height: var(--sl-lh-tight);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+/* The rows and the roll-call note: the scale's 8 / 12 px plate padding. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) :is(.ct-start-row, .ct-start-call) {
+  padding: var(--space-2) var(--space-3);
+  border-radius: 0;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .ct-start-list {
+  gap: var(--space-2);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .ct-start-row {
+  gap: var(--space-2) var(--space-3);
+}
+/* Context menus: the main-menu column — full-width rows on charcoal, 1 px separators. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .context-menu {
+  gap: 0;
+  padding: 0;
+  border: var(--sl-hair) solid var(--sl-sep-warm);
+  border-radius: 0;
+  background: var(--sl-menu);
+  box-shadow: none;
+}
+/* Toast: Solasta's slate tooltip body. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) #toast {
+  border-radius: 0;
+  border-top: var(--sl-rule) solid var(--sl-tip-head);
+  box-shadow: none;
+  font-size: var(--text-sm);
+}
+/* Rich tooltips: Solasta's two-tone card — a light grey header with the title in dark serif
+   capitals over a slate body (SL4, SL21). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .shp-tip {
+  padding: 0 var(--space-3) var(--space-3);
+  border: 0;
+  border-radius: 0;
+  background: var(--sl-tip-body);
+  color: var(--sl-ink);
+  box-shadow: none;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .shp-tip-title {
+  display: block;
+  margin: 0 calc(-1 * var(--space-3)) var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: var(--sl-tip-head);
+  color: var(--sl-tip-head-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--sl-w-strong);
+  font-variant-caps: small-caps;
+  letter-spacing: var(--sl-track-name);
+}
+
+/* ------------------------------------------------------------------ Home (Inizio) */
+/* Solasta's menu pages: a warm-charcoal page, the screen's name as a huge, faint, spaced
+   capital watermark (SL32 «USER LOCATIONS», SL33 «NEW ADVENTURE»), the main menu as a
+   charcoal column of full-width rows on the right, flat plates with no rounding. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .home-page .page-heading {
+  margin-bottom: var(--space-5);
+}
+/* Beside the watermark the page's command sits on its foot; on a phone the heading is one
+   column, flush with the cards (critic F4). */
+@media (min-width: 721px) {
+  :root[data-direction="solasta"]:not([data-pref-theme="light"]) .home-page .page-heading {
+    align-items: flex-end;
+  }
+}
+/* One gutter for the whole dashboard: 24 px between columns and between cards (F18). */
+@media (min-width: 1101px) {
+  :root[data-direction="solasta"]:not([data-pref-theme="light"]) .home-page .home-layout {
+    column-gap: var(--space-5);
+  }
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .home-page .page-heading h1 {
+  margin: 0;
+  color: var(--sl-watermark);
+  font-family: var(--font-label);
+  font-size: var(--sl-text-hero);
+  font-weight: var(--sl-w-strong);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--sl-track-hero);
+  line-height: var(--sl-lh-tight);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .home-page .page-heading p {
+  color: var(--sl-ink-dim);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-style: italic;
+}
+/* Plates: the menu column's charcoal, flat, no line; the New Adventure campaign card. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .home-page
+  :is(.resume-scene, .home-appointment, .home-bottom > section, .home-card, .home-aside) {
+  border: 0;
+  border-radius: 0;
+  background: var(--sl-menu);
+  box-shadow: none;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .home-page .home-main .home-card {
+  padding: var(--space-5);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .home-dashboard:not([data-home-art])
+  .home-page
+  .scene-emblem {
+  border-right: 0;
+  background:
+    url("assets/campaign-hall.webp") center / cover no-repeat,
+    var(--canvas);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .home-dashboard:not([data-home-art])
+  .home-page
+  .scene-emblem
+  .icon {
+  visibility: hidden;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .home-page
+  .resume-scene
+  > div:last-child {
+  padding: var(--space-6);
+}
+/* The campaign's name as New Adventure writes «Crown of the Magister»: the regular sans, 24 px,
+   light, not the name serif (F11). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .home-page .resume-scene h2 {
+  margin: 0 0 var(--space-2);
+  color: var(--sl-ink-bright);
+  font-family: var(--font-ui);
+  font-size: var(--text-2xl);
+  font-weight: var(--sl-w-text);
+  font-variant-caps: normal;
+  letter-spacing: 0;
+  line-height: var(--sl-lh-title);
+}
+/* New Adventure's campaign card (SL33): the landscape thumbnail on top, the name on its foot
+   over a dark fade, then the capital line, the italic blurb and the commands. */
+@media (min-width: 721px) {
+  :root[data-direction="solasta"]:not([data-pref-theme="light"]) .home-page .resume-scene {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: var(--sl-banner-h) auto;
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .home-page
+    .resume-scene
+    > div:last-child {
+    justify-content: flex-start;
+    padding: 0 var(--space-6) var(--space-6);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"]) .home-page .resume-scene h2 {
+    margin: calc(-1 * var(--space-7)) calc(-1 * var(--space-6)) var(--space-4);
+    padding: var(--space-2) var(--space-6);
+    background: linear-gradient(rgb(2 2 2 / 0), rgb(2 2 2 / 0.78));
+    line-height: var(--space-6);
+  }
+}
+/* «Il cortile dell'osservatorio»: the card's caps line («STARTING LEVEL: 1»). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .home-page .resume-scene h2 + p {
+  margin: 0 0 var(--space-3);
+  color: var(--sl-ink-dim);
+  font-size: var(--text-md);
+  font-weight: var(--sl-w-caps);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--sl-track-caps);
+}
+/* The blurb in Solasta's italic serif. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .home-page
+  .resume-scene
+  p:not(:first-of-type) {
+  color: var(--sl-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-style: italic;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .home-page .resume-scene .toolbar {
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .home-page
+  :is(.home-appointment, .home-bottom > section) {
+  padding: var(--space-5);
+}
+/* The dashboard's lower cards (campaigns, discussions, public tables, first steps) are the
+   same flat plates as the cards above them: no line, 24 px inside (round 2: a 1 px line and
+   22 / 26 px). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .home-page
+  :is(.cm-home, .chat-home, .community-home, .home-start) {
+  padding: var(--space-5);
+  border: 0;
+  border-radius: 0;
+  background: var(--sl-menu);
+}
+/* Disclosure lines on Home («Novità precedenti», «Primi passi») are copper commands. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .home-page .home-details > summary {
+  color: var(--sl-copper);
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: var(--sl-w-caps);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--sl-track-caps);
+  line-height: var(--sl-lh-tight);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .home-page .home-details {
+  border-color: var(--line);
+}
+/* «Il tuo personaggio» and «Dove eravamo rimasti» share one height. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .home-page .home-bottom {
+  align-items: stretch;
+}
+/* The appointment's countdown in Solasta's «IN PROGRESS» blue. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .home-page
+  .home-appointment
+  :is(strong, .home-when, time) {
+  color: var(--sl-ink-bright);
+}
+/* «Il tuo personaggio»: the New Adventure party card (SL33, F11) — a tall bust on the slate
+   backdrop, and at its foot the name in bold small capitals, the class in pale blue and the
+   HP in teal numerals over their capital label. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .home-page .character-resume {
+  display: grid;
+  grid-template-columns: var(--sl-bust-w) minmax(0, 1fr) auto;
+  grid-template-rows: minmax(0, 1fr) auto auto;
+  column-gap: var(--space-4);
+  row-gap: var(--space-3);
+  align-items: end;
+  padding: 0;
+  border-bottom: 0;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .home-page .character-resume:hover {
+  background: var(--sl-copper-well);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .home-page
+  .character-resume
+  .portrait {
+  grid-column: 1;
+  grid-row: 1 / -1;
+  width: var(--sl-bust-w);
+  height: var(--sl-bust-h);
+  border: var(--sl-hair) solid var(--sl-sep);
+  border-radius: 0;
+  background-color: var(--sl-backdrop);
+  box-shadow: none;
+  font-size: var(--text-3xl);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .home-page
+  .character-resume
+  > span:not([class]) {
+  grid-column: 2 / -1;
+  grid-row: 2;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .home-page
+  .character-resume
+  > .icon {
+  grid-column: 3;
+  grid-row: 1;
+  align-self: start;
+  color: var(--sl-copper);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .home-page .character-resume strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--sl-w-strong);
+  font-variant-caps: small-caps;
+  letter-spacing: var(--sl-track-name);
+  line-height: var(--sl-lh-title);
+  color: var(--sl-ink-bright);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .home-page .character-resume small {
+  margin-top: var(--space-1);
+  color: var(--sl-ally);
+  font-size: var(--text-md);
+  line-height: var(--sl-lh-title);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .home-page
+  .character-resume
+  .hp-small {
+  grid-column: 2 / -1;
+  grid-row: 3;
+  margin: 0;
+  color: var(--sl-teal);
+  font-size: var(--text-2xl);
+  font-weight: var(--sl-w-strong);
+  line-height: var(--sl-lh-tight);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .home-page
+  .character-resume
+  .hp-small
+  small {
+  color: var(--sl-ink-dim);
+  font-size: var(--text-2xs);
+  font-weight: var(--sl-w-caps);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--sl-track-caps);
+  line-height: var(--sl-lh-tight);
+}
+/* The right panel is Solasta's main-menu column (SL32, SLC11): charcoal, the tabs as stacked
+   full-width 40 px rows with 1 px separators, a «‹» chevron at the left and the label centred
+   in tracked copper capitals; the open row filled copper. The count is the pink BETA tag. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .home-page .home-aside {
+  padding: 0 0 var(--space-5);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .home-page .home-tabs {
+  flex-direction: column;
+  gap: 0;
+  margin: 0 0 var(--space-4);
+  padding: 0;
+  border-bottom: var(--sl-hair) solid var(--sl-sep-warm);
+  overflow: visible;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .home-page .home-tabs [role="tab"] {
+  position: relative;
+  justify-content: center;
+  width: 100%;
+  min-height: var(--sl-control);
+  padding: var(--space-2) var(--space-7);
+  border: 0;
+  border-top: var(--sl-hair) solid var(--sl-sep-warm);
+  color: var(--sl-copper);
+  font-size: var(--text-md);
+  font-weight: var(--sl-w-caps);
+  letter-spacing: var(--sl-track-caps);
+  line-height: var(--sl-lh-tight);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .home-page
+  .home-tabs
+  [role="tab"]::before {
+  content: "";
+  position: absolute;
+  left: var(--space-4);
+  top: 50%;
+  width: var(--space-2);
+  height: var(--space-3);
+  translate: 0 -50%;
+  background: currentColor;
+  clip-path: polygon(100% 0, 100% 22%, 38% 50%, 100% 78%, 100% 100%, 0 50%);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .home-page
+  .home-tabs
+  [role="tab"]:hover {
+  background: var(--sl-copper-well);
+  color: var(--sl-copper);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .home-page
+  .home-tabs
+  [role="tab"][aria-selected="true"] {
+  background: var(--sl-copper-fill);
+  color: var(--sl-ink-on-copper);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .home-page .home-count {
+  position: absolute;
+  right: var(--space-3);
+  top: 50%;
+  translate: 0 -50%;
+  border-radius: 0;
+  background: var(--sl-beta);
+  color: var(--sl-ink-on-copper);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .home-page .home-panel {
+  padding: 0 var(--space-5);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .home-page .home-aside .home-card {
+  border-top: var(--sl-hair) solid var(--line);
+  background: transparent;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .home-page .home-news-item {
+  border-color: var(--line);
+}
+/* A news entry opens its whole text under the pointer, the keyboard's focus ring or its own
+   focus (a bell row pointing at it), not under the focus a mouse click leaves on one of its
+   commands: the entry clicked before keeps its height while the next
+   command is pressed, so a click never lands on a moving target (round 2: Source Sans at
+   14 px wraps some entries to a 4th line; home-journey's 3rd «Segna come letta» click). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .home-page
+  .home-news-item:not(:hover, :focus, :has(:focus-visible))
+  .home-desc {
+  -webkit-line-clamp: 3;
+}
+
+/* ------------------------------------------------------------------ Scheda (character sheet) */
+/* Solasta's character sheet: a black surround, the sheet's tab bar in tracked capitals, a
+   charcoal stats column with the round portrait medallion, the name in spaced small capitals,
+   ability boxes with a modifier chip whose blue grows with the value, derived cells in sky
+   blue; the grey CLOSE chip at the top left (SL21, SL22, SL26). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]):has(
+    .character-sheet[data-character-page]
+  )
+  body {
+  background: #0c0b0b;
+}
+/* «← Personaggi» is Solasta's CLOSE chip. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-breadcrumb
+  > .button.quiet {
+  padding-inline: var(--space-4);
+  border-color: var(--sl-neutral);
+  background: var(--sl-neutral);
+  color: var(--sl-copper);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-breadcrumb
+  > .button.quiet:hover {
+  background: #5a5a5a;
+}
+/* The medallion: a round portrait with a 2 px grey ring on the slate backdrop. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-heading
+  .character-portrait {
+  border: var(--sl-2) solid #8a8a8a;
+  border-radius: 50%;
+  background-color: var(--sl-backdrop);
+  box-shadow: 0 0 0 var(--sl-2) #0c0b0b;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-portrait-edit {
+  border-radius: 0;
+  background: var(--sl-neutral);
+  color: var(--sl-copper);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-heading
+  h1 {
+  color: var(--sl-ink-slate);
+  font-size: var(--text-3xl);
+  letter-spacing: 0.06em;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-heading-line {
+  color: var(--sl-ink);
+  font-size: var(--text-md);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-heading-note {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-style: italic;
+}
+/* The band and the side column are the charcoal stats column. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .character-band {
+  padding: var(--space-4);
+  border: 0;
+  border-radius: 0;
+  background: var(--sl-panel);
+}
+/* Ability boxes (SL21, SLC8): a grey caps strip on top, the score large, the modifier in a
+   square chip under it, its blue stepping up with the value (Solasta's own ramp). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .shp-abilities {
+  gap: var(--space-2);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .shp-ability-box {
+  justify-content: flex-start;
+  gap: var(--space-1);
+  padding: 0 0 var(--space-2);
+  border: var(--sl-hair) solid var(--sl-edge);
+  border-radius: 0;
+  background: var(--sl-page);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-ability-box:not(.is-static):hover {
+  border-color: var(--sl-copper-line);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .shp-ability-name {
+  order: 0;
+  align-self: stretch;
+  padding: var(--sl-2) 0;
+  background: #494e51;
+  color: var(--sl-ink);
+  font-size: var(--text-sm);
+  font-weight: var(--sl-w-caps);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--sl-track-caps);
+  line-height: var(--sl-lh-tight);
+  text-align: center;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-ability-box
+  > small {
+  order: 1;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  background: none;
+  color: var(--sl-white);
+  font-size: var(--text-2xl);
+  font-weight: var(--sl-w-strong);
+  line-height: var(--sl-lh-tight);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-ability-box
+  > strong {
+  order: 2;
+  min-width: var(--space-6);
+  padding: 0 var(--space-1);
+  background: var(--sl-mod-0);
+  color: #ffffff;
+  font-size: var(--text-sm);
+  font-weight: var(--sl-w-strong);
+  line-height: var(--sl-lh-body);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-ability-box[aria-label$="+1"]
+  > strong {
+  background: var(--sl-mod-1);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-ability-box[aria-label$="+2"]
+  > strong {
+  background: var(--sl-mod-2);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-ability-box[aria-label$="+3"]
+  > strong {
+  background: var(--sl-mod-3);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-ability-box:is(
+    [aria-label$="+4"],
+    [aria-label$="+5"],
+    [aria-label$="+6"],
+    [aria-label$="+7"]
+  )
+  > strong {
+  background: var(--sl-mod-4);
+}
+/* Derived stats (AC / INIT / MOVE / PROF. / HP): Solasta's #424545 cells, caps label, the
+   value in sky blue. One cell geometry at every width (12 / 8 px), laid out top-down with
+   the label's two lines reserved, so every label in a row starts on one line and every value
+   sits on the next (F5: Solasta's AC / INIT / MOVE / PROF / HP / HIT DICE grid). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-pill, .character-stat-button, .character-inspiration, .character-hp) {
+  border: 0;
+  border-radius: 0;
+  background: var(--sl-cell);
+  box-shadow: none;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.character-band, .character-summary .shp-stats)
+  :is(.shp-pill, .character-stat-button, .character-inspiration) {
+  position: relative;
+  justify-content: flex-start;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-2);
+  line-height: var(--sl-lh-tight);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  .character-hp {
+  align-content: start;
+  padding: var(--space-3) var(--space-2);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .shp-pill-label {
+  color: var(--sl-ink-slate);
+  font-size: var(--text-sm);
+  font-weight: var(--sl-w-caps);
+  letter-spacing: var(--sl-track-caps);
+  line-height: var(--sl-lh-tight);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.character-band, .character-summary .shp-stats)
+  :is(.shp-pill-label, .character-stat-button > span, .character-hp > span:first-child) {
+  min-height: calc(2em * var(--sl-lh-tight));
+  line-height: var(--sl-lh-tight);
+}
+/* The value follows the label at once (the app centres it with auto margins). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.character-band, .character-summary .shp-stats)
+  :is(.shp-pill > strong, .character-stat-button > strong, .character-inspiration > span) {
+  margin-block: 0;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-pill strong, .character-stat-button strong) {
+  color: #5ac1fa;
+  font-weight: var(--sl-w-strong);
+}
+/* The one numeral style: 24 / 1.1 / 700, lining figures. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(
+    [data-shp-stat="pb"] .shp-pill strong,
+    [data-shp-stat="initiative"] .shp-pill strong,
+    [data-shp-stat="ac"] .shp-pill strong,
+    .character-stat-button > strong
+  ) {
+  font-size: var(--text-2xl);
+  line-height: var(--sl-lh-tight);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  [data-shp-stat="defenses"]
+  .shp-pill
+  strong {
+  font-size: var(--text-md);
+  font-weight: var(--sl-w-strong);
+  line-height: var(--sl-lh-tight);
+}
+/* The CA's override dot sits in the cell's corner and takes no padding. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .shp-pill .shp-dot {
+  top: var(--space-2);
+  right: var(--space-2);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.character-stat-button > span, .character-hp > span, .character-inspiration) {
+  color: var(--sl-ink-slate);
+  font-size: var(--text-sm);
+  font-weight: var(--sl-w-caps);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--sl-track-caps);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-stat-button
+  small {
+  color: var(--sl-ink);
+  font-size: var(--text-xs);
+  line-height: var(--sl-lh-tight);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-inspiration
+  > span {
+  color: var(--sl-copper);
+  font-size: var(--text-2xl);
+  line-height: var(--sl-lh-tight);
+}
+/* Hit points: Solasta's portrait-block HP — large teal numerals over «OF 22», a teal bar. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-hp-value {
+  border-radius: 0;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-hp-value
+  strong {
+  color: var(--sl-teal);
+  font-size: var(--text-3xl);
+  font-weight: var(--sl-w-strong);
+  line-height: var(--sl-lh-tight);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-hp-value
+  strong
+  small {
+  color: var(--sl-ink-slate);
+  font-size: var(--text-xs);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-hp
+  progress {
+  height: var(--space-1);
+  border-radius: 0;
+  accent-color: var(--sl-teal);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-hp
+  progress::-webkit-progress-bar {
+  border-radius: 0;
+  background: var(--hp-track);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-hp
+  progress::-webkit-progress-value {
+  border-radius: 0;
+  background: var(--sl-teal);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .character-hp-temp {
+  color: var(--sl-ink-slate);
+}
+/* Heal and Damage: Solasta's FINISH (green-grey) and CANCEL (rose) buttons; the amount is a
+   dark well. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .dt-hp .button.dt-heal {
+  border-color: #536861;
+  background: #536861;
+  color: var(--sl-ink-bright);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .dt-hp .button.dt-damage {
+  border-color: var(--sl-rose);
+  background: var(--sl-rose);
+  color: var(--sl-rose-ink);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .dt-hp .dt-amount {
+  box-sizing: border-box;
+  min-height: var(--sl-control);
+  padding: var(--space-2) var(--space-3);
+  border: var(--sl-hair) solid var(--sl-sep-warm);
+  border-radius: 0;
+  background: var(--sunken);
+  color: var(--sl-ink);
+  font-size: var(--text-md);
+  line-height: var(--sl-lh-tight);
+}
+/* The left block: the stats column's lists on charcoal, copper caps headers, sky values. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .shp-col {
+  border: 0;
+  border-radius: 0;
+  background: var(--sl-panel);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .shp-col h3 {
+  color: var(--sl-copper);
+  font-size: var(--text-md);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .shp-row {
+  border-color: #3a3c39;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .shp-value {
+  border: 0;
+  border-radius: 0;
+  background: var(--sl-cell);
+  color: #5ac1fa;
+  font-weight: var(--sl-w-strong);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .shp-value:hover {
+  background: var(--sl-slate-hover);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-row-name
+  small {
+  color: var(--sl-ink-dim);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--sl-track-caps);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .shp-prof {
+  border-radius: 0;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .shp-prof.is-on {
+  border-color: var(--sl-sky);
+  background: var(--sl-sky);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .shp-star {
+  color: var(--sl-ink-dim);
+  font-size: var(--text-xl);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-star[aria-pressed="true"] {
+  color: var(--sl-copper);
+}
+/* The sheet's own tab bar (SL21): a black band, tracked capitals, the open tab white over the
+   4 px copper underline, the others copper. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tabs-bar {
+  background: var(--sl-black);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .character-tabs {
+  gap: var(--space-2);
+  margin-bottom: 0;
+  padding: 0 var(--space-2);
+  border-bottom: 0;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tabs
+  button {
+  min-height: var(--sl-control);
+  padding-block: 0;
+  font-size: var(--text-xl);
+  line-height: var(--sl-lh-tight);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tabs-bar
+  + * {
+  margin-top: var(--space-4);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tabs-all {
+  min-height: var(--sl-control);
+  padding-block: 0;
+  border-color: var(--line);
+  color: var(--sl-copper-dim);
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: var(--sl-w-caps);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--sl-track-caps);
+}
+/* Sub-sections: Solasta's weapon-set chips — square, 1 px copper line, the chosen one filled
+   with the copper chip colour. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-subtabs
+  button {
+  border: var(--sl-hair) solid var(--sl-copper-line);
+  border-radius: 0;
+  color: var(--sl-copper);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-subtabs
+  button:hover {
+  background: var(--sl-copper-well);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-subtabs
+  button.active {
+  border-color: var(--sl-copper-line);
+  background: var(--sl-copper-chip);
+  color: var(--sl-ink-bright);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .shp-mode {
+  gap: 0;
+  border: var(--sl-hair) solid var(--sl-copper-line);
+  border-radius: 0;
+  background: transparent;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .shp-mode button {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--sl-copper);
+  font-family: var(--font-label);
+  font-weight: var(--sl-w-caps);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--sl-track-caps);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-mode
+  button
+  + button {
+  border-left: var(--sl-hair) solid var(--sl-copper-line);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-mode
+  button[aria-pressed="true"] {
+  background: var(--sl-copper-chip);
+  color: var(--sl-ink-bright);
+}
+/* The tab content plates. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.character-turn, .character-resource, .shp-actions, .shp-generic, .character-summary) {
+  border-radius: 0;
+}
+/* Every label in tracked capitals has the capitals' 500 weight and 0.06em tracking, as the
+   commands and tabs do: the app's own 700-weight labels (Effetti, ★ Preferiti, Risorse del
+   turno, Armi, the special-moves table heads, the action groups, the inspector's CA)
+   follow the scale (critic F7, round 2). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  :is(
+    .character-sheet .shp-row-label,
+    .character-sheet .character-turn-label,
+    .character-sheet .shp-training dt,
+    .character-sheet .sm-actions-table th,
+    .character-sheet .shp-action-group h4,
+    .character-sheet .sm-sheet h4,
+    .table-layout .inspector-ac small
+  ) {
+  font-family: var(--font-label);
+  font-weight: var(--sl-w-caps);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--sl-track-caps);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .sm-sheet h4 {
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+/* The reaction policy's state («Chiedi») is a chip: the personality chip's recipe. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .ct-policy-box
+  .ct-badge {
+  padding: var(--sl-2) var(--space-2);
+  border: 0;
+  border-radius: 0;
+  background: var(--sl-chip-teal);
+  color: var(--sl-chip-teal-ink);
+  font-family: var(--font-label);
+  font-size: var(--text-sm);
+  font-weight: var(--sl-w-caps);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--sl-track-caps);
+  line-height: var(--sl-lh-tight);
+}
+/* Segmented controls (Gioco / Modifica, the dice mode): the button recipe's 8 / 16 px. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .shp-mode button {
+  min-height: var(--sl-control);
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--text-md);
+  line-height: var(--sl-lh-tight);
+}
+/* Save and skill values: the stat cell's 12 px side padding. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .shp-value {
+  padding: var(--space-1) var(--space-3);
+}
+/* Inline links in text: square, no browser padding (0 1 px, 0 6 px). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .compendium-term {
+  padding-inline: 0;
+  border-radius: 0;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-generic-line
+  .shp-generic-open {
+  padding: 0 var(--space-1);
+  border-radius: 0;
+}
+/* The empty state of the custom actions: the scale's 32 / 24 px. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .qb-custom-empty {
+  padding: var(--space-6) var(--space-5);
+}
+
+/* ------------------------------------------------------------------ Tavolo (Table) */
+/* The map: Solasta's thin cyan grid; names under the tokens on a dark square plate. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) #battle-map #map-grid path {
+  stroke: #9fd6e6;
+  stroke-opacity: 0.3;
+}
+/* The DM's hidden travel points keep their dashed ring (hidden = shape, not colour) on an
+   opaque dark disc, so the gold glyph keeps 4.5:1 over any map (round 2: the 60 % disc let
+   the old-watch art through, 3.3:1). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  #battle-map
+  .travel-point.is-hidden
+  circle {
+  fill: var(--canvas);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout .map-container {
+  background: var(--canvas);
+}
+/* Scene plate: Solasta's quest tracker — a flat dark plate, the title in bold serif capitals,
+   the state line in the italic serif («Round 1»). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout > .table-topline {
+  border: 0;
+  border-top: var(--sl-hair) solid #72787c;
+  border-radius: 0;
+  background: var(--sl-panel);
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout > .table-topline h1 {
+  color: var(--sl-ink-bright);
+  font-size: var(--text-lg);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  > .table-topline
+  > div
+  > span {
+  color: var(--sl-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-style: italic;
+}
+/* Map tools, zoom and the session buttons: Solasta's weapon-set chips and pip cells — flat
+   slate squares joined by 1 px lines; the chosen one in the copper chip fill with a copper
+   line. The column keeps its geometry (40 px cells, same padding). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  :is(.map-toolbar, .map-subtools, .map-zoom) {
+  gap: var(--space-1);
+  padding: var(--space-1);
+  border: 0;
+  border-radius: 0;
+  background: var(--sl-strip);
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout .map-tool {
+  border: 0;
+  border-radius: 0;
+  background: var(--sl-slate);
+  color: var(--sl-white);
+  font-family: var(--font-label);
+  font-size: var(--text-2xl);
+  font-weight: var(--sl-w-strong);
+  line-height: var(--sl-lh-tight);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout .map-tool:hover {
+  background: var(--sl-slate-hover);
+  color: var(--sl-ink-bright);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout .map-tool.active {
+  background: var(--sl-copper-chip);
+  color: var(--sl-ink-bright);
+  box-shadow: inset 0 0 0 var(--sl-hair) var(--sl-copper-line);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout .map-tool .icon {
+  width: var(--space-5);
+  height: var(--space-5);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .session-view-hud-button {
+  border: 0;
+  border-radius: 0;
+  background: var(--sl-slate);
+  color: var(--sl-white);
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  font-family: var(--font-label);
+  font-weight: var(--sl-w-caps);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--sl-track-caps);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .session-view-hud-button:hover {
+  background: var(--sl-slate-hover);
+}
+/* The session row is the tool column's cells (round 2): 24 px glyphs, 8 px each side, so an
+   icon-only button is the 40 px square of a map tool; the words of the session chips are a
+   button's 15 px capitals. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .session-view-hud-button
+  .icon:not(.session-view-caret) {
+  width: var(--space-5);
+  height: var(--space-5);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .session-view-hud-bar
+  > .session-view-hud-button:not(.is-icon),
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .session-view-hud-bar
+  > .safety-hud-group
+  > .session-view-hud-button {
+  padding: 0 var(--space-2);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  :is(.session-view-dots, .session-view-hud-bar .session-view-menu-button:not(.is-on)) {
+  gap: var(--space-1);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .session-view-chip
+  .session-view-hud-button {
+  padding: 0 var(--space-4);
+  font-size: var(--text-md);
+}
+/* The map's status line: Solasta's combat log — translucent black, a 1 px dark line, the
+   scale in the log's dark roll chip with white digits. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .map-container
+  > .map-caption {
+  border: var(--sl-hair) solid var(--sl-log-line);
+  border-radius: 0;
+  background: var(--sl-log);
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  color: #b5b5b5;
+  font-size: var(--text-sm);
+  line-height: var(--sl-lh-body);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .map-container
+  > .map-caption
+  > span:first-child {
+  padding: var(--sl-2) var(--space-2);
+  background: var(--sl-neutral);
+  color: var(--sl-ink-bright);
+  font-weight: var(--sl-w-text);
+}
+/* Turn order: Solasta's row of big portrait cards (SLC2) — each card a 5 px teal rule and a
+   tall portrait (aspect 0.85), allies on slate, enemies on blood red; the name under the card
+   in bold small capitals (allies pale blue, enemies tan); the creature in turn taller with its
+   name in bright blue. Hostile cards keep a dashed inner line (shape, not colour alone). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout > .initiative {
+  gap: 0;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  > .initiative
+  .initiative-token {
+  gap: 0;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-left: var(--sl-rule-teal) solid var(--sl-teal-rule);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  color: var(--sl-ally);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  > .initiative
+  .initiative-token:last-child {
+  border-right: var(--sl-rule-teal) solid var(--sl-teal-rule);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  > .initiative
+  .token-dot {
+  width: var(--sl-tile-w);
+  height: var(--sl-tile-h);
+  border-radius: 0;
+  background-color: var(--sl-ally-bg);
+  box-shadow: none;
+  font-size: var(--text-3xl);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  > .initiative
+  .token-dot.hostile {
+  background-color: #6a0000;
+  box-shadow: inset 0 0 0 var(--sl-2) #0c0000;
+  outline: var(--sl-2) dashed #e0574f;
+  outline-offset: calc(-1 * var(--space-1));
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  > .initiative
+  .initiative-token.current
+  .token-dot {
+  width: var(--sl-tile-w);
+  height: calc(var(--sl-tile-h) + var(--space-4));
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  > .initiative
+  .initiative-token
+  > span:last-child {
+  width: 100%;
+  padding: var(--sl-2) 0;
+  background: var(--sl-log);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--sl-w-strong);
+  font-variant-caps: small-caps;
+  letter-spacing: var(--sl-track-name);
+  line-height: var(--space-4);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  > .initiative
+  .initiative-token:has(.token-dot.hostile) {
+  color: var(--sl-enemy);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  > .initiative
+  .initiative-token.current {
+  color: var(--sl-active);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  > .initiative
+  .initiative-token
+  small {
+  color: var(--sl-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-style: italic;
+  font-weight: var(--sl-w-text);
+  font-variant-caps: normal;
+  letter-spacing: 0;
+  line-height: var(--space-4);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  > .initiative
+  .initiative-token:hover
+  .token-dot {
+  filter: brightness(1.15);
+}
+/* Party column (SL6): portrait cards stacked with no gap, a 5 px teal edge on the left, the
+   slate backdrop, HP as a thin teal bar at the portrait's foot and the name on a dark band;
+   the selected card outlined in Solasta's active blue. Same 64 px column width. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout .table-party {
+  gap: 0;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout .table-party-member {
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: stretch;
+  gap: 0;
+  padding: 0;
+  border-left: var(--sl-rule-teal) solid var(--sl-teal-rule);
+  border-radius: 0;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout .table-party-portrait {
+  grid-area: 1 / 1;
+  width: 100%;
+  height: var(--sl-tile-h);
+  border: 0;
+  border-radius: 0;
+  background-color: var(--sl-ally-bg);
+  box-shadow: none;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout .table-party-hp {
+  grid-area: 1 / 1;
+  align-self: end;
+  width: 100%;
+  height: var(--space-1);
+  border-radius: 0;
+  background: var(--hp-track);
+  box-shadow: none;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout .table-party-name {
+  max-width: none;
+  padding: var(--sl-2) var(--space-1);
+  border-radius: 0;
+  background: var(--sl-log);
+  color: var(--sl-ice);
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: var(--sl-w-strong);
+  font-variant-caps: small-caps;
+  letter-spacing: var(--sl-track-name);
+  line-height: var(--space-4);
+  text-align: center;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-party-member:hover
+  .table-party-portrait {
+  filter: brightness(1.15);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-party-member.is-selected
+  .table-party-portrait {
+  box-shadow: inset 0 0 0 var(--sl-2) var(--sl-active);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-party-member.is-selected {
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-party-member.is-selected
+  .table-party-name {
+  color: var(--sl-active);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout .table-party-status {
+  top: var(--sl-2);
+  right: var(--sl-2);
+  border: 0;
+  border-radius: 0;
+  background: var(--sl-chip-teal);
+  color: var(--sl-chip-teal-ink);
+}
+/* The session notices (in the map's HUD layer) move below the taller turn cards, so «Avvia
+   ora / Non ora» stay readable; they are Solasta's slate tooltip plates. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout:has(> .initiative)
+  .session-view-hud-stack {
+  top: calc(2 * var(--sl-tile-h) + var(--space-8));
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout .session-view-chip {
+  border: 0;
+  border-top: var(--sl-hair) solid #72787c;
+  border-radius: 0;
+  background: var(--sl-tip-body);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .session-view-chip.is-warn {
+  border-top-color: var(--sl-copper-line);
+  background: var(--sl-bonus);
+}
+/* Sidebar: the slate panel of Solasta's portrait block; its creature at the top as the
+   two-tone target card (SL4: light grey header with the name in dark serif capitals, the AC
+   as a slate cell). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  > .table-sidebar-panel {
+  border-left: var(--sl-hair) solid #72787c;
+  background: var(--sl-backdrop);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout .table-inspector {
+  background: var(--sl-backdrop);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout .inspector-person {
+  margin: calc(-1 * var(--space-2)) 0 var(--space-4);
+  padding: var(--space-3);
+  background: var(--sl-tip-head);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout .inspector-person h2 {
+  color: var(--sl-tip-head-ink);
+  font-size: var(--text-xl);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-sidebar-panel
+  .inspector-person
+  .muted {
+  color: #4a4849;
+  font-size: var(--text-xs);
+  font-weight: var(--sl-w-caps);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--sl-track-caps);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .inspector-person
+  .portrait {
+  border: var(--sl-hair) solid var(--sl-sep);
+  border-radius: 0;
+  background-color: var(--sl-backdrop);
+  box-shadow: none;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout .inspector-ac {
+  border: 0;
+  border-radius: 0;
+  background: var(--sl-slate);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout .inspector-ac {
+  padding: var(--space-1) var(--space-2);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout .inspector-ac small {
+  color: var(--sl-ink-slate);
+  font-size: var(--text-sm);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout .inspector-ac strong {
+  color: var(--sl-ink-bright);
+  font-size: var(--text-2xl);
+  font-weight: var(--sl-w-strong);
+  line-height: var(--sl-lh-tight);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .inspector-person
+  .portrait {
+  font-size: var(--text-2xl);
+}
+/* The sheet, inventory and rest commands: one full-width row each, as the main-menu column
+   stacks its rows (one height for every button; critic F17). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout .inspector-buttons {
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-2);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-sidebar-panel
+  .muted {
+  color: var(--sl-ink-slate);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-sidebar-panel
+  h3 {
+  color: var(--sl-copper);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-sidebar-panel
+  kbd {
+  border-radius: 0;
+  background: var(--sl-neutral);
+  color: var(--sl-ink-bright);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  :is(.table-layout, .character-sheet)
+  .conditions-vital {
+  border: 0;
+  border-radius: 0;
+  background: var(--sl-chip-teal);
+  color: var(--sl-chip-teal-ink);
+  font-weight: var(--sl-w-caps);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--sl-track-caps);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  :is(.conditions-segments button, .conditions-segments > *) {
+  border-radius: 0;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .conditions-segment {
+  font-size: var(--text-md);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  > .table-sidebar-panel
+  > .table-subtabs {
+  gap: var(--space-2);
+  border-bottom: var(--sl-hair) solid #72787c;
+  background: var(--sl-black);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout .table-subtab {
+  box-sizing: border-box;
+  min-height: var(--sl-control);
+  padding: var(--space-2) var(--space-3);
+  line-height: var(--sl-lh-tight);
+  border: 0;
+  border-bottom: var(--sl-rule) solid transparent;
+  border-radius: 0;
+  background: transparent;
+  color: var(--sl-copper-dim);
+  font-size: var(--text-md);
+  font-weight: var(--sl-w-caps);
+  letter-spacing: var(--sl-track-caps);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout .table-subtab:hover {
+  background: transparent;
+  color: var(--sl-copper);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout .table-subtab.active {
+  border-color: transparent;
+  border-bottom-color: var(--sl-copper-rule);
+  background: transparent;
+  color: var(--sl-ink-bright);
+}
+/* Rail: the sheet's black tab bar turned on its side — copper glyphs; the open tab in the
+   copper chip fill with a copper line (weapon-set chip). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout > .table-sidebar-rail {
+  border-left: var(--sl-hair) solid #1e1e1e;
+  background: var(--sl-black);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  :is(.table-tab, .table-sidebar-toggle, .table-map-link, .table-panels-all) {
+  border: 0;
+  border-radius: 0;
+  color: var(--sl-copper-dim);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  :is(.table-tab, .table-sidebar-toggle, .table-map-link, .table-panels-all):hover {
+  background: var(--sl-copper-well);
+  color: var(--sl-copper);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout .table-tab.active {
+  background: var(--sl-copper-chip);
+  color: var(--sl-ink-bright);
+  box-shadow: inset 0 0 0 var(--sl-hair) var(--sl-copper-line);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout .table-tab-portrait {
+  border: var(--sl-hair) solid var(--sl-sep);
+  border-radius: 0;
+  font-size: var(--text-md);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-sidebar-rail
+  > .table-tabs {
+  border-top-color: #1e1e1e;
+}
+
+/* The hotbar (SL1, SLC1). Solasta's bottom bar: the portrait block, then the wall of square
+   verb tiles — a flat white pictogram over a capital label, the tile's colour the action's
+   family (main slate, bonus rose-copper, other grey), 1 px lighter lines between tiles, and a
+   dark label strip under each group carrying the group's name; End turn a green tile. On the
+   desktop the tiles keep Solasta's aspect (0.9) at 76 × 84 px, so the band is 112 px tall. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  :is(
+    .combat-action,
+    .combat-filter,
+    .combat-dock .sm-dock-toggle,
+    .hotbar-page-tab
+  ):focus-visible {
+  outline-offset: calc(-1 * var(--space-1));
+}
+/* Colours, every width. Family = the cost mark each tile already carries (the mark stays in
+   the tile's corner, so the family is never colour alone). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  :is(.combat-action, .combat-dock .sm-dock-toggle) {
+  border-color: var(--sl-sep);
+  border-radius: 0;
+  background: var(--sl-slate);
+  color: var(--sl-ice);
+  font-family: var(--font-label);
+  font-weight: var(--sl-w-caps);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--sl-track-caps);
+  line-height: var(--sl-lh-tight);
+  box-shadow: none;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  :is(.combat-action, .combat-dock .sm-dock-toggle)
+  .icon {
+  color: var(--sl-white);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-action:has(.combat-cost-bonus) {
+  background: var(--sl-bonus);
+  color: var(--sl-copper);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  :is(
+    .combat-action:has(.combat-cost-reaction),
+    .combat-action:not(:has(.combat-cost)),
+    .combat-dock .sm-dock-toggle
+  ) {
+  background: var(--sl-other);
+  color: var(--sl-ink);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-action:hover {
+  border-color: var(--sl-sep);
+  background: var(--sl-slate-hover);
+  color: var(--sl-ink-bright);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-action:has(.combat-cost-bonus):hover {
+  background: var(--sl-bonus-hover);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  :is(
+    .combat-action:has(.combat-cost-reaction),
+    .combat-action:not(:has(.combat-cost)),
+    .combat-dock .sm-dock-toggle
+  ):hover {
+  background: var(--sl-other-hover);
+  color: var(--sl-ink-bright);
+}
+/* The chosen action: the tabs' 4 px copper line under the tile. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-action.active {
+  color: var(--sl-ink-bright);
+  box-shadow: inset 0 calc(-1 * var(--sl-rule)) var(--sl-copper-rule);
+}
+/* Unavailable (Solasta's HIDE tile): a darker tile and a dimmed pictogram, no grey filter. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-action.is-blocked {
+  opacity: 1;
+  filter: none;
+  background: var(--sl-slate-used);
+  color: var(--sl-ink-dim);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-action.is-blocked
+  .icon {
+  color: #6b6e70;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-filters {
+  border: 0;
+  border-radius: 0;
+  background: var(--sl-strip);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-filter {
+  border-radius: 0;
+  background: var(--sl-other);
+  color: var(--sl-ink);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-filter:hover {
+  background: var(--sl-other-hover);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-filter.active {
+  background: var(--sl-copper-chip);
+  color: var(--sl-ink-bright);
+  box-shadow: inset 0 calc(-1 * var(--sl-rule)) var(--sl-copper-rule);
+}
+/* Page tabs (Azioni / Barra rapida): Solasta's half-width tile split in two cells; the labels
+   are secondary tabs (15 px tracked capitals, round 2), the open page white over the copper
+   underline. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .hotbar-page-tab {
+  border: 0;
+  border-radius: 0;
+  background: var(--sl-slate);
+  color: var(--sl-ink);
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: var(--sl-w-caps);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--sl-track-caps);
+  line-height: var(--sl-lh-tight);
+  text-align: center;
+  box-shadow: none;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .hotbar-page-tab:hover {
+  background: var(--sl-slate-hover);
+  color: var(--sl-ink-bright);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .hotbar-page-tab.active {
+  background: var(--sl-slate);
+  color: var(--sl-ink-bright);
+  box-shadow: inset 0 calc(-1 * var(--sl-rule)) var(--sl-copper-rule);
+}
+/* The resource row and the dice mode above the bar: the log's translucent black plate. The
+   turn's marks keep their shapes; spell slots are Solasta's blue pip squares. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  :is(.hotbar-resources, .combat-bar-heading) {
+  border: 0;
+  border-radius: 0;
+  background: var(--sl-log);
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .hotbar-resources
+  .resources {
+  color: var(--sl-ink);
+  font-weight: var(--sl-w-caps);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--sl-track-caps);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .hotbar-slot-level
+  > small {
+  color: var(--sl-ink-dim);
+  font-size: var(--text-2xs);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .hotbar-slot-level
+  > i {
+  border: var(--sl-hair) solid var(--sl-sky);
+  border-radius: 0;
+  background: transparent;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .hotbar-slot-level
+  > i.is-full {
+  background: var(--sl-sky);
+}
+/* The dice mode is a field at every width: 15 px text, 12 px inside (the app's compact rows
+   set 12 px text there). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-bar-heading
+  select {
+  padding: 0 var(--space-3);
+  font-size: var(--text-md);
+  font-weight: var(--sl-w-text);
+  font-variant-caps: normal;
+  letter-spacing: 0;
+}
+/* The portrait block's colours: the HP cell, teal numerals, the name in ice small capitals. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .hotbar-name
+  > strong {
+  color: var(--sl-ice);
+  font-weight: var(--sl-w-strong);
+  font-variant-caps: small-caps;
+  letter-spacing: var(--sl-track-name);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .hotbar-hp {
+  border: 0;
+  border-radius: 0;
+  background: var(--sl-cell);
+  color: var(--sl-teal);
+  font-weight: var(--sl-w-strong);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .hotbar-hp:hover {
+  background: #4d5151;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .hotbar-hp-unit {
+  color: var(--sl-ink-slate);
+  font-weight: var(--sl-w-caps);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--sl-track-caps);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .hotbar-hp-bar {
+  border-radius: 0;
+  background: var(--hp-track);
+}
+/* The PASS group: the turn commands as slate cells, End turn as Solasta's green tile with the
+   hourglass pictogram over mint capitals. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .action-dock.table-hotbar
+  > .toolbar
+  > .button {
+  border-color: transparent;
+  border-radius: 0;
+  background: var(--sl-slate);
+  color: var(--sl-white);
+}
+/* Their glyphs are the map tools' 24 px (same slate cell, same icon size). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .action-dock.table-hotbar
+  > .toolbar
+  > .button:not([data-table="end-turn"])
+  .icon {
+  flex: none;
+  width: var(--space-5);
+  height: var(--space-5);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .action-dock.table-hotbar
+  > .toolbar
+  > .button:hover:not(:disabled) {
+  background: var(--sl-slate-hover);
+  color: var(--sl-ink-bright);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .action-dock.table-hotbar
+  > .toolbar
+  > .button.active {
+  background: var(--sl-copper-chip);
+  color: var(--sl-ink-bright);
+  box-shadow: inset 0 0 0 var(--sl-hair) var(--sl-copper-line);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .action-dock.table-hotbar
+  > .toolbar
+  > .button.primary[data-table="end-turn"] {
+  border-color: var(--sl-pass);
+  border-radius: 0;
+  background: var(--sl-pass);
+  color: var(--sl-mint);
+  font-family: var(--font-label);
+  font-weight: var(--sl-w-caps);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--sl-track-caps);
+  line-height: var(--sl-lh-tight);
+  box-shadow: none;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .action-dock.table-hotbar
+  > .toolbar
+  > .button.primary[data-table="end-turn"]:hover:not(:disabled) {
+  border-color: var(--sl-pass-hover);
+  background: var(--sl-pass-hover);
+  color: var(--sl-mint);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .action-dock.table-hotbar
+  > .toolbar
+  > .button.primary[data-table="end-turn"]::before {
+  content: "";
+  flex: none;
+  width: var(--sl-icon);
+  height: var(--sl-icon);
+  background: var(--sl-white);
+  -webkit-mask: url("assets/hourglass.svg") center / contain no-repeat;
+  mask: url("assets/hourglass.svg") center / contain no-repeat;
+}
+
+/* ------------------------------------------------------------------ Tavolo, desktop geometry */
+@media (min-width: 721px) {
+  /* The band: the portrait block and the tile wall 8 px above the window's foot, flush plates
+     with no frame. */
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > :is(.hotbar-identity, .hotbar-center) {
+    margin-bottom: var(--space-2);
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-center {
+    gap: var(--space-1);
+  }
+  /* The plates above the band share its edges (critic F8): the resource row starts on the
+     page tabs' edge and the dice plate ends on the tile wall's right edge; both 40 px tall,
+     8 px above the band, so they share one top and one bottom. The status line starts on
+     the same left edge, and the zoom column ends where the hotbar does (at 1440 px). */
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .hotbar-resources {
+    left: 0;
+    bottom: calc(100% + var(--space-2));
+    gap: var(--space-3);
+    height: var(--sl-control);
+    padding: 0 var(--space-3);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .action-dock.table-hotbar
+    .hotbar-resources
+    .resources {
+    gap: var(--space-2);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-bar-heading {
+    right: 0;
+    bottom: calc(100% + var(--space-2));
+    gap: var(--space-2);
+    height: var(--sl-control);
+    padding: 0 var(--space-3);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout {
+    --sl-caption-left: calc(2 * var(--space-7) + var(--sl-block-w));
+    --sl-zoom-room: calc(var(--space-5) + var(--space-7) + var(--space-2));
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .map-container
+    > .map-caption {
+    left: var(--sl-caption-left);
+    max-width: min(600px, calc(100% - var(--sl-caption-left) - var(--sl-zoom-room)));
+    gap: var(--space-3);
+    padding: var(--space-2) var(--space-3);
+    transform: none;
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .map-container
+    > .map-zoom {
+    right: var(--space-5);
+  }
+  /* The map's box keeps clear of the zoom column and of the 40 px plates over the band. */
+  :root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-stage #battle-map {
+    margin: 0 var(--sl-zoom-room)
+      calc(var(--sl-tile-h) + var(--sl-tile-strip) + 3 * var(--space-2) + var(--sl-control))
+      calc(var(--space-4) + var(--space-7) + var(--space-5));
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-bar {
+    gap: var(--space-1);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-actions {
+    flex-wrap: nowrap;
+    gap: var(--space-1);
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+  }
+  /* A group: its tiles side by side over the strip that names it. */
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-group {
+    position: relative;
+    display: flex;
+    flex: none;
+    padding-bottom: var(--sl-tile-strip);
+    background: var(--sl-strip);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    :is(.combat-action, .combat-dock .sm-dock-toggle) {
+    position: relative;
+    flex: none;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: var(--space-1);
+    width: var(--sl-tile-w);
+    min-height: var(--sl-tile-h);
+    height: var(--sl-tile-h);
+    margin: 0;
+    padding: var(--space-3) var(--sl-2) var(--space-1);
+    border: 0;
+    border-right: var(--sl-hair) solid var(--sl-sep);
+    font-size: var(--text-sm);
+    text-align: center;
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    :is(.combat-action:last-child, .combat-dock .sm-dock-toggle) {
+    border-right: 0;
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-action:has(> .combat-group-tag) {
+    position: static;
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    :is(.combat-action, .combat-dock .sm-dock-toggle)
+    .icon {
+    width: var(--sl-icon);
+    height: var(--sl-icon);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-action
+    > span:not([class]) {
+    display: -webkit-box;
+    max-width: 100%;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+  /* The cost mark in the tile's top right corner, where Solasta puts «x2». Each tile is its
+     own frame; only a group's first tile, which carries the group's name, lets that name
+     span the group's strip (critic F14: no per-index offsets). */
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-action
+    .combat-cost {
+    top: var(--space-1);
+    right: var(--space-1);
+    left: auto;
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-action:has(> .combat-group-tag)
+    .combat-cost {
+    right: auto;
+    left: calc(var(--sl-tile-w) - var(--sl-hair) - var(--space-1));
+    translate: -100% 0;
+  }
+  /* The group's name on its strip (MAIN ACTIONS · BONUS · OTHER · PASS). */
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-group-tag {
+    top: auto;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: grid;
+    place-items: center;
+    height: var(--sl-tile-strip);
+    background: var(--sl-strip);
+    color: var(--sl-ink-dim);
+    font-family: var(--font-label);
+    font-size: var(--text-sm);
+    font-weight: var(--sl-w-caps);
+    letter-spacing: var(--sl-track-caps);
+  }
+  /* The reaction filter and «Mosse»: tiles of their own, over an empty strip. */
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-filters {
+    flex: none;
+    align-items: flex-start;
+    gap: 0;
+    padding: 0 0 var(--sl-tile-strip);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-filter {
+    min-width: var(--sl-control);
+    height: var(--sl-tile-h);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-dock {
+    gap: 0;
+    padding-bottom: var(--sl-tile-strip);
+    background: var(--sl-strip);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .hotbar-pages {
+    gap: 0;
+    padding-bottom: var(--sl-tile-strip);
+    background: var(--sl-strip);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .hotbar-page-tab {
+    width: var(--sl-tile-w);
+    min-height: calc(var(--sl-tile-h) / 2);
+    padding: 0 var(--space-1);
+    border-bottom: var(--sl-hair) solid var(--sl-sep);
+    white-space: normal;
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .hotbar-page-tab:last-child {
+    border-bottom: 0;
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .hotbar-resources
+    .resources {
+    font-size: var(--text-sm);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-bar-heading
+    select {
+    min-height: var(--sl-control);
+  }
+  /* The portrait block (SL1): the slate backdrop with the HP cell at its left — «PF» in dim
+     capitals over large teal numerals and a teal bar — the name and the turn line beside it. */
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-identity {
+    width: var(--sl-block-w);
+    max-width: none;
+    height: calc(var(--sl-tile-h) + var(--sl-tile-strip));
+    border-top: var(--sl-hair) solid #72787c;
+    background: var(--sl-backdrop);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-identity
+    > div {
+    display: grid;
+    grid-template-columns: var(--sl-cell-w) minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    column-gap: var(--space-3);
+    align-self: stretch;
+    width: 100%;
+    max-width: none;
+    padding-right: var(--space-3);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .hotbar-name {
+    display: contents;
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .hotbar-name
+    > strong {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: end;
+    padding-top: var(--space-3);
+    overflow: hidden;
+    font-size: var(--text-xl);
+    line-height: var(--sl-lh-tight);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .action-dock.table-hotbar
+    > .hotbar-identity
+    > div
+    > span {
+    grid-column: 2;
+    grid-row: 2;
+    margin-top: var(--space-1);
+    color: var(--sl-ink);
+    font-size: var(--text-xs);
+    line-height: var(--sl-lh-tight);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .hotbar-hp {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    gap: var(--space-1);
+    min-width: 0;
+    height: 100%;
+    margin: 0;
+    padding: var(--space-2);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .hotbar-hp-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    order: 1;
+    font-size: var(--text-2xl);
+    font-weight: var(--sl-w-strong);
+    line-height: var(--sl-lh-tight);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .hotbar-hp-unit {
+    font-size: var(--text-sm);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .hotbar-hp-bar {
+    order: 2;
+    width: 100%;
+    height: var(--space-1);
+  }
+  /* The sidebar's foot: the PASS group — two rows of 40 px command cells 4 px apart (the tile
+     wall's group gap), End turn a tile of the wall's own size, 76 × 84, its pictogram and
+     label where the tiles have theirs; all of it on the tiles' top edge (critic F16). */
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar {
+    grid-auto-rows: var(--sl-control);
+    gap: var(--space-1);
+    align-content: start;
+    padding: 0 var(--space-4) var(--sl-tile-strip);
+    border-top: var(--sl-hair) solid #72787c;
+    border-left: var(--sl-hair) solid #72787c;
+    background: var(--sl-backdrop);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar:has(> [data-table="end-turn"]) {
+    grid-template-columns: repeat(3, var(--sl-control)) calc(var(--sl-tile-w) + var(--space-2));
+    column-gap: var(--space-1);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar
+    > .button.primary[data-table="end-turn"] {
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: var(--space-1);
+    width: auto;
+    height: var(--sl-tile-h);
+    margin-left: var(--space-2);
+    padding: var(--space-3) var(--sl-2) var(--space-1);
+    border: 0;
+    font-size: var(--text-sm);
+  }
+  /* Turn order (desktop): the full-size cards. */
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token {
+    width: calc(var(--sl-tile-w) + var(--sl-rule-teal));
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token:last-child {
+    width: calc(var(--sl-tile-w) + 2 * var(--sl-rule-teal));
+  }
+}
+
+/* The dice plate's words on wide windows, while the fitter leaves them (below 1440 px and
+   when is-tight the app keeps only the control and the bell): the label in the hotbar's grey
+   capitals at the resource row's 14 px, the queue command a text button (15 px capitals). */
+@media (min-width: 1440px) {
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar:not(.is-tight)
+    .combat-bar-heading
+    > label {
+    gap: var(--space-2);
+    color: var(--muted);
+    font-size: var(--text-sm);
+    font-weight: var(--sl-w-caps);
+    font-variant-caps: all-small-caps;
+    letter-spacing: var(--sl-track-caps);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar:not(.is-tight)
+    .combat-bar-heading
+    .text-button {
+    font-size: var(--text-md);
+  }
+}
+
+/* Laptop windows (721–1439 px; 1366 × 768 is the most common): every tile stays inside the
+   bar, with no sideways scroll (round 2: at 1366 «Disimpegno», at 1280 «Schivata» too sat
+   behind the bar's scroll). The wall narrows to 68 px tiles with 13 px labels (the longest
+   word, «Disimpegno», measures 57 px at 13 px); the page tabs, «Mosse» and End turn follow
+   the tile. The band keeps its height, so the map box and the plates above it do not move. */
+@media (min-width: 721px) and (max-width: 1439px) {
+  :root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout .table-hotbar {
+    --sl-tile-w: 68px;
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    :is(.combat-action, .combat-dock .sm-dock-toggle) {
+    font-size: var(--text-xs);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar
+    > .button.primary[data-table="end-turn"] {
+    font-size: var(--text-xs);
+  }
+}
+/* Below 1366 px the portrait block keeps only its HP cell: the name and the turn line stay
+   its accessible text (visually hidden), and the creature is still named by the party
+   column, the turn order and the Creature panel. The status line keeps the band's edge. */
+@media (min-width: 721px) and (max-width: 1365px) {
+  :root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout {
+    --sl-caption-left: calc(2 * var(--space-7) + var(--sl-cell-w));
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-identity {
+    width: var(--sl-cell-w);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-identity
+    > div {
+    grid-template-columns: minmax(0, 1fr);
+    padding-right: 0;
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-identity
+    :is(.hotbar-name > strong, .hotbar-name + span) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+/* ------------------------------------------------------------------ Tavolo, phone (390) */
+/* Solasta has no phone interface (facts §9.3, inferred): the same grammar condensed — a row
+   of small portrait cards over the map's top, short 40 px tiles (pictogram beside the capital
+   label) in one scrolling row, the group strips dropped (their names stay the groups'
+   accessible names), End turn the green tile at the row's end. The hotbar is 3 × 40 px rows
+   (shorter than today's), and the zoom row and the party column keep 88 px above the map
+   container's foot, so every 40 px target stays clear of the pinned hotbar (critic F2). */
+@media screen and (max-width: 720px) {
+  :root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout > .table-topline {
+    border-top: 0;
+    border-bottom: var(--sl-hair) solid #72787c;
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token,
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token.current {
+    width: calc(var(--space-7) + var(--sl-rule-teal) / 2);
+    min-height: 0;
+    padding: 0;
+    border-left-width: calc(var(--sl-rule-teal) / 2);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token:last-child {
+    width: calc(var(--space-7) + var(--sl-rule-teal));
+    border-right-width: calc(var(--sl-rule-teal) / 2);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .token-dot {
+    width: var(--space-7);
+    height: calc(var(--space-7) + var(--space-2));
+    font-size: var(--text-xl);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token.current
+    .token-dot {
+    width: var(--space-7);
+    height: calc(var(--space-7) + var(--space-4));
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token
+    > span:last-child {
+    width: 1px;
+    padding: 0;
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-party-portrait {
+    height: var(--space-7);
+    font-size: var(--text-lg);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar {
+    border-top: var(--sl-hair) solid #72787c;
+    background: var(--sl-backdrop);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .hotbar-name
+    > strong {
+    font-size: var(--text-lg);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .hotbar-hp {
+    padding: var(--space-1) var(--space-2);
+    background: var(--sl-panel);
+    font-size: var(--text-sm);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-actions {
+    gap: var(--space-1);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-group {
+    display: flex;
+    flex: none;
+    gap: var(--sl-hair);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-group-tag {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    :is(.combat-action, .combat-dock .sm-dock-toggle) {
+    flex: none;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: var(--space-2);
+    min-width: var(--sl-tile-w);
+    max-width: calc(2 * var(--sl-tile-w));
+    min-height: var(--sl-control);
+    margin: 0;
+    padding: var(--space-1) var(--space-2);
+    border: 0;
+    font-size: var(--text-sm);
+    text-align: left;
+    white-space: normal;
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-action
+    > span:not([class]) {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    :is(.combat-action, .combat-dock .sm-dock-toggle)
+    .icon {
+    width: var(--space-5);
+    height: var(--space-5);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-filters {
+    padding: 0;
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .hotbar-page-tab {
+    min-height: var(--sl-control);
+    padding: 0 var(--space-3);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .hotbar-pages {
+    flex-direction: row;
+    gap: var(--sl-hair);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar {
+    gap: var(--sl-hair);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar
+    > .button {
+    min-width: var(--sl-control);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar
+    > .button:not([data-table="end-turn"]) {
+    width: var(--sl-control);
+    padding: 0;
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar
+    > [data-table="end-turn"] {
+    gap: var(--space-2);
+    margin-left: auto;
+    padding: 0 var(--space-3);
+    font-size: var(--text-sm);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .action-dock.table-hotbar
+    > .toolbar
+    > .button.primary[data-table="end-turn"]::before {
+    width: var(--space-5);
+    height: var(--space-5);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    > .table-sidebar-panel {
+    border-left: 0;
+    border-top: var(--sl-hair) solid #72787c;
+    border-radius: 0;
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    > .table-sidebar-panel::before {
+    border-radius: 0;
+    background: var(--sl-sep);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    > .table-sidebar-rail {
+    border-top: var(--sl-hair) solid #1e1e1e;
+  }
+  /* The rail's names: the tab bar's tracked capitals at the scale's smallest step (today's
+     10 px sentence case is gone). */
+  :root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout .table-tab-label {
+    font-family: var(--font-label);
+    font-size: var(--text-2xs);
+    font-weight: var(--sl-w-caps);
+    font-variant-caps: all-small-caps;
+    letter-spacing: var(--sl-track-caps);
+    line-height: var(--sl-lh-tight);
+  }
+  /* The resource strip shows its last value whole (critic F13): 4 px between the marks. */
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .action-dock.table-hotbar
+    .hotbar-resources
+    .resources {
+    gap: 0 var(--space-1);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .action-dock.table-hotbar
+    .hotbar-resources
+    .resources
+    > span::before {
+    margin-right: var(--sl-2);
+  }
+  /* The status line under the map is one 40 px row that the pinned hotbar covers whole (the
+     map is 20 px taller than today's, so a one-line scene plate no longer leaves half of it
+     showing); the zoom row and the party column stand 88 px above the container's foot. */
+  :root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-stage #battle-map {
+    height: calc(100dvh - var(--table-rail-height, 64px) - 5 * var(--sl-control));
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .map-container
+    > .map-caption {
+    min-height: var(--sl-control);
+    padding: 0 var(--space-3);
+    border-width: var(--sl-hair) 0 0;
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout .map-zoom {
+    bottom: calc(var(--space-8) + var(--space-5));
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout .table-party {
+    bottom: calc(var(--space-8) + var(--space-5));
+  }
+  /* The compact rows the app measures on a phone keep compact commands: 12 px capitals. */
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    :is(.table-header > .button, .table-layout > .table-topline .button) {
+    padding-block: var(--space-2);
+    font-size: var(--text-2xs);
+  }
+}
+
+/* ------------------------------------------------------------------ Home and Scheda, phone */
+@media (max-width: 720px) {
+  :root[data-direction="solasta"]:not([data-pref-theme="light"]) .home-page .page-heading h1 {
+    font-size: var(--text-3xl);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .home-page
+    .resume-scene
+    > div:last-child {
+    padding: var(--space-5);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"]) .home-page .resume-scene h2 {
+    font-size: var(--text-2xl);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-tabs
+    button {
+    font-size: var(--text-md);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-heading
+    h1 {
+    font-size: var(--text-2xl);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .character-summary
+    .shp-stats
+    [data-shp-stat="defenses"]
+    .shp-pill {
+    min-height: var(--sl-control);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"]) .pref-jump .button {
+    padding: var(--space-2) var(--space-3);
+  }
+}
+
+/* ------------------------------------------------------------------ Scheda: Magie, Inventario */
+/* Spells (SL22): the casting figures as Solasta's stat cells («INT | SPELLCASTING ABILITY»),
+   spell names in the bold small-caps serif of Solasta's spell names, filters as weapon-set
+   chips. The cells are at least 140 px wide, so the 24 px figures («Mago 3») keep one line. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .spl-stats {
+  grid-template-columns: repeat(auto-fit, minmax(calc(2 * var(--space-8) + var(--space-3)), 1fr));
+  gap: var(--space-1);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-stat, .invp-stat) {
+  padding: var(--space-3) var(--space-2);
+  border: 0;
+  border-radius: 0;
+  background: var(--sl-cell);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-stat dt, .invp-stat-label) {
+  color: var(--sl-ink-slate);
+  font-size: var(--text-sm);
+  font-weight: var(--sl-w-caps);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--sl-track-caps);
+  line-height: var(--sl-lh-tight);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-stat dd, .invp-stat > strong) {
+  color: #5ac1fa;
+  font-size: var(--text-2xl);
+  font-weight: var(--sl-w-strong);
+  line-height: var(--sl-lh-tight);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .invp-stat
+  > strong
+  small {
+  color: var(--sl-ink-slate);
+  font-size: var(--text-xs);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-row-title strong, .invp-row-name) {
+  color: var(--sl-ink-bright);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--sl-w-strong);
+  font-variant-caps: small-caps;
+  letter-spacing: var(--sl-track-name);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-badge, .spl-state) {
+  padding-inline: var(--space-2);
+  border-radius: 0;
+}
+/* A spell's state («Trucchetto», «Preparata») is a chip like the inventory's «Equipaggiato»:
+   the personality chip's recipe; the word carries the state (round 2). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .spl-state {
+  padding: var(--sl-2) var(--space-2);
+  border: 0;
+  background: var(--sl-chip-teal);
+  color: var(--sl-chip-teal-ink);
+  font-family: var(--font-label);
+  font-size: var(--text-sm);
+  font-weight: var(--sl-w-caps);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--sl-track-caps);
+  line-height: var(--sl-lh-tight);
+}
+/* «Correggi risorsa» starts on the slot line's edge, like every command (F12). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .spl-slot
+  > .button.quiet {
+  align-self: flex-start;
+}
+/* Filter chips (Azioni, Magie, Inventario): one recipe, Solasta's weapon-set chip — 40 px,
+   8 / 12 px, 15 px tracked capitals at the capitals' 500 weight, a 1 px copper line; the
+   chosen one in the copper chip fill (round 2: the three filters had three paddings and two
+   «chosen» colours). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-chip, .spl-chips button, .invp-chip) {
+  box-sizing: border-box;
+  min-height: var(--sl-control);
+  padding: var(--space-2) var(--space-3);
+  border: var(--sl-hair) solid var(--sl-copper-line);
+  border-radius: 0;
+  background: transparent;
+  color: var(--sl-copper);
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: var(--sl-w-caps);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--sl-track-caps);
+  line-height: var(--sl-lh-tight);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .shp-chip small {
+  font-size: var(--text-md);
+  font-weight: var(--sl-w-caps);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-chip, .spl-chips button, .invp-chip):hover {
+  background: var(--sl-copper-well);
+  color: var(--sl-copper);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(
+    .shp-chip[aria-pressed="true"],
+    .spl-chips button[aria-pressed="true"],
+    .spl-chips button.active,
+    .invp-chip.active
+  ) {
+  border-color: var(--sl-copper-line);
+  background: var(--sl-copper-chip);
+  color: var(--sl-ink-bright);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-chips, .spl-chips, .invp-filters) {
+  gap: var(--space-2);
+}
+/* Inventory (SL21): the item's icon in Solasta's square slot (#696866), a copper line when the
+   item is worn; the load bar teal. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .invp-row-icon {
+  border: var(--sl-hair) solid #696866;
+  border-radius: 0;
+  background: #3a3938;
+  color: #c2c4c6;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .invp-row:has(.invp-badge-on)
+  > .invp-row-icon {
+  border-color: var(--sl-copper-line);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .invp-sets
+  li.is-active {
+  background: var(--sl-copper-chip);
+  color: var(--sl-ink-bright);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .invp-sets
+  li.is-active
+  em {
+  color: var(--sl-ink-bright);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .invp-col small {
+  color: var(--sl-ink-dim);
+  font-weight: var(--sl-w-caps);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--sl-track-caps);
+}
+
+/* ------------------------------------------------------------------ spacing on the scale */
+/* Round 2 (I-250): the app's own gaps and margins that fall between the scale's steps
+   (3, 6, 10, 14, 18, 20, 22, 30 px) restated on 4 · 8 · 12 · 16 · 24 · 32, surface by
+   surface. The Table's phone rows (the hotbar, the scene plate) keep their measured values:
+   they carry the 390 px guarantees. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  :is(
+    .character-sheet .shp-effects,
+    .character-sheet .shp-favorites,
+    .character-sheet .shp-row,
+    .character-sheet .shp-action-tools,
+    .character-sheet .shp-props,
+    .character-sheet .sm-list,
+    .character-sheet .invp-row-actions,
+    .character-sheet .invp-pips,
+    .character-sheet .invp-search,
+    .character-sheet .character-resource,
+    .character-sheet .offline-switch-block,
+    .character-sheet .clib-sheet-bar,
+    .character-sheet .shp-mode button,
+    .character-sheet .shp-xp,
+    .table-layout .conditions-quick,
+    .ct-start-roll
+  ) {
+  gap: var(--space-2);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  :is(
+    .character-sheet .shp-bar-top,
+    .character-sheet .invp-toolbar,
+    .character-sheet .invp > .section-heading,
+    .character-sheet .spl-filters,
+    .character-sheet .offline-switch,
+    .table-layout .forms-toolbar,
+    .table-layout .inspector-person,
+    .character-sheet .invp-row,
+    .character-sheet .invp-cols,
+    .home-page .home-panel-head,
+    .token-menu-head,
+    .token-menu-item
+  ) {
+  gap: var(--space-3);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  :is(.character-sheet .spl-slots, .character-sheet .spl-row) {
+  gap: var(--space-4);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  :is(.character-sheet .character-heading-identity, .dialog-heading) {
+  gap: var(--space-5);
+}
+@media (max-width: 720px) {
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-heading {
+    gap: var(--space-3);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"]) .home-page .home-appointment {
+    margin-block: var(--space-5);
+  }
+  /* One 24 px gutter between the phone's stacked Home cards (the app's 36 / 20 / 28 px). */
+  :root[data-direction="solasta"]:not([data-pref-theme="light"]) .home-page .home-layout {
+    gap: var(--space-5);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .home-page
+    :is(.home-bottom, .cm-home, .chat-home, .community-home, .home-start) {
+    margin-bottom: var(--space-5);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"]) .home-page .home-bottom {
+    gap: var(--space-5);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"]) .home-page .home-start-fold {
+    margin-bottom: 0;
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"]) .home-page .home-appointment h2 {
+    margin-top: var(--space-4);
+  }
+}
+/* Small chips and key hints: the property chips take the filter chip's 12 px sides, the
+   condition chip 4 / 12 px with an 8 px gap, the key hint 4 px sides. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .shp-prop {
+  padding: 0 var(--space-3);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  :is(.table-layout, .character-sheet)
+  .conditions-vital {
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) kbd {
+  padding: 0 var(--space-1);
+}
+/* Margins: the sheet's heading and sections. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .character-heading {
+  margin-bottom: var(--space-6);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-breadcrumb {
+  margin-bottom: var(--space-5);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-heading-copy
+  h1 {
+  margin-bottom: var(--space-2);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.character-heading-line, .character-heading-note) {
+  margin-top: var(--space-2);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-action-group
+  h3 {
+  margin: var(--space-4) 0 var(--space-2);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-foot, .invp-toolbar) {
+  margin-block: var(--space-4);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .shp-foot {
+  margin-bottom: 0;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .invp-toolbar {
+  margin-top: 0;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .dtray-sheet-free
+  .field {
+  margin-bottom: var(--space-4);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.cs-sheet, .offline-sheet) {
+  margin-top: var(--space-5);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .invp-row-meta {
+  margin-top: var(--space-1);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-uses, .spl-pips) {
+  margin-left: var(--space-2);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .spl-group > h3 {
+  margin-top: var(--space-5);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .spl-rows {
+  margin-top: var(--space-2);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-concentration, .spl-window.is-closed) {
+  margin-bottom: var(--space-2);
+}
+/* Margins: the Creature panel, the initiative dialog, the token menu, Home. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  > .conditions-summary.embedded {
+  margin-bottom: var(--space-4);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout .inspector-buttons {
+  margin-top: var(--space-4);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .forms-summary
+  .forms-toolbar {
+  margin: var(--space-4) 0 var(--space-5);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout #combat-detail {
+  margin-block: var(--space-4);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  :is(.ct-start-tools, .ct-start-call, .ct-start-scene) {
+  margin-bottom: var(--space-3);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) #token-menu-hp-help {
+  margin: var(--space-1) 0 var(--space-2);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .home-page
+  .home-appointment
+  :is(p, .home-appointment-campaign, .home-appointment-when, .home-agreed) {
+  margin-bottom: var(--space-2);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .home-page .home-panel-head {
+  margin-bottom: var(--space-3);
+}
+
+/* ------------------------------------------------------------------ dialog title, token menu */
+/* The modal's title centred between two pale rose-grey hairlines (Wild Shape, the banner's
+   rules); the close control keeps its place at the right. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .dialog-heading {
+  position: relative;
+  justify-content: center;
+  padding-inline: var(--space-7);
+  background: none;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .dialog-heading h2 {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  text-align: center;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .dialog-heading h2::before,
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .dialog-heading h2::after {
+  content: "";
+  flex: 1 1 var(--space-6);
+  height: var(--sl-hair);
+  background: var(--sl-banner-rule);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .dialog-heading
+  > :is(button, .icon-button) {
+  position: absolute;
+  top: 50%;
+  right: var(--space-2);
+  translate: 0 -50%;
+}
+/* The token menu: Solasta's target card (SL4) — the light grey header with the name in dark
+   serif capitals over the slate body — whose rows are the main-menu column's (full-width
+   rows, 1 px lighter separators, the pointed row filled copper). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .token-menu {
+  padding: var(--space-2);
+  border: var(--sl-hair) solid var(--sl-sep);
+  border-radius: 0;
+  background: var(--sl-tip-body);
+  box-shadow: none;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .token-menu-head {
+  margin: calc(-1 * var(--space-2)) calc(-1 * var(--space-2)) var(--space-2);
+  padding: var(--space-3);
+  background: var(--sl-tip-head);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .token-menu-title strong {
+  color: var(--sl-tip-head-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--sl-w-strong);
+  font-variant-caps: small-caps;
+  letter-spacing: var(--sl-track-name);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .token-menu-title small {
+  color: #4a4849;
+  font-weight: var(--sl-w-caps);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--sl-track-caps);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .token-menu-portrait {
+  border: var(--sl-hair) solid var(--sl-sep);
+  border-radius: 0;
+  background-color: var(--sl-backdrop);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .token-menu-close {
+  border-radius: 0;
+  color: var(--sl-tip-head-ink);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .token-menu-close:hover {
+  background: #b3b1b2;
+  color: var(--sl-tip-head-ink);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .token-menu-hp label {
+  color: var(--sl-chip-teal-ink);
+  font-weight: var(--sl-w-caps);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--sl-track-caps);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .token-menu-hp input {
+  border: var(--sl-hair) solid var(--sl-sep-warm);
+  border-radius: 0;
+  background: var(--sunken);
+  color: var(--sl-ink);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .token-menu-sep {
+  margin: var(--space-1) 0;
+  background: var(--sl-sep);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  :is(.token-menu-item, .token-menu-back, .token-menu-toggle, .token-menu-swatch) {
+  padding: var(--space-2) var(--space-3);
+  border: 0;
+  border-radius: 0;
+  line-height: var(--sl-lh-tight);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  :is(
+    .token-menu-item:hover,
+    .token-menu-back:hover,
+    .token-menu-toggle:hover,
+    .token-menu-swatch:hover,
+    .token-menu-item:focus-visible,
+    .token-menu-toggle:focus-visible,
+    .token-menu-swatch:focus-visible
+  ) {
+  background: var(--sl-copper-fill);
+  color: var(--sl-ink-on-copper);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  :is(.token-menu-item:hover, .token-menu-item:focus-visible)
+  :is(kbd, .token-menu-chevron, .token-menu-count) {
+  color: var(--sl-ink-on-copper);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .token-menu-item kbd,
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .token-menu-count {
+  border-radius: 0;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .token-menu-chevron {
+  color: var(--sl-copper);
+}

@@ -204,6 +204,16 @@ function sprite(doc, map) {
   } catch {}
 }
 
+// Round-1 skins are dark-only: under the light theme a direction's stylesheet steps aside, so its
+// icons must too (checked at render time, because the theme can change without a reload).
+function lightTheme() {
+  try {
+    return document.documentElement.dataset.prefTheme === "light";
+  } catch {
+    return false;
+  }
+}
+
 // directions/<id>/icons.mjs (optional) exports directionIcon(name) → full svg string or null.
 async function iconsOf(id) {
   try {
@@ -211,6 +221,7 @@ async function iconsOf(id) {
     const pick = mod?.directionIcon;
     if (typeof pick !== "function") return null;
     return (name) => {
+      if (lightTheme()) return null;
       try {
         const svg = pick(name);
         return typeof svg === "string" && svg.startsWith("<svg") ? svg : null;

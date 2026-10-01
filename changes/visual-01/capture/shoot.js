@@ -24,7 +24,8 @@ const HELP = `Usage: node shoot.js --out <dir> [options]
   --themes <list>      dark,light                                                  [dark]
   --widths <list>      1440,390 or WxH values (1440→900 high, 390→844 high)    [1440,390]
   --directions <list>  'off' (key removed: the plain app), 'current' (direction mode,
-                       «Attuale») or direction ids (bg3,ddb,foundry,owlbear)       [off]
+                       «Attuale») or direction ids (bg3,ddb,foundry,owlbear,solasta,
+                       roll20,owlcat,alchemy,demiplane)                            [off]
   --combo <s:t:w[:d]>  explicit combo (d defaults to off), repeatable; replaces the product
   --now <iso|real>     fixed Date.now for the page                [2026-09-30T19:00:00+02:00]
   --dpr <n>            device pixel ratio         [1 at desktop widths, 2 below 768 px]
@@ -36,8 +37,9 @@ const HELP = `Usage: node shoot.js --out <dir> [options]
   --contact-only       only rebuild the contact sheets from <out>/manifest.json
   --list               print the known states and exit
 
-States: <base>[-dm][-full]. '-dm' visits as DM (default: Player); '-full' is a full-page
-capture. Files: <state>-<theme>-<width>-<direction>.png (e.g. home-dark-1440-current.png).`;
+States: <base>[-dm][-full]. '-dm' visits as DM (default: Player, or DM for a DM-only state
+such as dialog-initiative); '-full' is a full-page capture.
+Files: <state>-<theme>-<width>-<direction>.png (e.g. home-dark-1440-current.png).`;
 
 // ---------------------------------------------------------------- states
 
@@ -54,6 +56,42 @@ const text = (page, selector) =>
     .then((s) => s.replace(/\s+/g, " ").trim());
 const savedState = (page) =>
   page.evaluate((key) => JSON.parse(localStorage.getItem(key) || "null"), STATE_KEY);
+
+// Livia's sheet with one category opened by its own tab, then scrolled as a reader does: down
+// to the tab strip (sticky), and further only until the category's first row is wholly in view.
+const sheetCategory = (tab, name, row, about) => ({
+  route: "characters?id=livia",
+  about,
+  async prepare(page) {
+    await page.locator(`.character-tabs [data-character-tab="${tab}"]`).click();
+    await page.waitForFunction(
+      (id) => document.querySelector(".character-tabs .active")?.dataset.characterTab === id,
+      tab,
+    );
+    await page.evaluate((row) => {
+      const top = (el) => el.getBoundingClientRect().top + scrollY;
+      const first = document.querySelector(row);
+      const end = top(first) + first.offsetHeight + 24 - innerHeight;
+      const bar = top(document.querySelector(".character-tabs-bar"));
+      scrollTo({ top: Math.max(bar, end), behavior: "instant" });
+    }, row);
+  },
+  async check(page) {
+    const h1 = await text(page, "#content h1");
+    if (h1 !== "Livia") return `sheet h1 is «${h1}»`;
+    const open = await text(page, ".character-tabs .active");
+    if (open !== name) return `sheet open tab is «${open}»`;
+    return page.evaluate((row) => {
+      const tab = document.querySelector(".character-tabs .active");
+      if (tab.getAttribute("aria-current") !== "page") return "open tab is not aria-current";
+      const t = tab.getBoundingClientRect();
+      if (t.top < 0 || t.bottom > innerHeight || t.right > innerWidth) return "open tab off-screen";
+      const first = document.querySelector(row)?.getBoundingClientRect();
+      if (!first?.height) return `no ${row} shown`;
+      if (first.top < t.bottom || first.bottom > innerHeight) return `${row} not wholly in view`;
+    }, row);
+  },
+});
 
 const BASES = {
   home: {
@@ -114,13 +152,113 @@ const BASES = {
       if (!line.includes("Round 1")) return `table topline is «${line}»`;
     },
   },
+  "table-explore": {
+    route: "table",
+    about: "Table on 'old-watch' in free exploration (no combat), Livia selected",
+    async check(page) {
+      const s = await savedState(page);
+      if (s?.combat?.active) return "combat is active";
+      if (s?.activeSceneId !== "old-watch") return `active scene is ${s?.activeSceneId}`;
+      if (!(await page.locator("#battle-map").isVisible())) return "battle map not visible";
+      if (!(await page.locator('#battle-map [data-actor="livia"].selected').count()))
+        return "Livia's token is not selected";
+      if (!(await page.locator(".table-hotbar").isVisible())) return "hotbar not visible";
+      const name = await text(page, ".table-hotbar .hotbar-name strong");
+      if (name !== "Livia") return `hotbar shows «${name}»`;
+      const line = await text(page, ".table-topline");
+      if (!line.includes("Esplorazione libera")) return `table topline is «${line}»`;
+    },
+  },
+  "sheet-spells": sheetCategory(
+    "spells",
+    "Magie",
+    ".spl-list .spl-row",
+    "Livia's sheet, tab Magie",
+  ),
+  "sheet-inventory": sheetCategory(
+    "inventory",
+    "Inventario",
+    "[data-invp-row]",
+    "Livia's sheet, tab Inventario",
+  ),
+  "dialog-initiative": {
+    route: "table",
+    role: "dm",
+    dialog: true,
+    about: "DM (always): «Avvia combattimento» dialog open, typed d20s filled, not submitted",
+    async prepare(page) {
+      await openStartDialog(page);
+      // Typing scrolled each row into view: back to the dialog's top, as a DM reviewing the
+      // list before «Inizia combattimento».
+      await page.locator("#dialog[open]").evaluate((dialog) => {
+        for (const el of [dialog, ...dialog.querySelectorAll("*")]) el.scrollTop = 0;
+      });
+    },
+    async check(page) {
+      const title = await text(page, "#dialog[open] #dialog-title");
+      if (title !== "Avvia combattimento") return `dialog title is «${title}»`;
+      const first = await page.evaluate(() => {
+        const box = document.querySelector("#dialog[open] .dialog-body").getBoundingClientRect();
+        const d20 = document
+          .querySelector('[data-ct-start-natural="livia"]')
+          .getBoundingClientRect();
+        return d20.top >= box.top && d20.bottom <= Math.min(box.bottom, innerHeight);
+      });
+      if (!first) return "Livia's row is not in view in the dialog";
+      const typed = await page
+        .locator("#dialog[open] [data-ct-start-natural]")
+        .evaluateAll((els) =>
+          Object.fromEntries(els.map((el) => [el.dataset.ctStartNatural, el.value])),
+        );
+      for (const [id, d20] of Object.entries(NATURALS))
+        if (typed[id] !== String(d20)) return `typed d20 of ${id} is «${typed[id]}»`;
+      const s = await savedState(page);
+      if (s?.combat?.active) return "combat already started";
+      if (s?.activeSceneId !== "old-watch") return `active scene is ${s?.activeSceneId}`;
+      if (!(await page.locator("#battle-map").count())) return "no Table under the dialog";
+    },
+  },
+  "token-menu": {
+    route: "table",
+    combat: true,
+    keepFocus: true, // focus leaving the menu closes it (the app's WAI-ARIA menu)
+    about: "table-combat (Player) with the token menu open on Livia's token",
+    async prepare(page, role) {
+      await BASES["table-combat"].prepare(page, role);
+      await openTokenMenu(page, "livia");
+    },
+    async check(page) {
+      const combat = await BASES["table-combat"].check(page);
+      if (combat) return combat;
+      return page.evaluate(() => {
+        const menu = document.querySelector("body > .token-menu");
+        const token = document.querySelector('#battle-map [data-actor="livia"]');
+        if (!menu || menu.hidden || !token) return "token menu not open";
+        const head = menu.querySelector("#token-menu-title")?.textContent;
+        if (head !== "Livia") return `token menu title is «${head}»`;
+        const m = menu.getBoundingClientRect();
+        const t = token.getBoundingClientRect();
+        if (t.top < 0 || t.bottom > innerHeight) return "Livia's token off-screen";
+        // Phone: the app's bottom sheet (titled Livia, tall enough to cover the map); wider:
+        // beside the token, on either side.
+        if (menu.classList.contains("sheet")) {
+          if (Math.abs(m.bottom - innerHeight) > 1) return "menu sheet not docked at the bottom";
+        } else {
+          const beside =
+            Math.abs(m.left - (t.right + 10)) <= 1 || Math.abs(m.right - (t.left - 10)) <= 1;
+          if (!beside || m.top > t.bottom || m.bottom < t.top) return "menu not beside Livia";
+        }
+      });
+    },
+  },
 };
 
 function parseState(name) {
   const m = /^(.+?)(-dm)?(-full)?$/.exec(name);
   const base = m && BASES[m[1]];
   if (!base) throw new Error(`Unknown state «${name}» (use --list)`);
-  return { name, base: m[1], def: base, role: m[2] ? "dm" : "player", full: Boolean(m[3]) };
+  const role = m[2] ? "dm" : (base.role ?? "player");
+  return { name, base: m[1], def: base, role, full: Boolean(m[3]) };
 }
 
 // ---------------------------------------------------------------- app steps (UI only)
@@ -155,11 +293,8 @@ async function setRole(page, role) {
 // Typed d20s: the example's own turn order (livia, goblin-1, doran, goblin-2), then Mira.
 const NATURALS = { livia: 18, "goblin-1": 15, doran: 12, "goblin-2": 10, mira: 8 };
 
-async function startCombat(page) {
-  // DM at the Table: «Avvia combattimento», typed d20s (Livia highest), «Inizia combattimento».
-  await page.evaluate(() => (location.hash = "table"));
-  await page.locator("#battle-map").waitFor({ timeout: 10000 });
-  await setRole(page, "dm");
+async function openStartDialog(page) {
+  // DM at the Table: the scene header's «Avvia combattimento», typed d20s (Livia highest).
   await page.locator('[data-table="combat"]').click();
   await page.locator("[data-ct-start-dialog]").waitFor({ timeout: 5000 });
   const ids = await page
@@ -172,6 +307,14 @@ async function startCombat(page) {
     await input.fill(String(NATURALS[id] ?? Math.max(1, spare--)));
     await input.dispatchEvent("change");
   }
+}
+
+async function startCombat(page) {
+  // The start dialog above, then «Inizia combattimento».
+  await page.evaluate(() => (location.hash = "table"));
+  await page.locator("#battle-map").waitFor({ timeout: 10000 });
+  await setRole(page, "dm");
+  await openStartDialog(page);
   await page.locator("#dialog[open] button[type=submit]").click();
   await noDialog(page);
   await page.waitForFunction(
@@ -181,11 +324,30 @@ async function startCombat(page) {
   );
 }
 
+async function openTokenMenu(page, actorId) {
+  // The token menu's own gestures: right-click with a mouse; long-press on a touch phone
+  // (the app's 520 ms timer, finger held until the menu shows), sent as Chromium touch
+  // events (CDP), so phone shots of this state need --browser chromium.
+  const token = page.locator(`#battle-map [data-actor="${actorId}"]`);
+  const menu = page.locator("body > .token-menu");
+  if (page.viewportSize().width >= 768) await token.click({ button: "right" });
+  else {
+    const cdp = await page.context().newCDPSession(page);
+    await token.scrollIntoViewIfNeeded();
+    const b = await token.boundingBox();
+    const touchPoints = [{ x: b.x + b.width / 2, y: b.y + b.height / 2 }];
+    await cdp.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints });
+    await menu.waitFor({ timeout: 5000 });
+    await cdp.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+  }
+  await menu.locator("[data-nav]").first().waitFor({ timeout: 5000 });
+}
+
 // ---------------------------------------------------------------- settle and capture
 
-async function settle(page) {
+async function settle(page, keepFocus) {
   await page.waitForLoadState("networkidle", { timeout: 5000 }).catch(() => {});
-  await page.evaluate(async () => {
+  await page.evaluate(async (keepFocus) => {
     await document.fonts.ready;
     await Promise.all(
       [...document.images]
@@ -200,8 +362,9 @@ async function settle(page) {
         return img.decode().catch(() => {});
       }),
     );
-    document.activeElement?.blur?.(); // no focus ring left over from the kit's own clicks
-  });
+    // No focus ring left over from the kit's own clicks (unless the state's focus is the app's).
+    if (!keepFocus) document.activeElement?.blur?.();
+  }, keepFocus);
   await page.mouse.move(0, 0); // no hover left over from the kit's own clicks
   // Transient notices (core toast 5.5 s, pop-up notices, the phone map snackbar 4.5 s) go
   // by themselves: wait for them instead of capturing a moment.
@@ -228,7 +391,7 @@ async function stableShot(page, fullPage) {
   return { buf: prev, stable: false };
 }
 
-async function globalChecks(page, { theme, role, direction }) {
+async function globalChecks(page, { theme, role, direction, def }) {
   const got = await page.evaluate(
     (key) => ({
       lang: document.documentElement.lang,
@@ -251,7 +414,9 @@ async function globalChecks(page, { theme, role, direction }) {
   if (got.lang !== "it") problems.push(`language is ${got.lang}`);
   if (got.theme !== theme) problems.push(`theme is ${got.theme}`);
   if (got.role !== role) problems.push(`role is ${got.role}`);
-  if (got.dialog) problems.push("a dialog is open");
+  if (got.dialog !== Boolean(def.dialog))
+    // only a dialog state shows one
+    problems.push(got.dialog ? "a dialog is open" : "no dialog is open");
   if (got.loading) problems.push("app still loading");
   if (got.direction !== (direction === OFF ? null : direction))
     problems.push(`direction key is ${got.direction}`);
@@ -328,7 +493,7 @@ async function shootGroup(browser, group, opts) {
     await load(page, opts.base, def.route);
     await setRole(page, role);
     if (def.prepare) await def.prepare(page, role);
-    const warning = await settle(page);
+    const warning = await settle(page, Boolean(def.keepFocus));
     const problems = [...(await globalChecks(page, group)), await def.check(page)].filter(Boolean);
     for (const variant of variants) {
       const file = fileName(variant.state, theme, vp.width, direction);
@@ -355,6 +520,14 @@ async function shootGroup(browser, group, opts) {
         errors: [...errors],
         ms: Date.now() - started,
       });
+    }
+    // Optional in-page inspection of the settled, checked page, after its screenshots. Only the
+    // design-value audit (changes/visual-01/audit/audit.js) sets it; the CLI never does.
+    if (opts.inspect && !problems.length) {
+      const inspected = await opts
+        .inspect(page, group)
+        .catch((error) => ({ error: error.message.split("\n")[0] }));
+      for (const r of results) r.inspected = inspected;
     }
   } catch (error) {
     for (const variant of variants)
@@ -520,7 +693,7 @@ async function main() {
   if (values.help) return console.log(HELP);
   if (values.list) {
     for (const [name, def] of Object.entries(BASES))
-      console.log(`${name.padEnd(14)} #${def.route.padEnd(22)} ${def.about}`);
+      console.log(`${name.padEnd(18)} #${def.route.padEnd(22)} ${def.about}`);
     return console.log("Modifiers: <state>-dm (visit as DM), <state>-full (full page).");
   }
   if (!values.out) throw new Error("--out <dir> is required (see --help)");
@@ -581,7 +754,11 @@ async function main() {
   process.exitCode = failed ? 1 : 0;
 }
 
-main().catch((error) => {
-  console.error(error.message);
-  process.exitCode = 2;
-});
+// Reused by the design-value audit (changes/visual-01/audit/audit.js); the CLI is unchanged.
+module.exports = { BASES, parseState, buildGroups, shootGroup, pool, viewportOf, fileName };
+
+if (require.main === module)
+  main().catch((error) => {
+    console.error(error.message);
+    process.exitCode = 2;
+  });

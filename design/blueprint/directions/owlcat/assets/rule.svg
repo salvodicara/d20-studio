@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 14" width="240" height="14">
+  <!-- Drafting double rule with a circle-and-crosshair node, for panel titles.
+       Drawn for d20 Studio (direction «owlcat»): plain geometry, no product artwork. -->
+  <g fill="none" stroke="#333545" stroke-opacity=".55" stroke-width="1">
+    <path d="M0 5.5H106M0 8.5H106M134 5.5H240M134 8.5H240"/>
+    <circle cx="120" cy="7" r="5.5"/>
+    <path d="M120 0V14M112 7H128"/>
+    <path d="M106 7L110 4.5V9.5Z M134 7L130 4.5V9.5Z" fill="#333545" fill-opacity=".55"/>
+  </g>
+</svg>

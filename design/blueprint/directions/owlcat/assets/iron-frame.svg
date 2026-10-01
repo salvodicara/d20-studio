@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <!-- Blackened-iron frame, nine-slice for CSS border-image (slice 16, bar 6 px, outset 10 px).
+       Drawn for d20 Studio (direction «owlcat»): plain geometry, no product artwork. -->
+  <defs>
+    <linearGradient id="t" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5a4e53"/><stop offset=".2" stop-color="#2e272b"/><stop offset=".85" stop-color="#151013"/><stop offset="1" stop-color="#050405"/></linearGradient>
+    <linearGradient id="b" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#5a4e53"/><stop offset=".2" stop-color="#2e272b"/><stop offset=".85" stop-color="#151013"/><stop offset="1" stop-color="#050405"/></linearGradient>
+    <linearGradient id="l" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5a4e53"/><stop offset=".2" stop-color="#2e272b"/><stop offset=".85" stop-color="#151013"/><stop offset="1" stop-color="#050405"/></linearGradient>
+    <linearGradient id="r" x1="1" y1="0" x2="0" y2="0"><stop offset="0" stop-color="#5a4e53"/><stop offset=".2" stop-color="#2e272b"/><stop offset=".85" stop-color="#151013"/><stop offset="1" stop-color="#050405"/></linearGradient>
+    <linearGradient id="gem" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d79bdb"/><stop offset=".45" stop-color="#ab56b1"/><stop offset="1" stop-color="#6b3a6b"/></linearGradient>
+    <g id="corner">
+      <path d="M11 6 L7.5 2.5 L9 6.5 Z M6 11 L2.5 7.5 L6.5 9 Z M7.5 7.5 L1 1 L5 6.2 Z" fill="#2e272b" stroke="#050405" stroke-width=".5"/>
+      <path d="M11 4.5 L17.5 11 L11 17.5 L4.5 11 Z" fill="#231c20" stroke="#5a4e53" stroke-width=".8"/>
+      <path d="M11 7.6 L14.4 11 L11 14.4 L7.6 11 Z" fill="url(#gem)" stroke="#2a1229" stroke-width=".5"/>
+    </g>
+  </defs>
+  <rect x="16" y="10" width="16" height="6" fill="url(#t)"/>
+  <rect x="16" y="32" width="16" height="6" fill="url(#b)"/>
+  <rect x="10" y="16" width="6" height="16" fill="url(#l)"/>
+  <rect x="32" y="16" width="6" height="16" fill="url(#r)"/>
+  <rect x="10" y="10" width="6" height="6" fill="#231c20"/>
+  <rect x="32" y="10" width="6" height="6" fill="#231c20"/>
+  <rect x="10" y="32" width="6" height="6" fill="#231c20"/>
+  <rect x="32" y="32" width="6" height="6" fill="#231c20"/>
+  <use href="#corner"/>
+  <use href="#corner" transform="translate(48 0) scale(-1 1)"/>
+  <use href="#corner" transform="translate(0 48) scale(1 -1)"/>
+  <use href="#corner" transform="translate(48 48) scale(-1 -1)"/>
+</svg>

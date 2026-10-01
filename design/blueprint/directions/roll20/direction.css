@@ -1,1 +1,4522 @@
-/* Direction «roll20» — Phase C round 1 «Scelta 1 — Direzione» (I-248). Skeleton: the builder fills it. */
+/* Direction «6 · Roll20» (id "roll20") — Phase C round 1 «Scelta 1 — Direzione» (I-248).
+   Roll20 as it looks in 2025–2026: the Jumpgate virtual tabletop (dark chrome), the D&D 2024
+   character sheet (Beacon, dark) and the account side (My Games, Roll20 Characters, the new
+   «Grimoire» pages). The most «software» option: flat near-black surfaces, a purple accent,
+   Nunito headings and filled monochrome glyphs. Only the UI grammar and sampled values are
+   copied: no Roll20 pixel, texture, dragon art, mascot, logo or font file is in the repository
+   (proxima-nova is replaced by the open Figtree). Reference board (REF-ONLY, outside the repo):
+   ~/Workspace/Codex/d20-studio-visual-assets/references/roll20/ (facts.md with its copy plan,
+   manifest.md with every original URL). The owner's page (Italian): SOURCES.md.
+
+   Contract (directions/README.md, code-map §0/§c/§f): every rule starts with
+   :root[data-direction="roll20"]:not([data-pref-theme="light"]) (round 1 is dark only; light
+   keeps today's look); the eight contrast tokens add :not([data-pref-contrast="high"]); map
+   token colours add :not([data-pref-vision]:not([data-pref-vision="standard"])). No
+   !important, no content text, no text-transform, no markup change; 40 px targets and the
+   3 px focus ring stay. The HUD geometry changes (black tool column glued to the left edge,
+   party as the column's layer buttons, hotbar at the bottom left, the map box from the column
+   to the sidebar and the bottom edge with the hotbar's room as padding): the map box, the
+   session notices and the zoom are set in the same file (code-map §b6); the hotbar is 112 px
+   at 1440 and 153 px on a phone, as «Attuale».
+
+   Elemento → prodotto → fonte (files of the board; manifest ids in brackets)
+   - Scales (spacing, type, radii, controls) .... Roll20 Grimoire CSS → roll20-code-grimoire-
+                                                  components-excerpts (rem quarters, 8 px buttons)
+   - Fonts: Nunito headings/buttons, Figtree ... Roll20 (Nunito, proxima-nova) → facts §0.4 [CSS]
+     as proxima-nova, Roboto Mono formulas
+   - Near-black surfaces #0C0C0C/#1F1F1F/#353535  Grimoire dark → roll20-code-grimoire-colors [CSS]
+   - Purple primary #702C91, lilac #A980BD ..... Grimoire dark buttons/tabs/chips → same [CSS];
+                                                  roll20-dialog-convert-to-jumpgate.png [D1]
+   - Header: navbar #111111 ..................... Grimoire --color-navbar-background [CSS]
+   - Buttons: filled purple / outlined lilac /
+     text lilac; Nunito 16 800 ................... .grimoire__button → components excerpt [CSS]
+   - Fields: lilac 1 px outline on focus ......... roll20-dialog-scale-measurements-2026.png [D3]
+   - Dialogs: flat #1F1F1F, white title, text
+     Cancel + filled purple primary .............. roll20-dialog-convert-to-jumpgate.png [D1]
+   - Toggles: purple pill track, white knob ...... roll20-table-token-context-menu-reactions [T25]
+   - Home: Grimoire dark page, #1F1F1F cards r8,
+     «▶ Launch Game» purple hero, list rows ...... roll20-home-characters-my-characters-dark [H13],
+                                                  roll20-home-my-games-annotated-help [H5],
+                                                  roll20-home-dnd-campaign-launcher-2026 [H17]
+   - Sheet: D&D 2024 dark sheet — black page with
+     a red field behind the panels, #171717 panels
+     with a gold-brown edge, gold small-caps titles,
+     slanted roll-mode tabs, red proficiency ...... roll20-sheet-dnd2024-dark-new-layout-2025 [S1],
+                                                  …-spell-slot-diamonds-2025 [S16], …-phone-
+                                                  combat-mockup-2026 [S18]
+   - Table: black tool column #0C0C0C glued left,
+     active tile #353535, layer buttons lit in
+     their own colour (party), map edge to edge,
+     glass controls rgba(0,0,0,.6) .............. roll20-table-jumpgate-dark-blank-page-chat [T6],
+                                                  …-hexmap-full-ui-2026 [T3]
+   - Sidebar #1F1F1F, icon tabs, active lilac
+     #8D56A7, purple banner #2D123A .............. [T6], roll20-table-jumpgate-dark-map-chat-
+                                                  rolltemplates-3ddice-2026 [T1]
+   - Turn order: floating #1F1F1F window, rows,
+     active row green #094424 .................... roll20-table-turn-order-dark-active-row-frame [T15]
+   - Hotbar → macro quick bar: purple chips;
+     identity → player plate; End turn → the
+     Turn Order «next» promoted to purple ......... roll20-table-macro-hotbar-token-actions-frame
+                                                  [T44], [T15]
+   - Tokens: round art, white black-stroked name,
+     HP pill above in bar 1 green #7CC48A, blue
+     selection #5E85D4 ............................ roll20-table-token-bubbles-hpbar-nameplate-
+                                                  rolltemplate-frame [T18], …-hp-ac-bubbles [T20]
+   - Token menu: dark rounded list, icon rows,
+     red Delete-style danger ..................... [T25]
+   - Icons: filled monochrome glyphs ............. Font Awesome Free 6.7.2 solid (CC BY 4.0) +
+                                                  game-icons «gladius» (CC BY 3.0): icons.mjs
+   - Polish round 2 (I-250): sheet sub-tabs, use
+     boxes, links and bars in the sheet's red and
+     gold; scene plate as an opaque window; travel
+     points as the white-framed door markers ...... [S1], [S16], [T15], [T44] */
+
+/* ------------------------------------------------------------------ fonts (vendored, OFL) */
+@font-face {
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 200 1000;
+  font-display: swap;
+  src: url("../../assets/fonts/nunito/nunito-latin-wght-normal.woff2") format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 200 1000;
+  font-display: swap;
+  src: url("../../assets/fonts/nunito/nunito-latin-ext-wght-normal.woff2") format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
+}
+@font-face {
+  font-family: "Figtree";
+  font-style: normal;
+  font-weight: 300 900;
+  font-display: swap;
+  src: url("../../assets/fonts/figtree/figtree-latin-wght-normal.woff2") format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Figtree";
+  font-style: normal;
+  font-weight: 300 900;
+  font-display: swap;
+  src: url("../../assets/fonts/figtree/figtree-latin-ext-wght-normal.woff2") format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
+}
+@font-face {
+  font-family: "Roboto Mono";
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: swap;
+  src: url("../../assets/fonts/roboto-mono/roboto-mono-latin-wght-normal.woff2") format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Roboto Mono";
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: swap;
+  src: url("../../assets/fonts/roboto-mono/roboto-mono-latin-ext-wght-normal.woff2") format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
+}
+
+/* ------------------------------------------------------------------ scales (I-250)
+   One spacing scale, one type scale with its leading and tracking, one set of radii, border
+   widths and control sizes, all read from Roll20's own CSS (Grimoire, facts §0.5, the
+   components excerpt). Every padding, margin, gap, font size, line height, letter spacing,
+   radius, border width and control height in this file reads one of these; shapes copied as
+   geometry (token sizes, the slanted tab, the AC shield) keep their measured sizes where drawn.
+   - Spacing: Grimoire spaces in quarters of a rem — .125 .25 .375 .5 .75 1 1.5 2 3 rem →
+     2 · 4 · 6 · 8 · 12 · 16 · 24 · 32 · 48 px.
+   - Type: 12 (quick-roll chips, input labels) · 13 (Grimoire --el-font-size-base .8125rem: chat headers, macro chips) · 14 (dice
+     expression, turn-order names) · 16 (1rem: body, buttons) · 18 (window titles) · 20 · 24
+     (roll totals, card titles) · 32 (page title, Nunito 32/900) · 36 (the sheet's big HP). The
+     app's own --text-* steps are moved onto it, in the text-size preference's calc form.
+   - Leading: 1 for numbers set solid, 1.2 for headings and buttons (.grimoire__button
+     line-height 1.2rem at 1rem), 1.375 for body text (chat 16/22, input 1.375rem).
+   - Tracking: 0.0625em on buttons and small-cap labels (1 px at 16, Nunito CTAs), 0.1em on the
+     tiny capitals (1 px at 10: «QUICK ROLLS», TOOLS / LAYERS), drawn as small capitals of the
+     13 px step so they keep Roll20's ≈ 9 px cap height.
+   - Radii: 4 (Element-Plus base, sheet panels, inputs) · 8 (.grimoire__button .5rem, cards,
+     chat bubbles) · 12 (roll card, active tool tile, windows) · 16 (dice tray) · pill (toggles).
+   - Borders: 1 px hairlines; 2 px for the selected/proficient rims and the active tool tile.
+   - Controls: 40 px (the app's target, Grimoire small button ≈ 38 px), 46 px (Grimoire medium
+     button 2.875rem: the hero «Launch»), the 48 px tool column (a 40 px tile with 4 px each
+     side, the tile 0.83 of the column as measured on T6). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) {
+  --r20-sp-1: 2px;
+  --r20-sp-2: 4px;
+  --r20-sp-3: 6px;
+  --r20-sp-4: 8px;
+  --r20-sp-5: 12px;
+  --r20-sp-6: 16px;
+  --r20-sp-7: 24px;
+  --r20-sp-8: 32px;
+  --r20-sp-9: 48px;
+  --r20-fs-12: calc(12px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --r20-fs-13: calc(13px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --r20-fs-14: calc(14px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --r20-fs-16: calc(16px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --r20-fs-18: calc(18px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --r20-fs-20: calc(20px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --r20-fs-24: calc(24px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --r20-fs-32: calc(32px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --r20-fs-36: calc(36px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --r20-lh-solid: 1;
+  --r20-lh-tight: 1.2;
+  --r20-lh-body: 1.375;
+  --r20-track-btn: 0.0625em;
+  --r20-track-caps: 0.1em;
+  --r20-r-1: 4px;
+  --r20-r-2: 8px;
+  --r20-r-3: 12px;
+  --r20-r-4: 16px;
+  --r20-r-pill: 999px;
+  --r20-bw-1: 1px;
+  --r20-bw-2: 2px;
+  --r20-ctl: 40px;
+  --r20-ctl-lg: 46px;
+  --r20-col: calc(var(--r20-ctl) + 2 * var(--r20-sp-2));
+  /* The app's own scales, moved onto Roll20's. */
+  --text-2xs: var(--r20-fs-12);
+  --text-xs: var(--r20-fs-13);
+  --text-sm: var(--r20-fs-14);
+  --text-md: var(--r20-fs-16);
+  --text-lg: var(--r20-fs-18);
+  --text-xl: var(--r20-fs-20);
+  --text-2xl: var(--r20-fs-24);
+  --text-3xl: var(--r20-fs-32);
+  --label-tracking: var(--r20-track-btn);
+  --radius-xs: var(--r20-r-1);
+  --radius-sm: var(--r20-r-2);
+  --radius-md: var(--r20-r-3);
+  --radius-lg: var(--r20-r-4);
+  --radius-pill: var(--r20-r-pill);
+  --radius: var(--r20-r-2);
+  --space-1: var(--r20-sp-2);
+  --space-2: var(--r20-sp-4);
+  --space-3: var(--r20-sp-5);
+  --space-4: var(--r20-sp-6);
+  --space-5: var(--r20-sp-7);
+  --space-6: var(--r20-sp-8);
+  --space-7: var(--r20-sp-9);
+  /* Fonts: Figtree stands in for proxima-nova (facts §0.4: same double-storey a, single-storey
+     g, flat terminals); Nunito is Roll20's own heading/button face; Roboto Mono its dice
+     expression face. */
+  --font-ui:
+    "Figtree", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial,
+    sans-serif;
+  --font-label:
+    "Figtree", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial,
+    sans-serif;
+  --font-display: "Nunito", "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --r20-font-mono: "Roboto Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+/* ------------------------------------------------------------------ tokens (dark Grimoire) */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]) {
+  --text: #e6e6e6;
+  --muted: #b3b3b3;
+  --line: #2a2a2a;
+  --focus: #d1bbdc;
+  --line-strong: #5d5d5d;
+  --frame: #5d5d5d;
+  --frame-soft: #3d3d3d;
+  --placeholder: #9a9a9a;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) {
+  /* Roll20 Grimoire dark (colors.css): surfaces, the primary (purple) ramp, status colours. */
+  --r20-page: #0c0c0c;
+  --r20-nav: #111111;
+  --r20-s1: #1f1f1f;
+  --r20-s2: #353535;
+  --r20-s3: #252525;
+  --r20-well: #161616;
+  --r20-edge: #2a2a2a;
+  --r20-tile-edge: #5d5d5d;
+  /* The dimmest grey a glyph may take on #171717–#1F1F1F and stay 4.5:1 (unset stars). */
+  --r20-dim: #8c8c8c;
+  --r20-p1: #2d123a;
+  --r20-p2: #431a57;
+  --r20-p4: #702c91;
+  --r20-p5: #8d56a7;
+  --r20-p6: #a980bd;
+  --r20-p7: #c6abd3;
+  --r20-p8: #e2d5e9;
+  --r20-tertiary: #ba9aca;
+  --r20-blue: #54b8ec;
+  --r20-green: #1aad5c;
+  --r20-green-track: #a3debe;
+  --r20-red: #da535a;
+  --r20-yellow: #ffab00;
+  /* Jumpgate chrome (T3/T6/T15/T18): bars, layers, glass, selection, turn order. */
+  --r20-bar1: #7cc48a;
+  --r20-bar2: #7c9bc4;
+  --r20-bar3: #b31d1d;
+  --r20-bar4: #caa605;
+  --r20-layer-on: #30673c;
+  --r20-layer-on-edge: #598563;
+  --r20-glass: rgb(0 0 0 / 0.6);
+  --r20-glass-line: #a5a1a7;
+  --r20-select: #5e85d4;
+  --r20-turn-on: #094424;
+  --r20-turn-on-line: #2e503e;
+  /* D&D 2024 sheet (S1): page, panel, gold-brown edge, gold titles, red proficiency. */
+  --r20-sheet-panel: #171717;
+  --r20-sheet-edge: #7b6342;
+  --r20-sheet-title: #c7a16b;
+  --r20-sheet-tab-line: #997c4f;
+  --r20-prof-fill: #430d0d;
+  --r20-prof-line: #b52222;
+  --r20-prof-dot: #861a1a;
+  /* The sheet's light red («Sheet Settings», S1): links and the selected rim on the sheet. */
+  --r20-sheet-light: #e16363;
+  --r20-sheet-red: #651313;
+  --r20-sheet-save: #861a1a;
+  --r20-sheet-chip: #272727;
+  --r20-hit: #ffeea4;
+  --r20-dmg: #ff8282;
+  --r20-heal: #48bd7d;
+  --r20-backdrop: #a82020;
+  /* Elevation (Grimoire dark: --chat-shadow, --roll-result-shadow, --drop-shadow-xlarge). */
+  --r20-shadow-1:
+    0 4px 5px rgb(0 0 0 / 0.14), 0 1px 10px rgb(0 0 0 / 0.12), 0 2px 4px rgb(0 0 0 / 0.2);
+  --r20-shadow-2:
+    0 6px 10px rgb(0 0 0 / 0.14), 0 1px 18px rgb(0 0 0 / 0.12), 0 3px 5px rgb(0 0 0 / 0.2);
+  --r20-shadow-3:
+    0 7px 8px rgb(0 0 0 / 0.2), 0 5px 22px rgb(0 0 0 / 0.12), 0 12px 17px rgb(0 0 0 / 0.14);
+  /* The app's palette, mapped onto Roll20's. */
+  --bg: var(--r20-page);
+  --surface: var(--r20-s1);
+  --raised: var(--r20-s2);
+  --canvas: var(--r20-well);
+  --accent: var(--r20-p6);
+  --accent-ink: #000000;
+  /* Red words on dark: Roll20's --chat-inline-crit-fail (dark) #E9989C; fills keep #DA535A. */
+  --danger: #e9989c;
+  --positive: var(--r20-green);
+  --surface-2: var(--r20-s1);
+  --sunken: var(--r20-page);
+  --header-bg: var(--r20-nav);
+  --sidebar-bg: var(--r20-s1);
+  --rail-bg: var(--r20-nav);
+  --hotbar-bg: var(--r20-nav);
+  --float-bg: var(--r20-glass);
+  --float-border: var(--r20-s2);
+  --scrim: rgb(0 0 0 / 0.6);
+  --accent-strong: var(--r20-p7);
+  --accent-soft: rgb(112 44 145 / 0.28);
+  --accent-line: var(--r20-p5);
+  --danger-strong: #ad2929;
+  --danger-ink: #ffffff;
+  --warning: var(--r20-yellow);
+  --info: var(--r20-blue);
+  --hp-full: var(--r20-green);
+  --hp-mid: var(--r20-yellow);
+  --hp-low: var(--r20-red);
+  --res-action: var(--r20-bar1);
+  --res-bonus: var(--r20-bar4);
+  --res-reaction: var(--r20-bar2);
+  --res-move: var(--r20-p6);
+  --res-slot: var(--r20-p6);
+  --endturn-bg: var(--r20-p4);
+  --turn-current: #ffffff;
+  --turn-ally: var(--r20-bar1);
+  --turn-enemy: var(--r20-bar3);
+  --shadow-1: var(--r20-shadow-1);
+  --shadow-2: var(--r20-shadow-2);
+  --shadow-3: var(--r20-shadow-3);
+  --keyline-dark: rgb(0 0 0 / 0.6);
+  --token-label: #ffffff;
+  --token-label-halo: #000000;
+  scrollbar-color: var(--r20-tile-edge) transparent;
+  accent-color: var(--r20-p4);
+  line-height: var(--r20-lh-body);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) ::selection {
+  background: var(--r20-p4);
+  color: #ffffff;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) :is(input, textarea) {
+  caret-color: var(--r20-p6);
+}
+
+/* ------------------------------------------------------------------ page, type, browser parts */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) body {
+  background: var(--r20-page);
+}
+/* Headings: Nunito, Roll20's heading face (page titles 32/900, card titles 800). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) :where(h1, h2, h3) {
+  font-family: var(--font-display);
+  line-height: var(--r20-lh-tight);
+  letter-spacing: 0;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) :where(h1) {
+  font-weight: 900;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) :where(h2, h3) {
+  font-weight: 800;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) small {
+  font-size: var(--r20-fs-13);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) a {
+  color: var(--r20-p6);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) a:hover {
+  color: var(--r20-p7);
+}
+/* Dice expressions in Roboto Mono, as Roll20's roll input (tools.roll20.net: roboto-mono 14). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  :is(
+    [data-dtray-formula],
+    [data-dtray-sheet-formula],
+    [data-qb-formula],
+    input[name="dice"],
+    input[name="damageDice"]
+  ) {
+  font-family: var(--r20-font-mono);
+  font-size: var(--r20-fs-14);
+}
+
+/* ------------------------------------------------------------------ demo strip, brand */
+/* The demo strip is the blueprint's, not the product's: system font, today's leading and
+   today's selects, so every option shares its height (96 px on the phone). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .demo-strip {
+  line-height: 1.5;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .demo-strip select {
+  border-color: #6b7784;
+  border-radius: 6px;
+  background-color: #0e1217;
+  color: #efe7d6;
+}
+/* The brand (logo, name, colours) waits for Phase D: pinned to today's values. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .brand {
+  font-family:
+    "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", "URW Palladio L", Georgia,
+    serif;
+  font-weight: 400;
+  color: #efe7d6;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .brand .icon,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .brand .logo,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .brand b {
+  color: #dfbd78;
+}
+
+/* ------------------------------------------------------------------ header and navigation */
+/* Roll20's dark nav bar: #111111 (--color-navbar-background), a hairline under it. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .app-header {
+  min-height: calc(var(--r20-ctl) + 2 * var(--r20-sp-5));
+  gap: var(--r20-sp-7);
+  padding: var(--r20-sp-5) var(--r20-sp-8);
+  background: var(--r20-nav);
+  border-bottom: var(--r20-bw-1) solid var(--r20-edge);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .app-header nav {
+  gap: var(--r20-sp-2);
+  align-self: center;
+}
+/* Main pages: Grimoire's tabs — white words, the open page a «lined» tab filled with the dark
+   primary #702C91 (--tabs-button-lined-background-color). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .nav-link {
+  min-height: var(--r20-ctl);
+  gap: var(--r20-sp-4);
+  padding: 0 var(--r20-sp-6);
+  border-radius: var(--r20-r-2);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: var(--r20-fs-16);
+  font-weight: 600;
+  line-height: var(--r20-lh-tight);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .nav-link:hover {
+  background: var(--r20-s2);
+  color: #ffffff;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .nav-link.active {
+  background: var(--r20-p4);
+  color: #ffffff;
+  font-weight: 700;
+  box-shadow: none;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .service-nav {
+  gap: var(--r20-sp-2);
+}
+/* Header services: filled #E6E6E6 glyphs on the bar, a #353535 tile on hover (the sidebar's
+   icon tabs). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .icon-button {
+  width: var(--r20-ctl);
+  height: var(--r20-ctl);
+  border-radius: var(--r20-r-2);
+  color: var(--text);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .icon-button:hover {
+  background: var(--r20-s2);
+  color: #ffffff;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .icon-button .icon {
+  width: calc(var(--r20-sp-6) + var(--r20-sp-2));
+  height: calc(var(--r20-sp-6) + var(--r20-sp-2));
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .ext-count {
+  background: var(--r20-blue);
+  color: #000000;
+  font-family: var(--font-ui);
+  font-weight: 800;
+}
+
+/* ------------------------------------------------------------------ buttons (Grimoire) */
+/* .grimoire__button: Nunito 16 heavy with 1 px tracking, 8 px corners, no rim of its own; the
+   secondary is the dark surface inside a 1 px lilac rim (--button-secondary-border #a980bd). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .button {
+  min-height: var(--r20-ctl);
+  gap: var(--r20-sp-5);
+  padding: var(--r20-sp-3) var(--r20-sp-6);
+  border: var(--r20-bw-1) solid var(--r20-p6);
+  border-radius: var(--r20-r-2);
+  background: var(--r20-s1);
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-size: var(--r20-fs-16);
+  font-weight: 800;
+  line-height: var(--r20-lh-tight);
+  letter-spacing: var(--r20-track-btn);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .button:hover:not(:disabled) {
+  background: var(--r20-s2);
+  border-color: var(--r20-p7);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .button:active:not(:disabled) {
+  background: var(--r20-s1);
+  background-image: linear-gradient(rgb(0 0 0 / 0.16), rgb(0 0 0 / 0.16));
+}
+/* Primary: filled #702C91, white; hover #8D56A7 (--button-primary-bg / -hover-bg, dark). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .button.primary {
+  border-color: var(--r20-p4);
+  background: var(--r20-p4);
+  color: #ffffff;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .button.primary:hover:not(:disabled) {
+  border-color: var(--r20-p5);
+  background: var(--r20-p5);
+}
+/* Tertiary: lilac words only (--button-tertiary-fg #BA9ACA), a faint lilac tile on hover. One
+   look for every tertiary command — the quiet button, the text button and a disclosure's
+   summary: Nunito heavy with the button tracking at the inherited 16 px (I-250; the size is
+   left to the app, which empties a few to their glyph on narrow windows). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .button.quiet {
+  border-color: transparent;
+  background: transparent;
+  color: var(--r20-tertiary);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  :is(.button.quiet, .text-button, summary:not(.button)) {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: var(--r20-track-btn);
+}
+/* A tertiary command that starts its line keeps its words on the line's edge: its 16 px
+   padding moves out into the gutter, where the hover tile shows (R20-06). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  :is(
+    .character-breadcrumb,
+    .shp-col-tools,
+    .conditions-quick,
+    .inspector-quick,
+    .offline-switch-block,
+    .sm-sheet > p,
+    .spl-list-foot,
+    .spl-focus-list li,
+    .spl-components > .toolbar,
+    .invp-row-actions
+  )
+  > .button.quiet:first-child,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .shp-col-tools > .button.quiet {
+  margin-inline-start: calc(-1 * var(--r20-sp-6));
+}
+/* «Registra concentrazione» follows the line's words and wraps under them on a phone: the
+   row's 16 px gap takes its gutter, so on one line the words keep 16 px from the text and on
+   their own line they start on the edge. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .spl-concentration.is-idle {
+  column-gap: var(--r20-sp-6);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .spl-concentration.is-idle
+  > .button.quiet {
+  margin-inline-start: calc(-1 * var(--r20-sp-6));
+}
+/* Inside the inventory's figure tiles the command has no room for the gutter: Grimoire's
+   small size (14 px, the glyph 6 px from its words), starting on the tile's edge under the
+   tile's title, on one line. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .invp-stat > .button.quiet {
+  gap: var(--r20-sp-3);
+  padding-inline: 0;
+  font-size: var(--r20-fs-14);
+  white-space: nowrap;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .invp-stat summary {
+  font-size: var(--r20-fs-14);
+}
+/* «Perché?» on the spell window's notice: the 40 px target of every command. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .spl-window-why
+  > summary {
+  min-height: var(--r20-ctl);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .button.quiet:hover:not(:disabled) {
+  border-color: transparent;
+  background: rgb(169 128 189 / 0.16);
+  color: var(--r20-p8);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .button.danger {
+  border-color: var(--r20-red);
+  background: transparent;
+  color: var(--danger);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .button.danger:hover:not(:disabled) {
+  border-color: var(--danger-strong);
+  background: var(--danger-strong);
+  color: #ffffff;
+}
+/* The pressed state: Grimoire's selected attribute — the deepest purple under a lilac rim. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .button.active {
+  border-color: var(--r20-p6);
+  background: var(--r20-p1);
+  color: #ffffff;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .button:disabled {
+  border-color: transparent;
+  background: var(--r20-s2);
+  color: var(--muted);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  :is(.text-button, summary:not(.button)) {
+  color: var(--r20-tertiary);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .text-button {
+  min-height: var(--r20-ctl);
+  padding: var(--r20-sp-3) 0;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  :is(.text-button, summary:not(.button)):hover {
+  color: var(--r20-p8);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .toolbar {
+  gap: var(--r20-sp-4);
+}
+/* Badges: the sheet's small grey chip («Proficiency Bonus +3»). One chip everywhere (I-250):
+   24 px, 2 × 8 padding, 13/700, 4 px corners — badges, the sheet's V S M and economy tags, the
+   initiative window's policy tags. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  :is(.badge, .ct-badge, .conditions-vital),
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-badge, .spl-state) {
+  gap: var(--r20-sp-2);
+  min-height: var(--r20-sp-7);
+  padding: var(--r20-sp-1) var(--r20-sp-4);
+  border-color: transparent;
+  border-radius: var(--r20-r-1);
+  font-size: var(--r20-fs-13);
+  font-weight: 700;
+  line-height: var(--r20-lh-body);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) :is(.badge, .ct-badge) {
+  background: var(--r20-s2);
+  color: var(--text);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) kbd {
+  padding: 0 var(--r20-sp-2);
+  border-color: var(--r20-tile-edge);
+  border-radius: var(--r20-r-1);
+  background: var(--r20-s2);
+  font-family: var(--font-ui);
+  font-size: var(--r20-fs-12);
+  line-height: var(--r20-lh-body);
+}
+
+/* ------------------------------------------------------------------ fields and switches */
+/* Inputs (Grimoire/Element Plus): a dark well inside a 1 px grey rim, 4 px corners; the rim
+   turns lilac on hover and focus (D3: select with a lilac 1 px border). Labels sit above in
+   small grey words. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .field {
+  gap: var(--r20-sp-3);
+  margin: 0 0 var(--r20-sp-6);
+  color: var(--muted);
+  font-size: var(--r20-fs-13);
+  font-weight: 600;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .field input,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .field select,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .field textarea,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) input[type="search"],
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) select:not(.demo-strip select) {
+  min-height: var(--r20-ctl);
+  padding: var(--r20-sp-3) var(--r20-sp-4);
+  border: var(--r20-bw-1) solid var(--r20-tile-edge);
+  border-radius: var(--r20-r-1);
+  background-color: var(--r20-page);
+  color: var(--text);
+  font-size: var(--r20-fs-16);
+  font-weight: 400;
+  line-height: var(--r20-lh-body);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  :is(.field input, .field select, .field textarea, input[type="search"]):hover:not(:disabled),
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  select:not(.demo-strip select):hover:not(:disabled) {
+  border-color: var(--r20-p6);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  :is(.field input, .field select, .field textarea, input[type="search"]):focus-visible,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  select:not(.demo-strip select):focus-visible {
+  border-color: var(--r20-p6);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .check-field {
+  gap: var(--r20-sp-4);
+  padding: var(--r20-sp-4) 0;
+}
+/* Toggles: Roll20's pill switch — purple track and white knob when on (T25), grey off. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .switch {
+  border-color: transparent;
+  background: radial-gradient(circle at 10px 50%, #ffffff 7px, transparent 7.5px)
+    var(--r20-tile-edge);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .switch:checked {
+  border-color: transparent;
+  background: radial-gradient(circle at 28px 50%, #ffffff 7px, transparent 7.5px) var(--r20-p5);
+}
+
+/* ------------------------------------------------------------------ cards, tabs, headings */
+/* Cards: Roll20 Characters' #1F1F1F rounded cards (8 px) with the Grimoire chat shadow and a
+   #2A2A2A edge (--card-border). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .panel {
+  padding: var(--r20-sp-7);
+  border: var(--r20-bw-1) solid var(--r20-edge);
+  border-radius: var(--r20-r-2);
+  background: var(--r20-s1);
+  box-shadow: var(--r20-shadow-1);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .page-heading {
+  gap: var(--r20-sp-7);
+  margin-bottom: var(--r20-sp-8);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .page-heading h1 {
+  font-size: var(--r20-fs-32);
+  font-weight: 900;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .section-heading {
+  margin: 0 0 var(--r20-sp-6);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .section-heading h2 {
+  font-size: var(--r20-fs-20);
+  font-weight: 800;
+}
+/* Tabs: Grimoire tabs — lilac words (--tabs-button-text-color #a980bd), the open tab filled
+   with #702C91, 8 px corners, white words. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .tabs {
+  gap: var(--r20-sp-2);
+  margin-bottom: var(--r20-sp-7);
+  border-bottom: var(--r20-bw-1) solid var(--r20-edge);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .tabs button {
+  min-height: var(--r20-ctl);
+  padding: var(--r20-sp-4) var(--r20-sp-6);
+  border-bottom: 0;
+  border-radius: var(--r20-r-2) var(--r20-r-2) 0 0;
+  color: var(--r20-p6);
+  font-family: var(--font-ui);
+  font-size: var(--r20-fs-16);
+  font-weight: 700;
+  letter-spacing: 0;
+  font-variant-caps: normal;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .tabs button:hover {
+  background: var(--r20-s2);
+  color: #ffffff;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .tabs button.active {
+  background: var(--r20-p4);
+  color: #ffffff;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .stat {
+  padding: var(--r20-sp-5) var(--r20-sp-6);
+  border-color: var(--r20-edge);
+  border-radius: var(--r20-r-2);
+  background: var(--r20-s1);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .stat strong {
+  font-family: var(--font-display);
+  font-size: var(--r20-fs-24);
+  font-weight: 900;
+  line-height: var(--r20-lh-tight);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .stat > span {
+  font-size: var(--r20-fs-12);
+  font-weight: 800;
+  letter-spacing: var(--r20-track-caps);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .empty-state {
+  padding: var(--r20-sp-8) var(--r20-sp-7);
+  border-color: var(--r20-tile-edge);
+  border-radius: var(--r20-r-2);
+}
+
+/* ------------------------------------------------------------------ dialogs, menus, toast */
+/* Windows: Roll20's flat #1F1F1F modal — no title bar colour, a plain white title (Nunito)
+   with a grey ×, no rim, the large Grimoire shadow; footer: text «Cancel» + filled purple. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) dialog {
+  border: 0;
+  border-radius: var(--r20-r-3);
+  background: var(--r20-s1);
+  box-shadow: var(--r20-shadow-3);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) dialog::backdrop {
+  background: rgb(0 0 0 / 0.6);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .dialog-heading {
+  gap: var(--r20-sp-6);
+  padding: var(--r20-sp-6) var(--r20-sp-4) var(--r20-sp-4) var(--r20-sp-7);
+  border-bottom: 0;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .dialog-heading h2 {
+  font-family: var(--font-display);
+  font-size: var(--r20-fs-20);
+  font-weight: 800;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .dialog-heading > .icon-button {
+  color: var(--muted);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .dialog-heading > .icon-button:hover {
+  background: var(--r20-s2);
+  color: #ffffff;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .dialog-body {
+  padding: var(--r20-sp-4) var(--r20-sp-7) var(--r20-sp-7);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) dialog footer {
+  gap: var(--r20-sp-4);
+  padding: var(--r20-sp-6) var(--r20-sp-7);
+  border-top: var(--r20-bw-1) solid var(--r20-edge);
+  background: var(--r20-s1);
+}
+/* «Cancel» is Roll20's lilac text button (the one tertiary look); the primary stays the filled
+   purple. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  dialog
+  footer
+  .button:not(.primary, .danger) {
+  border-color: transparent;
+  background: transparent;
+  color: var(--r20-tertiary);
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: var(--r20-track-btn);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  dialog
+  footer
+  .button:not(.primary, .danger):hover:not(:disabled) {
+  border-color: transparent;
+  background: rgb(169 128 189 / 0.16);
+  color: var(--r20-p8);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) dialog fieldset {
+  padding: var(--r20-sp-5) var(--r20-sp-6) var(--r20-sp-6);
+  border: var(--r20-bw-1) solid var(--r20-edge);
+  border-radius: var(--r20-r-2);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) dialog legend {
+  padding: 0 var(--r20-sp-2);
+  color: var(--r20-p6);
+  font-weight: 700;
+}
+/* Menus: the right-click menu (T25) — a dark rounded list, one icon row per command, the
+   hovered row a lighter tile. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .context-menu {
+  gap: 0;
+  padding: var(--r20-sp-4);
+  border: 0;
+  border-radius: var(--r20-r-3);
+  background: var(--r20-s3);
+  box-shadow: var(--r20-shadow-2);
+}
+/* Toast: a Grimoire notice — the dark surface with the chat shadow, white words. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) #toast {
+  padding: var(--r20-sp-5) var(--r20-sp-6);
+  border: var(--r20-bw-1) solid var(--r20-s2);
+  border-radius: var(--r20-r-2);
+  background: var(--r20-s1);
+  color: var(--text);
+  box-shadow: var(--r20-shadow-2);
+  font-size: var(--r20-fs-14);
+  font-weight: 600;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) #toast.error {
+  border-color: var(--r20-red);
+  background: #2c1112;
+  color: #ffffff;
+}
+/* Tooltips: Element Plus's dark tooltip on Roll20 — a #353535 label, 8 px corners. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .ui-tip,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .shp-tip {
+  padding: var(--r20-sp-4) var(--r20-sp-5);
+  border: 0;
+  border-radius: var(--r20-r-2);
+  background: var(--r20-s2);
+  color: var(--text);
+  box-shadow: var(--r20-shadow-2);
+  font-size: var(--r20-fs-14);
+}
+
+/* ------------------------------------------------------------------ Inizio (Roll20 dashboard)
+   The new Grimoire pages (Roll20 Characters, H13): a near-black page of #1F1F1F cards with
+   8 px corners and the chat shadow, Nunito titles, tiny bold capitals under them. «Continue
+   playing» is a My Games row at hero size (H5, H6): the cover inset on the left, the game's
+   title, «▶ Launch Game» as the filled purple hero button (H10/H12) and an outlined secondary. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-page {
+  --home-gap: var(--r20-sp-7);
+}
+@media (min-width: 1101px) {
+  :root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-layout {
+    column-gap: var(--r20-sp-7);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .home-layout
+    > .home-main
+    > :where(:not([data-ext-slot])),
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .home-layout
+    > .home-main
+    > :where([data-ext-slot])
+    > :where(*) {
+    margin: 0 0 var(--r20-sp-7);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .home-layout
+    .home-main
+    .home-appointment {
+    margin: 0 0 var(--r20-sp-7);
+    padding: var(--r20-sp-7);
+  }
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-page .page-heading p {
+  color: var(--muted);
+  font-size: var(--r20-fs-16);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .home-page
+  :is(.resume-scene, .home-appointment, .home-bottom > section, .home-aside),
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .home-page
+  :is(.cm-home, .chat-home, .community-home, .home-start),
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-main .home-card {
+  border: var(--r20-bw-1) solid var(--r20-edge);
+  border-radius: var(--r20-r-2);
+  background: var(--r20-s1);
+  box-shadow: var(--r20-shadow-1);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-page .resume-scene {
+  gap: var(--r20-sp-7);
+  padding: var(--r20-sp-6);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-page .scene-emblem {
+  border: 0;
+  border-radius: var(--r20-r-2);
+  background:
+    url("assets/game-cover.webp") 60% center / cover no-repeat,
+    var(--r20-well);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .home-dashboard[data-home-art]
+  .scene-emblem {
+  background:
+    var(--home-art) center / cover no-repeat,
+    var(--r20-well);
+}
+/* The owner's cover replaces the emblem's map glyph (decorative, aria-hidden). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .home-dashboard:not([data-home-art])
+  .scene-emblem
+  .icon {
+  visibility: hidden;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .home-page
+  .resume-scene
+  > div:last-child {
+  padding: var(--r20-sp-4) var(--r20-sp-6) var(--r20-sp-4) 0;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-page .resume-scene h2 {
+  margin: 0 0 var(--r20-sp-4);
+  font-size: var(--r20-fs-32);
+  font-weight: 900;
+}
+/* Under the title, Roll20 Characters' tiny bold capitals («D&D 5E BY ROLL20»). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-page .resume-scene h2 + p {
+  margin: 0 0 var(--r20-sp-6);
+  color: var(--muted);
+  font-size: var(--r20-fs-16);
+  font-weight: 800;
+  letter-spacing: var(--r20-track-caps);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-page .resume-scene p.muted {
+  margin: 0 0 var(--r20-sp-6);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-page .resume-scene .toolbar {
+  gap: var(--r20-sp-5);
+  margin-top: 0;
+}
+/* «▶ Launch Game»: the Grimoire medium button (2.875rem) in the dark primary. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-page .resume-scene .button {
+  min-height: var(--r20-ctl-lg);
+  padding: 0 var(--r20-sp-7);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .home-page
+  .resume-scene
+  .button.primary
+  .icon {
+  width: var(--r20-sp-6);
+  height: var(--r20-sp-6);
+}
+/* Next session: Roll20's «Next Game Will Be» block — the date carries the weight. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-layout .home-appointment h2,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-page .home-appointment h2 {
+  margin: 0 0 var(--r20-sp-4);
+  font-size: var(--r20-fs-20);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-appointment p {
+  margin: 0 0 var(--r20-sp-3);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-appointment-when {
+  font-family: var(--font-display);
+  font-size: var(--r20-fs-24);
+  font-weight: 900;
+  line-height: var(--r20-lh-tight);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-agreed {
+  font-size: var(--r20-fs-14);
+}
+@media (min-width: 1101px) {
+  :root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-layout .home-appointment {
+    gap: var(--r20-sp-6);
+  }
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-page .home-bottom {
+  gap: var(--r20-sp-7);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-page .home-bottom > section {
+  padding: var(--r20-sp-7);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-page .home-bottom h2,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-card .section-heading h2,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .home-page
+  :is(.cm-home, .chat-home, .community-home)
+  .section-heading
+  h2 {
+  font-size: var(--r20-fs-20);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .home-page
+  :is(.cm-home, .chat-home, .community-home) {
+  padding: var(--r20-sp-7);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-page .home-bottom h3 {
+  font-size: var(--r20-fs-18);
+}
+/* Your character: a Roll20 Characters card row — the round framed portrait, the name in
+   Nunito, the class line in tiny bold capitals. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-page .character-resume {
+  gap: var(--r20-sp-6);
+  padding: var(--r20-sp-5) var(--r20-sp-4);
+  border-bottom-color: var(--r20-edge);
+  border-radius: var(--r20-r-2);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-page .character-resume:hover {
+  background: var(--r20-s2);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .home-page
+  .character-resume
+  > .portrait,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-page .home-chip .portrait {
+  width: calc(var(--r20-sp-9) + var(--r20-sp-6));
+  height: calc(var(--r20-sp-9) + var(--r20-sp-6));
+  border: var(--r20-bw-2) solid var(--r20-tile-edge);
+  border-radius: 50%;
+  box-shadow: var(--r20-shadow-1);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-page .character-resume strong {
+  font-family: var(--font-display);
+  font-size: var(--r20-fs-20);
+  font-weight: 800;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .home-page
+  .character-resume
+  > span
+  > small {
+  margin-top: var(--r20-sp-1);
+  font-size: var(--r20-fs-16);
+  font-weight: 800;
+  letter-spacing: var(--r20-track-caps);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-page .hp-small {
+  font-family: var(--font-display);
+  font-size: var(--r20-fs-18);
+  font-weight: 900;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-page .hp-small small {
+  font-family: var(--font-ui);
+  font-weight: 600;
+}
+/* Lists (discussions, campaigns): My Games rows divided by the card border; a game's title in
+   Roll20's link blue. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-page .chat-home-row {
+  gap: var(--r20-sp-6);
+  padding: var(--r20-sp-4) 0;
+  border-bottom-color: var(--r20-edge);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-page .chat-home-row strong {
+  font-family: var(--font-display);
+  font-weight: 800;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .home-page
+  .cm-home
+  :is(.cm-home-row, .cm-row)
+  strong {
+  color: var(--r20-blue);
+  font-family: var(--font-display);
+  font-weight: 800;
+}
+/* The right column: Roll20's Announcements panel, its tabs as Grimoire tabs. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-aside {
+  padding: var(--r20-sp-3) var(--r20-sp-6) var(--r20-sp-7);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-tabs {
+  gap: var(--r20-sp-2);
+  margin: 0 calc(-1 * var(--r20-sp-6)) var(--r20-sp-6);
+  padding: var(--r20-sp-3) var(--r20-sp-5);
+  border-bottom-color: var(--r20-edge);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-tabs [role="tab"] {
+  min-height: var(--r20-ctl);
+  gap: var(--r20-sp-3);
+  padding: 0 var(--r20-sp-5);
+  border-bottom: 0;
+  border-radius: var(--r20-r-2);
+  color: var(--r20-p6);
+  font-family: var(--font-ui);
+  font-size: var(--r20-fs-16);
+  font-weight: 700;
+  letter-spacing: 0;
+  font-variant-caps: normal;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-tabs [role="tab"]:hover {
+  background: var(--r20-s2);
+  color: #ffffff;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .home-tabs
+  [role="tab"][aria-selected="true"] {
+  background: var(--r20-p4);
+  color: #ffffff;
+}
+/* Unread counts: the nav bar's notification badge (cyan-blue, dark ink). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-count {
+  min-width: calc(var(--r20-sp-6) + var(--r20-sp-2));
+  height: calc(var(--r20-sp-6) + var(--r20-sp-2));
+  padding: 0 var(--r20-sp-3);
+  background: var(--r20-blue);
+  color: #000000;
+  font-size: var(--r20-fs-13);
+  font-weight: 800;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-aside .home-card {
+  margin-top: var(--r20-sp-6);
+  padding-top: var(--r20-sp-6);
+  border: 0;
+  border-top: var(--r20-bw-1) solid var(--r20-edge);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-aside .home-card:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-aside h3 {
+  margin-bottom: var(--r20-sp-4);
+  font-size: var(--r20-fs-16);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-panel-head {
+  gap: var(--r20-sp-4);
+  margin-bottom: var(--r20-sp-4);
+}
+/* «Nuova»: a filled Grimoire chip (dark: lilac #A980BD, black words). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-page .home-news .badge {
+  background: var(--r20-p6);
+  color: #000000;
+  font-weight: 800;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-start {
+  padding: var(--r20-sp-7);
+}
+
+/* ------------------------------------------------------------------ Scheda (D&D 2024 sheet)
+   Roll20's D&D 2024 character sheet, dark (S1, S7–S16): a black page with a red field
+   (#A82020) bleeding off its edges behind the panels — our own two plain curved fields, never
+   Roll20's dragon art —, #171717 panels inside a thin gold-brown edge (#7B6342), gold titles
+   (#C7A16B) in bold small capitals, slanted roll-mode tabs (active #430D0D), red proficiency
+   (#430D0D box in a #B52222 rim, a #861A1A dot; a dashed ring when not proficient), pale-gold
+   hit and salmon damage, the green HP bar and #353535 square buttons. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  #content:has(.character-sheet[data-character-page]) {
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 760'%3E%3Cpath fill='%23a82020' d='M300 0C120 140 70 360 180 560C220 640 260 700 300 760Z'/%3E%3C/svg%3E")
+      right -108px top 260px / 200px 720px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 520'%3E%3Cpath fill='%23a82020' d='M0 0H220C150 90 90 250 0 520Z'/%3E%3C/svg%3E")
+      left -24px top 96px / 180px 440px no-repeat,
+    var(--r20-page);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet {
+  --sheet-gap: var(--r20-sp-5);
+}
+/* Panels: #171717 inside a 1 px gold-brown edge, 4 px corners, no shadow. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-abilities, .character-conditions, .character-turn, .sm-sheet),
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-derived
+  .shp-col,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  :is(.stat, .character-inspiration),
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  [data-shp-stat="pb"]
+  .shp-pill,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-stats .shp-pill,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .panel {
+  border: var(--r20-bw-1) solid var(--r20-sheet-edge);
+  border-radius: var(--r20-r-1);
+  background: var(--r20-sheet-panel);
+  box-shadow: none;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.panel, .sm-sheet) {
+  padding: var(--r20-sp-6);
+}
+/* Panel titles: gold bold small capitals, left (ABILITIES, HIT POINTS, SKILLS). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-derived
+  .shp-col
+  h3,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  .stat
+  > span:first-child,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-pill-label,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-turn-label,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-conditions
+  > span:first-child,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .panel
+  .section-heading
+  h2,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .panel > :is(h2, h3),
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .spl-section > h3,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.dtray-sheet-head h3, .cs-sheet > h2, .spl-concentration > h3),
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .invp-stat-label,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .spl-stat dt {
+  color: var(--r20-sheet-title);
+  font-family: var(--font-ui);
+  font-weight: 800;
+  letter-spacing: var(--r20-track-btn);
+  font-variant-caps: small-caps;
+  text-align: left;
+}
+/* One panel title (R20-07): 20 px gold small capitals on every panel of the sheet. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-derived
+  .shp-col
+  h3,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .panel
+  .section-heading
+  h2,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .panel > h2,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.panel, .spl-section)
+  > h3,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.dtray-sheet-head h3, .cs-sheet > h2) {
+  margin: 0 0 var(--r20-sp-4);
+  font-size: var(--r20-fs-20);
+  line-height: var(--r20-lh-tight);
+}
+/* Group titles inside a panel: 16 px. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .spl-concentration
+  > h3,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.character-turn-label, .character-conditions > span:first-child),
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.invp-stat-label, .spl-stat dt) {
+  font-size: var(--r20-fs-16);
+  line-height: var(--r20-lh-tight);
+}
+/* The band's tiles (PROFICIENCY, SPEED, INSPIRATION, HIT POINTS): one tile title, 13 px small
+   capitals — Roll20's tiny bold label size, the only one that fits a 100 px tile. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.character-band .stat > span:first-child, .shp-band .shp-pill-label),
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  .character-inspiration {
+  font-size: var(--r20-fs-13);
+  line-height: var(--r20-lh-tight);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-stats
+  .shp-pill-label {
+  font-size: var(--r20-fs-16);
+  line-height: var(--r20-lh-tight);
+}
+/* Sheet buttons: bold small capitals in the sheet face; the outlined dark «Level Up», the
+   #353535 «Short Rest», the red «Initiative» as the primary. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .button {
+  font-family: var(--font-ui);
+  font-weight: 800;
+  letter-spacing: var(--r20-track-btn);
+  font-variant-caps: small-caps;
+  border-color: var(--r20-tile-edge);
+  background: transparent;
+  color: var(--text);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .button:hover:not(:disabled) {
+  border-color: var(--r20-sheet-title);
+  background: var(--r20-s2);
+}
+/* The sheet's tertiary commands, links and disclosures: the light red of «Sheet Settings» and
+   «Show More» (S1, S16) in the sheet's small capitals — the sheet keeps Roll20's red and gold
+   and never the Grimoire lilac (R20-05). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.button.quiet, .text-button, summary:not(.button)) {
+  border-color: transparent;
+  background: transparent;
+  color: var(--r20-sheet-light);
+  font-family: var(--font-ui);
+  font-weight: 800;
+  letter-spacing: var(--r20-track-btn);
+  font-variant-caps: small-caps;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.button.quiet, .text-button, summary:not(.button)):hover:not(:disabled) {
+  border-color: transparent;
+  background: var(--r20-s2);
+  color: #ffffff;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet a,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .spl-window-why
+  > summary {
+  color: var(--r20-sheet-light);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet a:hover {
+  color: var(--r20-dmg);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .compendium-term {
+  border-bottom-color: var(--r20-sheet-light);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  input:is([type="checkbox"], [type="radio"]) {
+  accent-color: var(--r20-prof-dot);
+}
+/* Every switch on the sheet turns red when on, as the Effects toggles (S16). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.cs-switch input, .switch):checked {
+  border-color: var(--r20-prof-line);
+  background: radial-gradient(circle at 28px 50%, #ffffff 6px, transparent 6.5px)
+    var(--r20-prof-dot);
+}
+/* The spell window's notice: a #171717 panel inside the gold-brown edge, not a purple banner. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .spl-window.is-closed {
+  border-color: var(--r20-sheet-edge);
+  background: var(--r20-sheet-panel);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .spl-window-line:not(.is-open) {
+  background: var(--r20-page);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.invp-row-icon, .shp-uses, .loot-coin-gp dd) {
+  color: var(--r20-sheet-title);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-generic-line
+  .shp-generic-open {
+  color: var(--r20-sheet-light);
+  text-decoration-color: var(--r20-sheet-light);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-generic-line
+  .shp-generic-open:hover {
+  background: var(--r20-s2);
+  color: #ffffff;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .cs-request {
+  border-color: var(--r20-sheet-edge);
+}
+/* The header's commands as the sheet's outlined dark buttons («Level Up», S1): the box sits
+   on the grid, the words in white small capitals (R20-06). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-heading
+  .button.quiet {
+  border-color: var(--r20-tile-edge);
+  color: var(--text);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-heading
+  .button.quiet:hover:not(:disabled) {
+  border-color: var(--r20-sheet-title);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .button.primary {
+  border-color: var(--r20-sheet-red);
+  background: var(--r20-sheet-red);
+  color: #ffffff;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .button.primary:hover:not(:disabled) {
+  border-color: var(--r20-sheet-save);
+  background: var(--r20-sheet-save);
+}
+/* The sheet's other button states keep their meaning under the sheet's own look: danger in the
+   light red, pressed as the chosen filter (red fill inside a 2 px light-red rim), disabled as
+   everywhere (a flat #353535 tile, grey words). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .button.danger {
+  border-color: var(--r20-red);
+  color: var(--danger);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .button.danger:hover:not(:disabled) {
+  border-color: var(--danger-strong);
+  background: var(--danger-strong);
+  color: #ffffff;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .button.active {
+  border-color: var(--r20-sheet-light);
+  background: var(--r20-prof-line);
+  color: #ffffff;
+  box-shadow: inset 0 0 0 var(--r20-bw-1) var(--r20-sheet-light);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .button:disabled,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .button.primary:disabled {
+  border-color: transparent;
+  background: var(--r20-s2);
+  color: var(--muted);
+}
+/* The breadcrumb is the sheet window's own bar (S4): the back link and the window's tools. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-breadcrumb {
+  margin-bottom: var(--r20-sp-6);
+}
+/* Identity: the square portrait in a red frame; the name in gold small capitals. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-heading {
+  gap: var(--r20-sp-7);
+  margin-bottom: var(--r20-sp-6);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-heading-identity {
+  gap: var(--r20-sp-6);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-portrait.small {
+  inline-size: calc(var(--r20-sp-9) * 2);
+  block-size: calc(var(--r20-sp-9) * 2);
+  border: var(--r20-bw-2) solid var(--r20-backdrop);
+  border-radius: var(--r20-r-1);
+  box-shadow: var(--r20-shadow-1);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-portrait-edit {
+  border-radius: 50%;
+  background: var(--r20-sheet-red);
+  color: #ffffff;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-heading h1 {
+  margin: 0;
+  color: var(--r20-sheet-title);
+  font-family: var(--font-ui);
+  font-size: var(--r20-fs-36);
+  font-weight: 800;
+  letter-spacing: var(--r20-track-btn);
+  font-variant-caps: small-caps;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-heading p {
+  margin: var(--r20-sp-2) 0 0;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-heading-line {
+  color: var(--text);
+  font-size: var(--r20-fs-18);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-heading .toolbar {
+  gap: var(--r20-sp-4);
+}
+/* The band: ABILITIES as one panel of six columns with thin dividers (S9); each ability's
+   modifier in a #353535 square inside a #5D5D5D rim, the score on a dark badge over its
+   bottom edge, the name above in white. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-band {
+  gap: var(--r20-sp-5);
+  margin-block: var(--r20-sp-6) var(--r20-sp-7);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-band .shp-abilities {
+  gap: 0;
+  padding: var(--r20-sp-4) 0;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-band
+  .shp-ability
+  + .shp-ability {
+  border-left: var(--r20-bw-1) solid var(--r20-edge);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-ability-box {
+  gap: var(--r20-sp-3);
+  min-height: 0;
+  height: 100%;
+  padding: var(--r20-sp-2);
+  border: 0;
+  border-radius: var(--r20-r-1);
+  background: transparent;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-ability-box:not(.is-static):hover {
+  background: var(--r20-s3);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-ability-name {
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: var(--r20-fs-16);
+  font-weight: 800;
+  letter-spacing: var(--r20-track-btn);
+  font-variant-caps: small-caps;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-ability-box
+  strong {
+  display: grid;
+  place-items: center;
+  width: calc(var(--r20-sp-9) + var(--r20-sp-4));
+  height: calc(var(--r20-sp-9) + var(--r20-sp-4));
+  border: var(--r20-bw-2) solid var(--r20-tile-edge);
+  border-radius: var(--r20-r-1);
+  background: var(--r20-s2);
+  font-size: var(--r20-fs-24);
+  font-weight: 800;
+  line-height: var(--r20-lh-solid);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-ability-box
+  small {
+  min-width: 0;
+  margin-top: calc(-1 * var(--r20-sp-5));
+  padding: 0 var(--r20-sp-3);
+  border: var(--r20-bw-1) solid var(--r20-tile-edge);
+  border-radius: var(--r20-r-1);
+  background: var(--r20-sheet-chip);
+  color: var(--text);
+  font-size: var(--r20-fs-13);
+  font-weight: 700;
+  line-height: var(--r20-lh-body);
+}
+/* Proficiency bonus, speed and inspiration: small panels on one grid — a two-line title row on
+   the top edge, the big value centred in the middle row, a foot row for the words under it —
+   so the four values share a line (R20-07). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  [data-shp-stat="pb"]
+  .shp-pill,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-vitals
+  .stat:not(.character-hp),
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  .character-inspiration {
+  display: grid;
+  grid-template-rows:
+    calc(2 * var(--r20-lh-tight) * var(--r20-fs-13)) minmax(0, 1fr)
+    calc(var(--r20-lh-body) * var(--r20-fs-13));
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  align-items: center;
+  gap: 0;
+  padding: var(--r20-sp-4);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  [data-shp-stat="pb"]
+  .shp-pill
+  > :first-child,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-vitals
+  .stat:not(.character-hp)
+  > :first-child {
+  align-self: start;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  .character-inspiration {
+  align-items: start;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  .character-inspiration
+  > span:first-child {
+  align-self: center;
+  margin: 0;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  [data-shp-stat="pb"]
+  .shp-pill
+  > strong,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-vitals
+  .stat:not(.character-hp)
+  > strong {
+  grid-row: 2;
+  margin: 0;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-pill strong,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-vitals
+  .stat
+  > strong {
+  font-family: var(--font-ui);
+  font-size: var(--r20-fs-24);
+  font-weight: 800;
+  line-height: var(--r20-lh-tight);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-vitals
+  .stat
+  > small {
+  color: var(--muted);
+  font-size: var(--r20-fs-13);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-inspiration {
+  color: var(--r20-sheet-title);
+  font-family: var(--font-ui);
+  font-weight: 800;
+  letter-spacing: var(--r20-track-btn);
+  font-variant-caps: small-caps;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-inspiration
+  > span {
+  color: var(--r20-sheet-title);
+  font-size: var(--r20-fs-24);
+  letter-spacing: 0;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-inspiration:hover {
+  background: var(--r20-s3);
+}
+/* Hit points (S8): big «current / max» over the green bar on its pale track; Heal and Damage
+   as #353535 squares with green and red words; the amount field between them. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .character-hp {
+  gap: var(--r20-sp-2);
+  padding: var(--r20-sp-4) var(--r20-sp-5);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-hp-value
+  strong {
+  font-size: var(--r20-fs-36);
+  font-weight: 800;
+  line-height: var(--r20-lh-solid);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-hp-value
+  small {
+  color: var(--muted);
+  font-size: var(--r20-fs-18);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .character-hp-temp {
+  color: var(--muted);
+  font-size: var(--r20-fs-13);
+  font-weight: 700;
+  font-variant-caps: small-caps;
+  letter-spacing: var(--r20-track-btn);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-hp
+  progress {
+  height: var(--r20-sp-3);
+  border: 0;
+  border-radius: 0;
+  background: var(--r20-green-track);
+  appearance: none;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-hp
+  progress::-webkit-progress-bar {
+  background: var(--r20-green-track);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-hp
+  progress::-webkit-progress-value {
+  background: var(--r20-green);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-hp
+  progress::-moz-progress-bar {
+  background: var(--r20-green);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .dt-hp-row {
+  gap: var(--r20-sp-2);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .dt-hp-row .button {
+  border-color: var(--r20-s2);
+  border-radius: var(--r20-r-1);
+  background: var(--r20-s2);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .dt-hp-row .dt-heal {
+  color: var(--r20-heal);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .dt-hp-row
+  .dt-damage {
+  color: var(--r20-dmg);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .dt-hp-row
+  .button:hover:not(:disabled) {
+  border-color: var(--r20-tile-edge);
+  background: #404040;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .dt-amount {
+  padding: 0 var(--r20-sp-4);
+  border: var(--r20-bw-1) solid var(--r20-tile-edge);
+  border-radius: var(--r20-r-1);
+  background: var(--r20-sheet-panel);
+  color: var(--text);
+  font-size: var(--r20-fs-20);
+  font-weight: 800;
+}
+/* Saves, senses, skills (S11): rows without rules; the name in white, the ability as a dark
+   chip, the bonus plain — boxed in red when proficient — and the proficiency ring at the end. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-derived
+  .shp-col {
+  padding: var(--r20-sp-5) var(--r20-sp-6) var(--r20-sp-6);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-row {
+  gap: var(--r20-sp-4);
+  border-bottom-color: transparent;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-row-name {
+  gap: var(--r20-sp-1) var(--r20-sp-4);
+  color: var(--text);
+  font-weight: 700;
+}
+/* Saves, senses and skills: the dense list of S11 — the name at 14/700 and its ability chip on
+   one line (R20-08). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-derived
+  .shp-row {
+  gap: var(--r20-sp-3);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-derived
+  .shp-value {
+  padding-inline: var(--r20-sp-3);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-derived
+  .shp-row-name
+  small {
+  padding-inline: var(--r20-sp-2);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-derived
+  .shp-row-name {
+  flex-wrap: nowrap;
+  gap: var(--r20-sp-2);
+  font-size: var(--r20-fs-14);
+  white-space: nowrap;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-row-name small {
+  padding: 0 var(--r20-sp-3);
+  border-radius: var(--r20-r-1);
+  background: var(--r20-sheet-chip);
+  color: #a9a9a9;
+  font-size: var(--r20-fs-13);
+  font-weight: 700;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-prof {
+  order: 3;
+  width: var(--r20-sp-6);
+  height: var(--r20-sp-6);
+  border: var(--r20-bw-2) dashed var(--r20-tile-edge);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-prof.is-on {
+  border: var(--r20-bw-2) solid var(--r20-prof-line);
+  background: var(--r20-prof-dot);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-prof.is-expert {
+  box-shadow:
+    0 0 0 var(--r20-bw-2) var(--r20-sheet-panel),
+    0 0 0 calc(2 * var(--r20-bw-2)) var(--r20-prof-line);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-value {
+  padding: var(--r20-sp-2) var(--r20-sp-4);
+  border: var(--r20-bw-2) solid transparent;
+  border-radius: var(--r20-r-1);
+  background: transparent;
+  color: var(--text);
+  font-size: var(--r20-fs-18);
+  font-weight: 800;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-value:hover:not(:disabled) {
+  border-color: var(--r20-tile-edge);
+  background: var(--r20-s2);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-row:has(> .shp-prof.is-on)
+  > .shp-value {
+  border-color: var(--r20-prof-line);
+  background: var(--r20-prof-fill);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-star {
+  padding: 0;
+  color: var(--r20-dim);
+  font-size: var(--r20-fs-18);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-star[aria-pressed="true"] {
+  color: var(--r20-sheet-title);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-facts li {
+  border-bottom-color: transparent;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-training dt {
+  color: var(--r20-sheet-title);
+  font-family: var(--font-ui);
+  font-size: var(--r20-fs-14);
+  font-weight: 800;
+  letter-spacing: var(--r20-track-btn);
+  font-variant-caps: small-caps;
+}
+/* Roll mode tabs (S1 «Public | Whisper | Automatic»): slanted parallelograms side by side, the
+   chosen one filled #430D0D with white small capitals. The shape is a pseudo-element, so the
+   button keeps its focus ring. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-mode {
+  gap: 0;
+  border: 0;
+  border-radius: 0;
+  overflow: visible;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-mode button {
+  position: relative;
+  isolation: isolate;
+  gap: var(--r20-sp-3);
+  padding: 0 var(--r20-sp-7);
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font-ui);
+  font-size: var(--r20-fs-16);
+  font-weight: 800;
+  letter-spacing: var(--r20-track-btn);
+  font-variant-caps: small-caps;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-mode
+  button
+  + button {
+  margin-left: calc(-1 * var(--r20-sp-3));
+  border-left: 0;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-mode
+  button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--r20-s1);
+  clip-path: polygon(var(--r20-sp-5) 0, 100% 0, calc(100% - var(--r20-sp-5)) 100%, 0 100%);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-mode
+  button:hover::before {
+  background: var(--r20-s2);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-mode
+  button[aria-pressed="true"] {
+  background: transparent;
+  color: #ffffff;
+}
+/* The chosen tab also carries a 3 px light-red foot inside its slant, so it reads without its
+   hue (R20-02). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-mode
+  button[aria-pressed="true"]::before {
+  background: linear-gradient(
+    to top,
+    var(--r20-sheet-light) calc(var(--r20-bw-2) + var(--r20-bw-1)),
+    var(--r20-prof-fill) 0
+  );
+}
+/* Level and experience: a thin gold bar. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-xpbar {
+  border-radius: 0;
+  background: var(--r20-sheet-chip);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-xpbar > span {
+  background: var(--r20-sheet-title);
+}
+/* Effects: the sheet's toggles — a pill track that turns red with a white knob (S16). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-switch {
+  border-color: transparent;
+  gap: var(--r20-sp-4);
+  padding: var(--r20-sp-3) var(--r20-sp-4);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-switch:hover {
+  background: var(--r20-s3);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-switch-knob {
+  background: var(--r20-tile-edge);
+  box-shadow: none;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-switch-knob::after {
+  background: #ffffff;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-switch[aria-checked="true"],
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-switch.is-static.is-on {
+  border-color: transparent;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-switch[aria-checked="true"]
+  .shp-switch-knob,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-switch.is-static.is-on
+  .shp-switch-knob {
+  background: var(--r20-prof-dot);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-switch[aria-checked="true"]
+  .shp-switch-knob::after,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-switch.is-static.is-on
+  .shp-switch-knob::after {
+  background: #ffffff;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-row-label {
+  color: var(--r20-sheet-title);
+  font-weight: 800;
+  letter-spacing: var(--r20-track-btn);
+  font-variant-caps: small-caps;
+}
+/* Initiative, Armor Class, Defenses (S1, S10): Initiative is the red filled button
+   («INITIATIVE +3», #651313); the armour class sits in a shield outline. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-stats
+  .shp-pill {
+  gap: var(--r20-sp-2);
+  padding: var(--r20-sp-4) var(--r20-sp-6);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  [data-shp-stat="initiative"]
+  .shp-pill {
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: var(--r20-sp-4);
+  border-color: var(--r20-sheet-red);
+  background: var(--r20-sheet-red);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  [data-shp-stat="initiative"]
+  .shp-pill:hover {
+  border-color: var(--r20-sheet-save);
+  background: var(--r20-sheet-save);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  [data-shp-stat="initiative"]
+  .shp-pill-label,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  [data-shp-stat="initiative"]
+  .shp-pill
+  strong {
+  flex: none;
+  color: #ffffff;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  [data-shp-stat="defenses"]
+  .shp-pill
+  strong {
+  font-size: var(--r20-fs-16);
+  font-weight: 600;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  [data-shp-stat="ac"]
+  .shp-pill
+  strong {
+  display: grid;
+  place-items: center;
+  width: calc(var(--r20-sp-9) + var(--r20-sp-2));
+  height: calc(var(--r20-sp-9) + var(--r20-sp-4));
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 52 56'%3E%3Cpath fill='none' stroke='%23e6e6e6' stroke-width='2' stroke-linejoin='round' d='M26 2 49 9V27C49 40 39 49 26 54 13 49 3 40 3 27V9Z'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+  font-size: var(--r20-fs-20);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-dot {
+  background: var(--r20-prof-line);
+}
+/* Conditions (S1 side card): the grey «No Conditions», exhaustion as six small squares. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-conditions {
+  padding: var(--r20-sp-5) var(--r20-sp-6);
+}
+
+/* Section tabs (S1): COMBAT · SPELLS · INVENTORY in bold small capitals, each over its own
+   rule — the open one gold over a gold line (#997C4F), the others white over a thin grey. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .character-tabs {
+  gap: var(--r20-sp-6);
+  margin-bottom: var(--r20-sp-6);
+  border-bottom: 0;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tabs
+  button {
+  min-height: var(--r20-ctl);
+  padding: var(--r20-sp-3) var(--r20-sp-1);
+  border-bottom: var(--r20-bw-1) solid var(--r20-tile-edge);
+  border-radius: 0;
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: var(--r20-fs-18);
+  font-weight: 800;
+  letter-spacing: var(--r20-track-btn);
+  font-variant-caps: small-caps;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tabs
+  button:hover {
+  background: transparent;
+  color: var(--r20-sheet-title);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tabs
+  button.active {
+  border-bottom: calc(var(--r20-bw-2) + var(--r20-bw-1)) solid var(--r20-sheet-tab-line);
+  background: transparent;
+  color: var(--r20-sheet-title);
+}
+/* «Tutte» beside the section tabs: the tabs' bold small capitals and their tracking. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .character-tabs-all {
+  font-weight: 800;
+  letter-spacing: var(--r20-track-btn);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .character-turn {
+  gap: var(--r20-sp-5);
+  padding: var(--r20-sp-4) var(--r20-sp-6);
+}
+/* Actions (S13, S18): filters as dark chips, the chosen one in the roll-mode red; each group
+   under a #0C0C0C header band with its gold small-caps title; rows with the hit in pale gold. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-chips {
+  gap: var(--r20-sp-3);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-chip,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .spl-chip,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .invp-chip,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-subtabs
+  button {
+  min-height: var(--r20-ctl);
+  padding: 0 var(--r20-sp-5);
+  border: var(--r20-bw-1) solid var(--r20-tile-edge);
+  border-radius: var(--r20-r-1);
+  background: var(--r20-sheet-chip);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: var(--r20-fs-16);
+  font-weight: 800;
+  letter-spacing: var(--r20-track-btn);
+  font-variant-caps: small-caps;
+}
+/* The chosen filter: the sheet's solid red selection (S1, S11) inside a 2 px light-red rim,
+   led by the proficiency dot — a shape and a lighter fill, never the hue alone (R20-02). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-chip[aria-pressed="true"],
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .spl-chip[aria-pressed="true"],
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .invp-chip.active,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-subtabs
+  button.active {
+  border-color: var(--r20-sheet-light);
+  background: var(--r20-prof-line);
+  color: #ffffff;
+  box-shadow: inset 0 0 0 var(--r20-bw-1) var(--r20-sheet-light);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-chip[aria-pressed="true"]::before,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .spl-chip[aria-pressed="true"]::before,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .invp-chip.active::before,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-subtabs
+  button.active::before {
+  content: "";
+  display: inline-block;
+  width: var(--r20-sp-4);
+  height: var(--r20-sp-4);
+  margin-inline-end: var(--r20-sp-3);
+  border-radius: 50%;
+  background: #ffffff;
+  vertical-align: middle;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-action-group
+  h3 {
+  margin: var(--r20-sp-6) 0 0;
+  padding: var(--r20-sp-3) var(--r20-sp-4);
+  border-bottom: 0;
+  background: var(--r20-page);
+  color: var(--r20-sheet-title);
+  font-family: var(--font-ui);
+  font-size: var(--r20-fs-16);
+  font-weight: 800;
+  letter-spacing: var(--r20-track-btn);
+  font-variant-caps: small-caps;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .sm-sheet h4 {
+  margin: var(--r20-sp-6) 0 var(--r20-sp-3);
+  color: var(--r20-sheet-title);
+  font-family: var(--font-ui);
+  font-size: var(--r20-fs-16);
+  font-weight: 800;
+  letter-spacing: var(--r20-track-btn);
+  font-variant-caps: small-caps;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-action-group
+  h4 {
+  color: #cecece;
+  font-family: var(--font-ui);
+  font-weight: 800;
+  font-variant-caps: small-caps;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-action {
+  gap: var(--r20-sp-4);
+  padding: var(--r20-sp-4) 0;
+  border-bottom: var(--r20-bw-1) solid #252525;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-action
+  .shp-row-name {
+  font-size: var(--r20-fs-16);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-action-copy p {
+  color: #b8b8b8;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-action
+  .shp-value {
+  color: var(--r20-hit);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-econ,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-prop {
+  border-color: transparent;
+  border-radius: var(--r20-r-1);
+  background: var(--r20-sheet-chip);
+  color: #cecece;
+}
+
+/* ------------------------------------------------------------------ Tavolo (Jumpgate)
+   Jumpgate (T3, T6): a solid black tool column glued to the left edge, the map from that edge
+   to the sidebar with only small glass controls (rgba(0,0,0,.6)) floating on it, the #1F1F1F
+   sidebar behind a black divider. The party portraits become the column's LAYERS buttons
+   (rounded squares, the selected one lit in its own green, a tiny caps label under each); the
+   turn order is Roll20's floating Turn Order window (T15); the hotbar is the player plate and
+   the macro quick bar of purple chips (T44); End turn is the window's «next» promoted to the
+   filled purple. */
+/* The map's grid: Roll20's thin light lines. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) #map-grid path {
+  stroke: #ffffff;
+  stroke-opacity: 0.16;
+}
+/* Tokens (T18, T20): the round art with a thin light rim on a black keyline, hostiles in Bar 3
+   red (the app keeps their dashed ring: shape and colour); the selection in Roll20's light
+   blue; the HP bar as a Bar 1 green pill above the token; the name in white with a black
+   outline under it. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  #battle-map
+  .map-token
+  .token-display
+  > circle:first-child {
+  stroke: #e6e6e6;
+  stroke-width: 2;
+  filter: drop-shadow(0 0 1px #000000) drop-shadow(0 1px 2px rgb(0 0 0 / 0.6));
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  #battle-map
+  .map-token.hostile
+  .token-display
+  > circle:first-child {
+  stroke: var(--r20-bar3);
+  stroke-width: 3;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) #battle-map .selection-ring {
+  stroke: var(--r20-select);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 1px #000000) drop-shadow(0 0 1px #000000);
+}
+/* Keyboard focus on a token keeps the app's own 3 px dashed ring (it replaces the outline). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  #battle-map
+  .map-token:focus-visible
+  .selection-ring {
+  stroke-width: 3;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  #battle-map
+  .map-token
+  .token-display
+  > .token-name {
+  fill: #ffffff;
+  font-family: var(--font-ui);
+  font-size: var(--r20-fs-13);
+  font-weight: 800;
+  stroke: #000000;
+  stroke-width: 3px;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  #battle-map
+  .map-token
+  .token-display
+  > rect[fill="#111b25"],
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  #battle-map
+  .map-token
+  .token-display
+  > rect[fill="#8fb48a"] {
+  y: -38px;
+  height: 8px;
+  rx: 4px;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  #battle-map
+  .map-token
+  .token-display
+  > rect[fill="#111b25"] {
+  fill: rgb(0 0 0 / 0.6);
+  stroke: #000000;
+  stroke-width: 1;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  #battle-map
+  .map-token
+  .token-display
+  > rect[fill="#8fb48a"] {
+  fill: var(--r20-bar1);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  #battle-map
+  .map-token
+  .token-display
+  > .token-status-label {
+  transform: translateY(-10px);
+  fill: #ffffff;
+  stroke: #000000;
+  font-family: var(--font-ui);
+  font-weight: 800;
+}
+/* The token's badge as a Roll20 bubble: dark fill, a coloured ring, the value in white. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) #battle-map .token-status > circle {
+  fill: var(--r20-s1);
+  stroke: var(--r20-bar2);
+  stroke-width: 2;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  #battle-map
+  .token-status[data-token-status="dying"]
+  > circle,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  #battle-map
+  .token-status[data-token-status="dead"]
+  > circle {
+  stroke: var(--r20-bar3);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) #battle-map .token-status > text {
+  fill: #ffffff;
+  font-family: var(--font-ui);
+  font-weight: 800;
+}
+/* Doors and windows: Roll20's white-framed door squares on the wall (T44). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) #battle-map .door-controls {
+  --door-fill: rgb(0 0 0 / 0.75);
+  --door-rim: #ffffff;
+  --door-ink: #ffffff;
+}
+
+@media (min-width: 721px) {
+  /* The tool column: solid #0C0C0C, full height, glued to the left edge (≈ 3 % of the
+     window), drawn behind the tools and the party, over the map. */
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .table-stage::before {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: var(--r20-col);
+    background: var(--r20-page);
+    pointer-events: none;
+  }
+  /* Jumpgate's map runs from the tool column to the sidebar and to the bottom edge, with the
+     page row and the zoom floating on its art (T3, T6; R20-04). The scene fits up to the
+     sidebar — the zoom is a glass pill over the art, as in Roll20. The hotbar band's room
+     moves from the map box's margin into its padding: the SVG fits the scene in its content
+     box (token-menu.mjs mapViewport), so «fit» still keeps the scene clear of the hotbar and
+     of the dice row above it (160 px: today's 152 plus the 8 px the taller fitted scene would
+     lose under the dice row; code-map §b6), while the map itself — panning, zooming,
+     presses — reaches the bottom edge under the glass bar. */
+  :root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-stage #battle-map {
+    margin: 0 0 0 var(--r20-col);
+    padding: 0 0 calc(4 * var(--r20-ctl));
+  }
+  /* The session's notices on the map (the DM's «Sessione non avviata»…) stack left of the
+     zoom pill, which now floats on the scene's right edge (code-map §b6). */
+  :root[data-direction="roll20"]:not([data-pref-theme="light"]) .session-view-hud-stack {
+    right: calc(var(--r20-ctl) + 2 * var(--r20-sp-6) + var(--r20-sp-2));
+    max-width: min(
+      300px,
+      calc(100% - 2 * (var(--r20-ctl) + 2 * var(--r20-sp-6) + var(--r20-sp-2)))
+    );
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-stage > .map-toolbar {
+    left: var(--r20-sp-2);
+  }
+  /* The scene plate floats on the map beside the column, a glass strip. */
+  :root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout > .table-topline {
+    gap: var(--r20-sp-3) var(--r20-sp-5);
+    margin: var(--r20-sp-4) 0 0 calc(var(--r20-col) + var(--r20-sp-5));
+    padding: var(--r20-sp-2) var(--r20-sp-2) var(--r20-sp-2) var(--r20-sp-5);
+    border: 0;
+    border-radius: var(--r20-r-2);
+    background: var(--r20-glass);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    box-shadow: var(--r20-shadow-1);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .table-topline
+    > .toolbar {
+    gap: var(--r20-sp-2);
+  }
+  /* Turn order: Roll20's Turn Order window (T15) — a floating #1F1F1F window beside the
+     tool column, one row per combatant (round token, name), the current row filled with the
+     window's green (#094424) over a lighter line. */
+  :root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout > .initiative {
+    justify-self: start;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    width: var(--r20-turn-w);
+    max-width: none;
+    margin-left: calc(var(--r20-col) + var(--r20-sp-5));
+    padding: var(--r20-sp-2) 0;
+    border: 0;
+    border-radius: var(--r20-r-2);
+    background: var(--r20-s1);
+    box-shadow: var(--r20-shadow-2);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token,
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token.current {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: var(--r20-sp-4);
+    width: auto;
+    min-height: var(--r20-ctl);
+    padding: 0 var(--r20-sp-5);
+    border: 0;
+    border-bottom: var(--r20-bw-1) solid transparent;
+    border-radius: 0;
+    background: transparent;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    color: var(--text);
+    font-size: var(--r20-fs-14);
+    font-weight: 600;
+    text-align: left;
+    box-shadow: none;
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token:has(.token-dot.hostile),
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token.current:has(.token-dot.hostile) {
+    box-shadow: none;
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token:hover {
+    background: var(--r20-s2);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token.current {
+    border-bottom-color: var(--r20-turn-on-line);
+    background: var(--r20-turn-on);
+    color: #ffffff;
+    font-weight: 800;
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .token-dot,
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token.current
+    .token-dot {
+    flex: none;
+    width: calc(var(--r20-sp-7) + var(--r20-sp-2));
+    height: calc(var(--r20-sp-7) + var(--r20-sp-2));
+    font-size: var(--r20-fs-14);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token
+    > span:last-child {
+    display: flex;
+    flex: 1 1 auto;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--r20-sp-4);
+    min-width: 0;
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token
+    small {
+    flex: none;
+    color: var(--r20-p8);
+    font-size: var(--r20-fs-12);
+    font-weight: 700;
+  }
+  /* A tool group's flyout is open beside the column: the window steps right of it. */
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout:has(.map-subtools:not([hidden]))
+    > .initiative {
+    margin-left: calc(2 * var(--r20-col) + var(--r20-sp-5));
+  }
+  /* The map's status line: a glass label. */
+  :root[data-direction="roll20"]:not([data-pref-theme="light"]) .map-container > .map-caption {
+    gap: var(--r20-sp-5);
+    padding: var(--r20-sp-3) var(--r20-sp-5);
+    border: 0;
+    border-radius: var(--r20-r-2);
+    background: var(--r20-glass);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    box-shadow: none;
+    color: #ffffff;
+    font-size: var(--r20-fs-13);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    .map-caption
+    > span:first-child {
+    color: #ffffff;
+    font-weight: 700;
+  }
+  /* Zoom: Roll20's vertical glass zoom control, at the map's top right under the page
+     button (T3, T6). */
+  :root[data-direction="roll20"]:not([data-pref-theme="light"]) .map-container > .map-zoom {
+    top: calc(var(--r20-sp-9) + var(--r20-sp-6) + var(--r20-sp-2));
+    bottom: auto;
+    right: var(--r20-sp-6);
+  }
+  /* The hotbar band at the bottom left, beside the column: the player plate, then the macro
+     quick bar (T44). */
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar {
+    grid-template-columns:
+      var(--r20-col) auto fit-content(900px) minmax(var(--r20-sp-6), 1fr)
+      var(--table-panel-width);
+  }
+  /* Two rows of 44 px macro chips inside 6 px all round: 106 px, 6 px off the bottom edge —
+     the hotbar stays 112 px (≤ 120). */
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-identity,
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-center {
+    margin-bottom: var(--r20-sp-3);
+    padding: var(--r20-sp-3) var(--r20-sp-4);
+    border: var(--r20-bw-1) solid var(--r20-s2);
+    background: var(--r20-glass);
+    box-shadow: var(--r20-shadow-1);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-identity {
+    gap: var(--r20-sp-4);
+    margin-left: var(--r20-sp-5);
+    border-right: var(--r20-bw-1) solid var(--r20-s2);
+    border-radius: var(--r20-r-2);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-center {
+    gap: var(--r20-sp-4);
+    margin-left: var(--r20-sp-4);
+    border-radius: var(--r20-r-2);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .hotbar-name
+    > strong {
+    font-family: var(--font-display);
+    font-size: var(--r20-fs-18);
+    font-weight: 900;
+  }
+  /* Above the bar, the turn's resources and slots on a glass strip. */
+  :root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-hotbar .hotbar-resources,
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-bar-heading {
+    border: var(--r20-bw-1) solid var(--r20-s2);
+    border-radius: var(--r20-r-2);
+    background: var(--r20-glass);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    box-shadow: var(--r20-shadow-1);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-hotbar .hotbar-resources {
+    left: 0;
+    bottom: calc(100% + var(--r20-sp-3));
+    gap: var(--r20-sp-5);
+    padding: var(--r20-sp-2) var(--r20-sp-5);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .action-dock.table-hotbar
+    .hotbar-resources
+    .resources {
+    gap: var(--r20-sp-5);
+    color: #ffffff;
+    font-size: var(--r20-fs-13);
+    font-weight: 600;
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-bar-heading {
+    bottom: calc(100% + var(--r20-sp-3));
+    gap: var(--r20-sp-3);
+    padding: 0 var(--r20-sp-5);
+    color: #ffffff;
+  }
+  /* The sidebar's foot: the turn commands as the sidebar's icon cells, End turn as the Turn
+     Order's «next» promoted to the filled purple (the role of Roll20's Send). */
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar {
+    grid-template-columns: repeat(3, var(--r20-ctl));
+    grid-auto-rows: var(--r20-ctl);
+    gap: var(--r20-sp-3);
+    padding: var(--r20-sp-5) var(--r20-sp-6);
+    border-top: var(--r20-bw-1) solid #000000;
+    border-left: var(--r20-bw-1) solid #000000;
+    background: var(--r20-s1);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar:has(> [data-table="end-turn"]) {
+    grid-template-columns: repeat(3, var(--r20-ctl)) var(--r20-endturn-w);
+    column-gap: var(--r20-sp-3);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar
+    > .button.primary[data-table="end-turn"] {
+    width: var(--r20-endturn-w);
+    height: auto;
+    padding: var(--r20-sp-3) var(--r20-sp-4);
+    border-width: var(--r20-bw-1);
+    border-radius: var(--r20-r-2);
+    font-size: var(--r20-fs-16);
+    line-height: var(--r20-lh-tight);
+    box-shadow: var(--r20-shadow-1);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout.is-collapsed
+    > .action-dock.table-hotbar
+    > .toolbar {
+    margin: 0 var(--r20-sp-6) var(--r20-sp-5) 0;
+    padding: var(--r20-sp-3);
+    border: var(--r20-bw-1) solid var(--r20-s2);
+    border-radius: var(--r20-r-2);
+    background: var(--r20-glass);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) {
+  --r20-turn-w: 220px;
+  --r20-endturn-w: 96px;
+}
+/* Tool column buttons: bare #E6E6E6 glyphs on black; the active tool on Roll20's #353535
+   tile inside a 2 px #5D5D5D rim with 12 px corners; a group's flyout corner mark. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout .map-toolbar,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout .map-subtools {
+  gap: var(--r20-sp-2);
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout .map-subtools {
+  top: 0;
+  left: calc(100% + var(--r20-sp-2));
+  padding: var(--r20-sp-2);
+  border-radius: 0 var(--r20-r-2) var(--r20-r-2) 0;
+  background: var(--r20-page);
+  box-shadow: var(--r20-shadow-2);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout .map-tool {
+  border: var(--r20-bw-2) solid transparent;
+  border-radius: var(--r20-r-3);
+  background: transparent;
+  color: var(--text);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout .map-tool:hover {
+  background: var(--r20-s3);
+  color: #ffffff;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .map-toolbar
+  .map-tool.active,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .map-subtools
+  .map-tool.active {
+  border-color: var(--r20-tile-edge);
+  background: var(--r20-s2);
+  color: #ffffff;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .map-tool[aria-pressed="true"]:not(.active) {
+  border-color: var(--r20-p5);
+  background: var(--r20-p2);
+  color: #ffffff;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout .map-tool-group::after {
+  right: var(--r20-sp-1);
+  bottom: var(--r20-sp-1);
+  border-width: 3px;
+  opacity: 1;
+}
+/* Floating map controls (zoom; the session's row): Roll20's glass — rgba(0,0,0,.6) with a
+   thin #A5A1A7 rim and white glyphs (the page button, the zoom pill). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout .map-zoom {
+  gap: var(--r20-sp-1);
+  padding: var(--r20-sp-2);
+  border: var(--r20-bw-1) solid var(--r20-glass-line);
+  border-radius: var(--r20-r-3);
+  background: var(--r20-glass);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout .map-zoom .map-tool {
+  border-radius: var(--r20-r-2);
+  color: #ffffff;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .map-zoom
+  .map-tool:hover {
+  background: rgb(255 255 255 / 0.14);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .session-view-hud-bar {
+  gap: var(--r20-sp-3);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .session-view-hud-button {
+  gap: var(--r20-sp-3);
+  padding: 0 var(--r20-sp-5);
+  border: var(--r20-bw-1) solid var(--r20-glass-line);
+  border-radius: var(--r20-r-2);
+  background: var(--r20-glass);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  color: #ffffff;
+  font-size: var(--r20-fs-14);
+  font-weight: 700;
+  box-shadow: none;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .session-view-hud-button:hover {
+  background: rgb(0 0 0 / 0.85);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .session-view-hud-button.is-icon {
+  padding: 0;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .session-view-chip {
+  gap: var(--r20-sp-3);
+  padding: var(--r20-sp-4) var(--r20-sp-5);
+  border: var(--r20-bw-1) solid var(--r20-s2);
+  border-radius: var(--r20-r-2);
+  background: var(--r20-s1);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: var(--r20-shadow-2);
+  font-size: var(--r20-fs-14);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .session-view-chip.is-warn {
+  border-color: var(--r20-yellow);
+  background: var(--r20-s1);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .session-view-chip
+  .session-view-hud-button {
+  border-color: transparent;
+  background: transparent;
+  color: var(--r20-p6);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .session-view-chip
+  .session-view-hud-button:hover {
+  background: rgb(169 128 189 / 0.16);
+}
+/* «Tocca a te»: a Grimoire notice — the dark surface, a purple rim, Nunito words. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .ct-alert,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .ct-alert-turn,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .ct-alert-initiative {
+  border: var(--r20-bw-1) solid var(--r20-p5);
+  border-radius: var(--r20-r-3);
+  background: var(--r20-s1);
+  box-shadow: var(--r20-shadow-3);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .ct-alert-turn strong {
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-size: var(--r20-fs-24);
+  font-weight: 900;
+}
+/* Turn order tokens: round, a Bar 1 green rim for allies, a dashed Bar 3 red one for
+   hostiles (shape and colour; a colour-vision palette brings its own hostile colour). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout .initiative .token-dot {
+  border: var(--r20-bw-2) solid var(--r20-bar1);
+  box-shadow: 0 0 0 var(--r20-bw-1) #000000;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .initiative
+  .token-dot.hostile {
+  border: var(--r20-bw-2) dashed var(--pref-hostile-stroke, var(--r20-bar3));
+}
+/* Party: the column's LAYERS buttons (T6, T3) — 40 px rounded squares on #252525, the
+   selected one lit in Roll20's own green (#30673C, rim #598563), the tiny capitals under. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout .table-party {
+  gap: var(--r20-sp-4);
+}
+@media (min-width: 721px) {
+  :root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout .table-party {
+    left: var(--r20-sp-2);
+    bottom: var(--r20-sp-6);
+  }
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout .table-party-member {
+  gap: var(--r20-sp-1);
+  width: var(--r20-ctl);
+  padding: 0;
+  border-radius: var(--r20-r-3);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout .table-party-portrait,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-party.is-compact
+  .table-party-portrait {
+  width: var(--r20-ctl);
+  height: var(--r20-ctl);
+  border: var(--r20-bw-2) solid var(--r20-s3);
+  border-radius: var(--r20-r-3);
+  background-color: var(--r20-s3);
+  box-shadow: none;
+  font-family: var(--font-display);
+  font-size: var(--r20-fs-18);
+  font-weight: 800;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-party-member:hover
+  .table-party-portrait {
+  border-color: var(--r20-tile-edge);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-party-member.is-selected
+  .table-party-portrait {
+  border-color: var(--r20-layer-on);
+  box-shadow:
+    0 0 0 var(--r20-bw-2) var(--r20-layer-on),
+    0 0 0 calc(var(--r20-bw-2) + var(--r20-bw-1)) var(--r20-layer-on-edge);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout .table-party-hp,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-party.is-compact
+  .table-party-hp {
+  width: var(--r20-ctl);
+  height: var(--r20-sp-2);
+  border-radius: var(--r20-r-pill);
+  background: var(--r20-s2);
+  box-shadow: none;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout .table-party-hp > span {
+  background: var(--r20-bar1);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout .table-party-name {
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #ffffff;
+  font-size: var(--r20-fs-13);
+  font-weight: 800;
+  line-height: var(--r20-lh-tight);
+  letter-spacing: var(--r20-track-caps);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout .table-party-status {
+  min-width: calc(var(--r20-sp-6) + var(--r20-sp-2));
+  height: calc(var(--r20-sp-6) + var(--r20-sp-2));
+  padding: 0 var(--r20-sp-2);
+  border: var(--r20-bw-2) solid var(--r20-bar2);
+  border-radius: var(--r20-r-pill);
+  background: var(--r20-s1);
+  color: #ffffff;
+  font-size: var(--r20-fs-12);
+}
+/* Player plate (hotbar identity): the name in Nunito, the HP as Roll20's green bar pill. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .hotbar-hp {
+  gap: var(--r20-sp-3);
+  border-radius: var(--r20-r-2);
+  color: #ffffff;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .hotbar-hp-bar {
+  height: var(--r20-sp-4);
+  border-radius: var(--r20-r-pill);
+  background: var(--r20-s2);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .hotbar-hp-bar
+  > span {
+  border-radius: var(--r20-r-pill);
+  background: var(--r20-bar1);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .hotbar-portrait {
+  border-radius: 50%;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .action-dock.table-hotbar
+  > .hotbar-identity
+  > div
+  > span {
+  color: var(--muted);
+  font-size: var(--r20-fs-13);
+}
+/* Spell slots: the sheet's red diamonds, filled while available (S16). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-hotbar .hotbar-slot-level > i {
+  width: var(--r20-sp-4);
+  height: var(--r20-sp-4);
+  border: var(--r20-bw-1) solid var(--r20-prof-line);
+  border-radius: 0;
+  background: transparent;
+  transform: rotate(45deg);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-hotbar
+  .hotbar-slot-level
+  > i.is-full {
+  background: var(--r20-prof-line);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-hotbar
+  .hotbar-slot-level
+  > small {
+  color: #ffffff;
+  font-weight: 700;
+}
+/* Page tabs: Grimoire's segmented control — a #252525 group, the open page a lighter tile. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout .hotbar-pages {
+  gap: var(--r20-sp-1);
+  padding: var(--r20-sp-1);
+  border-radius: var(--r20-r-2);
+  background: var(--r20-s3);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout .hotbar-page-tab {
+  min-height: var(--r20-ctl);
+  padding: 0 var(--r20-sp-5);
+  border: 0;
+  border-radius: var(--r20-r-2);
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font-ui);
+  font-size: var(--r20-fs-14);
+  font-weight: 700;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout .hotbar-page-tab:hover {
+  background: var(--r20-s2);
+  color: #ffffff;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .hotbar-page-tab.active {
+  background: #3d3d3d;
+  color: #ffffff;
+}
+/* Macro quick bar: one purple chip per action (#702C91, white words, small corners). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-hotbar .combat-actions {
+  gap: var(--r20-sp-2);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-action,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-dock
+  .sm-dock-toggle {
+  min-height: var(--r20-ctl);
+  gap: var(--r20-sp-3);
+  padding: 0 var(--r20-sp-5);
+  border: var(--r20-bw-1) solid var(--r20-p4);
+  border-radius: var(--r20-r-1);
+  background: var(--r20-p4);
+  color: #ffffff;
+  font-family: var(--font-ui);
+  font-size: var(--r20-fs-13);
+  font-weight: 600;
+  letter-spacing: 0;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-action:hover,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-action.active,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-dock
+  .sm-dock-toggle:hover {
+  border-color: var(--r20-p7);
+  background: var(--r20-p5);
+  color: #ffffff;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-action.is-group-start:not(:first-child) {
+  margin-left: var(--r20-sp-3);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-action::before {
+  color: var(--r20-p8);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-action.is-blocked,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-action.is-blocked:hover {
+  border-color: var(--r20-s2);
+  background: var(--r20-s2);
+  color: var(--text);
+}
+/* Keyboard focus inside the bar and the turn order: the 3 px ring drawn inside the control,
+   as Grimoire's inset focus ring, so the scrolling strip and the window's clipped rows never
+   cut it (R20-03). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  :is(.combat-action, .sm-dock-toggle):focus-visible,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  > .initiative
+  .initiative-token:focus-visible {
+  outline-offset: calc(-1 * (var(--r20-bw-2) + var(--r20-bw-1)));
+}
+@media (min-width: 721px) {
+  /* Every macro chip one height (44 px: a one-line chip and a chip with its group tag alike),
+     two rows in the bar (R20-07). */
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-action,
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-dock
+    .sm-dock-toggle {
+    min-height: calc(var(--r20-ctl) + var(--r20-sp-2));
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-hotbar .combat-actions {
+    max-height: calc(
+      2 * (var(--r20-ctl) + var(--r20-sp-2)) + var(--r20-sp-2) + 2 * var(--r20-sp-1)
+    );
+    padding: var(--r20-sp-1);
+    margin: calc(-1 * var(--r20-sp-1));
+  }
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout .combat-filters {
+  gap: var(--r20-sp-1);
+  padding: var(--r20-sp-1);
+  border: 0;
+  border-radius: var(--r20-r-2);
+  background: var(--r20-s3);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout .combat-filter {
+  border-radius: var(--r20-r-1);
+  color: var(--text);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout .combat-filter.active {
+  background: #3d3d3d;
+  color: #ffffff;
+}
+/* The foot's commands: the sidebar's icon cells (#E6E6E6 glyph, #353535 tile on hover, the
+   chosen one filled lilac #8D56A7). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  > .action-dock.table-hotbar
+  > .toolbar
+  > .button:not(.primary) {
+  border: var(--r20-bw-1) solid transparent;
+  border-radius: var(--r20-r-1);
+  background: transparent;
+  color: var(--text);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  > .action-dock.table-hotbar
+  > .toolbar
+  > .button:not(.primary):hover:not(:disabled) {
+  background: var(--r20-s2);
+  color: #ffffff;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  > .action-dock.table-hotbar
+  > .toolbar
+  > .button.active {
+  border-color: var(--r20-p7);
+  background: var(--r20-p5);
+  color: #ffffff;
+}
+/* Sidebar: #1F1F1F behind a black divider (T6); its tabs the icon cells, the open one filled
+   lilac #8D56A7 inside a lighter rim; the sub-tabs on the purple banner (#2D123A) of «View
+   all chat entries». */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout > .table-sidebar-panel {
+  border-left: var(--r20-bw-1) solid #000000;
+  background: var(--r20-s1);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout > .table-sidebar-rail {
+  gap: var(--r20-sp-2);
+  padding: var(--r20-sp-4) 0;
+  border-left: var(--r20-bw-1) solid var(--r20-edge);
+  background: var(--r20-s1);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-sidebar-rail > .table-tabs {
+  gap: var(--r20-sp-2);
+  padding: var(--r20-sp-2) 0;
+  border-top-color: var(--r20-edge);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-tab,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-sidebar-toggle,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-map-link,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-panels-all {
+  border: var(--r20-bw-1) solid transparent;
+  border-radius: var(--r20-r-1);
+  color: var(--text);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-tab:hover,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-sidebar-toggle:hover,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-map-link:hover,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-panels-all:hover {
+  background: var(--r20-s2);
+  color: #ffffff;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-tab.active {
+  border-color: var(--r20-p7);
+  background: var(--r20-p5);
+  color: #ffffff;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-tab-portrait {
+  border: var(--r20-bw-2) solid var(--r20-bar1);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-tab .table-log-badge {
+  background: var(--r20-blue);
+  color: #000000;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-sidebar-panel
+  > .table-subtabs {
+  gap: var(--r20-sp-2);
+  padding: var(--r20-sp-3) var(--r20-sp-5);
+  border-bottom: 0;
+  background: var(--r20-p1);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-subtab {
+  min-height: var(--r20-ctl);
+  gap: var(--r20-sp-3);
+  padding: 0 var(--r20-sp-5);
+  border: 0;
+  border-radius: var(--r20-r-2);
+  background: transparent;
+  color: var(--r20-p7);
+  font-family: var(--font-ui);
+  font-size: var(--r20-fs-14);
+  font-weight: 700;
+  letter-spacing: 0;
+  font-variant-caps: normal;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-subtab:hover {
+  background: rgb(255 255 255 / 0.08);
+  color: #ffffff;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-subtab.active {
+  border: 0;
+  background: var(--r20-p4);
+  color: #ffffff;
+}
+/* The creature panel: the name in Nunito; AC as Roll20's Bar 2 bubble — a round dark badge
+   in a blue ring (T20 «AC»). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-inspector {
+  padding: var(--r20-sp-6) var(--r20-sp-6) var(--r20-sp-7);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .inspector-person {
+  gap: var(--r20-sp-5);
+  margin-bottom: var(--r20-sp-5);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .inspector-person h2 {
+  font-size: var(--r20-fs-20);
+  font-weight: 900;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .inspector-person .portrait {
+  border: var(--r20-bw-2) solid var(--r20-tile-edge);
+  border-radius: 50%;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .inspector-ac {
+  justify-content: center;
+  align-content: center;
+  width: var(--r20-sp-9);
+  height: var(--r20-sp-9);
+  min-width: 0;
+  padding: 0;
+  border: calc(var(--r20-bw-2) + var(--r20-bw-1)) solid var(--r20-bar2);
+  border-radius: 50%;
+  background: var(--r20-s1);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .inspector-ac small {
+  color: var(--muted);
+  font-size: var(--r20-fs-12);
+  line-height: var(--r20-lh-solid);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .inspector-ac strong {
+  font-size: var(--r20-fs-18);
+  font-weight: 900;
+  line-height: var(--r20-lh-solid);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-sidebar-panel h3 {
+  font-size: var(--r20-fs-16);
+}
+/* One column: «Scheda completa» and «Inventario» keep their words on one line (R20-08). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .inspector-buttons {
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--r20-sp-4);
+  margin-top: var(--r20-sp-5);
+}
+/* The log: Roll20's chat — message bands on #353535, the speaker in bold. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-log p {
+  padding: var(--r20-sp-4) var(--r20-sp-5);
+  border-bottom: var(--r20-bw-1) solid var(--r20-s1);
+  background: var(--r20-s2);
+  font-size: var(--r20-fs-14);
+  line-height: var(--r20-lh-body);
+}
+
+/* ------------------------------------------------------------------ phone (≤ 720 px)
+   Roll20 has no phone tabletop («optimized for tablet, not phones», Help Center); its phone
+   grammar is Roll20 Characters' (S18): a #111111 app bar, black page, filled glyph buttons,
+   the purple accent. The Table keeps the app's phone layout in that grammar. */
+@media screen and (max-width: 720px) {
+  :root[data-direction="roll20"]:not([data-pref-theme="light"]) .app-header {
+    gap: var(--r20-sp-4);
+    padding: var(--r20-sp-4) var(--r20-sp-6);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"]) .app-header nav {
+    gap: 0;
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"]) .nav-link {
+    gap: var(--r20-sp-3);
+    padding: 0 var(--r20-sp-4);
+    font-size: var(--r20-fs-14);
+  }
+  /* The bars under the map: one opaque #111111 band, as the app bar. */
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar {
+    gap: var(--r20-sp-3) var(--r20-sp-2);
+    padding: var(--r20-sp-3) var(--r20-sp-4) var(--r20-sp-4);
+    border-top: var(--r20-bw-1) solid var(--r20-edge);
+    background: var(--r20-nav);
+  }
+  /* The commands' row as «Attuale» keeps it (R20-01): five 40 px cells 4 px apart on the left,
+     End turn at the row's end — one row, so the bar stays 153 px and the zoom and the party
+     above it keep their places. */
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar {
+    gap: var(--r20-sp-2);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar
+    > .button:not(.primary) {
+    min-width: var(--r20-ctl);
+    padding: 0 var(--r20-sp-3);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar
+    > [data-table="end-turn"] {
+    padding: 0 var(--r20-sp-5);
+    border-radius: var(--r20-r-2);
+  }
+  /* The scene's name at 16 px keeps its state words on its line (one line, as «Attuale»). */
+  :root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout > .table-topline h1 {
+    font-size: var(--r20-fs-16);
+  }
+  /* The scene's commands on a phone: Grimoire's small button (14 px, 8 px sides, no
+     tracking), so the DM's four stay on one line under the title (R20-08); a tertiary one that opens the line
+     keeps its words on the title's edge. */
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .table-topline
+    .button {
+    padding: 0 var(--r20-sp-4);
+    font-size: var(--r20-fs-14);
+    letter-spacing: 0;
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .table-topline
+    > .toolbar {
+    gap: var(--r20-sp-2);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .table-topline
+    > .toolbar
+    > .button.quiet:first-child {
+    margin-inline-start: calc(-1 * var(--r20-sp-4));
+  }
+  /* The app's three rows, its own placement: 4 px between the columns and the macro chips'
+     8 px sides leave the resource marks their room in row 1 and the first chip whole in the
+     strip of row 2 (R20-08). */
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-action,
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-dock
+    .sm-dock-toggle {
+    padding: 0 var(--r20-sp-4);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .action-dock.table-hotbar
+    .hotbar-resources
+    .resources {
+    gap: 0 var(--r20-sp-2);
+  }
+  /* The page tabs' grey group hugs its two tabs at the row's end. */
+  :root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout .hotbar-pages {
+    justify-self: end;
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout .hotbar-page-tab {
+    padding: 0 var(--r20-sp-4);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout .table-party {
+    left: var(--r20-sp-4);
+    bottom: calc(var(--r20-sp-8) + var(--r20-sp-4));
+  }
+  /* Map tools and zoom over the map: Roll20's glass tiles. */
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    .map-toolbar
+    .map-tool,
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    .map-subtools
+    .map-tool {
+    border: var(--r20-bw-1) solid var(--r20-glass-line);
+    border-radius: var(--r20-r-2);
+    background: var(--r20-glass);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout .map-subtools {
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+  /* Turn order: one row of the Turn Order's cells — #1F1F1F, the current one in its green. */
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token,
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token:has(.token-dot.hostile),
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token.current,
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token.current:has(.token-dot.hostile) {
+    padding: var(--r20-sp-2);
+    border: var(--r20-bw-1) solid transparent;
+    border-radius: var(--r20-r-2);
+    background: var(--r20-s1);
+    box-shadow: var(--r20-shadow-1);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token.current,
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token.current:has(.token-dot.hostile) {
+    border-color: var(--r20-turn-on-line);
+    background: var(--r20-turn-on);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .table-sidebar-panel {
+    border-top-color: var(--r20-edge);
+    border-left: 0;
+  }
+  /* On a phone only the right field stays, a sliver at the screen's edge. */
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    #content:has(.character-sheet[data-character-page]) {
+    background-position:
+      right -132px top 560px,
+      left -88px top 120px,
+      0 0;
+    background-size:
+      160px 600px,
+      0 0,
+      auto;
+  }
+}
+
+/* ------------------------------------------------------------------ Scheda · Magie, Inventario */
+/* Inner figures (spellcasting, load, attunement): dark wells inside the panel, no nested
+   frames — the sheet's #0C0C0C table band. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-stat, .invp-stat) {
+  gap: var(--r20-sp-2);
+  padding: var(--r20-sp-4);
+  border: 0;
+  border-radius: var(--r20-r-1);
+  background: var(--r20-page);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .spl-stat dt {
+  font-size: var(--r20-fs-12);
+  font-weight: 700;
+  letter-spacing: 0;
+  font-variant-caps: normal;
+  line-height: var(--r20-lh-tight);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .spl-stat dd {
+  margin: var(--r20-sp-1) 0 0;
+  font-size: var(--r20-fs-20);
+  font-weight: 800;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .invp-stat > strong {
+  font-size: var(--r20-fs-20);
+  font-weight: 800;
+}
+/* Spell slots and attunement: the sheet's red diamonds, filled while available (S16). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .spl-pips {
+  gap: var(--r20-sp-3);
+  margin-left: var(--r20-sp-4);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .spl-pip,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .spl-slot .spl-pip,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .invp-pips > span {
+  width: var(--r20-sp-5);
+  height: var(--r20-sp-5);
+  border: var(--r20-bw-2) solid var(--r20-prof-line);
+  border-radius: var(--r20-bw-2);
+  background: transparent;
+  transform: rotate(45deg);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .spl-pip.is-on,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .spl-slot
+  .spl-pip.is-on,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .invp-pips
+  > span.on {
+  background: var(--r20-prof-line);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .invp-pips {
+  gap: var(--r20-sp-4);
+  padding: var(--r20-sp-1) var(--r20-sp-1);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .spl-slots
+  .character-slot-summary {
+  margin-bottom: var(--r20-sp-4);
+}
+/* Spell levels: the #0C0C0C header band with the gold small-caps title (S16, S18). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .spl-group h3 {
+  margin: var(--r20-sp-6) 0 0;
+  padding: var(--r20-sp-3) var(--r20-sp-4);
+  border-bottom: 0;
+  background: var(--r20-page);
+  color: var(--r20-sheet-title);
+  font-family: var(--font-ui);
+  font-size: var(--r20-fs-16);
+  font-weight: 800;
+  letter-spacing: var(--r20-track-btn);
+  font-variant-caps: small-caps;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .spl-group
+  h3
+  .muted {
+  color: var(--muted);
+  font-size: var(--r20-fs-14);
+  font-weight: 600;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .spl-rows {
+  margin-top: 0;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .spl-row {
+  border-bottom-color: #252525;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .spl-row-title
+  strong {
+  font-size: var(--r20-fs-16);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .spl-row-meta {
+  color: #b8b8b8;
+}
+/* Components V S M as the sheet's dark chips (S14); «Prepared» as the red pill (S16). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .spl-badges {
+  gap: var(--r20-sp-2);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .spl-badge {
+  background: var(--r20-sheet-chip);
+  color: #cecece;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .spl-state {
+  background: var(--r20-sheet-chip);
+  color: var(--text);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .spl-state.is-prepared,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .spl-state.is-always {
+  border-color: var(--r20-prof-line);
+  background: var(--r20-prof-dot);
+  color: #ffffff;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .spl-check {
+  gap: var(--r20-sp-4);
+}
+/* Weapon sets: the chosen set in the sheet's red selection. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .invp-sets {
+  gap: var(--r20-sp-2);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .invp-sets li {
+  gap: var(--r20-sp-2) var(--r20-sp-4);
+  padding: var(--r20-sp-2) var(--r20-sp-4);
+  border: var(--r20-bw-1) solid transparent;
+  border-radius: var(--r20-r-1);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .invp-sets
+  li.is-active {
+  border-color: var(--r20-prof-line);
+  background: var(--r20-prof-fill);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .invp-sets em {
+  color: var(--r20-dmg);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .invp-bar {
+  border-radius: 0;
+  background: var(--r20-green-track);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .invp-bar > span {
+  background: var(--r20-green);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .invp-row {
+  border-bottom-color: #252525;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .invp-row-name {
+  font-size: var(--r20-fs-16);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .invp-row-icon {
+  border-color: var(--r20-tile-edge);
+  border-radius: var(--r20-r-1);
+  background: var(--r20-s2);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .invp-col small {
+  color: var(--r20-sheet-title);
+  font-size: var(--r20-fs-12);
+  font-weight: 800;
+  letter-spacing: var(--r20-track-btn);
+  font-variant-caps: small-caps;
+}
+
+/* ------------------------------------------------------------------ Menu della pedina
+   Roll20's right-click menu (T25): a dark rounded list (#1F1F1F, 12 px corners), white icon
+   rows in bold words, the hovered row on a #353535 tile with lilac words, thin separators. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .token-menu {
+  padding: var(--r20-sp-4);
+  border: var(--r20-bw-1) solid var(--r20-s2);
+  border-radius: var(--r20-r-3);
+  background: var(--r20-s1);
+  box-shadow: var(--r20-shadow-2);
+  font-size: var(--r20-fs-16);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .token-menu.sheet {
+  border-radius: var(--r20-r-4) var(--r20-r-4) 0 0;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .token-menu-head {
+  gap: var(--r20-sp-4);
+  padding: var(--r20-sp-2) var(--r20-sp-2) var(--r20-sp-4);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .token-menu-portrait {
+  border: var(--r20-bw-2) solid var(--r20-bar1);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .token-menu-title strong {
+  font-family: var(--font-display);
+  font-size: var(--r20-fs-18);
+  font-weight: 900;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .token-menu-close {
+  border-radius: var(--r20-r-2);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .token-menu-close:hover {
+  background: var(--r20-s2);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .token-menu-hp {
+  gap: var(--r20-sp-4);
+  padding: 0 var(--r20-sp-2);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .token-menu-hp label {
+  color: var(--r20-bar1);
+  font-weight: 800;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .token-menu-hp input {
+  padding: var(--r20-sp-3) var(--r20-sp-4);
+  border-color: var(--r20-tile-edge);
+  border-radius: var(--r20-r-1);
+  background: var(--r20-page);
+  font-size: var(--r20-fs-16);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .token-menu-hp input:focus-visible {
+  border-color: var(--r20-p6);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .token-menu-help {
+  margin: var(--r20-sp-2) var(--r20-sp-2) var(--r20-sp-3);
+  font-size: var(--r20-fs-13);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .token-menu-sep {
+  margin: var(--r20-sp-2) var(--r20-sp-4);
+  background: var(--r20-edge);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .token-menu-item,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .token-menu-back,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .token-menu-toggle,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .token-menu-swatch {
+  gap: var(--r20-sp-4);
+  padding: var(--r20-sp-3) var(--r20-sp-4);
+  border-radius: var(--r20-r-2);
+  font-size: var(--r20-fs-16);
+  font-weight: 700;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .token-menu-item:hover,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .token-menu-back:hover,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .token-menu-toggle:hover,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .token-menu-swatch:hover,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .token-menu-item:focus-visible,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .token-menu-toggle:focus-visible,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .token-menu-swatch:focus-visible {
+  background: var(--r20-s2);
+  color: var(--r20-p7);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .token-menu-icon {
+  width: var(--r20-sp-6);
+  height: var(--r20-sp-6);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .token-menu-count {
+  padding: 0 var(--r20-sp-3);
+  border-color: transparent;
+  background: var(--r20-s2);
+  color: var(--text);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .token-menu-subtitle {
+  margin: var(--r20-sp-1) var(--r20-sp-4) var(--r20-sp-3);
+  color: var(--muted);
+  font-size: var(--r20-fs-13);
+  font-weight: 800;
+  letter-spacing: var(--r20-track-caps);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .token-menu-many {
+  padding: var(--r20-sp-1) var(--r20-sp-3);
+  background: var(--r20-blue);
+  color: #000000;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .token-menu-conditions {
+  gap: var(--r20-sp-3);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .token-menu-conditions li {
+  gap: var(--r20-sp-2);
+  padding: var(--r20-sp-1) var(--r20-sp-4) var(--r20-sp-1) var(--r20-sp-2);
+  border-color: transparent;
+  border-radius: var(--r20-r-1);
+  background: var(--r20-s2);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .token-menu-toggle {
+  border-color: var(--r20-edge);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .token-menu-back {
+  color: var(--r20-p6);
+}
+
+/* ------------------------------------------------------------------ Finestra dell'iniziativa
+   The «Avvia combattimento» dialog as a Roll20 window (D1, D8) holding Turn Order rows (T15):
+   one dark row per combatant, the total right-aligned in heavy Nunito, the tools a Grimoire
+   button row. */
+/* «Seleziona tutti / Nessuno» sits in a row of boxed buttons: it takes the secondary's box, so
+   it never hangs 16 px off the dialog's edge when it wraps on a phone (R20-06). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .ct-start-tools > .button.quiet {
+  border-color: var(--r20-p6);
+  background: var(--r20-s1);
+  color: #ffffff;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .ct-start-tools
+  > .button.quiet:hover:not(:disabled) {
+  border-color: var(--r20-p7);
+  background: var(--r20-s2);
+  color: #ffffff;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .ct-start-tools {
+  gap: var(--r20-sp-4);
+  margin-bottom: var(--r20-sp-5);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .ct-start-list {
+  gap: var(--r20-sp-2);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .ct-start-row {
+  gap: var(--r20-sp-3) var(--r20-sp-5);
+  padding: var(--r20-sp-3) var(--r20-sp-5);
+  border: var(--r20-bw-1) solid var(--r20-edge);
+  border-radius: var(--r20-r-2);
+  background: var(--r20-well);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .ct-start-row:not(.is-included) {
+  border-color: var(--r20-tile-edge);
+  background: transparent;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .ct-start-row.is-included
+  .ct-start-who::before {
+  color: var(--r20-p6);
+  font-family: var(--font-display);
+  font-weight: 900;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .ct-start-who strong {
+  font-family: var(--font-display);
+  font-size: var(--r20-fs-16);
+  font-weight: 800;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .ct-start-d20 {
+  gap: var(--r20-sp-2);
+  font-size: var(--r20-fs-13);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .ct-start-d20 input {
+  font-family: var(--r20-font-mono);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .ct-start-roll {
+  gap: var(--r20-sp-3);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .ct-start-total {
+  padding: 0 var(--r20-sp-2);
+  color: #ffffff;
+  font-size: var(--r20-fs-24);
+  font-weight: 900;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .ct-start-missing {
+  margin: var(--r20-sp-4) 0 var(--r20-sp-2);
+  color: var(--r20-p6);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .ct-mob-rule,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .ct-start-call {
+  padding: var(--r20-sp-4) var(--r20-sp-5);
+  border-color: var(--r20-p5);
+  border-radius: var(--r20-r-2);
+  background: var(--r20-p1);
+}
+
+/* ------------------------------------------------------------------ I-250 consolidation
+   Every control on the scales: no browser-default padding left on icon buttons, every stray
+   app size moved onto the type scale, one look per component wherever it appears. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .workspace:not(.is-table) > main {
+  padding: var(--r20-sp-8) var(--r20-sp-9);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  :is(
+    .icon-button,
+    .map-tool,
+    .combat-filter,
+    .token-menu-close,
+    .table-tab,
+    .table-sidebar-toggle,
+    .table-panels-all,
+    .table-map-link
+  ) {
+  padding: 0;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .ext-count {
+  font-size: var(--r20-fs-12);
+}
+/* Exhaustion: Roll20's grey segmented group (#353535 cells in a #5D5D5D rim). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .conditions-segment {
+  padding: 0;
+  border-color: var(--r20-tile-edge);
+  background: var(--r20-s2);
+  color: var(--text);
+  font-size: var(--r20-fs-16);
+  font-weight: 600;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .conditions-exhaustion-label {
+  font-size: var(--r20-fs-13);
+}
+/* A weapon's properties are buttons (they open their rule): the sheet's dark chip at the
+   40 px target, 8 px sides. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-prop {
+  padding: 0 var(--r20-sp-4);
+}
+/* The vital state as the sheet's dark chip (the one chip of the badges block). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .conditions-vital {
+  background: var(--r20-sheet-chip);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .ct-start-d20 input {
+  padding: var(--r20-sp-3) var(--r20-sp-4);
+  border: var(--r20-bw-1) solid var(--r20-tile-edge);
+  border-radius: var(--r20-r-1);
+  background: var(--r20-page);
+  color: var(--text);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .ct-start-d20 input:focus-visible {
+  border-color: var(--r20-p6);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .token-menu-chevron {
+  font-size: var(--r20-fs-16);
+  line-height: var(--r20-lh-solid);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-page .home-appointment {
+  padding: var(--r20-sp-7);
+}
+/* Leading on the scale (I-250): the few of today's line heights left over — the hotbar's
+   small lines, the move help, the session notices, the counter badge. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .action-dock.table-hotbar
+  :is(.hotbar-identity > div > span, .hotbar-resources .resources) {
+  line-height: var(--r20-lh-tight);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  :is(#combat-detail > p, .session-view-chip) {
+  line-height: var(--r20-lh-body);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .ext-count {
+  line-height: var(--r20-lh-solid);
+}
+/* The Table's small words, on the scale. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-group-tag {
+  color: var(--r20-p8);
+  font-family: var(--font-ui);
+  font-size: var(--r20-fs-12);
+  letter-spacing: var(--r20-track-caps);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .hotbar-hp {
+  padding: 0 var(--r20-sp-3);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .hotbar-hp-text {
+  font-size: var(--r20-fs-13);
+  font-weight: 700;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-bar-heading
+  select {
+  font-size: var(--r20-fs-13);
+}
+/* «Tiri e risultati» keeps its words only where the app shows them (wide windows, not tight). */
+@media (min-width: 1440px) {
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar:not(.is-tight)
+    .combat-bar-heading
+    .text-button {
+    font-size: var(--r20-fs-13);
+  }
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-tab-label {
+  font-size: var(--r20-fs-12);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout .map-zoom .map-tool {
+  font-size: var(--r20-fs-20);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .inspector-person .portrait {
+  font-size: var(--r20-fs-20);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .inspector-person span.muted {
+  font-size: var(--r20-fs-13);
+}
+/* End turn at every width: the filled purple, no ring of its own. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .action-dock.table-hotbar
+  > .toolbar
+  > .button.primary[data-table="end-turn"] {
+  border-color: var(--r20-p4);
+  background: var(--r20-p4);
+  color: #ffffff;
+  box-shadow: var(--r20-shadow-1);
+  font-family: var(--font-display);
+  font-size: var(--r20-fs-16);
+  font-weight: 800;
+  letter-spacing: var(--r20-track-btn);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .action-dock.table-hotbar
+  > .toolbar
+  > .button.primary[data-table="end-turn"]:hover:not(:disabled) {
+  border-color: var(--r20-p5);
+  background: var(--r20-p5);
+}
+@media screen and (max-width: 720px) {
+  :root[data-direction="roll20"]:not([data-pref-theme="light"]) .workspace:not(.is-table) > main {
+    padding: var(--r20-sp-7) var(--r20-sp-6);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"]) .map-container > .map-caption {
+    padding: var(--r20-sp-3) var(--r20-sp-5);
+    font-size: var(--r20-fs-13);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .map-container
+    > .map-caption
+    > span {
+    font-size: var(--r20-fs-13);
+  }
+}
+/* Disclosure summaries get the same 3 px ring as every control (the browser's own otherwise). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) summary:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+/* Two small targets of today's hotbar brought to the 40 px control. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout .combat-filter {
+  min-width: var(--r20-ctl);
+}
+@media (min-width: 721px) {
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .hotbar-hp {
+    min-height: var(--r20-ctl);
+  }
+}
+
+/* ------------------------------------------------------------------ polish round 2 (I-250)
+   The second independent pass: the last Grimoire lilac inside the red-and-gold sheet, the
+   phone rail's alignment, the DM's scene plate over the map, and one line-start/line-end rule
+   for every tertiary command. */
+/* The sheet keeps Roll20's red and gold (R20-05): the limited-use boxes, the sub-sections, the
+   progress bar, the story links, the projects' marks, the chosen frame swatch. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-pip::after {
+  border-color: var(--r20-sheet-light);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-pip:hover::after {
+  background: var(--r20-prof-fill);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-pip.is-spent::after {
+  background: var(--r20-prof-line);
+  box-shadow: inset 0 0 0 calc(var(--r20-bw-2) + var(--r20-bw-1)) var(--r20-sheet-panel);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-chip, .spl-chip, .invp-chip, .character-subtabs button):hover {
+  border-color: var(--r20-sheet-title);
+  background: var(--r20-s2);
+  color: #ffffff;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-chip[aria-pressed="true"], .spl-chip[aria-pressed="true"]):hover,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.invp-chip, .character-subtabs button).active:hover {
+  border-color: var(--r20-sheet-light);
+  background: var(--r20-prof-line);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .character-subtabs {
+  gap: var(--r20-sp-3);
+  margin-bottom: var(--r20-sp-7);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tabs-bar:has(+ .character-subtabs) {
+  margin-bottom: 0;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .loot-progress {
+  border: 0;
+  border-radius: 0;
+  background: var(--r20-sheet-chip);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .loot-progress
+  > span {
+  background: var(--r20-sheet-title);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .jp-link {
+  color: var(--r20-sheet-light);
+  text-decoration-color: var(--r20-sheet-light);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .jp-link:hover {
+  color: var(--r20-dmg);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .projects-node.is-available {
+  border-color: var(--r20-sheet-light);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .projects-node.is-available
+  .projects-node-mark {
+  color: var(--r20-sheet-light);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .projects-available
+  strong {
+  color: var(--r20-sheet-title);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.projects, .projects-track)
+  details
+  > summary::before {
+  border-color: var(--r20-sheet-light);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .media-swatch:has(input:checked) {
+  border-color: var(--r20-sheet-light);
+  color: var(--r20-sheet-light);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .media-swatch:has(input:checked)
+  .media-swatch-dot {
+  box-shadow: 0 0 0 var(--r20-bw-2) var(--r20-sheet-light);
+}
+/* Saves and skills: the name centred on its row's line, level with the bonus and the star. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-row
+  .shp-row-tip {
+  align-content: center;
+  align-items: center;
+}
+/* A use counter («1 di 1») stays on one line. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-uses {
+  white-space: nowrap;
+}
+/* Spell rows start on the level band's words (8 px in, as the band's title). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .spl-row {
+  padding-inline: var(--r20-sp-4);
+}
+/* The inventory row's second line and the containers' heads on the spacing scale. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .invp-row-meta {
+  margin-top: var(--r20-sp-1);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .invp-container-head {
+  padding: var(--r20-sp-4) var(--r20-sp-2);
+}
+/* A second title inside a panel is a group title: 16 px, with room above it. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .panel
+  > h3:not(:first-child) {
+  margin-top: var(--r20-sp-6);
+  font-size: var(--r20-fs-16);
+}
+/* «Tutte» beside the section strip: the sheet buttons' small capitals, a 40 px box whose rule
+   continues the tabs' underline (the bar's 16 px foot stays under both). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .character-tabs-all {
+  min-height: var(--r20-ctl);
+  margin-bottom: var(--r20-sp-6);
+  padding: var(--r20-sp-4) var(--r20-sp-5);
+  border-bottom-color: var(--r20-tile-edge);
+  color: var(--text);
+  font-variant-caps: small-caps;
+}
+/* A panel's heading wraps its command under the title instead of squeezing both. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .panel
+  > .section-heading {
+  flex-wrap: wrap;
+  gap: var(--r20-sp-4) var(--r20-sp-6);
+}
+/* Tertiary commands (R20-06, extended): one box everywhere — the words 16 px inside it, the
+   box on the right edge when the command ends a heading. When the command opens a line (a
+   heading's command wrapped under its title, a news item's second command, the offline and
+   roll-policy commands on a phone) its padding moves into the gutter so the words start on
+   the text's edge; where it follows other words on the same line, the row's 16 px gap takes
+   the gutter instead. The home headings' text buttons take the same box. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  :is(.home-page, .character-sheet)
+  :is(.section-heading, .home-panel-head)
+  > .button.quiet,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .home-page
+  .section-heading
+  > .text-button {
+  margin-inline-start: calc(-1 * var(--r20-sp-6));
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .home-page
+  .section-heading
+  > .text-button {
+  padding-inline: var(--r20-sp-6);
+  border-radius: var(--r20-r-2);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .home-page
+  .section-heading
+  > .text-button:hover {
+  background: rgb(169 128 189 / 0.16);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  :is(.home-page, .character-sheet)
+  :is(.section-heading, .home-panel-head) {
+  flex-wrap: wrap;
+  gap: var(--r20-sp-2) var(--r20-sp-6);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  :is(.home-page, .character-sheet)
+  :not(.character-heading)
+  > .toolbar:not(.character-breadcrumb):has(> .button.quiet),
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-focus-list li, .character-feature-uses, .projects-recipe-head) {
+  column-gap: var(--r20-sp-6);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  :is(.home-page, .character-sheet)
+  :not(.character-heading)
+  > .toolbar:not(.character-breadcrumb)
+  > .button.quiet,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-focus-list li, .character-feature-uses, .projects-recipe-head)
+  > .button.quiet,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.panel, td)
+  > .button.quiet,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .home-page
+  .home-start-fold
+  > .button.quiet,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .offline-switch-block > .button.quiet,
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .dtray-sheet-policy > .button.quiet {
+  margin-inline-start: calc(-1 * var(--r20-sp-6));
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .dtray-sheet-policy > span {
+  margin-inline-end: var(--r20-sp-6);
+}
+/* Window footers wrap whole buttons onto a second line rather than breaking their words. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) dialog footer {
+  flex-wrap: wrap;
+}
+@media screen and (max-width: 720px) {
+  /* Without the cover (the app hides it on a phone) the game card keeps the cards' 24 px. */
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .home-page
+    .resume-scene
+    > div:last-child {
+    padding: var(--r20-sp-4);
+  }
+}
+@media (max-width: 620px) {
+  /* Spell slots on a phone: «Correggi risorsa» under its slot, its words on the slot's edge. */
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .character-sheet
+    .spl-slots
+    .spl-slot {
+    align-items: flex-start;
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .character-sheet
+    .spl-slots
+    .spl-slot
+    > .button.quiet {
+    margin-inline-start: calc(-1 * var(--r20-sp-6));
+  }
+}
+@media (min-width: 721px) {
+  /* The scene plate is a floating window like the Turn Order beneath it: the map's walls never
+     run through its commands. */
+  :root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout > .table-topline {
+    background: var(--r20-s1);
+    box-shadow: var(--r20-shadow-2);
+  }
+  /* The DM's plate holds the scene's name over its commands: stacked, it is as wide as its
+     longer line, so it stops short of the session notice beside it instead of running under
+     it (a wrapped flex row keeps its full width). */
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .table-topline:has(> .toolbar > :nth-child(3)) {
+    display: grid;
+    grid-template-columns: minmax(0, max-content);
+    justify-items: start;
+  }
+}
+@media screen and (max-width: 720px) {
+  /* The Table's header keeps one row on a phone, as «Attuale»: its two commands take
+     Grimoire's compact square (6 px, 12 px words) and the six service icons sit edge to edge
+     (each still a 40 px target). */
+  :root[data-direction="roll20"]:not([data-pref-theme="light"]) .app-header.table-header {
+    gap: var(--r20-sp-4);
+    padding: var(--r20-sp-4) var(--r20-sp-5);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"]) .app-header.table-header > .button {
+    gap: var(--r20-sp-3);
+    padding: var(--r20-sp-3);
+    font-size: var(--r20-fs-12);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .app-header.table-header
+    .service-nav {
+    gap: 0;
+  }
+  /* The phone rail: the app's 6 × 8 px frame, its top line painted inside so the 52 px tabs
+     fill its 64 px exactly — Mappa, the scrolling tabs and Tutti on one line; the tabs keep the
+     app's 6 px sides, so the strip ends past a whole tab and never shows a cut word. */
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .table-sidebar-rail {
+    padding: var(--r20-sp-3) var(--r20-sp-4)
+      calc(var(--r20-sp-3) + env(safe-area-inset-bottom, 0px));
+    border-top: 0;
+    border-left: 0;
+    background:
+      linear-gradient(var(--r20-edge), var(--r20-edge)) top / 100% var(--r20-bw-1) no-repeat,
+      var(--r20-s1);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-sidebar-rail > .table-tabs {
+    padding: 0;
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    :is(.table-tab, .table-map-link, .table-panels-all) {
+    padding: 0 var(--r20-sp-3);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-tab-portrait {
+    width: calc(var(--r20-sp-6) + var(--r20-sp-2));
+    height: calc(var(--r20-sp-6) + var(--r20-sp-2));
+  }
+}
+@container character-sheet (max-width: 620px) {
+  /* On a phone Initiative and AC share a row with Proficiency and Speed: the same tile — the
+     13 px two-line title on top, the value on the row's common middle line — so «Iniziativa
+     +2» stays inside its tile; the AC shield shrinks to that line. */
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .character-sheet
+    .shp-stats
+    :is([data-shp-stat="initiative"], [data-shp-stat="ac"])
+    .shp-pill {
+    display: grid;
+    grid-template-rows:
+      calc(2 * var(--r20-lh-tight) * var(--r20-fs-13)) minmax(0, 1fr)
+      calc(var(--r20-lh-body) * var(--r20-fs-13));
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    align-items: center;
+    gap: 0;
+    padding: var(--r20-sp-4);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .character-sheet
+    .shp-stats
+    :is([data-shp-stat="initiative"], [data-shp-stat="ac"])
+    .shp-pill-label {
+    align-self: start;
+    font-size: var(--r20-fs-13);
+    line-height: var(--r20-lh-tight);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .character-sheet
+    .shp-stats
+    :is([data-shp-stat="initiative"], [data-shp-stat="ac"])
+    .shp-pill
+    strong {
+    grid-row: 2;
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .character-sheet
+    [data-shp-stat="ac"]
+    .shp-pill
+    strong {
+    width: calc(var(--r20-sp-8) + var(--r20-sp-4));
+    height: calc(var(--r20-sp-8) + var(--r20-sp-5));
+    font-size: var(--r20-fs-18);
+  }
+}
+/* The initiative window's rows: the order number on a 24 px column and the check box without
+   the browser's 3–4 px margins, so the second line («Personaggio · Iniziativa +2») starts
+   exactly under the name (the app's 1.4em estimate missed Nunito's figures by 11 px). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .ct-start-who::before {
+  flex: none;
+  width: var(--r20-sp-7);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .ct-check > input[type="checkbox"] {
+  margin: 0;
+}
+@media (min-width: 721px) {
+  :root[data-direction="roll20"]:not([data-pref-theme="light"]) .ct-start-who small {
+    padding-left: calc(var(--r20-sp-7) + 2 * var(--r20-sp-4) + var(--r20-sp-6) + var(--r20-sp-2));
+  }
+}
+@media screen and (max-width: 720px) {
+  /* The phone's turn cells and HP pill carry the type scale's smallest step, not the app's
+     11 px. */
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token,
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .hotbar-hp {
+    font-size: var(--r20-fs-12);
+  }
+}
+/* One glyph size in every 40 px icon-only control: 20 px (the header's services already),
+   never squeezed by its row. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  :is(
+    .map-tool,
+    .table-tab,
+    .table-sidebar-toggle,
+    .table-panels-all,
+    .table-map-link,
+    .token-menu-close
+  )
+  > .icon,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .action-dock.table-hotbar
+  > .toolbar
+  > .button:not(.primary)
+  > .icon {
+  flex: none;
+  width: calc(var(--r20-sp-6) + var(--r20-sp-2));
+  height: calc(var(--r20-sp-6) + var(--r20-sp-2));
+}
+/* The DM's travel points as Roll20's white-framed markers (the doors' look): a dark disc and
+   white glyphs that stay legible over the painted map, hidden ones included. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) #battle-map .travel-layer {
+  --door-fill: #000000;
+  --door-rim: #ffffff;
+  --door-ink: #ffffff;
+}
+@container character-sheet (max-width: 899px) {
+  /* A narrow sheet puts an action's bonus and commands on a line under its name: the line
+     starts on the name's edge — the bonus's tile and the command's gutter move out. */
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .character-sheet
+    .shp-action-tools
+    > .button.quiet:first-child {
+    margin-inline-start: calc(-1 * var(--r20-sp-6));
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .character-sheet
+    .shp-action-tools
+    > .shp-value:first-child {
+    min-width: var(--r20-ctl);
+    margin-inline-start: calc(-1 * var(--r20-sp-4));
+    padding-inline: var(--r20-sp-3);
+  }
+}
+/* The rules table keeps inside its panel on a phone: the «Tempo» column wraps as it does on the
+   desktop («Parte / dell'Attacco»), so the rule column is never cut at the panel's edge. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .sm-actions-table
+  :is(th, td):nth-child(2) {
+  white-space: normal;
+}

@@ -40,7 +40,34 @@ risposta si registra parola per parola come decisione I-2xx.
   Livia, Doran e Mira (immagini generate per l'owner nella sessione Codex del 01/09) e dei goblin
   (ritratti SRD di d20 Folio), più una mappa dipinta del cortile se la generazione riesce. Le
   immagini dei personaggi e della mappa si decidono nelle scelte 7 e 9.
-- **Stato:** in costruzione (30/09/2026).
+- **Altre cinque opzioni (01/10, richiesta dell'owner: «più stili hai per me meglio è», sempre
+  copiati dai prodotti esistenti):** 5 · Solasta · 6 · Roll20 (Jumpgate e scheda D&D 2024) ·
+  7 · Pathfinder: Wrath of the Righteous (Owlcat) · 8 · Alchemy RPG · 9 · Demiplane. Più stati
+  per ogni opzione: Tavolo in esplorazione, scheda Magie e Inventario, finestra dell'iniziativa,
+  menu della pedina.
+- **Stato:** opzioni 0–4 pubblicate nella pagina privata
+  <https://claude.ai/artifact/CUAABqATcL7YtXBPN7G594> (01/10/2026, versione 1); opzioni 5–9 e
+  stati in più in costruzione. In attesa della risposta dell'owner.
+
+## Dopo le scelte: un solo sistema di design (I-250)
+
+Le opzioni servono a decidere; il risultato è **un unico design coerente**, curato in ogni
+dettaglio, anche se l'owner sceglie prodotti diversi per superfici diverse. Il coordinatore fonde
+le scelte in un solo linguaggio e lo mostra con esempi prima di applicarlo:
+
+- **Token:** una scala di spaziature (per esempio 4 · 8 · 12 · 16 · 24 · 32 · 48), una scala
+  tipografica con al massimo tre famiglie (titoli, interfaccia, etichette) e altezze di riga
+  fisse, una palette per ruoli (fondi, superfici, testo, linee, accento, stati di gioco), raggi,
+  spessori dei bordi, ombre e durate delle animazioni.
+- **Componenti specificati uno per uno:** pulsanti (primario, normale, silenzioso, pericolo,
+  icona) con altezza, padding, carattere e stati; campi e menu a tendina; interruttori; schede e
+  sotto-schede; pannelli e card; dialoghi; menu contestuali; avvisi; barre laterali; hotbar e
+  slot; ritratti del turno; pedine e anelli; tabelle; stati vuoti.
+- **Controllo automatico:** uno script legge i valori calcolati di ogni elemento visibile su tutte
+  le superfici (padding, margini, spazi, dimensioni e famiglie dei caratteri, altezze dei
+  controlli, raggi, colori) e segnala ogni valore fuori dai token; il sistema si approva solo con
+  zero valori fuori scala non dichiarati, più la revisione visiva componente per componente e i
+  controlli di accessibilità.
 
 Le voci dell'[arretrato grafico](../interview-01/visual-phase-backlog.md) entrano nella scelta
 indicata; gli elementi «con stile minimo» si ridisegnano nella scelta della loro superficie.

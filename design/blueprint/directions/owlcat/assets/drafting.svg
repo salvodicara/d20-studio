@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="640" height="640">
+  <!-- Drafting watermark for the parchment (compass circles, construction lines, tick marks).
+       Drawn for d20 Studio (direction «owlcat»): plain geometry, no product artwork. -->
+  <g fill="none" stroke="#333545" stroke-opacity=".09" stroke-width="1.2">
+    <circle cx="320" cy="320" r="250"/>
+    <circle cx="320" cy="320" r="238"/>
+    <circle cx="320" cy="320" r="150"/>
+    <circle cx="320" cy="320" r="40"/>
+    <path d="M320 70V570M70 320H570M143 143L497 497M497 143L143 497"/>
+    <path d="M320 70L536.5 445L103.5 445Z M320 570L103.5 195L536.5 195Z"/>
+    <circle cx="320" cy="70" r="18"/><circle cx="570" cy="320" r="18"/>
+    <circle cx="320" cy="570" r="18"/><circle cx="70" cy="320" r="18"/>
+  </g>
+  <g stroke="#333545" stroke-opacity=".09" stroke-width="1.2">
+    <path d="M320 82v12M320 546v12M82 320h12M546 320h12M488 152l-8 8M152 488l8-8M488 488l-8-8M152 152l8 8"/>
+  </g>
+</svg>

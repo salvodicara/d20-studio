@@ -11,8 +11,9 @@
    colours also :not([data-pref-vision]:not([data-pref-vision="standard"])). No !important,
    no content text, no text-transform, no markup change; 40 px targets and the 3 px focus ring
    stay; the map box, caption and zoom offsets are unchanged (the tool column only loses its
-   plate: same height, narrower), the hotbar stays 118 px (its rows are unchanged: only the
-   slots inside it become squares).
+   plate: same height, narrower), the hotbar stays within 120 px (117 px at 1440 × 900: its
+   rows are unchanged, only the slots inside it become squares). Every spacing, type, radius,
+   border and control value reads the scales declared under «scales (I-250)».
 
    Elemento → prodotto → fonte (F = foundry-owlbear board; [O] sampled, [C] code, [D] docs)
    - UI font Signika ................. Foundry v13 core → facts «Typefaces» (CONFIG.defaultFontFamily)
@@ -51,7 +52,34 @@
                                         maroon section headers, blue-grey cards, gold-on-black tabs
                                         (also the banner's command strip), 2-column saves
    - Icons ........................... Font Awesome Free 6.7.2 solid (CC BY 4.0) + 2 game-icons
-                                        (CC BY 3.0): icons.mjs; card-header masks below. */
+                                        (CC BY 3.0): icons.mjs; card-header masks below.
+   Extended states (01/10):
+   - Dialog chrome ................... F12/F13 [O]: bare × in the title strip, 16 px content,
+                                        footer buttons sharing the width, fieldsets in a #796D6F
+                                        rim with the legend set in
+   - Sheet · Spells .................. D6/D7 [O] dnd5e Spells tab: maroon section bars over the
+                                        blue-grey row card, gold-label stat cards, pills (gold
+                                        when chosen), the card-colour search bar with magnifier
+   - Sheet · Inventory ............... D3 [O] dnd5e Inventory: slate-violet encumbrance meter
+                                        (#443D5E → #6B618B on #393939), gold attunement diamonds,
+                                        «Addosso» as the section bar, dark item squares
+   - Sheet primaries ................. dnd5e gold tile, black small caps (C apps.less tabs)
+   - Initiative dialog ............... F8/F18 [O] Combat Tracker rows: no cards, hairlines, the
+                                        plum #302731 initiative box with cream digits; F12 footer
+   - Token menu ...................... F7 [O] token HUD palette (black edge, glyph + label rows,
+                                        warm outline on the chosen entry, lime #71BE04 HP box);
+                                        D5 [O] context-menu hairlines and lighter hover row
+   - Notices ......................... [CC] warning #EE9B3A rim on a near-black island; the app's
+                                        toast becomes the same island (grey rim, danger rim)
+   Polish round (01/10, W3 open items and I-250):
+   - Scrolling strips ................ the side with hidden tabs or actions fades (sticky shades
+                                        shown by a scroll-state query, so captures match the eye)
+   - Sub-menu mark ................... F7/D5 [O] solid chevron (Font Awesome chevron-right)
+   - Fields .......................... F12/F13 [O] one text field (14) and one number box
+                                        (16 bold, centred: d20, hit points); bold labels
+   - Badges, pills, filters .......... dnd5e D3/D6 [O] 3 px corners everywhere; filter pills in
+                                        even columns on a wide sheet
+   - «Accesso rapido» ................ H1/H2 [O] the join screen's panel, as every Inizio panel */
 
 /* ------------------------------------------------------------------ fonts (vendored, OFL) */
 @font-face {
@@ -135,6 +163,100 @@
     U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+/* ------------------------------------------------------------------ scales (I-250)
+   One spacing scale, one type scale with its leading, one set of radii, border widths and
+   control heights, taken from the product. Every padding, margin, gap, font size, line height,
+   letter spacing, radius, border width and control height this file sets reads one of these;
+   shapes copied as geometry (the pentagon, the lozenge, the AC shield, the tall portrait) keep
+   their measured sizes where they are drawn.
+   - Spacing: Foundry v13 sets its controls 8 px apart and 16 px from the screen edges
+     (facts 1A «Scene-control button size»: 40 px pitch, 16–17 px margin); dnd5e spaces lists
+     by .5rem (facts §3 «Favorites»). Steps 2 · 4 · 6 · 8 · 12 · 16 · 24 · 32 · 48 px.
+   - Type: dnd5e's own `--font-size-N` scale (facts §3 «Font size scale»: 8 … 46 px), the steps
+     this direction uses: 11 · 12 · 13 · 14 · 15 · 16 · 18 · 20 · 24 · 28 · 36 · 46, plus 56 for
+     the world title of the join screen (H1/H2), in the text-size preference's calc form. The
+     app's own --text-* steps are moved onto the same scale.
+   - Roles on the type scale (fix round 2): every button and link label 14 (Foundry's dialog
+     buttons, F12: both footer buttons identical); every panel title 24 (Home and sheet alike);
+     small capitals one size, 16 (--fv-fs-caps: ≈ 8 px capitals, dnd5e's 12 px Roboto
+     Condensed upper labels, D2/D3), used for every gold label, tab, chip, badge and small-cap
+     command; small capitals inside a running row take the row's size (the skill abbreviation).
+   - Leading: 1 for titles set solid, 1.1 for condensed headings and two-line captions, 1.25
+     for labels (the app's button leading), 1.5 for body text.
+   - Tracking: none for running text, 0.02em for condensed titles, 0.06em for small-cap labels
+     (the app's --label-tracking), 2 px for the sheet's name (dnd5e `.document-name`).
+   - Radii: 3 px fields and chips (dnd5e score chip, facts §3), 4 px controls and cards (dnd5e
+     HUD recipe and `.card`, facts 1A/§3), 6 px windows and floating plates, 8 px the bevelled
+     cards of the dark sheet.
+   - Borders: 1 px hairlines and rims (Foundry windows, controls), 2 px the dnd5e card rim and
+     the dashed drop zone (facts §3), 3 px the hostile strip and the pentagon's rim.
+   - Controls: 40 px, Foundry's dialog row and button height (facts 2A, F12) and the app's
+     target; 44 px the phone rows; 62 px the macro slot (facts 1A: ≈60 px, widened for the
+     caption); dnd5e's score chip 50 × 23 px (facts §3); 21 px the icon box (the app's .icon,
+     also used by the glyph masks drawn here).
+   - Fields: one recipe per surface — 40 px, 0 × 12 px, 1 px rim, 3 px corners; plum #302731 in
+     Foundry's windows and HUD (F12/F13), the card colour #252830 in the dnd5e sheet. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) {
+  --fv-sp-1: 2px;
+  --fv-sp-2: 4px;
+  --fv-sp-3: 6px;
+  --fv-sp-4: 8px;
+  --fv-sp-5: 12px;
+  --fv-sp-6: 16px;
+  --fv-sp-7: 24px;
+  --fv-sp-8: 32px;
+  --fv-sp-9: 48px;
+  --fv-fs-11: calc(11px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --fv-fs-12: calc(12px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --fv-fs-13: calc(13px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --fv-fs-14: calc(14px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --fv-fs-15: calc(15px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --fv-fs-16: calc(16px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --fv-fs-18: calc(18px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --fv-fs-20: calc(20px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --fv-fs-24: calc(24px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --fv-fs-28: calc(28px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --fv-fs-36: calc(36px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --fv-fs-46: calc(46px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --fv-fs-56: calc(56px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --fv-fs-caps: var(--fv-fs-16);
+  --fv-lh-solid: 1;
+  --fv-lh-tight: 1.1;
+  --fv-lh-snug: 1.25;
+  --fv-lh-body: 1.5;
+  --fv-track-title: 0.02em;
+  --fv-track-label: 0.06em;
+  --fv-track-name: 2px;
+  --fv-radius-1: 3px;
+  --fv-radius-2: 4px;
+  --fv-radius-3: 6px;
+  --fv-radius-4: 8px;
+  --fv-bw-1: 1px;
+  --fv-bw-2: 2px;
+  --fv-bw-3: 3px;
+  --fv-ctl: 40px;
+  --fv-ctl-lg: 44px;
+  --fv-slot-size: 62px;
+  --fv-icon: 21px;
+  --fv5-score-w: 50px;
+  --fv5-score-h: 23px;
+  /* The app's own steps, moved onto the same scales. */
+  --text-2xs: var(--fv-fs-11);
+  --text-xs: var(--fv-fs-12);
+  --text-sm: var(--fv-fs-13);
+  --text-md: var(--fv-fs-15);
+  --text-lg: var(--fv-fs-18);
+  --text-xl: var(--fv-fs-20);
+  --text-2xl: var(--fv-fs-28);
+  --text-3xl: var(--fv-fs-36);
+  --label-tracking: var(--fv-track-label);
+  --radius-xs: var(--fv-radius-1);
+  --radius-sm: var(--fv-radius-2);
+  --radius-md: var(--fv-radius-3);
+  --radius-lg: var(--fv-radius-4);
+  --radius: var(--fv-radius-3);
+}
+
 /* ------------------------------------------------------------------ tokens */
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) {
   --font-ui: "Signika", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -142,12 +264,6 @@
   --font-display: "Noto Serif Condensed", "Palatino Linotype", Palatino, Georgia, serif;
   --fv-font-sheet: "Roboto", system-ui, -apple-system, "Segoe UI", sans-serif;
   --fv-font-sheet-label: "Roboto Condensed", "Roboto", system-ui, sans-serif;
-  /* Foundry v13 controls and windows: small radii (facts 1A: 4 px dnd5e HUD recipe). */
-  --radius-xs: 3px;
-  --radius-sm: 4px;
-  --radius-md: 6px;
-  --radius-lg: 8px;
-  --radius: 6px;
   /* Card-header and tool glyph masks (decorative): Font Awesome Free 6.7.2, CC BY 4.0. */
   /* FA Free 6.7.2 solid «user» (CC BY 4.0) */
   --fv-mask-user: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-83.2 -51.2 614.4 614.4'%3E%3Cpath d='M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z'/%3E%3C/svg%3E");
@@ -157,8 +273,51 @@
   --fv-mask-toolbox: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-51.2 -51.2 614.4 614.4'%3E%3Cpath d='M176 88l0 40 160 0 0-40c0-4.4-3.6-8-8-8L184 80c-4.4 0-8 3.6-8 8zm-48 40l0-40c0-30.9 25.1-56 56-56l144 0c30.9 0 56 25.1 56 56l0 40 28.1 0c12.7 0 24.9 5.1 33.9 14.1l51.9 51.9c9 9 14.1 21.2 14.1 33.9l0 92.1-128 0 0-32c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 32-128 0 0-32c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 32L0 320l0-92.1c0-12.7 5.1-24.9 14.1-33.9l51.9-51.9c9-9 21.2-14.1 33.9-14.1l28.1 0zM0 416l0-64 128 0c0 17.7 14.3 32 32 32s32-14.3 32-32l128 0c0 17.7 14.3 32 32 32s32-14.3 32-32l128 0 0 64c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64z'/%3E%3C/svg%3E");
   /* FA Free 6.7.2 solid «eye» (CC BY 4.0) */
   --fv-mask-eye: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-57.6 -89.6 691.2 691.2'%3E%3Cpath d='M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z'/%3E%3C/svg%3E");
+  /* FA Free 6.7.2 solid «magnifying-glass» (CC BY 4.0), filled in the sheet's secondary grey
+     #9D9FA4: the search fields' leading glyph (a background, decorative). */
+  --fv-glyph-search: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='%239d9fa4' d='M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z'/%3E%3C/svg%3E");
   /* FA Free 6.7.2 solid «graduation-cap» (CC BY 4.0) */
   --fv-mask-graduation-cap: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-64 -128 768 768'%3E%3Cpath d='M320 32c-8.1 0-16.1 1.4-23.7 4.1L15.8 137.4C6.3 140.9 0 149.9 0 160s6.3 19.1 15.8 22.6l57.9 20.9C57.3 229.3 48 259.8 48 291.9l0 28.1c0 28.4-10.8 57.7-22.3 80.8c-6.5 13-13.9 25.8-22.5 37.6C0 442.7-.9 448.3 .9 453.4s6 8.9 11.2 10.2l64 16c4.2 1.1 8.7 .3 12.4-2s6.3-6.1 7.1-10.4c8.6-42.8 4.3-81.2-2.1-108.7C90.3 344.3 86 329.8 80 316.5l0-24.6c0-30.2 10.2-58.7 27.9-81.5c12.9-15.5 29.6-28 49.2-35.7l157-61.7c8.2-3.2 17.5 .8 20.7 9s-.8 17.5-9 20.7l-157 61.7c-12.4 4.9-23.3 12.4-32.2 21.6l159.6 57.6c7.6 2.7 15.6 4.1 23.7 4.1s16.1-1.4 23.7-4.1L624.2 182.6c9.5-3.4 15.8-12.5 15.8-22.6s-6.3-19.1-15.8-22.6L343.7 36.1C336.1 33.4 328.1 32 320 32zM128 408c0 35.3 86 72 192 72s192-36.7 192-72L496.7 262.6 354.5 314c-11.1 4-22.8 6-34.5 6s-23.5-2-34.5-6L143.3 262.6 128 408z'/%3E%3C/svg%3E");
+  /* Fix round 2: the own-SVG icons the core cannot swap (token menu rows, the session and
+     safety buttons, «Mosse», the zoom column) take the same Font Awesome solid voice. */
+  /* FA Free 6.7.2 solid «circle-exclamation» (CC BY 4.0) */
+  --fv-mask-circle-exclamation: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-51.2 -51.2 614.4 614.4'%3E%3Cpath d='M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24l0 112c0 13.3-10.7 24-24 24s-24-10.7-24-24l0-112c0-13.3 10.7-24 24-24zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z'/%3E%3C/svg%3E");
+  /* FA Free 6.7.2 solid «book-open» (CC BY 4.0) */
+  --fv-mask-book-open: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-57.6 -89.6 691.2 691.2'%3E%3Cpath d='M249.6 471.5c10.8 3.8 22.4-4.1 22.4-15.5l0-377.4c0-4.2-1.6-8.4-5-11C247.4 52 202.4 32 144 32C93.5 32 46.3 45.3 18.1 56.1C6.8 60.5 0 71.7 0 83.8L0 454.1c0 11.9 12.8 20.2 24.1 16.5C55.6 460.1 105.5 448 144 448c33.9 0 79 14 105.6 23.5zm76.8 0C353 462 398.1 448 432 448c38.5 0 88.4 12.1 119.9 22.6c11.3 3.8 24.1-4.6 24.1-16.5l0-370.3c0-12.1-6.8-23.3-18.1-27.6C529.7 45.3 482.5 32 432 32c-58.4 0-103.4 20-123 35.6c-3.3 2.6-5 6.8-5 11L304 456c0 11.4 11.7 19.3 22.4 15.5z'/%3E%3C/svg%3E");
+  /* FA Free 6.7.2 solid «crosshairs» (CC BY 4.0) */
+  --fv-mask-crosshairs: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-51.2 -51.2 614.4 614.4'%3E%3Cpath d='M256 0c17.7 0 32 14.3 32 32l0 10.4c93.7 13.9 167.7 88 181.6 181.6l10.4 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-10.4 0c-13.9 93.7-88 167.7-181.6 181.6l0 10.4c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-10.4C130.3 455.7 56.3 381.7 42.4 288L32 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l10.4 0C56.3 130.3 130.3 56.3 224 42.4L224 32c0-17.7 14.3-32 32-32zM107.4 288c12.5 58.3 58.4 104.1 116.6 116.6l0-20.6c0-17.7 14.3-32 32-32s32 14.3 32 32l0 20.6c58.3-12.5 104.1-58.4 116.6-116.6L384 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l20.6 0C392.1 165.7 346.3 119.9 288 107.4l0 20.6c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-20.6C165.7 119.9 119.9 165.7 107.4 224l20.6 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-20.6 0zM256 224a32 32 0 1 1 0 64 32 32 0 1 1 0-64z'/%3E%3C/svg%3E");
+  /* FA Free 6.7.2 solid «expand» (CC BY 4.0) */
+  --fv-mask-expand: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-83.2 -51.2 614.4 614.4'%3E%3Cpath d='M32 32C14.3 32 0 46.3 0 64l0 96c0 17.7 14.3 32 32 32s32-14.3 32-32l0-64 64 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L32 32zM64 352c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 96c0 17.7 14.3 32 32 32l96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0 0-64zM320 32c-17.7 0-32 14.3-32 32s14.3 32 32 32l64 0 0 64c0 17.7 14.3 32 32 32s32-14.3 32-32l0-96c0-17.7-14.3-32-32-32l-96 0zM448 352c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 64-64 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l96 0c17.7 0 32-14.3 32-32l0-96z'/%3E%3C/svg%3E");
+  /* FA Free 6.7.2 solid «heart» (CC BY 4.0) */
+  --fv-mask-heart: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-51.2 -51.2 614.4 614.4'%3E%3Cpath d='M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z'/%3E%3C/svg%3E");
+  /* FA Free 6.7.2 solid «magnifying-glass» (CC BY 4.0) */
+  --fv-mask-magnifying-glass: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-51.2 -51.2 614.4 614.4'%3E%3Cpath d='M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z'/%3E%3C/svg%3E");
+  /* FA Free 6.7.2 solid «bolt» (CC BY 4.0) */
+  --fv-mask-bolt: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-83.2 -51.2 614.4 614.4'%3E%3Cpath d='M349.4 44.6c5.9-13.7 1.5-29.7-10.6-38.5s-28.6-8-39.9 1.8l-256 224c-10 8.8-13.6 22.9-8.9 35.3S50.7 288 64 288l111.5 0L98.6 467.4c-5.9 13.7-1.5 29.7 10.6 38.5s28.6 8 39.9-1.8l256-224c10-8.8 13.6-22.9 8.9-35.3s-16.6-20.7-30-20.7l-111.5 0L349.4 44.6z'/%3E%3C/svg%3E");
+  /* FA Free 6.7.2 solid «palette» (CC BY 4.0) */
+  --fv-mask-palette: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-51.2 -51.2 614.4 614.4'%3E%3Cpath d='M512 256c0 .9 0 1.8 0 2.7c-.4 36.5-33.6 61.3-70.1 61.3L344 320c-26.5 0-48 21.5-48 48c0 3.4 .4 6.7 1 9.9c2.1 10.2 6.5 20 10.8 29.9c6.1 13.8 12.1 27.5 12.1 42c0 31.8-21.6 60.7-53.4 62c-3.5 .1-7 .2-10.6 .2C114.6 512 0 397.4 0 256S114.6 0 256 0S512 114.6 512 256zM128 288a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm0-96a32 32 0 1 0 0-64 32 32 0 1 0 0 64zM288 96a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm96 96a32 32 0 1 0 0-64 32 32 0 1 0 0 64z'/%3E%3C/svg%3E");
+  /* FA Free 6.7.2 solid «xmark» (CC BY 4.0) */
+  --fv-mask-xmark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-115.2 -51.2 614.4 614.4'%3E%3Cpath d='M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z'/%3E%3C/svg%3E");
+  /* FA Free 6.7.2 solid «chevron-left» (CC BY 4.0) */
+  --fv-mask-chevron-left: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-147.2 -51.2 614.4 614.4'%3E%3Cpath d='M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z'/%3E%3C/svg%3E");
+  /* FA Free 6.7.2 solid «chevron-right» (CC BY 4.0) */
+  --fv-mask-chevron-right: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-147.2 -51.2 614.4 614.4'%3E%3Cpath d='M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z'/%3E%3C/svg%3E");
+  /* FA Free 6.7.2 solid «rectangle-xmark» (CC BY 4.0) */
+  --fv-mask-rectangle-xmark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-51.2 -51.2 614.4 614.4'%3E%3Cpath d='M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z'/%3E%3C/svg%3E");
+  /* FA Free 6.7.2 solid «equals» (CC BY 4.0) */
+  --fv-mask-equals: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-83.2 -51.2 614.4 614.4'%3E%3Cpath d='M48 128c-17.7 0-32 14.3-32 32s14.3 32 32 32l352 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L48 128zm0 192c-17.7 0-32 14.3-32 32s14.3 32 32 32l352 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L48 320z'/%3E%3C/svg%3E");
+  /* FA Free 6.7.2 solid «hand» (CC BY 4.0) */
+  --fv-mask-hand: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-51.2 -51.2 614.4 614.4'%3E%3Cpath d='M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 208c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-176c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 272c0 1.5 0 3.1 .1 4.6L67.6 283c-16-15.2-41.3-14.6-56.6 1.4s-14.6 41.3 1.4 56.6L124.8 448c43.1 41.1 100.4 64 160 64l19.2 0c97.2 0 176-78.8 176-176l0-208c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 112c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-176c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 176c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-208z'/%3E%3C/svg%3E");
+  /* FA Free 6.7.2 solid «caret-down» (CC BY 4.0) */
+  --fv-mask-caret-down: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-147.2 -51.2 614.4 614.4'%3E%3Cpath d='M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z'/%3E%3C/svg%3E");
+  /* FA Free 6.7.2 solid «circle-user» (CC BY 4.0) */
+  --fv-mask-circle-user: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-51.2 -51.2 614.4 614.4'%3E%3Cpath d='M399 384.2C376.9 345.8 335.4 320 288 320l-64 0c-47.4 0-88.9 25.8-111 64.2c35.2 39.2 86.2 63.8 143 63.8s107.8-24.7 143-63.8zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm256 16a72 72 0 1 0 0-144 72 72 0 1 0 0 144z'/%3E%3C/svg%3E");
+  /* FA Free 6.7.2 solid «person-walking» (CC BY 4.0) */
+  --fv-mask-person-walking: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-147.2 -51.2 614.4 614.4'%3E%3Cpath d='M160 48a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zM126.5 199.3c-1 .4-1.9 .8-2.9 1.2l-8 3.5c-16.4 7.3-29 21.2-34.7 38.2l-2.6 7.8c-5.6 16.8-23.7 25.8-40.5 20.2s-25.8-23.7-20.2-40.5l2.6-7.8c11.4-34.1 36.6-61.9 69.4-76.5l8-3.5c20.8-9.2 43.3-14 66.1-14c44.6 0 84.8 26.8 101.9 67.9L281 232.7l21.4 10.7c15.8 7.9 22.2 27.1 14.3 42.9s-27.1 22.2-42.9 14.3L247 287.3c-10.3-5.2-18.4-13.8-22.8-24.5l-9.6-23-19.3 65.5 49.5 54c5.4 5.9 9.2 13 11.2 20.8l23 92.1c4.3 17.1-6.1 34.5-23.3 38.8s-34.5-6.1-38.8-23.3l-22-88.1-70.7-77.1c-14.8-16.1-20.3-38.6-14.7-59.7l16.9-63.5zM68.7 398l25-62.4c2.1 3 4.5 5.8 7 8.6l40.7 44.4-14.5 36.2c-2.4 6-6 11.5-10.6 16.1L54.6 502.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L68.7 398z'/%3E%3C/svg%3E");
+  /* FA Free 6.7.2 solid «plus» (CC BY 4.0) */
+  --fv-mask-plus: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-83.2 -51.2 614.4 614.4'%3E%3Cpath d='M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z'/%3E%3C/svg%3E");
+  /* FA Free 6.7.2 solid «minus» (CC BY 4.0) */
+  --fv-mask-minus: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-83.2 -51.2 614.4 614.4'%3E%3Cpath d='M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z'/%3E%3C/svg%3E");
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]) {
   --text: #efe6d8;
@@ -207,8 +366,11 @@
   --accent-strong: #f4b262;
   --accent-soft: rgb(238 155 58 / 0.14);
   --accent-line: rgb(238 155 58 / 0.55);
-  --shadow-1: 0 1px 3px rgb(0 0 0 / 0.5);
-  --shadow-2: 0 3px 10px rgb(0 0 0 / 0.6);
+  --fv-shadow-control: 0 1px 4px rgb(0 0 0 / 0.5);
+  --fv-shadow-float: 0 2px 8px rgb(0 0 0 / 0.55);
+  --fv-shadow-card: 0 0 6px rgb(0 0 0 / 0.45);
+  --shadow-1: var(--fv-shadow-control);
+  --shadow-2: var(--fv-shadow-float);
   --shadow-3: 0 0 20px rgb(0 0 0 / 0.85);
   --keyline-dark: rgb(0 0 0 / 0.6);
   --token-label: #ffffff;
@@ -248,10 +410,10 @@
 /* Header: Foundry's title strip (#050409 over a #29282F separator). */
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .app-header {
   background: var(--fv-title);
-  border-bottom: 1px solid var(--fv-sep);
+  border-bottom: var(--fv-bw-1) solid var(--fv-sep);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .nav-link {
-  border-radius: 4px;
+  border-radius: var(--fv-radius-2);
   color: var(--muted);
   font-weight: 600;
 }
@@ -264,12 +426,17 @@
   background: transparent;
   color: var(--text);
   font-weight: 700;
-  box-shadow: inset 0 -2px var(--fv-active);
+  box-shadow: inset 0 calc(-1 * var(--fv-bw-2)) var(--fv-active);
 }
-/* Header services: the setup screen's square icon buttons (1 px light rim, dark fill). */
+/* Header services: the setup screen's square icon buttons (1 px light rim, dark fill). Every
+   square icon control (these, the scene controls, the zoom column, the token menu's ×) centres
+   its glyph with no inner padding: the browser's 1 × 6 px default is replaced (I-250). */
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .icon-button {
-  border: 1px solid rgb(145 140 144 / 0.5);
-  border-radius: 4px;
+  width: var(--fv-ctl);
+  height: var(--fv-ctl);
+  padding: 0;
+  border: var(--fv-bw-1) solid rgb(145 140 144 / 0.5);
+  border-radius: var(--fv-radius-2);
   background: rgb(11 10 19 / 0.6);
   color: var(--text);
 }
@@ -278,14 +445,40 @@
   background: var(--fv-cool-5);
   color: var(--text);
 }
-/* Buttons: Foundry's outlined button (1 px #918C90, transparent, leading icon); the primary is
-   the setup screens' filled orange with dark capitals (drawn as small caps). */
+/* Every button and badge starts from the same metrics: a 40 px control with 6 × 12 px padding
+   (Foundry's dialog buttons, F12/F14), a 2 × 8 px pill. :where() keeps them below any
+   component's own sizes (hotbar slots, the End turn button, the sheet's tab strips). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) :where(.button) {
+  min-height: var(--fv-ctl);
+  padding: var(--fv-sp-3) var(--fv-sp-5);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) :where(.badge) {
+  padding: var(--fv-sp-1) var(--fv-sp-4);
+  line-height: var(--fv-lh-snug);
+}
+/* Every badge has the chips' 3 px corner (the app draws some as pills): «Nuova» on Inizio, the
+   sheet's badges and its «Chiedi», the conditions' state (I-250). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .badge {
+  border-radius: var(--fv-radius-1);
+}
+/* The exhaustion levels (1–6) are square keys: the number centred with no inner padding (the
+   browser's 1 × 6 px default) at the button label size (14; the app's 12 and 15). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .conditions-segment {
+  padding: 0;
+  font-size: var(--fv-fs-14);
+}
+/* Buttons: Foundry's outlined button (1 px #918C90, transparent, leading icon), one label size
+   (14) in every context — the app's 11, 13 and 15 px variants are pinned here. The primary is
+   the same button filled orange; v13 sets no button in capitals (facts.md «No uppercase
+   buttons», F12): only the join screen's way in and End turn keep small capitals (below). */
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .button {
   border-color: var(--fv-outline);
-  border-radius: 4px;
+  border-radius: var(--fv-radius-2);
   background: transparent;
   color: var(--text);
+  font-size: var(--fv-fs-14);
   font-weight: 600;
+  line-height: var(--fv-lh-snug);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .button:hover:not(:disabled) {
   background: rgb(239 230 216 / 0.07);
@@ -298,10 +491,10 @@
   background: var(--fv-warm-1);
   border-color: var(--fv-warm-1);
   color: var(--accent-ink);
-  font-size: 15px;
+  font-size: var(--fv-fs-14);
   font-weight: 600;
-  letter-spacing: 0.03em;
-  font-variant-caps: all-small-caps;
+  letter-spacing: 0;
+  font-variant-caps: normal;
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .button.primary:hover:not(:disabled) {
@@ -320,14 +513,57 @@
   border-color: var(--fv-active);
   background: #0c0a12;
   color: var(--text);
-  box-shadow: inset 0 0 0 1px var(--fv-active-inner);
+  box-shadow: inset 0 0 0 var(--fv-bw-1) var(--fv-active-inner);
 }
-/* Links: Foundry's orange underlined links (Settings sidebar). */
+/* A destructive command keeps the app's danger cue (salmon word and rim, filled on hover) in the
+   outlined button's geometry; the cream recipe above had turned it into a plain button. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .button.danger {
+  border-color: color-mix(in srgb, var(--danger) 60%, transparent);
+  color: var(--danger);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .button.danger:hover:not(:disabled) {
+  border-color: var(--danger-strong);
+  background: var(--danger-strong);
+  color: var(--danger-ink);
+}
+/* Links: Foundry's orange underlined links (Settings sidebar); a link that is a command keeps
+   the 40 px control height. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .text-button {
+  min-height: var(--fv-ctl);
+  padding-block: var(--fv-sp-3);
+  line-height: var(--fv-lh-snug);
+}
+/* One link-command size (14). The hotbar's «Tiri e risultati» is excluded where the app folds
+   its words away (font-size 0 below 1440 px and in a tight bar: the bell stays, the words stay
+   the accessible name). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .text-button:not(.combat-bar-heading .text-button) {
+  font-size: var(--fv-fs-14);
+}
+@media (min-width: 1440px) {
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .table-hotbar:not(.is-tight)
+    .combat-bar-heading
+    .text-button {
+    font-size: var(--fv-fs-14);
+  }
+}
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .text-button:hover:not(:disabled) {
   color: var(--accent-strong);
 }
-/* Inputs: Foundry's filled plum-grey field (#302731), no rim until hover or focus. The demo
-   strip's selects («Visita come», «Direzione») are the blueprint's own: left as they are. */
+/* The demo strip's two selects («Visita come», «Direzione») are the blueprint's own, not the
+   product's: they keep today's fill, rim, corners and ink in every option (the base select
+   reads tokens this direction redefines, so they are pinned here; W2 open item). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .demo-strip select {
+  border-color: #6b7784;
+  border-radius: var(--fv-radius-3);
+  background-color: #0e1217;
+  color: #efe7d6;
+}
+/* Inputs: Foundry's filled plum-grey field (#302731), no rim until hover or focus. Two field
+   kinds (I-250): a text field or menu (14, regular: the app's 12, 13 and 15 px variants are
+   moved onto it) and a number box (16 bold, centred: the d20, the hit points). A field's label
+   is bold (Foundry's form labels and fieldset legends). */
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .field input,
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .field select,
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .field textarea,
@@ -335,8 +571,65 @@
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) select:not(.demo-strip select) {
   background-color: var(--fv-cool-4);
   border-color: var(--fv-cool-4);
-  border-radius: 3px;
+  border-radius: var(--fv-radius-1);
   color: var(--text);
+  font-size: var(--fv-fs-14);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .field {
+  font-weight: 700;
+}
+/* One field geometry (Foundry's dialog rows, F12/F13): 40 px, 0 × 12 px, a 1 px rim. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .field
+  input:not([type="checkbox"], [type="radio"], [type="range"], [type="color"], [type="file"]) {
+  min-height: var(--fv-ctl);
+  padding: 0 var(--fv-sp-5);
+  border-width: var(--fv-bw-1);
+  border-style: solid;
+}
+/* A menu is a field of the same geometry (round 2): 40 px with no block padding (the app's
+   10 × 12, 4 × 8 and 0 × 8 made 43, 41 and 40 px menus beside 40 px fields), 12 px in. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) select:not(.demo-strip select) {
+  min-height: var(--fv-ctl);
+  padding: 0 var(--fv-sp-5);
+  border-width: var(--fv-bw-1);
+  border-style: solid;
+}
+/* The macro bar's menus (dice mode, roll mode) are bar keys, not form fields: 8 px in, so the
+   phone's action strip keeps a partly shown action as the cue that it scrolls. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .table-hotbar select {
+  padding-inline: var(--fv-sp-4);
+}
+/* A number box (the d20, the hit points, a quantity) shows its number centred: no spin
+   buttons, whose gutter set «18» 5–7 px left of centre (round 2). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  :is(.ct-start-d20 input, .dt-amount, .token-menu-hp input, .loot-qty input) {
+  appearance: textfield;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  :is(
+    .ct-start-d20 input,
+    .dt-amount,
+    .token-menu-hp input,
+    .loot-qty input
+  )::-webkit-inner-spin-button,
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  :is(
+    .ct-start-d20 input,
+    .dt-amount,
+    .token-menu-hp input,
+    .loot-qty input
+  )::-webkit-outer-spin-button {
+  margin: 0;
+  appearance: none;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .field.loot-qty.loot-qty
+  input[type="number"] {
+  padding: 0 var(--fv-sp-3);
+  font-size: var(--fv-fs-16);
+  font-weight: 700;
+  text-align: center;
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   :is(.field input, .field select, .field textarea, input[type="search"]):hover:not(:disabled) {
@@ -346,35 +639,102 @@
   :is(.field input, .field select, .field textarea, input[type="search"]):focus-visible {
   border-color: var(--fv-warm-1);
 }
+/* A field in error keeps the app's danger rim (the plum recipe above would hide it); its message
+   stays under it in words. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  :is(.field input, .field select, .field textarea)[aria-invalid="true"] {
+  border-color: var(--danger);
+}
+/* Notices (the app's toast): Foundry's notification — a near-black island with a 1 px rim (the
+   window edge's light grey; danger for an error), 6 px corners, cream words; the app draws a
+   parchment snackbar. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) #toast {
+  padding: var(--fv-sp-5) var(--fv-sp-6);
+  border: var(--fv-bw-1) solid var(--fv-outline);
+  border-radius: var(--fv-radius-3);
+  background: rgb(11 10 19 / 0.94);
+  color: var(--text);
+  box-shadow: var(--shadow-3);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) #toast.error {
+  border-color: var(--danger);
+  background: rgb(11 10 19 / 0.94);
+  color: var(--text);
+}
 /* Windows: Foundry's application window — a darker title strip, a flat near-black body, a
    1 px edge and a black shadow; the title in bold Signika. */
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) dialog {
   background: var(--fv-window);
-  border: 1px solid var(--fv-edge);
-  border-radius: 6px;
+  border: var(--fv-bw-1) solid var(--fv-edge);
+  border-radius: var(--fv-radius-3);
   box-shadow: var(--shadow-3);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) dialog::backdrop {
   background: rgb(0 0 0 / 0.55);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .dialog-heading {
-  padding: 9px 12px 9px 16px;
+  gap: var(--fv-sp-6);
+  padding: var(--fv-sp-1) var(--fv-sp-1) var(--fv-sp-1) var(--fv-sp-6);
   background: var(--fv-title);
-  border-bottom: 1px solid var(--fv-sep);
+  border-bottom: var(--fv-bw-1) solid var(--fv-sep);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .dialog-heading h2 {
   font-family: var(--font-ui);
-  font-size: 17px;
+  font-size: var(--fv-fs-16);
   font-weight: 700;
   letter-spacing: 0;
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) dialog footer {
+  gap: var(--fv-sp-4);
+  padding: var(--fv-sp-4) var(--fv-sp-6);
   background: var(--fv-window);
-  border-top: 1px solid var(--fv-sep);
+  border-top: var(--fv-bw-1) solid var(--fv-sep);
+}
+/* The title bar's header controls are bare glyphs (× in F12/F13), not framed buttons. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .dialog-heading > .icon-button {
+  border-color: transparent;
+  background: transparent;
+  color: var(--muted);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .dialog-heading
+  > .icon-button:hover {
+  border-color: transparent;
+  background: rgb(239 230 216 / 0.08);
+  color: var(--text);
+}
+/* The window's content sits 16 px in (Foundry's edge margin); the footer's buttons share its
+   whole width, as Foundry's «Reset Defaults · Save Changes» (F12) and full-width saves (F13). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .dialog-body {
+  padding: var(--fv-sp-6);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) dialog footer > .button {
+  flex: 1 1 0;
+}
+/* Fieldsets: Foundry's grouping — a 1 px rim (#796D6F) with the bold legend set into it (F13). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) dialog fieldset {
+  padding: var(--fv-sp-4) var(--fv-sp-5) var(--fv-sp-5);
+  border: var(--fv-bw-1) solid #796d6f;
+  border-radius: var(--fv-radius-2);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) dialog legend {
+  padding: 0 var(--fv-sp-2);
+  color: var(--text);
+  font-weight: 700;
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) kbd {
+  padding: 0 var(--fv-sp-2);
   border-color: var(--fv-outline);
+  border-radius: var(--fv-radius-1);
   background: var(--fv-cool-5);
+  font-size: var(--fv-fs-11);
+  line-height: var(--fv-lh-body);
+}
+
+/* Headings set tight (1.1), as the condensed titles of Foundry and dnd5e; a heading's own
+   rule may set it solid. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) :where(h1, h2, h3, h4) {
+  line-height: var(--fv-lh-tight);
 }
 
 /* ------------------------------------------------------------------ Inizio (Home)
@@ -403,14 +763,14 @@
   justify-items: center;
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page > .page-heading h1 {
-  margin: 0 0 6px;
+  margin: 0 0 var(--fv-sp-3);
   color: #f5f3ef;
-  font-size: 58px;
+  font-size: var(--fv-fs-56);
   /* 900: the browser draws Noto Serif's small capitals by scaling capitals, which thins them;
      the heaviest weight brings them back to Modesto's even stroke. */
   font-weight: 900;
-  line-height: 1;
-  letter-spacing: 0.02em;
+  line-height: var(--fv-lh-solid);
+  letter-spacing: var(--fv-track-title);
   font-variant-caps: small-caps;
   text-shadow: 2px 3px 6px rgb(0 0 0 / 0.9);
 }
@@ -429,35 +789,141 @@
     right: 0;
   }
 }
-/* The join screen's panels: dark translucent plates, no rim, a soft black shadow. */
+/* The join screen's panels: dark translucent plates, no visible rim (one 1 px transparent
+   edge for all, so every panel has the same box), a soft black shadow. «Accesso rapido»
+   (shown once a sheet has been opened on the device) is one of them. */
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page .resume-scene,
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page .home-appointment,
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page .home-bottom > section,
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page .home-recent,
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page .cm-home,
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page .chat-home,
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page .community-home,
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page .home-aside,
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page .home-start {
-  border-color: transparent;
-  border-radius: 6px;
+  border: var(--fv-bw-1) solid transparent;
+  border-radius: var(--fv-radius-3);
   background: rgb(17 12 18 / 0.9);
-  box-shadow: 0 0 14px rgb(0 0 0 / 0.75);
+  box-shadow: var(--shadow-3);
+}
+/* One inner margin for every panel (24; 16 on the phone, Foundry's edge margin) and one gutter
+   (24) between them; panels in one row share their height. The app's 15, 18, 20, 22, 28 and
+   30 px variants are moved onto it. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page {
+  --home-gap: var(--fv-sp-7);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page .home-layout {
+  column-gap: var(--fv-sp-7);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page .home-bottom {
+  align-items: stretch;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .home-page
+  :is(
+    .home-appointment,
+    .home-bottom > section,
+    .home-recent,
+    .cm-home,
+    .chat-home,
+    .community-home,
+    .home-start
+  ) {
+  padding: var(--fv-sp-7);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .home-page
+  .resume-scene
+  > div:last-child {
+  padding: var(--fv-sp-7) var(--fv-sp-8);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page .home-aside {
+  padding: var(--fv-sp-3) var(--fv-sp-7) var(--fv-sp-7);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page .home-aside .home-tabs {
+  margin-inline: calc(-1 * var(--fv-sp-7));
+  padding-inline: var(--fv-sp-5);
+}
+@media (max-width: 720px) {
+  :root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page {
+    --home-gap: var(--fv-sp-6);
+  }
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .home-page
+    :is(
+      .home-appointment,
+      .home-bottom > section,
+      .home-recent,
+      .cm-home,
+      .chat-home,
+      .community-home,
+      .home-start
+    ) {
+    padding: var(--fv-sp-6);
+  }
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .home-page
+    .resume-scene
+    > div:last-child {
+    padding: var(--fv-sp-7) var(--fv-sp-6);
+  }
+  :root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page .home-aside {
+    padding: var(--fv-sp-2) var(--fv-sp-6) var(--fv-sp-6);
+  }
+  :root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page .home-aside .home-tabs {
+    margin-inline: calc(-1 * var(--fv-sp-6));
+  }
+  /* One gutter between the stacked panels (16, the phone's edge margin): the app's 20, 28 and
+     36 px steps, and the 0 px join of «Accesso rapido» and «Le tue campagne», which read as
+     one merged plate (round 2). */
+  :root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page .home-layout {
+    row-gap: var(--home-gap);
+  }
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .home-page
+    .home-main
+    :is(
+      .resume-scene,
+      .home-appointment,
+      .home-bottom,
+      .home-recent,
+      .cm-home,
+      .chat-home,
+      .community-home,
+      .home-start
+    ) {
+    margin-block: 0 var(--home-gap);
+  }
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .home-page
+    .home-main
+    > :last-child {
+    margin-bottom: 0;
+  }
 }
 /* Panel headings: the join screen's centred condensed small capitals. */
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .home-page
-  :is(.resume-scene, .home-appointment, .home-bottom, .cm-home, .chat-home, .community-home)
+  :is(
+    .resume-scene,
+    .home-appointment,
+    .home-bottom,
+    .home-recent,
+    .cm-home,
+    .chat-home,
+    .community-home
+  )
   h2 {
   display: flex;
   flex: 1 1 auto;
   align-items: center;
   justify-content: center;
-  gap: 14px;
+  gap: var(--fv-sp-6);
   color: #f5f3ef;
-  font-size: 25px;
+  font-size: var(--fv-fs-24);
   font-weight: 900;
-  line-height: 1.1;
-  letter-spacing: 0.02em;
+  line-height: var(--fv-lh-tight);
+  letter-spacing: var(--fv-track-title);
   text-align: center;
   font-variant-caps: small-caps;
 }
@@ -483,6 +949,85 @@
   h2::after {
   background: linear-gradient(270deg, transparent, var(--fv-rule));
 }
+/* A panel's «see all» command is one link in every panel (Foundry's orange links): «Tutte le
+   discussioni» is a quiet button in the app, the others are text links; it takes the link's
+   colour and edge-to-edge placement. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .home-page
+  .section-heading
+  > .button.quiet {
+  padding-inline: 0;
+  color: var(--accent);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .home-page
+  .section-heading
+  > .button.quiet:hover:not(:disabled) {
+  background: transparent;
+  color: var(--accent-strong);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+/* Every panel title is centred on its panel, as on the join screen, also where the panel has a
+   «see all» link: the heading is three tracks (an empty one, the title, the link), so the link
+   no longer pushes the title off centre (round 2: up to 124 px). «Accesso rapido»'s note sits
+   under its title; on the phone the link does too, centred. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .home-page
+  :is(.home-recent, .cm-home, .chat-home, .community-home)
+  .section-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--fv-sp-2) var(--fv-sp-6);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .home-page
+  :is(.home-recent, .cm-home, .chat-home, .community-home)
+  .section-heading
+  > h2 {
+  grid-column: 2;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .home-page
+  :is(.home-recent, .cm-home, .chat-home, .community-home)
+  .section-heading
+  > :not(h2) {
+  grid-column: 3;
+  justify-self: end;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .home-page
+  .home-recent
+  .section-heading
+  > small {
+  grid-column: 1 / -1;
+  justify-self: center;
+  text-align: center;
+}
+@media (max-width: 720px) {
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .home-page
+    :is(.home-recent, .cm-home, .chat-home, .community-home)
+    .section-heading
+    > :not(h2) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    text-align: center;
+  }
+}
+/* «Accesso rapido»: the recent sheets are Foundry's directory entries, an 8 × 12 inner margin
+   (the app's 10 × 14), the window edge as rim. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page .home-chip {
+  padding: var(--fv-sp-4) var(--fv-sp-5);
+  border-color: var(--fv-edge);
+  border-radius: var(--fv-radius-2);
+  background: rgb(11 10 19 / 0.6);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page .home-chip:hover {
+  border-color: var(--fv-outline);
+  background: var(--fv-cool-5);
+}
 /* The world card: its own banner art (a SAFE sample plate), the name over the way in. */
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .home-dashboard:not([data-home-art])
@@ -491,7 +1036,7 @@
     linear-gradient(180deg, rgb(5 4 9 / 0.05), rgb(5 4 9 / 0.45)),
     url("assets/campaign-backdrop.webp") 30% center / cover no-repeat,
     var(--canvas);
-  border-right: 1px solid #000;
+  border-right: var(--fv-bw-1) solid #000;
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .home-dashboard:not([data-home-art])
@@ -509,8 +1054,8 @@
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page .resume-scene .toolbar {
   flex-direction: column;
   align-items: stretch;
-  gap: 8px;
-  margin-top: 8px;
+  gap: var(--fv-sp-4);
+  margin-top: var(--fv-sp-4);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page .resume-scene p {
   max-width: none;
@@ -520,8 +1065,27 @@
   .home-appointment
   .home-appointment-main
   > h2 {
-  margin-bottom: 12px;
-  font-size: 22px;
+  margin-bottom: var(--fv-sp-5);
+  font-size: var(--fv-fs-24);
+}
+/* The countdown in the UI face, bold (the display face has no regular weight here). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page .home-countdown {
+  font-family: var(--font-ui);
+  font-weight: 700;
+}
+/* The join screen's way in keeps the setup screens' small capitals (H2/H3), at the one
+   small-cap size — on Inizio and in the Campaign sidebar alike, so «Entra al Tavolo» has one
+   look wherever it is offered. Every primary of Inizio takes it («Cerca un tavolo» too, round
+   2): one primary per surface — small capitals on Inizio and the Table, the plain 14 px label
+   inside a window (Foundry's footers, F12), the gold tile in the sheet. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page .button.primary,
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .campaign-sidebar
+  > .button.primary[data-nav="table"] {
+  font-size: var(--fv-fs-caps);
+  font-weight: 700;
+  letter-spacing: var(--fv-track-label);
+  font-variant-caps: all-small-caps;
 }
 /* The appointment's two commands share one height and one top (Foundry's button rows): the
    calendar menu's own toolbar loses its 8 px drop, the row stretches both to 42 px. */
@@ -543,18 +1107,20 @@
   .home-appointment
   .home-appointment-actions
   .button {
-  min-height: 42px;
+  min-height: var(--fv-ctl);
 }
 /* The side panel's tabs: the setup screen's section titles (serif words, the open one lit). */
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page .home-tabs {
   border-bottom-color: var(--fv-sep);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page .home-tabs [role="tab"] {
+  min-height: var(--fv-ctl-lg);
+  padding: var(--fv-sp-2) var(--fv-sp-5);
   color: var(--muted);
   font-family: var(--font-display);
-  font-size: 21px;
+  font-size: var(--fv-fs-20);
   font-weight: 900;
-  letter-spacing: 0.02em;
+  letter-spacing: var(--fv-track-title);
   font-variant-caps: small-caps;
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
@@ -567,6 +1133,11 @@
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page .home-news-item {
   border-top-color: var(--fv-sep);
 }
+/* The «Nuova» badge sits on a translucent panel over the art: an opaque near-black plate keeps
+   its orange word legible on every pixel (audit 01/10: 2.28:1 at the worst pixel). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page .home-badge-new {
+  background: var(--fv-cool-5);
+}
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page .home-news-item h3 {
   font-weight: 700;
 }
@@ -576,11 +1147,12 @@
   .character-resume
   > .portrait,
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page .home-chip .portrait {
-  border: 1px solid #000;
-  border-radius: 4px;
-  box-shadow: 0 1px 4px rgb(0 0 0 / 0.6);
+  border: var(--fv-bw-1) solid #000;
+  border-radius: var(--fv-radius-2);
+  box-shadow: var(--fv-shadow-control);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page .character-resume {
+  padding: var(--fv-sp-6) 0;
   border-bottom-color: var(--fv-sep);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page .character-resume:hover {
@@ -621,9 +1193,9 @@
   --sunken: #0d0b0b;
   --font-ui: var(--fv-font-sheet);
   --font-label: var(--fv-font-sheet-label);
-  padding: 0 24px 28px;
-  border: 1px solid var(--fv-edge);
-  border-radius: 6px;
+  padding: 0 var(--fv-sp-7) var(--fv-sp-7);
+  border: var(--fv-bw-1) solid var(--fv-edge);
+  border-radius: var(--fv-radius-3);
   background: #161616;
   box-shadow: var(--shadow-3);
   font-family: var(--fv-font-sheet);
@@ -642,15 +1214,15 @@
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .character-sheet
   .character-breadcrumb {
-  margin: 0 -24px;
-  padding: 12px 24px 4px;
-  border-radius: 6px 6px 0 0;
+  margin: 0 calc(-1 * var(--fv-sp-7));
+  padding: var(--fv-sp-5) var(--fv-sp-7) var(--fv-sp-2);
+  border-radius: var(--fv-radius-3) var(--fv-radius-3) 0 0;
   background: linear-gradient(180deg, var(--fv5-banner-top), #552124);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .character-heading {
-  margin: 0 -24px;
-  padding: 2px 24px 30px;
-  border-bottom: 1px solid #000;
+  margin: 0 calc(-1 * var(--fv-sp-7));
+  padding: var(--fv-sp-1) var(--fv-sp-7) var(--fv-sp-8);
+  border-bottom: var(--fv-bw-1) solid #000;
   /* The highlight fades out before the top edge, so the breadcrumb (ending #552124) and the
      heading (starting #552124) read as one banner, without a seam. */
   background:
@@ -663,10 +1235,10 @@
   h1 {
   margin: 0;
   color: #ffffff;
-  font-size: 48px;
+  font-size: var(--fv-fs-46);
   font-weight: 900;
-  line-height: 1;
-  letter-spacing: 2px;
+  line-height: var(--fv-lh-solid);
+  letter-spacing: var(--fv-track-name);
   font-variant-caps: small-caps;
   text-shadow: 2px 2px 2px rgb(0 0 0 / 0.85);
 }
@@ -674,9 +1246,10 @@
   .character-sheet
   .character-heading-line {
   color: var(--fv5-gold-light);
-  font-size: 15px;
+  font-family: var(--fv-font-sheet-label);
+  font-size: var(--fv-fs-caps);
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: var(--fv-track-label);
   font-variant-caps: all-small-caps;
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
@@ -694,9 +1267,9 @@
   .character-sheet
   .character-heading
   .character-portrait {
-  border: 1px solid var(--fv5-gold);
-  border-radius: 3px;
-  box-shadow: 0 0 6px rgb(0 0 0 / 0.6);
+  border: var(--fv-bw-1) solid var(--fv5-gold);
+  border-radius: var(--fv-radius-1);
+  box-shadow: var(--fv-shadow-card);
 }
 /* dnd5e's tall portrait in a thin gold rim (D2), at banner scale; the phone keeps its small
    one. */
@@ -707,7 +1280,7 @@
     .character-portrait.small {
     inline-size: 96px;
     block-size: 120px;
-    font-size: 56px;
+    font-size: var(--fv-fs-56);
   }
 }
 /* The banner's commands: one black strip in a 1 px gold rim with gold condensed small
@@ -723,10 +1296,10 @@
   .clib-sheet-bar {
   gap: 0;
   padding: 0;
-  border: 1px solid var(--fv5-gold);
-  border-radius: 4px;
+  border: var(--fv-bw-1) solid var(--fv5-gold);
+  border-radius: var(--fv-radius-2);
   background: #000000;
-  box-shadow: 0 0 6px rgb(0 0 0 / 0.5);
+  box-shadow: var(--fv-shadow-card);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .character-sheet
@@ -738,16 +1311,17 @@
   .character-breadcrumb
   .clib-sheet-bar
   > :is(.button, .badge) {
-  min-height: 40px;
-  padding: 0 12px;
+  min-height: var(--fv-ctl);
+  padding: 0 var(--fv-sp-5);
   border: 0;
   border-radius: 0;
   background: transparent;
   color: var(--fv5-gold);
   font-family: var(--fv-font-sheet-label);
-  font-size: 15px;
+  font-size: var(--fv-fs-caps);
   font-weight: 700;
-  letter-spacing: 0.06em;
+  line-height: var(--fv-lh-snug);
+  letter-spacing: var(--fv-track-label);
   font-variant-caps: all-small-caps;
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
@@ -762,7 +1336,7 @@
   .clib-sheet-bar
   > *
   + .button {
-  box-shadow: inset 1px 0 rgb(159 146 117 / 0.45);
+  box-shadow: inset var(--fv-bw-1) 0 rgb(159 146 117 / 0.45);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .character-sheet
@@ -815,7 +1389,7 @@
   :root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .character-band {
     position: relative;
     z-index: 1;
-    margin-top: -26px;
+    margin-top: calc(-1 * var(--fv-sp-7));
   }
 }
 /* In the window's width the six tabs stay one close row, as dnd5e hangs them (D2), instead of
@@ -838,11 +1412,11 @@
   height: 92px;
   min-height: 0;
   margin-inline: auto;
-  padding: 18px 4px 28px;
+  padding: var(--fv-sp-6) var(--fv-sp-2) var(--fv-sp-7);
   border: 0;
   border-radius: 0;
   background: transparent;
-  filter: drop-shadow(0 0 6px rgb(0 0 0 / 0.45));
+  filter: drop-shadow(var(--fv-shadow-card));
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .character-sheet
@@ -874,8 +1448,9 @@
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .shp-ability-name {
   color: var(--fv5-gold);
-  font-size: 13px;
-  letter-spacing: 0.06em;
+  font-family: var(--fv-font-sheet-label);
+  font-size: var(--fv-fs-caps);
+  letter-spacing: var(--fv-track-label);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .character-sheet
@@ -884,9 +1459,9 @@
   > strong {
   margin-block: 0;
   color: var(--text);
-  font-size: 24px;
+  font-size: var(--fv-fs-24);
   font-weight: 700;
-  line-height: 1.15;
+  line-height: var(--fv-lh-tight);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .character-sheet
@@ -898,15 +1473,15 @@
   translate: -50% 0;
   display: grid;
   place-items: center;
-  min-width: 50px;
-  height: 23px;
-  padding: 0 6px;
-  border-radius: 3px;
+  min-width: var(--fv5-score-w);
+  height: var(--fv5-score-h);
+  padding: 0 var(--fv-sp-3);
+  border-radius: var(--fv-radius-1);
   background: #000000;
   color: var(--fv5-gold);
-  font-size: 14px;
+  font-size: var(--fv-fs-14);
   font-weight: 700;
-  line-height: 1;
+  line-height: var(--fv-lh-solid);
 }
 /* Lozenges: dnd5e's gold elongated hexagon (#9F9275) for Proficiency, Speed and Initiative,
    the value in bold white, the label in gold small caps under it. */
@@ -929,9 +1504,11 @@
   .shp-stat[data-shp-stat="ac"]
   .shp-pill {
   align-items: center;
-  justify-content: center;
-  gap: 4px;
-  padding: 6px 2px;
+  /* One top for every lozenge: a longer caption (Movimento's «Camminare») hangs below
+     instead of lifting its lozenge. */
+  justify-content: flex-start;
+  gap: var(--fv-sp-2);
+  padding: var(--fv-sp-3) var(--fv-sp-1);
   border-color: transparent;
   background: transparent;
   text-align: center;
@@ -949,15 +1526,15 @@
   display: inline-flex;
   align-items: baseline;
   justify-content: center;
-  gap: 2px;
+  gap: var(--fv-sp-1);
   order: 1;
   min-width: 78px;
   margin-block: 0;
-  padding: 3px 16px;
+  padding: var(--fv-sp-2) var(--fv-sp-6);
   color: #ffffff;
-  font-size: 22px;
+  font-size: var(--fv-fs-20);
   font-weight: 700;
-  line-height: 1.25;
+  line-height: var(--fv-lh-snug);
   text-shadow: 0 1px 2px rgb(0 0 0 / 0.85);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
@@ -986,10 +1563,10 @@
   > span {
   order: 2;
   color: var(--fv5-gold);
-  font-family: var(--fv-font-sheet);
-  font-size: 13px;
+  font-family: var(--fv-font-sheet-label);
+  font-size: var(--fv-fs-caps);
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: var(--fv-track-label);
   font-variant-caps: all-small-caps;
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
@@ -1009,8 +1586,18 @@
   > strong
   small {
   color: #ffffff;
-  font-size: 19px;
+  font-size: var(--fv-fs-20);
   font-weight: 700;
+}
+/* dnd5e's zig-zag (D2): the walking speed sits lower, between the two lozenges level beside
+   it. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  .character-vitals
+  .stat[data-character-speed]
+  > strong {
+  margin-top: var(--fv-sp-6);
 }
 /* Armor Class: dnd5e's shield over the portrait's base — a dark shield in a gold rim. */
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
@@ -1025,10 +1612,11 @@
   order: 1;
   width: 52px;
   height: 58px;
-  padding-bottom: 6px;
+  padding-bottom: var(--fv-sp-3);
   color: #ffffff;
-  font-size: 24px;
+  font-size: var(--fv-fs-24);
   font-weight: 700;
+  line-height: var(--fv-lh-solid);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .character-sheet
@@ -1070,16 +1658,32 @@
   top: 4px;
   right: calc(50% - 32px);
   background: var(--fv5-gold-light);
-  box-shadow: 0 0 0 1px #000000;
-} /* Heroic Inspiration: dnd5e's square gold-rimmed header toggle, the star lit gold when held. */
+  box-shadow: 0 0 0 var(--fv-bw-1) #000000;
+}
+/* The Defenses pill's value is row text (15), as the skills' bonus. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-stat[data-shp-stat="defenses"]
+  .shp-pill
+  > strong {
+  font-size: var(--fv-fs-15);
+}
+/* Heroic Inspiration: dnd5e's square gold-rimmed header toggle, the star lit gold when held. */
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .character-sheet
   .character-band
   .character-inspiration {
+  align-self: center;
+  /* A frameless toggle: it keeps its own height, centred in the band's row (the app stretches
+     its frame to the row; without the frame the stretch only made a 208 px hit area). */
+  height: auto;
   border-color: transparent;
   background: transparent;
   color: var(--fv5-gold);
-  font-size: 13px;
+  font-family: var(--fv-font-sheet-label);
+  font-size: var(--fv-fs-caps);
+  line-height: var(--fv-lh-snug);
+  letter-spacing: var(--fv-track-label);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .character-sheet
@@ -1089,14 +1693,14 @@
   order: 0;
   display: grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
+  width: var(--fv-ctl-lg);
+  height: var(--fv-ctl-lg);
   margin-block: 0;
-  border: 1px solid var(--fv5-gold);
-  border-radius: 3px;
+  border: var(--fv-bw-1) solid var(--fv5-gold);
+  border-radius: var(--fv-radius-1);
   background: #000000;
   color: var(--fv5-gold);
-  font-size: 24px;
+  font-size: var(--fv-fs-24);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .character-sheet
@@ -1113,42 +1717,55 @@
   > span:first-child {
   border-color: #efe6d8;
 }
-/* Cards: dnd5e's blue-grey card (#252830) in a #434857 rim with bevelled corners. */
-:root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .character-hp,
+/* Cards: dnd5e's blue-grey card (#252830) in a #434857 rim with bevelled corners — also the
+   caster's figures and the inventory's four boxes (one card recipe). */
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .character-sheet
-  .character-conditions,
-:root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .shp-col,
-:root[data-direction="foundry"]:not([data-pref-theme="light"])
-  .character-sheet
-  .shp-stat[data-shp-stat="defenses"]
-  .shp-pill {
-  border: 2px solid var(--fv5-border);
-  border-radius: 8px;
+  :is(
+    .character-hp,
+    .character-conditions,
+    .shp-col,
+    .shp-stat[data-shp-stat="defenses"] .shp-pill,
+    .spl-stat,
+    .invp-stat
+  ) {
+  border: var(--fv-bw-2) solid var(--fv5-border);
+  border-radius: var(--fv-radius-4);
   corner-shape: bevel;
   background: var(--fv5-card);
-  box-shadow: 0 0 6px rgb(0 0 0 / 0.45);
+  box-shadow: var(--fv-shadow-card);
 }
-:root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .shp-col {
-  padding: 8px 14px 12px;
+/* Every dnd5e card of the sheet has one inner margin, 8 × 12 (the app's 6 × 8, 8 × 12 × 12 and
+   12 × 16 variants are moved onto it). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(
+    .character-hp,
+    .character-conditions,
+    .shp-col,
+    .shp-stat[data-shp-stat="defenses"] .shp-pill,
+    .spl-stat,
+    .invp-stat
+  ) {
+  padding: var(--fv-sp-4) var(--fv-sp-5);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .shp-grid {
-  gap: 16px;
+  gap: var(--fv-sp-6);
 }
 /* Card headers: gold small capitals centred under a hairline, a Font Awesome glyph before. */
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .shp-col h3 {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 7px;
-  margin: 0 0 4px;
-  padding: 4px 0 8px;
-  border-bottom: 1px solid var(--fv5-border);
+  gap: var(--fv-sp-4);
+  margin: 0 0 var(--fv-sp-2);
+  padding: var(--fv-sp-2) 0 var(--fv-sp-4);
+  border-bottom: var(--fv-bw-1) solid var(--fv5-border);
   color: var(--fv5-gold);
-  font-family: var(--fv-font-sheet);
-  font-size: 15px;
+  font-family: var(--fv-font-sheet-label);
+  font-size: var(--fv-fs-caps);
   font-weight: 700;
-  letter-spacing: 0.07em;
+  letter-spacing: var(--fv-track-label);
   font-variant-caps: all-small-caps;
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
@@ -1192,15 +1809,18 @@
   .shp-row-cell
   small {
   color: var(--fv5-gold);
+  font-family: var(--fv-font-sheet-label);
+  font-size: var(--fv-fs-caps);
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: var(--fv-track-label);
   font-variant-caps: all-small-caps;
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .shp-value {
+  padding: var(--fv-sp-2) var(--fv-sp-5);
   border-color: transparent;
   background: transparent;
   color: var(--text);
-  font-size: 16px;
+  font-size: var(--fv-fs-16);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .character-sheet
@@ -1221,6 +1841,8 @@
   .shp-row-name
   > small:first-of-type {
   order: -1;
+  /* Inline small capitals take the row's size (dnd5e sets the abbreviation as the name). */
+  font-size: var(--fv-fs-15);
 }
 /* Saving throws: dnd5e's compact two-column grid («○ STR +3 | ○ DEX −1»); the full ability
    name stays readable to assistive technology (visually hidden, as the app's pattern). */
@@ -1230,20 +1852,20 @@
   .shp-list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 14px;
+  column-gap: var(--fv-sp-5);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .character-sheet
   .shp-col-saves
   .shp-row {
-  gap: 4px;
+  gap: var(--fv-sp-2);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .character-sheet
   .shp-col-saves
   .shp-value {
-  min-width: 44px;
-  padding-inline: 6px;
+  min-width: var(--fv-ctl-lg);
+  padding-inline: var(--fv-sp-3);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .character-sheet
@@ -1268,8 +1890,9 @@
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .character-sheet
   .shp-star:not([aria-pressed="true"]) {
+  padding: var(--fv-sp-1) var(--fv-sp-3);
   color: #8f9198;
-  font-size: 16px;
+  font-size: var(--fv-fs-16);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .character-sheet
@@ -1279,7 +1902,7 @@
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .shp-prof {
   width: 9px;
   height: 9px;
-  border: 1.5px solid var(--muted);
+  border: var(--fv-bw-2) solid var(--muted);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .shp-prof.is-on {
   border-color: var(--fv5-gold);
@@ -1302,10 +1925,10 @@
   .character-conditions
   > span:first-child {
   color: var(--fv5-gold);
-  font-family: var(--fv-font-sheet);
-  font-size: 14px;
+  font-family: var(--fv-font-sheet-label);
+  font-size: var(--fv-fs-caps);
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: var(--fv-track-label);
   font-variant-caps: all-small-caps;
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
@@ -1317,8 +1940,8 @@
   grid-row: 2;
   justify-self: stretch;
   justify-content: flex-start;
-  min-height: 40px;
-  padding: 0 10px;
+  min-height: var(--fv-ctl);
+  padding: 0 var(--fv-sp-5);
   color: #ffffff;
   white-space: nowrap;
   text-shadow: 0 1px 2px rgb(0 0 0 / 0.9);
@@ -1326,10 +1949,22 @@
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .character-sheet
   .character-hp
+  > .character-hp-temp {
+  /* The app pins this size with !important through --text-xs: the token is moved instead. */
+  --text-xs: var(--fv-fs-caps);
+  color: var(--muted);
+  font-family: var(--fv-font-sheet-label);
+  font-weight: 700;
+  letter-spacing: var(--fv-track-label);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-hp
   > .character-hp-value
   small {
   color: #ffffff;
-  font-size: 14px;
+  font-size: var(--fv-fs-14);
   white-space: nowrap;
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
@@ -1337,8 +1972,8 @@
   .character-hp
   > .character-hp-value
   strong {
-  font-size: 24px;
-  line-height: 1.55;
+  font-size: var(--fv-fs-24);
+  line-height: var(--fv-lh-body);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .character-sheet
@@ -1355,8 +1990,8 @@
   align-self: stretch;
   width: 100%;
   height: auto;
-  border: 1px solid var(--fv5-border);
-  border-radius: 4px;
+  border: var(--fv-bw-1) solid var(--fv5-border);
+  border-radius: var(--fv-radius-2);
   background: var(--fv5-ink);
   overflow: hidden;
 }
@@ -1378,11 +2013,50 @@
   > progress::-moz-progress-bar {
   background: linear-gradient(180deg, #31844a, #276d3c);
 }
-:root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .dt-amount {
-  border: 1px solid var(--fv5-border);
-  border-radius: 3px;
-  background: var(--fv5-ink);
+/* The sheet's fields share one recipe (the HP amount, «Formula libera», the searches, the
+   menus): 40 px, 0 × 12 px (a number box 0 × 6), the card colour in a 1 px #434857 rim, 3 px
+   corners. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(
+    .dt-amount,
+    select,
+    .field
+      input:not([type="checkbox"], [type="radio"], [type="range"], [type="color"], [type="file"])
+  ) {
+  min-height: var(--fv-ctl);
+  padding: 0 var(--fv-sp-5);
+  border: var(--fv-bw-1) solid var(--fv5-border);
+  border-radius: var(--fv-radius-1);
+  background-color: var(--fv5-card);
   color: var(--text);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.dt-amount, select, .field input):is(:hover, :focus-visible) {
+  border-color: var(--fv5-gold);
+}
+/* The HP amount is a number box (16 bold, centred), as the initiative d20 and the token menu's
+   hit points (the app sets it 18 px regular). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  input.dt-amount.dt-amount {
+  padding: 0 var(--fv-sp-3);
+  font-size: var(--fv-fs-16);
+  font-weight: 700;
+  text-align: center;
+}
+/* The Table's hit-point widget has the same number box, in Foundry's plum field. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .dt-amount {
+  min-height: var(--fv-ctl);
+  padding: 0 var(--fv-sp-3);
+  border: var(--fv-bw-1) solid var(--fv-cool-4);
+  border-radius: var(--fv-radius-1);
+  background-color: var(--fv-cool-4);
+  color: var(--text);
+  font-size: var(--fv-fs-16);
+  font-weight: 700;
+  text-align: center;
 }
 /* Heal in dnd5e's healing green, damage in its maroon (the hit-dice bar's colour). */
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
@@ -1404,12 +2078,21 @@
 /* The summary strip: edit toggle and dice as dnd5e's gold-on-black segmented tabs. */
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .shp-mode {
   border-color: var(--fv5-gold);
-  border-radius: 4px;
+  border-radius: var(--fv-radius-2);
   background: #000000;
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .shp-mode button {
+  /* The banner strips' command geometry (40 px, 0 × 12), so every gold-on-black strip of the
+     sheet has one button (it was 6 × 14). */
+  min-height: var(--fv-ctl);
+  padding: 0 var(--fv-sp-5);
   color: var(--fv5-gold);
+  font-family: var(--fv-font-sheet-label);
+  font-size: var(--fv-fs-caps);
   font-weight: 700;
+  line-height: var(--fv-lh-snug);
+  letter-spacing: var(--fv-track-label);
+  font-variant-caps: all-small-caps;
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .character-sheet
@@ -1428,8 +2111,8 @@
 /* Experience: dnd5e's thin red XP bar in a pale rim on black. */
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .shp-xpbar {
   height: 8px;
-  border: 1px solid #b5b3a4;
-  border-radius: 2px;
+  border: var(--fv-bw-1) solid #b5b3a4;
+  border-radius: var(--fv-radius-1);
   background: #000000;
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .shp-xpbar > span {
@@ -1437,7 +2120,7 @@
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .shp-switch {
   border-color: var(--fv5-border);
-  border-radius: 4px;
+  border-radius: var(--fv-radius-2);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .character-sheet
@@ -1456,18 +2139,18 @@
   :is(.shp-effects, .shp-favorites)
   .shp-row-label {
   color: var(--fv5-gold);
-  font-family: var(--fv-font-sheet);
-  font-size: 15px;
-  letter-spacing: 0.06em;
+  font-family: var(--fv-font-sheet-label);
+  font-size: var(--fv-fs-caps);
+  letter-spacing: var(--fv-track-label);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .character-sheet
   .shp-favorites
   .shp-empty {
   flex: 1 1 260px;
-  padding: 7px 12px;
-  border: 2px dashed rgb(207 210 218 / 0.35);
-  border-radius: 4px;
+  padding: var(--fv-sp-4) var(--fv-sp-5);
+  border: var(--fv-bw-2) dashed rgb(207 210 218 / 0.35);
+  border-radius: var(--fv-radius-2);
   color: var(--muted);
   text-align: center;
 }
@@ -1476,33 +2159,113 @@
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .character-sheet
   .character-tabs-bar {
-  border: 1px solid var(--fv5-gold);
-  border-radius: 6px;
+  /* The banner's command strips' corner (4 px): every gold-on-black strip has one. */
+  border: var(--fv-bw-1) solid var(--fv5-gold);
+  border-radius: var(--fv-radius-2);
   background: #000000;
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .character-tabs {
-  gap: 4px;
-  padding: 4px;
+  gap: var(--fv-sp-2);
+  padding: var(--fv-sp-2);
   border: 0;
-  border-radius: 6px;
+  border-radius: var(--fv-radius-2);
   background: #000000;
 }
-/* A strip that scrolls fades at its ends instead of cutting a word against the rim. */
-@container character-sheet (max-width: 899px) {
-  :root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .character-tabs {
-    mask-image: linear-gradient(90deg, transparent, #000 28px, #000 calc(100% - 28px), transparent);
+/* A strip that scrolls fades only on the side where words are hidden: a 32 px shade of the
+   strip's own colour sticks to that edge, shown by the strip's scroll state (a scroll-state
+   container query, not an animation, so a still capture shows what the eye sees: W3). Nothing
+   fades at rest at the start (the first tab and its focus ring stay whole). The shades take no
+   room (each is pulled back by its width and the strip's gap) and reach over the strip's padding
+   to its very edge; their outer 8 px are solid, so no stray sliver of a letter shows at the edge
+   (round 2). The strip rests with a whole tab ending just clear of the right shade: every tab's
+   end is a snap point 32 px in (the scroll padding), so the open tab the app scrolls to after a
+   render ends up whole between the two shades instead of under one (round 2). A focused tab is
+   lifted over the shades (below), so its 3 px ring and its label are never faded. Without
+   scroll-state queries there is no fade at all. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .character-tabs {
+  --fv-fade-to: #000000;
+  --fv-fade-gap: var(--fv-sp-2);
+  --fv-fade-pad: var(--fv-sp-2);
+  container-type: scroll-state;
+  scroll-padding-inline: var(--fv-sp-8);
+  scroll-snap-type: x mandatory;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tabs
+  > button {
+  scroll-snap-align: end;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tabs
+  > button:focus-visible {
+  position: relative;
+  z-index: 2;
+}
+/* While a tab has the keyboard focus it is the strip's only snap point, so the strip brings it
+   whole into view, clear of the shade (the browser does not scroll a tab that is only partly
+   hidden, which cut its ring at the strip's edge). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tabs:has(> button:focus-visible)
+  > button:not(:focus-visible) {
+  scroll-snap-align: none;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tabs::before,
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tabs::after {
+  content: "";
+  position: sticky;
+  z-index: 1;
+  flex: none;
+  align-self: stretch;
+  width: var(--fv-sp-8);
+  pointer-events: none;
+  opacity: 0;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tabs::before {
+  inset-inline-start: calc(-1 * var(--fv-fade-pad));
+  margin-inline-end: calc(-1 * (var(--fv-sp-8) + var(--fv-fade-gap)));
+  background: linear-gradient(to left, transparent, var(--fv-fade-to) 75%);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tabs::after {
+  inset-inline-end: calc(-1 * var(--fv-fade-pad));
+  margin-inline-start: calc(-1 * (var(--fv-sp-8) + var(--fv-fade-gap)));
+  background: linear-gradient(to right, transparent, var(--fv-fade-to) 75%);
+}
+@container scroll-state(scrollable: inline-start) {
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-tabs::before {
+    opacity: 1;
+  }
+}
+@container scroll-state(scrollable: inline-end) {
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-tabs::after {
+    opacity: 1;
   }
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .character-sheet
   .character-tabs
   button {
-  min-height: 40px;
-  padding: 6px 12px;
-  border: 1px solid transparent;
-  border-radius: 4px;
+  min-height: var(--fv-ctl);
+  padding: var(--fv-sp-3) var(--fv-sp-5);
+  border: var(--fv-bw-1) solid transparent;
+  border-radius: var(--fv-radius-2);
   color: var(--fv5-gold);
-  font-size: 15px;
+  font-family: var(--fv-font-sheet-label);
+  font-size: var(--fv-fs-caps);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .character-sheet
@@ -1522,34 +2285,41 @@
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .character-sheet
   .character-tabs-all {
+  align-self: center;
+  font-family: var(--fv-font-sheet-label);
+  font-size: var(--fv-fs-caps);
+  min-height: var(--fv-ctl-lg);
+  padding: 0 var(--fv-sp-5);
+  border-bottom: 0;
   color: var(--fv5-gold);
   border-color: transparent;
   background: transparent;
-  box-shadow: inset 1px 0 rgb(159 146 117 / 0.45);
+  box-shadow: inset var(--fv-bw-1) 0 rgb(159 146 117 / 0.45);
 }
 /* Content: dnd5e pills, cards and the maroon section headers of its item lists. */
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .panel {
-  border: 2px solid var(--fv5-border);
-  border-radius: 8px;
+  border: var(--fv-bw-2) solid var(--fv5-border);
+  border-radius: var(--fv-radius-4);
   corner-shape: bevel;
   background: #1d1f25;
 }
-:root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .shp-chip,
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .character-resource,
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .conditions-vital {
-  border: 1px solid var(--fv5-border);
-  border-radius: 3px;
+  border: var(--fv-bw-1) solid var(--fv5-border);
+  border-radius: var(--fv-radius-1);
   background: var(--fv5-card);
   color: #cacdd5;
   font-family: var(--fv-font-sheet);
   font-weight: 700;
 }
+/* The turn's resources and the creature's state («Cosciente») are static marks: one badge
+   geometry, 2 × 8 inside the rim, a 14 px bold word (the state was 4 × 11 at 12 px). */
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .character-sheet
-  .shp-chip[aria-pressed="true"] {
-  border-color: var(--fv5-gold);
-  background: var(--fv5-gold);
-  color: #000000;
+  :is(.character-resource, .conditions-vital) {
+  padding: var(--fv-sp-1) var(--fv-sp-4);
+  font-size: var(--fv-fs-14);
+  line-height: var(--fv-lh-snug);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .character-sheet
@@ -1558,50 +2328,566 @@
   background: #205b15;
   color: #ffffff;
 }
+/* The remaining label cells take the one small-cap size and tracking: the training card's
+   «Armi» and «Lingue», the Defenses pill, the moves table's column and row heads (the app's
+   0.05em is moved onto the labels' 0.06em). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-col dt, .shp-pill-label, th) {
+  font-family: var(--fv-font-sheet-label);
+  font-size: var(--fv-fs-caps);
+  letter-spacing: var(--fv-track-label);
+}
+/* The moves table («Mosse», under the panels) in a narrow sheet: no side margin at the table's
+   edges, 4 px between columns, and the «Tempo» column may break («Parte / dell'Attacco»), so the
+   rules column is never cut at the window's edge (W3: 336 px of table in a 320 px frame). */
+@container character-sheet (max-width: 599px) {
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .character-sheet
+    .sm-actions-table
+    :is(th, td) {
+    padding-inline: var(--fv-sp-2);
+  }
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .character-sheet
+    .sm-actions-table
+    :is(th, td):first-child {
+    padding-inline-start: 0;
+  }
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .character-sheet
+    .sm-actions-table
+    :is(th, td):last-child {
+    padding-inline-end: 0;
+  }
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .character-sheet
+    .sm-actions-table
+    :is(th, td):nth-child(2) {
+    white-space: normal;
+  }
+}
+/* Item properties («Versatile 1d8», «Padronanza: …») are the sheet's pills, not round tags:
+   3 px corners, 6 × 12, the button label (14; the app's 12 px 3 × 10 pill). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .shp-prop {
+  padding: var(--fv-sp-3) var(--fv-sp-5);
+  border-radius: var(--fv-radius-1);
+  font-size: var(--fv-fs-14);
+  line-height: var(--fv-lh-snug);
+}
+/* An empty list is the favourites' dashed zone (2 px, 4 px corners, centred muted words), with
+   the panel's 16 px inner margin (the app's 1 px rim, 6 px corners and 45 × 20 margin). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .empty-state {
+  padding: var(--fv-sp-6);
+  border: var(--fv-bw-2) dashed rgb(207 210 218 / 0.35);
+  border-radius: var(--fv-radius-2);
+  color: var(--muted);
+  text-align: center;
+}
+/* An action's two-line summary breaks before a lone word or stop is left on its last line
+   («azione bonus» / «.», W3). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .shp-action-copy p {
+  text-wrap: pretty;
+}
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .character-sheet
   .character-turn-label {
   color: var(--fv5-gold);
+  font-family: var(--fv-font-sheet-label);
+  font-size: var(--fv-fs-caps);
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: var(--fv-track-label);
   font-variant-caps: all-small-caps;
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .character-sheet
-  .shp-action-group
-  h3 {
-  margin: 12px 0 0;
-  padding: 6px 12px;
-  border: 0;
-  border-radius: 4px 4px 0 0;
-  background: linear-gradient(90deg, #491d25, #311b1f);
-  color: #ffffff;
-  font-family: var(--fv-font-sheet);
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  font-variant-caps: normal;
-}
-:root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .shp-action-list {
-  border: 1px solid var(--fv5-border);
-  border-top: 0;
-  border-radius: 0 0 4px 4px;
-  background: var(--fv5-card);
-}
-:root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .shp-action {
-  padding-inline: 10px;
-  border-bottom-color: rgb(67 72 87 / 0.6);
-}
-:root[data-direction="foundry"]:not([data-pref-theme="light"])
-  .character-sheet
-  .shp-actions
   .section-heading
   h2 {
   color: #ffffff;
-  font-size: 28px;
+  font-size: var(--fv-fs-24);
   font-weight: 900;
-  letter-spacing: 0.02em;
+  letter-spacing: var(--fv-track-title);
   font-variant-caps: small-caps;
+}
+/* Every panel title of the sheet has that one recipe (24, condensed small capitals, white), the
+   panels that title themselves with a bare h2/h3 included («Tiri», «Reazioni», «Chi può
+   modificare la scheda»); a heading further down a panel is a card header (gold small
+   capitals, as .shp-col h3). The title row wraps: a command drops under a long title. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.dtray-sheet-head > h3, .ct-policy-box > h3, .cs-sheet > h2) {
+  margin: 0 0 var(--fv-sp-6);
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-size: var(--fv-fs-24);
+  font-weight: 900;
+  line-height: var(--fv-lh-tight);
+  letter-spacing: var(--fv-track-title);
+  font-variant-caps: small-caps;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  .dtray-sheet-head
+  > h3 {
+  margin: 0;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.cs-sheet > h3, .sm-sheet h4) {
+  margin: var(--fv-sp-6) 0 var(--fv-sp-4);
+  color: var(--fv5-gold);
+  font-family: var(--fv-font-sheet-label);
+  font-size: var(--fv-fs-caps);
+  font-weight: 700;
+  line-height: var(--fv-lh-snug);
+  letter-spacing: var(--fv-track-label);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .section-heading {
+  flex-wrap: wrap;
+  row-gap: var(--fv-sp-4);
+}
+/* dnd5e's item lists (D3 Inventory, D6/D7 Spells): one maroon header bar per section (white
+   bold name, dark.less #491D25 → #311B1F), its rows in the blue-grey card under it, split by
+   hairlines. The same bar heads the action groups, the spell levels and the inventory. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-action-group h3, .spl-group h3, .invp-root-head) {
+  margin: var(--fv-sp-5) 0 0;
+  padding: var(--fv-sp-3) var(--fv-sp-5);
+  border: 0;
+  border-radius: var(--fv-radius-2) var(--fv-radius-2) 0 0;
+  background: linear-gradient(90deg, #491d25, #311b1f);
+  color: #ffffff;
+  font-family: var(--fv-font-sheet);
+  font-size: var(--fv-fs-14);
+  font-weight: 700;
+  letter-spacing: 0;
+  font-variant-caps: normal;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-action-list, .spl-rows) {
+  margin-top: 0;
+  border: var(--fv-bw-1) solid var(--fv5-border);
+  border-top: 0;
+  border-radius: 0 0 var(--fv-radius-2) var(--fv-radius-2);
+  background: var(--fv5-card);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-action, .spl-row, .invp-row) {
+  gap: var(--fv-sp-4) var(--fv-sp-5);
+  padding: var(--fv-sp-4) var(--fv-sp-5);
+  border-bottom-color: rgb(67 72 87 / 0.6);
+}
+
+/* ---- Scheda · Magie: dnd5e's Spells tab (D6, D7). */
+/* Primary commands inside the sheet take dnd5e's gold tile with black small capitals (its
+   active tab and the banner's way to the Table), not Foundry's orange. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .button.primary {
+  border-color: var(--fv5-gold);
+  background: var(--fv5-gold);
+  color: #000000;
+  font-family: var(--fv-font-sheet-label);
+  font-size: var(--fv-fs-caps);
+  font-weight: 700;
+  letter-spacing: var(--fv-track-label);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  .button.primary:hover:not(:disabled) {
+  border-color: var(--fv5-gold-light);
+  background: var(--fv5-gold-light);
+  color: #000000;
+}
+/* The caster's figures (class, ability, attack, DC, counts) and the inventory's four boxes:
+   dnd5e cards with a gold small-cap label over a white number (the ability tabs' grammar). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-stat, .invp-stat) {
+  gap: var(--fv-sp-2);
+}
+/* The caster's seven figures in even rows of four (two on the phone), one height; the last
+   figure widens to close its row instead of standing alone (FVT-C2-05). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .spl-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
+  gap: var(--fv-sp-4);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  .spl-stats
+  > .spl-stat:last-child:nth-child(4n + 1) {
+  grid-column: span 4;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  .spl-stats
+  > .spl-stat:last-child:nth-child(4n + 2) {
+  grid-column: span 3;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  .spl-stats
+  > .spl-stat:last-child:nth-child(4n + 3) {
+  grid-column: span 2;
+}
+@container character-sheet (max-width: 899px) {
+  :root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .spl-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .character-sheet
+    .spl-stats
+    > .spl-stat:last-child:nth-child(odd) {
+    grid-column: span 2;
+  }
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-stat dt, .invp-stat-label) {
+  color: var(--fv5-gold);
+  font-family: var(--fv-font-sheet-label);
+  font-size: var(--fv-fs-caps);
+  font-weight: 700;
+  line-height: var(--fv-lh-snug);
+  letter-spacing: var(--fv-track-label);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .spl-stat dd {
+  color: #ffffff;
+  font-size: var(--fv-fs-20);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  .invp-stat
+  > strong {
+  color: #ffffff;
+  font-size: var(--fv-fs-24);
+  line-height: var(--fv-lh-snug);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-stat dd small, .invp-stat > strong small) {
+  color: var(--muted);
+  font-size: var(--fv-fs-13);
+}
+/* State messages (preparation closed, the players' roll call): Foundry's notification — a
+   dark island in the warning rim (#EE9B3A), the reason a link. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  :is(.character-sheet .spl-window.is-closed, .ct-start-call) {
+  padding: var(--fv-sp-3) var(--fv-sp-5);
+  border: var(--fv-bw-1) solid var(--fv-warm-1);
+  border-radius: var(--fv-radius-2);
+  background: var(--fv-cool-5);
+  color: var(--text);
+}
+/* «Perché?» opens the reason: a 40 px target like every other control (the app draws it
+   32 px tall; Foundry's rows are 40). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  .spl-window-why
+  > summary {
+  min-height: var(--fv-ctl);
+}
+/* Concentration: a card-header line — gold small capitals, the state beside it. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  .spl-concentration
+  > h3 {
+  color: var(--fv5-gold);
+  font-family: var(--fv-font-sheet-label);
+  font-size: var(--fv-fs-caps);
+  font-weight: 700;
+  letter-spacing: var(--fv-track-label);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  .spl-slots
+  .spl-slot
+  strong {
+  color: #ffffff;
+}
+/* Filters (spell level; inventory kind): dnd5e pills — #CACDD5 bold small capitals on the
+   card colour in a #434857 rim, 3 px corners; the chosen one the gold tile. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-chip, .spl-chip, .invp-chip) {
+  min-height: var(--fv-ctl);
+  padding: var(--fv-sp-3) var(--fv-sp-5);
+  border: var(--fv-bw-1) solid var(--fv5-border);
+  border-radius: var(--fv-radius-1);
+  background: var(--fv5-card);
+  color: #cacdd5;
+  font-family: var(--fv-font-sheet-label);
+  font-size: var(--fv-fs-caps);
+  font-weight: 700;
+  letter-spacing: var(--fv-track-label);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(
+    .shp-chip:not([aria-pressed="true"]),
+    .spl-chip:not([aria-pressed="true"]),
+    .invp-chip:not(.active)
+  ):hover {
+  border-color: var(--fv5-gold);
+  background: var(--fv5-card);
+  color: var(--fv5-gold-light);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-chip[aria-pressed="true"], .spl-chip[aria-pressed="true"], .invp-chip.active) {
+  border-color: var(--fv5-gold);
+  background: var(--fv5-gold);
+  color: #000000;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-chips, .spl-chips, .invp-filters, .invp-columns) {
+  gap: var(--fv-sp-2);
+}
+/* A filter row takes its whole line and fills it. In a wide sheet (600 px and more) the pills
+   stand in even columns as wide as the longest label, so a last row keeps the columns above it
+   instead of stretching one pill across the row (W3: «Usi limitati», «Contenitori»); in a narrow
+   sheet each line is shared by its pills (the phone's rows are already full). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-chips, .spl-chips) {
+  --fv-pill-min: calc(124px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .invp-filters {
+  --fv-pill-min: calc(164px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .spl-chips {
+  flex: 1 1 100%;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-chips > .shp-chip, .spl-chips > .spl-chip, .invp-filters > .invp-chip) {
+  flex: 1 1 auto;
+  justify-content: center;
+}
+@container character-sheet (min-width: 600px) {
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .character-sheet
+    :is(.shp-chips, .spl-chips, .invp-filters) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(var(--fv-pill-min), 1fr));
+  }
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-filters, .invp-toolbar-row) {
+  gap: var(--fv-sp-4) var(--fv-sp-6);
+}
+/* Search: dnd5e's list search bar — the card colour in a #434857 rim with the magnifier at
+   its start (Font Awesome Free «magnifying-glass», CC BY 4.0, decorative). The :not() matches
+   the field recipe's weight, so both searches keep the glyph's 32 px start (the inventory's
+   started at 12 px, over the glyph) and the text field's 14 px. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-search, .invp-search)
+  input:not([type="checkbox"], [type="radio"]) {
+  min-height: var(--fv-ctl);
+  padding: 0 var(--fv-sp-5) 0 var(--fv-sp-8);
+  border: var(--fv-bw-1) solid var(--fv5-border);
+  border-radius: var(--fv-radius-1);
+  background: var(--fv5-card) var(--fv-glyph-search) left var(--fv-sp-5) center / 14px 14px
+    no-repeat;
+  color: var(--text);
+  font-size: var(--fv-fs-14);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-search input, .invp-search input):is(:hover, :focus-visible) {
+  border-color: var(--fv5-gold);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  .invp-search
+  > span {
+  color: var(--fv5-gold);
+  font-family: var(--fv-font-sheet-label);
+  font-size: var(--fv-fs-caps);
+  font-weight: 700;
+  letter-spacing: var(--fv-track-label);
+  font-variant-caps: all-small-caps;
+}
+/* Rows: the name in bold white, the facts in the secondary grey, the component letters (V, S)
+   and states as small dnd5e pills. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-row-title strong, .invp-row-name) {
+  color: #ffffff;
+  font-size: var(--fv-fs-15);
+  font-weight: 700;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-row-meta, .spl-row-state, .invp-row-meta) {
+  margin-top: var(--fv-sp-2);
+  font-size: var(--fv-fs-13);
+}
+/* One badge recipe in the sheet (I-250): the global 2 × 8 inside the rim, the labels' leading
+   (the component letters were 22 px tall, the others 26), and the reactions' «Chiedi» joins it
+   (it was a 12 px pill). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-badge, .spl-state, .badge, .ct-badge) {
+  padding: var(--fv-sp-1) var(--fv-sp-4);
+  line-height: var(--fv-lh-snug);
+  border-color: var(--fv5-border);
+  border-radius: var(--fv-radius-1);
+  background: var(--fv5-ink);
+  color: #cacdd5;
+  font-family: var(--fv-font-sheet-label);
+  font-size: var(--fv-fs-caps);
+  font-weight: 700;
+  letter-spacing: var(--fv-track-label);
+  font-variant-caps: all-small-caps;
+}
+/* The component letters (V, S, M) are fixed 22 px squares in the app: they take the badges'
+   height (26) like every other badge of the sheet. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .spl-badge {
+  height: auto;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-state.is-prepared, .spl-state.is-always, .invp-badge-on) {
+  border-color: #2f7a22;
+  background: #205b15;
+  color: #ffffff;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .spl-row-actions {
+  gap: var(--fv-sp-2);
+}
+
+/* ---- Scheda · Inventario: dnd5e's Inventory tab (D3). */
+/* Encumbrance: dnd5e's meter — a dark track (#393939) with the slate-violet fill (#443D5E →
+   #6B618B, D3), 8 px as the XP bar; over the limit the danger colour stays. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .invp-bar {
+  height: var(--fv-sp-4);
+  border: var(--fv-bw-1) solid #000000;
+  border-radius: var(--fv-radius-1);
+  background: #393939;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  .invp-stat:not(.is-bad)
+  .invp-bar:not(.is-over)
+  > span {
+  background: linear-gradient(90deg, #443d5e, #6b618b);
+}
+/* Attunement: dnd5e's gold diamonds. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .invp-pips > span {
+  border-color: var(--fv5-gold);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  .invp-pips
+  > span.on {
+  background: var(--fv5-gold);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  .invp-sets
+  li.is-active {
+  background: rgb(159 146 117 / 0.18);
+  color: #ffffff;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .invp-sets em {
+  color: var(--fv5-gold-light);
+}
+/* The list: «Addosso» is the section's maroon bar, the rows sit in the card under it; item
+   images are dnd5e's small dark squares with a black keyline. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .invp-root {
+  border: var(--fv-bw-1) solid var(--fv5-border);
+  border-radius: var(--fv-radius-2);
+  background: var(--fv5-card);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  .invp-root
+  > .invp-root-head {
+  margin: 0;
+  color: #d3c6c0;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  .invp-root-head
+  strong {
+  color: #ffffff;
+  font-weight: 700;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .invp-row-icon {
+  border: var(--fv-bw-1) solid #000000;
+  border-radius: var(--fv-radius-1);
+  background: var(--fv5-ink);
+  color: var(--fv5-gold);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .invp-col small {
+  color: var(--fv5-gold);
+  font-family: var(--fv-font-sheet-label);
+  font-size: var(--fv-fs-caps);
+  font-weight: 700;
+  letter-spacing: var(--fv-track-label);
+  font-variant-caps: all-small-caps;
+}
+/* The column heads (QTÀ, PESO, CARICHE) sit once, over the first row, as dnd5e's header bar
+   (D3), where the columns have one width on every row (a sheet of 900 px and more); on the rows
+   under it they stay readable to assistive technology (visually hidden). In a narrower sheet
+   the values do not share a column grid, so every row keeps its heads (W3). */
+@container character-sheet (min-width: 900px) {
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .character-sheet
+    .invp-row
+    ~ .invp-row
+    .invp-col
+    small {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .invp-row-actions {
+  gap: var(--fv-sp-2);
+}
+/* A disclosure that stands alone is a link command at the one link size (14; the app's 13,
+   round 2): «Visualizzazione» over the list, «Perché?» in the preparation notice. «Regola
+   d'ingombro» stays the last line of the load card's note, at the note's size. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.invp-view, .spl-window-why)
+  > summary {
+  font-size: var(--fv-fs-14);
+}
+/* A container's open/close key («▾ Borsa conservante») is a square glyph key like the other
+   icon controls: the arrow centred with no inner padding (the browser's 1 × 6 px, round 2), in
+   the sheet's field rim and corner. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .invp-toggle {
+  padding: 0;
+  border-color: var(--fv5-border);
+  border-radius: var(--fv-radius-1);
+}
+/* The value columns stand 4 px apart where they have one width (900 px and more); in a narrower
+   sheet they keep 16 px between them, so each row's «Qtà · Peso · Cariche» reads as three heads
+   over three values, not one run-on label (W3). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .invp-cols {
+  gap: var(--fv-sp-2) var(--fv-sp-6);
+}
+@container character-sheet (min-width: 900px) {
+  :root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .invp-cols {
+    gap: var(--fv-sp-2);
+  }
 }
 
 /* ------------------------------------------------------------------ Tavolo (Foundry v13 canvas) */
@@ -1686,6 +2972,7 @@
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .map-zoom {
   padding: 0;
   border-color: transparent;
+  border-radius: var(--fv-radius-2);
   background: transparent;
   box-shadow: none;
   -webkit-backdrop-filter: none;
@@ -1693,31 +2980,39 @@
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .map-toolbar,
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .map-subtools {
-  gap: 8px;
+  gap: var(--fv-sp-4);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .map-subtools {
   top: 0;
   left: calc(100% + 8px);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .map-tool {
-  border: 1px solid rgb(0 0 0 / 0.55);
-  border-radius: 4px;
+  padding: 0;
+  border: var(--fv-bw-1) solid rgb(0 0 0 / 0.55);
+  border-radius: var(--fv-radius-2);
   background: var(--fv-control);
   color: var(--text);
-  box-shadow: 0 1px 4px rgb(0 0 0 / 0.45);
+  box-shadow: var(--fv-shadow-control);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .map-tool.active {
   border-color: var(--fv-active);
   background: #0c0a12;
   color: var(--text);
   box-shadow:
-    inset 0 0 0 1px var(--fv-active-inner),
-    0 1px 4px rgb(0 0 0 / 0.45);
+    inset 0 0 0 var(--fv-bw-1) var(--fv-active-inner),
+    var(--fv-shadow-control);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .map-tool:hover {
   border-color: var(--fv-outline);
   background: #0c0a12;
   color: #ffffff;
+}
+/* Small pips and inline terms take the scale's smallest radius (3 px). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .hotbar-slot-level > i,
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-slot .spl-pip, .invp-pips > span, .compendium-term) {
+  border-radius: var(--fv-radius-1);
 }
 /* Toggle tools (pressed, not the active tool): Foundry's violet outline on a violet tint. */
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
@@ -1744,12 +3039,12 @@
 /* Scene navigation: v13's collapsed scene pill — a dark rounded plate, the name in bold. */
 @media (min-width: 721px) {
   :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout > .table-topline {
-    border: 1px solid #4a4250;
-    border-radius: 6px;
+    border: var(--fv-bw-1) solid #4a4250;
+    border-radius: var(--fv-radius-3);
     background: rgb(11 10 19 / 0.88);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
-    box-shadow: 0 2px 8px rgb(0 0 0 / 0.55);
+    box-shadow: var(--fv-shadow-float);
   }
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout > .table-topline h1 {
@@ -1760,16 +3055,17 @@
 /* The session buttons over the map: the same square controls. */
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .session-view-hud-button {
   border-color: rgb(0 0 0 / 0.55);
-  border-radius: 4px;
+  border-radius: var(--fv-radius-2);
   background: var(--fv-control);
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
-  box-shadow: 0 1px 4px rgb(0 0 0 / 0.45);
+  box-shadow: var(--fv-shadow-control);
 }
 /* Notices over the map: a Foundry island; a warning keeps the core warning orange rim. */
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .session-view-chip {
+  padding: var(--fv-sp-3) var(--fv-sp-5);
   border-color: var(--fv-edge);
-  border-radius: 6px;
+  border-radius: var(--fv-radius-3);
   background: rgb(11 10 19 / 0.92);
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
@@ -1778,20 +3074,26 @@
   border-color: var(--fv-warm-1);
   background: rgb(11 10 19 / 0.92);
 }
+/* The notice's commands («Avvia ora», «Non ora») take the one button size (14; they were 13). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .session-view-chip
+  .session-view-hud-button {
+  font-size: var(--fv-fs-14);
+}
 /* «Tocca a te»: a Foundry notification — a dark island in the warning rim, bold cream Signika
    (not a bronze banner in the display serif). */
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .ct-alert,
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .ct-alert-turn,
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .ct-alert-initiative {
   border-color: var(--fv-warm-1);
-  border-radius: 6px;
+  border-radius: var(--fv-radius-3);
   background: rgb(11 10 19 / 0.92);
-  box-shadow: 0 0 20px rgb(0 0 0 / 0.85);
+  box-shadow: var(--shadow-3);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .ct-alert-turn strong {
   color: var(--text);
   font-family: var(--font-ui);
-  font-size: 19px;
+  font-size: var(--fv-fs-20);
   font-weight: 700;
 }
 /* Turn order: the Encounter Tracker's rows as cells — square portraits, bold names, the
@@ -1800,13 +3102,13 @@
   .table-layout
   > .initiative
   .initiative-token {
-  border: 1px solid rgb(0 0 0 / 0.7);
-  border-radius: 4px;
-  background: rgb(11 10 19 / 0.88);
+  border: var(--fv-bw-1) solid rgb(0 0 0 / 0.7);
+  border-radius: var(--fv-radius-2);
+  background: var(--fv-cool-5);
   color: var(--text);
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
-  box-shadow: 0 2px 8px rgb(0 0 0 / 0.55);
+  box-shadow: var(--fv-shadow-float);
   font-weight: 700;
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
@@ -1816,15 +3118,15 @@
   border-color: var(--fv-active);
   background: #0c0a12;
   box-shadow:
-    inset 0 0 0 1px var(--fv-active-inner),
-    0 2px 8px rgb(0 0 0 / 0.55);
+    inset 0 0 0 var(--fv-bw-1) var(--fv-active-inner),
+    var(--fv-shadow-float);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .table-layout
   .initiative
   .token-dot {
-  border-radius: 3px;
-  box-shadow: 0 0 0 1px #000000;
+  border-radius: var(--fv-radius-1);
+  box-shadow: 0 0 0 var(--fv-bw-1) #000000;
 }
 /* Hostiles stay apart from allies by colour and shape, as the app requires in every mode
    (Foundry's red hostile disposition, F1/F7): a red strip under the cell and a red dashed
@@ -1834,25 +3136,25 @@
   > .initiative
   .initiative-token:has(.token-dot.hostile) {
   box-shadow:
-    inset 0 -3px 0 var(--pref-hostile-stroke, #e0301e),
-    0 2px 8px rgb(0 0 0 / 0.55);
+    inset 0 calc(-1 * var(--fv-bw-3)) 0 var(--pref-hostile-stroke, #e0301e),
+    var(--fv-shadow-float);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .table-layout
   > .initiative
   .initiative-token.current:has(.token-dot.hostile) {
   box-shadow:
-    inset 0 0 0 1px var(--fv-active-inner),
-    inset 0 -3px 0 var(--pref-hostile-stroke, #e0301e),
-    0 2px 8px rgb(0 0 0 / 0.55);
+    inset 0 0 0 var(--fv-bw-1) var(--fv-active-inner),
+    inset 0 calc(-1 * var(--fv-bw-3)) 0 var(--pref-hostile-stroke, #e0301e),
+    var(--fv-shadow-float);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .table-layout
   .initiative
   .token-dot.hostile {
-  box-shadow: 0 0 0 2px var(--pref-hostile-stroke, #e0301e);
-  outline: 2px dashed var(--pref-hostile-stroke, #e0301e);
-  outline-offset: 2px;
+  box-shadow: 0 0 0 var(--fv-bw-2) var(--pref-hostile-stroke, #e0301e);
+  outline: var(--fv-bw-2) dashed var(--pref-hostile-stroke, #e0301e);
+  outline-offset: var(--fv-bw-2);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .table-layout
@@ -1863,9 +3165,9 @@
 }
 /* Party: square token portraits; the selected one in the controlled token's orange frame. */
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .table-party-portrait {
-  border: 1px solid #000000;
-  border-radius: 4px;
-  box-shadow: 0 2px 6px rgb(0 0 0 / 0.6);
+  border: var(--fv-bw-1) solid #000000;
+  border-radius: var(--fv-radius-2);
+  box-shadow: var(--fv-shadow-float);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .table-layout
@@ -1879,13 +3181,13 @@
   .table-party-portrait {
   border-color: var(--fv-select);
   box-shadow:
-    0 0 0 1px var(--fv-select),
-    0 2px 6px rgb(0 0 0 / 0.6);
+    0 0 0 var(--fv-bw-1) var(--fv-select),
+    var(--fv-shadow-float);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .table-party-hp {
   border-radius: 0;
   background: #000000;
-  box-shadow: 0 0 0 1px #000000;
+  box-shadow: 0 0 0 var(--fv-bw-1) #000000;
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .table-layout
@@ -1906,13 +3208,13 @@
   background: var(--hp-low);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .table-party-name {
-  border-radius: 3px;
+  border-radius: var(--fv-radius-1);
   background: rgb(0 0 0 / 0.75);
   color: #ffffff;
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .table-party-status {
   border-color: #000000;
-  border-radius: 3px;
+  border-radius: var(--fv-radius-1);
 }
 /* The canvas status line: the player list's dark translucent card. */
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
@@ -1920,7 +3222,7 @@
   .map-container
   > .map-caption {
   border-color: rgb(0 0 0 / 0.7);
-  border-radius: 6px;
+  border-radius: var(--fv-radius-3);
   background: rgb(20 15 17 / 0.9);
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
@@ -1937,23 +3239,31 @@
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .table-layout
   > .table-sidebar-panel {
-  border-left: 1px solid var(--fv-sep);
+  border-left: var(--fv-bw-1) solid var(--fv-sep);
   background: var(--fv-sidebar);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .table-sidebar-panel
   > .table-subtabs {
+  padding: var(--fv-sp-4) var(--fv-sp-5);
   border-bottom-color: var(--fv-sep);
   background: var(--fv-window);
 }
-/* Window tabs: plain words, the open one bold over a warm underline. */
+/* The sidebar's document has one inner margin at every width, Foundry's 16 px edge (the app's
+   23 × 20, 30, 20 × 14 and 20 px variants). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .table-inspector {
+  padding: var(--fv-sp-6);
+}
+/* Window tabs: plain words at the buttons' label (14/600), the open one in cream over a warm
+   underline. One weight in both states (round 2: 600 → 700 on the open one made the words
+   change width on a switch). */
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .table-subtab {
   border-color: transparent;
-  border-radius: 4px;
+  border-radius: var(--fv-radius-2);
   background: transparent;
   color: var(--muted);
   font-family: var(--font-ui);
-  font-size: 15px;
+  font-size: var(--fv-fs-14);
   font-weight: 600;
   letter-spacing: 0;
   font-variant-caps: normal;
@@ -1966,11 +3276,11 @@
   border-color: transparent;
   background: transparent;
   color: var(--text);
-  font-weight: 700;
-  box-shadow: inset 0 -2px var(--fv-active);
+  font-weight: 600;
+  box-shadow: inset 0 calc(-1 * var(--fv-bw-2)) var(--fv-active);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout > .table-sidebar-rail {
-  border-left: 1px solid var(--fv-sep);
+  border-left: var(--fv-bw-1) solid var(--fv-sep);
   background: var(--fv-cool-5);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-sidebar-rail > .table-tabs {
@@ -1980,8 +3290,8 @@
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .table-sidebar-toggle,
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .table-map-link,
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .table-panels-all {
-  border: 1px solid var(--fv-edge);
-  border-radius: 4px;
+  border: var(--fv-bw-1) solid var(--fv-edge);
+  border-radius: var(--fv-radius-2);
   background: #15121a;
   color: var(--text);
 }
@@ -2001,11 +3311,30 @@
   border-color: var(--fv-active);
   background: #0e0713;
   color: var(--text);
-  box-shadow: inset 0 0 0 1px var(--fv-active-inner);
+  box-shadow: inset 0 0 0 var(--fv-bw-1) var(--fv-active-inner);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .table-tab-portrait {
-  border: 1px solid #000000;
-  border-radius: 3px;
+  border: var(--fv-bw-1) solid #000000;
+  border-radius: var(--fv-radius-1);
+}
+/* The inspector's group titles («Forme e creature collegate») sit 8 px over their commands. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .forms-summary > h3 {
+  margin-bottom: var(--fv-sp-4);
+}
+/* The inspector's commands keep their words on one line (Foundry's sidebar buttons): they
+   share each row by their length instead of two even columns that broke «Scheda completa» onto
+   two lines (49 px); a command alone on its row takes the whole row, as Foundry's sidebar
+   buttons do. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .inspector-buttons {
+  display: flex;
+  flex-wrap: wrap;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .table-layout
+  .inspector-buttons
+  > .button {
+  flex: 1 1 auto;
+  white-space: nowrap;
 }
 /* Inspector: a sidebar document in bold Signika; dnd5e's AC shield in gold. */
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .inspector-person h2 {
@@ -2021,8 +3350,8 @@
   .table-layout
   .table-hotbar
   .hotbar-portrait {
-  border: 1px solid #000000;
-  border-radius: 4px;
+  border: var(--fv-bw-1) solid #000000;
+  border-radius: var(--fv-radius-2);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .inspector-ac {
   border-color: #9f9275;
@@ -2030,6 +3359,15 @@
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .inspector-ac small {
   color: #9f9275;
+}
+/* The creature's state in the inspector: the sheet's badge geometry (2 × 8, 3 px corners, a
+   14 px bold word) in Foundry's face; it was a 4 × 11 pill at 13 px. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .conditions-vital {
+  padding: var(--fv-sp-1) var(--fv-sp-4);
+  border-radius: var(--fv-radius-1);
+  font-size: var(--fv-fs-14);
+  font-weight: 700;
+  line-height: var(--fv-lh-snug);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .table-layout
@@ -2046,6 +3384,8 @@
     .table-layout
     > .action-dock.table-hotbar
     > .hotbar-center {
+    margin-bottom: var(--fv-sp-4);
+    padding: var(--fv-sp-3) var(--fv-sp-5);
     border-color: transparent;
     border-radius: 0;
     background: transparent;
@@ -2060,12 +3400,13 @@
     > .action-dock.table-hotbar:not(:has(> .hotbar-center))
     > .hotbar-identity {
     align-self: center;
-    margin-right: 8px;
-    padding: 7px 12px;
-    border: 1px solid #000000;
-    border-radius: 6px;
+    margin: 0 var(--fv-sp-4) 0 0;
+    /* The player list's card has one inner margin, 6 × 12, here and in the map caption. */
+    padding: var(--fv-sp-3) var(--fv-sp-5);
+    border: var(--fv-bw-1) solid #000000;
+    border-radius: var(--fv-radius-3);
     background: rgb(20 15 17 / 0.9);
-    box-shadow: 0 2px 8px rgb(0 0 0 / 0.55);
+    box-shadow: var(--fv-shadow-float);
   }
   /* The slots: 62 px squares, the glyph centred over a short caption (two lines at most; the
      full name stays the button's text). Foundry's slots carry only art and a number, but our
@@ -2076,10 +3417,10 @@
     .combat-actions {
     flex-wrap: nowrap;
     align-items: center;
-    gap: 6px;
+    gap: var(--fv-sp-3);
     /* 6 px of room inside the scrolling row keeps the 3 px focus ring whole (C17). */
-    padding: 6px;
-    margin: -6px;
+    padding: var(--fv-sp-3);
+    margin: calc(-1 * var(--fv-sp-3));
     overflow-x: auto;
     overflow-y: hidden;
   }
@@ -2096,12 +3437,12 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 3px;
-    width: 62px;
-    height: 62px;
-    min-height: 62px;
-    padding: 4px 1px 3px;
-    border-radius: 6px;
+    gap: var(--fv-sp-2);
+    width: var(--fv-slot-size);
+    height: var(--fv-slot-size);
+    min-height: var(--fv-slot-size);
+    padding: var(--fv-sp-2) var(--fv-sp-1) var(--fv-sp-2);
+    border-radius: var(--fv-radius-3);
     text-align: center;
   }
   :root[data-direction="foundry"]:not([data-pref-theme="light"])
@@ -2133,9 +3474,9 @@
     display: -webkit-box;
     max-width: 100%;
     overflow: hidden;
-    font-size: 11px;
+    font-size: var(--fv-fs-11);
     font-weight: 600;
-    line-height: 1.05;
+    line-height: var(--fv-lh-tight);
     white-space: normal;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
@@ -2159,21 +3500,27 @@
     .combat-group
     + .combat-group
     > .combat-action.is-group-start {
-    margin-left: 8px;
+    margin-left: var(--fv-sp-4);
   }
   /* The cost filter: a narrow key at the row's start, like the bar's side controls. */
+  /* No frame around the keys: the app's 1 px rim and 1 px padding made the row 66 px tall and
+     set every slot 2 px below «Mosse»; now keys, slots and «Mosse» share one top. */
   :root[data-direction="foundry"]:not([data-pref-theme="light"])
     .table-layout
     .table-hotbar
     .combat-filters {
     align-self: center;
+    gap: var(--fv-sp-3);
+    padding: 0;
+    border: 0;
+    background: transparent;
   }
   :root[data-direction="foundry"]:not([data-pref-theme="light"])
     .table-layout
     .table-hotbar
     .combat-filter {
-    min-width: 40px;
-    min-height: 56px;
+    min-width: var(--fv-ctl);
+    min-height: var(--fv-slot-size);
   }
   :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-hotbar .hotbar-resources,
   :root[data-direction="foundry"]:not([data-pref-theme="light"])
@@ -2181,11 +3528,20 @@
     .table-hotbar
     .combat-bar-heading {
     border-color: rgb(0 0 0 / 0.8);
-    border-radius: 6px;
+    border-radius: var(--fv-radius-3);
     background: rgb(21 17 26 / 0.92);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
-    box-shadow: 0 2px 8px rgb(0 0 0 / 0.55);
+    box-shadow: var(--fv-shadow-float);
+  }
+  /* The dice card («Dadi · Digitali · Tiri e risultati») has one inner margin on both sides, the
+     player card's 12 (the app's 10 and 2 left «Tiri e risultati» 3 px from the rim, round 2).
+     The card floats over the bar, so the bar's height does not change. */
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-bar-heading {
+    padding-inline: var(--fv-sp-5);
   }
   :root[data-direction="foundry"]:not([data-pref-theme="light"])
     .table-layout
@@ -2201,18 +3557,18 @@
     > .toolbar
     > .button.primary[data-table="end-turn"] {
     align-self: center;
-    height: 62px;
-    padding: 6px;
-    border-width: 1px;
-    border-radius: 6px;
-    box-shadow: 0 2px 8px rgb(0 0 0 / 0.55);
+    height: var(--fv-slot-size);
+    padding: var(--fv-sp-3);
+    border-width: var(--fv-bw-1);
+    border-radius: var(--fv-radius-2);
+    box-shadow: var(--fv-shadow-float);
   }
   :root[data-direction="foundry"]:not([data-pref-theme="light"])
     .table-layout.is-collapsed
     > .action-dock.table-hotbar
     > .toolbar {
     border-color: rgb(0 0 0 / 0.8);
-    border-radius: 6px;
+    border-radius: var(--fv-radius-3);
     background: rgb(14 11 17 / 0.92);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
@@ -2228,7 +3584,7 @@
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .hotbar-hp {
   border-color: rgb(0 0 0 / 0.8);
-  border-radius: 4px;
+  border-radius: var(--fv-radius-2);
   background: #000000;
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .hotbar-hp-bar {
@@ -2260,13 +3616,17 @@
 }
 /* Page controls (the hotbar's page arrows): small dark squares, the open page outlined. */
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .hotbar-page-tab {
-  border: 1px solid #000000;
-  border-radius: 4px;
+  /* A boxed command: the buttons' label (14/600) and block padding (6); the app's inline
+     padding stays (12, 8 on the phone). */
+  padding-block: var(--fv-sp-3);
+  border: var(--fv-bw-1) solid #000000;
+  border-radius: var(--fv-radius-2);
   background: var(--fv-slot);
   color: var(--muted);
   font-family: var(--font-ui);
-  font-size: 13px;
+  font-size: var(--fv-fs-14);
   font-weight: 600;
+  line-height: var(--fv-lh-snug);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .table-layout
@@ -2280,7 +3640,41 @@
   border-color: var(--fv-active);
   background: #0c0a12;
   color: var(--text);
-  box-shadow: inset 0 0 0 1px var(--fv-active-inner);
+  box-shadow: inset 0 0 0 var(--fv-bw-1) var(--fv-active-inner);
+}
+/* «Barra rapida»: its page arrows and tools are the same small dark squares, and the page's name
+   is Foundry's hotbar page number box (Signika 14/600, 4 px corners), not a serif pill. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .qb-icon {
+  border: var(--fv-bw-1) solid #000000;
+  border-radius: var(--fv-radius-2);
+  background: var(--fv-slot);
+  color: var(--text);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .table-layout
+  .qb-icon:hover:not(:disabled) {
+  border-color: var(--fv-outline);
+  background: #0c0a12;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .qb-icon.active {
+  border-color: var(--fv-active);
+  background: #0c0a12;
+  color: var(--text);
+  box-shadow: inset 0 0 0 var(--fv-bw-1) var(--fv-active-inner);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .qb-page-name {
+  padding: 0 var(--fv-sp-5);
+  border-color: #000000;
+  border-radius: var(--fv-radius-2);
+  background: var(--fv-slot);
+  font-family: var(--font-ui);
+  font-size: var(--fv-fs-14);
+  font-weight: 600;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .table-layout
+  .qb-page-name.is-shared {
+  border-color: var(--accent);
 }
 /* Macro slots: #150F13 rounded squares with a black rim and a faint inner light. */
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
@@ -2296,13 +3690,13 @@
   .table-hotbar
   .combat-dock
   .sm-dock-toggle {
-  border: 1px solid #000000;
-  border-radius: 5px;
+  border: var(--fv-bw-1) solid #000000;
+  border-radius: var(--fv-radius-2);
   background: var(--fv-slot);
   color: var(--text);
   box-shadow:
-    inset 0 0 0 1px rgb(239 230 216 / 0.05),
-    0 1px 3px rgb(0 0 0 / 0.6);
+    inset 0 0 0 var(--fv-bw-1) rgb(239 230 216 / 0.05),
+    var(--fv-shadow-control);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .table-layout
@@ -2324,7 +3718,7 @@
   border-color: var(--fv-active);
   background: #0c0a12;
   color: var(--text);
-  box-shadow: inset 0 0 0 1px var(--fv-active-inner);
+  box-shadow: inset 0 0 0 var(--fv-bw-1) var(--fv-active-inner);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .table-layout
@@ -2337,14 +3731,25 @@
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .combat-group-tag {
   color: var(--muted);
 }
-/* The turn commands: the same square controls, the move tool active in the warm outline. */
+/* The turn commands: the same square controls, the move tool active in the warm outline. Those
+   that show only their glyph (their words are visually hidden) take no inner padding: 40 × 40
+   on every width (the phone's were 41). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .table-layout
+  .action-dock.table-hotbar
+  > .toolbar
+  .button:not(.primary):has(.dock-text) {
+  justify-content: center;
+  min-width: var(--fv-ctl);
+  padding: 0;
+}
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .table-layout
   .action-dock.table-hotbar
   > .toolbar
   .button:not(.primary) {
-  border: 1px solid rgb(0 0 0 / 0.55);
-  border-radius: 4px;
+  border: var(--fv-bw-1) solid rgb(0 0 0 / 0.55);
+  border-radius: var(--fv-radius-2);
   background: var(--fv-control);
   color: var(--text);
 }
@@ -2372,22 +3777,24 @@
   border-color: var(--fv-active);
   background: #0c0a12;
   color: var(--text);
-  box-shadow: inset 0 0 0 1px var(--fv-active-inner);
+  box-shadow: inset 0 0 0 var(--fv-bw-1) var(--fv-active-inner);
 }
-/* End turn: Foundry's filled orange primary with dark small capitals (a rounded square). */
+/* End turn: Foundry's filled orange primary with dark small capitals, in the controls' 4 px
+   corner (one radius for every primary). */
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .action-dock.table-hotbar
   > .toolbar
   > .button.primary[data-table="end-turn"] {
   border-color: var(--fv-warm-1);
-  border-radius: 6px;
+  border-radius: var(--fv-radius-2);
   background: var(--fv-warm-1);
   color: var(--accent-ink);
-  box-shadow: 0 2px 8px rgb(0 0 0 / 0.55);
+  box-shadow: var(--fv-shadow-float);
   font-family: var(--font-ui);
-  font-size: 16px;
+  font-size: var(--fv-fs-caps);
   font-weight: 700;
-  letter-spacing: 0.04em;
+  line-height: var(--fv-lh-snug);
+  letter-spacing: var(--fv-track-label);
   font-variant-caps: all-small-caps;
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
@@ -2399,8 +3806,8 @@
 }
 /* Chat log roll cards: dnd5e's parchment card in the dark log (F9), the total boxed large. */
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .chat-roll-card {
-  border: 1px solid #b5b3a4;
-  border-radius: 5px;
+  border: var(--fv-bw-1) solid #b5b3a4;
+  border-radius: var(--fv-radius-2);
   background: #eae4de;
   color: #191813;
 }
@@ -2412,30 +3819,507 @@
   color: #4b4a44;
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .chat-roll-total {
-  border: 1px solid #7a7971;
-  border-radius: 3px;
+  border: var(--fv-bw-1) solid #7a7971;
+  border-radius: var(--fv-radius-1);
   background: #f8f4f1;
   color: #191813;
   font-family: var(--fv-font-sheet);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .chat-msg {
   border-color: var(--fv-edge);
-  border-radius: 5px;
+  border-radius: var(--fv-radius-2);
   background: var(--fv-window);
+}
+
+/* ---- One icon voice (fix round 2): the own-SVG icons the core cannot swap — the token menu's
+   rows, the session and safety buttons, «Mosse», the zoom column's find and fit keys — take
+   the Font Awesome solid glyph of the same meaning as a mask (decorative; the svg keeps its
+   aria-hidden, its stroke paths are only hidden). An icon not listed keeps the app's line. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .token-menu-item[data-token-menu-item="token-menu-conditions"]
+  > .token-menu-icon,
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  :is([data-token-menu-item="token-menu-sheet"], [data-token-menu-item="integrations-sheet-edit"])
+  > .token-menu-icon,
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .token-menu-item[data-token-menu-item="token-menu-center"]
+  > .token-menu-icon,
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .token-menu-item[data-token-menu-item="token-menu-pick"]
+  > .token-menu-icon,
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .token-menu-item[data-token-menu-item="damage-tray-hp"]
+  > .token-menu-icon,
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .token-menu-item[data-token-menu-item="knowledge-search"]
+  > .token-menu-icon,
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .token-menu-item[data-token-menu-item="fog-vision-senses"]
+  > .token-menu-icon,
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .token-menu-category[data-token-menu-category="actions"]
+  > .token-menu-icon,
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .token-menu-category[data-token-menu-category="look"]
+  > .token-menu-icon,
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .token-menu-close > .token-menu-icon,
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .token-menu-back > .token-menu-icon,
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .session-view-hud-button.is-stop
+  > .icon,
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .session-view-hud-button.is-pace
+  > .icon,
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  :is([data-safety-hud="raise-hand"], [data-safety-hud="lower-hand"], [data-safety-hud-queue])
+  > .icon,
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .session-view-hud-button
+  .session-view-caret,
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .table-layout
+  .sm-dock-toggle
+  .sm-glyph,
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .table-layout
+  .map-zoom
+  [data-table="find-token"]
+  > .icon,
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .table-layout
+  .map-zoom
+  [data-table="fit"]
+  > .icon {
+  background: currentColor;
+  mask: var(--fv-glyph) center / contain no-repeat;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .token-menu-item[data-token-menu-item="token-menu-conditions"]
+  > .token-menu-icon
+  > *,
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  :is([data-token-menu-item="token-menu-sheet"], [data-token-menu-item="integrations-sheet-edit"])
+  > .token-menu-icon
+  > *,
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .token-menu-item[data-token-menu-item="token-menu-center"]
+  > .token-menu-icon
+  > *,
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .token-menu-item[data-token-menu-item="token-menu-pick"]
+  > .token-menu-icon
+  > *,
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .token-menu-item[data-token-menu-item="damage-tray-hp"]
+  > .token-menu-icon
+  > *,
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .token-menu-item[data-token-menu-item="knowledge-search"]
+  > .token-menu-icon
+  > *,
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .token-menu-item[data-token-menu-item="fog-vision-senses"]
+  > .token-menu-icon
+  > *,
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .token-menu-category[data-token-menu-category="actions"]
+  > .token-menu-icon
+  > *,
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .token-menu-category[data-token-menu-category="look"]
+  > .token-menu-icon
+  > *,
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .token-menu-close
+  > .token-menu-icon
+  > *,
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .token-menu-back
+  > .token-menu-icon
+  > *,
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .session-view-hud-button.is-stop
+  > .icon
+  > *,
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .session-view-hud-button.is-pace
+  > .icon
+  > *,
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  :is([data-safety-hud="raise-hand"], [data-safety-hud="lower-hand"], [data-safety-hud-queue])
+  > .icon
+  > *,
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .session-view-hud-button
+  .session-view-caret
+  > *,
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .table-layout
+  .sm-dock-toggle
+  .sm-glyph
+  > *,
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .table-layout
+  .map-zoom
+  [data-table="find-token"]
+  > .icon
+  > *,
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .table-layout
+  .map-zoom
+  [data-table="fit"]
+  > .icon
+  > * {
+  visibility: hidden;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .token-menu-item[data-token-menu-item="token-menu-conditions"]
+  > .token-menu-icon {
+  --fv-glyph: var(--fv-mask-circle-exclamation);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  :is([data-token-menu-item="token-menu-sheet"], [data-token-menu-item="integrations-sheet-edit"])
+  > .token-menu-icon {
+  --fv-glyph: var(--fv-mask-book-open);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .token-menu-item[data-token-menu-item="token-menu-center"]
+  > .token-menu-icon {
+  --fv-glyph: var(--fv-mask-crosshairs);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .token-menu-item[data-token-menu-item="token-menu-pick"]
+  > .token-menu-icon {
+  --fv-glyph: var(--fv-mask-expand);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .token-menu-item[data-token-menu-item="damage-tray-hp"]
+  > .token-menu-icon {
+  --fv-glyph: var(--fv-mask-heart);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .token-menu-item[data-token-menu-item="knowledge-search"]
+  > .token-menu-icon {
+  --fv-glyph: var(--fv-mask-magnifying-glass);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .token-menu-item[data-token-menu-item="fog-vision-senses"]
+  > .token-menu-icon {
+  --fv-glyph: var(--fv-mask-eye);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .token-menu-category[data-token-menu-category="actions"]
+  > .token-menu-icon {
+  --fv-glyph: var(--fv-mask-bolt);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .token-menu-category[data-token-menu-category="look"]
+  > .token-menu-icon {
+  --fv-glyph: var(--fv-mask-palette);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .token-menu-close
+  > .token-menu-icon {
+  --fv-glyph: var(--fv-mask-xmark);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .token-menu-back > .token-menu-icon {
+  --fv-glyph: var(--fv-mask-chevron-left);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .session-view-hud-button.is-stop
+  > .icon {
+  --fv-glyph: var(--fv-mask-rectangle-xmark);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .session-view-hud-button.is-pace
+  > .icon {
+  --fv-glyph: var(--fv-mask-equals);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  :is([data-safety-hud="raise-hand"], [data-safety-hud="lower-hand"], [data-safety-hud-queue])
+  > .icon {
+  --fv-glyph: var(--fv-mask-hand);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .session-view-hud-button
+  .session-view-caret {
+  --fv-glyph: var(--fv-mask-caret-down);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .table-layout
+  .sm-dock-toggle
+  .sm-glyph {
+  --fv-glyph: var(--fv-mask-person-walking);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .table-layout
+  .map-zoom
+  [data-table="find-token"]
+  > .icon {
+  --fv-glyph: var(--fv-mask-circle-user);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .table-layout
+  .map-zoom
+  [data-table="fit"]
+  > .icon {
+  --fv-glyph: var(--fv-mask-crosshairs);
+}
+/* The zoom keys draw «+» and «−» as text (their names are their aria-labels): the text is
+   set to nothing and the same solid plus and minus are drawn in the icon box. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .table-layout
+  .map-zoom
+  :is([data-table="zoom-in"], [data-table="zoom-out"]) {
+  font-size: 0;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .table-layout
+  .map-zoom
+  :is([data-table="zoom-in"], [data-table="zoom-out"])::before {
+  content: "";
+  width: var(--fv-icon);
+  height: var(--fv-icon);
+  background: currentColor;
+  mask: var(--fv-mask-plus) center / contain no-repeat;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .table-layout
+  .map-zoom
+  [data-table="zoom-out"]::before {
+  mask-image: var(--fv-mask-minus);
+}
+
+/* ---- Finestra dell'iniziativa: the Encounter Tracker's rows (F8, F18) in Foundry's window.
+   Each creature is a row on the window body (no card), the bold cream name over its muted
+   line, the total in the tracker's square initiative box (plum #302731, cream digits); rows
+   are split by the window's hairline. A creature left out keeps the app's dashed rim. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .ct-start-tools {
+  gap: var(--fv-sp-4);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .ct-start-list {
+  gap: 0;
+  border-top: var(--fv-bw-1) solid var(--fv-sep);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .ct-start-row {
+  gap: var(--fv-sp-2) var(--fv-sp-5);
+  padding: var(--fv-sp-4) var(--fv-sp-2);
+  border: 0;
+  border-bottom: var(--fv-bw-1) solid var(--fv-sep);
+  border-radius: 0;
+  background: transparent;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .ct-start-row:not(.is-included) {
+  border: var(--fv-bw-1) dashed var(--line-strong);
+  border-radius: var(--fv-radius-2);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .ct-start-row.is-included
+  .ct-start-who::before {
+  min-width: var(--fv-sp-5);
+  color: var(--muted);
+}
+/* Counter, check box and name on one grid: the creature's line hangs exactly under its name
+   (it started 7 px left of it), at every width. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .ct-start-who {
+  display: grid;
+  grid-template-columns: var(--fv-sp-5) auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: var(--fv-sp-4);
+  row-gap: 0;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .ct-start-who > input {
+  grid-column: 2;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .ct-start-who > :not(input) {
+  grid-column: 3;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .ct-start-who small {
+  width: auto;
+  padding-left: 0;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .ct-start-who strong {
+  color: var(--text);
+  font-size: var(--fv-fs-16);
+  font-weight: 700;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) :is(.ct-start-roll, .ct-start-d20) {
+  gap: var(--fv-sp-3);
+}
+/* The d20 field is a flat Foundry field (the app's 2 px inset bevel is replaced). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .ct-start-d20 input {
+  min-height: var(--fv-ctl);
+  padding: 0 var(--fv-sp-3);
+  border: var(--fv-bw-1) solid var(--fv-cool-4);
+  border-radius: var(--fv-radius-1);
+  background-color: var(--fv-cool-4);
+  font-size: var(--fv-fs-16);
+  font-weight: 700;
+  text-align: center;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .ct-start-total {
+  display: inline-grid;
+  place-items: center;
+  min-width: var(--fv-ctl);
+  height: var(--fv-ctl);
+  padding: 0 var(--fv-sp-2);
+  border-radius: var(--fv-radius-2);
+  background: var(--fv-cool-4);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: var(--fv-fs-18);
+  font-weight: 700;
+}
+/* «Sorpreso» is a control label (14) and its box sits in the check-box column, under the
+   creature's own box (counter 12 + gap 8). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .ct-start-surprise {
+  margin-inline-start: calc(var(--fv-sp-5) + var(--fv-sp-4));
+  font-size: var(--fv-fs-14);
+}
+
+/* ---- Menu della pedina: the Token HUD's palette (F7) — a dark translucent list in a black
+   edge, rows of a glyph and a label, groups split by hairlines (dnd5e's context menu, D5);
+   the chosen entry in the warm outline of the active control; the hit points in the HUD's
+   stat box with its lime rim (#71BE04). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .token-menu {
+  padding: var(--fv-sp-2);
+  border: var(--fv-bw-1) solid #000000;
+  border-radius: var(--fv-radius-3);
+  background: var(--fv-cool-5);
+  box-shadow: var(--shadow-3);
+  color: var(--text);
+  font-size: var(--fv-fs-14);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .token-menu-head {
+  align-items: center;
+  gap: var(--fv-sp-4);
+  padding: var(--fv-sp-2) var(--fv-sp-2) var(--fv-sp-4);
+  border-bottom: var(--fv-bw-1) solid var(--fv-sep);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .token-menu-portrait {
+  border: var(--fv-bw-1) solid #000000;
+  border-radius: var(--fv-radius-2);
+  box-shadow: var(--fv-shadow-control);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .token-menu-title strong {
+  font-family: var(--font-ui);
+  font-size: var(--fv-fs-16);
+  font-weight: 700;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .token-menu-title small {
+  font-size: var(--fv-fs-12);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .token-menu-close {
+  width: var(--fv-ctl);
+  height: var(--fv-ctl);
+  padding: 0;
+  border-radius: var(--fv-radius-2);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .token-menu-close:hover {
+  background: rgb(239 230 216 / 0.08);
+  color: var(--text);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .token-menu-hp {
+  gap: var(--fv-sp-4);
+  margin: var(--fv-sp-4) 0 0;
+  padding: 0 var(--fv-sp-2);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .token-menu-hp label {
+  color: var(--text);
+  font-weight: 700;
+}
+/* The hit points are the dialog's number box (0 × 6, 3 px corners, 16 bold) in the HUD's lime
+   rim; «Applica» is the standard button (6 × 12). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .token-menu-hp input {
+  min-height: var(--fv-ctl);
+  padding: 0 var(--fv-sp-3);
+  border: var(--fv-bw-1) solid var(--fv-hp);
+  border-radius: var(--fv-radius-1);
+  background: rgb(11 10 19 / 0.8);
+  color: #ffffff;
+  font-size: var(--fv-fs-16);
+  font-weight: 700;
+  text-align: center;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .token-menu-hp .button {
+  min-height: var(--fv-ctl);
+  padding: var(--fv-sp-3) var(--fv-sp-5);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  :is(.token-menu-help, .token-menu-error) {
+  margin: var(--fv-sp-2) var(--fv-sp-2) var(--fv-sp-4);
+  font-size: var(--fv-fs-12);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  :is(.token-menu-list, .token-menu-palette, .token-menu-swatches) {
+  margin: var(--fv-sp-2) 0 0;
+  gap: var(--fv-sp-2);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .token-menu-sep {
+  margin: var(--fv-sp-2) 0;
+  background: var(--fv-sep);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  :is(.token-menu-item, .token-menu-back, .token-menu-toggle, .token-menu-swatch) {
+  gap: var(--fv-sp-4);
+  min-height: var(--fv-ctl);
+  padding: 0 var(--fv-sp-4);
+  border-radius: var(--fv-radius-2);
+  font-size: var(--fv-fs-14);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  :is(.token-menu-item, .token-menu-back, .token-menu-toggle, .token-menu-swatch):is(
+    :hover,
+    :focus-visible
+  ) {
+  background: rgb(239 230 216 / 0.1);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  :is(.token-menu-toggle, .token-menu-swatch)[aria-checked="true"] {
+  border-color: var(--fv-active);
+  background: #0c0a12;
+  box-shadow: inset 0 0 0 var(--fv-bw-1) var(--fv-active-inner);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .token-menu-count {
+  padding: 0 var(--fv-sp-2);
+  border-color: var(--fv-edge);
+  border-radius: var(--fv-radius-1);
+  background: var(--fv-cool-5);
+  font-size: var(--fv-fs-11);
+}
+/* The sub-menu mark: Font Awesome's solid chevron-right (CC BY 4.0) as a mask, beside the solid
+   row glyphs; the app's «›» stays in the markup (aria-hidden), set to nothing. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .token-menu-chevron {
+  flex: none;
+  width: var(--fv-sp-6);
+  height: var(--fv-sp-6);
+  background: currentColor;
+  font-size: 0;
+  mask: var(--fv-mask-chevron-right) center / contain no-repeat;
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .token-menu-subtitle {
+  margin: var(--fv-sp-1) var(--fv-sp-4) var(--fv-sp-3);
+  font-size: var(--fv-fs-12);
 }
 
 /* ------------------------------------------------------------------ phone (390)
    Foundry has no phone layout (KB «Minimum Requirements»: 1366 × 768, mouse and keyboard):
    the phone keeps the app's own structure in Foundry's materials. */
 @media screen and (max-width: 720px) {
+  /* The Table header keeps one row on the phone, as today: its two commands («App» and the way
+     back, an arrow here) keep the app's compact 6 px margin around the 14 px label instead of
+     the buttons' 6 × 12, which pushed the six services onto a second row (W3 guarantee). */
+  :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-header > .button {
+    padding: var(--fv-sp-3);
+  }
   :root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page > .page-heading {
     align-items: center;
   }
   :root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page > .page-heading h1 {
-    font-size: 46px;
+    font-size: var(--fv-fs-46);
   }
   :root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet {
-    padding: 0 14px 18px;
+    padding: 0 var(--fv-sp-6) var(--fv-sp-6);
   }
   :root[data-direction="foundry"]:not([data-pref-theme="light"])
     .character-sheet
@@ -2443,22 +4327,16 @@
   :root[data-direction="foundry"]:not([data-pref-theme="light"])
     .character-sheet
     .character-heading {
-    margin-inline: -14px;
-    padding-inline: 14px;
+    margin-inline: calc(-1 * var(--fv-sp-6));
+    padding-inline: var(--fv-sp-6);
   }
   :root[data-direction="foundry"]:not([data-pref-theme="light"])
     .character-sheet
     .character-heading {
-    padding-bottom: 18px;
-  }
-  :root[data-direction="foundry"]:not([data-pref-theme="light"])
-    .character-sheet
-    .character-heading
-    h1 {
-    font-size: 42px;
+    padding-bottom: var(--fv-sp-6);
   }
   :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout > .table-topline {
-    border-bottom: 1px solid var(--fv-sep);
+    border-bottom: var(--fv-bw-1) solid var(--fv-sep);
     background: var(--fv-window);
   }
   :root[data-direction="foundry"]:not([data-pref-theme="light"])
@@ -2474,11 +4352,11 @@
   }
   /* The chips keep the app's phone strip; the group's name becomes readable (11 px). */
   :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .combat-group-tag {
-    font-size: 11px;
+    font-size: var(--fv-fs-11);
   }
   :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .map-tools-toggle {
-    border: 1px solid rgb(0 0 0 / 0.55);
-    border-radius: 4px;
+    border: var(--fv-bw-1) solid rgb(0 0 0 / 0.55);
+    border-radius: var(--fv-radius-2);
     background: var(--fv-control);
     color: var(--text);
   }
@@ -2486,7 +4364,122 @@
     .table-layout
     > .table-sidebar-panel {
     border-top-color: var(--fv-sep);
-    border-radius: 6px 6px 0 0;
+    border-radius: var(--fv-radius-3) var(--fv-radius-3) 0 0;
+  }
+  /* The phone's action strip scrolls sideways: 6 px of room inside it keeps the 3 px focus
+     ring whole, as on the desktop row (W2 open item; «Attuale» clips it the same way). The
+     room is taken back above, below and at the start only; at its end the strip stops 8 px
+     short (14 px from «Mosse» with the bar's 6 px gap) and fades at an edge while actions are
+     hidden there (below). The gutter is the strip's own margin, so the bar's columns (and the turn
+     resources above) keep their width. */
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-actions {
+    padding: var(--fv-sp-3);
+    margin: calc(-1 * var(--fv-sp-3)) var(--fv-sp-4) calc(-1 * var(--fv-sp-3))
+      calc(-1 * var(--fv-sp-3));
+    scroll-padding-inline: var(--fv-sp-8);
+  }
+  /* «Mosse» on the phone: its label takes the one button size (14), and an 8 px inner margin
+     keeps the key no wider than today's, so the turn resources beside «Azioni» stay whole; it is
+     as tall as the action slots beside it (44, the phone rows). */
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .sm-dock-toggle {
+    min-height: var(--fv-ctl-lg);
+    padding-inline: var(--fv-sp-4);
+  }
+  /* The phone's action slots and «Mosse» share one inner margin and gap, on the 2 px step
+     (4 × 8 and 4; the app's 5 × 8, 6 × 8 and 5, round 2); both stay 44 px tall. */
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    :is(.combat-action, .combat-dock .sm-dock-toggle) {
+    gap: var(--fv-sp-2);
+    padding: var(--fv-sp-2) var(--fv-sp-4);
+  }
+  /* The token menu docks as the app's bottom sheet: rounded top, 44 px rows for the finger. */
+  :root[data-direction="foundry"]:not([data-pref-theme="light"]) .token-menu.sheet {
+    padding: var(--fv-sp-4) var(--fv-sp-5) calc(var(--fv-sp-5) + env(safe-area-inset-bottom, 0px));
+    border-radius: var(--fv-radius-3) var(--fv-radius-3) 0 0;
+  }
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .token-menu.sheet
+    :is(.token-menu-item, .token-menu-back, .token-menu-toggle, .token-menu-swatch) {
+    min-height: var(--fv-ctl-lg);
+  }
+}
+/* The phone's action strip fades at the side where actions are hidden, with the sheet tabs'
+   sticky shades (scroll-state, not an animation), in the bar's colour. */
+@media screen and (max-width: 720px) {
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-actions {
+    --fv-fade-to: var(--fv-sidebar);
+    --fv-fade-gap: var(--fv-sp-3);
+    --fv-fade-pad: var(--fv-sp-3);
+    container-type: scroll-state;
+  }
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-actions::before,
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-actions::after {
+    content: "";
+    position: sticky;
+    z-index: 1;
+    flex: none;
+    align-self: stretch;
+    width: var(--fv-sp-8);
+    pointer-events: none;
+    opacity: 0;
+  }
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-actions::before {
+    inset-inline-start: calc(-1 * var(--fv-fade-pad));
+    margin-inline-end: calc(-1 * (var(--fv-sp-8) + var(--fv-fade-gap)));
+    background: linear-gradient(to left, transparent, var(--fv-fade-to) 75%);
+  }
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-actions::after {
+    inset-inline-end: calc(-1 * var(--fv-fade-pad));
+    margin-inline-start: calc(-1 * (var(--fv-sp-8) + var(--fv-fade-gap)));
+    background: linear-gradient(to right, transparent, var(--fv-fade-to) 75%);
+  }
+  /* A focused action is lifted over the shades: its 3 px ring and its name stay whole. */
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-actions
+    button:focus-visible {
+    position: relative;
+    z-index: 2;
+  }
+  @container scroll-state(scrollable: inline-start) {
+    :root[data-direction="foundry"]:not([data-pref-theme="light"])
+      .table-layout
+      .table-hotbar
+      .combat-actions::before {
+      opacity: 1;
+    }
+  }
+  @container scroll-state(scrollable: inline-end) {
+    :root[data-direction="foundry"]:not([data-pref-theme="light"])
+      .table-layout
+      .table-hotbar
+      .combat-actions::after {
+      opacity: 1;
+    }
   }
 }
 /* The narrow sheet is one grid with an 8 px gap: the banner's two parts stay joined. */
@@ -2495,5 +4488,68 @@
     .character-sheet
     .character-heading {
     margin-top: calc(-1 * var(--space-2));
+  }
+}
+/* The banner's two command strips wrap on a narrow sheet: every line is filled (no half-empty
+   black row) and split from the next by the same hairline as the commands, drawn as the 1 px
+   gap over the hairline colour (#484235 = the 45 % gold over black). Each command keeps the
+   rim's inner corner, so the gold rim stays whole at the four corners. */
+@container character-sheet (max-width: 899px) {
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .character-sheet
+    :is(.character-heading > .toolbar, .character-breadcrumb .clib-sheet-bar) {
+    gap: var(--fv-bw-1);
+    background: #484235;
+  }
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .character-sheet
+    :is(.character-heading > .toolbar, .character-breadcrumb .clib-sheet-bar)
+    > * {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .character-sheet
+    :is(.character-heading > .toolbar, .character-breadcrumb .clib-sheet-bar)
+    > :is(.button, .badge) {
+    border-radius: var(--fv-radius-1);
+  }
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .character-sheet
+    :is(.character-heading > .toolbar, .character-breadcrumb .clib-sheet-bar)
+    > :is(.button:not(.primary), .badge) {
+    background: #000000;
+    box-shadow: none;
+  }
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .character-sheet
+    :is(.character-heading > .toolbar, .character-breadcrumb .clib-sheet-bar)
+    > .button:hover:not(:disabled) {
+    background: #191713;
+  }
+}
+/* On a narrow sheet the hit points stack as dnd5e's meter (D2): the label, then the bar across
+   the whole card, the temporary points, then the amount with Heal and Damage — instead of a
+   62 px column where the label could not fit on one line. */
+@container character-sheet (max-width: 899px) {
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-vitals
+    .character-hp:has(.dt-hp-row) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-hp
+    > :not(.dt-hp, [data-ext-slot]) {
+    grid-column: 1;
+  }
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-hp
+    .dt-hp-row {
+    grid-column: 1;
+    grid-row: 4;
+    justify-self: stretch;
   }
 }

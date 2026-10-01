@@ -56,7 +56,74 @@
    - icons: Material Icons Round / Material Symbols Rounded (Apache-2.0) → Owlbear 2 uses MUI
      rounded icons → O1 toolbar, O3 menu; icons.mjs for the app's icon() names, CSS masks
      (assets/icons/*.svg) for the app's own-SVG glyphs; licence LICENSE-material-design-icons.txt
-   - brand (d20 logo, wordmark) pinned to today's look → code-map §0.5 */
+   - brand (d20 logo, wordmark) pinned to today's look → code-map §0.5
+   (01/10/2026, round 1 extended)
+   - ONE scale (I-250): spacing = MUI theme.spacing (4/8/12/16/20/24/32/40/48), type = MUI v5
+     typography in Roboto (12/14/16/18/20/24/34 with whole-pixel line heights), radii 16 /
+     12 dense / 20 dice / pill / round / 2 glyph, borders 1/2/3, heights 24/40/48/56; the
+     app's --text-* and --radius-* mapped onto it → Owlbear 2 (MUI theme) → facts.md 1B, 2B,
+     4B; measured on O10, O14, O15 (block «scale» below)
+   - shared lists in a darker inner well, rows split by the 12 % divider, grey list
+     subheaders → O12 Player Permissions, O5 Initiative, O14 «Collections»
+   - notices inside cards and dialogs as the info strip (one step lighter, lavender text
+     action) → O14 «Maps are the base layer… LEARN MORE»
+   - MUI Checkbox (white 70 % outline, lavender fill with a dark check), filled chips (the
+     chosen one lavender), outlined fields 40 px → O10, O12, O14
+   - Scheda · Magie: the spellcasting numbers as the divided strip, the slot rows as text with
+     text buttons, the level filters as chips, each level a subheader over its well of rows
+     → O12, O14 (Owlbear has no spellbook: SOURCES.md «Differenze dichiarate»)
+   - Scheda · Inventario as the Assets manager: search, chips, the header strip, «Addosso»
+     as the subheader in the well, rows with a rounded icon tile → O14, O12
+   - the start-of-combat dialog as the Initiative list inside a dialog: the well, white
+     totals, pill d20 fields, the roll call as the info strip; on the phone the actions full
+     width, one per line → O5, O12, O16
+   - the token menu two-tier: the name on the darker strip, the commands on the lighter menu
+     surface #3E404F, dense rows (radius 12), counts as chips → O4, O3
+   - Tavolo in esplorazione: the same floating glass pieces as in combat → O1, O9
+   - phone: the session snackbar at the map's foot above the zoom pill (Material's phone
+     placement), never over the turn portraits or the tokens → facts.md 2B «Snackbars»
+   (01/10/2026, I-250 fix round after the independent critique)
+   - the app's own paddings, margins and gaps on every skinned piece mapped onto the --ob-sp-*
+     steps (block «ONE SPACING SCALE»): 96 % of the measured spacing on the 4 px grid → MUI
+     theme.spacing → facts.md 1B
+   - text buttons: MUI's 8 px padding everywhere, no outline; a text button that opens a block
+     sits 8 px outside it so its label meets the text edge → MUI CardActions → O11, O13
+   - every field writes body1 16 px, 12 px inside; checkbox labels body1 → MUI OutlinedInput,
+     FormControlLabel → O10, O16
+   - one button size per breakpoint (20 px small caps from 721 px, 18 px on the phone), two
+     documented small slots (snackbar actions, the dock's dice pill) → MUI Button size small
+   - band and summary boxes: label on the top line, number centred on one line, foot at the
+     bottom; list rows centred, values inset 16 px from the card → MUI List, ListItemText → O12
+   - the spellcasting strip as the ability strip (centred, four a row); the inventory header two
+     a row, actions on one line → O12, O14
+   - Heal / Damage and their amount field the same everywhere (Table panel too) → O10, O12
+   - the panel's sheet / inventory / rest as full-width outlined buttons → O16 «CREATE»
+   - token menu 360 px wide, every item on one line → MUI Menu → O3, O4
+   - Home: one 24 px gutter; the next-session card as tall as the room card with its actions
+     at the foot; the phone's scene title at h5 like the next card → MUI Card, CardActions → O15
+   - the keyboard focus on a map token in the 3 px focus colour (≥ 3:1 on stone), the blue
+     ring for a pointer selection only → O3, O4
+   (01/10/2026, coherence round after the third verification, block «COHERENCE ROUND»)
+   - the dock in its 120 px budget at every width: two 40 px chip rows, the filter group's
+     outline inside its box, the portrait's width added to the identity card → O1 dock
+   - phone dock: the resources under the tabs' empty start, the page tabs at the caption step
+     → O1 dock, MUI Chip small
+   - one tab recipe (48 px, 12/16 px, body2 medium, sentence case) for Home, sheet and «Tutte»;
+     one outlined-button padding; MUI's 16 px phone gutter in dialogs; the Home side card on
+     the 32 px text edge of the cards beside it → MUI Tab, Button, Dialog, Card
+   - text buttons that start a line sit 8 px out, secondary card actions at the line's end on
+     the right text edge → MUI CardActions, CardHeader action → O11, O13, O15
+   - type on the scale (section titles 24/32, one medium weight 500, table cells body2) →
+     MUI typography; the Conditions dialog's status card as the darker dialog well → O12
+   (01/10/2026, second polish round after the fourth verification, block «SECOND POLISH ROUND»)
+   - the turn order's rows draw the 3 px focus ring inside, as the dock's chips → code-map §0.4
+   - Home and sheet cards one 24 px gutter apart at every width; «Primi passi» the same card
+     as the others, its label the grey body2 form label → MUI Card, Container → O15
+   - news-item actions with the one outlined-button padding and MUI's 8 px action gap →
+     MUI CardActions → O11, O15
+   - one card-title style (18/24 medium), one body2-medium line (14/20) for tabs, chips, table
+     heads and toggle segments, no 600 weight left → MUI typography → facts.md 2B
+   - the sheet's free roll as TextField + Button on one line, 8 px apart → O10, O16 */
 
 /* ------------------------------------------------------------------ Roboto (vendored) */
 @font-face {
@@ -79,6 +146,112 @@
     U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
     U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
     U+A720-A7FF;
+}
+
+/* ------------------------------------------------------------------ scale (I-250) */
+/* ONE spacing scale, ONE type scale, the radii, border widths, control heights and avatar
+   sizes of Owlbear Rodeo 2's Material-UI theme (facts.md 1B, 2B, 4B; measured on O10, O14,
+   O15). Every padding, margin, gap, font size, line height, radius and border width this file
+   sets uses them; the app's own --text-*, --radius-* and --label-tracking are mapped onto the
+   same steps, so every area of the app follows the one scale. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) {
+  /* Spacing: MUI theme.spacing(n) = 8 px × n (Owlbear keeps the default), with the half
+     steps MUI's own components use (ListItemButton margin 4px 8px, Chip padding 12px); no
+     step below 4 px. */
+  --ob-sp-05: 4px;
+  --ob-sp-1: 8px;
+  --ob-sp-15: 12px;
+  --ob-sp-2: 16px;
+  --ob-sp-25: 20px;
+  --ob-sp-3: 24px;
+  --ob-sp-4: 32px;
+  --ob-sp-5: 40px;
+  --ob-sp-6: 48px;
+  /* Type: MUI v5 typography in Roboto (Owlbear overrides none of it): caption 12/1.66,
+     body2 14/1.43, body1 16/1.5, the Initiative Tracker's title 18 (1.125rem), h6 20/1.6
+     (dialog titles, O14 «Assets»), h5 24/1.334 (section headings, O15 «Rooms»), h4 34/1.235
+     (page titles). Same calc form as preferences.css, so the text-size preference works. */
+  --ob-fs-caption: calc(12px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --ob-fs-body2: calc(14px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --ob-fs-body1: calc(16px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --ob-fs-title: calc(18px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --ob-fs-h6: calc(20px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --ob-fs-h5: calc(24px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --ob-fs-h4: calc(34px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  /* Line heights on a 4 px rhythm — MUI's ratios rounded to whole pixels: caption and body2
+     20, body1 and the title 24, h6 and h5 32, h4 40; a button's line box 22, so that with
+     its 8 px padding and 1 px outline a button is 40 px high. */
+  --ob-lh-caption: calc(20px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --ob-lh-body2: calc(20px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --ob-lh-body1: calc(24px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --ob-lh-title: calc(24px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --ob-lh-h6: calc(32px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --ob-lh-h5: calc(32px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --ob-lh-h4: calc(40px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --ob-lh-button: calc(22px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --ob-track-caption: 0.03333em;
+  --ob-track-body2: 0.01071em;
+  --ob-track-body1: 0.00938em;
+  /* Buttons: MUI's uppercase button label (14 px capitals; small 13 px) drawn as small caps,
+     which Blink and WebKit synthesise at 0.7 of the font size: the h6 step (20 px) gives
+     14 px capitals, the title step (18 px) 12.6 px for small buttons and the phone. MUI's
+     0.02857em of 14 px (0.4 px) is 0.02em of 20 px. */
+  --ob-fs-button: var(--ob-fs-h6);
+  --ob-fs-button-sm: var(--ob-fs-title);
+  --ob-track-button: 0.02em;
+  /* Radii: shape.borderRadius 16 everywhere (bars and switch tracks clamp it to a stadium),
+     12 for dense list rows (MuiListItemButton dense), 20 for the Dice extension's pills, a
+     full stadium for pills of buttons, round for icon buttons and pogs, 2 for the checkbox
+     glyph (Material «check_box»). */
+  --ob-radius: 16px;
+  --ob-radius-dense: 12px;
+  --ob-radius-dice: 20px;
+  --ob-radius-pill: 999px;
+  --ob-radius-round: 50%;
+  --ob-radius-glyph: 2px;
+  /* Borders: 1 px (outlined input, divider), 2 px (rings, checkbox), 3 px (pog rim, the
+     app's focus ring). */
+  --ob-bw-1: 1px;
+  --ob-bw-2: 2px;
+  --ob-bw-3: 3px;
+  /* Heights: 24 small chip, 40 IconButton / small input / the app's minimum target, 48 list
+     item, tab and large button, 56 outlined input, the Dice «ROLL» pill and the bottom
+     navigation; 4 LinearProgress; the Switch root 42 × 26 (Owlbear's own). */
+  --ob-h-xs: 24px;
+  --ob-h-sm: 40px;
+  --ob-h-md: 48px;
+  --ob-h-lg: 56px;
+  --ob-bar: 4px;
+  --ob-switch-w: 42px;
+  --ob-switch-h: 26px;
+  /* Icons and avatars (pogs): MUI icon 24, small 20; avatars on the 8 px grid. */
+  --ob-icon: 24px;
+  --ob-icon-sm: 20px;
+  --ob-avatar-sm: 32px;
+  --ob-avatar-md: 40px;
+  --ob-avatar-lg: 48px;
+  --ob-avatar-xl: 64px;
+  --ob-avatar-2xl: 72px;
+  /* Room tile (O15: a square image tile in the darker well) and its phone banner. */
+  --ob-room-tile: 256px;
+  --ob-room-banner: 128px;
+  /* The Table's map tools: the right edge of the two glass tool pills (layout, measured at
+     1440 × 900), which the turn-order list keeps clear of. */
+  --ob-tools-edge: 120px;
+  /* Glass blur by elevation (bundle function T7: 10 px up to elevation 2, 20 at 3, 30 at 4). */
+  --ob-blur-e2: 10px;
+  --ob-blur-e3: 20px;
+  --ob-blur-e4: 30px;
+  /* The app's own steps mapped onto the scale (so every area follows it). */
+  --text-2xs: var(--ob-fs-caption);
+  --text-xs: var(--ob-fs-caption);
+  --text-sm: var(--ob-fs-body2);
+  --text-md: var(--ob-fs-body1);
+  --text-lg: var(--ob-fs-title);
+  --text-xl: var(--ob-fs-h6);
+  --text-2xl: var(--ob-fs-h5);
+  --text-3xl: var(--ob-fs-h4);
+  --label-tracking: var(--ob-track-caption);
 }
 
 /* ------------------------------------------------------------------ tokens */
@@ -147,16 +320,20 @@
     linear-gradient(rgb(255 255 255 / 0.06), rgb(255 255 255 / 0.06)), rgb(30 34 49 / 0.75);
   --ob-glass-menu:
     linear-gradient(rgb(255 255 255 / 0.08), rgb(255 255 255 / 0.08)), rgb(30 34 49 / 0.75);
+  /* Menus (token menu, context menu) on the lighter menu surface of O4 (#3E404F): Owlbear's
+     «transparent» overlay (alpha .95) at elevation 8 (12 % white). */
+  --ob-menu-surface:
+    linear-gradient(rgb(255 255 255 / 0.12), rgb(255 255 255 / 0.12)), rgb(30 34 49 / 0.95);
   --ob-hover: rgb(255 255 255 / 0.08);
   --ob-selected: rgb(255 255 255 / 0.16);
   --ob-pog-rim: #2b2e3b;
   --ob-select-ring: #3869e7;
-  /* Radius 16 everywhere (theme.shape.borderRadius). */
-  --radius-xs: 8px;
-  --radius-sm: 16px;
-  --radius-md: 16px;
-  --radius-lg: 16px;
-  --radius: 16px;
+  /* Radius 16 everywhere (theme.shape.borderRadius), small chips included. */
+  --radius-xs: var(--ob-radius);
+  --radius-sm: var(--ob-radius);
+  --radius-md: var(--ob-radius);
+  --radius-lg: var(--ob-radius);
+  --radius: var(--ob-radius);
   /* Roboto for every role, as Owlbear's app. */
   --font-display:
     "Roboto", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial,
@@ -167,7 +344,6 @@
   --font-label:
     "Roboto", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial,
     sans-serif;
-  --label-tracking: 0.06em;
 }
 /* MUI dark text and divider values (text.primary #fff, secondary 70 %, divider 12 %). */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]) {
@@ -246,7 +422,7 @@
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .demo-controls select {
   border-radius: var(--radius-sm);
-  padding-inline: 10px;
+  padding-inline: var(--ob-sp-15);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .demo-controls button {
   color: var(--accent);
@@ -254,7 +430,7 @@
 /* The app bar: paper, one divider, no bronze rim. */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .app-header {
   background: var(--header-bg);
-  border-bottom: 1px solid var(--line);
+  border-bottom: var(--ob-bw-1) solid var(--line);
   box-shadow: var(--shadow-1);
 }
 /* Main pages: Owlbear's selectable list items (O13 tag list «All Extensions», O14
@@ -279,7 +455,7 @@
 }
 /* Icon buttons: MUI IconButton, round, white glyphs, 8 % hover. */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .icon-button {
-  border-radius: 50%;
+  border-radius: var(--ob-radius-round);
   color: var(--text);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .icon-button:hover {
@@ -291,15 +467,18 @@
    the default is MUI's neutral outlined button (O10 RESET VIEW), primary is the outlined
    lavender button (O15 CREATE A NEW ROOM, O12 SAVE), quiet is a text button. */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .button {
+  min-height: var(--ob-h-sm);
+  padding-block: var(--ob-sp-1);
+  gap: var(--ob-sp-1);
   border-color: var(--frame);
   border-radius: var(--radius-sm);
   background: transparent;
   color: var(--text);
-  font-size: 18px;
+  font-size: var(--ob-fs-button);
   font-weight: 500;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--ob-track-button);
   font-variant-caps: all-small-caps;
-  line-height: 1.15;
+  line-height: var(--ob-lh-button);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .button:hover:not(:disabled) {
   background: var(--ob-hover);
@@ -320,11 +499,46 @@
   color: var(--accent);
 }
 /* Quiet buttons are MUI's text buttons in the primary colour (O11 DENY ENTRY / ADMIT, O13
-   LEARN MORE): lavender small caps, a lavender 8 % hover. Neutral actions stay outlined. */
+   LEARN MORE): lavender small caps, a lavender 8 % hover, no outline, MUI's text-button
+   padding (8 px a side) everywhere. Neutral actions stay outlined. */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .button.quiet {
+  min-width: var(--ob-h-sm);
+  padding-inline: var(--ob-sp-1);
+  border-width: 0;
   background: transparent;
   border-color: transparent;
   color: var(--accent);
+}
+/* A text button that opens a block sits half its padding outside it, so its label starts on
+   the same line as the text above (MUI CardActions: 8 px + the button's 8 px = the card's 16).
+   The same for every text button that starts a line of its own in the Creature panel (find
+   my token, the items to use, the weapon set, the coins) and in the Conditions dialog. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(
+    .character-breadcrumb > .button.quiet:first-child,
+    .inspector-quick > .button.quiet:first-child,
+    .conditions-quick > .button.quiet.conditions-quick-add:first-child,
+    .spl-concentration > .button.quiet,
+    .shp-col-tools > .button.quiet,
+    .invp-stat > .button.quiet,
+    .invp-row-actions > .button.quiet:first-child,
+    .ct-start-call > .text-button,
+    .token-menu-panel > .button.quiet,
+    .invp-inspector-item-list > .button.quiet,
+    .invp-inspector-set > .button.quiet,
+    .loot-inspector-purse > .button.quiet,
+    .conditions-history > .button.quiet,
+    .conditions-footer > .button.quiet
+  ) {
+  margin-inline-start: calc(-1 * var(--ob-sp-1));
+}
+/* Those lines hold one text button each: the items to use as a list, the set's change
+   command under the set (so no text button ever shares a line it would crowd). */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(.invp-inspector-item-list, .invp-inspector-set) {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--ob-sp-05);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .button.quiet:hover:not(:disabled) {
   background: rgb(187 153 255 / 0.08);
@@ -345,74 +559,162 @@
   border-color: var(--accent-line);
   color: var(--accent);
 }
-/* Text buttons: MUI text primary (LEARN MORE, DENY ENTRY). */
+/* Text buttons: MUI text primary (LEARN MORE, DENY ENTRY), the same 40 px height. */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .text-button {
-  padding-inline: 8px;
+  min-height: var(--ob-h-sm);
+  padding-block: var(--ob-sp-1);
+  padding-inline: var(--ob-sp-1);
+  line-height: var(--ob-lh-button);
   border-radius: var(--radius-sm);
   color: var(--accent);
   font-weight: 500;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--ob-track-button);
   font-variant-caps: all-small-caps;
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
   .text-button:not(.combat-bar-heading .text-button) {
-  font-size: 18px;
+  font-size: var(--ob-fs-button);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .text-button:hover:not(:disabled) {
   background: rgb(187 153 255 / 0.08);
   color: var(--accent);
   text-decoration: none;
 }
-/* A summary drawn as a button («Aggiungi al calendario») gets the app's ring too. */
-:root[data-direction="owlbear"]:not([data-pref-theme="light"]) summary.button:focus-visible {
-  outline: 3px solid var(--focus);
-  outline-offset: 3px;
-}
-/* Smaller button contexts keep their step down (the small caps are drawn at 1.3× so their
-   capitals match MUI's uppercase at the context's size). */
-:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-news-item .toolbar .button,
-:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-hp .dt-manage,
+/* Every summary (a button, a text link, a disclosure row: «Aggiungi al calendario»,
+   «Perché?», «Primi passi», «Registro PF») and the sheet's hit-point value get the app's 3 px
+   ring (the browser's own 1 px ring, or the app's 2 px one, otherwise). */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) summary:focus-visible,
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
-  .table-layout
-  > .table-topline
-  .button {
-  font-size: 16px;
+  .character-hp
+  .character-hp-value:focus-visible {
+  outline: var(--ob-bw-3) solid var(--focus);
+  outline-offset: var(--ob-bw-3);
 }
+/* A control focused at the edge of a scrolling panel keeps its whole ring in view. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(.table-sidebar-panel, .table-inspector) {
+  scroll-padding-block: var(--ob-sp-2);
+}
+/* One button label size per breakpoint (I-250): 20 px small caps (14 px capitals, MUI's
+   button) from 721 px, the small step (18 px, 12.6 px capitals, MUI's small button) on the
+   phone. Two documented slots use the small step at every width, as MUI draws them small:
+   the map snackbar's actions and «Tiri e risultati» in the dice pill over the dock. */
 /* Inputs and selects: MUI OutlinedInput, radius 16, a transparent well; the outline turns
-   white on hover and lavender on focus. */
+   white on hover and lavender on focus. Every field of the app (the demo strip excepted)
+   writes in body1 16 px, 12 px inside (MUI: the small size changes the height, never the
+   type). */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(
+    input:not(
+      [type="checkbox"],
+      [type="radio"],
+      [type="range"],
+      [type="color"],
+      [type="file"],
+      [type="hidden"]
+    ),
+    select,
+    textarea
+  ):not(.demo-strip *) {
+  font-size: var(--ob-fs-body1);
+  padding-inline: var(--ob-sp-15);
+}
+/* The Table panel's (and the sheet's) damage and healing amount: the same outlined field. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .dt-amount {
+  padding-block: 0;
+  border: var(--ob-bw-1) solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text);
+  line-height: var(--ob-lh-body1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .dt-amount:hover:not(:disabled) {
+  border-color: var(--text);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .dt-amount:focus-visible {
+  border-color: var(--accent);
+}
+/* Checkbox labels: MUI FormControlLabel, body1 everywhere. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(.ct-check, .spl-check, .invp-check, .check-field) {
+  font-size: var(--ob-fs-body1);
+  line-height: var(--ob-lh-body1);
+}
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .field input,
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .field select,
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .field textarea,
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) input[type="search"],
-:root[data-direction="owlbear"]:not([data-pref-theme="light"]) select {
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) select,
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .ct-start-d20 input,
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .token-menu-hp input {
   border-color: var(--line-strong);
   border-radius: var(--radius-sm);
   background-color: transparent;
   color: var(--text);
+}
+/* The two bare number fields (the start dialog's d20, the token menu's hit points) get the
+   outlined input's border. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(.ct-start-d20 input, .token-menu-hp input) {
+  border: var(--ob-bw-1) solid var(--line-strong);
+}
+/* One-line fields at MUI's small size: 40 px high, 12 px inside. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(
+    .field
+      input:not([type="checkbox"], [type="radio"], [type="range"], [type="color"], [type="file"]),
+    .field select,
+    input[type="search"],
+    .ct-start-d20 input,
+    .token-menu-hp input
+  ) {
+  height: var(--ob-h-sm);
+  min-height: var(--ob-h-sm);
+  padding-block: 0;
+  padding-inline: var(--ob-sp-15);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) select option {
   background: var(--surface-2);
   color: var(--text);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
-  :is(.field input, .field select, .field textarea, input[type="search"]):hover:not(:disabled) {
+  :is(
+    .field input,
+    .field select,
+    .field textarea,
+    input[type="search"],
+    .ct-start-d20 input,
+    .token-menu-hp input
+  ):hover:not(:disabled) {
   border-color: var(--text);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
-  :is(.field input, .field select, .field textarea, input[type="search"]):focus-visible {
+  :is(
+    .field input,
+    .field select,
+    .field textarea,
+    input[type="search"],
+    .ct-start-d20 input,
+    .token-menu-hp input
+  ):focus-visible {
   border-color: var(--accent);
 }
-/* Chips: MUI Chip, a 16 px pill on a white fill (O12 Create / Update / Delete). */
+/* Chips: MUI Chip, a pill on a white fill (O12 Create / Update / Delete); the small chip's
+   padding. */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .badge {
+  min-height: var(--ob-h-xs);
+  padding: 0 var(--ob-sp-1);
+  line-height: var(--ob-lh-caption);
   border-color: transparent;
+  border-radius: var(--ob-radius-pill);
   background: var(--ob-selected);
   color: var(--text);
 }
 /* Switch: MUI Switch as Owlbear draws it (O10 Snapping): a lavender thumb on a lavender
    track when on, a light thumb on a white 30 % track when off. */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .switch {
-  width: 42px;
-  height: 26px;
+  width: var(--ob-switch-w);
+  height: var(--ob-switch-h);
   border: 0;
   background: radial-gradient(circle at 13px 50%, #e0e0e0 9px, transparent 9.5px)
     rgb(255 255 255 / 0.3);
@@ -424,18 +726,19 @@
 /* Tabs: the same selectable pills (O14 category strip): sentence case, the open tab on the
    lavender 16 % pill in white, no underline. */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .tabs {
-  gap: 4px;
-  padding-bottom: 6px;
+  gap: var(--ob-sp-05);
+  padding-bottom: var(--ob-sp-1);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .tabs button,
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-tabs [role="tab"] {
+  min-height: var(--ob-h-md);
   border-bottom-color: transparent;
   border-radius: var(--radius-sm);
   color: var(--muted);
   font-family: var(--font-ui);
-  font-size: 15px;
+  font-size: var(--ob-fs-body2);
   font-weight: 500;
-  letter-spacing: 0.01em;
+  letter-spacing: var(--ob-track-body2);
   font-variant-caps: normal;
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .tabs button:hover,
@@ -462,18 +765,260 @@
   border-color: transparent;
   background: var(--surface);
 }
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .stat strong {
+  font-size: var(--ob-fs-h5);
+  font-weight: 400;
+}
+/* Small labels and table heads as MUI form labels and TableCell heads: body2 medium in
+   sentence case (no small caps, no tracking); the heads white, the labels grey. */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .stat > span,
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) th {
+  font-family: var(--font-ui);
+  font-size: var(--ob-fs-body2);
   font-weight: 500;
+  letter-spacing: var(--ob-track-body2);
+  font-variant-caps: normal;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) th {
+  color: var(--text);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .empty-state {
   border-color: var(--frame);
 }
 /* Key chips stay white inside the lavender text buttons (AA on the white 16 % chip). */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) kbd {
+  padding: 0 var(--ob-sp-05);
   border-color: transparent;
+  border-radius: var(--ob-radius-pill);
+  font-size: var(--ob-fs-caption);
+  line-height: var(--ob-lh-caption);
   background: var(--ob-selected);
   color: var(--text);
+}
+/* Phone: every button label at the small step (MUI's small button), so labels stay on one
+   line. */
+@media (max-width: 720px) {
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .button,
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
+    .text-button:not(.combat-bar-heading .text-button) {
+    font-size: var(--ob-fs-button-sm);
+  }
+}
+
+/* ------------------------------------------------------------------ shared lists, fields, notices */
+/* Field labels: MUI form labels (O10 «Grid Size», O16 «Room Name»): grey body2, regular. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .field {
+  color: var(--muted);
+  font-size: var(--ob-fs-body2);
+  font-weight: 400;
+  letter-spacing: var(--ob-track-body2);
+}
+/* Checkboxes: MUI Checkbox — a 2 px rounded square in white 70 %, filled lavender with a
+   dark ✓ (Material «check») when checked; the label stays the 40 px target. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(.ct-check, .spl-check, .invp-check, .check-field)
+  input[type="checkbox"] {
+  appearance: none;
+  flex: none;
+  width: var(--ob-icon-sm);
+  height: var(--ob-icon-sm);
+  margin: 0;
+  border: var(--ob-bw-2) solid rgb(255 255 255 / 0.7);
+  border-radius: var(--ob-radius-glyph);
+  background: transparent;
+  cursor: pointer;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(.ct-check, .spl-check, .invp-check, .check-field)
+  input[type="checkbox"]:checked {
+  border-color: var(--accent);
+  background:
+    url("assets/icons/check.svg") center / 100% no-repeat,
+    var(--accent);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(.ct-check, .spl-check, .invp-check, .check-field)
+  input[type="checkbox"]:disabled {
+  opacity: 0.5;
+}
+/* Notices inside a card or a dialog: Owlbear's info strip (O14 «Maps are the base layer of
+   your scene… LEARN MORE»): one step lighter than the paper, radius 16, no rule, grey body2
+   with the action as a lavender text button. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(.ct-start-call, .ct-rollcall, .ct-mob-rule, .spl-window, .spl-window-line) {
+  border: 0;
+  border-radius: var(--ob-radius);
+  background: rgb(255 255 255 / 0.05);
+  color: var(--muted);
+  font-size: var(--ob-fs-body2);
+  line-height: var(--ob-lh-body2);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(.ct-start-call, .ct-rollcall, .ct-mob-rule, .spl-window) {
+  padding: var(--ob-sp-15) var(--ob-sp-2);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(.ct-start-call, .ct-rollcall, .ct-mob-rule, .spl-window)
+  strong {
+  color: var(--text);
+  font-weight: 500;
+}
+/* Lists inside a card or a dialog: Owlbear's darker inner well (#222639, radius 16; O12
+   «Player Permissions», O15 room well) holding full-width rows split by the 12 % divider
+   (O5 Initiative list); a row has no box of its own. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(.ct-start-list, .spl-rows, .invp-root, .invp-flat) {
+  gap: 0;
+  margin-top: var(--ob-sp-1);
+  padding: 0 var(--ob-sp-2);
+  border: 0;
+  border-radius: var(--ob-radius);
+  background: var(--surface-2);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(.ct-start-row, .spl-row, .invp-row) {
+  padding: var(--ob-sp-1) 0;
+  border: 0;
+  border-bottom: var(--ob-bw-1) solid var(--line);
+  border-radius: 0;
+  background: transparent;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(.ct-start-row, .spl-row, .invp-row):last-child {
+  border-bottom: 0;
+}
+/* List subheaders: grey body2 medium in sentence case, no rule, in line with the rows' text
+   (O12 «Prop», O14 «Collections»). */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .spl-group h3,
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .invp-root-head {
+  color: var(--muted);
+  font-family: var(--font-ui);
+  font-size: var(--ob-fs-body2);
+  font-weight: 500;
+  line-height: var(--ob-lh-body2);
+  letter-spacing: var(--ob-track-body2);
+  font-variant-caps: normal;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .spl-group h3 {
+  margin: var(--ob-sp-3) 0 0;
+  padding: 0 var(--ob-sp-2);
+  border-bottom: 0;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .spl-group h3 .muted {
+  font-size: inherit;
+  font-weight: 400;
+}
+/* Filter chips (spell levels, inventory filters, columns): MUI filled chips — a pill on
+   white 8 %, sentence case body2 medium, the chosen one filled lavender (as on the sheet). */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) :is(.spl-chip, .invp-chip) {
+  padding: 0 var(--ob-sp-15);
+  border-color: transparent;
+  border-radius: var(--ob-radius-pill);
+  background: var(--ob-hover);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: var(--ob-fs-body2);
+  font-weight: 500;
+  letter-spacing: var(--ob-track-body2);
+  font-variant-caps: normal;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(.spl-chip:hover:not([aria-pressed="true"]), .invp-chip:hover:not(.active)) {
+  background: var(--ob-selected);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(.spl-chip[aria-pressed="true"], .invp-chip.active) {
+  border-color: transparent;
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(.spl-chips, .invp-filters, .invp-columns) {
+  gap: var(--ob-sp-1);
+}
+/* Stat strips inside a card (spellcasting, inventory header): the sheet's ability strip — one
+   darker well split into segments by 1 px dividers (each segment draws the line on its top
+   and left; the well clips the outer ones), the same type (grey body2 label in sentence
+   case, the number at h5 regular), the same 12 px top padding. The spellcasting numbers are
+   centred like the abilities and sit at the segment's foot (no score chip under them), so a
+   row's numbers share one line; the inventory cells hold sentences and actions, so they read
+   left-aligned like O14's header. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) :is(.spl-stats, .invp-summary) {
+  gap: 0;
+  overflow: hidden;
+  border-radius: var(--ob-radius);
+  background: var(--surface-2);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) :is(.spl-stat, .invp-stat) {
+  padding: var(--ob-sp-15) var(--ob-sp-2);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: calc(-1 * var(--ob-bw-1)) calc(-1 * var(--ob-bw-1)) 0 var(--line);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .invp-stat.is-bad {
+  box-shadow:
+    calc(-1 * var(--ob-bw-1)) calc(-1 * var(--ob-bw-1)) 0 var(--line),
+    inset 0 0 0 var(--ob-bw-2) var(--warning);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) :is(.spl-stat dt, .invp-stat-label) {
+  color: var(--muted);
+  font-family: var(--font-ui);
+  font-size: var(--ob-fs-body2);
+  font-weight: 400;
+  line-height: var(--ob-lh-body2);
+  letter-spacing: var(--ob-track-body2);
+  font-variant-caps: normal;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(.spl-stat dd, .invp-stat > strong) {
+  margin: 0;
+  font-size: var(--ob-fs-h5);
+  font-weight: 400;
+  line-height: var(--ob-lh-h5);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .spl-stat {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: var(--ob-sp-1);
+  padding-inline: var(--ob-sp-1);
+  text-align: center;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .spl-stat dd {
+  align-self: end;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .spl-stat dd small {
+  font-size: var(--ob-fs-body2);
+}
+@media (min-width: 721px) {
+  /* Seven segments do not fit one card row with whole labels: four a row, the last segment
+     of a short row spanning what is left, so the strip has no empty cell. */
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .spl-stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
+    .spl-stat:last-child:nth-child(4n + 3) {
+    grid-column: span 2;
+  }
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
+    .spl-stat:last-child:nth-child(4n + 2) {
+    grid-column: span 3;
+  }
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
+    .spl-stat:last-child:nth-child(4n + 1) {
+    grid-column: span 4;
+  }
+  /* The inventory header: two cells a row, so every action and the encumbrance rule stay on
+     one line. */
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .invp-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+/* Its actions: lavender text buttons on one line, at the start of the cell. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .invp-stat > .button {
+  align-self: flex-start;
+  white-space: nowrap;
 }
 
 /* ------------------------------------------------------------------ dialogs, menus, toast */
@@ -486,30 +1031,105 @@
   box-shadow: var(--shadow-3);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .dialog-heading {
-  padding: 22px 24px 8px;
+  padding: var(--ob-sp-3) var(--ob-sp-3) var(--ob-sp-1);
   border-bottom: 0;
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .dialog-heading h2 {
-  font-size: 22px;
+  font-size: var(--ob-fs-h6);
   font-weight: 500;
+  line-height: var(--ob-lh-h6);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) dialog footer {
+  gap: var(--ob-sp-1);
   background: transparent;
   border-top: 0;
-  padding: 8px 24px 20px;
+  padding: var(--ob-sp-1) var(--ob-sp-3) var(--ob-sp-3);
 }
-/* Context menu: glass at elevation 4 (blur 30 px, 8 % white), no border, rows as MUI list
-   items (radius 16). */
+/* Phone: the actions as full-width outlined buttons, one per line (O16 «CREATE»), so no
+   label breaks in two. */
+@media (max-width: 720px) {
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) dialog footer {
+    flex-wrap: wrap;
+  }
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) dialog footer > .button {
+    flex: 1 1 auto;
+  }
+}
+/* The start-of-combat dialog as Owlbear's Initiative list (O5) inside a dialog (O12): the
+   scene line as the dialog's grey body text, the roll-call notice as the info strip, the
+   participants in the darker well — name and kind on the left, the d20 field, its roll
+   button and the total on the right, the total as plain white numerals like O5's counts. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .ct-start-scene {
+  margin: 0 0 var(--ob-sp-2);
+  color: var(--muted);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .ct-start-scene strong {
+  color: var(--text);
+  font-weight: 500;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .ct-start-call {
+  margin: 0 0 var(--ob-sp-2);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .ct-start-tools {
+  gap: var(--ob-sp-1);
+  margin-bottom: var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .ct-start-row {
+  gap: var(--ob-sp-05) var(--ob-sp-15);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .ct-start-row.is-included
+  .ct-start-who::before {
+  min-width: var(--ob-sp-3);
+  color: var(--muted);
+  font-weight: 500;
+}
+/* The kind line starts under the name: number 24 + gap 8 + checkbox 20 + gap 8. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .ct-start-who small {
+  padding-left: calc(var(--ob-sp-3) + var(--ob-icon-sm) + 2 * var(--ob-sp-1));
+}
+@media (max-width: 720px) {
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .ct-start-who small {
+    padding-left: 0;
+  }
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .ct-start-who {
+  gap: var(--ob-sp-05) var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .ct-start-who strong {
+  font-weight: 500;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) :is(.ct-start-roll, .ct-start-d20) {
+  gap: var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .ct-start-total {
+  padding: 0 var(--ob-sp-05);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: var(--ob-fs-h6);
+  font-weight: 400;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .ct-start-row:not(.is-included)
+  .ct-start-total {
+  color: var(--muted);
+}
+/* Context menu: the same menu surface as the token menu (O4), no border, rows as dense MUI
+   list items (radius 12). */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .context-menu {
   border: 0;
   border-radius: var(--radius-lg);
-  background: var(--ob-glass-menu);
-  -webkit-backdrop-filter: blur(30px);
-  backdrop-filter: blur(30px);
+  background: var(--ob-menu-surface);
+  -webkit-backdrop-filter: blur(var(--ob-blur-e4));
+  backdrop-filter: blur(var(--ob-blur-e4));
   box-shadow: var(--shadow-2);
 }
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .context-menu {
+  padding: var(--ob-sp-1);
+}
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .context-menu [role="menuitem"] {
-  border-radius: var(--radius-sm);
+  padding: var(--ob-sp-1) var(--ob-sp-15);
+  border-radius: var(--ob-radius-dense);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
   .context-menu
@@ -525,26 +1145,111 @@
   border: 0;
   border-radius: var(--radius-lg);
   background: var(--ob-glass-menu);
-  -webkit-backdrop-filter: blur(30px);
-  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(var(--ob-blur-e4));
+  backdrop-filter: blur(var(--ob-blur-e4));
   box-shadow: var(--shadow-2);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .shp-tip-title {
   font-weight: 500;
 }
 
-/* Token menu: Owlbear's token context menu (O3, O4) — glass at elevation 4, radius 16, rows
-   as round-cornered list items. */
+/* Token menu: Owlbear's two-tier token context menu (O3, O4) — the commands on the lighter
+   menu surface (O4 #3E404F; radius 16, no rim), the creature's name on the darker strip (O4
+   «Fighter» on #1F2231, here at the top), the commands as dense MUI list items (radius 12),
+   the counts and keys as chips. */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .token-menu {
+  padding: 0 var(--ob-sp-1) var(--ob-sp-1);
   border: 0;
   border-radius: var(--radius-lg);
-  background: var(--ob-glass-menu);
-  -webkit-backdrop-filter: blur(30px);
-  backdrop-filter: blur(30px);
+  background: var(--ob-menu-surface);
+  -webkit-backdrop-filter: blur(var(--ob-blur-e4));
+  backdrop-filter: blur(var(--ob-blur-e4));
   box-shadow: var(--shadow-2);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .token-menu.sheet {
+  padding: 0 var(--ob-sp-1) calc(var(--ob-sp-2) + env(safe-area-inset-bottom, 0px));
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+/* MUI menu items never wrap: the floating menu is 360 px wide, so «Aggiungi alla selezione»
+   and its key chip share one 40 px row (the app places the menu by its measured width). */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .token-menu:not(.sheet) {
+  width: min(360px, calc(100vw - var(--ob-sp-2)));
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .token-menu-head {
+  align-items: center;
+  gap: var(--ob-sp-15);
+  margin: 0 calc(-1 * var(--ob-sp-1)) var(--ob-sp-1);
+  padding: var(--ob-sp-1) var(--ob-sp-1) var(--ob-sp-1) var(--ob-sp-2);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  background: var(--bg);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .token-menu-portrait {
+  width: var(--ob-avatar-md);
+  height: var(--ob-avatar-md);
+  font-family: var(--font-ui);
+  font-size: var(--ob-fs-h6);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .token-menu-title strong {
+  font-family: var(--font-ui);
+  font-size: var(--ob-fs-body1);
+  font-weight: 500;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .token-menu-close {
+  border-radius: var(--ob-radius-round);
+  color: var(--text);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .token-menu-close:hover {
+  background: var(--ob-hover);
+}
+/* The hit-point row starts on the menu's one text edge (12 px in, as the rows' icons, the
+   subtitle and the help line). */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .token-menu-hp {
+  gap: var(--ob-sp-1);
+  margin: 0;
+  padding: 0 var(--ob-sp-15);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .token-menu-hp label {
+  color: var(--muted);
+  font-weight: 500;
+}
+/* «Applica» is the outlined button everywhere else: 8 px high, 15 px + its 1 px outline. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .token-menu-hp .button {
+  padding: var(--ob-sp-1) calc(var(--ob-sp-2) - var(--ob-bw-1));
+}
+/* The help line starts where the subtitle and the rows' text start (12 px inside the menu);
+   in the Creature panel it starts on the panel's text edge. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .token-menu-help {
+  margin: var(--ob-sp-05) var(--ob-sp-15) var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-inspector .token-menu-help {
+  margin-inline: 0;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .token-menu-list {
+  margin-top: var(--ob-sp-05);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .token-menu-sep {
+  margin: var(--ob-sp-1) 0;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(.token-menu-item, .token-menu-back, .token-menu-toggle, .token-menu-swatch) {
+  gap: var(--ob-sp-15);
+  padding: var(--ob-sp-05) var(--ob-sp-15);
+  border-radius: var(--ob-radius-dense);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .token-menu-count {
+  padding: 0 var(--ob-sp-1);
+  border: 0;
+  border-radius: var(--ob-radius-pill);
+  background: var(--ob-selected);
+  color: var(--text);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .token-menu-subtitle {
+  margin: var(--ob-sp-05) var(--ob-sp-15) var(--ob-sp-1);
+  font-family: var(--font-ui);
+  font-size: var(--ob-fs-body2);
+  font-weight: 500;
+  letter-spacing: var(--ob-track-body2);
+  font-variant-caps: normal;
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
   :is(.token-menu-item, .token-menu-back, .token-menu-toggle, .token-menu-swatch):is(
@@ -557,7 +1262,7 @@
    the result on a dark tray with the total in large regular white numerals. */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .dtray-die-button {
   border-color: transparent;
-  border-radius: 20px;
+  border-radius: var(--ob-radius-dice);
   background: var(--ob-hover);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .dtray-die-button:hover {
@@ -567,7 +1272,7 @@
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .dtray-roll.button {
   border-color: var(--accent);
-  border-radius: 20px;
+  border-radius: var(--ob-radius-dice);
   background: var(--accent);
   color: var(--accent-ink);
 }
@@ -590,7 +1295,7 @@
   border: 0;
   border-radius: var(--radius-lg);
   background: #16181f;
-  box-shadow: inset 0 0 0 1px var(--line);
+  box-shadow: inset 0 0 0 var(--ob-bw-1) var(--line);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .dtray-total {
   font-weight: 400;
@@ -600,8 +1305,9 @@
 /* Stacked section cards on the navy page: paper + 5 % (#2E3142), radius 16, no rule; large
    regular-weight white headings, grey helper text (O15). */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .page-heading h1 {
-  font-size: 40px;
+  font-size: var(--ob-fs-h4);
   font-weight: 400;
+  line-height: var(--ob-lh-h4);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .resume-scene,
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .home-appointment,
@@ -620,24 +1326,18 @@
   .home-page
   :is(.home-appointment, .home-bottom > section, .cm-home, .chat-home, .community-home)
   h2 {
-  font-size: 28px;
+  font-size: var(--ob-fs-h5);
   font-weight: 400;
+  line-height: var(--ob-lh-h5);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
   .home-page
   :is(.home-appointment, .home-bottom > section, .cm-home, .chat-home, .community-home) {
-  padding: 28px 32px;
+  padding: var(--ob-sp-3) var(--ob-sp-4);
 }
-/* The countdown in regular Roboto, lavender (the one accent). The heading fits one line of
-   the 360 px card. */
-:root[data-direction="owlbear"]:not([data-pref-theme="light"])
-  .home-page
-  .campaign-entry.home-appointment
-  h2 {
-  font-size: 24px;
-}
+/* The countdown in regular Roboto, lavender (the one accent). */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .home-appointment-when {
-  font-size: 22px;
+  font-size: var(--ob-fs-h6);
   font-weight: 400;
 }
 /* «Continua a giocare» as Owlbear's room: the campaign art is a square image tile (radius
@@ -646,10 +1346,9 @@
    lavender button (CREATE A NEW ROOM). */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .resume-scene {
   position: relative;
-  grid-template-columns: 300px minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: 0;
   min-height: 0;
-  padding: 24px;
   overflow: visible;
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .scene-emblem {
@@ -682,20 +1381,14 @@
   .resume-scene
   > div:last-child {
   justify-content: flex-start;
-  padding: 8px 8px 8px 32px;
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .resume-scene h2 {
-  position: absolute;
   z-index: 1;
-  left: 48px;
-  top: calc(24px + 300px - 22px);
-  max-width: 252px;
   margin: 0;
-  transform: translateY(-100%);
   color: #ffffff;
-  font-size: 22px;
+  font-size: var(--ob-fs-h6);
   font-weight: 400;
-  line-height: 1.25;
+  line-height: var(--ob-lh-title);
   text-shadow: 0 1px 3px rgb(0 0 0 / 0.6);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
@@ -703,20 +1396,20 @@
   .resume-scene
   > div:last-child
   > p:first-of-type {
-  margin-bottom: 8px;
+  margin-bottom: var(--ob-sp-1);
   color: var(--text);
-  font-size: 30px;
+  font-size: var(--ob-fs-h5);
   font-weight: 400;
-  line-height: 1.25;
+  line-height: var(--ob-lh-h5);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .resume-scene .muted {
-  margin-bottom: 24px;
-  font-size: 16px;
+  margin-bottom: var(--ob-sp-3);
+  font-size: var(--ob-fs-body2);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .resume-scene .toolbar {
   flex-direction: column;
   align-items: stretch;
-  gap: 8px;
+  gap: var(--ob-sp-1);
   margin-top: auto;
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
@@ -725,7 +1418,7 @@
   .toolbar
   > .button {
   width: 100%;
-  min-height: 48px;
+  min-height: var(--ob-h-md);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
   .home-page
@@ -749,9 +1442,8 @@
      lavender text button. The card's inner column is dissolved so its parts stack in this
      order; the markup is unchanged. */
   :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .resume-scene {
-    grid-template-columns: minmax(0, 1fr);
     align-content: start;
-    padding: 24px 32px 20px;
+    padding: var(--ob-sp-3) var(--ob-sp-4);
   }
   :root[data-direction="owlbear"]:not([data-pref-theme="light"])
     .home-page
@@ -765,11 +1457,11 @@
     > div:last-child
     > p:first-of-type {
     grid-row: 1;
-    margin: 0 0 6px;
+    margin: 0 0 var(--ob-sp-1);
   }
   :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .resume-scene .muted {
     grid-row: 2;
-    margin: 0 0 16px;
+    margin: 0 0 var(--ob-sp-2);
   }
   :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .scene-emblem,
   :root[data-direction="owlbear"]:not([data-pref-theme="light"])
@@ -780,17 +1472,17 @@
     grid-row: 3;
     grid-column: 1;
     aspect-ratio: auto;
-    height: 288px;
+    height: calc(var(--ob-room-tile) + 2 * var(--ob-sp-2));
     border-radius: var(--radius-lg);
     background: var(--surface-2);
   }
   :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .scene-emblem::before {
     content: "";
     position: absolute;
-    top: 20px;
-    left: 20px;
-    width: 248px;
-    height: 248px;
+    top: var(--ob-sp-2);
+    left: var(--ob-sp-2);
+    width: var(--ob-room-tile);
+    height: var(--ob-room-tile);
     border-radius: var(--radius-lg);
     background:
       linear-gradient(to top, rgb(0 0 0 / 0.72), rgb(0 0 0 / 0.2) 42%, transparent 60%),
@@ -811,25 +1503,30 @@
   }
   :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .resume-scene h2 {
     position: relative;
-    top: auto;
-    left: auto;
     grid-row: 3;
     grid-column: 1;
     align-self: end;
     justify-self: start;
-    max-width: 208px;
-    margin: 0 0 36px 40px;
-    transform: none;
+    max-width: calc(var(--ob-room-tile) - 2 * var(--ob-sp-2));
+    margin: 0 0 var(--ob-sp-4) var(--ob-sp-4);
   }
   :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .resume-scene .toolbar {
     grid-row: 4;
-    gap: 4px;
-    margin-top: 16px;
+    gap: var(--ob-sp-05);
+    margin-top: var(--ob-sp-2);
+  }
+}
+@media (min-width: 1101px) {
+  /* One 24 px gutter between every card of the page (columns and the cards under them), as
+     O15's grid; the next-session card is as tall as the room card beside it, its actions at
+     its foot (MUI CardActions), so the right column has no hole. */
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .home-layout {
+    column-gap: var(--ob-sp-3);
   }
 }
 /* «Il tuo personaggio»: a room-style row — round portrait (a pog), name, class line. */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .character-resume {
-  padding: 12px;
+  padding: var(--ob-sp-15);
   border-bottom: 0;
   border-radius: var(--radius-sm);
 }
@@ -837,19 +1534,19 @@
   background: var(--ob-hover);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .character-resume strong {
-  font-size: 20px;
+  font-size: var(--ob-fs-h6);
   font-weight: 400;
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .portrait {
-  width: 64px;
-  height: 64px;
-  border: 3px solid var(--ob-pog-rim);
-  border-radius: 50%;
+  width: var(--ob-avatar-xl);
+  height: var(--ob-avatar-xl);
+  border: var(--ob-bw-3) solid var(--ob-pog-rim);
+  border-radius: var(--ob-radius-round);
   box-shadow: var(--shadow-2);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .portrait.small {
-  width: 44px;
-  height: 44px;
+  width: var(--ob-avatar-md);
+  height: var(--ob-avatar-md);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .home-chip {
   border-color: transparent;
@@ -862,10 +1559,10 @@
 }
 /* The right panel: an Owlbear card with MUI tabs. */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .home-aside {
-  padding: 6px 20px 20px;
+  padding: var(--ob-sp-1) var(--ob-sp-3) var(--ob-sp-3);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .home-tabs {
-  margin: 0 -20px 16px;
+  margin: 0 calc(-1 * var(--ob-sp-3)) var(--ob-sp-2);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .home-news-item h3 {
   font-weight: 500;
@@ -881,12 +1578,8 @@
 @media (max-width: 720px) {
   /* Phone: the room tile becomes a banner over the card, the name still at its bottom left;
      «Entra al Tavolo» stays inside the first screen. */
-  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .page-heading h1 {
-    font-size: 34px;
-  }
   :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .resume-scene {
-    grid-template-columns: minmax(0, 1fr);
-    padding: 16px;
+    padding: var(--ob-sp-2);
   }
   :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .scene-emblem,
   :root[data-direction="owlbear"]:not([data-pref-theme="light"])
@@ -895,41 +1588,33 @@
     .scene-emblem {
     display: block;
     aspect-ratio: auto;
-    height: 132px;
+    height: var(--ob-room-banner);
     border: 0;
   }
+  /* The campaign's name at the banner's bottom left: card padding 16 + banner 128 − an
+     inset of 16 = the banner's height from the card's top. */
   :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .resume-scene h2 {
-    left: 32px;
-    top: calc(16px + 132px - 14px);
-    max-width: calc(100% - 64px);
-    font-size: 20px;
+    position: absolute;
+    left: var(--ob-sp-4);
+    top: var(--ob-room-banner);
+    max-width: calc(100% - 2 * var(--ob-sp-4));
+    transform: translateY(-100%);
   }
+  /* The card's text starts on the banner's edge, 16 px inside (MUI CardContent); the scene
+     is a section title at h5, as «Prossimo appuntamento» under it. */
   :root[data-direction="owlbear"]:not([data-pref-theme="light"])
     .home-page
     .resume-scene
     > div:last-child {
-    padding: 16px 4px 4px;
-  }
-  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
-    .home-page
-    .resume-scene
-    > div:last-child
-    > p:first-of-type {
-    font-size: 22px;
+    padding: var(--ob-sp-2) 0 0;
   }
   :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .resume-scene .muted {
-    margin-bottom: 16px;
+    margin-bottom: var(--ob-sp-2);
   }
   :root[data-direction="owlbear"]:not([data-pref-theme="light"])
     .home-page
     :is(.home-appointment, .home-bottom > section, .cm-home, .chat-home, .community-home) {
-    padding: 20px;
-  }
-  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
-    .home-page
-    :is(.home-appointment, .home-bottom > section, .cm-home, .chat-home, .community-home)
-    h2 {
-    font-size: 24px;
+    padding: var(--ob-sp-2);
   }
 }
 
@@ -938,17 +1623,18 @@
    cards without rules, MUI lists with dividers, chips for numbers, segmented toggles,
    switches, lavender tabs. */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet h1 {
-  font-size: 40px;
+  font-size: var(--ob-fs-h4);
   font-weight: 400;
+  line-height: var(--ob-lh-h4);
 }
 /* The portrait as a round pog: the art in a dark rim with a soft shadow. */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
   .character-sheet
   .character-portrait {
-  inline-size: 76px;
-  block-size: 76px;
-  border: 3px solid var(--ob-pog-rim);
-  border-radius: 50%;
+  inline-size: var(--ob-avatar-2xl);
+  block-size: var(--ob-avatar-2xl);
+  border: var(--ob-bw-3) solid var(--ob-pog-rim);
+  border-radius: var(--ob-radius-round);
   box-shadow: var(--shadow-2);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
@@ -981,7 +1667,7 @@
   > .shp-stat
   + .shp-stat
   .shp-ability-box {
-  box-shadow: inset 1px 0 var(--line);
+  box-shadow: inset var(--ob-bw-1) 0 var(--line);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
   .character-sheet
@@ -1006,7 +1692,7 @@
   .character-sheet
   .shp-ability-box
   strong {
-  font-size: 26px;
+  font-size: var(--ob-fs-h5);
   font-weight: 400;
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
@@ -1043,6 +1729,125 @@
   :is(.shp-pill, .character-inspiration, button.character-stat-button):hover {
   background: color-mix(in srgb, var(--surface) 88%, #ffffff);
 }
+/* One box grammar for the band (abilities, Competenza, Movimento, Ispirazione) and the
+   summary boxes (Iniziativa, CA, Difese): 12 px top, 8 px sides; the label on the top line,
+   the number centred in the box (its two outer rows share the free height), the foot (the
+   score chip, «Camminare») on the bottom line — so every number of a row sits on one line. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(
+    .character-band .shp-ability-box,
+    .character-band [data-shp-stat="pb"] .shp-pill,
+    .character-band .character-vitals .stat:not(.character-hp),
+    .character-band .character-inspiration
+  ) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto minmax(0, 1fr);
+  justify-items: center;
+  align-items: start;
+  gap: 0;
+  padding: var(--ob-sp-15) var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(
+    .character-band .shp-ability-box,
+    .character-band [data-shp-stat="pb"] .shp-pill,
+    .character-band .character-vitals .stat:not(.character-hp),
+    .character-band .character-inspiration
+  )
+  > strong,
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  .character-inspiration
+  > span:first-child {
+  grid-row: 2;
+  align-self: center;
+  margin-block: 0;
+  line-height: var(--ob-lh-h5);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.character-band .shp-ability-box, .character-band .character-vitals .stat:not(.character-hp))
+  > small:last-child {
+  grid-row: 3;
+  align-self: end;
+  margin: 0;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-ability-name, .shp-pill-label, .character-vitals .stat:not(.character-hp) > span) {
+  grid-row: 1;
+  line-height: var(--ob-lh-body2);
+}
+/* The summary boxes beside the tabs (Iniziativa, CA, Difese): the same grammar, at every
+   width, so on the phone Iniziativa and CA line up with Competenza and Movimento in the same
+   row; the phone keeps «Difese» as one slim row. CA loses the extra foot of the app's shield,
+   which this direction draws as a plain card. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-summary
+  .shp-stats
+  .shp-stat:not([data-shp-stat="defenses"])
+  > .shp-pill {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto minmax(0, 1fr);
+  justify-items: center;
+  align-items: start;
+  gap: 0;
+  padding: var(--ob-sp-15) var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-summary
+  .shp-stats
+  .shp-stat:not([data-shp-stat="defenses"])
+  > .shp-pill
+  > strong {
+  grid-row: 2;
+  align-self: center;
+  line-height: var(--ob-lh-h5);
+}
+@media (min-width: 721px) {
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-summary
+    .shp-stats
+    [data-shp-stat="defenses"]
+    > .shp-pill {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto minmax(0, 1fr);
+    justify-items: center;
+    align-items: start;
+    gap: 0;
+    padding: var(--ob-sp-15) var(--ob-sp-1);
+  }
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-summary
+    .shp-stats
+    [data-shp-stat="defenses"]
+    > .shp-pill
+    > strong {
+    grid-row: 2;
+    align-self: center;
+    line-height: var(--ob-lh-h5);
+  }
+}
+/* The score under each ability: a 24 px chip (MUI small chip). */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  .shp-ability-box
+  > small {
+  min-height: var(--ob-h-xs);
+  padding: 0 var(--ob-sp-1);
+  line-height: var(--ob-h-xs);
+}
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
   .character-sheet
   .character-vitals
@@ -1050,6 +1855,9 @@
   > strong,
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .shp-pill strong {
   font-weight: 400;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .shp-pill strong {
+  font-size: var(--ob-fs-h5);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
   .character-sheet
@@ -1078,22 +1886,32 @@
   strong {
   font-weight: 400;
 }
-/* HP well: MUI outlined input; Heal and Damage as outlined success and error buttons. */
-:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .dt-amount {
-  border: 1px solid var(--line-strong);
-  border-radius: var(--radius-sm);
-  background: transparent;
-  color: var(--text);
-}
-:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .button.dt-heal {
+/* Heal and Damage, wherever the app shows them (sheet, Table panel, dialogs): MUI outlined
+   success and error buttons around the outlined amount field (controls section). */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .button.dt-heal {
   border-color: rgb(129 199 132 / 0.5);
   background: transparent;
   color: var(--positive);
 }
-:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .button.dt-damage {
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .button.dt-damage {
   border-color: rgb(242 139 139 / 0.5);
   background: transparent;
   color: var(--danger);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .button.dt-heal:hover:not(:disabled) {
+  border-color: var(--positive);
+  background: rgb(129 199 132 / 0.08);
+  color: var(--positive);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .button.dt-damage:hover:not(:disabled) {
+  border-color: var(--danger);
+  background: rgb(242 139 139 / 0.08);
+  color: var(--danger);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .dt-hp-row {
+  gap: var(--ob-sp-1);
 }
 /* HP keeps the Table's green (hotbar, token and party bars), MUI's success colour. */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
@@ -1118,16 +1936,16 @@
   ) {
   color: var(--muted);
   font-family: var(--font-ui);
-  font-size: 15px;
+  font-size: var(--ob-fs-body2);
   font-weight: 400;
-  letter-spacing: 0;
+  letter-spacing: var(--ob-track-body2);
   font-variant-caps: normal;
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
   .character-sheet
   :is(.shp-col h3, .shp-action-group h3) {
   font-family: var(--font-ui);
-  font-size: 18px;
+  font-size: var(--ob-fs-title);
   font-weight: 500;
   letter-spacing: 0;
   font-variant-caps: normal;
@@ -1137,26 +1955,54 @@
   .character-sheet
   .shp-derived
   .shp-col {
-  padding: 12px 8px 8px;
+  padding: var(--ob-sp-15) var(--ob-sp-2) var(--ob-sp-2);
   border: 0;
   border-radius: var(--radius-lg);
   background: var(--surface);
   box-shadow: var(--shadow-1);
 }
+/* Every text of the card (titles, facts, notes, buttons) starts 16 px inside it (MUI
+   CardContent); the well of rows reaches 8 px further out on both sides and insets its rows
+   by the same 8 px (ListItemButton margin 4px 8px), so the stars, the labels above and the
+   values below share the card's edges. */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
   .character-sheet
   .shp-derived
   .shp-col
   h3 {
-  padding: 0 8px 8px;
+  padding: 0 0 var(--ob-sp-1);
   color: var(--text);
-  font-size: 18px;
+  font-size: var(--ob-fs-title);
   font-weight: 500;
   letter-spacing: 0;
   text-align: left;
 }
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-derived
+  .shp-col
+  > :is(.shp-list, .shp-facts)
+  + h3 {
+  margin-top: var(--ob-sp-3);
+}
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .shp-row {
+  gap: var(--ob-sp-1);
   border-bottom-color: var(--line);
+}
+/* The row's label: its line centred in the row (MUI ListItemText), «FOR» and «Forza» on one
+   baseline. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .shp-row-name {
+  flex-wrap: wrap;
+  align-content: center;
+  gap: var(--ob-sp-05) var(--ob-sp-1);
+  padding-block: 0;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .shp-star {
+  padding: 0;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .shp-facts li {
+  gap: var(--ob-sp-05) var(--ob-sp-1);
+  padding-block: 0;
 }
 /* The rows sit in Owlbear's darker inner well inside the paper (O12 «Player Permissions»,
    O15 room grid #232639). */
@@ -1165,12 +2011,21 @@
   .shp-derived
   .shp-col
   > .shp-list {
-  padding: 4px 0;
+  margin-inline: calc(-1 * var(--ob-sp-1));
+  padding: var(--ob-sp-05) var(--ob-sp-1);
   border-radius: var(--radius-lg);
   background: var(--surface-2);
 }
-/* Numbers in MUI chips (a 16 px pill on white 8 %), no rim. */
+/* The column's own actions (Gestisci sensi, Gestisci velocità): one text button a line. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .shp-col-tools {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  margin-top: var(--ob-sp-1);
+}
+/* Numbers in MUI chips (a 16 px pill on white 8 %), no rim, the chip's 12 px padding. */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .shp-value {
+  padding: var(--ob-sp-05) var(--ob-sp-15);
   border-color: transparent;
   border-radius: var(--radius-sm);
   background: var(--ob-hover);
@@ -1188,7 +2043,7 @@
   background: transparent;
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .shp-star {
-  border-radius: 50%;
+  border-radius: var(--ob-radius-round);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .shp-star:hover {
   background: var(--ob-hover);
@@ -1198,8 +2053,8 @@
    proficient, «done_all» for expertise, nothing otherwise — a shape, not a coloured dot
    (the save and skill values and the row's tooltip carry it too). */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .shp-prof {
-  width: 20px;
-  height: 20px;
+  width: var(--ob-icon-sm);
+  height: var(--ob-icon-sm);
   border: 0;
   border-radius: 0;
   background: transparent;
@@ -1224,15 +2079,22 @@
 }
 /* Play / Edit and Digital / Physical dice: MUI ToggleButtonGroup (O10 Grid Type): a 12 %
    outline, the selected segment on a greyer white 16 % fill, small-caps labels. */
+/* The group's 1 px outline is drawn inside its box over the segments, so the group and its
+   segments are all 40 px high (the app's border made them 42). */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .shp-mode {
-  border-color: var(--frame);
+  border: 0;
   border-radius: var(--radius-sm);
+  outline: var(--ob-bw-1) solid var(--frame);
+  outline-offset: calc(-1 * var(--ob-bw-1));
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .shp-mode button {
+  min-height: var(--ob-h-sm);
+  padding: 0 var(--ob-sp-2);
+  gap: var(--ob-sp-1);
   color: var(--muted);
-  font-size: 18px;
+  font-size: var(--ob-fs-button);
   font-weight: 500;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--ob-track-button);
   font-variant-caps: all-small-caps;
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
@@ -1259,16 +2121,16 @@
 }
 /* XP: MUI LinearProgress in lavender. */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .shp-xpbar {
-  height: 4px;
+  height: var(--ob-bar);
   border: 0;
-  border-radius: 2px;
+  border-radius: var(--ob-radius);
   background: rgb(187 153 255 / 0.3);
 }
 /* Effects: MUI Switch (O10 Snapping) in a borderless label. */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .shp-switch {
   border-color: transparent;
   border-radius: var(--radius-sm);
-  padding-left: 4px;
+  padding-left: var(--ob-sp-05);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .shp-switch:hover {
   background: var(--ob-hover);
@@ -1276,8 +2138,8 @@
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .shp-switch-knob {
   width: 34px;
   height: 14px;
-  margin: 0 4px;
-  border-radius: 7px;
+  margin: 0 var(--ob-sp-05);
+  border-radius: var(--ob-radius);
   background: rgb(255 255 255 / 0.3);
   box-shadow: none;
 }
@@ -1318,19 +2180,19 @@
   :is(.character-tabs-all, .character-tabs button) {
   font-weight: 500;
 }
-/* Filter chips and sub-tabs: MUI chips (radius 16, white 8 % fill), the chosen one filled
+/* Filter chips and sub-tabs: MUI chips (pills on a white 8 % fill), the chosen one filled
    lavender. */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
   .character-sheet
   :is(.shp-chip, .character-subtabs button) {
   border-color: transparent;
-  border-radius: var(--radius-sm);
+  border-radius: var(--ob-radius-pill);
   background: var(--ob-hover);
   color: var(--text);
   font-family: var(--font-ui);
-  font-size: 14px;
+  font-size: var(--ob-fs-body2);
   font-weight: 500;
-  letter-spacing: 0.01em;
+  letter-spacing: var(--ob-track-body2);
   font-variant-caps: normal;
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
@@ -1377,6 +2239,7 @@
   gap: 0;
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .conditions-segment {
+  padding: 0;
   border-color: var(--frame);
   border-radius: 0;
   background: transparent;
@@ -1385,7 +2248,7 @@
   .conditions-segments
   > .conditions-segment
   + .conditions-segment {
-  margin-left: -1px;
+  border-inline-start-width: 0;
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
   .conditions-segments
@@ -1401,22 +2264,187 @@
   background: var(--ob-hover);
 }
 
+/* Scheda · Magie: Owlbear has no spellbook — the same grammar as its lists and dialogs: the
+   spellcasting numbers as the divided strip, the preparation notice as the info strip, the
+   slot rows as text with lavender text buttons, the level filters as chips, each level as a
+   list subheader over its well of rows (name, components as small outlined chips, the
+   grey meta line, the state as a small chip; «Lancia» outlined, the rest text buttons). */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .spl-heading {
+  gap: var(--ob-sp-15);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .spl-stats {
+  margin: 0 0 var(--ob-sp-2);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .spl-window {
+  margin: 0 0 var(--ob-sp-2);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .spl-window.is-closed > div {
+  gap: var(--ob-sp-05) var(--ob-sp-15);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .spl-window-why > summary {
+  color: var(--accent);
+  font-size: var(--ob-fs-body2);
+  font-weight: 500;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .spl-concentration.is-idle {
+  gap: var(--ob-sp-05) var(--ob-sp-15);
+  margin-bottom: var(--ob-sp-15);
+  padding-bottom: var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .spl-concentration h3 {
+  font-size: var(--ob-fs-body1);
+  font-weight: 500;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .spl-concentration p {
+  color: var(--muted);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .spl-slots {
+  gap: var(--ob-sp-1) var(--ob-sp-3);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(.spl-slots .spl-slot, .spl-slots .spl-slot > div) {
+  gap: var(--ob-sp-05) var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .spl-slots .spl-slot strong {
+  font-weight: 500;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .spl-filters {
+  gap: var(--ob-sp-15) var(--ob-sp-2);
+  margin: var(--ob-sp-1) 0 var(--ob-sp-05);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .spl-check {
+  gap: var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .spl-row-title {
+  gap: var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .spl-row-title strong {
+  font-weight: 500;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) :is(.spl-row-meta, .spl-row-state) {
+  margin: var(--ob-sp-05) 0 0;
+  font-size: var(--ob-fs-body2);
+  line-height: var(--ob-lh-body2);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .spl-badges {
+  gap: var(--ob-sp-05);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .spl-badge {
+  min-width: var(--ob-h-xs);
+  height: var(--ob-h-xs);
+  padding: 0 var(--ob-sp-1);
+  border: var(--ob-bw-1) solid var(--frame);
+  border-radius: var(--ob-radius-pill);
+  font-size: var(--ob-fs-caption);
+  font-weight: 500;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .spl-state {
+  align-items: center;
+  min-height: var(--ob-h-xs);
+  padding: 0 var(--ob-sp-1);
+  line-height: var(--ob-lh-caption);
+  border-radius: var(--ob-radius-pill);
+  font-size: var(--ob-fs-caption);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .spl-row-actions {
+  gap: var(--ob-sp-05);
+}
+
+/* Scheda · Inventario: the same grammar as Owlbear's Assets manager (O14: search, category
+   chips, the list) and its lists (O12): the header as the divided strip, the filters as
+   chips, «Addosso» as the list subheader inside the well, each item a row with a rounded
+   icon tile (white glyph on white 8 %), name, chips and grey meta; the columns' heads as
+   grey captions; the commands as lavender text buttons. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .invp-summary {
+  margin: var(--ob-sp-05) 0 var(--ob-sp-2);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .invp-stat {
+  gap: var(--ob-sp-05);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .invp-stat > strong small {
+  font-size: var(--ob-fs-body2);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .invp-bar {
+  height: var(--ob-bar);
+  border-radius: var(--ob-radius);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .invp-sets {
+  gap: var(--ob-sp-05);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .invp-sets li {
+  gap: var(--ob-sp-05) var(--ob-sp-1);
+  padding: var(--ob-sp-05) var(--ob-sp-1);
+  border-radius: var(--ob-radius-dense);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .invp-toolbar {
+  gap: var(--ob-sp-15);
+  margin-bottom: var(--ob-sp-2);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(.invp-view, .invp-rule, .invp-details)
+  > summary {
+  color: var(--accent);
+  font-size: var(--ob-fs-body2);
+  font-weight: 500;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .invp-root-head {
+  gap: var(--ob-sp-1) var(--ob-sp-15);
+  padding: var(--ob-sp-15) 0;
+  border-bottom: var(--ob-bw-1) solid var(--line);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .invp-root-head strong {
+  color: var(--text);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .invp-row {
+  gap: var(--ob-sp-1) var(--ob-sp-2);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .invp-row-icon {
+  width: var(--ob-avatar-md);
+  height: var(--ob-avatar-md);
+  border: 0;
+  border-radius: var(--ob-radius);
+  background: var(--ob-hover);
+  color: var(--text);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .invp-row-name {
+  font-weight: 500;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .invp-row-meta {
+  margin: var(--ob-sp-05) 0 0;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .invp-cols {
+  gap: var(--ob-sp-2);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .invp-col small {
+  font-family: var(--font-ui);
+  font-size: var(--ob-fs-caption);
+  font-weight: 400;
+  letter-spacing: var(--ob-track-caption);
+  font-variant-caps: normal;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .invp-row-actions {
+  gap: var(--ob-sp-05);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .invp-container-head {
+  gap: var(--ob-sp-1) var(--ob-sp-15);
+  padding: var(--ob-sp-15) 0;
+}
+
 @media (max-width: 720px) {
-  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .button {
-    font-size: 16px;
+  /* Two segments a row: the last odd one spans the row, so the strip has no empty cell. */
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
+    .spl-stat:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
   }
   :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .section-heading {
     flex-wrap: wrap;
-    gap: 8px;
+    gap: var(--ob-sp-1);
   }
   :root[data-direction="owlbear"]:not([data-pref-theme="light"])
     .character-sheet
     .character-portrait {
-    inline-size: 64px;
-    block-size: 64px;
-  }
-  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet h1 {
-    font-size: 34px;
+    inline-size: var(--ob-avatar-xl);
+    block-size: var(--ob-avatar-xl);
   }
 }
 
@@ -1461,6 +2489,22 @@
   #battle-map
   .door-display {
   filter: drop-shadow(0 2px 3px rgb(0 0 0 / 0.5));
+}
+/* Travel points (DM) are drawn with the doors' colours: on the round dark handle the glyph
+   takes the doors' white ink (their rim colour is the fill here), with a white 70 % ring. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .workspace.is-table
+  #battle-map
+  .travel-point:not(:focus-visible)
+  circle {
+  stroke: rgb(255 255 255 / 0.7);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .workspace.is-table
+  #battle-map
+  .travel-point
+  text {
+  fill: var(--door-ink);
 }
 /* The selected token's rotate and resize handles: round dark #3E4050 bubbles with a white
    rim (O4). */
@@ -1511,15 +2555,26 @@
   fill: #ffffff;
   font-family: var(--font-ui);
   font-weight: 500;
-  letter-spacing: 0.01em;
+  letter-spacing: var(--ob-track-body2);
   stroke: rgb(34 38 57 / 0.92);
   stroke-width: 11px;
   stroke-linejoin: round;
 }
-/* Selection: Owlbear's thin blue ring (O3, O4). */
+/* Selection: Owlbear's thin blue ring (O3, O4), for a pointer selection only. Owlbear has no
+   keyboard focus on tokens: the app's focused token keeps its own dashed ring, in the 3 px
+   focus colour of every other control (≥ 3:1 on the stone), with a navy keyline for light
+   maps. */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) #battle-map .selection-ring {
   stroke: var(--ob-select-ring);
   stroke-width: 2.5;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  #battle-map
+  .map-token:focus-visible
+  .selection-ring {
+  stroke: var(--focus);
+  stroke-width: 3;
+  filter: drop-shadow(0 0 1px #1e2231);
 }
 /* Hit-point bars under player tokens (drawn by table.mjs): MUI-coloured, navy track. */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
@@ -1543,12 +2598,13 @@
   border: 0;
   border-radius: var(--radius-lg);
   background: var(--ob-glass-strong);
-  -webkit-backdrop-filter: blur(20px);
-  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(var(--ob-blur-e3));
+  backdrop-filter: blur(var(--ob-blur-e3));
   box-shadow: var(--shadow-2);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-layout > .table-topline h1 {
   font-weight: 500;
+  line-height: var(--ob-lh-title);
 }
 
 /* Tool column: Owlbear's single vertical glass pill, white filled icons, the active tool in
@@ -1559,18 +2615,18 @@
   border: 0;
   border-radius: var(--radius-lg);
   background: var(--ob-glass);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(var(--ob-blur-e2));
+  backdrop-filter: blur(var(--ob-blur-e2));
   box-shadow: var(--shadow-2);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .workspace.is-table .map-tool {
   border: 0;
-  border-radius: 50%;
+  border-radius: var(--ob-radius-round);
   color: #ffffff;
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .workspace.is-table .map-tool .icon {
-  width: 24px;
-  height: 24px;
+  width: var(--ob-icon);
+  height: var(--ob-icon);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .workspace.is-table .map-tool:hover {
   background: var(--ob-hover);
@@ -1585,9 +2641,9 @@
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
   .workspace.is-table
   .map-tool-group::after {
-  right: 4px;
-  bottom: 4px;
-  border-width: 3px;
+  right: var(--ob-sp-05);
+  bottom: var(--ob-sp-05);
+  border-width: var(--ob-bw-3);
   opacity: 0.55;
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .workspace.is-table .tool-separator {
@@ -1599,22 +2655,22 @@
    pill hugs its buttons; the buttons inside are transparent. */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .session-view-hud-bar {
   left: auto;
-  gap: 2px;
-  padding: 3px;
-  border-radius: 23px;
+  gap: var(--ob-sp-05);
+  padding: var(--ob-sp-05);
+  border-radius: var(--ob-radius-pill);
   background: var(--ob-glass);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(var(--ob-blur-e2));
+  backdrop-filter: blur(var(--ob-blur-e2));
   box-shadow: var(--shadow-2);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
   .session-view-hud-bar
   .safety-hud-group {
-  gap: 2px;
+  gap: var(--ob-sp-05);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .session-view-hud-button {
   border: 0;
-  border-radius: 20px;
+  border-radius: var(--ob-radius-pill);
   background: transparent;
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
@@ -1622,7 +2678,7 @@
   box-shadow: none;
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .session-view-hud-button.is-icon {
-  border-radius: 50%;
+  border-radius: var(--ob-radius-round);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .session-view-hud-button:hover {
   background: var(--ob-hover);
@@ -1630,7 +2686,7 @@
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .session-view-hud-button.is-on {
   background: rgb(187 153 255 / 0.16);
   color: var(--accent);
-  box-shadow: inset 0 0 0 2px var(--accent-line);
+  box-shadow: inset 0 0 0 var(--ob-bw-2) var(--accent-line);
 }
 /* The same pill's glyphs are Material Round, like the rest of the direction (the app draws
    these few as its own SVG; the glyph is swapped with a mask, the button is unchanged):
@@ -1701,8 +2757,8 @@
   .session-view-hud-bar
   .session-view-caret {
   --ob-glyph: url("assets/icons/expand_more.svg");
-  width: 18px;
-  height: 18px;
+  width: var(--ob-icon-sm);
+  height: var(--ob-icon-sm);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
   .workspace.is-table
@@ -1729,29 +2785,34 @@
    the message then its actions as lavender text buttons on one row; a warning carries a
    small amber dot (the words say it too). Below the pill of map controls. */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .session-view-hud-stack {
-  top: 64px;
+  top: calc(var(--ob-h-md) + var(--ob-sp-2));
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .session-view-chip,
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .session-view-chip.is-warn {
   border: 0;
   border-radius: var(--radius-lg);
   background: var(--ob-glass-menu);
-  -webkit-backdrop-filter: blur(30px);
-  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(var(--ob-blur-e4));
+  backdrop-filter: blur(var(--ob-blur-e4));
   box-shadow: var(--shadow-2);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .session-view-chip {
+  padding: var(--ob-sp-1) var(--ob-sp-15);
+  font-size: var(--ob-fs-body2);
+  line-height: var(--ob-lh-body2);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .session-view-chip.is-warn {
   position: relative;
-  padding-left: 30px;
+  padding-left: var(--ob-sp-4);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .session-view-chip.is-warn::before {
   content: "";
   position: absolute;
-  top: 13px;
-  left: 13px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
+  top: calc(var(--ob-sp-1) + (var(--ob-lh-body2) - var(--ob-sp-1)) / 2);
+  left: var(--ob-sp-15);
+  width: var(--ob-sp-1);
+  height: var(--ob-sp-1);
+  border-radius: var(--ob-radius-round);
   background: var(--warning);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .session-view-start-chip {
@@ -1759,19 +2820,18 @@
   flex-wrap: wrap;
   justify-content: flex-end;
   align-items: center;
-  gap: 2px 8px;
-  padding-bottom: 2px;
+  gap: var(--ob-sp-05) var(--ob-sp-1);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
   .session-view-chip
   .session-view-hud-button {
   min-width: 0;
-  padding: 0 8px;
+  padding: 0 var(--ob-sp-1);
   border-radius: var(--radius-sm);
   color: var(--accent);
-  font-size: 16px;
+  font-size: var(--ob-fs-button-sm);
   font-weight: 500;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--ob-track-button);
   font-variant-caps: all-small-caps;
   white-space: nowrap;
 }
@@ -1786,8 +2846,8 @@
   border: 0;
   border-radius: var(--radius-lg);
   background: var(--ob-glass-strong);
-  -webkit-backdrop-filter: blur(20px);
-  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(var(--ob-blur-e3));
+  backdrop-filter: blur(var(--ob-blur-e3));
   color: var(--muted);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
@@ -1804,10 +2864,10 @@
   border-radius: var(--radius-sm);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-party-portrait {
-  width: 50px;
-  height: 50px;
-  border: 3px solid var(--ob-pog-rim);
-  border-radius: 50%;
+  width: var(--ob-avatar-lg);
+  height: var(--ob-avatar-lg);
+  border: var(--ob-bw-3) solid var(--ob-pog-rim);
+  border-radius: var(--ob-radius-round);
   box-shadow: var(--shadow-2);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
@@ -1820,18 +2880,19 @@
   .table-party-portrait {
   border-color: var(--ob-pog-rim);
   box-shadow:
-    0 0 0 3px var(--accent),
+    0 0 0 var(--ob-bw-3) var(--accent),
     var(--shadow-2);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-party-hp {
-  width: 40px;
-  height: 4px;
-  border-radius: 2px;
+  width: var(--ob-avatar-md);
+  height: var(--ob-bar);
+  border-radius: var(--ob-radius);
   background: rgb(30 34 49 / 0.85);
   box-shadow: none;
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-party-name {
-  padding: 1px 8px;
+  padding: 0 var(--ob-sp-1);
+  line-height: var(--ob-lh-caption);
   border-radius: var(--radius-sm);
   background: rgb(34 38 57 / 0.92);
   color: #ffffff;
@@ -1839,7 +2900,7 @@
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-party-status {
   border: 0;
-  border-radius: 10px;
+  border-radius: var(--ob-radius);
   background: var(--surface-2);
   color: #ffffff;
   box-shadow: var(--shadow-1);
@@ -1847,9 +2908,9 @@
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
   .table-party.is-compact
   .table-party-portrait {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
+  width: var(--ob-avatar-md);
+  height: var(--ob-avatar-md);
+  border-radius: var(--ob-radius-round);
 }
 
 /* Sidebar: an Owlbear paper panel beside the canvas, radius 16, no rule; its sub-tabs as
@@ -1868,13 +2929,13 @@
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-subtab {
   border-color: transparent;
-  border-radius: var(--radius-sm);
+  border-radius: var(--ob-radius-pill);
   background: var(--ob-hover);
   color: var(--text);
   font-family: var(--font-ui);
-  font-size: 14px;
+  font-size: var(--ob-fs-body2);
   font-weight: 500;
-  letter-spacing: 0.01em;
+  letter-spacing: var(--ob-track-body2);
   font-variant-caps: normal;
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-subtab:hover {
@@ -1895,7 +2956,7 @@
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
   :is(.table-tab, .table-sidebar-toggle, .table-map-link, .table-panels-all) {
   border: 0;
-  border-radius: 50%;
+  border-radius: var(--ob-radius-round);
   color: #ffffff;
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
@@ -1908,17 +2969,19 @@
   color: var(--accent);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-tab-portrait {
-  border: 2px solid var(--ob-pog-rim);
+  border: var(--ob-bw-2) solid var(--ob-pog-rim);
 }
 /* The Creature tab: a round pog, the name in white, Armor Class as a chip. */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
   .table-layout
   .inspector-person
   .portrait {
-  width: 48px;
-  height: 48px;
-  border: 3px solid var(--ob-pog-rim);
-  border-radius: 50%;
+  width: var(--ob-avatar-lg);
+  height: var(--ob-avatar-lg);
+  border: var(--ob-bw-3) solid var(--ob-pog-rim);
+  border-radius: var(--ob-radius-round);
+  font-size: var(--ob-fs-h5);
+  line-height: var(--ob-lh-h5);
   box-shadow: var(--shadow-2);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-layout .inspector-person h2 {
@@ -1931,6 +2994,20 @@
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-layout .inspector-ac small {
   font-weight: 500;
+}
+/* The panel's «Scheda completa», «Inventario», «Riposa»: one column of full-width outlined
+   buttons (O16 «CREATE», the phone dialog footer), so no label breaks in two. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-layout .inspector-buttons {
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--ob-sp-1);
+  margin-top: var(--ob-sp-2);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .table-layout
+  .inspector-buttons
+  .button {
+  justify-content: center;
+  white-space: nowrap;
 }
 
 /* The hotbar band as Owlbear's bottom dock: one glass panel, radius 16, no rim. */
@@ -1951,8 +3028,10 @@
   color: var(--accent);
 }
 /* The dock's scroll box clips a ring drawn outside the chip: draw it inside. */
-:root[data-direction="owlbear"] .table-hotbar .combat-action:focus-visible {
-  outline-offset: -3px;
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .table-hotbar
+  .combat-action:focus-visible {
+  outline-offset: calc(-1 * var(--ob-bw-3));
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-hotbar .combat-group-tag {
   font-weight: 500;
@@ -1972,9 +3051,9 @@
   background: transparent;
   color: var(--text);
   font-family: var(--font-ui);
-  font-size: 14px;
+  font-size: var(--ob-fs-body2);
   font-weight: 500;
-  letter-spacing: 0.01em;
+  letter-spacing: var(--ob-track-body2);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .hotbar-page-tab:hover {
   background: var(--ob-hover);
@@ -1982,14 +3061,14 @@
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .hotbar-page-tab.active {
   border-color: var(--accent-line);
   background: var(--accent-soft);
-  color: var(--accent);
+  color: var(--accent-strong);
 }
 /* The portrait as a round pog. */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-hotbar .hotbar-portrait {
-  width: 44px;
-  height: 44px;
-  border: 3px solid var(--ob-pog-rim);
-  border-radius: 50%;
+  width: var(--ob-avatar-md);
+  height: var(--ob-avatar-md);
+  border: var(--ob-bw-3) solid var(--ob-pog-rim);
+  border-radius: var(--ob-radius-round);
   box-shadow: var(--shadow-1);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-hotbar .hotbar-hp {
@@ -2004,7 +3083,7 @@
   > .toolbar
   .button:not([data-table="end-turn"]) {
   border-color: transparent;
-  border-radius: 50%;
+  border-radius: var(--ob-radius-round);
   background: var(--ob-hover);
   color: #ffffff;
 }
@@ -2034,11 +3113,11 @@
   color: var(--accent-ink);
   box-shadow: var(--shadow-2);
   font-family: var(--font-ui);
-  font-size: 19px;
+  font-size: var(--ob-fs-button);
   font-weight: 500;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--ob-track-button);
   font-variant-caps: all-small-caps;
-  line-height: 1.1;
+  line-height: var(--ob-lh-button);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
   .action-dock.table-hotbar
@@ -2057,7 +3136,7 @@
   .table-layout
   > .initiative
   .token-dot {
-  box-shadow: 0 0 0 2px var(--token-ally-ring);
+  box-shadow: 0 0 0 var(--ob-bw-2) var(--token-ally-ring);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]):not(
     [data-pref-vision]:not([data-pref-vision="standard"])
@@ -2065,7 +3144,7 @@
   .table-layout
   > .initiative
   .token-dot.hostile {
-  outline: 2px dashed var(--token-hostile-ring);
+  outline: var(--ob-bw-2) dashed var(--token-hostile-ring);
   outline-offset: 0;
   box-shadow: none;
 }
@@ -2082,8 +3161,8 @@
     border: 0;
     border-radius: var(--radius-lg);
     background: var(--ob-glass-strong);
-    -webkit-backdrop-filter: blur(20px);
-    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(var(--ob-blur-e3));
+    backdrop-filter: blur(var(--ob-blur-e3));
     color: #ffffff;
   }
   :root[data-direction="owlbear"]:not([data-pref-theme="light"])
@@ -2113,8 +3192,8 @@
     > .hotbar-center {
     border: 0;
     background: var(--ob-glass-strong);
-    -webkit-backdrop-filter: blur(20px);
-    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(var(--ob-blur-e3));
+    backdrop-filter: blur(var(--ob-blur-e3));
     box-shadow: var(--shadow-2);
   }
   :root[data-direction="owlbear"]:not([data-pref-theme="light"])
@@ -2129,7 +3208,7 @@
     > .hotbar-center {
     border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
     box-shadow:
-      inset 1px 0 var(--line),
+      inset var(--ob-bw-1) 0 var(--line),
       var(--shadow-2);
   }
   :root[data-direction="owlbear"]:not([data-pref-theme="light"])
@@ -2153,8 +3232,8 @@
     .combat-bar-heading {
     border: 0;
     background: var(--ob-glass-strong);
-    -webkit-backdrop-filter: blur(20px);
-    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(var(--ob-blur-e3));
+    backdrop-filter: blur(var(--ob-blur-e3));
     box-shadow: var(--shadow-2);
   }
   /* The dock's group dividers between weapons, spells and common actions: each group is a
@@ -2164,7 +3243,7 @@
     .combat-group
     + .combat-group
     > .combat-action.is-group-start {
-    margin-inline-start: 9px;
+    margin-inline-start: var(--ob-sp-1);
   }
   :root[data-direction="owlbear"]:not([data-pref-theme="light"])
     .table-hotbar
@@ -2173,10 +3252,10 @@
     > .combat-action.is-group-start::before {
     content: "";
     position: absolute;
-    top: 8px;
-    bottom: 8px;
-    left: -9px;
-    width: 1px;
+    top: var(--ob-sp-1);
+    bottom: var(--ob-sp-1);
+    left: calc(-1 * var(--ob-sp-1));
+    width: var(--ob-bw-1);
     background: rgb(255 255 255 / 0.24);
   }
   /* The sidebar as an Owlbear popover card floating beside the canvas (paper + 5 %, radius
@@ -2184,7 +3263,7 @@
   :root[data-direction="owlbear"]:not([data-pref-theme="light"])
     .table-layout
     > .table-sidebar-panel {
-    margin: 8px 0 8px 8px;
+    margin: var(--ob-sp-1) 0 var(--ob-sp-1) var(--ob-sp-1);
     border-radius: var(--radius-lg);
     background: linear-gradient(rgb(255 255 255 / 0.05), rgb(255 255 255 / 0.05)) var(--surface-2);
     box-shadow: var(--shadow-2);
@@ -2192,8 +3271,8 @@
   :root[data-direction="owlbear"]:not([data-pref-theme="light"])
     .table-layout
     > .table-sidebar-rail {
-    margin: 8px;
-    padding: 6px 0;
+    margin: var(--ob-sp-1);
+    padding: var(--ob-sp-05) 0;
     border-radius: var(--radius-lg);
     background: var(--surface-2);
     box-shadow: var(--shadow-2);
@@ -2204,8 +3283,8 @@
     .table-layout
     > .action-dock.table-hotbar
     > .toolbar {
-    margin: 0 8px 8px;
-    padding: 6px 12px;
+    margin: 0 var(--ob-sp-1) var(--ob-sp-1);
+    padding: var(--ob-sp-05) var(--ob-sp-15);
     border: 0;
     border-radius: var(--radius-lg);
     background: var(--surface);
@@ -2215,7 +3294,7 @@
     .table-layout.is-collapsed
     > .action-dock.table-hotbar
     > .toolbar {
-    margin: 0 16px 10px 0;
+    margin: 0 var(--ob-sp-2) var(--ob-sp-15) 0;
     background: var(--ob-glass-strong);
     box-shadow: var(--shadow-2);
   }
@@ -2225,7 +3304,7 @@
     .table-layout
     > .action-dock.table-hotbar
     > .toolbar:has(> [data-table="end-turn"]) {
-    grid-template-columns: repeat(3, 40px) auto;
+    grid-template-columns: repeat(3, var(--ob-h-sm)) auto;
   }
   :root[data-direction="owlbear"]:not([data-pref-theme="light"])
     .table-layout
@@ -2234,11 +3313,11 @@
     > .button.primary[data-table="end-turn"] {
     align-self: center;
     width: auto;
-    min-width: 112px;
-    height: 56px;
-    padding: 0 20px;
+    min-width: calc(2 * var(--ob-h-lg));
+    height: var(--ob-h-lg);
+    padding: 0 var(--ob-sp-2);
     border-width: 0;
-    border-radius: 28px;
+    border-radius: var(--ob-radius-pill);
     white-space: nowrap;
     box-shadow: var(--shadow-2);
   }
@@ -2257,13 +3336,13 @@
     width: 200px;
     max-width: none;
     max-height: calc(100% - 420px);
-    margin-left: 140px;
-    padding: 8px 0;
+    margin-left: calc(var(--ob-tools-edge) + var(--ob-sp-15));
+    padding: var(--ob-sp-1) 0;
     overflow: hidden auto;
     border-radius: var(--radius-lg);
     background: var(--ob-glass-strong);
-    -webkit-backdrop-filter: blur(20px);
-    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(var(--ob-blur-e3));
+    backdrop-filter: blur(var(--ob-blur-e3));
     box-shadow: var(--shadow-2);
     scrollbar-width: thin;
     scrollbar-color: rgb(255 255 255 / 0.5) transparent;
@@ -2275,11 +3354,11 @@
     flex: none;
     flex-direction: row;
     align-items: center;
-    gap: 12px;
+    gap: var(--ob-sp-15);
     width: auto;
-    min-height: 40px;
+    min-height: var(--ob-h-sm);
     margin: 0;
-    padding: 2px 16px 2px 12px;
+    padding: 0 var(--ob-sp-2) 0 var(--ob-sp-15);
     border: 0;
     border-radius: 0;
     background: transparent;
@@ -2295,7 +3374,7 @@
     > .initiative
     .initiative-token
     + .initiative-token {
-    box-shadow: inset 0 1px 0 var(--line);
+    box-shadow: inset 0 var(--ob-bw-1) 0 var(--line);
   }
   :root[data-direction="owlbear"]:not([data-pref-theme="light"])
     .table-layout
@@ -2332,9 +3411,9 @@
     > .initiative
     .initiative-token.current
     .token-dot {
-    width: 28px;
-    height: 28px;
-    font-size: 14px;
+    width: var(--ob-avatar-sm);
+    height: var(--ob-avatar-sm);
+    font-size: var(--ob-fs-body2);
   }
   :root[data-direction="owlbear"]:not([data-pref-theme="light"])
     .table-layout
@@ -2343,7 +3422,7 @@
     > span:last-child {
     flex: 1 1 auto;
     min-width: 0;
-    line-height: 1.2;
+    line-height: var(--ob-lh-body2);
   }
   :root[data-direction="owlbear"]:not([data-pref-theme="light"])
     .table-layout
@@ -2355,11 +3434,14 @@
 }
 
 @media (min-width: 1440px) {
+  /* «Tiri e risultati» in the floating dice pill over the dock: MUI's small button (18 px
+     small caps), one of the two documented small slots with the map snackbar's actions; at
+     the desktop size the pill would meet the resource row and the app would fold both. */
   :root[data-direction="owlbear"]:not([data-pref-theme="light"])
     .table-hotbar:not(.is-tight)
     .combat-bar-heading
     .text-button {
-    font-size: 16px;
+    font-size: var(--ob-fs-button-sm);
   }
 }
 
@@ -2397,27 +3479,27 @@
     .initiative-token.current:has(.token-dot.hostile) {
     background: linear-gradient(rgb(187 153 255 / 0.3), rgb(187 153 255 / 0.3)), var(--surface-2);
     box-shadow:
-      inset 0 0 0 2px var(--accent),
+      inset 0 0 0 var(--ob-bw-2) var(--accent),
       var(--shadow-2);
   }
-  /* In combat the session notices step below the row of turn portraits (which is opaque
-     here), so «Avvia ora» and «Non ora» are never covered. */
-  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
-    .table-layout:has(> .initiative)
-    .session-view-hud-stack {
-    top: 120px;
+  /* Session notices at the foot of the map, just above the zoom pill (whose top is 62 px
+     above the map's foot here), where Material puts a snackbar on a phone: never over the
+     turn portraits nor over the scene's tokens, clear of the party column on the left. */
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .session-view-hud-stack {
+    top: auto;
+    bottom: calc(var(--ob-h-lg) + var(--ob-sp-2));
   }
   /* The map tools' button: a round glass button (O9), a pill when it opens. */
   :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-stage .map-toolbar {
-    border-radius: 24px;
+    border-radius: var(--ob-radius-pill);
   }
   :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-party-portrait {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+    width: var(--ob-avatar-md);
+    height: var(--ob-avatar-md);
+    border-radius: var(--ob-radius-round);
   }
   :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-party-hp {
-    width: 32px;
+    width: var(--ob-avatar-sm);
   }
   /* The hotbar as the dock's paper sheet, rounded on top. */
   :root[data-direction="owlbear"]:not([data-pref-theme="light"])
@@ -2433,14 +3515,8 @@
     > .action-dock.table-hotbar
     > .toolbar
     > [data-table="end-turn"] {
-    border-radius: 20px;
-    font-size: 18px;
-  }
-  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
-    .table-hotbar
-    .combat-dock
-    .button {
-    font-size: 16px;
+    border-radius: var(--ob-radius-pill);
+    font-size: var(--ob-fs-button-sm);
   }
   :root[data-direction="owlbear"]:not([data-pref-theme="light"])
     .table-layout
@@ -2470,5 +3546,1098 @@
     .table-layout
     > .table-sidebar-panel::before {
     background: rgb(255 255 255 / 0.3);
+  }
+}
+
+/* ================================================================== ONE SPACING SCALE (I-250) */
+/* The app's own paddings, margins and gaps on the components this direction skins, mapped
+   onto MUI's 8 px spacing with its 4 px half steps (--ob-sp-*), at every width. Browser
+   default paddings (1px 6px) on centred icon buttons are zeroed. Fixed sizes, targets and
+   the map box are unchanged. */
+
+/* Page gutters: 40 / 48 on the desktop, 24 / 16 on the phone (MUI Container). */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .workspace:not(.is-table) > main {
+  padding: var(--ob-sp-5) var(--ob-sp-6);
+}
+@media (max-width: 1100px) {
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .workspace:not(.is-table) > main {
+    padding: var(--ob-sp-3);
+  }
+}
+@media (max-width: 720px) {
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .workspace:not(.is-table) > main {
+    padding: var(--ob-sp-3) var(--ob-sp-2);
+  }
+}
+
+/* App bar (MUI Toolbar: 24 px sides on the desktop). */
+@media (min-width: 1101px) {
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .app-header {
+    padding: var(--ob-sp-2) var(--ob-sp-3);
+  }
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .app-header.table-header {
+    padding-block: var(--ob-sp-1);
+  }
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .app-header .service-nav {
+    gap: var(--ob-sp-05);
+  }
+}
+@media (max-width: 720px) {
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .app-header {
+    padding-block: var(--ob-sp-1);
+  }
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .app-header nav {
+  gap: var(--ob-sp-05);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .nav-link {
+  gap: var(--ob-sp-1);
+  padding-block: var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .brand {
+  gap: var(--ob-sp-1);
+  padding-block: var(--ob-sp-05);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(.icon-button, .token-menu-close) {
+  padding: 0;
+}
+
+/* Sheet: page heading, action rows, chips and lists. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-heading-copy
+  p {
+  margin-block: var(--ob-sp-05) 0;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-heading-copy
+  h1 {
+  margin-block: 0 var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .shp-chip {
+  padding: 0 var(--ob-sp-15);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-chips, .shp-props, .shp-action-tools) {
+  gap: var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .shp-action {
+  padding-block: var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-action-group
+  h3 {
+  margin: var(--ob-sp-2) 0 var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .shp-uses {
+  margin-inline-start: var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .shp-generic-open {
+  gap: var(--ob-sp-05);
+  padding: var(--ob-sp-05) var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .shp-prop {
+  padding: 0 var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-resource {
+  gap: var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .shp-pill {
+  gap: var(--ob-sp-05);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-ability-box
+  > small {
+  margin-top: 0;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-bar-top, .shp-xp, .shp-effects, .shp-favorites) {
+  gap: var(--ob-sp-1) var(--ob-sp-15);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .clib-sheet-bar {
+  gap: var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .clib-privacy {
+  gap: var(--ob-sp-05);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .shp-switch {
+  padding-inline: var(--ob-sp-05) var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.sm-list, .shp-fav-dock) {
+  gap: var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  .sm-actions-table
+  :is(th, td) {
+  padding: var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .ct-policy-list li {
+  padding-block: var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .spl-pips {
+  margin-inline-start: var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .spl-row {
+  gap: var(--ob-sp-2);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .invp-search {
+  gap: var(--ob-sp-1);
+}
+
+/* Conditions and the Table's Creature panel. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .conditions-vital {
+  gap: var(--ob-sp-1);
+  padding: var(--ob-sp-05) var(--ob-sp-15);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .conditions-quick {
+  gap: var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .conditions-summary.embedded {
+  margin-block: var(--ob-sp-2);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-layout .table-inspector {
+  padding: var(--ob-sp-3) var(--ob-sp-2);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-layout .inspector-person {
+  gap: var(--ob-sp-2);
+  margin-bottom: var(--ob-sp-2);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-layout .inspector-quick {
+  gap: var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-layout .inspector-ac {
+  padding: var(--ob-sp-05) var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-layout .forms-toolbar {
+  gap: var(--ob-sp-1);
+  margin: var(--ob-sp-2) 0 var(--ob-sp-3);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-layout #combat-detail {
+  margin-block: var(--ob-sp-2);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-layout #combat-detail > p {
+  margin-block: var(--ob-sp-2);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .table-sidebar-panel
+  > .table-subtabs {
+  padding: var(--ob-sp-15) var(--ob-sp-2) var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-subtab {
+  gap: var(--ob-sp-1);
+  padding-inline: var(--ob-sp-15);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(.table-tab, .table-sidebar-toggle, .table-map-link, .table-panels-all) {
+  gap: var(--ob-sp-05);
+  padding: 0;
+}
+
+/* Table: scene plate, map controls, party column. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-layout > .table-topline h1 {
+  margin: 0;
+}
+@media (min-width: 721px) {
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-layout > .table-topline {
+    gap: var(--ob-sp-1) var(--ob-sp-15);
+    margin: var(--ob-sp-1) 0 0 var(--ob-sp-2);
+    padding: var(--ob-sp-05) var(--ob-sp-05) var(--ob-sp-05) var(--ob-sp-2);
+  }
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-party {
+    gap: var(--ob-sp-1);
+  }
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-party-member {
+    gap: var(--ob-sp-05);
+    padding: var(--ob-sp-05);
+  }
+}
+@media (max-width: 720px) {
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-layout > .table-topline {
+    gap: var(--ob-sp-1) var(--ob-sp-15);
+    padding: var(--ob-sp-1) var(--ob-sp-15);
+  }
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-party-member {
+    gap: var(--ob-sp-05);
+    padding: 0;
+  }
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token {
+    padding: var(--ob-sp-05) var(--ob-sp-1);
+  }
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .map-container > .map-caption {
+  gap: var(--ob-sp-15);
+  padding: var(--ob-sp-1) var(--ob-sp-2);
+}
+@media (min-width: 1001px) {
+  /* The caption keeps the app's fixed two-line height (48 px) beside the sidebar. */
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .map-container > .map-caption {
+    padding-block: var(--ob-sp-05);
+  }
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .map-container > .map-zoom,
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-stage .map-toolbar {
+  padding: var(--ob-sp-05);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .table-stage
+  :is(.map-toolbar, .map-tool-cluster, #map-tools-select) {
+  gap: var(--ob-sp-05);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .workspace.is-table .map-tool {
+  padding: 0;
+}
+
+/* Session HUD (map controls and notices). */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(.session-view-hud-button, .session-view-hud-stack) {
+  gap: var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .session-view-menu-button {
+  gap: var(--ob-sp-05);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .session-view-dots {
+  gap: var(--ob-sp-05);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .session-view-hud-bar
+  .session-view-caret {
+  margin: 0;
+}
+
+/* The dock: identity, resources, the actions (40 px chips like the tabs beside them). */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .table-hotbar
+  :is(.combat-action, .combat-dock .sm-dock-toggle) {
+  min-height: var(--ob-h-sm);
+  gap: var(--ob-sp-05);
+  padding: var(--ob-sp-05) var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-hotbar .combat-actions {
+  gap: var(--ob-sp-1);
+  margin: 0;
+  padding: 0;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .table-hotbar
+  :is(.combat-bar, .combat-dock) {
+  gap: var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-hotbar .combat-filters {
+  gap: 0;
+  padding: 0;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-hotbar .hotbar-hp {
+  gap: var(--ob-sp-1);
+  padding: 0 var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .table-hotbar
+  :is(.hotbar-identity, .hotbar-identity > div) {
+  gap: var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .table-hotbar
+  :is(.hotbar-name, .hotbar-slots, .hotbar-slot-level) {
+  gap: var(--ob-sp-05);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .table-hotbar
+  .hotbar-slot-level
+  > small {
+  margin: 0;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-hotbar .resources {
+  gap: var(--ob-sp-1);
+}
+@media (min-width: 721px) {
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar {
+    gap: var(--ob-sp-1);
+  }
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-identity {
+    margin-bottom: var(--ob-sp-1);
+    padding: var(--ob-sp-1) var(--ob-sp-1) var(--ob-sp-1) var(--ob-sp-15);
+  }
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-center {
+    margin-bottom: var(--ob-sp-1);
+    padding: var(--ob-sp-1) var(--ob-sp-15);
+  }
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-hotbar .hotbar-resources {
+    gap: var(--ob-sp-1);
+    padding: var(--ob-sp-05) var(--ob-sp-1);
+  }
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-bar-heading {
+    gap: var(--ob-sp-1);
+    padding: 0 var(--ob-sp-05) 0 var(--ob-sp-15);
+  }
+}
+@media (max-width: 720px) {
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar {
+    gap: var(--ob-sp-1);
+    padding: var(--ob-sp-1);
+  }
+}
+
+/* Remaining app values on the skinned surfaces (audit of 01/10). On the phone the Table's
+   app bar keeps «App», back and the six service icons on one row: 4 px between them (the
+   two text buttons' own 8 px padding makes the visible gap 20 px). */
+@media (min-width: 721px) {
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .app-header.table-header {
+    gap: var(--ob-sp-2);
+  }
+}
+@media (max-width: 720px) {
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .app-header.table-header {
+    gap: var(--ob-sp-05);
+  }
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .page-heading h1 {
+  margin: 0 0 var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .home-tabs {
+  gap: var(--ob-sp-05);
+  padding-inline: var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .home-tabs [role="tab"] {
+  gap: var(--ob-sp-1);
+  padding: var(--ob-sp-15) var(--ob-sp-2);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .home-panel-head {
+  gap: var(--ob-sp-15);
+  margin-bottom: var(--ob-sp-15);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .home-appointment p {
+  margin: 0 0 var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .home-appointment h2 {
+  margin: 0 0 var(--ob-sp-2);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .home-bottom h3 {
+  margin-block: var(--ob-sp-2) var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .character-resume {
+  gap: var(--ob-sp-2);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-summary
+  > .character-conditions
+  > span:first-child {
+  margin-top: var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .shp-foot {
+  margin-top: var(--ob-sp-2);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .sm-sheet h4 {
+  margin-block: var(--ob-sp-3) var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.ct-policy-box h3, .cs-sheet.panel) {
+  margin-block: var(--ob-sp-2);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .ct-badge {
+  padding: 0 var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.ct-policy-name, .cs-switch > span) {
+  gap: var(--ob-sp-05);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .cs-switch input {
+  margin: 0;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.character-tabs-all, .offline-switch-block, .invp-pips) {
+  gap: var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.offline-switch, .invp .section-heading) {
+  gap: var(--ob-sp-15) var(--ob-sp-2);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .empty-state {
+  padding: var(--ob-sp-5) var(--ob-sp-3);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .compendium-term {
+  padding-block: 0;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  .dtray-sheet
+  .field {
+  margin-block: var(--ob-sp-2) 0;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  section
+  > h3 {
+  margin-block: var(--ob-sp-3) var(--ob-sp-2);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-subtab {
+  padding-block: 0;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-stage .map-subtools {
+  gap: var(--ob-sp-05);
+  padding: var(--ob-sp-05);
+}
+@media (max-width: 720px) {
+  /* The sheet's heading actions wrap on the phone: every text button sits half its padding
+     outside the column, so each line's first label starts on the page's 16 px edge; the
+     same for the scene plate's first text button (under the scene's name on the phone) and
+     a slot's «Correggi risorsa» (on its own line, at the start, not centred). */
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
+    :is(
+      .character-sheet .character-heading > .toolbar > .button.quiet,
+      .table-layout > .table-topline > .toolbar > .button.quiet:first-child,
+      .spl-slots .spl-slot > .button.quiet
+    ) {
+    margin-inline-start: calc(-1 * var(--ob-sp-1));
+  }
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .spl-slots .spl-slot {
+    align-items: flex-start;
+    gap: var(--ob-sp-1);
+  }
+}
+@media (max-width: 720px) {
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar
+    .button:not([data-table="end-turn"]) {
+    padding-inline: var(--ob-sp-1);
+  }
+}
+/* Type on the scale where the app wrote a one-off size or line height on a skinned piece. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  .character-inspiration {
+  line-height: var(--ob-lh-body2);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  .character-inspiration
+  > span:first-child {
+  font-size: var(--ob-fs-h5);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-hp
+  .character-hp-value
+  strong {
+  line-height: var(--ob-lh-h5);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .cs-sheet h3 {
+  margin-block: var(--ob-sp-2) var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .home-count {
+  padding: 0 var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .table-layout
+  .inspector-person
+  span.muted {
+  font-size: var(--ob-fs-caption);
+  line-height: var(--ob-lh-caption);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .table-layout
+  > .action-dock.table-hotbar
+  > .hotbar-identity
+  > div
+  > span {
+  font-size: var(--ob-fs-caption);
+  line-height: var(--ob-lh-caption);
+}
+
+/* ================================================================== COHERENCE ROUND (I-250, 01/10) */
+/* After the third independent verification and the design-value audit: one recipe per kind
+   of component, the dock inside its budget at every width, nothing left at an app value. */
+
+/* The dock: two 40 px rows of action chips (a third row scrolls inside, as the app's two rows
+   of 44 px), the cost-filter group's outline drawn inside its 40 px box (a 1 px border made
+   the first row 42 px), the filter itself a 40 px square target. */
+@media (min-width: 721px) {
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-hotbar .combat-actions {
+    max-height: calc(2 * var(--ob-h-sm) + var(--ob-sp-1));
+  }
+  /* The turn line under the name stays one line (the dock's height budget). */
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-identity
+    > div
+    > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-hotbar .combat-filters {
+  border-width: 0;
+  box-shadow: inset 0 0 0 var(--ob-bw-1) var(--frame-soft);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-hotbar .combat-filter {
+  min-width: var(--ob-h-sm);
+}
+/* The rail's other round buttons draw their focus ring inside, as its tabs do (the rail's
+   scroll box clips a ring drawn outside). */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(.table-sidebar-toggle, .table-panels-all, .table-map-link):focus-visible {
+  outline-offset: calc(-1 * var(--ob-bw-3));
+}
+/* Its focus ring drawn inside, as the chips' (the dock's scroll box clips outside rings). */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .table-hotbar
+  .combat-filter:focus-visible {
+  outline-offset: calc(-1 * var(--ob-bw-3));
+}
+/* From 1500 px the portrait comes back beside the name: the identity card grows by the
+   portrait and its gap, so the turn line keeps the app's 170 px. */
+@media (min-width: 1500px) {
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-identity {
+    max-width: none;
+  }
+}
+/* The HP pill writes the caption step (12/20) at every width. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-hotbar .hotbar-hp-text {
+  font-size: var(--ob-fs-caption);
+  line-height: var(--ob-lh-caption);
+}
+@media (max-width: 720px) {
+  /* Phone dock, first row: the resources run under the empty start of the page tabs' cell
+     (the tabs sit at its end), so «Movimento 9 m» is never clipped; the tabs keep the last
+     cell and write the caption step, as the dock's chips. */
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .hotbar-resources {
+    grid-column: 2 / 4;
+  }
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-layout .hotbar-pages {
+    grid-column: 4 / -1;
+  }
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .hotbar-page-tab {
+    font-size: var(--ob-fs-caption);
+  }
+  /* The identity's empty second track (the phone moves the resources out) leaves no gap. */
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
+    .action-dock.table-hotbar
+    > .hotbar-identity
+    > div {
+    column-gap: 0;
+  }
+}
+
+/* Outlined buttons: one padding (8 px, 15 px + the 1 px outline) wherever they sit, the scene
+   plate's «Avvia combattimento» / «Concludi incontro» included from 721 px. On the phone the
+   plate keeps the app's 8 px there, so its four commands stay on one line under the name. */
+@media (min-width: 721px) {
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
+    .table-layout
+    > .table-topline
+    > .toolbar
+    > .button:not(.quiet) {
+    padding-inline: calc(var(--ob-sp-2) - var(--ob-bw-1));
+  }
+}
+
+/* Tabs: one recipe (MUI Tab: 48 px, 12 px 16 px, body2 medium, sentence case) for the Home
+   card's tabs, the sheet's section tabs and the sheet's «Tutte» jump at the end of its strip
+   (which spans the strip's 8 px foot too: its label sits on the tabs' line); the Home tabs'
+   first label starts on the card's text edge. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tabs-all {
+  align-items: flex-start;
+  min-height: var(--ob-h-md);
+  padding: var(--ob-sp-15) var(--ob-sp-2);
+  font-family: var(--font-ui);
+  font-size: var(--ob-fs-body2);
+  font-weight: 500;
+  letter-spacing: var(--ob-track-body2);
+  font-variant-caps: normal;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tabs-all
+  .icon {
+  width: var(--ob-icon-sm);
+  height: var(--ob-icon-sm);
+}
+/* The Home side card: the same 32 px text edge as the cards beside it (16 on the phone). */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .home-aside {
+  padding: var(--ob-sp-1) var(--ob-sp-4) var(--ob-sp-3);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .home-tabs {
+  margin: 0 calc(-1 * var(--ob-sp-4)) var(--ob-sp-2);
+  padding-inline: var(--ob-sp-2);
+}
+@media (max-width: 720px) {
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .home-aside {
+    padding: var(--ob-sp-1) var(--ob-sp-2) var(--ob-sp-2);
+  }
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .home-tabs {
+    margin-inline: calc(-1 * var(--ob-sp-2));
+    padding-inline: 0;
+  }
+  /* The Home cards stack with the page's one 24 px gutter, as on the desktop. */
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .home-layout {
+    gap: var(--ob-sp-3);
+  }
+  /* Main pages on the phone: body2 (14 px), MUI's tab size, instead of the app's 13 px. */
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .app-header .nav-link {
+    font-size: var(--ob-fs-body2);
+  }
+  /* Dialogs on the phone: heading, body and actions on the page's 16 px phone gutter. */
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .dialog-heading {
+    padding: var(--ob-sp-2) var(--ob-sp-2) var(--ob-sp-1);
+  }
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) dialog .dialog-body {
+    padding: var(--ob-sp-2);
+  }
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) dialog footer {
+    padding: var(--ob-sp-1) var(--ob-sp-2) var(--ob-sp-2);
+  }
+  /* The bottom sheet starts 8 px under the dock (the app's 10). */
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
+    .table-layout
+    > .table-sidebar-panel {
+    margin-top: var(--ob-sp-1);
+  }
+  /* The sheet heading's parts (portrait and name, chips, actions) 16 px apart. */
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-heading {
+    gap: var(--ob-sp-2);
+  }
+}
+@media (min-width: 1101px) {
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .app-header:not(.table-header) {
+    gap: var(--ob-sp-3);
+  }
+}
+
+/* Page headings sit one 24 px gutter above the content; the breadcrumb 24 px above the
+   heading (the app's 30 and 22). */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page > .page-heading,
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-layout
+  > .character-heading,
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-layout
+  > .character-breadcrumb {
+  margin-bottom: var(--ob-sp-3);
+}
+/* On the phone the sheet's column is a grid with the app's 8 px gap: 16 + 8 = the same 24. */
+@media (max-width: 720px) {
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-layout
+    > :is(.character-heading, .character-breadcrumb) {
+    margin-bottom: var(--ob-sp-2);
+  }
+}
+
+/* Type on the scale: section titles h5 24/32, the sharing card's title 18/24, the room's name
+   on its tile h6 20/32; one medium weight (500) where the app wrote 600 (the vital-state chip,
+   the offline switch, key chips); the HP's foot line and the inspiration star tracked as the
+   caption and as a glyph; the summary pills' numbers 24/32 on the phone too. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  .section-heading
+  h2 {
+  line-height: var(--ob-lh-h5);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .cs-sheet h2 {
+  line-height: var(--ob-lh-title);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .resume-scene h2 {
+  line-height: var(--ob-lh-h6);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .conditions-vital,
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  .offline-switch
+  > span,
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) kbd {
+  font-weight: 500;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-vitals
+  .character-hp
+  > span.character-hp-temp {
+  letter-spacing: var(--ob-track-caption);
+}
+/* The inventory's «Addosso» subheader in the subheaders' one medium weight. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .invp-root-head strong {
+  font-weight: 500;
+}
+/* The words of the resource pill over the dock on the caption line (20 px). */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .table-hotbar
+  .hotbar-resources
+  .resource-word {
+  line-height: var(--ob-lh-caption);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  .character-inspiration
+  > span:first-child {
+  letter-spacing: 0;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .shp-pill strong {
+  line-height: var(--ob-lh-h5);
+}
+/* The Exhaustion segments write body2 (14 px) wherever they appear (panel, sheet, dialog), in
+   the toggle group's medium weight (MUI ToggleButton: 14 px, 500; digits take no small caps). */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .conditions-segment {
+  font-size: var(--ob-fs-body2);
+  font-weight: 500;
+}
+
+/* Spacing on the scale: the effect switches 40 px high with no stray 6 px, the rules terms
+   inline with no 1 px side padding, the offline button's icon 8 px from its label (the
+   button's gap, not the gap plus 6 px). */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .shp-switch {
+  padding-block: 0;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .compendium-term {
+  padding-inline: 0;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .offline-switch-block
+  .button
+  > .icon {
+  margin: 0;
+}
+
+/* The Conditions dialog's status card: the darker inner well of Owlbear's dialogs (no rule),
+   its facts with the sheet's one label recipe (grey body2, sentence case) and h5 numbers. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .conditions-status {
+  border: 0;
+  border-radius: var(--radius-lg);
+  background: var(--surface-2);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .conditions-facts {
+  gap: var(--ob-sp-1) var(--ob-sp-4);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .conditions-facts dt {
+  color: var(--muted);
+  font-family: var(--font-ui);
+  font-size: var(--ob-fs-body2);
+  font-weight: 400;
+  line-height: var(--ob-lh-body2);
+  letter-spacing: var(--ob-track-body2);
+  font-variant-caps: normal;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .conditions-facts dd strong {
+  font-size: var(--ob-fs-h5);
+  font-weight: 400;
+  line-height: var(--ob-lh-h5);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .conditions-identity {
+  gap: var(--ob-sp-1) var(--ob-sp-15);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .conditions-identity h3 {
+  font-family: var(--font-ui);
+  font-size: var(--ob-fs-h6);
+  font-weight: 500;
+  line-height: var(--ob-lh-h6);
+}
+
+/* Home, below the fold: a text button that starts its own line sits 8 px out, so its label
+   meets the card's text edge; a card's or a news item's secondary text action sits at the end
+   of its line with its label on the card's right text edge, whether it shares the line or
+   wraps under it (MUI CardHeader action, CardActions). */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .home-page
+  :is(.home-bottom > section > :is(.button.quiet, .text-button), .home-start-fold > .button.quiet) {
+  margin-inline-start: calc(-1 * var(--ob-sp-1));
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .home-page
+  :is(
+    .section-heading > :is(.button.quiet, .text-button):last-child:not(:first-child),
+    .home-panel-head > .button.quiet:last-child,
+    .home-news-item .toolbar > .button.quiet:last-child
+  ) {
+  margin-inline: auto calc(-1 * var(--ob-sp-1));
+}
+
+/* A Home card's heading and its text action share a line when they fit; otherwise the action
+   moves under the title (to the right edge, rule above), never breaking its label in two. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .section-heading {
+  flex-wrap: wrap;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .home-page
+  .section-heading
+  > :is(.button.quiet, .text-button) {
+  white-space: nowrap;
+}
+
+/* Sheet tables (special moves): MUI TableCell body2 in the head and the body alike. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet table td {
+  font-size: var(--ob-fs-body2);
+  line-height: var(--ob-lh-body2);
+}
+
+/* ================================================================== SECOND POLISH ROUND */
+/* 01/10/2026, after the fourth verification: the open items and the I-250 coherence pass on
+   the states below the fold (Home scrolled, the full sheet). */
+
+/* The turn order's rows draw the 3 px focus ring inside, as the dock's chips and the rail's
+   buttons: the list scrolls (overflow hidden auto) and its rows are full bleed, so a ring
+   outside them lost both sides. */
+@media (min-width: 721px) {
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token:focus-visible {
+    outline-offset: calc(-1 * var(--ob-bw-3));
+  }
+}
+
+/* Home, news items: the outlined button's one padding (15 px + the 1 px outline) and the
+   toolbar's 8 px gap (the app's 12 px and 4/6 px). */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .home-news-item .toolbar {
+  gap: var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .home-page
+  .home-news-item
+  .toolbar
+  .button:not(.quiet) {
+  padding-inline: calc(var(--ob-sp-2) - var(--ob-bw-1));
+}
+
+/* Home up to 1100 px (one column): the cards stack with the page's one 24 px gutter, as on
+   the desktop grid (the app's 20, 16, 0 and 28 px between them). The column's own children
+   and the widgets inside its extension slots are the stack's items. */
+@media (max-width: 1100px) {
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
+    .home-page
+    .home-layout
+    > .home-main {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ob-sp-3);
+  }
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
+    .home-page
+    .home-layout
+    > .home-main
+    > *,
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
+    .home-page
+    .home-layout
+    > .home-main
+    > [data-ext-slot]
+    > * {
+    margin-block: 0;
+  }
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .home-bottom {
+    gap: var(--ob-sp-3);
+    margin-top: 0;
+  }
+}
+
+/* Home «Primi passi» (folded): the same card as every other Home card (no rule, a soft
+   shadow, the 32 px text edge; 16 px on the phone); its small label in the one label recipe
+   (grey body2, sentence case), as every form label and subheader. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .home-start {
+  padding: var(--ob-sp-3) var(--ob-sp-4);
+  border: 0;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+}
+@media (max-width: 720px) {
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .home-start {
+    padding: var(--ob-sp-2);
+  }
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .home-eyebrow {
+  color: var(--muted);
+  font-family: var(--font-ui);
+  font-size: var(--ob-fs-body2);
+  font-weight: 400;
+  line-height: var(--ob-lh-body2);
+  letter-spacing: var(--ob-track-body2);
+  font-variant-caps: normal;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .home-page
+  .home-start-fold
+  > summary {
+  gap: var(--ob-sp-1);
+}
+
+/* One medium weight (500) where the app still wrote 600: the Home disclosures («Novità
+   precedenti»), the sheet's turn resources, the map's region and health labels. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .home-details > summary,
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .character-resource,
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .table-layout
+  :is(.regions-label, .cs-health text, .annotations-elevation text) {
+  font-weight: 500;
+}
+
+/* One card-title style (MUI's 18 px title, 24 px line, medium): every h3 of a card or panel
+   (sheet columns, Tiri, Reazioni, Home «Resoconto», the Table panel's sections), the sheet's
+   sharing card title (h2 at the same step) and the dock's name, instead of 18/27 and 18/24
+   regular. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) h3 {
+  line-height: var(--ob-lh-title);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .cs-sheet h2 {
+  font-weight: 500;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .hotbar-name
+  > strong {
+  line-height: var(--ob-lh-title);
+}
+/* The room's name on its tile at the h6 step of the dialog titles (20/32 medium). */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .resume-scene h2 {
+  font-weight: 500;
+}
+
+/* The sheet's free roll: the formula field and «Tira» on one line, bottom-aligned, 8 px apart
+   (MUI TextField + Button), wrapping under the field when the card is narrow; before, the
+   button touched the field. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .dtray-sheet-free {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--ob-sp-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  .dtray-sheet-free
+  > .field {
+  flex: 1 1 240px;
+}
+
+/* «Apri al Tavolo» under the special moves' line: a text button that starts its line sits
+   8 px out, so its label meets the paragraph's text edge. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  .sm-sheet
+  > p
+  > .button.quiet:last-child {
+  margin-inline-start: calc(-1 * var(--ob-sp-1));
+}
+
+/* A sheet card's title is its first line: 24 px under the card's top edge, as every other
+   card (the Reactions card added the h3's own 16 px). */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  .panel
+  > h3:first-child {
+  margin-top: 0;
+}
+/* «Politica dei tiri» and its «Cambia…» text button centred on one line (the button's icon
+   set its baseline 3 px above the sentence's). */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  .dtray-sheet-policy {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: var(--ob-sp-1);
+}
+/* The sheet's tab content is a grid with the one 24 px gutter; the cards that the areas put
+   in it (through display: contents slots) kept their own 16–24 px top margins on top of it,
+   so cards sat 40–48 px apart. Now every card is 24 px from the next, as on Home. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tab-content
+  > [data-ext-slot]
+  > * {
+  margin-block: 0;
+}
+/* body2 medium on its 20 px line (MUI body2, 1.43) for every tab, filter chip, table head,
+   toggle segment and the vital-state chip, instead of the app's 1.5 (21 px); the controls keep
+   their heights (they are set by their minimum heights). */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(
+    .tabs button,
+    .home-tabs [role="tab"],
+    .character-sheet .character-tabs-all,
+    th,
+    .spl-chip,
+    .invp-chip,
+    .shp-chip,
+    .table-subtab,
+    .hotbar-page-tab,
+    .conditions-segment,
+    .conditions-vital
+  ) {
+  line-height: var(--ob-lh-body2);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.character-resource, .invp-view > summary, .invp-details > summary) {
+  line-height: var(--ob-lh-body2);
+}
+@media (max-width: 720px) {
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .app-header .nav-link {
+    line-height: var(--ob-lh-body2);
+  }
+}
+/* The Exhaustion segments and the vital-state chip track body2 as the tabs and chips do. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(.conditions-segment, .conditions-vital) {
+  letter-spacing: var(--ob-track-body2);
+}
+@media (max-width: 720px) {
+  /* On the phone «Cambia…» wraps under «Politica dei tiri»: it starts its line, so it sits
+     8 px out and its icon meets the card's text edge. */
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
+    .character-sheet
+    .dtray-sheet-policy
+    > .button.quiet {
+    margin-inline-start: calc(-1 * var(--ob-sp-1));
   }
 }

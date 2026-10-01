@@ -1,1 +1,4571 @@
-/* Direction «owlcat» — Phase C round 1 «Scelta 1 — Direzione» (I-248). Skeleton: the builder fills it. */
+/* Direction «7 · Pathfinder: Wrath of the Righteous» (id "owlcat") — Phase C round 1
+   «Scelta 1 — Direzione» (I-248). Owlcat Games' WotR (Enhanced Edition, turn-based mode): the
+   inverse of BG3 — opaque cool PARCHMENT with dark slate-navy ink, held in BLACKENED IRON with
+   violet gem studs, PLUM as the one active colour, oxblood drop caps, square corners. Only the
+   UI grammar and sampled values are copied: no WotR pixel, texture, font, logo or frame art is
+   in the repository (the iron frame, the drafting watermark and the rule are drawn here as
+   plain geometry). Reference board: ~/Workspace/Codex/d20-studio-visual-assets/references/
+   owlcat/ (facts.md, manifest.md; W = its image rows). The owner's page (Italian, with the
+   comparison pairs and the licences) is SOURCES.md.
+
+   Contract (directions/README.md, code-map §0/§c/§f): every rule starts with
+   :root[data-direction="owlcat"]:not([data-pref-theme="light"]) (round 1 is dark only: the light
+   theme keeps today's look whole); the eight contrast tokens and every parchment colour also
+   :not([data-pref-contrast="high"]) (under high contrast the paper turns to iron, so the
+   preference's white text keeps its contrast); token and danger/positive colours also
+   :not([data-pref-vision]:not([data-pref-vision="standard"])). No !important, no content text,
+   no text-transform (capitals are font-variant-caps), no markup change; 40 px targets and the
+   3 px focus ring stay; the map box, the tool column, the hotbar rows and the End turn slot keep
+   their geometry (the hotbar stays ≤ 118 px: its two rows of chips become one row of slots).
+
+   Elemento → prodotto → fonte (W = references/owlcat manifest rows; [O] sampled, [E] edge
+   measure, [T] text ink, [I] our inference — all values in facts.md)
+   - Body and titles, Vollkorn ....... WotR FF Nexus Serif (commercial) → OFL stand-in Vollkorn,
+                                        metrics matched (facts §0.6: x/asc 0.642, width 1.02)
+   - Drop caps, IM Fell English SC ... WotR's oxblood Lombardic versals (W1, W12, W19) → OFL
+                                        IM FELL English SC, #6B2F36, 1.4× the line (facts §0.6)
+   - Small caps everywhere labels .... bands, tabs, buttons, stat names (W1, W12, W19, W34)
+   - Parchment, ink .................. W19 [O] paper #D9D2CA, page #C8C2B4, ink #1E1E2C [T],
+                                        list ink #444653, keyword plum #703465, bronze labels
+                                        #8A5E37 (darkened to #6A4A2C for AA), rust STR… #844833
+   - Blackened iron, violet gems ..... W1/W12/W19 [O] #1A1A1C–#232323 plates, #1C0E0D tab bar,
+                                        gem #AB56B1/#6B3A6B; frame drawn here (assets/iron-frame)
+   - Plum = the only active colour ... W12 tab #36172C, W1 econ #3C1129, W15 pills #5F485C,
+                                        W34 CONTINUE #60475C [O]
+   - Top tab bar + plum shield ....... W12/W15/W17 (header and the sheet's section tabs)
+   - Khaki brush bands, oxblood A .... W12 «ATTACK», W19 «PREREQUISITES» [O] #C8B99D
+   - Bronze brush rules .............. W38 [E] 4–5 px #A68D79/#876F57 (dialogs, menus, tooltips)
+   - Drafting rule under titles ...... W19 (double hairline, circle-crosshair node) — drawn here
+   - Ability ledger .................. W12/W15 (rust caps over value and modifier cells split
+                                        by dotted bronze rules)
+   - Square corners, round medallions  facts §0.7 (radius 0; circles only for medallions)
+   - Action-economy bar .............. W1/W3 [E] one iron bar on the strip's frame, as wide as
+                                        the strip; cells 39 · 39 · 11 · 11 (MOVE · STANDARD ·
+                                        SWIFT · FREE → Movimento · Azione · Bonus · Reazione),
+                                        plum when available, words in small caps; the dice plate
+                                        is the bar's right end; on a phone, 16 px glyph cells
+   - One row of framed slots on paper  W1 [E] 4 px@4K #5E5E6E frames, gap 0 inside a group,
+                                        parchment strip; 56 px square tiles with the whole name
+                                        on two 11 px lines under them, hyphenated if one word
+                                        is wider than the tile (no ellipsis)
+   - Party cards ..................... W1 [E] tall portrait, vertical #03FB05 HP bar on the left
+                                        edge, cream frame + violet gem crown when selected
+   - Initiative strip ................ W1 [E] left-aligned from 28 % W, square cards, current
+                                        first-size ×1.4 in pale gold #C1AE8D, enemies #510102
+   - End turn ........................ W3 round iron hourglass disc [I], kept explicit in words
+   - Map rings ....................... W9 [O] ally #4DE749 thin, enemy #BE3319 thick
+   - Inspect card, log, tooltips ..... W1/W7/W38 parchment cards, bronze labels, plum keywords
+   - Home ............................ W26 menu lettered on a book page over a candle-lit desk
+                                        (SAFE owner plate assets/desk-candle.webp graded violet
+                                        by a «color» blend), bookmark ribbons at the spine
+   - Active tile on iron ............. W1 lit rook tile #3A1129 + a cream ring (lightness and
+                                        shape cue); hover lights the rim only
+   - Icons ........................... game-icons.net (CC BY 3.0) filled glyphs on iron tiles
+                                        (facts §0.7 c) and dark radial tiles for the hotbar (a);
+                                        the rolls button a die (CSS mask) */
+
+/* ------------------------------------------------------------------ fonts (vendored, OFL) */
+@font-face {
+  font-family: "Vollkorn";
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url("../../assets/fonts/vollkorn/vollkorn-latin-wght-normal.woff2") format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Vollkorn";
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url("../../assets/fonts/vollkorn/vollkorn-latin-ext-wght-normal.woff2") format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
+}
+@font-face {
+  font-family: "Vollkorn";
+  font-style: italic;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url("../../assets/fonts/vollkorn/vollkorn-latin-wght-italic.woff2") format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Vollkorn";
+  font-style: italic;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url("../../assets/fonts/vollkorn/vollkorn-latin-ext-wght-italic.woff2") format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
+}
+/* The versal face for drop caps only (Latin; the package ships no latin-ext subset: an
+   accented initial falls back to Vollkorn). */
+@font-face {
+  font-family: "IM Fell English SC";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../../assets/fonts/im-fell-english-sc/im-fell-english-sc-latin-400-normal.woff2")
+    format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* ------------------------------------------------------------------ scales (I-250)
+   One spacing scale, one type scale with its leading and tracking, one set of radii, border
+   widths and control heights, all taken from WotR (facts.md, measured at 1080p and scaled to a
+   900 px tall window: × 0.83). Every padding, margin, gap, font size, line height, letter
+   spacing, radius, border width and control height in this file reads one of these; shapes
+   copied as geometry (the econ cells' shares, the 28 % start of the turn order, the 1.4×
+   current card) keep their measured proportions where they are drawn.
+   - Spacing: WotR's dense HUD — 4 px between initiative cards (copy plan §6.2), 0 between
+     framed slots, 8–12 px inside tooltip rows, 16 px card margins, 24–32 px column gutters
+     (W12: 2 % of 1440). Steps 2 · 4 · 8 · 12 · 16 · 24 · 32 · 48 px.
+   - Type: body x-height 0.83 % H → 16 px Vollkorn (facts §0.6), panel titles cap 1.6 % H →
+     21 px, item titles ≈ 18 px, small-caps bands/econ/step labels 12–13 px, the sheet's name and
+     page titles 28/36 px, the main menu's lettered lines 28 px with a 1.7× initial (W26).
+     Steps 11 · 12 · 13 · 15 · 16 · 18 · 21 · 28 · 36, in the text-size preference's calc form.
+   - Leading: 1 for numerals set solid, 1.15 WotR's pitch (23 px for 20 px text, W19) for
+     titles and controls, 1.25 for running prose (declared: one step looser than WotR's 1.15
+     for Italian accents and the app's longer paragraphs) — set on the root, so every text the
+     app leaves at its own 1.5 reads 1.25.
+   - Tracking, in em so it scales with each type step: 0 for running text and titles, 0.04em on
+     small capitals and button labels (copy plan), 0.08em on the tab labels and the sub-tab
+     pills (W19 step bar, W12 tab bar).
+   - Radii: 0 everywhere (facts §0.7: «Corner radius = 0»); 50 % only for medallions.
+   - Borders: 1 px hairlines and rules, 2 px frames (4 px at 4K = 2 px here: W1 slots, cards,
+     current-turn frame), 4 px bronze brush rules and the party HP bar (W38, W1), 6 px the iron
+     frame bar (copy plan §6.1 «6–10 px»).
+   - Controls: 40 px for every button, field, chip, tab and tile (the app's target), 44 px for
+     the phone's list rows and turn cards, 48 px a hotbar slot (W1: 4.8 % H = 43 px, raised to
+     hold a 40 px target and its 2 px frame) — drawn 56 px square with two 11 px lines of
+     its name under it (26 px); tags 24 px.
+   - Shadows: three elevations (bevel of an iron tile, plate on the map, halo of a page on the
+     desk) and the frame rules drawn as shadows (iron keyline, paper keyline, black ring, lit
+     plum ring, active ring, chosen notch) — all named below, none written inline. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) {
+  --oc-sp-1: 2px;
+  --oc-sp-2: 4px;
+  --oc-sp-3: 8px;
+  --oc-sp-4: 12px;
+  --oc-sp-5: 16px;
+  --oc-sp-6: 24px;
+  --oc-sp-7: 32px;
+  --oc-sp-8: 48px;
+  --oc-fs-11: calc(11px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --oc-fs-12: calc(12px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --oc-fs-13: calc(13px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --oc-fs-15: calc(15px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --oc-fs-16: calc(16px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --oc-fs-18: calc(18px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --oc-fs-21: calc(21px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --oc-fs-28: calc(28px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --oc-fs-36: calc(36px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --oc-lh-solid: 1;
+  --oc-lh-tight: 1.15;
+  --oc-lh-body: 1.25;
+  --oc-track-caps: 0.04em;
+  --oc-track-wide: 0.08em;
+  --oc-initial: 1.4em;
+  --oc-initial-menu: 1.7em;
+  --oc-radius: 0;
+  --oc-round: 50%;
+  --oc-bw-1: 1px;
+  --oc-bw-2: 2px;
+  --oc-bw-4: 4px;
+  --oc-bw-iron: 6px;
+  --oc-bw-focus: 3px;
+  --oc-ctl: 40px;
+  --oc-ctl-lg: 44px;
+  --oc-slot: 48px;
+  /* The app's own steps, moved onto the same scales. */
+  --text-2xs: var(--oc-fs-11);
+  --text-xs: var(--oc-fs-12);
+  --text-sm: var(--oc-fs-13);
+  --text-md: var(--oc-fs-15);
+  --text-lg: var(--oc-fs-18);
+  --text-xl: var(--oc-fs-21);
+  --text-2xl: var(--oc-fs-28);
+  --text-3xl: var(--oc-fs-36);
+  --label-tracking: var(--oc-track-caps);
+  --space-1: var(--oc-sp-2);
+  --space-2: var(--oc-sp-3);
+  --space-3: var(--oc-sp-4);
+  --space-4: var(--oc-sp-5);
+  --space-5: var(--oc-sp-6);
+  --space-6: var(--oc-sp-7);
+  --space-7: var(--oc-sp-8);
+  --radius-xs: var(--oc-radius);
+  --radius-sm: var(--oc-radius);
+  --radius-md: var(--oc-radius);
+  --radius-lg: var(--oc-radius);
+  --radius-pill: var(--oc-radius);
+  --radius: var(--oc-radius);
+  /* One serif family for every role, as WotR sets everything in Nexus Serif. */
+  --oc-serif: "Vollkorn", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --oc-versal: "IM Fell English SC", "Vollkorn", Georgia, serif;
+  --font-display: var(--oc-serif);
+  --font-ui: var(--oc-serif);
+  --font-label: var(--oc-serif);
+  /* Lining figures (W12: stats, HP and XP are lining); tabular figures still add on top. */
+  font-feature-settings: "lnum" 1;
+  line-height: var(--oc-lh-body);
+}
+
+/* ------------------------------------------------------------------ palette */
+/* Iron, plum and signals: the HUD's metal and its states (facts §0.3, §0.4). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) {
+  --oc-iron: #1a1a1c;
+  --oc-iron-deep: #121214;
+  --oc-iron-tile: #1c1c20;
+  --oc-iron-raised: #232026;
+  --oc-umber: #1c0e0d;
+  --oc-iron-line: #5e5e6e;
+  --oc-iron-edge: #3b3236;
+  --oc-iron-hi: #4c4442;
+  --oc-plum: #3c1129;
+  --oc-plum-tab: #36172c;
+  --oc-plum-deep: #2d081d;
+  --oc-plum-step: #452643;
+  --oc-plum-soft: #5f485c;
+  --oc-plum-button: #60475c;
+  --oc-plum-hover: #684f62;
+  --oc-plum-band: #745b70;
+  --oc-plum-bar: #593155;
+  --oc-spent: #3b1115;
+  --oc-gem: #ab56b1;
+  --oc-gem-dark: #6b3a6b;
+  --oc-hp: #03fb05;
+  --oc-hp-mid: #d8d400;
+  --oc-hp-low: #d01010;
+  --oc-move: #55d53a;
+  --oc-gold-frame: #c1ae8d;
+  --oc-foe-frame: #510102;
+  --oc-cream: #e1d9ce;
+  --oc-desk: #16111a;
+  --oc-desk-violet: #291b35;
+  --oc-shadow-halo: 0 10px 28px rgb(0 0 0 / 0.55);
+  --oc-shadow-plate: 0 2px 6px rgb(0 0 0 / 0.6);
+  --oc-bevel: inset 0 1px 0 rgb(255 255 255 / 0.07), inset 0 -1px 0 rgb(0 0 0 / 0.5);
+  /* Frame rules drawn as shadows (they take no room, so the app's geometry stays). */
+  --oc-ring-black: 0 0 0 var(--oc-bw-1) #050405;
+  --oc-keyline-iron: inset 0 0 0 var(--oc-bw-1) var(--oc-iron-edge);
+  --oc-plate: var(--oc-keyline-iron), var(--oc-shadow-plate);
+  --oc-card: var(--oc-ring-black), var(--oc-shadow-plate);
+  --oc-paper-plate: inset 0 0 0 var(--oc-bw-1) var(--oc-hairline), var(--oc-shadow-plate);
+  --oc-lit: inset 0 0 0 var(--oc-bw-1) var(--oc-gem-dark);
+  /* The active tool or tab on iron: plum lit, and a cream ring inside it — a change of
+     lightness and shape, not of hue alone (W1 portrait cream rule). */
+  --oc-active:
+    inset 0 0 0 var(--oc-bw-1) var(--oc-gem-dark),
+    inset 0 0 0 calc(var(--oc-bw-1) + var(--oc-bw-2)) var(--oc-cream);
+  /* The chosen pill or chip: lit, with the gem rule along its foot (W19 step bar). */
+  --oc-chosen: var(--oc-lit), inset 0 calc(-1 * var(--oc-bw-2)) 0 var(--oc-gem);
+  /* The dice plate's width at the econ bar's right end (Dadi · the select · the rolls). */
+  --oc-dice-w: calc(4 * var(--oc-sp-8));
+  --oc-iron-plate: linear-gradient(180deg, #2c282e, #19171b);
+  --oc-iron-bar: linear-gradient(180deg, #2a1916, #1c0e0d 45%, #120909);
+  --oc-frame: url("assets/iron-frame.svg") 16 / 16px / 10px stretch;
+  --oc-rule: url("assets/rule.svg");
+  --oc-drafting: url("assets/drafting.svg");
+  /* Glyphs drawn by CSS (game-icons.net, CC BY 3.0: hourglass by Lorc, death-skull by sbed,
+     hearts by Skoll — SOURCES.md). Decorative. */
+  --oc-mask-hourglass: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath d='M92.656 19.188v41.5h331.72v-41.5zM119.5 79.374V433.53h22.28V79.376H119.5zm46.594 0c3.212 43.324 13.312 82.022 27.78 110.906c17.685 35.304 40.845 54.75 64.064 54.75s46.346-19.446 64.03-54.75c14.47-28.883 24.57-67.58 27.782-110.905H166.094zm209.156 0V433.53h22.28V79.376h-22.28zm-117.313 185.22c-23.218 0-46.378 19.415-64.062 54.717c-14.835 29.614-25.098 69.562-28.03 114.22H350c-2.933-44.658-13.197-84.606-28.03-114.22c-17.686-35.302-40.814-54.718-64.033-54.718zM92.657 452.218v41.467h331.718V452.22H92.655z'/%3E%3C/svg%3E");
+  --oc-glyph-skull: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='%23f2ebe1' d='M255.997 16.004c-120 0-239.997 60-239.997 149.998C16 226.002 61 256 61 316c0 45-15 45-15 75c0 14.998 48.01 32.002 89.998 44.998v60h239.997v-60s90.567-27.957 90-45c-.933-27.947-15-30-15-74.998c0-30 45.642-91.42 44.998-149.998c0-90-119.998-149.998-239.996-149.998m-90 179.997c33.137 0 60 26.864 60 60s-26.863 60-60 60C132.863 316 106 289.136 106 256s26.862-60 59.998-60zm179.998 0c33.136 0 60 26.864 60 60s-26.864 60-60 60s-60-26.864-60-60s26.864-60 60-60m-89.998 105c15 0 45 60 45 75c0 29.998 0 29.998-15 29.998h-60c-15 0-15 0-15-30c0-15 30-74.998 45-74.998'/%3E%3C/svg%3E");
+  --oc-mask-heart: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath d='M480.25 156.355c0 161.24-224.25 324.43-224.25 324.43S31.75 317.595 31.75 156.355c0-91.41 70.63-125.13 107.77-125.13c77.65 0 116.48 65.72 116.48 65.72s38.83-65.73 116.48-65.73c37.14.01 107.77 33.72 107.77 125.14'/%3E%3C/svg%3E");
+  /* The rolls' die (game-icons «dice-six-faces-four», Delapouite, CC BY 3.0). */
+  --oc-mask-die: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath d='M74.5 36A38.5 38.5 0 0 0 36 74.5v363A38.5 38.5 0 0 0 74.5 476h363a38.5 38.5 0 0 0 38.5-38.5v-363A38.5 38.5 0 0 0 437.5 36zm48.97 36.03A50 50 0 0 1 172 122a50 50 0 0 1-100 0a50 50 0 0 1 51.47-49.97m268 0A50 50 0 0 1 440 122a50 50 0 0 1-100 0a50 50 0 0 1 51.47-49.97m-268 268A50 50 0 0 1 172 390a50 50 0 0 1-100 0a50 50 0 0 1 51.47-49.97m268 0A50 50 0 0 1 440 390a50 50 0 0 1-100 0a50 50 0 0 1 51.47-49.97'/%3E%3C/svg%3E");
+  /* The app's tokens in the iron context (the page, the header, the HUD's metal). */
+  --bg: var(--oc-desk);
+  --surface: var(--oc-iron);
+  --surface-2: var(--oc-iron-deep);
+  --raised: var(--oc-iron-raised);
+  --canvas: #120e12;
+  --sunken: #0e0d10;
+  --header-bg: var(--oc-umber);
+  --sidebar-bg: var(--oc-iron);
+  --rail-bg: var(--oc-iron-deep);
+  --hotbar-bg: var(--oc-iron);
+  --float-bg: var(--oc-iron);
+  --float-border: var(--oc-iron-edge);
+  --scrim: rgb(10 6 12 / 0.72);
+  --accent: var(--oc-gold-frame);
+  --accent-ink: #1e1e2c;
+  --accent-strong: #d8c7a6;
+  --accent-soft: rgb(60 17 41 / 0.6);
+  --accent-line: var(--oc-gem-dark);
+  --shadow-1: var(--oc-shadow-plate);
+  --shadow-2: var(--oc-shadow-plate);
+  --shadow-3: var(--oc-shadow-halo);
+  --keyline-dark: rgb(0 0 0 / 0.6);
+  --res-spent: #4a4048;
+  --turn-current: var(--oc-gold-frame);
+  --endturn-bg: var(--oc-iron-deep);
+  --toast-bg: #d9d2ca;
+  --toast-ink: #1e1e2c;
+  --logo-edge: var(--oc-desk);
+  background:
+    radial-gradient(120% 70% at 50% 0%, rgb(41 27 53 / 0.55), transparent 70%), var(--oc-desk);
+  scrollbar-color: var(--oc-iron-line) transparent;
+}
+/* Parchment and inks (facts §0.2, §0.5). Under high contrast the paper turns to iron and the
+   inks to white, so the preference's own light text keeps its contrast on every surface. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]) {
+  --oc-paper: #d9d2ca;
+  --oc-paper-hi: #f2ebe1;
+  --oc-paper-2: #c8c2b4;
+  --oc-paper-edge: #a89f92;
+  --oc-paper-strip: #aea596;
+  --oc-band: #c8b99d;
+  --oc-band-cool: #b4b2a6;
+  --oc-row: #bab6b2;
+  --oc-row-selected: #a2a4a8;
+  --oc-field: #c8c8c8;
+  --oc-sage: #afb2a6;
+  --oc-sage-disc: #607952;
+  --oc-hairline: #8f877b;
+  --oc-brush: #a68d79;
+  --oc-brush-dark: #876f57;
+  --oc-ink: #1e1e2c;
+  --oc-ink-head: #333545;
+  --oc-ink-2: #444653;
+  --oc-keyword: #703465;
+  --oc-label: #6a4a2c;
+  --oc-initial-ink: #6b2f36;
+  --oc-abbr: #844833;
+  --oc-foe: #920202;
+  --oc-ally: #104837;
+  --oc-menu-ink: #2c1e4e;
+  --oc-on-iron: #d4c8cf;
+  --oc-on-iron-dim: #9e8676;
+  --oc-on-plum: #e9dbd8;
+  /* The eight contrast tokens, iron context. */
+  --text: var(--oc-on-iron);
+  --muted: var(--oc-on-iron-dim);
+  --line: #3a3338;
+  --focus: var(--oc-gem);
+  --line-strong: var(--oc-iron-line);
+  --frame: var(--oc-iron-line);
+  --frame-soft: rgb(94 94 110 / 0.6);
+  --placeholder: var(--oc-on-iron-dim);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])[data-pref-contrast="high"] {
+  --oc-paper: #121214;
+  --oc-paper-hi: #1a1a1c;
+  --oc-paper-2: #0e0d10;
+  --oc-paper-edge: #0e0d10;
+  --oc-paper-strip: #1a1a1c;
+  --oc-band: #232026;
+  --oc-band-cool: #232026;
+  --oc-row: #1a1a1c;
+  --oc-row-selected: #2e2a30;
+  --oc-field: #0e0d10;
+  --oc-sage: #232026;
+  --oc-sage-disc: #9fe0b0;
+  --oc-hairline: #9aa9b4;
+  --oc-brush: #9aa9b4;
+  --oc-brush-dark: #9aa9b4;
+  --oc-ink: #ffffff;
+  --oc-ink-head: #ffffff;
+  --oc-ink-2: #e3e9ea;
+  --oc-keyword: #ffffff;
+  --oc-label: #e3e9ea;
+  --oc-initial-ink: #ffffff;
+  --oc-abbr: #ffffff;
+  --oc-foe: #ffffff;
+  --oc-ally: #ffffff;
+  --oc-menu-ink: #ffffff;
+  --oc-on-iron: #ffffff;
+  --oc-on-iron-dim: #e3e9ea;
+  --oc-on-plum: #ffffff;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) ::selection {
+  background: var(--oc-plum-button);
+  color: #f2ebe1;
+}
+
+/* ------------------------------------------------------------------ parchment scope
+   Every page of paper — the sheet's book, Home's leaves, dialogs, the token menu, toasts,
+   tooltips, the Table's inspect card, scene plate, status line and hotbar strip — reads the
+   app's tokens as paper and ink, so the area files paint them without per-rule colours. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(
+    .character-sheet,
+    .home-page .resume-scene,
+    .home-page .home-appointment,
+    .home-page .home-bottom > section,
+    .home-page .cm-home,
+    .home-page .home-recent,
+    .home-page .chat-home,
+    .home-page .community-home,
+    .home-page .home-aside,
+    .home-page .home-start,
+    dialog,
+    .token-menu,
+    #toast,
+    .ui-tip,
+    .table-layout > .table-sidebar-panel,
+    .table-layout > .table-topline,
+    .table-layout .map-container > .map-caption,
+    .session-view-chip,
+    .ct-alert
+  ) {
+  --bg: var(--oc-paper);
+  --surface: var(--oc-paper);
+  --surface-2: var(--oc-paper-hi);
+  --raised: var(--oc-paper-hi);
+  --sunken: var(--oc-field);
+  --canvas: var(--oc-paper-2);
+  --float-bg: var(--oc-paper);
+  --float-border: var(--oc-hairline);
+  --accent-soft: rgb(112 52 101 / 0.14);
+  /* Inherited colour is computed where it is set: each leaf sets its own ink. */
+  color: var(--text);
+  scrollbar-color: var(--oc-brush-dark) transparent;
+}
+/* Native controls on paper (check boxes, selects, scroll bars) draw in their light scheme. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  :is(
+    .character-sheet,
+    .home-page .resume-scene,
+    .home-page .home-appointment,
+    .home-page .home-bottom > section,
+    .home-page .cm-home,
+    .home-page .home-recent,
+    .home-page .chat-home,
+    .home-page .community-home,
+    .home-page .home-aside,
+    .home-page .home-start,
+    dialog,
+    .token-menu,
+    .table-layout > .table-sidebar-panel,
+    .table-layout > .table-topline
+  ) {
+  color-scheme: light;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  :is(
+    .character-sheet,
+    .home-page .resume-scene,
+    .home-page .home-appointment,
+    .home-page .home-bottom > section,
+    .home-page .cm-home,
+    .home-page .home-recent,
+    .home-page .chat-home,
+    .home-page .community-home,
+    .home-page .home-aside,
+    .home-page .home-start,
+    dialog,
+    .token-menu,
+    #toast,
+    .ui-tip,
+    .table-layout > .table-sidebar-panel,
+    .table-layout > .table-topline,
+    .table-layout .map-container > .map-caption,
+    .session-view-chip,
+    .ct-alert
+  ) {
+  --text: var(--oc-ink);
+  --muted: var(--oc-ink-2);
+  --line: rgb(51 53 69 / 0.3);
+  --focus: var(--oc-keyword);
+  --line-strong: var(--oc-iron-line);
+  --frame: var(--oc-brush-dark);
+  --frame-soft: rgb(135 111 87 / 0.55);
+  --placeholder: #55505b;
+  --accent: var(--oc-keyword);
+  --accent-ink: #f2ebe1;
+  --accent-strong: #4f1f47;
+  --accent-line: rgb(112 52 101 / 0.55);
+  --warning: #6e4310;
+  --info: #105766;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  :is(
+    .character-sheet,
+    .home-page .resume-scene,
+    .home-page .home-appointment,
+    .home-page .home-bottom > section,
+    .home-page .cm-home,
+    .home-page .home-recent,
+    .home-page .chat-home,
+    .home-page .community-home,
+    .home-page .home-aside,
+    .home-page .home-start,
+    dialog,
+    .token-menu,
+    #toast,
+    .ui-tip,
+    .table-layout > .table-sidebar-panel,
+    .table-layout > .table-topline,
+    .table-layout .map-container > .map-caption,
+    .session-view-chip,
+    .ct-alert
+  ) {
+  --danger: var(--oc-foe);
+  --positive: var(--oc-ally);
+}
+/* The hotbar's strip is paper on the desktop only (on a phone the strip dissolves into the
+   iron bar: display: contents). */
+@media (min-width: 721px) {
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-center {
+    --bg: var(--oc-paper-strip);
+    --surface: var(--oc-paper);
+    --raised: var(--oc-paper-hi);
+    --sunken: var(--oc-field);
+    color: var(--text);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-center {
+    --text: var(--oc-ink);
+    --muted: var(--oc-ink-2);
+    --line: rgb(51 53 69 / 0.3);
+    --focus: var(--oc-keyword);
+    --accent: var(--oc-keyword);
+    --accent-ink: #f2ebe1;
+    color-scheme: light;
+  }
+}
+/* Iron pieces set inside paper keep the iron context (the hotbar's econ bar and dice plate). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .table-layout
+  .table-hotbar
+  :is(.hotbar-resources, .combat-bar-heading) {
+  --text: var(--oc-on-iron);
+  --muted: var(--oc-on-iron-dim);
+  --line: #3a3338;
+  --focus: var(--oc-gem);
+  --sunken: #0e0d10;
+  color: var(--text);
+  color-scheme: dark;
+}
+
+/* ------------------------------------------------------------------ shared chrome */
+/* The demo strip is the blueprint's, not the product's: system font and today's selects, so
+   every option keeps its height (96 px on the phone). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .demo-strip {
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
+  font-feature-settings: normal;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .demo-strip select {
+  border-color: #6b7784;
+  border-radius: 6px;
+  background-color: #0e1217;
+  color: #efe7d6;
+}
+/* The brand (logo, name, colours) waits for Phase D: pinned to today's values. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .brand {
+  font-family:
+    "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", "URW Palladio L", Georgia,
+    serif;
+  color: #efe7d6;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .brand .icon,
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .brand .logo,
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .brand b {
+  color: #dfbd78;
+}
+/* Header: WotR's iron top tab bar (W12: umber-black #1C0E0D under an iron rim). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .app-header {
+  background: var(--oc-iron-bar);
+  border-bottom: var(--oc-bw-2) solid var(--oc-iron-edge);
+  box-shadow: var(--oc-shadow-plate);
+}
+/* The tabs: bronze-grey small capitals, no pictogram (WotR's tab bar is words only); the open
+   page is the plum shield hanging from the bar between two iron horns (W12 INVENTORY). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .app-header .nav-link {
+  position: relative;
+  isolation: isolate;
+  border-radius: var(--oc-radius);
+  color: var(--oc-on-iron-dim);
+  font-size: var(--oc-fs-15);
+  font-weight: 600;
+  letter-spacing: var(--oc-track-wide);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .app-header .nav-link:hover {
+  background: rgb(212 200 207 / 0.06);
+  color: var(--oc-on-iron);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .app-header .nav-link.active {
+  background: transparent;
+  color: var(--oc-on-plum);
+  box-shadow: none;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .app-header .nav-link.active::before,
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .app-header .nav-link.active::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .app-header .nav-link.active::before {
+  inset: calc(-1 * var(--oc-sp-4)) 0 calc(-1 * var(--oc-sp-4));
+  background: linear-gradient(180deg, var(--oc-iron-hi), #120909);
+  clip-path: polygon(0 0, 100% 0, 100% 78%, 50% 100%, 0 78%);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .app-header .nav-link.active::after {
+  inset: calc(-1 * var(--oc-sp-4) + var(--oc-bw-2)) var(--oc-bw-2)
+    calc(-1 * var(--oc-sp-4) + var(--oc-bw-2));
+  background:
+    radial-gradient(60% 50% at 50% 30%, rgb(171 86 177 / 0.22), transparent 75%),
+    linear-gradient(180deg, #4a1f3b, var(--oc-plum-tab) 60%, var(--oc-plum-deep));
+  clip-path: polygon(0 0, 100% 0, 100% 78%, 50% 100%, 0 78%);
+}
+@media (min-width: 721px) {
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .app-header nav .icon {
+    display: none;
+  }
+}
+/* Header services: WotR's tool tiles — dark square iron tiles with light engraved glyphs
+   (W1 tool grid, #1C1C20); hovered, the rim lights (the plum fill is kept for what is
+   active). No padding: the glyph is centred in its 40 px tile. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .icon-button {
+  padding: 0;
+  border: var(--oc-bw-1) solid #2e2a30;
+  border-radius: var(--oc-radius);
+  background: var(--oc-iron-tile);
+  color: var(--oc-on-iron);
+  box-shadow: var(--oc-bevel);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .icon-button:hover {
+  border-color: var(--oc-gem);
+  color: #ffffff;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .service-nav {
+  gap: var(--oc-sp-2);
+}
+/* Badge counts on a tile: a violet gem with light digits. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .ext-count {
+  display: grid;
+  place-items: center;
+  min-width: var(--oc-sp-5);
+  height: var(--oc-sp-5);
+  padding: 0 var(--oc-sp-2);
+  border-radius: var(--oc-round);
+  line-height: var(--oc-lh-solid);
+  background: radial-gradient(circle at 35% 30%, #8a4a8c, var(--oc-gem-dark) 60%, #4a244a);
+  color: #ffffff;
+  box-shadow:
+    0 0 0 var(--oc-bw-1) var(--oc-gem),
+    0 0 0 var(--oc-bw-2) #050405;
+}
+/* Buttons: WotR's iron footer plates (W19 «BACK  NEXT»: #1A1A1C–#232323, light letter-spaced
+   small capitals), square; primary = the plum CONTINUE (W34 #60475C); a pressed state = plum. */
+/* Geometry at the base button's weight (:where), so the app's own placements keep theirs. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) :where(.button) {
+  min-height: var(--oc-ctl);
+  padding: var(--oc-sp-3) var(--oc-sp-5);
+  font-size: var(--oc-fs-15);
+  line-height: var(--oc-lh-tight);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .button {
+  border: var(--oc-bw-1) solid var(--oc-iron-line);
+  border-radius: var(--oc-radius);
+  background: var(--oc-iron-plate);
+  color: var(--oc-on-iron);
+  box-shadow: var(--oc-bevel);
+  font-weight: 600;
+  letter-spacing: var(--oc-track-caps);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .button:hover:not(:disabled) {
+  border-color: var(--oc-gem-dark);
+  background: linear-gradient(180deg, #3a2434, #1d1219);
+  color: var(--oc-on-plum);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .button:active:not(:disabled) {
+  background: var(--oc-iron-deep);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .button.primary {
+  border-color: var(--oc-plum-band);
+  background: var(--oc-plum-button);
+  color: #f2ebe1;
+  box-shadow: var(--oc-shadow-plate);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .button.primary:hover:not(:disabled) {
+  border-color: var(--oc-gem);
+  background: var(--oc-plum-hover);
+  color: #ffffff;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .button.quiet {
+  border-color: transparent;
+  background: transparent;
+  color: var(--text);
+  box-shadow: none;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .button.quiet:hover:not(:disabled) {
+  border-color: transparent;
+  background: rgb(112 52 101 / 0.12);
+  color: var(--text);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .button.active,
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .button[aria-pressed="true"] {
+  border-color: var(--oc-gem-dark);
+  background: linear-gradient(180deg, #4a1f3b, var(--oc-plum-tab));
+  color: var(--oc-on-plum);
+  box-shadow: var(--oc-active);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .button.danger {
+  border-color: var(--oc-foe-frame);
+  background: var(--oc-iron-plate);
+  color: #f0b7b0;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .button.danger:hover:not(:disabled) {
+  border-color: #8a2a20;
+  background: linear-gradient(180deg, #6b2f36, var(--oc-spent));
+  color: #ffffff;
+}
+/* Links: WotR's plum keywords (W19); on iron the pale gold of its frames. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .text-button {
+  min-height: var(--oc-ctl);
+  color: var(--accent);
+  font-weight: 600;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .text-button:hover:not(:disabled) {
+  color: var(--accent-strong);
+  text-decoration-thickness: var(--oc-bw-1);
+}
+/* One link geometry on the skinned surfaces: the app's 9 px moved onto the 8 px step. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(.home-page, .character-sheet, .table-layout, dialog, .token-menu)
+  .text-button {
+  padding-block: var(--oc-sp-3);
+  line-height: var(--oc-lh-tight);
+}
+/* Fields: WotR's flat grey search field (W19 #C8C8C8) with dark ink, square, an iron hairline
+   (3:1 against the paper); focus = the plum ring. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .field input,
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .field select,
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .field textarea,
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) input[type="search"] {
+  border-color: var(--oc-iron-line);
+  border-radius: var(--oc-radius);
+  background-color: var(--oc-field);
+  color: var(--oc-ink);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(.field input, .field select, .field textarea, input[type="search"])::placeholder {
+  color: #55505b;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(.field input, .field select, .field textarea, input[type="search"]):hover:not(:disabled) {
+  border-color: var(--oc-ink-head);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(.field input, .field select, .field textarea, input[type="search"]):focus-visible {
+  border-color: var(--oc-keyword);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .field {
+  gap: var(--oc-sp-2);
+  font-size: var(--oc-fs-13);
+  font-weight: 600;
+  letter-spacing: var(--oc-track-caps);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(.field input, .field select, input[type="search"]) {
+  min-height: var(--oc-ctl);
+  padding: var(--oc-sp-3) var(--oc-sp-4);
+  line-height: var(--oc-lh-body);
+}
+/* A select's leading is fixed by Chromium (line-height: normal, from the browser's own sheet),
+   so its box takes the control height outright. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .field select {
+  height: var(--oc-ctl);
+  padding-block: 0;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .field :is(input, select, textarea) {
+  font-size: var(--oc-fs-15);
+  letter-spacing: 0;
+  font-variant-caps: normal;
+}
+/* Disclosure summaries take the same 3 px ring as every control. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) summary:focus-visible {
+  outline: var(--oc-bw-focus) solid var(--focus);
+  outline-offset: var(--oc-bw-focus);
+}
+/* Check boxes and radios: WotR's square plum check (W29 «Don't show this tutorial»). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) input[type="checkbox"],
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) input[type="radio"] {
+  accent-color: var(--oc-plum-button);
+}
+/* Badges: small-cap labels in a hairline cell. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .badge {
+  border-color: var(--frame-soft);
+  border-radius: var(--oc-radius);
+  font-size: var(--oc-fs-12);
+  font-weight: 600;
+  line-height: var(--oc-lh-tight);
+  letter-spacing: var(--oc-track-caps);
+  font-variant-caps: all-small-caps;
+}
+/* One tag on the skinned surfaces (I-250): badges, spell components and states, and policy
+   tags share one 24 px slip, 8 px inside, 12 px small capitals. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(.home-page, .character-sheet, .table-layout, dialog, .token-menu)
+  :is(.badge, .spl-badge, .spl-state, .ct-badge) {
+  align-items: center;
+  min-height: var(--oc-sp-6);
+  height: auto;
+  padding: 0 var(--oc-sp-3);
+  border-radius: var(--oc-radius);
+  font-size: var(--oc-fs-12);
+  font-weight: 600;
+  line-height: var(--oc-lh-tight);
+  letter-spacing: var(--oc-track-caps);
+  font-variant-caps: all-small-caps;
+}
+/* Tab strips: WotR's iron top tab bar — umber-black, bronze-grey small capitals, the open tab
+   a plum plate with a gem notch under it (W12, W15, W19 step bar). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .tabs {
+  gap: 0;
+  border: 0;
+  border-radius: var(--oc-radius);
+  background: var(--oc-iron-bar);
+  box-shadow: var(--oc-plate);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .tabs > :is(button, a) {
+  position: relative;
+  min-height: var(--oc-ctl);
+  border: 0;
+  border-radius: var(--oc-radius);
+  background: transparent;
+  color: var(--oc-on-iron-dim);
+  font-family: var(--font-ui);
+  font-size: var(--oc-fs-15);
+  font-weight: 600;
+  letter-spacing: var(--oc-track-wide);
+  font-variant-caps: all-small-caps;
+  box-shadow: none;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .tabs > :is(button, a):hover {
+  background: rgb(212 200 207 / 0.06);
+  color: var(--oc-on-iron);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .tabs
+  > :is(button, a):is(.active, [aria-selected="true"], [aria-current="page"]) {
+  background:
+    radial-gradient(60% 60% at 50% 20%, rgb(171 86 177 / 0.2), transparent 75%),
+    linear-gradient(180deg, #4a1f3b, var(--oc-plum-tab) 60%, var(--oc-plum-deep));
+  color: var(--oc-on-plum);
+  box-shadow: var(--oc-lit);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .tabs
+  > :is(button, a):is(.active, [aria-selected="true"], [aria-current="page"])::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: calc(-1 * var(--oc-sp-2));
+  width: var(--oc-sp-3);
+  height: var(--oc-sp-3);
+  translate: -50% 0;
+  rotate: 45deg;
+  border: var(--oc-bw-1) solid #2a1229;
+  background: linear-gradient(135deg, #d79bdb, var(--oc-gem) 45%, var(--oc-gem-dark));
+  pointer-events: none;
+}
+/* The tab strips' focus keyline reads the strip's own iron, not the paper around it (the
+   high-contrast preference keeps its own ring). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .tabs {
+  --bg: var(--oc-umber);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .tabs {
+  --focus: var(--oc-gem);
+}
+/* The ring is drawn inside the tab, on the iron or the plum (3.4–3.9:1), never on the paper
+   around the bar (2.98:1). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .tabs > :is(button, a):focus-visible {
+  outline-offset: calc(-1 * var(--oc-bw-focus));
+}
+/* Panels: a leaf of parchment. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .panel {
+  border-radius: var(--oc-radius);
+}
+/* Headings: title case in Vollkorn with WotR's oxblood versal initial (W12 «Storandus»,
+   «Equipment», W19 «Scalykind Domain»), on paper only; small-cap bands carry it too. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) :where(h1, h2, h3, h4) {
+  line-height: var(--oc-lh-tight);
+  letter-spacing: inherit;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) :is(h1, h2) {
+  font-weight: 600;
+}
+/* Dialogs: a parchment card in a blackened-iron frame with violet gems at the corners (W34,
+   W38, W43), the title with its oxblood initial over WotR's drafting rule, bronze brush rules
+   between parts, the plum CONTINUE as the primary. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) dialog {
+  border: var(--oc-bw-iron) solid var(--oc-iron);
+  border-image: var(--oc-frame);
+  border-radius: var(--oc-radius);
+  background:
+    var(--oc-drafting) right calc(-1 * var(--oc-sp-8)) bottom calc(-1 * var(--oc-sp-8)) / 420px
+      no-repeat,
+    var(--oc-paper);
+  color: var(--oc-ink);
+  box-shadow: var(--oc-shadow-halo);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) dialog::backdrop {
+  background:
+    radial-gradient(80% 70% at 50% 40%, rgb(41 27 53 / 0.35), transparent 75%), rgb(10 6 12 / 0.66);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .dialog-heading {
+  gap: var(--oc-sp-5);
+  padding: var(--oc-sp-5) var(--oc-sp-5) var(--oc-sp-5) var(--oc-sp-6);
+  border-bottom: 0;
+  background:
+    var(--oc-rule) left var(--oc-sp-6) bottom / 240px 14px no-repeat,
+    transparent;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .dialog-heading h2 {
+  color: var(--oc-ink);
+  font-size: var(--oc-fs-28);
+  font-weight: 600;
+  line-height: var(--oc-lh-tight);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .dialog-heading h2::first-letter,
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet h1::first-letter,
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .section-heading
+  h2::first-letter,
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .home-page
+  :is(
+    .resume-scene,
+    .home-appointment,
+    .home-bottom,
+    .cm-home,
+    .home-recent,
+    .chat-home,
+    .community-home
+  )
+  h2::first-letter,
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  > .table-topline
+  h1::first-letter,
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .inspector-person
+  h2::first-letter,
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .token-menu-title
+  strong::first-letter {
+  color: var(--oc-initial-ink);
+  font-family: var(--oc-versal);
+  font-size: var(--oc-initial);
+  font-weight: 400;
+  line-height: var(--oc-lh-solid);
+  font-variant-caps: normal;
+}
+/* The round iron close button of WotR's books and cards (W12 «X» top right). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .dialog-heading > .icon-button {
+  width: var(--oc-ctl);
+  height: var(--oc-ctl);
+  border: var(--oc-bw-2) solid var(--oc-iron-edge);
+  border-radius: var(--oc-round);
+  background: radial-gradient(circle at 40% 30%, #3a3438, var(--oc-iron-deep));
+  color: var(--oc-on-iron);
+  box-shadow: var(--oc-shadow-plate);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .dialog-heading > .icon-button:hover {
+  border-color: var(--oc-gem-dark);
+  background: radial-gradient(circle at 40% 30%, #5a2c4c, var(--oc-plum));
+  color: var(--oc-on-plum);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .dialog-body {
+  padding: var(--oc-sp-5) var(--oc-sp-6);
+  color: var(--oc-ink);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) dialog footer {
+  gap: var(--oc-sp-3);
+  padding: var(--oc-sp-5) var(--oc-sp-6);
+  border-top: 0;
+  background:
+    linear-gradient(
+        90deg,
+        transparent,
+        var(--oc-brush) 4%,
+        var(--oc-brush-dark) 50%,
+        var(--oc-brush) 96%,
+        transparent
+      )
+      top / 100% var(--oc-bw-4) no-repeat,
+    transparent;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) dialog fieldset {
+  border: var(--oc-bw-1) solid var(--oc-hairline);
+  border-radius: var(--oc-radius);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) dialog legend {
+  color: var(--oc-label);
+  font-weight: 600;
+  letter-spacing: var(--oc-track-caps);
+  font-variant-caps: all-small-caps;
+}
+/* Keys: one style, a slip of paper with a hairline (keys sit on paper surfaces). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) kbd {
+  padding: 0 var(--oc-sp-2);
+  border: var(--oc-bw-1) solid var(--oc-hairline);
+  border-radius: var(--oc-radius);
+  background: var(--oc-paper-hi);
+  color: var(--oc-ink-2);
+  font-family: var(--oc-serif);
+  font-size: var(--oc-fs-11);
+  font-weight: 600;
+  line-height: var(--oc-lh-body);
+  letter-spacing: var(--oc-track-caps);
+  font-variant-caps: normal;
+}
+/* Toast: a parchment slip in iron (W2 log tooltip), dark ink. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) #toast {
+  border: var(--oc-bw-iron) solid var(--oc-iron);
+  border-image: var(--oc-frame);
+  border-radius: var(--oc-radius);
+  background: var(--oc-paper);
+  color: var(--oc-ink);
+  box-shadow: var(--oc-shadow-halo);
+}
+/* An error slip carries an oxblood bar down its left edge (a shape, not colour alone). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) #toast.error {
+  box-shadow:
+    inset var(--oc-bw-4) 0 0 var(--oc-initial-ink),
+    var(--oc-shadow-halo);
+}
+/* Tooltips: WotR's parchment tooltip card (W38): ink on paper, bronze hairline, no blur. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .ui-tip {
+  border: var(--oc-bw-1) solid var(--oc-hairline);
+  border-radius: var(--oc-radius);
+  background: var(--oc-paper);
+  color: var(--oc-ink);
+  box-shadow: var(--oc-shadow-halo);
+  font-size: var(--oc-fs-13);
+  line-height: var(--oc-lh-body);
+}
+/* Menus (context menus): a parchment list in iron. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .context-menu {
+  border: var(--oc-bw-1) solid var(--oc-iron-edge);
+  border-radius: var(--oc-radius);
+  background: var(--oc-paper);
+  color: var(--oc-ink);
+  box-shadow: var(--oc-shadow-halo);
+}
+
+/* ------------------------------------------------------------------ Inizio (Home)
+   WotR's main menu (W26): a candle-lit desk in a violet dusk, the way in lettered by hand on
+   the right page of an open book with very large oxblood initials, a framed picture of the
+   last scene on the left page, a letter for the news beside it. Every leaf is opaque
+   parchment with a soft dark halo on the scene (facts §0.7 «Elevation»), square, no rim. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) #app:has(.home-dashboard) {
+  /* W26's desk in its violet dusk: the owner's candle plate graded violet (a «color» blend
+     keeps the plate's candle-light and takes WotR's hue, #291B35–#5A3C78), darker toward the
+     foot so the leaves keep their halo. */
+  background:
+    radial-gradient(40% 26% at 18% 20%, rgb(22 17 26 / 0.78), transparent) fixed,
+    radial-gradient(90% 70% at 30% 10%, transparent 40%, rgb(22 17 26 / 0.7)) fixed,
+    linear-gradient(180deg, transparent 35%, rgb(22 17 26 / 0.85)) fixed,
+    linear-gradient(rgb(98 60 140 / 0.62), rgb(98 60 140 / 0.62)) fixed,
+    url("assets/desk-candle.webp") center top / cover no-repeat fixed,
+    var(--oc-desk);
+  background-blend-mode: normal, normal, normal, color, normal, normal;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page > .page-heading {
+  margin-bottom: var(--oc-sp-6);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page > .page-heading h1 {
+  margin: 0 0 var(--oc-sp-3);
+  padding: 0;
+  color: #f2ebe1;
+  font-size: var(--oc-fs-36);
+  font-weight: 600;
+  line-height: var(--oc-lh-tight);
+  text-shadow: 0 var(--oc-bw-2) var(--oc-sp-3) rgb(0 0 0 / 0.85);
+}
+/* On the dark desk the versal keeps the light ink (WotR draws its oxblood only on paper). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .home-page
+  > .page-heading
+  h1::first-letter {
+  font-family: var(--oc-versal);
+  font-size: var(--oc-initial);
+  font-weight: 400;
+  line-height: var(--oc-lh-solid);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page > .page-heading p {
+  padding: 0;
+  color: #f2ebe1;
+  font-size: var(--oc-fs-16);
+  font-style: italic;
+  text-shadow:
+    0 0 var(--oc-sp-2) rgb(0 0 0 / 0.95),
+    0 0 var(--oc-sp-4) rgb(0 0 0 / 0.9);
+}
+/* Leaves of parchment: opaque, square, a faint darker edge where the page curls (W19
+   «vignetted edge» #A89F92), a soft halo on the desk. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .home-page
+  :is(
+    .resume-scene,
+    .home-appointment,
+    .home-bottom > section,
+    .cm-home,
+    .home-recent,
+    .chat-home,
+    .community-home,
+    .home-aside,
+    .home-start
+  ) {
+  border: 0;
+  border-radius: var(--oc-radius);
+  background:
+    radial-gradient(
+      120% 110% at 50% 45%,
+      transparent 62%,
+      color-mix(in srgb, var(--oc-paper-edge) 70%, transparent)
+    ),
+    var(--oc-paper);
+  box-shadow: var(--oc-shadow-halo);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .home-page
+  :is(
+    .home-appointment,
+    .home-bottom > section,
+    .cm-home,
+    .home-recent,
+    .chat-home,
+    .community-home,
+    .home-start
+  ) {
+  padding: var(--oc-sp-5) var(--oc-sp-6) var(--oc-sp-6);
+}
+/* Panel titles: Vollkorn with the oxblood initial, over the drafting rule (W19). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .home-page
+  :is(.home-appointment, .home-bottom, .cm-home, .home-recent, .chat-home, .community-home)
+  h2 {
+  margin-top: 0;
+  padding: 0 0 var(--oc-sp-4);
+  color: var(--oc-ink);
+  font-size: var(--oc-fs-21);
+  font-weight: 600;
+  line-height: var(--oc-lh-tight);
+  background: var(--oc-rule) left bottom / 160px 10px no-repeat;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .section-heading {
+  margin-bottom: var(--oc-sp-4);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page :is(p, h3) {
+  padding-inline: 0;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page h3 {
+  color: var(--oc-ink);
+  font-size: var(--oc-fs-18);
+  font-weight: 600;
+}
+/* «Continua a giocare» is the open book: the left page a framed picture of the last scene
+   (the menu's mirror), the right page the way in, a shadowed spine between them. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .resume-scene {
+  overflow: visible;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .home-dashboard:not([data-home-art])
+  .home-page
+  .scene-emblem {
+  position: relative;
+  margin: var(--oc-sp-6) 0 var(--oc-sp-6) var(--oc-sp-6);
+  border: var(--oc-bw-iron) solid var(--oc-iron);
+  border-image: var(--oc-frame);
+  background:
+    linear-gradient(180deg, rgb(41 27 53 / 0.15), rgb(22 17 26 / 0.45)),
+    url("../../assets/maps/sample/old-watch.webp") 38% 40% / 240% auto no-repeat,
+    var(--oc-iron-deep);
+  box-shadow: var(--oc-shadow-plate);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .home-dashboard:not([data-home-art])
+  .home-page
+  .scene-emblem
+  .icon {
+  display: none;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .home-page
+  .resume-scene
+  > div:last-child {
+  position: relative;
+  justify-content: center;
+  padding: var(--oc-sp-6) var(--oc-sp-7) var(--oc-sp-6) var(--oc-sp-8);
+  background: linear-gradient(90deg, rgb(30 30 44 / 0.16), transparent var(--oc-sp-6));
+}
+/* The book's bookmark ribbons at the spine (W26: red, violet and khaki flags with a
+   swallow-tail cut, pointing out of the book), drawn as plain shapes; decorative. Each flag
+   16 px tall, 8 px apart, notched to its middle. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .home-page
+  .resume-scene
+  > div:last-child::before {
+  content: "";
+  position: absolute;
+  top: var(--oc-sp-7);
+  left: calc(-1 * var(--oc-sp-5));
+  width: var(--oc-sp-7);
+  height: calc(3 * var(--oc-sp-5) + 2 * var(--oc-sp-3));
+  background: linear-gradient(
+    180deg,
+    #7a3a3a 0 var(--oc-sp-5),
+    transparent 0 calc(var(--oc-sp-5) + var(--oc-sp-3)),
+    #5a4a9a 0 calc(2 * var(--oc-sp-5) + var(--oc-sp-3)),
+    transparent 0 calc(100% - var(--oc-sp-5)),
+    #a89a72 0
+  );
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% 100%,
+    0 100%,
+    40% calc(100% - var(--oc-sp-3)),
+    0 calc(100% - var(--oc-sp-5)),
+    0 calc(2 * var(--oc-sp-5) + var(--oc-sp-3)),
+    40% calc(2 * var(--oc-sp-5)),
+    0 calc(var(--oc-sp-5) + var(--oc-sp-3)),
+    0 var(--oc-sp-5),
+    40% var(--oc-sp-3)
+  );
+  pointer-events: none;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .resume-scene h2 {
+  margin: 0 0 var(--oc-sp-3);
+  padding: 0;
+  color: var(--oc-ink);
+  font-size: var(--oc-fs-28);
+  font-weight: 600;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .resume-scene p {
+  margin: 0 0 var(--oc-sp-2);
+  color: var(--oc-ink-2);
+  font-style: italic;
+}
+/* The way in, hand-lettered: big Vollkorn words in WotR's purple-navy with the oxblood versal
+   (W26 «Continue / New game / Load game»); no plate, a plum underline when pointed at. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .resume-scene .toolbar {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  margin-top: var(--oc-sp-4);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .home-page
+  .resume-scene
+  .toolbar
+  > .button {
+  display: block;
+  height: var(--oc-slot);
+  min-height: var(--oc-slot);
+  padding: 0 var(--oc-sp-3) 0 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--oc-menu-ink);
+  font-size: var(--oc-fs-28);
+  font-weight: 400;
+  line-height: var(--oc-lh-tight);
+  letter-spacing: 0;
+  text-align: left;
+  font-variant-caps: normal;
+  transition: translate var(--dur-fast) var(--ease-out);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .home-page
+  .resume-scene
+  .toolbar
+  > .button
+  > .icon {
+  display: none;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .home-page
+  .resume-scene
+  .toolbar
+  > .button::first-letter {
+  color: var(--oc-initial-ink);
+  font-family: var(--oc-versal);
+  font-size: var(--oc-initial-menu);
+  font-weight: 400;
+  line-height: var(--oc-lh-solid);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .home-page
+  .resume-scene
+  .toolbar
+  > .button:hover:not(:disabled) {
+  background: transparent;
+  color: var(--oc-keyword);
+  text-decoration: underline;
+  text-decoration-color: var(--oc-keyword);
+  text-decoration-thickness: var(--oc-bw-2);
+  text-underline-offset: var(--oc-sp-2);
+  translate: var(--oc-sp-2) 0;
+}
+/* «Prossimo appuntamento» is the letter on the desk (W26 bottom left), tilted as it lies. */
+@media (min-width: 1101px) {
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .home-layout
+    .home-main
+    .home-appointment {
+    rotate: -1.5deg;
+  }
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .home-countdown {
+  color: var(--oc-keyword);
+  font-size: var(--oc-fs-21);
+  font-weight: 600;
+  font-style: italic;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .home-page
+  .home-appointment-campaign {
+  color: var(--oc-ink-2);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .home-appointment-actions {
+  gap: var(--oc-sp-3);
+}
+/* «Il tuo personaggio»: the sheet's framed portrait (cream rule in iron) and the heart badge. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .character-resume {
+  gap: var(--oc-sp-5);
+  padding: var(--oc-sp-4) var(--oc-sp-3);
+  border-bottom-color: var(--frame-soft);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .character-resume:hover {
+  background: rgb(112 52 101 / 0.1);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .home-page
+  .character-resume
+  > .portrait,
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .home-chip .portrait {
+  border: var(--oc-bw-2) solid var(--oc-cream);
+  border-radius: var(--oc-radius);
+  box-shadow: var(--oc-card);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .character-resume strong {
+  color: var(--oc-ink);
+  font-size: var(--oc-fs-21);
+  font-weight: 600;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .character-resume small {
+  margin-top: var(--oc-sp-1);
+  color: var(--oc-label);
+  font-style: italic;
+}
+/* The leaves' paragraphs on the 12 px step (the browser gave them 1 em). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .home-page
+  :is(.home-bottom > section, .cm-home, .chat-home, .community-home, .home-recent)
+  > p {
+  margin-bottom: var(--oc-sp-4);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .hp-small {
+  color: var(--oc-ink);
+  font-size: var(--oc-fs-18);
+  font-weight: 600;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .hp-small::before {
+  content: "";
+  display: inline-block;
+  width: var(--oc-sp-5);
+  height: var(--oc-sp-5);
+  margin-right: var(--oc-sp-2);
+  vertical-align: -0.15em;
+  background: var(--oc-initial-ink);
+  mask: var(--oc-mask-heart) center / contain no-repeat;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .hp-small small {
+  color: var(--oc-label);
+  font-size: var(--oc-fs-12);
+  font-style: normal;
+  letter-spacing: var(--oc-track-caps);
+  font-variant-caps: all-small-caps;
+}
+/* The news: a page of the letter-book with plum sub-tab pills (W15 SUMMARY · ABILITIES …),
+   items between bronze brush rules (W38), the date in bronze small caps. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .home-tabs {
+  gap: var(--oc-sp-2);
+  padding: var(--oc-sp-4) var(--oc-sp-5) var(--oc-sp-5);
+  border-bottom: 0;
+  background:
+    linear-gradient(
+        90deg,
+        transparent,
+        var(--oc-brush) 4%,
+        var(--oc-brush-dark) 50%,
+        var(--oc-brush) 96%,
+        transparent
+      )
+      bottom / 100% var(--oc-bw-4) no-repeat,
+    transparent;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .home-tabs [role="tab"],
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .table-subtab,
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .hotbar-page-tab {
+  position: relative;
+  min-height: var(--oc-ctl);
+  padding: 0 var(--oc-sp-4);
+  border: 0;
+  border-radius: var(--oc-radius);
+  background: var(--oc-plum-soft);
+  color: var(--oc-on-plum);
+  box-shadow:
+    inset 0 0 0 var(--oc-bw-1) var(--oc-plum-band),
+    inset 0 0 0 var(--oc-bw-2) var(--oc-plum-soft),
+    inset 0 0 0 calc(var(--oc-bw-2) + var(--oc-bw-1)) rgb(233 219 216 / 0.35);
+  font-family: var(--font-ui);
+  font-size: var(--oc-fs-13);
+  font-weight: 600;
+  letter-spacing: var(--oc-track-wide);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(
+    .home-page .home-tabs [role="tab"],
+    .table-layout .table-subtab,
+    .table-layout .hotbar-page-tab
+  ):hover {
+  background: var(--oc-plum-band);
+  color: #ffffff;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(
+    .home-page .home-tabs [role="tab"][aria-selected="true"],
+    .table-layout .table-subtab.active,
+    .table-layout .hotbar-page-tab.active
+  ) {
+  background:
+    radial-gradient(60% 60% at 50% 20%, rgb(171 86 177 / 0.25), transparent 75%),
+    linear-gradient(180deg, #4a1f3b, var(--oc-plum-tab) 60%, var(--oc-plum-deep));
+  color: #ffffff;
+  box-shadow:
+    inset 0 0 0 var(--oc-bw-1) var(--oc-gem-dark),
+    inset 0 0 0 var(--oc-bw-2) var(--oc-plum-tab),
+    inset 0 0 0 calc(var(--oc-bw-2) + var(--oc-bw-1)) rgb(233 219 216 / 0.45);
+}
+/* The open pill's gem notch (W15 «SUMMARY», W19 step bar): shape, not colour alone. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(
+    .home-page .home-tabs [role="tab"][aria-selected="true"],
+    .table-layout .table-subtab.active,
+    .table-layout .hotbar-page-tab.active
+  )::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: calc(-1 * var(--oc-sp-2));
+  width: var(--oc-sp-3);
+  height: var(--oc-sp-3);
+  translate: -50% 0;
+  rotate: 45deg;
+  border: var(--oc-bw-1) solid #2a1229;
+  background: linear-gradient(135deg, #d79bdb, var(--oc-gem) 45%, var(--oc-gem-dark));
+  pointer-events: none;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .home-tabs {
+  --bg: var(--oc-plum-soft);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .home-page
+  .home-tabs {
+  --focus: #f2ebe1;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .home-panel {
+  padding: var(--oc-sp-4) var(--oc-sp-5) var(--oc-sp-5);
+}
+/* The letter-book holds no padding of its own: its tab strip runs edge to edge and each page
+   carries the leaves' 12/16/16. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .home-aside {
+  padding: 0;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .home-aside > .home-tabs {
+  margin: 0;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .home-news-item {
+  padding-block: var(--oc-sp-4);
+  border-top: 0;
+  background:
+    linear-gradient(90deg, transparent, var(--oc-brush) 6%, var(--oc-brush) 94%, transparent) top /
+      100% var(--oc-bw-2) no-repeat,
+    transparent;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .home-news-item h3 {
+  color: var(--oc-ink);
+  font-size: var(--oc-fs-16);
+  font-weight: 700;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .home-badge-new,
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .home-tabs .badge {
+  border-color: var(--oc-plum-band);
+  background: var(--oc-plum-soft);
+  color: var(--oc-on-plum);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .home-eyebrow {
+  color: var(--oc-label);
+  letter-spacing: var(--oc-track-caps);
+  font-variant-caps: all-small-caps;
+}
+/* Lists inside the leaves: rows between bronze hairlines. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .chat-home-row {
+  border-color: var(--frame-soft);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .chat-home-row small {
+  color: var(--oc-ink-2);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .home-path {
+  border: var(--oc-bw-1) solid var(--frame-soft);
+  border-radius: var(--oc-radius);
+  background: var(--oc-paper-hi);
+}
+/* «Accesso rapido» (shown once a sheet was opened on the device): each recent sheet is a grey
+   list row (W19 #BAB6B2) with the portrait in its cream frame, as the sheet's own lists. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .home-recent-grid {
+  gap: var(--oc-sp-3);
+}
+/* On the desktop each row holds «Maga · Livello 3 · 18/22 PF» on one line (the phone keeps
+   the app's swipe row). */
+@media (min-width: 721px) {
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .home-recent-grid {
+    grid-template-columns: repeat(auto-fill, minmax(calc(6 * var(--oc-sp-8)), 1fr));
+  }
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .home-chip {
+  gap: var(--oc-sp-4);
+  padding: var(--oc-sp-3) var(--oc-sp-4);
+  border: var(--oc-bw-1) solid var(--oc-hairline);
+  border-radius: var(--oc-radius);
+  background: var(--oc-row);
+  color: var(--oc-ink);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .home-chip:hover {
+  border-color: var(--oc-keyword);
+  background: var(--oc-paper-hi);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .home-chip strong {
+  color: var(--oc-ink);
+  font-size: var(--oc-fs-16);
+  font-weight: 700;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .home-chip small {
+  color: var(--oc-ink-2);
+  font-size: var(--oc-fs-13);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .home-recent small.muted {
+  color: var(--oc-ink-2);
+  font-style: italic;
+}
+
+/* ------------------------------------------------------------------ Scheda (the open book)
+   WotR's character book (W12, W15, W17): one leaf of cool parchment in a blackened-iron frame
+   with gem corners and a faint drafting watermark; the name with its oxblood initial; the
+   abilities as a ledger (rust capitals over the small word, value and modifier cells split by
+   dotted bronze rules); khaki brush bands with an oxblood initial over each group; plum for
+   what is chosen; the section tabs as the iron top tab bar with the plum shield. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  [data-ext-slot="route:characters"]
+  > .character-sheet {
+  padding: var(--oc-sp-6) var(--oc-sp-7) var(--oc-sp-7);
+  border: var(--oc-bw-iron) solid var(--oc-iron);
+  border-image: var(--oc-frame);
+  background:
+    var(--oc-drafting) right calc(-1 * var(--oc-sp-8)) top calc(-1 * var(--oc-sp-7)) / 520px
+      no-repeat,
+    radial-gradient(
+      140% 100% at 50% 30%,
+      transparent 70%,
+      color-mix(in srgb, var(--oc-paper-edge) 55%, transparent)
+    ),
+    var(--oc-paper);
+  box-shadow: var(--oc-shadow-halo);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet {
+  --sheet-gap: var(--oc-sp-5);
+  font-size: var(--oc-fs-15);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet :is(p, h1, h2, h3) {
+  padding-inline: 0;
+}
+/* No orphaned last word in the book's notes («Velocità 9 / m»). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet :is(p, small) {
+  text-wrap-style: pretty;
+}
+/* Breadcrumb and sharing: words on the paper, iron plates for the commands. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-breadcrumb {
+  margin-bottom: var(--oc-sp-5);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .clib-sheet-bar {
+  gap: var(--oc-sp-3);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .badge.clib-privacy {
+  border-color: var(--oc-hairline);
+  background: var(--oc-paper-hi);
+  color: var(--oc-ink-2);
+}
+/* Identity: the name in Vollkorn with the versal, the «Experience · Level» line in bronze
+   italics (W12), the portrait in WotR's ornamental frame (a cream rule inside iron). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .character-heading {
+  gap: var(--oc-sp-5);
+  margin-bottom: var(--oc-sp-3);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-heading-identity {
+  gap: var(--oc-sp-5);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-heading
+  h1 {
+  margin: 0;
+  color: var(--oc-ink);
+  font-size: var(--oc-fs-36);
+  font-weight: 600;
+  line-height: var(--oc-lh-tight);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-heading-line {
+  margin-top: var(--oc-sp-2);
+  color: var(--oc-label);
+  font-size: var(--oc-fs-16);
+  font-style: italic;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-heading-note {
+  margin-top: var(--oc-sp-1);
+  color: var(--oc-ink-2);
+  font-size: var(--oc-fs-13);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .character-portrait {
+  border: var(--oc-bw-2) solid var(--oc-cream);
+  border-radius: var(--oc-radius);
+  box-shadow: var(--oc-card);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-portrait-edit {
+  border-radius: var(--oc-round);
+  background: var(--oc-plum-button);
+  color: #f2ebe1;
+  box-shadow: var(--oc-ring-black);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-heading
+  > .toolbar {
+  gap: var(--oc-sp-2);
+}
+/* The band: one ledger across the page — framed above and below by a hairline that
+   overshoots, each cell split from the next by a dotted bronze rule, no card. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .character-band {
+  margin-block: var(--oc-sp-5) var(--oc-sp-6);
+  padding-block: var(--oc-sp-3);
+  border-block: var(--oc-bw-1) solid var(--oc-ink-head);
+  background: transparent;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  :is(
+    .shp-ability-box,
+    [data-shp-stat="pb"] .shp-pill,
+    .character-vitals .stat,
+    .character-inspiration
+  ) {
+  border: 0;
+  border-radius: var(--oc-radius);
+  background: transparent;
+  box-shadow: none;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  :is(.shp-stat, .character-vitals .stat:not(.character-hp), .character-inspiration) {
+  position: relative;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  :is(.shp-stat, .character-vitals .stat:not(.character-hp), .character-inspiration)::after {
+  content: "";
+  position: absolute;
+  top: var(--oc-sp-2);
+  bottom: var(--oc-sp-2);
+  right: calc(var(--sheet-gap) / -2);
+  border-right: var(--oc-bw-1) dotted var(--oc-brush-dark);
+  pointer-events: none;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  .shp-ability-box:not(.is-static):hover,
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  :is([data-shp-stat="pb"] .shp-pill, .character-stat-button, .character-inspiration):hover {
+  background: rgb(112 52 101 / 0.1);
+}
+/* STR … CHA: rust capitals (W12 #844833) over the modifier; the score in its grey cell. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .shp-ability-name {
+  color: var(--oc-abbr);
+  font-size: var(--oc-fs-16);
+  font-weight: 700;
+  letter-spacing: var(--oc-track-caps);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  .shp-ability-box
+  > strong {
+  color: var(--oc-ink);
+  font-size: var(--oc-fs-28);
+  font-weight: 600;
+  line-height: var(--oc-lh-tight);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-ability-box
+  > small {
+  min-width: var(--oc-sp-7);
+  padding: 0 var(--oc-sp-3);
+  border: 0;
+  border-radius: var(--oc-radius);
+  background: var(--oc-row);
+  color: var(--oc-ink);
+  font-size: var(--oc-fs-13);
+  font-weight: 600;
+  line-height: var(--oc-lh-body);
+}
+/* The band's labels: ink-head small capitals (W1 inspect «SIZE · SPEED · INITIATIVE»). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(
+    .shp-pill-label,
+    .character-band .character-vitals .stat > span,
+    .character-band .character-inspiration,
+    .character-hp > span:first-child,
+    .character-conditions > span:first-child
+  ) {
+  color: var(--oc-ink-head);
+  font-family: var(--font-label);
+  font-size: var(--oc-fs-13);
+  font-weight: 700;
+  letter-spacing: var(--oc-track-caps);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is([data-shp-stat]:not([data-shp-stat="defenses"]) .shp-pill, .character-vitals .stat)
+  > strong {
+  color: var(--oc-ink);
+  font-size: var(--oc-fs-28);
+  font-weight: 600;
+  line-height: var(--oc-lh-tight);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-vitals
+  .stat
+  > strong
+  small {
+  line-height: var(--oc-lh-tight);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  [data-shp-stat="defenses"]
+  .shp-pill
+  > strong {
+  color: var(--oc-ink);
+  font-size: var(--oc-fs-16);
+  font-weight: 600;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-vitals
+  .stat
+  small {
+  color: var(--oc-ink-2);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  .character-inspiration
+  > span:first-child {
+  color: var(--oc-ink-2);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  .character-inspiration.is-on
+  > span:first-child {
+  color: var(--oc-keyword);
+}
+/* Hit points: WotR's heart badge before «current / max» (W12 «♥ 16+239/239»); the bar in
+   WotR's pure HP green on an iron track; heal and damage as green and oxblood plates. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-hp
+  .character-hp-value
+  strong {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--oc-sp-2);
+  color: var(--oc-ink);
+  white-space: nowrap;
+  font-size: var(--oc-fs-36);
+  font-weight: 600;
+  line-height: var(--oc-lh-solid);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-hp
+  .character-hp-value
+  strong::before {
+  content: "";
+  align-self: center;
+  width: var(--oc-sp-6);
+  height: var(--oc-sp-6);
+  background: var(--oc-initial-ink);
+  mask: var(--oc-mask-heart) center / contain no-repeat;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-hp
+  .character-hp-value
+  strong
+  small {
+  color: var(--oc-ink-2);
+  font-size: var(--oc-fs-16);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .character-hp-value {
+  border-radius: var(--oc-radius);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-hp
+  progress {
+  appearance: none;
+  height: var(--oc-sp-3);
+  border: var(--oc-bw-1) solid #050405;
+  border-radius: var(--oc-radius);
+  background: var(--oc-iron-deep);
+  overflow: hidden;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-hp
+  progress::-webkit-progress-bar {
+  background: var(--oc-iron-deep);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-hp
+  progress::-webkit-progress-value {
+  background: linear-gradient(180deg, #7dff6e, var(--oc-hp) 40%, #01a903);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-hp
+  progress::-moz-progress-bar {
+  background: var(--oc-hp);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .shp-prop {
+  padding: var(--oc-sp-1) var(--oc-sp-3);
+}
+/* Number fields (the HP amount here, the d20s of the initiative window, the token menu's HP):
+   one recipe — the grey field, 40 px, 8 px inside, 16 px bold figures centred. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(
+    .character-sheet .dt-amount,
+    .table-layout .dt-amount,
+    .ct-start-d20 input,
+    .token-menu-hp input
+  ) {
+  min-height: var(--oc-ctl);
+  padding: 0 var(--oc-sp-3);
+  border: var(--oc-bw-1) solid var(--oc-iron-line);
+  border-radius: var(--oc-radius);
+  background: var(--oc-field);
+  color: var(--oc-ink);
+  font-size: var(--oc-fs-16);
+  font-weight: 700;
+  line-height: var(--oc-lh-tight);
+  text-align: center;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .dt-hp-row
+  .button.dt-heal {
+  border-color: #2c5f3e;
+  background: linear-gradient(180deg, #1f5a38, var(--oc-ally));
+  color: #e6f5e8;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .dt-hp-row
+  .button.dt-damage {
+  border-color: #8a3a40;
+  background: linear-gradient(180deg, #7a3640, var(--oc-initial-ink));
+  color: #f8e4e2;
+}
+/* Body columns: no cards — the groups sit on the page under their khaki bands (W12). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-derived
+  .shp-col {
+  padding: 0;
+  border: 0;
+  border-radius: var(--oc-radius);
+  background: transparent;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .shp-grid {
+  gap: var(--oc-sp-6);
+}
+/* The khaki brush band with its oxblood initial (W12 «ATTACK», W19 «PREREQUISITES»): a hairline
+   above and below that overshoots the brush stroke, slate small capitals. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(
+    .shp-col h3,
+    .shp-action-group h3,
+    .spl-group h3,
+    .invp-root-head,
+    .spl-section > h3,
+    .spl-concentration > h3
+  ) {
+  margin: 0 0 var(--oc-sp-3);
+  padding: var(--oc-sp-2) var(--oc-sp-5);
+  border: 0;
+  color: var(--oc-ink-head);
+  font-family: var(--font-label);
+  font-size: var(--oc-fs-16);
+  font-weight: 700;
+  line-height: var(--oc-lh-tight);
+  letter-spacing: var(--oc-track-caps);
+  text-align: left;
+  font-variant-caps: all-small-caps;
+  background:
+    linear-gradient(var(--oc-hairline), var(--oc-hairline)) top / 100% var(--oc-bw-1) no-repeat,
+    linear-gradient(var(--oc-hairline), var(--oc-hairline)) bottom / 100% var(--oc-bw-1) no-repeat,
+    linear-gradient(90deg, transparent, var(--oc-band) 3%, var(--oc-band) 97%, transparent) center /
+      calc(100% - var(--oc-sp-5)) calc(100% - var(--oc-sp-2)) no-repeat;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(
+    .shp-col h3,
+    .shp-action-group h3,
+    .spl-group h3,
+    .spl-section > h3,
+    .spl-concentration > h3
+  )::first-letter {
+  color: var(--oc-initial-ink);
+  font-family: var(--oc-versal);
+  font-size: var(--oc-initial);
+  font-weight: 400;
+  line-height: var(--oc-lh-solid);
+  font-variant-caps: normal;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .spl-concentration
+  > h3 {
+  margin: 0;
+}
+/* Rows of the ledger: dotted bronze rules (W12), the value in WotR's grey chip (W15 skills). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .shp-row {
+  gap: var(--oc-sp-2);
+  border-bottom: var(--oc-bw-1) dotted var(--oc-brush-dark);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .shp-row-name {
+  color: var(--oc-ink);
+  font-size: var(--oc-fs-15);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-col-skills
+  .shp-row-name {
+  align-content: center;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .shp-row-name small {
+  color: var(--oc-label);
+  font-size: var(--oc-fs-12);
+  letter-spacing: var(--oc-track-caps);
+  font-variant-caps: all-small-caps;
+}
+/* Saving throws read as the ability ledger: rust «FOR» over the small «Forza». */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-col-saves
+  .shp-row-name {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0;
+  color: var(--oc-abbr);
+  font-size: var(--oc-fs-16);
+  font-weight: 700;
+  line-height: var(--oc-lh-tight);
+  letter-spacing: var(--oc-track-caps);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-col-saves
+  .shp-row-name
+  small {
+  color: var(--oc-ink-2);
+  font-size: var(--oc-fs-11);
+  font-weight: 600;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .shp-value {
+  border: var(--oc-bw-1) solid transparent;
+  border-radius: var(--oc-radius);
+  background: var(--oc-row);
+  color: var(--oc-ink);
+  font-size: var(--oc-fs-16);
+  font-weight: 700;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-value.is-static {
+  background: transparent;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-value:hover:not(:disabled) {
+  border-color: var(--oc-keyword);
+  background: var(--oc-paper-hi);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .shp-star {
+  padding: 0;
+  color: var(--oc-ink-2);
+  font-size: var(--oc-fs-18);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  .character-inspiration
+  > span:first-child {
+  font-size: var(--oc-fs-28);
+}
+/* The app's 14 px labels and notes, moved onto the scale: labels are 13 px small capitals,
+   notes 13 px text. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-training dt, .character-turn-label, .sm-actions-table thead th) {
+  font-size: var(--oc-fs-13);
+  letter-spacing: var(--oc-track-caps);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-empty, .spl-group h3 .muted) {
+  font-size: var(--oc-fs-13);
+  letter-spacing: 0;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .sm-actions-table
+  :is(th, td) {
+  padding: var(--oc-sp-2) var(--oc-sp-3);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .sm-actions-table
+  tbody
+  th {
+  font-size: var(--oc-fs-15);
+  letter-spacing: 0;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-star[aria-pressed="true"],
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .shp-star:hover {
+  color: var(--oc-keyword);
+}
+/* Proficiency: a plum lozenge, filled when held (shape stays without colour). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .shp-prof {
+  border: var(--oc-bw-1) solid var(--oc-ink-2);
+  border-radius: var(--oc-radius);
+  rotate: 45deg;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .shp-prof.is-on {
+  border-color: var(--oc-keyword);
+  background: var(--oc-keyword);
+}
+/* The summary strip: Play/Edit and the dice mode as plum pills; XP on the loading bar's plum. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .shp-bar {
+  gap: var(--oc-sp-4);
+  padding: 0;
+  border: 0;
+  border-radius: var(--oc-radius);
+  background: transparent;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .shp-mode {
+  gap: var(--oc-sp-1);
+  border: 0;
+  border-radius: var(--oc-radius);
+  --bg: var(--oc-plum-soft);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .character-sheet
+  .shp-mode {
+  --focus: #f2ebe1;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .shp-mode button {
+  padding: 0 var(--oc-sp-4);
+  border: 0;
+  background: var(--oc-plum-soft);
+  color: var(--oc-on-plum);
+  box-shadow: inset 0 0 0 var(--oc-bw-1) var(--oc-plum-band);
+  font-size: var(--oc-fs-15);
+  font-weight: 600;
+  letter-spacing: var(--oc-track-wide);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-mode
+  button
+  + button {
+  border-left: 0;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-mode
+  button[aria-pressed="true"] {
+  background: linear-gradient(180deg, #4a1f3b, var(--oc-plum-tab) 60%, var(--oc-plum-deep));
+  color: #ffffff;
+  box-shadow: var(--oc-chosen);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .shp-xp {
+  color: var(--oc-ink);
+  font-size: var(--oc-fs-15);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .shp-xp small {
+  color: var(--oc-ink-2);
+  font-style: italic;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .shp-xpbar {
+  height: var(--oc-sp-2);
+  border: var(--oc-bw-1) solid var(--oc-hairline);
+  border-radius: var(--oc-radius);
+  background: var(--oc-paper-2);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .shp-xpbar > span {
+  background: linear-gradient(90deg, var(--oc-plum-bar), #793e70);
+}
+/* Effects: WotR's plum stepper look — a square switch, the knob a plum lozenge when on. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .shp-switch {
+  border: var(--oc-bw-1) solid var(--oc-hairline);
+  border-radius: var(--oc-radius);
+  background: var(--oc-paper-hi);
+  color: var(--oc-ink);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .shp-switch-knob {
+  border-radius: var(--oc-radius);
+  background: var(--oc-iron-deep);
+  box-shadow: none;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-switch-knob::after {
+  border-radius: var(--oc-radius);
+  background: var(--oc-on-iron-dim);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-switch[aria-checked="true"] {
+  border-color: var(--oc-keyword);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-switch[aria-checked="true"]
+  .shp-switch-knob {
+  background: var(--oc-plum-tab);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-switch[aria-checked="true"]
+  .shp-switch-knob::after {
+  background: var(--oc-gem);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-effects, .shp-favorites)
+  .shp-row-label {
+  color: var(--oc-ink-head);
+  font-size: var(--oc-fs-13);
+  letter-spacing: var(--oc-track-caps);
+}
+/* The strip's boxes (Initiative, AC, Defences, Conditions): ledger cells in a hairline frame. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.character-summary .shp-stat .shp-pill, .character-conditions) {
+  border: var(--oc-bw-1) solid var(--oc-hairline);
+  border-radius: var(--oc-radius);
+  background: color-mix(in srgb, var(--oc-paper-hi) 45%, transparent);
+  box-shadow: none;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-summary
+  .shp-stat[data-shp-stat="ac"]
+  .shp-pill {
+  padding-bottom: var(--oc-sp-4);
+  border-radius: var(--oc-radius);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .shp-dot {
+  background: var(--oc-keyword);
+}
+/* «Cosciente»: WotR's «prerequisite met» row (W19: sage band, green check disc). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout)
+  .conditions-vital[data-vital="conscious"] {
+  gap: var(--oc-sp-3);
+  padding: var(--oc-sp-2) var(--oc-sp-3);
+  border: var(--oc-bw-1) solid var(--oc-hairline);
+  border-radius: var(--oc-radius);
+  background: var(--oc-sage);
+  color: var(--oc-ink);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout)
+  .conditions-vital[data-vital="conscious"]::before {
+  background: var(--oc-sage-disc);
+}
+/* Exhaustion levels: WotR's iron tiles (W1 tool grid), not fields; a level reached is the
+   plum lit tile with the cream ring (shape and lightness, not colour alone). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout)
+  .conditions-segments
+  > * {
+  padding: 0;
+  border: var(--oc-bw-1) solid #2e2a30;
+  border-radius: var(--oc-radius);
+  background: var(--oc-iron-tile);
+  color: var(--oc-on-iron);
+  box-shadow: var(--oc-bevel);
+  font-size: var(--oc-fs-15);
+  font-weight: 600;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout)
+  .conditions-segments
+  > :hover:not(.filled) {
+  border-color: var(--oc-gem);
+  background: var(--oc-iron-tile);
+  color: #ffffff;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout)
+  .conditions-segments
+  > .filled {
+  border-color: var(--oc-gem-dark);
+  background: var(--oc-plum);
+  color: #ffffff;
+  box-shadow: var(--oc-active);
+  font-weight: 700;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  :is(.character-sheet, .table-layout)
+  .conditions-segments {
+  --focus: var(--oc-keyword);
+}
+/* The section tabs: the iron top tab bar of the book (W12), sticky over the page. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .character-tabs-bar {
+  border: 0;
+  border-radius: var(--oc-radius);
+  background: var(--oc-iron-bar);
+  /* No drop shadow: the bar sticks over the page, and a shadow would darken the line that
+     slides under it; a black ring is its edge. */
+  box-shadow: var(--oc-ring-black);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .character-tabs {
+  background: transparent;
+  box-shadow: none;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tabs
+  button {
+  padding: 0 var(--oc-sp-4);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .character-tabs-all {
+  border: 0;
+  border-left: var(--oc-bw-1) solid var(--oc-iron-edge);
+  border-radius: var(--oc-radius);
+  background: transparent;
+  color: var(--oc-on-iron-dim);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--oc-track-wide);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tabs-all:hover {
+  color: var(--oc-on-iron);
+}
+/* Panels inside the book: no card; each section opens on its title over the drafting rule. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .panel {
+  padding: var(--oc-sp-5) 0;
+  border: 0;
+  border-radius: var(--oc-radius);
+  background:
+    linear-gradient(
+        90deg,
+        transparent,
+        var(--oc-brush) 4%,
+        var(--oc-brush-dark) 50%,
+        var(--oc-brush) 96%,
+        transparent
+      )
+      top / 100% var(--oc-bw-4) no-repeat,
+    transparent;
+  box-shadow: none;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .section-heading {
+  margin-bottom: var(--oc-sp-4);
+  padding-bottom: var(--oc-sp-4);
+  background: var(--oc-rule) left bottom / 200px 12px no-repeat;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .section-heading h2 {
+  color: var(--oc-ink);
+  font-size: var(--oc-fs-28);
+  font-weight: 600;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet h3 {
+  color: var(--oc-ink);
+}
+/* The turn's resources: the action-economy cells (W1), plum while available. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .character-turn {
+  gap: var(--oc-sp-2);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-turn-label {
+  color: var(--oc-ink-head);
+  font-weight: 700;
+  letter-spacing: var(--oc-track-caps);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .character-resource {
+  min-height: var(--oc-sp-7);
+  padding: 0 var(--oc-sp-4);
+  border: var(--oc-bw-1) solid #050405;
+  border-radius: var(--oc-radius);
+  background: var(--oc-plum);
+  color: var(--oc-on-plum);
+  box-shadow: inset 0 0 0 var(--oc-bw-1) var(--oc-gem-dark);
+  font-size: var(--oc-fs-13);
+  font-weight: 600;
+  letter-spacing: var(--oc-track-wide);
+  font-variant-caps: all-small-caps;
+}
+/* Filters (actions, spell levels, inventory kinds): small-cap chips on the paper; the chosen
+   one plum, as WotR's lit filter button (W12). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-chip, .spl-chip, .invp-chip) {
+  min-height: var(--oc-ctl);
+  padding: 0 var(--oc-sp-4);
+  border: var(--oc-bw-1) solid var(--oc-hairline);
+  border-radius: var(--oc-radius);
+  background: var(--oc-paper-hi);
+  color: var(--oc-ink-head);
+  font-family: var(--font-label);
+  font-size: var(--oc-fs-13);
+  font-weight: 700;
+  letter-spacing: var(--oc-track-wide);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(
+    .shp-chip:not([aria-pressed="true"]),
+    .spl-chip:not([aria-pressed="true"]),
+    .invp-chip:not(.active)
+  ):hover {
+  border-color: var(--oc-keyword);
+  background: var(--oc-paper-hi);
+  color: var(--oc-keyword);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-chip[aria-pressed="true"], .spl-chip[aria-pressed="true"], .invp-chip.active) {
+  border-color: var(--oc-plum-band);
+  background: var(--oc-plum-soft);
+  color: #ffffff;
+  box-shadow: var(--oc-chosen);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-chips, .spl-chips, .invp-filters) {
+  gap: var(--oc-sp-2);
+}
+/* Lists: WotR's list rows (W19 #BAB6B2, W17 spell tiles) — square grey rows a hairline apart,
+   ink names, the row's icon on a dark tile in a 2 px iron-grey frame (the hotbar slot). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-action-list, .spl-rows, .invp-root) {
+  display: grid;
+  gap: var(--oc-sp-2);
+  border: 0;
+  background: transparent;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-action, .spl-row, .spl-item, .invp-row) {
+  gap: var(--oc-sp-3) var(--oc-sp-4);
+  padding: var(--oc-sp-3) var(--oc-sp-4);
+  border: var(--oc-bw-1) solid var(--oc-hairline);
+  border-radius: var(--oc-radius);
+  background: var(--oc-row);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-action-copy p, .spl-row-meta, .spl-row-state, .invp-row-meta) {
+  color: var(--oc-ink-2);
+  font-size: var(--oc-fs-13);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-row-title strong, .invp-row-name, .shp-action-copy .shp-row-tip) {
+  color: var(--oc-ink);
+  font-size: var(--oc-fs-16);
+  font-weight: 700;
+}
+/* A strong inside a bold name or band keeps that weight (no 900: the skin's weights are
+   400 · 600 · 700). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-row-tip, .invp-row-name, .invp-root-head)
+  strong {
+  font-weight: inherit;
+}
+/* The paragraphs the app leaves at the browser's 1 em (15 px) and the 1.33 em sub-heading,
+   moved onto the 12 and 16 px steps. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(
+    .shp-col > p.muted,
+    .panel > p.muted:not(.shp-foot),
+    .panel > p.empty-state,
+    .panel > p.dtray-sheet-policy,
+    .sm-sheet > p.muted
+  ) {
+  margin-bottom: var(--oc-sp-4);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .sm-sheet > h4 {
+  margin-block: var(--oc-sp-5);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .invp-row-meta {
+  margin-top: var(--oc-sp-1);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .empty-state {
+  padding-block: var(--oc-sp-8);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .cs-switch > input {
+  margin-top: var(--oc-sp-1);
+}
+/* Check boxes beside their words: the label's gap spaces them, not the browser's 3–4 px. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(.character-sheet, dialog)
+  :is(.ct-check, .spl-check)
+  > input {
+  margin: 0;
+  font-size: var(--oc-fs-15);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-badge, .spl-state, .badge, .shp-econ) {
+  border-color: var(--oc-ink-2);
+  border-radius: var(--oc-radius);
+  background: transparent;
+  color: var(--oc-ink);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-state.is-prepared, .spl-state.is-always, .invp-badge-on) {
+  border-color: var(--oc-sage-disc);
+  background: var(--oc-sage);
+  color: var(--oc-ink);
+}
+/* A spell's state line: the tag and the words beside it 8 px apart (a bare space before). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .spl-row-state {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--oc-sp-1) var(--oc-sp-3);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .invp-row-icon {
+  border: var(--oc-bw-2) solid var(--oc-iron-line);
+  border-radius: var(--oc-radius);
+  background: radial-gradient(circle at 50% 40%, #4a3346, var(--oc-iron-deep) 75%);
+  color: var(--oc-cream);
+}
+/* On the grey rows the bronze labels take the list ink and the plum keyword its deep plum
+   (AA on #BAB6B2). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .character-sheet
+  :is(.shp-action, .spl-row, .spl-item, .invp-row) {
+  --oc-label: var(--oc-ink-2);
+  --oc-keyword: #4f1f47;
+  --accent: #4f1f47;
+  --focus: #4f1f47;
+}
+/* The caster's figures and the inventory's four boxes: ledger cells — bronze small-cap label
+   over the value, split by dotted bronze rules (W17 caster stats, W12 weight and money). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .invp-summary {
+  grid-template-columns: repeat(auto-fit, minmax(calc(5 * var(--oc-sp-8)), 1fr));
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-stats, .invp-summary) {
+  gap: 0;
+  padding-block: var(--oc-sp-2);
+  border-block: var(--oc-bw-1) solid var(--oc-hairline);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-stat, .invp-stat) {
+  padding: var(--oc-sp-2) var(--oc-sp-3);
+  border: 0;
+  border-right: var(--oc-bw-1) dotted var(--oc-brush-dark);
+  border-radius: var(--oc-radius);
+  background: transparent;
+  box-shadow: none;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-stat, .invp-stat):last-child {
+  border-right: 0;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-stat dt, .invp-stat-label) {
+  color: var(--oc-label);
+  font-family: var(--font-label);
+  font-size: var(--oc-fs-13);
+  font-weight: 700;
+  line-height: var(--oc-lh-tight);
+  letter-spacing: var(--oc-track-caps);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-stat dd, .invp-stat > strong) {
+  color: var(--oc-ink);
+  font-size: var(--oc-fs-21);
+  font-weight: 600;
+  line-height: var(--oc-lh-tight);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .invp-stat
+  > strong
+  :is(span, small) {
+  line-height: var(--oc-lh-tight);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .invp-coins-line {
+  font-size: var(--oc-fs-18);
+  line-height: var(--oc-lh-tight);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-stat dd small, .invp-stat > strong small, .invp-stat > small) {
+  color: var(--oc-ink-2);
+  font-size: var(--oc-fs-13);
+}
+/* State notices: an iron-ruled slip of paper, the reason a plum keyword. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(.character-sheet .spl-window.is-closed, .ct-start-call) {
+  padding: var(--oc-sp-3) var(--oc-sp-4);
+  border: var(--oc-bw-1) solid var(--oc-hairline);
+  border-radius: var(--oc-radius);
+  background: var(--oc-paper-hi);
+  color: var(--oc-ink);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .spl-window-why
+  > summary {
+  min-height: var(--oc-ctl);
+  color: var(--oc-keyword);
+}
+/* Spell slots: WotR's plum level discs as lozenge pips, filled while available. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .spl-pip {
+  border: var(--oc-bw-1) solid var(--oc-keyword);
+  border-radius: var(--oc-radius);
+  background: transparent;
+  rotate: 45deg;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .spl-pip.is-on {
+  background: var(--oc-keyword);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .spl-slot strong {
+  color: var(--oc-ink);
+}
+/* Rule terms in the text: square, as every WotR keyword plate. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout, dialog, .ui-tip)
+  .compendium-term {
+  padding-inline: var(--oc-sp-1);
+  border-radius: var(--oc-radius);
+}
+/* Search fields: the grey field with the iron hairline. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-search input, .invp-search input) {
+  border: var(--oc-bw-1) solid var(--oc-iron-line);
+  border-radius: var(--oc-radius);
+  background: var(--oc-field);
+  color: var(--oc-ink);
+}
+/* Encumbrance: WotR's weight line (W12) — a thin iron track, the load in plum. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .invp-bar {
+  height: var(--oc-sp-2);
+  margin-block: var(--oc-sp-2) var(--oc-sp-3);
+  border: var(--oc-bw-1) solid var(--oc-hairline);
+  border-radius: var(--oc-radius);
+  background: var(--oc-paper-2);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .invp-stat:not(.is-bad)
+  .invp-bar:not(.is-over)
+  > span {
+  background: linear-gradient(90deg, var(--oc-plum-bar), #793e70);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .invp-pips > span {
+  border-color: var(--oc-keyword);
+  border-radius: var(--oc-radius);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .invp-pips
+  > span.on {
+  background: var(--oc-keyword);
+}
+/* Weapon sets: WotR's purple-framed sets I–IV (W12 #54254E). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .invp-sets li {
+  border: var(--oc-bw-2) solid transparent;
+  border-radius: var(--oc-radius);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .invp-sets
+  li.is-active {
+  border-color: #54254e;
+  background: var(--oc-paper-hi);
+  color: var(--oc-ink);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .invp-sets em {
+  color: var(--oc-keyword);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .invp-root
+  > .invp-root-head {
+  margin: 0 0 var(--oc-sp-2);
+}
+/* A container's fold toggle (▾): the filters' paper slip, square, 18 px glyph (the browser's
+   1 px 6 px padding goes). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .invp-toggle {
+  padding: 0;
+  border: var(--oc-bw-1) solid var(--oc-hairline);
+  border-radius: var(--oc-radius);
+  background: var(--oc-paper-hi);
+  color: var(--oc-ink);
+  font-size: var(--oc-fs-18);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .invp-toggle:hover {
+  border-color: var(--oc-keyword);
+  color: var(--oc-keyword);
+}
+/* The band's drop hint («Trascina qui…») is a note under the title, not a second title. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .invp-root-head
+  > .muted {
+  color: var(--oc-ink-2);
+  font-size: var(--oc-fs-13);
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0;
+  font-variant-caps: normal;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .invp-col small {
+  color: var(--oc-label);
+  font-size: var(--oc-fs-12);
+  letter-spacing: var(--oc-track-caps);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .invp-view > summary,
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .invp-rule
+  > summary {
+  color: var(--oc-keyword);
+}
+
+/* ------------------------------------------------------------------ Tavolo (turn-based HUD)
+   WotR's turn-based screen (W1, W3): the scene full-bleed; iron tool tiles at the left with the
+   active tile lit plum; a left-aligned strip of square turn cards from 28 % of the width, the
+   creature in turn larger in pale gold, enemies in dark red with a skull badge; parchment
+   plates for the scene name, the status line and the inspect card; at the bottom the
+   action-economy bar in iron over one row of framed slots on a parchment strip; tall party
+   cards with a vertical green HP bar and a violet gem crown on the selected one; End turn a
+   round iron hourglass disc. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) {
+  --oc-turn-card: 64px;
+  --oc-turn-current: 88px;
+  --oc-party-w: 56px;
+  --oc-party-h: 72px;
+  --token-label: var(--oc-ink);
+  --token-label-halo: var(--oc-paper);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) #map-grid path {
+  stroke: #000000;
+  stroke-opacity: 0.22;
+}
+/* Rings (W9): allies a thin green ring, enemies a thick brushed red one (dashed by the app's
+   shape cue); the selected creature WotR's pale-gold current frame on a black keyline. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  #battle-map
+  .map-token
+  .token-display
+  > circle:first-child {
+  stroke: #4de749;
+  stroke-width: 2;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  #battle-map
+  .map-token.hostile
+  .token-display
+  > circle:first-child {
+  stroke: #be3319;
+  stroke-width: 4;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  #battle-map
+  .token-display
+  > circle:first-child,
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) #battle-map .selection-ring {
+  filter: drop-shadow(0 0 1px #000000);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) #battle-map .selection-ring {
+  stroke: var(--oc-gold-frame);
+  stroke-width: 3;
+}
+/* Name plates on the map (W1 «ZHAKFAR»): ink on a parchment halo, small capitals; 13 px. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .map-token
+  .token-display
+  > .token-name {
+  stroke-width: 5px;
+  font-variant-caps: small-caps;
+  letter-spacing: var(--oc-track-caps);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) #battle-map .door-controls {
+  --door-fill: var(--oc-iron-deep);
+  --door-rim: var(--oc-iron-line);
+  --door-ink: var(--oc-cream);
+}
+/* Enemy health words under a token: the same parchment plate and ink as the name plates. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) #battle-map .cs-health rect {
+  stroke: var(--oc-hairline);
+  opacity: 1;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) #battle-map .cs-health text {
+  fill: var(--oc-ink);
+  stroke: var(--oc-paper);
+  stroke-width: var(--oc-bw-2);
+  paint-order: stroke;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  #battle-map
+  .cs-health.is-bloodied
+  rect {
+  stroke: #be3319;
+}
+/* The app's own 1.5 and 1.3 leadings on the Table's text, moved onto the scale. */
+/* The inspector's note under the brush rule: the app's 13 px gap moved onto the 12 px step. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .combat-detail > p {
+  margin-bottom: var(--oc-sp-4);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .combat-detail p,
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .action-dock.table-hotbar
+  :is(.hotbar-identity > div > span, .hotbar-slots, .resources) {
+  line-height: var(--oc-lh-tight);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(.table-party-portrait, .token-menu-portrait, .table-layout .token-dot) {
+  line-height: var(--oc-lh-solid);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) #battle-map .door-display text {
+  font-size: var(--oc-fs-21);
+}
+/* Words on the map (areas, handout pins): the name plates' 13 px; the pin's mark 18 px. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  #battle-map
+  :is(.regions-label, .handouts-pin-label) {
+  font-size: var(--oc-fs-13);
+}
+/* The DM's travel marks keep their gold on the painted floor with an iron halo (the name
+   plates' halo, in the HUD's metal). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) #battle-map .travel-point text {
+  stroke: var(--oc-iron-deep);
+  stroke-width: var(--oc-bw-4);
+  paint-order: stroke;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) #battle-map .handouts-pin-glyph {
+  font-size: var(--oc-fs-18);
+  stroke: var(--token-label-halo);
+  stroke-width: var(--oc-bw-4);
+  paint-order: stroke;
+}
+/* The scene plate: WotR's parchment objective plate (W8), the name with its initial. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout > .table-topline h1 {
+  color: var(--oc-ink);
+  font-size: var(--oc-fs-21);
+  font-weight: 600;
+  letter-spacing: 0;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  > .table-topline
+  > div
+  > span {
+  color: var(--oc-label);
+  font-size: var(--oc-fs-12);
+  font-style: italic;
+}
+@media (min-width: 721px) {
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout > .table-topline {
+    margin: var(--oc-sp-3) 0 0 var(--oc-sp-5);
+    padding: var(--oc-sp-2) var(--oc-sp-2) var(--oc-sp-2) var(--oc-sp-4);
+    border: var(--oc-bw-1) solid #050405;
+    border-radius: var(--oc-radius);
+    background: var(--oc-paper);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    box-shadow: var(--oc-paper-plate);
+  }
+}
+/* Tools, zoom and session buttons: WotR's tool grid (W1) — square iron tiles #1C1C20 with
+   light silhouettes in a dark iron plate; the active tool lit plum (the turn-based rook). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  :is(.map-toolbar, .map-subtools, .map-zoom) {
+  border: var(--oc-bw-1) solid #050405;
+  border-radius: var(--oc-radius);
+  background: var(--oc-iron-deep);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: var(--oc-plate);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .map-tool,
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .session-view-hud-button,
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .map-tools-toggle {
+  padding: 0;
+  font-size: var(--oc-fs-21);
+  border: var(--oc-bw-1) solid #2e2a30;
+  border-radius: var(--oc-radius);
+  background: var(--oc-iron-tile);
+  color: var(--oc-on-iron);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: var(--oc-bevel);
+}
+/* Hovered, a tile's rim lights (the gem); its fill stays iron, so hover never reads as
+   active. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .map-tool:hover,
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .session-view-hud-button:hover {
+  border-color: var(--oc-gem);
+  color: #ffffff;
+}
+/* The active tool: WotR's lit rook tile (W1 #3A1129) with a cream ring inside — plum alone
+   is 1.1:1 against the iron, the ring is the lightness and shape cue. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .map-tool.active,
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .map-tool[aria-pressed="true"],
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .session-view-hud-button[aria-pressed="true"] {
+  border-color: var(--oc-gem-dark);
+  background: radial-gradient(70% 70% at 50% 35%, rgb(171 86 177 / 0.25), transparent 75%), #3a1129;
+  color: #ffffff;
+  box-shadow: var(--oc-active);
+}
+/* The group key's corner mark keeps its place, in the tile's ink. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .session-view-chip,
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .ct-alert {
+  border: var(--oc-bw-1) solid #050405;
+  border-radius: var(--oc-radius);
+  background: var(--oc-paper);
+  color: var(--oc-ink);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: var(--oc-paper-plate);
+}
+/* The session prompt as WotR's objective card (W8): its words on top, then «Avvia ora» and
+   «Non ora» side by side in one row at the skin's one button size (40 px, 8/16, 15 px small
+   capitals), «Avvia ora» the plum CONTINUE. An empty full-width spacer (decorative, ordered
+   after the words) starts the commands' row, so they never sit inside the sentence. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .session-view-start-chip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 var(--oc-sp-3);
+  padding: var(--oc-sp-3) var(--oc-sp-4);
+  font-size: var(--oc-fs-12);
+  line-height: var(--oc-lh-body);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .session-view-start-chip::before {
+  content: "";
+  flex: 1 0 100%;
+  order: 1;
+  height: var(--oc-sp-3);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .session-view-start-chip
+  .session-view-hud-button {
+  order: 2;
+  min-height: var(--oc-ctl);
+  padding: var(--oc-sp-3) var(--oc-sp-5);
+  border-color: var(--oc-iron-line);
+  background: var(--oc-iron-plate);
+  color: var(--oc-on-iron);
+  font-size: var(--oc-fs-15);
+  font-weight: 600;
+  line-height: var(--oc-lh-tight);
+  letter-spacing: var(--oc-track-caps);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .session-view-start-chip
+  .session-view-hud-button[data-sv="start"] {
+  border-color: var(--oc-plum-band);
+  background: var(--oc-plum-button);
+  color: #f2ebe1;
+  box-shadow: var(--oc-shadow-plate);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .session-view-start-chip
+  .session-view-hud-button:hover {
+  border-color: var(--oc-gem);
+  background: linear-gradient(180deg, #3a2434, #1d1219);
+  color: var(--oc-on-plum);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .session-view-start-chip
+  .session-view-hud-button[data-sv="start"]:hover {
+  background: var(--oc-plum-hover);
+  color: #ffffff;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .ct-alert-turn strong {
+  color: var(--oc-ink);
+  font-size: var(--oc-fs-21);
+  font-weight: 600;
+}
+/* The status line: a parchment plate, the scale in bronze small capitals. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .map-container
+  > .map-caption {
+  border: var(--oc-bw-1) solid #050405;
+  border-radius: var(--oc-radius);
+  background: var(--oc-paper);
+  color: var(--oc-ink);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: var(--oc-paper-plate);
+  padding: var(--oc-sp-3) var(--oc-sp-4);
+  font-size: var(--oc-fs-12);
+  line-height: var(--oc-lh-body);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .map-caption
+  > span:first-child {
+  color: var(--oc-label);
+  font-weight: 700;
+  letter-spacing: var(--oc-track-caps);
+  font-variant-caps: all-small-caps;
+}
+/* Turn order (W1): square portrait cards in iron frames, left-aligned from 28 % of the map's
+   width; the creature in turn 1.4× larger in WotR's pale gold; enemies in dark red with a
+   skull medallion (shape, not colour alone); each name on a parchment plate under the card. */
+@media (min-width: 721px) {
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout > .initiative {
+    justify-self: start;
+    align-items: flex-start;
+    gap: var(--oc-sp-2);
+    max-width: calc(72% - var(--oc-sp-8));
+    margin-left: round(down, 28%, var(--oc-sp-2));
+    padding: 0 0 var(--oc-sp-3);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token {
+    position: relative;
+    gap: 0;
+    width: var(--oc-turn-card);
+    padding: 0;
+    border: var(--oc-bw-2) solid var(--oc-iron);
+    border-radius: var(--oc-radius);
+    background: var(--oc-iron-deep);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    box-shadow: var(--oc-card);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token.current {
+    width: var(--oc-turn-current);
+    border-color: var(--oc-gold-frame);
+    box-shadow: var(--oc-card);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token:has(.token-dot.hostile) {
+    border-color: var(--oc-foe-frame);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token.current:has(.token-dot.hostile) {
+    border-color: var(--oc-gold-frame);
+    outline: var(--oc-bw-2) solid var(--oc-foe-frame);
+    outline-offset: 0;
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .token-dot {
+    width: 100%;
+    height: calc(var(--oc-turn-card) - var(--oc-sp-3));
+    border-radius: var(--oc-radius);
+    box-shadow: none;
+    font-size: var(--oc-fs-21);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token.current
+    .token-dot {
+    width: 100%;
+    height: calc(var(--oc-turn-current) - var(--oc-sp-4));
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token
+    > span:last-child {
+    width: 100%;
+    min-height: var(--oc-sp-5);
+    padding: var(--oc-sp-1) 0 0;
+    background: var(--oc-paper);
+    color: var(--oc-ink);
+    font-size: var(--oc-fs-11);
+    font-weight: 700;
+    line-height: var(--oc-lh-tight);
+    letter-spacing: 0;
+    font-variant-caps: all-small-caps;
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token
+    small {
+    color: var(--oc-keyword);
+    font-size: var(--oc-fs-11);
+    font-style: italic;
+    line-height: var(--oc-lh-tight);
+    font-variant-caps: normal;
+    letter-spacing: 0;
+  }
+}
+/* Enemy cards carry WotR's skull medallion (game-icons «death-skull», CC BY 3.0). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  > .initiative
+  .initiative-token:has(.token-dot.hostile)::after {
+  content: "";
+  position: absolute;
+  top: var(--oc-sp-1);
+  right: var(--oc-sp-1);
+  width: var(--oc-sp-5);
+  height: var(--oc-sp-5);
+  border: var(--oc-bw-1) solid #050405;
+  border-radius: var(--oc-round);
+  background:
+    var(--oc-glyph-skull) center / 70% 70% no-repeat,
+    var(--oc-foe-frame);
+  pointer-events: none;
+}
+/* Party (W1 tray grammar): tall portrait cards in iron, the HP as a vertical pure-green bar on
+   the card's left edge (W1 #03FB05), the name on a parchment plate; the selected one in a
+   cream frame with a violet gem crown. Declared: the cards keep the app's column at the
+   map's lower left (the bottom band holds the hotbar within 118 px). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .table-party {
+  gap: var(--oc-sp-3);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .table-party-member {
+  gap: 0;
+  width: var(--oc-party-w);
+  padding: 0;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .table-party-portrait {
+  width: var(--oc-party-w);
+  height: var(--oc-party-h);
+  border: var(--oc-bw-2) solid var(--oc-iron);
+  border-radius: var(--oc-radius);
+  box-shadow: var(--oc-card);
+  font-size: var(--oc-fs-21);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-party-member:hover
+  .table-party-portrait {
+  border-color: var(--oc-gem-dark);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-party-member.is-selected
+  .table-party-portrait {
+  border-color: var(--oc-cream);
+  box-shadow: var(--oc-card);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-party-member.is-selected::after {
+  content: "";
+  position: absolute;
+  top: calc(-1 * var(--oc-sp-2));
+  left: 50%;
+  width: var(--oc-sp-4);
+  height: var(--oc-sp-4);
+  translate: -50% 0;
+  rotate: 45deg;
+  border: var(--oc-bw-1) solid #2a1229;
+  background: linear-gradient(135deg, #d79bdb, var(--oc-gem) 45%, var(--oc-gem-dark));
+  pointer-events: none;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .table-party-hp {
+  position: absolute;
+  top: calc(var(--oc-party-h) - var(--oc-bw-2));
+  left: var(--oc-bw-2);
+  width: calc(var(--oc-party-h) - 2 * var(--oc-bw-2));
+  height: var(--oc-bw-4);
+  border-radius: var(--oc-radius);
+  background: #050405;
+  box-shadow: none;
+  transform-origin: 0 0;
+  rotate: -90deg;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .table-party-hp > span {
+  background: var(--oc-hp);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-party-hp.is-low
+  > span {
+  background: var(--oc-hp-mid);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-party-hp.is-down
+  > span {
+  background: var(--oc-hp-low);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .table-party-name {
+  width: 100%;
+  padding: 0 var(--oc-sp-1);
+  border-radius: var(--oc-radius);
+  background: var(--oc-paper);
+  color: var(--oc-ink);
+  font-size: var(--oc-fs-11);
+  font-weight: 700;
+  line-height: var(--oc-lh-tight);
+  letter-spacing: 0;
+  text-align: center;
+  font-variant-caps: all-small-caps;
+}
+@media (min-width: 721px) {
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .table-party-name {
+    min-height: var(--oc-sp-5);
+  }
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .table-party-status {
+  border-color: #050405;
+  border-radius: var(--oc-round);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-party.is-compact {
+  --oc-party-w: 44px;
+  --oc-party-h: 56px;
+}
+/* The inspect card: the sidebar is a page of parchment held by an iron bar (W1, W7). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout > .table-sidebar-panel {
+  border: 0;
+  border-left: var(--oc-bw-iron) solid var(--oc-iron);
+  border-image: linear-gradient(90deg, #050405, #2e272b 30%, #5a4e53 85%, #151013) 1;
+  background:
+    var(--oc-drafting) right calc(-1 * var(--oc-sp-8)) bottom calc(-1 * var(--oc-sp-8)) / 420px
+      no-repeat,
+    var(--oc-paper);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-sidebar-panel
+  > .table-subtabs {
+  gap: var(--oc-sp-2);
+  padding: var(--oc-sp-4) var(--oc-sp-5) var(--oc-sp-5);
+  border-bottom: 0;
+  background:
+    linear-gradient(
+        90deg,
+        transparent,
+        var(--oc-brush) 4%,
+        var(--oc-brush-dark) 50%,
+        var(--oc-brush) 96%,
+        transparent
+      )
+      bottom / 100% var(--oc-bw-4) no-repeat,
+    transparent;
+  --bg: var(--oc-plum-soft);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .table-sidebar-panel
+  > .table-subtabs {
+  --focus: #f2ebe1;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .inspector-person h2 {
+  color: var(--oc-ink);
+  font-size: var(--oc-fs-21);
+  font-weight: 600;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .inspector-person
+  .muted {
+  color: var(--oc-label);
+  font-style: italic;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  :is(.inspector-person .portrait, .table-hotbar .hotbar-portrait) {
+  border: var(--oc-bw-2) solid var(--oc-cream);
+  border-radius: var(--oc-radius);
+  box-shadow: var(--oc-ring-black);
+  font-size: var(--oc-fs-21);
+}
+/* The inspector's figures line («Iniziativa +2 · Percezione passiva 11»): the app's 14 px on
+   the 13 px step. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .shp-table-row {
+  font-size: var(--oc-fs-13);
+}
+/* «Scheda completa» and «Inventario»: one command per row, so the words never wrap. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .inspector-buttons {
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--oc-sp-3);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .table-inspector {
+  padding: var(--oc-sp-6) var(--oc-sp-5);
+}
+/* Armor Class: WotR's inspect card writes «AC 20» in small capitals: a ledger cell. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .inspector-ac {
+  padding: var(--oc-sp-1) var(--oc-sp-3);
+  border: var(--oc-bw-1) solid var(--oc-hairline);
+  border-radius: var(--oc-radius);
+  background: var(--oc-paper-hi);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .inspector-ac small {
+  color: var(--oc-label);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .inspector-ac strong {
+  color: var(--oc-ink);
+  font-size: var(--oc-fs-21);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .table-inspector h3 {
+  color: var(--oc-ink);
+  font-size: var(--oc-fs-18);
+  font-weight: 600;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .forms-summary,
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .combat-detail {
+  padding-block: var(--oc-sp-5);
+  border-top: 0;
+  border-bottom: 0;
+  background:
+    linear-gradient(90deg, transparent, var(--oc-brush) 6%, var(--oc-brush) 94%, transparent) top /
+      100% var(--oc-bw-2) no-repeat,
+    transparent;
+}
+/* The rail: an iron column of tool tiles; the open section a plum tile (W1 log tabs). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout > .table-sidebar-rail {
+  border-left: var(--oc-bw-1) solid #050405;
+  background: linear-gradient(90deg, #120909, var(--oc-umber) 40%, #170c0b);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-sidebar-rail > .table-tabs {
+  border-top-color: var(--oc-iron-edge);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  :is(.table-tab, .table-sidebar-toggle, .table-map-link, .table-panels-all) {
+  border: var(--oc-bw-1) solid #2e2a30;
+  border-radius: var(--oc-radius);
+  background: var(--oc-iron-tile);
+  color: var(--oc-on-iron);
+  box-shadow: var(--oc-bevel);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  :is(.table-tab, .table-sidebar-toggle, .table-map-link, .table-panels-all):hover {
+  border-color: var(--oc-gem);
+  color: #ffffff;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .table-tab.active {
+  border-color: var(--oc-gem-dark);
+  background:
+    radial-gradient(70% 70% at 50% 35%, rgb(171 86 177 / 0.25), transparent 75%), var(--oc-plum);
+  color: #ffffff;
+  box-shadow: var(--oc-active);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .table-tab-portrait {
+  border: var(--oc-bw-1) solid var(--oc-cream);
+  border-radius: var(--oc-radius);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .table-tabs {
+  --bg: var(--oc-iron-tile);
+}
+/* The hotbar (W1, W3). */
+@media (min-width: 721px) {
+  /* The controlled creature: an iron plate at the strip's left end. */
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-identity {
+    padding: var(--oc-sp-3) var(--oc-sp-4);
+    border: var(--oc-bw-1) solid #050405;
+    border-right: 0;
+    border-radius: var(--oc-radius);
+    background: var(--oc-iron-plate);
+    color: var(--oc-on-iron);
+    box-shadow: var(--oc-plate);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar:not(:has(> .hotbar-center))
+    > .hotbar-identity {
+    border-right: var(--oc-bw-1) solid #050405;
+    border-radius: var(--oc-radius);
+  }
+  /* The strip: one row of framed slots on parchment, in the iron frame with gem corners. */
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-center {
+    gap: var(--oc-sp-3);
+    padding: var(--oc-sp-1) var(--oc-sp-2);
+    border: var(--oc-bw-iron) solid var(--oc-iron);
+    border-image: var(--oc-frame);
+    border-radius: var(--oc-radius);
+    background: linear-gradient(180deg, #c3baab, var(--oc-paper-strip) 35%, #9c9585);
+    box-shadow: var(--oc-shadow-halo);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-hotbar .hotbar-pages {
+    gap: var(--oc-sp-2);
+    align-self: center;
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .hotbar-page-tab {
+    justify-content: center;
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-actions {
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    gap: 0;
+    max-height: none;
+    padding: var(--oc-sp-3);
+    margin: calc(-1 * var(--oc-sp-3));
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    :is(.combat-action, .combat-dock .sm-dock-toggle) {
+    flex: none;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: var(--oc-sp-1);
+    width: calc(var(--oc-slot) + var(--oc-sp-3));
+    height: auto;
+    min-height: 0;
+    padding: 0;
+    border: 0;
+    border-radius: var(--oc-radius);
+    background: transparent;
+    color: var(--oc-ink);
+    box-shadow: none;
+    text-align: center;
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    :is(.combat-action, .combat-dock .sm-dock-toggle)
+    > .icon {
+    box-sizing: border-box;
+    width: 100%;
+    height: calc(var(--oc-slot) + var(--oc-sp-3));
+    padding: var(--oc-sp-4);
+    border: var(--oc-bw-2) solid var(--oc-iron-line);
+    background: radial-gradient(circle at 50% 38%, #5a3a52, #2a1a26 45%, var(--oc-iron-deep) 80%);
+    color: var(--oc-cream);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    :is(.combat-action > span:not([class]), .combat-dock .sm-dock-toggle .dock-text) {
+    display: -webkit-box;
+    box-sizing: border-box;
+    max-width: 100%;
+    padding: 0;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    min-height: calc(var(--oc-sp-6) + var(--oc-sp-1));
+    color: var(--oc-ink);
+    font-size: var(--oc-fs-11);
+    font-weight: 600;
+    line-height: var(--oc-lh-tight);
+    letter-spacing: 0;
+    white-space: normal;
+    font-variant-caps: normal;
+    hyphens: auto;
+    overflow-wrap: normal;
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    :is(.combat-action, .combat-dock .sm-dock-toggle):hover
+    > .icon,
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-action.active
+    > .icon {
+    border-color: var(--oc-gem);
+    background: radial-gradient(
+      circle at 50% 38%,
+      #9a4a8e,
+      var(--oc-plum) 60%,
+      var(--oc-plum-deep)
+    );
+    color: #ffffff;
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    :is(.combat-action:hover, .combat-action.active, .combat-dock .sm-dock-toggle:hover) {
+    background: transparent;
+    color: var(--oc-keyword);
+  }
+  /* The groups' names stay their labels for assistive technology; a narrow gap shows them. */
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-group-tag {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-group
+    + .combat-group
+    > .combat-action.is-group-start {
+    margin-left: var(--oc-sp-3);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-action
+    .combat-cost {
+    top: var(--oc-sp-2);
+    right: var(--oc-sp-2);
+  }
+  /* The cost filter: an iron key at the row's start. */
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-filters {
+    align-self: flex-start;
+    margin-right: var(--oc-sp-3);
+    padding: 0;
+    border: var(--oc-bw-2) solid var(--oc-iron-line);
+    border-radius: var(--oc-radius);
+    background: var(--oc-iron-deep);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-filter {
+    min-width: var(--oc-ctl);
+    min-height: calc(var(--oc-slot) + var(--oc-sp-3) - 2 * var(--oc-bw-2));
+    border-radius: var(--oc-radius);
+    color: var(--oc-on-iron);
+  }
+  /* The action-economy bar (W1/W3, facts §1): one iron bar standing on the strip's frame,
+     as wide as the strip up to the dice plate at its right end. Its cells share the width as
+     WotR's MOVE 39 · STANDARD 39 · SWIFT 5.5 · FREE 5.5 (+ 5 FT 11, which has no 2024 rule):
+     Movimento 39 · Azione 39 · Bonus 11 · Reazione 11, never narrower than their words; the
+     words sit in the cells in small capitals; a cell is plum while available, near-black once
+     spent (its glyph greys too). The spell slots close the bar as gem lozenges. */
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-hotbar .hotbar-resources {
+    left: calc(-1 * var(--oc-bw-iron));
+    right: calc(var(--oc-dice-w) + var(--oc-sp-3) - var(--oc-bw-iron));
+    bottom: calc(100% + var(--oc-bw-iron));
+    box-sizing: border-box;
+    height: var(--oc-ctl);
+    gap: var(--oc-sp-3);
+    padding: var(--oc-sp-2);
+    border: 0;
+    border-radius: var(--oc-radius);
+    background: var(--oc-iron-bar);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    box-shadow: var(--oc-plate);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .action-dock.table-hotbar
+    .hotbar-resources
+    .resources {
+    display: grid;
+    flex: 1;
+    grid-template-columns:
+      minmax(min-content, 39fr) minmax(min-content, 39fr) minmax(min-content, 11fr)
+      minmax(min-content, 11fr);
+    align-self: stretch;
+    gap: var(--oc-sp-1);
+    min-width: 0;
+    font-size: var(--oc-fs-12);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .action-dock.table-hotbar
+    .hotbar-resources
+    .resources
+    > span {
+    min-height: 0;
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .action-dock.table-hotbar
+    .hotbar-resources
+    .hotbar-slots {
+    align-self: stretch;
+    align-items: center;
+    gap: var(--oc-sp-3);
+    padding: 0 var(--oc-sp-2) 0 var(--oc-sp-3);
+    border-left: var(--oc-bw-1) solid var(--oc-iron-edge);
+  }
+  /* The dice mode and the rolls: the bar's right end, as tall as the bar (its controls keep
+     their 40 px): «Dadi», the select, and the rolls as a die tile. */
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-bar-heading {
+    right: calc(-1 * var(--oc-bw-iron));
+    bottom: calc(100% + var(--oc-bw-iron));
+    box-sizing: border-box;
+    width: var(--oc-dice-w);
+    height: var(--oc-ctl);
+    gap: var(--oc-sp-2);
+    padding: 0 0 0 var(--oc-sp-3);
+    border: 0;
+    box-shadow: var(--oc-plate);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-bar-heading
+    > label {
+    flex: 1;
+    gap: var(--oc-sp-2);
+    min-width: 0;
+    font-size: var(--oc-fs-12);
+    font-weight: 700;
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-bar-heading
+    select {
+    flex: 1;
+    min-width: 0;
+    min-height: var(--oc-ctl);
+    padding: 0 var(--oc-sp-3);
+    font-size: var(--oc-fs-13);
+    font-weight: 600;
+    font-variant-caps: normal;
+    letter-spacing: 0;
+  }
+  /* «Tiri e risultati»: a die tile. Its words stay the button's name, clipped by the tile
+     (the visually-hidden pattern's clip, applied to the text the button holds); the core
+     bell is replaced by the die (game-icons «dice-six-faces-four», Delapouite, CC BY 3.0). */
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-bar-heading
+    .text-button {
+    display: inline-grid;
+    grid-template-columns: var(--oc-ctl) 0;
+    justify-items: start;
+    align-items: center;
+    flex: none;
+    width: var(--oc-ctl);
+    min-width: var(--oc-ctl);
+    height: var(--oc-ctl);
+    gap: 0;
+    padding: 0;
+    overflow: hidden;
+    border-left: var(--oc-bw-1) solid var(--oc-iron-edge);
+    white-space: nowrap;
+    text-decoration: none;
+  }
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .resources
+  > span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--oc-sp-2);
+  min-height: var(--oc-sp-6);
+  padding: 0 var(--oc-sp-3);
+  border: var(--oc-bw-1) solid #050405;
+  background: var(--oc-iron-deep);
+  color: var(--oc-on-iron-dim);
+  font-weight: 700;
+  letter-spacing: var(--oc-track-caps);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .resources
+  > span::before {
+  margin: 0;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .resources
+  > span.available {
+  background:
+    radial-gradient(70% 90% at 50% 20%, rgb(171 86 177 / 0.22), transparent 75%), var(--oc-plum);
+  color: var(--oc-on-plum);
+  box-shadow: inset 0 0 0 var(--oc-bw-1) var(--oc-gem-dark);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .resources
+  > span.movement {
+  order: -1;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .resources
+  > span.available:is(:nth-child(1), :nth-child(2), :nth-child(3), .movement)::before {
+  background: var(--oc-cream);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-hotbar
+  .hotbar-slot-level
+  > small {
+  color: var(--oc-on-iron-dim);
+  font-size: var(--oc-fs-11);
+}
+/* Spell slots: violet gem lozenges, filled while available. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-hotbar .hotbar-slot-level > i {
+  border-color: var(--oc-gem);
+  border-radius: var(--oc-radius);
+  rotate: 45deg;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-hotbar
+  .hotbar-slot-level
+  > i.is-full {
+  background: var(--oc-gem);
+}
+/* «Tiri e risultati» carries a die at every width (the core bell read as notifications). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-bar-heading
+  .text-button
+  > .icon {
+  display: none;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-bar-heading
+  .text-button::before {
+  content: "";
+  display: block;
+  justify-self: center;
+  margin-inline: auto;
+  width: var(--oc-fs-21);
+  height: var(--oc-fs-21);
+  background: currentColor;
+  mask: var(--oc-mask-die) center / contain no-repeat;
+}
+/* The dice mode and the rolls: an iron plate (on the desktop, the econ bar's right end). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-bar-heading {
+  border: var(--oc-bw-1) solid #050405;
+  border-radius: var(--oc-radius);
+  background: var(--oc-iron-bar);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: var(--oc-plate);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-bar-heading
+  label {
+  color: var(--oc-on-iron-dim);
+  letter-spacing: var(--oc-track-caps);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-bar-heading
+  .text-button:hover {
+  color: #ffffff;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-bar-heading
+  select {
+  border: var(--oc-bw-1) solid var(--oc-iron-line);
+  border-radius: var(--oc-radius);
+  background-color: var(--oc-iron-deep);
+  color: var(--oc-on-iron);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-bar-heading
+  .text-button {
+  color: var(--oc-gold-frame);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .hotbar-name
+  > strong {
+  color: var(--oc-on-iron);
+  font-size: var(--oc-fs-18);
+  font-weight: 600;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .hotbar-identity
+  > div
+  > span {
+  color: var(--oc-on-iron-dim);
+  font-style: italic;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .hotbar-hp {
+  min-height: var(--oc-ctl);
+  padding: 0 var(--oc-sp-3);
+  border: var(--oc-bw-1) solid #050405;
+  border-radius: var(--oc-radius);
+  background: var(--oc-iron-deep);
+  color: var(--oc-on-iron);
+  font-size: var(--oc-fs-12);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .hotbar-hp-bar {
+  border-radius: var(--oc-radius);
+  background: #050405;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .hotbar-hp-bar > span {
+  background: var(--oc-hp);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .hotbar-hp.is-low
+  .hotbar-hp-bar
+  > span:first-child {
+  background: var(--oc-hp-mid);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .hotbar-hp.is-down
+  .hotbar-hp-bar
+  > span:first-child {
+  background: var(--oc-hp-low);
+}
+/* The turn commands: iron tiles in the iron foot of the sidebar; the chosen tool plum. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  > .action-dock.table-hotbar
+  > .toolbar {
+  border-top: var(--oc-bw-1) solid #050405;
+  border-left: var(--oc-bw-1) solid #050405;
+  background: var(--oc-iron-bar);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .action-dock.table-hotbar
+  > .toolbar
+  .button:not(.primary) {
+  border: var(--oc-bw-1) solid #2e2a30;
+  border-radius: var(--oc-radius);
+  background: var(--oc-iron-tile);
+  color: var(--oc-on-iron);
+  box-shadow: var(--oc-bevel);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .action-dock.table-hotbar
+  > .toolbar
+  .button.quiet {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .action-dock.table-hotbar
+  > .toolbar
+  .button:not(.primary):hover:not(:disabled) {
+  border-color: var(--oc-gem);
+  background: var(--oc-iron-tile);
+  color: #ffffff;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .action-dock.table-hotbar
+  > .toolbar
+  .button.quiet:hover:not(:disabled) {
+  background: transparent;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .action-dock.table-hotbar
+  > .toolbar
+  .button:is(.active, [aria-pressed="true"]) {
+  border-color: var(--oc-gem-dark);
+  background: radial-gradient(70% 70% at 50% 35%, rgb(171 86 177 / 0.25), transparent 75%), #3a1129;
+  color: #ffffff;
+  box-shadow: var(--oc-active);
+}
+/* End turn: WotR's round iron hourglass disc (W3), with its words kept on it. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .action-dock.table-hotbar
+  > .toolbar
+  > .button.primary[data-table="end-turn"] {
+  position: relative;
+  border: var(--oc-bw-2) solid var(--oc-iron-line);
+  background:
+    radial-gradient(circle at 50% 30%, rgb(171 86 177 / 0.3), transparent 60%),
+    radial-gradient(circle at 50% 40%, #3a2434, var(--oc-plum-deep) 70%);
+  color: var(--oc-on-plum);
+  box-shadow:
+    inset 0 0 0 var(--oc-bw-4) var(--oc-iron),
+    inset 0 0 0 calc(var(--oc-bw-4) + var(--oc-bw-1)) var(--oc-gem-dark),
+    0 0 0 var(--oc-bw-1) #050405,
+    var(--oc-shadow-plate);
+  font-size: var(--oc-fs-13);
+  font-weight: 700;
+  line-height: var(--oc-lh-tight);
+  letter-spacing: var(--oc-track-wide);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .action-dock.table-hotbar
+  > .toolbar
+  > .button.primary[data-table="end-turn"]::before {
+  content: "";
+  flex: none;
+  width: var(--oc-sp-5);
+  height: var(--oc-sp-5);
+  background: var(--oc-gold-frame);
+  mask: var(--oc-mask-hourglass) center / contain no-repeat;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .action-dock.table-hotbar
+  > .toolbar
+  > .button.primary[data-table="end-turn"]:hover:not(:disabled) {
+  border-color: var(--oc-gem);
+  background:
+    radial-gradient(circle at 50% 30%, rgb(171 86 177 / 0.45), transparent 60%),
+    radial-gradient(circle at 50% 40%, #5a2c4c, var(--oc-plum) 70%);
+  color: #ffffff;
+}
+@media (min-width: 721px) {
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar
+    > .button.primary[data-table="end-turn"] {
+    flex-direction: column;
+    gap: var(--oc-sp-1);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout.is-collapsed
+    > .action-dock.table-hotbar
+    > .toolbar {
+    border: var(--oc-bw-1) solid #050405;
+    border-radius: var(--oc-radius);
+    background: var(--oc-iron-bar);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+/* Chat roll cards and log lines: WotR's parchment log (W1/W2): the actor in its red. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .chat-roll-card {
+  border: var(--oc-bw-1) solid var(--oc-hairline);
+  border-radius: var(--oc-radius);
+  background: var(--oc-paper-hi);
+  color: var(--oc-ink);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .chat-roll-total {
+  border: var(--oc-bw-2) solid var(--oc-iron-line);
+  border-radius: var(--oc-radius);
+  background: var(--oc-paper);
+  color: var(--oc-ink);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .chat-msg {
+  border-radius: var(--oc-radius);
+}
+
+/* ---- Finestra dell'iniziativa: WotR's ledger rows on the dialog's parchment — each creature
+   a row between dotted bronze rules, the total in the round counter's dark medallion (W1
+   «52» #210A10) with pale-gold numerals. A creature left out keeps the app's dashed rim. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .ct-start-tools {
+  gap: var(--oc-sp-3);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .ct-start-list {
+  gap: 0;
+  border-top: var(--oc-bw-1) solid var(--oc-hairline);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .ct-start-row {
+  gap: var(--oc-sp-2) var(--oc-sp-4);
+  padding: var(--oc-sp-3) var(--oc-sp-2);
+  border: 0;
+  border-bottom: var(--oc-bw-1) dotted var(--oc-brush-dark);
+  border-radius: var(--oc-radius);
+  background: transparent;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .ct-start-row:not(.is-included) {
+  border: var(--oc-bw-1) dashed var(--oc-iron-line);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .ct-start-row.is-included
+  .ct-start-who::before {
+  color: var(--oc-label);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .ct-start-who strong {
+  color: var(--oc-ink);
+  font-size: var(--oc-fs-18);
+  font-weight: 600;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .ct-start-who small {
+  color: var(--oc-label);
+  font-style: italic;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) :is(.ct-start-roll, .ct-start-d20) {
+  gap: var(--oc-sp-3);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .ct-start-d20 > span {
+  color: var(--oc-label);
+  font-weight: 700;
+  letter-spacing: var(--oc-track-caps);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .ct-start-total {
+  display: inline-grid;
+  place-items: center;
+  min-width: var(--oc-ctl-lg);
+  height: var(--oc-ctl-lg);
+  border: var(--oc-bw-2) solid var(--oc-iron-line);
+  border-radius: var(--oc-round);
+  background: radial-gradient(circle at 45% 35%, #3a1a22, #210a10 70%);
+  color: var(--oc-gold-frame);
+  box-shadow: var(--oc-ring-black);
+  font-size: var(--oc-fs-18);
+  font-weight: 700;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .ct-start-surprise {
+  color: var(--oc-ink);
+  font-size: var(--oc-fs-13);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .ct-start-row .ct-start-roll-one {
+  color: var(--oc-ink);
+}
+
+/* ---- Menu della pedina: a parchment card in the iron frame (WotR's inspect and tooltip cards,
+   W1, W38): the creature's name with its initial, rows between bronze brush rules, the
+   chosen entry plum; the HP field the grey field. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .token-menu {
+  padding: var(--oc-sp-3);
+  border: var(--oc-bw-iron) solid var(--oc-iron);
+  border-image: var(--oc-frame);
+  border-radius: var(--oc-radius);
+  background: var(--oc-paper);
+  color: var(--oc-ink);
+  box-shadow: var(--oc-shadow-halo);
+  font-size: var(--oc-fs-15);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .token-menu-head {
+  gap: var(--oc-sp-3);
+  padding: var(--oc-sp-1) var(--oc-sp-1) var(--oc-sp-5);
+  border-bottom: 0;
+  background: var(--oc-rule) left bottom / 160px 10px no-repeat;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .token-menu-portrait {
+  border: var(--oc-bw-2) solid var(--oc-cream);
+  border-radius: var(--oc-radius);
+  background: var(--oc-iron-deep);
+  color: var(--oc-cream);
+  box-shadow: var(--oc-ring-black);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .token-menu-title strong {
+  color: var(--oc-ink);
+  font-size: var(--oc-fs-21);
+  font-weight: 600;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .token-menu-title small {
+  color: var(--oc-label);
+  font-size: var(--oc-fs-12);
+  font-style: italic;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .token-menu-close {
+  width: var(--oc-ctl);
+  height: var(--oc-ctl);
+  padding: 0;
+  border: var(--oc-bw-2) solid var(--oc-iron-edge);
+  border-radius: var(--oc-round);
+  background: radial-gradient(circle at 40% 30%, #3a3438, var(--oc-iron-deep));
+  color: var(--oc-on-iron);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .token-menu-close:hover {
+  border-color: var(--oc-gem-dark);
+  background: radial-gradient(circle at 40% 30%, #5a2c4c, var(--oc-plum));
+  color: #ffffff;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .token-menu-hp {
+  gap: var(--oc-sp-3);
+  margin: var(--oc-sp-3) 0 0;
+  padding: 0 var(--oc-sp-1);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .token-menu-hp label {
+  color: var(--oc-label);
+  font-weight: 700;
+  letter-spacing: var(--oc-track-caps);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(.token-menu-help, .token-menu-error) {
+  margin: var(--oc-sp-2) var(--oc-sp-1) var(--oc-sp-3);
+  color: var(--oc-ink-2);
+  font-size: var(--oc-fs-12);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(.token-menu-list, .token-menu-palette, .token-menu-swatches) {
+  gap: 0;
+  margin: var(--oc-sp-2) 0 0;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .token-menu-sep {
+  height: var(--oc-bw-2);
+  margin: var(--oc-sp-2) 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--oc-brush) 6%,
+    var(--oc-brush-dark) 50%,
+    var(--oc-brush) 94%,
+    transparent
+  );
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(.token-menu-item, .token-menu-back, .token-menu-toggle, .token-menu-swatch) {
+  gap: var(--oc-sp-3);
+  min-height: var(--oc-ctl);
+  padding: 0 var(--oc-sp-3);
+  border-radius: var(--oc-radius);
+  color: var(--oc-ink);
+  font-size: var(--oc-fs-15);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(.token-menu-item, .token-menu-back, .token-menu-toggle, .token-menu-swatch):is(
+    :hover,
+    :focus-visible
+  ) {
+  background: var(--oc-paper-hi);
+  color: var(--oc-keyword);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(.token-menu-toggle, .token-menu-swatch)[aria-checked="true"] {
+  border-color: var(--oc-gem-dark);
+  background: var(--oc-plum-soft);
+  color: #ffffff;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .token-menu-count {
+  padding: 0 var(--oc-sp-2);
+  border: var(--oc-bw-1) solid var(--oc-plum-band);
+  border-radius: var(--oc-round);
+  background: var(--oc-plum-soft);
+  color: var(--oc-on-plum);
+  font-size: var(--oc-fs-11);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .token-menu-chevron {
+  color: var(--oc-label);
+  font-size: var(--oc-fs-18);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .token-menu-subtitle {
+  margin: var(--oc-sp-1) var(--oc-sp-3) var(--oc-sp-2);
+  color: var(--oc-label);
+  font-size: var(--oc-fs-12);
+  letter-spacing: var(--oc-track-caps);
+  font-variant-caps: all-small-caps;
+}
+
+/* ------------------------------------------------------------------ phone (390)
+   WotR has no phone UI; its controller layout (W23, W31) is the compact analogue: the same
+   materials, larger targets, the bars kept whole. The app's phone structure stays. */
+@media screen and (max-width: 720px) {
+  /* Header tabs: one row of small capitals; the open one a plum plate (no hanging point). */
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .app-header .nav-link {
+    padding: var(--oc-sp-3) var(--oc-sp-3);
+    font-size: var(--oc-fs-13);
+    letter-spacing: var(--oc-track-caps);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .app-header
+    .nav-link.active::before,
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .app-header
+    .nav-link.active::after {
+    clip-path: none;
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .app-header
+    .nav-link.active::before {
+    inset: 0;
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .app-header
+    .nav-link.active::after {
+    inset: var(--oc-bw-1);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .service-nav {
+    gap: var(--oc-sp-1);
+  }
+  /* The Table's header stays on one row, as today: its two commands keep the app's compact
+     phone size (the 6 px moved onto the 4 px step, 12 px small capitals) and the service
+     tiles sit edge to edge, as WotR's tool tiles. */
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-header > .button {
+    padding: var(--oc-sp-2);
+    font-size: var(--oc-fs-12);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-header .service-nav {
+    gap: 0;
+  }
+  /* Home: the book page fills the screen; the lettered lines keep their size. */
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page > .page-heading h1 {
+    font-size: var(--oc-fs-28);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .home-page
+    .resume-scene
+    > div:last-child {
+    padding: var(--oc-sp-5) var(--oc-sp-5) var(--oc-sp-5) var(--oc-sp-6);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .resume-scene h2 {
+    font-size: var(--oc-fs-21);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .home-page
+    :is(
+      .home-appointment,
+      .home-bottom > section,
+      .cm-home,
+      .home-recent,
+      .chat-home,
+      .community-home,
+      .home-start
+    ) {
+    padding: var(--oc-sp-4) var(--oc-sp-5) var(--oc-sp-5);
+  }
+  /* One rhythm down the phone's column: every leaf 16 px from the next (the app's 20/28 px
+     margins and the 36 px column gap give way). */
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .home-layout {
+    gap: 0;
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .home-page
+    .home-main
+    :is(
+      .resume-scene,
+      .home-appointment,
+      .home-bottom,
+      .cm-home,
+      .home-recent,
+      .chat-home,
+      .community-home,
+      .home-start
+    ) {
+    margin: 0 0 var(--oc-sp-5);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .home-bottom {
+    gap: var(--oc-sp-5);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .home-bottom > section {
+    margin: 0;
+  }
+  /* Sheet: the book keeps its frame, with phone margins. */
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    [data-ext-slot="route:characters"]
+    > .character-sheet {
+    padding: var(--oc-sp-4) var(--oc-sp-4) var(--oc-sp-5);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-heading
+    h1 {
+    font-size: var(--oc-fs-28);
+  }
+  /* Table: the scene line as a parchment strip under the iron header. */
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout > .table-topline {
+    padding: var(--oc-sp-3) var(--oc-sp-4);
+    border-bottom: var(--oc-bw-2) solid var(--oc-iron-edge);
+    background: var(--oc-paper);
+    color: var(--oc-ink);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout > .table-topline h1 {
+    font-size: var(--oc-fs-18);
+  }
+
+  /* Turn cards: square portraits in iron, the creature in turn in pale gold, enemies in dark
+     red with the skull medallion. */
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token {
+    position: relative;
+    width: var(--oc-ctl-lg);
+    min-height: var(--oc-ctl-lg);
+    padding: 0;
+    border: var(--oc-bw-2) solid var(--oc-iron);
+    border-radius: var(--oc-radius);
+    background: var(--oc-iron-deep);
+    box-shadow: var(--oc-card);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token.current {
+    border-color: var(--oc-gold-frame);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token:has(.token-dot.hostile) {
+    border-color: var(--oc-foe-frame);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token.current:has(.token-dot.hostile) {
+    border-color: var(--oc-gold-frame);
+    outline: var(--oc-bw-2) solid var(--oc-foe-frame);
+    outline-offset: 0;
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .token-dot {
+    flex: 1;
+    width: 100%;
+    height: auto;
+    border-radius: var(--oc-radius);
+    box-shadow: none;
+  }
+  /* The DM's session prompt starts under the turn cards (they cover the map's top 112 px on
+     a phone), not behind them. */
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout:has(> .initiative)
+    .session-view-hud-stack {
+    top: calc(2 * var(--oc-sp-8) + var(--oc-sp-5) + var(--oc-sp-3));
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token:has(.token-dot.hostile)::after {
+    width: var(--oc-sp-4);
+    height: var(--oc-sp-4);
+  }
+  /* Party cards at the phone's size. */
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .table-party {
+    --oc-party-w: 40px;
+    --oc-party-h: 52px;
+    gap: var(--oc-sp-3);
+  }
+  /* The hotbar: one iron bar; the econ cells keep their shapes (the words stay their names). */
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar {
+    gap: var(--oc-sp-2);
+    padding: var(--oc-sp-3);
+    border-top: var(--oc-bw-2) solid var(--oc-iron-edge);
+    background: var(--oc-iron-bar);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-bar-heading
+    select {
+    padding: 0 var(--oc-sp-2);
+    font-size: var(--oc-fs-13);
+    font-weight: 600;
+  }
+  /* The HP plate keeps the phone's narrow padding, so the four econ cells fit beside it. */
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .hotbar-hp {
+    padding: 0 var(--oc-sp-2);
+  }
+  /* The econ cells as glyph cells (their words stay the names): each a 16 px plum or iron
+     cell 2 px from the next, so all four fit beside the HP (W23 keeps the bar whole). */
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .action-dock.table-hotbar
+    .hotbar-resources
+    .resources {
+    gap: var(--oc-sp-1);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .resources
+    > span {
+    min-width: var(--oc-sp-5);
+    min-height: var(--oc-sp-6);
+    padding: 0;
+    border: 0;
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .resources
+    > span.movement {
+    min-width: 0;
+    padding: 0 var(--oc-sp-1);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    :is(.combat-action, .combat-dock .sm-dock-toggle) {
+    gap: var(--oc-sp-2);
+    min-height: var(--oc-ctl-lg);
+    padding: var(--oc-sp-2) var(--oc-sp-3);
+    border: var(--oc-bw-1) solid var(--oc-iron-line);
+    border-radius: var(--oc-radius);
+    background: var(--oc-iron-tile);
+    color: var(--oc-on-iron);
+    box-shadow: var(--oc-bevel);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    :is(.combat-action:hover, .combat-action.active) {
+    border-color: var(--oc-gem-dark);
+    background: var(--oc-plum);
+    color: #ffffff;
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-group-tag {
+    color: var(--oc-on-iron-dim);
+    font-size: var(--oc-fs-11);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-actions {
+    padding: var(--oc-sp-3);
+    margin: calc(-1 * var(--oc-sp-3));
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar
+    > [data-table="end-turn"] {
+    padding: 0 var(--oc-sp-5);
+    border-radius: var(--oc-radius);
+    gap: var(--oc-sp-3);
+  }
+  /* The sidebar sheet: a parchment page with the iron grabber. */
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    > .table-sidebar-panel {
+    border-top: var(--oc-bw-iron) solid var(--oc-iron);
+    border-left: 0;
+    border-image: linear-gradient(180deg, #5a4e53, #2e272b 30%, #151013 85%, #050405) 1;
+    border-radius: var(--oc-radius);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    > .table-sidebar-panel::before {
+    border-radius: var(--oc-radius);
+    background: var(--oc-iron-line);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    > .table-sidebar-rail {
+    border-top: var(--oc-bw-2) solid var(--oc-iron-edge);
+    border-left: 0;
+    background: var(--oc-iron-bar);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .table-tab-label {
+    font-size: var(--oc-fs-11);
+    line-height: var(--oc-lh-tight);
+  }
+  /* The token menu docks as the app's bottom sheet: the parchment card, 44 px rows. */
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .token-menu.sheet {
+    padding: var(--oc-sp-3) var(--oc-sp-4) calc(var(--oc-sp-4) + env(safe-area-inset-bottom, 0px));
+    border-radius: var(--oc-radius);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .token-menu.sheet
+    :is(.token-menu-item, .token-menu-back, .token-menu-toggle, .token-menu-swatch) {
+    min-height: var(--oc-ctl-lg);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"]) dialog .dialog-heading h2 {
+    font-size: var(--oc-fs-21);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .dialog-body,
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"]) dialog footer {
+    padding-inline: var(--oc-sp-5);
+  }
+  /* A dialog's commands stack full width on a phone, so none of them wraps its words. */
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"]) dialog footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  /* A section's title and its command share the row only when both fit. */
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .section-heading {
+    flex-wrap: wrap;
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .character-sheet
+    .section-heading
+    > .button {
+    max-width: 100%;
+  }
+}
+@media screen and (max-width: 720px) {
+  /* End turn keeps the commands' row: the plate drops the wide tracking, the hourglass stays. */
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .action-dock.table-hotbar
+    > .toolbar
+    > .button.primary[data-table="end-turn"] {
+    padding: 0 var(--oc-sp-4);
+    gap: var(--oc-sp-2);
+    font-size: var(--oc-fs-12);
+    letter-spacing: var(--oc-track-caps);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .action-dock.table-hotbar
+    > .toolbar
+    > .button.primary[data-table="end-turn"]::before {
+    width: var(--oc-sp-4);
+    height: var(--oc-sp-4);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-hp
+    .character-hp-value
+    strong {
+    font-size: var(--oc-fs-28);
+  }
+}
+@media screen and (max-width: 720px) {
+  /* The page pills give the econ cells their room on the phone's first hotbar row. */
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .hotbar-page-tab {
+    padding: 0 var(--oc-sp-3);
+    letter-spacing: 0;
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .resources
+    > span {
+    gap: var(--oc-sp-1);
+  }
+}

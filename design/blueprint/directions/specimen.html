@@ -1,0 +1,45 @@
+<!doctype html>
+<!-- Dev-only component specimen (Phase C, visual-01). Not linked from the app.
+     Root attributes: the ones preferences.mjs:119-147 sets on a default page (code-map §b). -->
+<html
+  lang="it"
+  data-pref-theme="dark"
+  data-pref-font="standard"
+  data-pref-contrast="standard"
+  data-pref-vision="standard"
+  data-pref-names="outline"
+  data-pref-units="metric"
+  data-pref-canvas="on"
+  style="--pref-text-scale: 1; --pref-ui-scale: 1; --pref-panel-opacity: 1"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <!-- Every relative URL resolves from the app root, as in index.html: the stylesheets below
+         and the loader's own paths (directions/<id>/direction.css, assets/…). -->
+    <base href="../" />
+    <title>d20 Studio · Campionario dei componenti</title>
+    <!-- The specimen's own layout first, so the app sheets keep their order after it and the
+         direction sheet stays the last link in <head>. Every rule is under .specimen-page. -->
+    <link rel="stylesheet" href="directions/specimen.css" data-specimen-sheet />
+    <!-- index.html:16-26, same files and order (specimen.mjs checks it against index.html). -->
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="combat.css" />
+    <link rel="stylesheet" href="characters.css" />
+    <link rel="stylesheet" href="character-builder.css" />
+    <link rel="stylesheet" href="library.css" />
+    <link rel="stylesheet" href="campaign.css" />
+    <link rel="stylesheet" href="rest-ui.css" />
+    <link rel="stylesheet" href="forms-ui.css" />
+    <link rel="stylesheet" href="conditions-ui.css" />
+    <link rel="stylesheet" href="preparation.css" />
+    <link rel="stylesheet" href="registry.css" />
+  </head>
+  <body>
+    <div class="specimen-page" id="specimen">
+      <p class="specimen-loading" role="status">Caricamento del campionario…</p>
+    </div>
+    <script type="module" src="directions/specimen.mjs"></script>
+  </body>
+</html>

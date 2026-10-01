@@ -1,0 +1,228 @@
+/* Dev-only component specimen (Phase C, visual-01): the layout of directions/specimen.html.
+   Every rule starts with .specimen-page and names only specimen-* classes, so it never reaches
+   the app (index.html never loads this file) nor the components shown on the page: they keep
+   the app's own stylesheets, the direction sheet and the page background.
+
+   .specimen-page itself sets no inherited property (font, colour, line height): the components
+   inherit from :root and body exactly as inside #app. Only the specimen's own labels set
+   theirs. A stage is the box a component sits in: it contains positioned and fixed
+   components (contain: layout), so the hotbar, the party column, the toast and the tooltip
+   stay inside their cell. */
+
+.specimen-page {
+  display: block;
+  padding: 28px 32px 64px;
+}
+
+/* Labels of the specimen (never a component): a neutral system face at fixed sizes, in the
+   app's text colours so they stay readable over every direction's page background. */
+.specimen-page .specimen-masthead,
+.specimen-page .specimen-section-title,
+.specimen-page .specimen-caption,
+.specimen-page .specimen-loading,
+.specimen-page .specimen-row-title {
+  font-family:
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    sans-serif;
+  font-style: normal;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.specimen-page .specimen-masthead {
+  display: grid;
+  gap: 6px;
+  margin: 0 0 28px;
+  padding: 0 0 18px;
+  border-bottom: 1px dashed rgb(128 128 128 / 0.45);
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+.specimen-page .specimen-masthead-title {
+  color: var(--text);
+  font-size: 22px;
+  font-weight: 650;
+  line-height: 1.2;
+}
+.specimen-page .specimen-masthead-status.is-warning {
+  color: var(--danger);
+  font-weight: 600;
+}
+.specimen-page .specimen-code {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.92em;
+}
+.specimen-page .specimen-section {
+  display: block;
+  margin: 0 0 40px;
+}
+.specimen-page .specimen-section-title {
+  margin: 0 0 4px;
+  color: var(--text);
+  font-size: 17px;
+  font-weight: 650;
+  line-height: 1.3;
+}
+.specimen-page .specimen-section-note {
+  display: block;
+  margin: 0 0 14px;
+  color: var(--muted);
+  font-family:
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    sans-serif;
+  font-size: 12px;
+  line-height: 1.45;
+}
+.specimen-page .specimen-row-title {
+  grid-column: 1 / -1;
+  margin: 6px 0 -6px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1.3;
+}
+.specimen-page .specimen-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  align-items: start;
+  gap: 20px;
+}
+.specimen-page .specimen-grid.is-compact {
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 14px;
+}
+.specimen-page .specimen-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.specimen-page .specimen-cell.is-wide {
+  grid-column: 1 / -1;
+}
+.specimen-page .specimen-cell.is-half {
+  grid-column: span 2;
+}
+.specimen-page .specimen-stage {
+  position: relative;
+  display: block;
+  contain: layout;
+  min-width: 0;
+  padding: 16px;
+  overflow-x: auto;
+  border: 1px dashed rgb(128 128 128 / 0.35);
+  border-radius: 4px;
+}
+.specimen-page .specimen-stage.is-flush {
+  padding: 0;
+}
+.specimen-page .specimen-stage.is-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+/* The HUD floats at the bottom of the Table: the hotbar sits at the stage's foot, the party
+   column (absolute, bottom left) beside it, the resource row above it. */
+.specimen-page .specimen-stage.is-hud {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 330px;
+  padding: 0;
+}
+/* The sidebar as the Table lays it out (styles.css .table-layout): panel and rail are grid
+   items of this stage, in the panel's measured 340 px column (1280–1599 px windows); the
+   height is set by specimen.mjs to the panel's content, so nothing scrolls out of view. */
+.specimen-page .specimen-stage.is-sidebar {
+  display: grid;
+  grid-template-columns: 0 340px 56px;
+  grid-template-rows: minmax(0, 1fr);
+  justify-content: start;
+  padding: 0;
+}
+.specimen-page .specimen-stage.is-column {
+  width: 340px;
+  max-width: 100%;
+  padding: 0;
+}
+.specimen-page .specimen-stage.is-map {
+  width: 900px;
+  max-width: 100%;
+  padding: 0;
+}
+.specimen-page .specimen-stage.is-tools {
+  min-height: 360px;
+  padding: 0;
+}
+/* Dialogs, the toast and the tooltip are positioned by the app's own CSS (absolute when
+   open inline, fixed for the toast and the tooltip): the stage gives them room. */
+.specimen-page .specimen-stage.is-dialog {
+  min-height: 260px;
+}
+.specimen-page .specimen-stage.is-toast {
+  height: 84px;
+}
+.specimen-page .specimen-stage.is-tip {
+  height: 120px;
+}
+.specimen-page .specimen-caption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 8px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.4;
+}
+.specimen-page .specimen-name {
+  color: var(--text);
+  font-weight: 600;
+}
+.specimen-page .specimen-class {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 11.5px;
+  overflow-wrap: anywhere;
+}
+.specimen-page .specimen-source {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 10.5px;
+  opacity: 0.8;
+}
+.specimen-page .specimen-loading {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+@media (max-width: 720px) {
+  .specimen-page {
+    padding: 16px 16px 48px;
+  }
+  .specimen-page .specimen-grid,
+  .specimen-page .specimen-grid.is-compact {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .specimen-page .specimen-cell.is-half {
+    grid-column: auto;
+  }
+  /* On a phone the Table is one column (styles.css 720 px block): panel and rail stack. */
+  .specimen-page .specimen-stage.is-sidebar {
+    display: flex;
+    flex-direction: column;
+  }
+  .specimen-page .specimen-stage.is-hud {
+    min-height: 0;
+  }
+  /* The phone turn order overlaps the map by its own height (margin-bottom: -112px). */
+  .specimen-page .specimen-stage.is-initiative {
+    min-height: 150px;
+  }
+  /* A phone toast wraps to three lines and sits 22 px above the stage's foot. */
+  .specimen-page .specimen-stage.is-toast {
+    height: 150px;
+  }
+}

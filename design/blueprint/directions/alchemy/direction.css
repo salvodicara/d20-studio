@@ -1,1 +1,4955 @@
-/* Direction «alchemy» — Phase C round 1 «Scelta 1 — Direzione» (I-248). Skeleton: the builder fills it. */
+/* Direction «8 · Alchemy RPG» (id "alchemy") — Phase C round 1 «Scelta 1 — Direzione» (I-248).
+   Loaded by directions/index.mjs only while this direction is active. Dark theme only: every
+   rule starts with :root[data-direction="alchemy"] followed by :not([data-pref-theme="light"])
+   (colours) or :where(:not([data-pref-theme="light"])) (shapes, sizes, type: no added
+   specificity), so the light theme keeps today's look entirely; the eight contrast tokens also
+   skip high contrast, the map-token colours also skip the colour-vision palettes. No markup,
+   text, !important or third-party pixels, fonts, textures or logos. Fix round 01/10/2026: the
+   critic's findings A1–A8 (SOURCES.md «Verifiche»). Facts and reference images (REF-ONLY):
+   ~/Workspace/Codex/d20-studio-visual-assets/references/alchemy/ (facts.md, manifest.md). The
+   Italian table for the owner: SOURCES.md in this folder.
+
+   elemento → prodotto → fonte
+   - base #101217, glass white 4 % + blur, 1 px border fading top → bottom, radii 14 outer /
+     8 inner → Alchemy 1.38 → facts.md §0 [C] `:root` glass variables, `.glass`, rounded-outer
+     / rounded-inner; H1 rail fill #1B1E26, H2 card fill #191B20
+   - accent: «Alchemy Gold» #8A6C3C (accent light #C4B998 for text) on Home and app chrome;
+     inside the game (Tavolo, Scheda) the D&D-5e universe theme red #D2232A → facts.md §0, §1
+     (universe themes: the accent changes per game) [C][D]; T1, S1
+   - type: Lexend 400/600 (Nominee substitute) for UI and stat labels, Unbounded 700/900
+     (Nominee Extended substitute) for titles, tabs, field labels and buttons; tab and button
+     labels as 10 px extended capitals with tracking (small caps here, only from the 14 and 16 px
+     steps); three trackings 0.4 / 1 / 2 px → facts.md «Typography» [C][O]. The faces declare
+     only those four weights, so a weight the app asks for elsewhere (500, 700, 800) renders at
+     the nearest declared one (CSS font matching).
+   - scale (I-250): Tailwind 4 px spacing a1…a24, type 10/12/14/16/18/20/24/30, radii 4/8/10/
+     12/14/30/pill, borders 1/2, controls 40/48 → facts.md §0 [C]
+   - Home: no header bar — logo pill top left, vertical glass rail of round icon buttons at the
+     left edge, profile circle bottom left, service pill top right, white CTA pill; content in a
+     centred 80 % column; «Featured» hero in a 6 px glass bezel; cards #191B20 radius 14 with
+     10 px grey caps metadata; segmented glass tabs; phone: bottom floating glass dock → H1, H2,
+     H3, H9, P1
+   - Scheda: a tall centred modal over the dimmed table, 6 px glass bezel, full-bleed portrait
+     header fading into the near-black body, name in the display face, accent caps kicker,
+     short centred tab strip with a 14 × 3 accent bar, calm stat-block typography, section
+     headings with a full-width 1 px accent rule, external glass pill of commands → S1, S2, D1
+   - Tavolo: the scene full-bleed behind everything with a vignette, translucent corner
+     columns, scene title floating top centre with spaced caps under it, turn order as round
+     portraits (the active one larger, accent ring and glow), round glass tool buttons, the
+     player bar (portrait with an accent ring on a split HP bar), the Lumen dice hotbar as one
+     glass pill, the bottom trio (white-ringed FAB between round glass buttons), END TURN as a
+     white pill → T1, T2, T5, T6, T16, T19; facts.md §1 copy plan
+   - dialogs: 60 % black backdrop, 6 px glass bezel, header art fading into the body,
+     extended-black title, inputs with a 2 px white 10 % border turning accent on focus, white
+     pill primary, close as a round glass button outside the modal → D1, D6, D7, P5
+   - menus: popover rgba(13 20 28 / .85) + blur, radius 14, rows radius 8, destructive red →
+     T4; facts.md §1 «Token context menu»
+   - icons: in the game and the service buttons Alchemy's thin stroked line icons → Lucide
+     1.49.0 (ISC) at stroke 1.5 (icons.mjs); the Home rail and dock filled → Font Awesome Free
+     7.3.1 solid (CC BY 4.0) as CSS masks; white active / white 50 % inactive → facts.md
+     «Iconography», T1, T2, H1
+   - brand (d20 logo, wordmark) pinned to today's look → code-map §0.5 */
+
+/* ------------------------------------------------------------------ fonts (vendored, OFL) */
+/* One face per weight of the system (Lexend 400 / 600, Unbounded 700 / 900), all from the same
+   variable files: the wght axis is clamped to the face's single weight, and CSS font matching
+   sends any other requested weight to the nearest declared face (500 → 400, 700 and 800 → 600 in
+   Lexend; 400–600 → 700, 800 → 900 in Unbounded), so only four weights ever render. */
+@font-face {
+  font-family: "Lexend";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../../assets/fonts/lexend/lexend-latin-wght-normal.woff2") format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Lexend";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../../assets/fonts/lexend/lexend-latin-ext-wght-normal.woff2") format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
+}
+@font-face {
+  font-family: "Lexend";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../../assets/fonts/lexend/lexend-latin-wght-normal.woff2") format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Lexend";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../../assets/fonts/lexend/lexend-latin-ext-wght-normal.woff2") format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
+}
+@font-face {
+  font-family: "Unbounded";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../../assets/fonts/unbounded/unbounded-latin-wght-normal.woff2") format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Unbounded";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../../assets/fonts/unbounded/unbounded-latin-ext-wght-normal.woff2") format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
+}
+@font-face {
+  font-family: "Unbounded";
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("../../assets/fonts/unbounded/unbounded-latin-wght-normal.woff2") format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Unbounded";
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("../../assets/fonts/unbounded/unbounded-latin-ext-wght-normal.woff2") format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
+}
+
+/* ------------------------------------------------------------------ scale (I-250) */
+/* ONE spacing scale, ONE type scale, the radii, border widths, control heights and avatar
+   sizes of Alchemy 1.38's Tailwind theme (facts.md §0 [C]). Every padding, margin, gap, font
+   size, line height, radius and border width this file sets uses them; the app's own --space-*,
+   --text-*, --radius-* and --label-tracking are mapped onto the same steps, so every area of
+   the app follows the one scale. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) {
+  /* Spacing: Alchemy's a-scale (0.25 rem = 4 px steps): a0.5 2, a1 4, a1.5 6 (the glass bezel),
+     a2 8, a3 12, a4 16, a6 24, a8 32, a12 48, a16 64, a24 96. */
+  --al-sp-05: 2px;
+  --al-sp-1: 4px;
+  --al-sp-15: 6px;
+  --al-sp-2: 8px;
+  --al-sp-3: 12px;
+  --al-sp-4: 16px;
+  --al-sp-6: 24px;
+  --al-sp-8: 32px;
+  --al-sp-12: 48px;
+  --al-sp-16: 64px;
+  --al-sp-24: 96px;
+  /* Type: Alchemy's Tailwind sizes 2xs 10, xs 12/16, sm 14/20, base 16/24, lg 18/28, xl 20/28,
+     2xl 24/32, 3xl 30/36 (line heights as ratios, so the text-size preference keeps them);
+     article body 14/26. Same calc form as preferences.css. */
+  --al-fs-2xs: calc(10px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --al-fs-xs: calc(12px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --al-fs-sm: calc(14px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --al-fs-base: calc(16px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --al-fs-lg: calc(18px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --al-fs-xl: calc(20px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --al-fs-2xl: calc(24px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --al-fs-3xl: calc(30px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --al-lh-2xs: 1.2;
+  --al-lh-xs: 1.3333;
+  --al-lh-sm: 1.4286;
+  --al-lh-base: 1.5;
+  --al-lh-lg: 1.5556;
+  --al-lh-xl: 1.4;
+  --al-lh-2xl: 1.3333;
+  --al-lh-3xl: 1.2;
+  --al-lh-prose: 1.8571;
+  /* Capitals: Alchemy sets tabs, labels and buttons as 10–12 px extended UPPERCASE. Without
+     text-transform the same capitals are small caps, which Blink and WebKit synthesise at 0.7
+     of the size: the sm step (14 px) gives 10 px capitals (tabs, buttons, kickers), the base
+     step (16 px) 11 px (form labels, Alchemy's 12 px). Tracking: tab bars 2 px, labels 1 px,
+     buttons 0.4 px [C]. */
+  --al-fs-caps: var(--al-fs-sm);
+  --al-fs-caps-lg: var(--al-fs-base);
+  --al-track-tab: 2px;
+  --al-track-label: 1px;
+  --al-track-button: 0.4px;
+  /* Weights: two per family (the faces above declare only these). Stat labels («ARMOR CLASS»,
+     «STR» in S2) are the UI face in bold caps, not the extended one. */
+  --al-fw-ui: 400;
+  --al-fw-ui-strong: 600;
+  --al-fw-display: 700;
+  --al-fw-black: 900;
+  /* Radii: rounded-mini 4, rounded-inner 8, rounded-chip-inner 10, rounded-a3 12,
+     rounded-outer 14, the segmented list 30, pills and round buttons. */
+  --al-r-mini: 4px;
+  --al-r-inner: 8px;
+  --al-r-chip: 10px;
+  --al-r-a3: 12px;
+  --al-r-outer: 14px;
+  --al-r-seg: 30px;
+  --al-r-pill: 999px;
+  --al-r-round: 50%;
+  /* Borders: 1 px glass and dividers, 2 px inputs, message field and portrait rings, 4 px the
+     FAB's white ring. */
+  --al-bw: 1px;
+  --al-bw-2: 2px;
+  --al-bw-4: 4px;
+  /* Controls: every target 40 px (Alchemy's 32 px pills and 36 px round buttons grow to our
+     40 px floor), 48 px rail buttons, FAB, inputs and segmented pills (size-a12), the dice
+     hotbar 56 px (40 px slots + 2 × a2). Avatars: 32 journal, 44 party and turn order, 56 the
+     active turn, 72 the player bar. */
+  --al-h-control: 40px;
+  --al-h-large: 48px;
+  --al-h-hotbar: 56px;
+  --al-av-sm: 32px;
+  --al-av-md: 44px;
+  --al-av-lg: 56px;
+  --al-av-xl: 72px;
+  --al-blur: 50px;
+  /* Fixed sizes (not spacing): icons 20 (Alchemy's 20–24 px glyphs) and 16 inside compact
+     controls (action slots, «Tutte», the portrait pen), the logo 28, counters 20, the active
+     tab bar 14 × 3, the glass bezel art: the Featured hero 360 (400 on a phone), the sheet
+     portrait 320 (240 on a phone), the sheet modal 1008 (996 inside), the hero copy 560, the scene title
+     520, turn-order columns 80 (the active one 96, so «Esploratore» and «Turno attuale» fit),
+     check boxes 20, the summary cards' minimum widths 128 (spells) and 240 (inventory). */
+  --al-icon: 20px;
+  --al-icon-sm: 16px;
+  --al-logo: 28px;
+  --al-count: 20px;
+  --al-bar-w: 14px;
+  --al-bar-h: 3px;
+  --al-hero-h: 360px;
+  --al-hero-h-phone: 400px;
+  --al-portrait-h: 320px;
+  --al-portrait-h-phone: 240px;
+  --al-modal-w: 1008px;
+  --al-copy-w: 560px;
+  --al-title-w: 520px;
+  --al-turn-w: 80px;
+  --al-turn-w-current: 96px;
+  --al-check: 20px;
+  --al-card-min: 128px;
+  --al-card-min-wide: 240px;
+  /* The app's own steps on the same scale. */
+  --space-1: var(--al-sp-1);
+  --space-2: var(--al-sp-2);
+  --space-3: var(--al-sp-3);
+  --space-4: var(--al-sp-4);
+  --space-5: var(--al-sp-6);
+  --space-6: var(--al-sp-8);
+  --space-7: var(--al-sp-12);
+  --space-8: var(--al-sp-16);
+  --radius-xs: var(--al-r-mini);
+  --radius-sm: var(--al-r-inner);
+  --radius-md: var(--al-r-outer);
+  --radius-lg: var(--al-r-outer);
+  --radius-pill: var(--al-r-pill);
+  --radius: var(--al-r-outer);
+  --text-2xs: var(--al-fs-2xs);
+  --text-xs: var(--al-fs-xs);
+  --text-sm: var(--al-fs-sm);
+  --text-md: var(--al-fs-base);
+  --text-lg: var(--al-fs-lg);
+  --text-xl: var(--al-fs-xl);
+  --text-2xl: var(--al-fs-2xl);
+  --text-3xl: var(--al-fs-3xl);
+  --label-tracking: var(--al-track-label);
+  /* Fonts: Lexend for the UI (Nominee), Unbounded for titles and labels (Nominee Extended). */
+  --font-ui: "Lexend", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  --font-display: "Unbounded", "Lexend", system-ui, sans-serif;
+  --font-label: "Unbounded", "Lexend", system-ui, sans-serif;
+  /* The brand keeps today's serif wordmark (code-map §0.5). */
+  --al-font-brand:
+    "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", "URW Palladio L", Georgia,
+    serif;
+}
+
+/* ------------------------------------------------------------------ palette (dark only) */
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) {
+  /* Alchemy's theme object g5 and the :root glass variables [C]. */
+  --al-bg: #101217;
+  --al-card: #191b20;
+  --al-card-glass: rgb(36 39 49 / 0.9);
+  --al-section: rgb(36 39 49 / 0.5);
+  --al-popover: rgb(13 20 28 / 0.85);
+  --al-glass: rgb(255 255 255 / 0.04);
+  --al-glass-dark: rgb(36 39 49 / 0.5);
+  --al-glass-border: rgb(255 255 255 / 0.1);
+  --al-divider: rgb(255 255 255 / 0.1);
+  --al-divider-subtle: rgb(255 255 255 / 0.04);
+  --al-hover: rgb(255 255 255 / 0.1);
+  --al-pill: rgb(255 255 255 / 0.05);
+  --al-active: #32353c;
+  --al-white: #ffffff;
+  --al-white-50: #8d8e93;
+  --al-muted-grey: #242731;
+  --al-form: rgb(0 0 0 / 0.14);
+  --al-backdrop: rgb(0 0 0 / 0.6);
+  --al-green: #289c61;
+  --al-green-text: #3db879;
+  --al-red: #df343d;
+  --al-red-text: #f2676c;
+  --al-yellow: #f1c40f;
+  --al-orange: #ffa300;
+  --al-purple: #a57bf0;
+  --al-teal: #a2cdc2;
+  --al-hp-bar: #225a47;
+  /* Default theme «Alchemy Gold»: the accent for rules, bars, rings and white-pill text; the
+     accent light for text on the dark base (the accent itself reads 3.8:1 there). */
+  --al-accent: #8a6c3c;
+  --al-accent-text: #c4b998;
+  --al-shadow-glass: 0 1px 0 0 rgb(0 0 0 / 0.16);
+  --al-shadow: 0 2px 8px rgb(0 0 0 / 0.4);
+  --al-shadow-popover: 0 2px 12px 0 rgb(0 0 0 / 0.5);
+  --al-glow: 0 0 12px var(--al-accent);
+  --al-text-shadow: 0 2px 4px rgb(0 0 0 / 0.4);
+  /* The app's tokens. */
+  --bg: var(--al-bg);
+  --surface: var(--al-card);
+  --raised: var(--al-muted-grey);
+  --canvas: var(--al-bg);
+  /* The app's «accent» is Alchemy's active state: white (white pills with accent text, white
+     active labels, white 10 % active fills); the theme colour itself is --al-accent, used by
+     this file where Alchemy uses it (bars, rules, rings, kickers, pill text). */
+  --accent: var(--al-white);
+  --accent-ink: var(--al-accent);
+  --danger: var(--al-red-text);
+  --positive: var(--al-green-text);
+  --surface-2: #15171c;
+  --sunken: #0e0f14;
+  --header-bg: var(--al-bg);
+  --sidebar-bg: var(--al-card);
+  --rail-bg: var(--al-bg);
+  --hotbar-bg: var(--al-popover);
+  --float-bg: var(--al-popover);
+  --float-border: var(--al-glass-border);
+  --scrim: var(--al-backdrop);
+  --accent-strong: var(--al-accent-text);
+  --accent-soft: var(--al-hover);
+  --accent-line: rgb(255 255 255 / 0.2);
+  --danger-strong: var(--al-red);
+  --danger-ink: var(--al-white);
+  --danger-soft: rgb(223 52 61 / 0.16);
+  --positive-strong: var(--al-green);
+  --positive-soft: rgb(40 156 97 / 0.16);
+  --warning: var(--al-yellow);
+  --warning-soft: rgb(241 196 15 / 0.14);
+  --info: var(--al-teal);
+  --info-soft: rgb(162 205 194 / 0.14);
+  --toast-bg: var(--al-popover);
+  --toast-ink: var(--al-white);
+  --toast-error-bg: var(--al-popover);
+  --toast-error-ink: var(--al-red-text);
+  --hp-full: var(--al-green);
+  --hp-mid: var(--al-yellow);
+  --hp-low: var(--al-red);
+  --hp-down: #6e1e22;
+  --hp-temp: var(--al-teal);
+  --hp-track: rgb(255 255 255 / 0.08);
+  --res-action: var(--al-green);
+  --res-bonus: var(--al-orange);
+  --res-reaction: var(--al-purple);
+  --res-move: var(--al-yellow);
+  --res-slot: var(--al-teal);
+  --res-pact: var(--al-purple);
+  --res-spent: #42485a;
+  --endturn-bg: var(--al-white);
+  --door-fill: var(--al-bg);
+  --door-ink: var(--al-white);
+  --status-conditions: var(--al-orange);
+  --shadow-1: var(--al-shadow-glass);
+  --shadow-2: var(--al-shadow);
+  --shadow-3: var(--al-shadow-popover);
+  --keyline-dark: rgb(0 0 0 / 0.4);
+  color-scheme: dark;
+}
+/* The eight contrast-sensitive tokens: high contrast keeps its own. */
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]) {
+  --text: var(--al-white);
+  --muted: #a0a1a6;
+  --line: var(--al-divider);
+  --focus: var(--al-accent-text);
+  --line-strong: rgb(255 255 255 / 0.2);
+  --frame: var(--al-glass-border);
+  --frame-soft: var(--al-pill);
+  --placeholder: var(--al-white-50);
+}
+/* Inside the game the D&D-5e universe theme recolours everything with its red (T1, S1;
+   the help article's example accent #D2232A); text uses a lighter red for AA. */
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]):has(
+    .workspace.is-table,
+    .character-sheet
+  ) {
+  --al-accent: #d2232a;
+  --al-accent-text: #f2676c;
+}
+/* Map-token and turn colours (skipped by the colour-vision palettes). */
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  ) {
+  --turn-current: var(--al-white);
+  --turn-ally: var(--al-green);
+  --turn-enemy: var(--al-red);
+  --turn-done: #42485a;
+  --token-ally-fill: var(--al-muted-grey);
+  --token-ally-ring: rgb(255 255 255 / 0.85);
+  --token-hostile-fill: #3a1a1d;
+  --token-hostile-ring: var(--al-red);
+  --token-initial: var(--al-white);
+  --token-label: var(--al-white);
+  --token-label-halo: var(--al-bg);
+  --door-rim: var(--al-accent-text);
+}
+
+/* ------------------------------------------------------------------ base */
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) body {
+  background:
+    radial-gradient(120% 60% at 50% 0%, rgb(255 255 255 / 0.04), transparent 70%) fixed,
+    var(--al-bg);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) body {
+  font-family: var(--font-ui);
+}
+/* The demo strip is the blueprint's, not Alchemy's: it keeps today's system face, so its height
+   is the same in every option (96 px on the phone; Lexend's wider words made it 127). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .demo-strip,
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .demo-strip select {
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
+}
+/* The table: the body lets the scene behind it show (A1). The blurred, dimmed scene is the
+   #app::before layer of the Tavolo section; html keeps the base colour under it. */
+:root[data-direction="alchemy"][data-sample-map="on"]:not([data-pref-theme="light"])
+  body:has(.workspace.is-table) {
+  background: transparent;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) ::selection {
+  background: var(--al-accent);
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) * {
+  scrollbar-color: var(--al-divider) transparent;
+}
+/* Headings: Nominee Extended → Unbounded Bold, sentence case (Alchemy's «Featured», «What's
+   New», about 18 px). The page title 24; 30 px Black only for the hero, the sheet name and
+   modal titles (D1 «v1.37.0»). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) h1,
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) h2 {
+  font-family: var(--font-display);
+  font-weight: var(--al-fw-display);
+  letter-spacing: 0;
+  line-height: var(--al-lh-2xl);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) h1 {
+  font-size: var(--al-fs-2xl);
+  margin-bottom: var(--al-sp-2);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) h2 {
+  font-size: var(--al-fs-2xl);
+  line-height: var(--al-lh-2xl);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) h3 {
+  font-family: var(--font-ui);
+  font-size: var(--al-fs-base);
+  font-weight: var(--al-fw-ui-strong);
+  line-height: var(--al-lh-base);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) small {
+  font-size: var(--al-fs-xs);
+  line-height: var(--al-lh-xs);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) :is(strong, b) {
+  font-weight: var(--al-fw-ui-strong);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) kbd {
+  font-family: var(--font-ui);
+  font-size: var(--al-fs-2xs);
+  line-height: var(--al-lh-2xs);
+}
+/* Focus: Alchemy's accent outline, at the app's 3 px ring (the AA-safe accent text colour);
+   disclosure summaries get the same ring instead of the browser's 1 px one. */
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  :is(button, a, input, select, textarea, [tabindex]):focus-visible {
+  outline-color: var(--focus);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) summary:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+/* ------------------------------------------------------------------ shared chrome: buttons */
+/* Secondary: Alchemy's dark pill (white 5 % fill and border), white label in 10 px extended
+   black capitals (D7 «ADD ANOTHER ACTION»). Primary: the white pill with accent text (H1
+   «CREATE», D6). Quiet: the bare caps label. All pills, 40 px tall. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) :where(.button) {
+  min-height: var(--al-h-control);
+  padding: 0 var(--al-sp-4);
+  border-width: var(--al-bw);
+  border-radius: var(--al-r-pill);
+  gap: var(--al-sp-2);
+  font-family: var(--font-label);
+  font-size: var(--al-fs-caps);
+  font-weight: 900;
+  line-height: var(--al-lh-sm);
+  letter-spacing: var(--al-track-button);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) :where(.button) {
+  border-color: var(--al-pill);
+  background: var(--al-pill);
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  :where(.button):hover:not(:disabled) {
+  border-color: var(--al-glass-border);
+  background: var(--al-hover);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  :where(.button):active:not(:disabled) {
+  background: var(--al-pill);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) :where(.button.primary) {
+  border-color: var(--al-white);
+  background: var(--al-white);
+  color: var(--al-accent);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  :where(.button.primary):hover:not(:disabled) {
+  border-color: var(--al-accent-text);
+  background: var(--al-accent-text);
+  color: var(--al-bg);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) :where(.button.quiet) {
+  border-color: transparent;
+  background: transparent;
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  :where(.button.quiet):hover:not(:disabled) {
+  background: var(--al-hover);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) :where(.button.danger) {
+  border-color: color-mix(in srgb, var(--al-red) 50%, transparent);
+  background: transparent;
+  color: var(--al-red-text);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  :where(.button.danger):hover:not(:disabled) {
+  border-color: var(--al-red);
+  background: var(--al-red);
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) :where(.button.active) {
+  border-color: var(--al-glass-border);
+  background: var(--al-active);
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) button:disabled {
+  opacity: 0.5;
+}
+/* Icon buttons: Alchemy's round glass buttons (36 px in the game, 40 px here). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) :where(.icon-button) {
+  width: var(--al-h-control);
+  height: var(--al-h-control);
+  padding: 0;
+  border-radius: var(--al-r-round);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) :where(.icon-button) {
+  color: var(--al-white-50);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) :where(.icon-button):hover {
+  background: var(--al-hover);
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) :where(.icon) {
+  width: var(--al-icon);
+  height: var(--al-icon);
+}
+/* One glyph size in every pill button (the app shrinks a few to 18 or 19 px). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .button .icon,
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .action-dock.table-hotbar
+  > .toolbar
+  .button
+  .icon {
+  flex: none;
+  width: var(--al-icon);
+  height: var(--al-icon);
+}
+/* Text buttons: Alchemy's bare caps link beside a CTA («FIND A GAME», H1). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) :where(.text-button) {
+  min-height: var(--al-h-control);
+  padding: 0;
+  font-family: var(--font-label);
+  font-size: var(--al-fs-caps);
+  font-weight: 900;
+  letter-spacing: var(--al-track-button);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) :where(.text-button) {
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  :where(.text-button):hover:not(:disabled) {
+  color: var(--al-accent-text);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) a {
+  color: var(--al-accent-text);
+}
+
+/* ------------------------------------------------------------------ shared chrome: fields */
+/* Alchemy's form grammar (D6, D7): labels in extended caps, inputs 48 px with a 2 px white
+   10 % border that turns accent on focus, on the form background (black 14 %), radius 8.
+   Inline number and text fields (the d20 of the initiative dialog, the damage amount) use the
+   same recipe at the 40 px control height; check boxes are 20 px in the accent (A6). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  :is(input[type="number"], input[type="text"], .dt-amount, .ct-start-d20 input) {
+  min-height: var(--al-h-control);
+  padding: 0 var(--al-sp-3);
+  border-width: var(--al-bw-2);
+  border-style: solid;
+  border-radius: var(--al-r-inner);
+  font-family: var(--font-ui);
+  font-size: var(--al-fs-sm);
+  font-weight: var(--al-fw-ui);
+  line-height: var(--al-lh-sm);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  :is(input[type="number"], input[type="text"], .dt-amount, .ct-start-d20 input) {
+  border-color: var(--al-divider);
+  background: var(--al-form);
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  :is(input[type="number"], input[type="text"], .dt-amount, .ct-start-d20 input):focus-visible {
+  border-color: var(--al-accent);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  input:is([type="checkbox"]:not([role="switch"], .switch, .cs-switch input), [type="radio"]) {
+  flex: none;
+  inline-size: var(--al-check);
+  block-size: var(--al-check);
+  margin: 0;
+  border: var(--al-bw-2) solid;
+  border-radius: var(--al-r-mini);
+  appearance: none;
+  background: center / var(--al-sp-4) no-repeat;
+  cursor: pointer;
+}
+/* Radios are round (the same weight as the shared rule above, later, so it wins). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  input[type="radio"]:not([role="switch"], .switch, .cs-switch input) {
+  border-radius: var(--al-r-round);
+}
+/* Off: the form well with the 2 px white 10 % rim; on: the accent fill with a white check
+   (Lucide «check», ISC) or a white dot — the mark, not the colour, says it is on. */
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  input:is([type="checkbox"]:not([role="switch"], .switch, .cs-switch input), [type="radio"]) {
+  border-color: var(--al-glass-border);
+  background-color: var(--al-form);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  input:is(
+    [type="checkbox"]:not([role="switch"], .switch, .cs-switch input),
+    [type="radio"]
+  ):hover {
+  border-color: var(--line-strong);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  input[type="checkbox"]:not([role="switch"], .switch, .cs-switch input):checked {
+  border-color: var(--al-accent);
+  background-color: var(--al-accent);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) input[type="radio"]:checked {
+  border-color: var(--al-accent);
+  background-color: var(--al-accent);
+  box-shadow: inset 0 0 0 var(--al-sp-1) var(--al-bg);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) :where(.field) {
+  gap: var(--al-sp-2);
+  margin: 0 0 var(--al-sp-4);
+  font-family: var(--font-label);
+  font-size: var(--al-fs-caps-lg);
+  font-weight: 700;
+  letter-spacing: var(--al-track-label);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  :is(.field input, .field select, .field textarea, input[type="search"]) {
+  min-height: var(--al-h-large);
+  padding: var(--al-sp-3) var(--al-sp-4);
+  border-width: var(--al-bw-2);
+  border-radius: var(--al-r-inner);
+  font-family: var(--font-ui);
+  font-size: var(--al-fs-sm);
+  line-height: var(--al-lh-sm);
+  font-weight: 400;
+  letter-spacing: 0;
+  font-variant-caps: normal;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  :is(.field input, .field select, .field textarea, input[type="search"]) {
+  border-color: var(--al-divider);
+  background: var(--al-form);
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  :is(.field input, .field select, .field textarea, input[type="search"]):hover:not(:disabled) {
+  border-color: var(--al-glass-border);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  :is(.field input, .field select, .field textarea, input[type="search"]):focus-visible {
+  border-color: var(--al-accent);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) select {
+  border-radius: var(--al-r-inner);
+  font-family: var(--font-ui);
+  font-variant-caps: normal;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) select {
+  border-color: var(--al-divider);
+  background-color: var(--al-form);
+  color: var(--al-white);
+}
+/* The settings switch sits on the 2 px step beside its first line (the app nudges it 3 px). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .cs-switch input {
+  margin: var(--al-sp-05) 0 0;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) input,
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) textarea {
+  caret-color: var(--al-accent-text);
+  accent-color: var(--al-accent);
+}
+
+/* ------------------------------------------------------------------ shared chrome: chips */
+/* Chips: Alchemy's dark caps pill («ALL AGES», «GM»): white 5 % fill, 10 px extended caps. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) :where(.badge) {
+  gap: var(--al-sp-1);
+  padding: var(--al-sp-05) var(--al-sp-2);
+  border-width: var(--al-bw);
+  border-radius: var(--al-r-pill);
+  font-family: var(--font-label);
+  font-size: var(--al-fs-caps);
+  font-weight: 700;
+  line-height: var(--al-lh-sm);
+  letter-spacing: var(--al-track-label);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) :where(.badge) {
+  border-color: var(--al-pill);
+  background: var(--al-pill);
+  color: var(--al-white);
+}
+
+/* ------------------------------------------------------------------ shared chrome: tabs */
+/* Tab bars: 10 px extended black capitals, tracking 2 px, white 50 % → white, and a short
+   accent bar (14 × 3) centred under the open label, not a full underline (T1, S1). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) :where(.tabs) {
+  gap: var(--al-sp-2);
+  margin-bottom: var(--al-sp-6);
+  border-bottom-width: var(--al-bw);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) :where(.tabs) {
+  border-bottom-color: var(--al-divider);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) :where(.tabs button) {
+  min-height: var(--al-h-large);
+  padding: 0 var(--al-sp-4);
+  border-bottom: 0;
+  font-family: var(--font-label);
+  font-size: var(--al-fs-caps);
+  font-weight: 900;
+  letter-spacing: var(--al-track-tab);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) :where(.tabs button) {
+  color: var(--al-white-50);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) :where(.tabs button):hover {
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .tabs
+  button:is(.active, .is-fallback) {
+  background: linear-gradient(var(--al-accent), var(--al-accent)) 50% 100% / var(--al-bar-w)
+    var(--al-bar-h) no-repeat;
+  color: var(--al-white);
+}
+
+/* ------------------------------------------------------------------ shared chrome: panels */
+/* Cards and panels: Alchemy's card (#191B20, radius 14) with the glass border that fades from
+   white 10 % at the top to nothing at the bottom (drawn as a gradient border). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) :where(.panel) {
+  padding: var(--al-sp-6);
+  border-width: var(--al-bw);
+  border-radius: var(--al-r-outer);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) :where(.panel) {
+  border-color: transparent;
+  background:
+    linear-gradient(var(--al-card), var(--al-card)) padding-box,
+    linear-gradient(180deg, var(--al-glass-border), var(--al-card)) border-box;
+  box-shadow: var(--al-shadow-glass);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) :where(.section-heading) {
+  flex-wrap: wrap;
+  gap: var(--al-sp-3);
+  margin: 0 0 var(--al-sp-4);
+}
+/* A heading's command keeps its pill on one line: when the row is narrow it moves under the
+   title instead of breaking into a two-line pill. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  :where(.section-heading > .button) {
+  white-space: nowrap;
+}
+/* A heading's quiet command is a bare caps link (Alchemy's «SEE ALL»), like the text links
+   beside other headings: no pill inset, so its words line up with the card's edge («Tutte le
+   discussioni» under «Tutte le campagne»); hover lights the words. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .section-heading
+  > .button.quiet {
+  min-inline-size: var(--al-h-control);
+  padding: 0;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .section-heading
+  > .button.quiet:hover:not(:disabled) {
+  background: transparent;
+  color: var(--al-accent-text);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) :where(.section-heading h2) {
+  font-size: var(--al-fs-lg);
+  line-height: var(--al-lh-lg);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) :where(.page-heading) {
+  gap: var(--al-sp-6);
+  margin-bottom: var(--al-sp-8);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) :where(.toolbar) {
+  gap: var(--al-sp-2);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) :where(.muted) {
+  font-weight: 400;
+}
+
+/* ------------------------------------------------------------------ shared chrome: header */
+/* Alchemy has no header bar (H1): the logo sits in a small glass pill at the top left, the
+   page links are a vertical glass rail of round icon buttons at the left edge, the profile is
+   a separate circle at the bottom left, and the right holds one floating group. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .app-header:not(.table-header) {
+  gap: var(--al-sp-4);
+  min-height: 0;
+  padding: var(--al-sp-4);
+  border-bottom: 0;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .app-header:not(.table-header) {
+  background: transparent;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .app-header .brand {
+  min-height: var(--al-h-control);
+  padding: 0 var(--al-sp-4) 0 var(--al-sp-2);
+  border-radius: var(--al-r-pill);
+  font-family: var(--al-font-brand);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .app-header .brand {
+  background: var(--al-glass);
+  box-shadow:
+    inset 0 var(--al-bw) 0 var(--al-glass-border),
+    var(--al-shadow-glass);
+  -webkit-backdrop-filter: blur(var(--al-blur));
+  backdrop-filter: blur(var(--al-blur));
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .app-header .brand .logo {
+  width: var(--al-logo);
+  height: var(--al-logo);
+}
+/* The brand keeps today's colours on every page (the game's red theme never reaches it). */
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .app-header .brand {
+  color: #efe7d6;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .app-header .brand :is(.logo, b) {
+  color: #dfbd78;
+}
+/* The service buttons: one glass pill of round icon buttons, top right. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .app-header .service-nav {
+  gap: var(--al-sp-1);
+  padding: var(--al-sp-1);
+  border-radius: var(--al-r-pill);
+}
+/* (No backdrop filter here: it would make the pill the containing block of the profile
+   circle, which is fixed to the viewport.) */
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .app-header .service-nav {
+  background: var(--al-glass);
+  box-shadow:
+    inset 0 var(--al-bw) 0 var(--al-glass-border),
+    var(--al-shadow-glass);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .app-header
+  .service-nav
+  .icon-button {
+  width: var(--al-h-control);
+  height: var(--al-h-control);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .app-header .ext-count {
+  font-family: var(--font-ui);
+}
+/* Desktop: the rail and the profile circle (Alchemy H1: a 60 px pill of 48 px round buttons at
+   a 60 px pitch, vertically centred 16 px from the left edge; the profile 16 px from the
+   bottom). The page leaves the rail its column. */
+@media (min-width: 721px) {
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .app-header:not(.table-header)
+    nav {
+    position: fixed;
+    z-index: 50;
+    top: 50%;
+    left: var(--al-sp-4);
+    flex-direction: column;
+    align-self: auto;
+    gap: var(--al-sp-3);
+    padding: var(--al-sp-15);
+    border-radius: var(--al-r-seg);
+    transform: translateY(-50%);
+  }
+  :root[data-direction="alchemy"]:not([data-pref-theme="light"])
+    .app-header:not(.table-header)
+    nav {
+    background: #1b1e26;
+    box-shadow:
+      inset 0 var(--al-bw) 0 var(--al-glass-border),
+      var(--al-shadow);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .app-header:not(.table-header)
+    .service-nav
+    [data-service="account"] {
+    position: fixed;
+    z-index: 50;
+    bottom: var(--al-sp-4);
+    left: calc(var(--al-sp-4) + var(--al-sp-15));
+    width: var(--al-h-large);
+    height: var(--al-h-large);
+    border: var(--al-bw) solid var(--al-glass-border);
+  }
+  :root[data-direction="alchemy"]:not([data-pref-theme="light"])
+    .app-header:not(.table-header)
+    .service-nav
+    [data-service="account"] {
+    background: var(--al-bg);
+    color: var(--al-white);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .workspace:not(.is-table)
+    > main {
+    padding: var(--al-sp-6) max(var(--al-sp-24), 10vw) var(--al-sp-16);
+  }
+}
+/* The page links as round icon buttons (rail on the desktop, dock on the phone): the words stay
+   their accessible names (visually hidden). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .app-header:not(.table-header)
+  .nav-link {
+  justify-content: center;
+  width: var(--al-h-large);
+  height: var(--al-h-large);
+  min-height: 0;
+  padding: 0;
+  border-radius: var(--al-r-round);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .app-header:not(.table-header)
+  .nav-link
+  > span {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .app-header:not(.table-header)
+  .nav-link
+  .icon {
+  display: block;
+  width: var(--al-icon);
+  height: var(--al-icon);
+}
+/* The rail and dock glyphs are filled (H1, P1): Font Awesome Free solid masks over the
+   (stroked) icon box; the in-game icons stay Alchemy's thin line icons (icons.mjs). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .app-header:not(.table-header)
+  .nav-link[data-nav]
+  .icon {
+  background: currentColor;
+  -webkit-mask: var(--al-glyph) center / contain no-repeat;
+  mask: var(--al-glyph) center / contain no-repeat;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .app-header:not(.table-header)
+  .nav-link[data-nav]
+  .icon
+  > * {
+  visibility: hidden;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .app-header
+  .nav-link[data-nav="home"] {
+  --al-glyph: url("assets/icons/house.svg");
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .app-header
+  .nav-link[data-nav="characters"] {
+  --al-glyph: url("assets/icons/user.svg");
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .app-header
+  .nav-link[data-nav="campaigns"] {
+  --al-glyph: url("assets/icons/user-group.svg");
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .app-header
+  .nav-link[data-nav="library"] {
+  --al-glyph: url("assets/icons/book-open.svg");
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .app-header:not(.table-header)
+  .nav-link {
+  color: var(--al-white-50);
+  background: transparent;
+  box-shadow: none;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .app-header:not(.table-header)
+  .nav-link:hover {
+  background: var(--al-hover);
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .app-header:not(.table-header)
+  .nav-link.active {
+  background: var(--al-active);
+  box-shadow: inset 0 var(--al-bw) 0 #48494f;
+  color: var(--al-white);
+}
+/* Phone: the rail becomes Alchemy's bottom floating glass dock (P1: 48 px round buttons in a
+   glass pill 17 px above the bottom; the page keeps room under its last line). */
+@media (max-width: 720px) {
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .app-header:not(.table-header) {
+    flex-wrap: nowrap;
+    padding: var(--al-sp-3) var(--al-sp-4);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .app-header:not(.table-header)
+    nav {
+    position: fixed;
+    z-index: 50;
+    bottom: var(--al-sp-4);
+    left: 50%;
+    order: 0;
+    flex-wrap: nowrap;
+    justify-content: center;
+    width: max-content;
+    gap: var(--al-sp-2);
+    padding: var(--al-sp-15);
+    border-radius: var(--al-r-seg);
+    transform: translateX(-50%);
+  }
+  :root[data-direction="alchemy"]:not([data-pref-theme="light"])
+    .app-header:not(.table-header)
+    nav {
+    background: rgb(27 30 38 / 0.92);
+    box-shadow:
+      inset 0 var(--al-bw) 0 var(--al-glass-border),
+      var(--al-shadow-popover);
+    -webkit-backdrop-filter: blur(var(--al-blur));
+    backdrop-filter: blur(var(--al-blur));
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .app-header .service-nav {
+    gap: 0;
+    padding: 0;
+  }
+  /* The Table header keeps ONE row, as today: the App menu and the way back are round 40 px
+     glass buttons like the service ones (their words stay their accessible names, as in
+     Alchemy's round buttons); with the service pill tight, the row needs 376 of 390 px. */
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .app-header.table-header
+    > .button:is([data-service="app-menu"], [data-nav="campaign"]) {
+    justify-content: center;
+    inline-size: var(--al-h-control);
+    min-inline-size: var(--al-h-control);
+    gap: 0;
+    padding: 0;
+    font-size: 0;
+    letter-spacing: 0;
+  }
+  /* A fixed band behind the dock (the page's own colour, fading in over 24 px): what scrolls
+     under the dock fades out instead of reading through or around it. */
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .app-header:not(.table-header)::after {
+    content: "";
+    position: fixed;
+    z-index: 49;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    block-size: calc(var(--al-h-large) + 2 * var(--al-sp-15) + 2 * var(--al-sp-4));
+  }
+  :root[data-direction="alchemy"]:not([data-pref-theme="light"])
+    .app-header:not(.table-header)::after {
+    background: linear-gradient(rgb(16 18 23 / 0), var(--al-bg) var(--al-sp-6));
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .workspace:not(.is-table)
+    > main {
+    padding: var(--al-sp-4) var(--al-sp-4) var(--al-sp-24);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) h1 {
+    font-size: var(--al-fs-2xl);
+    line-height: var(--al-lh-2xl);
+  }
+}
+
+/* ------------------------------------------------------------------ shared chrome: dialogs */
+/* Alchemy's modal (D1): a 6 px glass bezel around a #101217 body, radius 14 / 8, on a 60 %
+   black backdrop; header art fading into the body with the title centred on the fade in
+   extended black; a 1 px accent rule under it (Alchemy centres the system glyph on that rule:
+   omitted, rejected-ledger item 3); the close button as a round glass button outside the
+   modal's right edge; footer of pills. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) dialog {
+  padding: var(--al-sp-15);
+  border-width: 0;
+  border-radius: var(--al-r-outer);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) dialog {
+  background: #18191c;
+  box-shadow:
+    inset 0 var(--al-bw) 0 #303133,
+    var(--al-shadow-popover);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) dialog::backdrop {
+  background: var(--al-backdrop);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) dialog > form {
+  overflow: hidden;
+  border-radius: var(--al-r-inner);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) dialog > form {
+  background: var(--al-bg);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .dialog-heading {
+  justify-content: center;
+  gap: var(--al-sp-4);
+  padding: var(--al-sp-16) var(--al-sp-6) var(--al-sp-4);
+  border-bottom-width: var(--al-bw);
+  text-align: center;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .dialog-heading {
+  border-bottom-color: var(--al-accent);
+  background:
+    linear-gradient(180deg, rgb(16 18 23 / 0.1), var(--al-bg) 92%),
+    url("assets/featured-hearth.webp") 50% 40% / cover no-repeat;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .dialog-heading h2 {
+  font-size: var(--al-fs-3xl);
+  font-weight: var(--al-fw-black);
+  line-height: var(--al-lh-3xl);
+  text-shadow: var(--al-text-shadow);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .dialog-body {
+  padding: var(--al-sp-6);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) dialog footer {
+  gap: var(--al-sp-2);
+  padding: var(--al-sp-4) var(--al-sp-6);
+  border-top-width: var(--al-bw);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) dialog footer {
+  border-top-color: var(--al-divider);
+  background: transparent;
+}
+/* The external close pill: a round glass button 12 px outside the modal's right edge (desktop);
+   the modal lets it out of its box (its body keeps its own scroll). */
+@media (min-width: 721px) {
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) #dialog {
+    overflow: visible;
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    #dialog
+    .dialog-heading
+    > [data-close] {
+    position: absolute;
+    top: 0;
+    left: calc(100% + var(--al-sp-3));
+    width: var(--al-h-control);
+    height: var(--al-h-control);
+    margin: var(--al-sp-3);
+  }
+  :root[data-direction="alchemy"]:not([data-pref-theme="light"])
+    #dialog
+    .dialog-heading
+    > [data-close] {
+    background: #18191c;
+    box-shadow:
+      0 0 0 var(--al-sp-3) #18191c,
+      0 0 0 calc(var(--al-sp-3) + var(--al-bw)) var(--al-divider-subtle),
+      var(--al-shadow-popover);
+    color: var(--al-white);
+  }
+}
+/* Phone: Alchemy's modal becomes a full-screen sheet (P5): the header art and the title centred
+   on it, the close as a 40 px round glass button at the top right, the footer pills stacked
+   at full width (A5). */
+@media (max-width: 720px) {
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) #dialog {
+    inline-size: 100vw;
+    max-inline-size: 100vw;
+    block-size: 100dvh;
+    max-block-size: 100dvh;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) #dialog > form {
+    display: flex;
+    flex-direction: column;
+    block-size: 100%;
+    border-radius: 0;
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) #dialog .dialog-heading {
+    padding: var(--al-sp-16) var(--al-sp-12) var(--al-sp-4);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    #dialog
+    .dialog-heading
+    h2 {
+    font-size: var(--al-fs-2xl);
+    line-height: var(--al-lh-2xl);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    #dialog
+    .dialog-heading
+    > [data-close] {
+    position: absolute;
+    top: var(--al-sp-3);
+    right: var(--al-sp-3);
+    flex: none;
+    inline-size: var(--al-h-control);
+    block-size: var(--al-h-control);
+  }
+  :root[data-direction="alchemy"]:not([data-pref-theme="light"])
+    #dialog
+    .dialog-heading
+    > [data-close] {
+    background: var(--al-glass-dark);
+    box-shadow: inset 0 var(--al-bw) 0 var(--al-glass-border);
+    color: var(--al-white);
+    -webkit-backdrop-filter: blur(var(--al-blur));
+    backdrop-filter: blur(var(--al-blur));
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) #dialog .dialog-body {
+    flex: 1 1 auto;
+    max-block-size: none;
+    padding: var(--al-sp-4);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) #dialog footer {
+    flex-wrap: wrap;
+    padding: var(--al-sp-4);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) #dialog footer .button {
+    flex: 1 1 100%;
+    white-space: nowrap;
+  }
+}
+
+/* The initiative dialog's content (A6): the call-out as a glass row, each combatant as a glass
+   row (radius 8, the 1 px top highlight; one left out keeps a dashed rim, with its words in
+   grey), the d20 as the inline field, the total in the display face, sub-lines aligned under
+   the name. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .ct-start-call {
+  margin: 0 0 var(--al-sp-4);
+  padding: var(--al-sp-3) var(--al-sp-4);
+  border-width: 0;
+  border-radius: var(--al-r-inner);
+  font-size: var(--al-fs-sm);
+  line-height: var(--al-lh-sm);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .ct-start-call {
+  background: var(--al-glass);
+  box-shadow: inset 0 var(--al-bw) 0 var(--al-divider);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .ct-start-scene {
+  margin: 0 0 var(--al-sp-4);
+  font-size: var(--al-fs-base);
+  line-height: var(--al-lh-base);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .ct-start-tools {
+  margin: 0 0 var(--al-sp-4);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .ct-start-list {
+  display: grid;
+  gap: var(--al-sp-2);
+  margin: 0;
+  padding: 0;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .ct-start-row {
+  gap: var(--al-sp-2) var(--al-sp-3);
+  padding: var(--al-sp-2) var(--al-sp-3);
+  border-width: var(--al-bw);
+  border-radius: var(--al-r-inner);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .ct-start-row {
+  border-color: transparent;
+  background: var(--al-glass);
+  box-shadow: inset 0 var(--al-bw) 0 var(--al-divider);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .ct-start-row:not(.is-included) {
+  border-color: var(--al-divider);
+  background: transparent;
+  box-shadow: none;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .ct-check {
+  gap: var(--al-sp-2);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .ct-start-row.is-included
+  .ct-start-who::before {
+  min-width: var(--al-sp-6);
+  font-family: var(--font-display);
+  font-weight: var(--al-fw-display);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .ct-start-row.is-included
+  .ct-start-who::before {
+  color: var(--al-accent-text);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .ct-start-who {
+  gap: 0 var(--al-sp-2);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .ct-start-who small {
+  padding-left: calc(var(--al-sp-6) + var(--al-check) + 2 * var(--al-sp-2));
+  font-size: var(--al-fs-xs);
+  line-height: var(--al-lh-xs);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .ct-start-roll {
+  gap: var(--al-sp-2);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .ct-start-d20 {
+  gap: var(--al-sp-2);
+  font-size: var(--al-fs-xs);
+  line-height: var(--al-lh-xs);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .ct-start-d20 input {
+  inline-size: var(--al-sp-16);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .ct-start-total {
+  min-width: var(--al-h-control);
+  padding: 0;
+  font-family: var(--font-display);
+  font-size: var(--al-fs-xl);
+  font-weight: var(--al-fw-display);
+  line-height: var(--al-lh-xl);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .ct-start-total {
+  color: var(--al-white);
+}
+
+/* ------------------------------------------------------------------ shared chrome: menus */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .context-menu {
+  gap: var(--al-sp-05);
+  padding: var(--al-sp-15);
+  border-radius: var(--al-r-outer);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .context-menu {
+  border-color: var(--al-glass-border);
+  background: var(--al-popover);
+  box-shadow: var(--al-shadow-popover);
+  -webkit-backdrop-filter: blur(var(--al-blur));
+  backdrop-filter: blur(var(--al-blur));
+}
+/* Toast: Alchemy's popover glass (Tippy and banners), white text, radius 14. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) #toast {
+  padding: var(--al-sp-3) var(--al-sp-4);
+  border-radius: var(--al-r-outer);
+  font-size: var(--al-fs-sm);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) #toast {
+  border: var(--al-bw) solid var(--al-glass-border);
+  box-shadow: var(--al-shadow-popover);
+  -webkit-backdrop-filter: blur(var(--al-blur));
+  backdrop-filter: blur(var(--al-blur));
+}
+
+/* Notices over the map (the session HUD chips): the same popover glass, radius 14, the words on
+   their own line and the commands under them as 40 px pills — white with accent text for the
+   first, the dark pill for the second (A6; D7). The warning keeps a yellow keyline on the left
+   (with its words, never colour alone) instead of today's amber fill. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .session-view-chip {
+  padding: var(--al-sp-3) var(--al-sp-4);
+  border-width: var(--al-bw);
+  border-radius: var(--al-r-outer);
+  font-size: var(--al-fs-sm);
+  line-height: var(--al-lh-sm);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .session-view-chip,
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .session-view-chip.is-warn {
+  border-color: var(--al-glass-border);
+  background: var(--al-popover);
+  box-shadow: var(--al-shadow-popover);
+  color: var(--al-white);
+  -webkit-backdrop-filter: blur(var(--al-blur));
+  backdrop-filter: blur(var(--al-blur));
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .session-view-chip.is-warn {
+  box-shadow:
+    inset var(--al-bw-2) 0 0 var(--al-yellow),
+    var(--al-shadow-popover);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .session-view-start-chip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--al-sp-2);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .session-view-start-chip
+  .session-view-hud-button {
+  padding: 0 var(--al-sp-4);
+  font-family: var(--font-label);
+  font-size: var(--al-fs-caps);
+  font-weight: var(--al-fw-black);
+  line-height: var(--al-lh-sm);
+  letter-spacing: var(--al-track-button);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .session-view-start-chip
+  .session-view-hud-button[data-sv="start"] {
+  background: var(--al-white);
+  box-shadow: none;
+  color: var(--al-accent);
+}
+
+/* ------------------------------------------------------------------ Home (Inizio) */
+/* H1/H2: sentence-case extended headings, the «Featured» hero in a 6 px glass bezel with the
+   copy at its bottom left and a white pill CTA, cards #191B20 radius 14, tiny grey caps. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .home-page .page-heading h1 {
+  margin: 0 0 var(--al-sp-2);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .home-page .page-heading p {
+  font-size: var(--al-fs-sm);
+  line-height: var(--al-lh-sm);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .home-page .page-heading > .button {
+  border-color: var(--al-white);
+  background: var(--al-white);
+  color: var(--al-accent);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .home-page {
+  --home-gap: var(--al-sp-6);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .home-layout {
+  gap: var(--al-sp-6);
+}
+/* Every Home card 24 px under the one above, at every width (the app mixes 0, 20 and 28 px
+   in the phone's single column). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .home-layout
+  > .home-main
+  > :where(:not([data-ext-slot])),
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .home-layout
+  > .home-main
+  > :where([data-ext-slot])
+  > :where(*) {
+  margin: 0 0 var(--al-sp-6);
+}
+@media (min-width: 1101px) {
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .home-layout {
+    column-gap: var(--al-sp-6);
+  }
+  /* The hero takes the whole column, as Alchemy's Featured carousel. */
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .home-layout
+    .resume-scene {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .home-layout
+    .home-main
+    .home-appointment {
+    grid-row: 3;
+    margin: 0 0 var(--al-sp-6);
+    padding: var(--al-sp-6);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .home-layout
+    > .home-aside {
+    grid-row: 4 / span 24;
+  }
+  /* Under the hero, «Il tuo personaggio», «Dove eravamo rimasti» and the appointment are one
+     row of three equal cards (Alchemy's card rows): the two on the left take the
+     appointment's height instead of leaving a 150 px hole under them. */
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .home-layout
+    .home-main
+    .home-bottom {
+    align-self: stretch;
+    align-items: stretch;
+  }
+}
+/* Featured: the art fills the bezel, the copy sits on its bottom left over a dark fade. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .home-page .resume-scene {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  min-height: var(--al-hero-h);
+  padding: var(--al-sp-15);
+  overflow: hidden;
+  border-width: 0;
+  border-radius: var(--al-r-outer);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .home-page .resume-scene {
+  background: #1b1d22;
+  box-shadow:
+    inset 0 var(--al-bw) 0 #26282d,
+    var(--al-shadow);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .home-page
+  .resume-scene
+  > * {
+  grid-area: 1 / 1;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .home-page
+  .resume-scene
+  .scene-emblem {
+  min-height: 0;
+  border-radius: var(--al-r-inner);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .home-dashboard:not([data-home-art])
+  .home-page
+  .resume-scene
+  .scene-emblem {
+  background:
+    linear-gradient(90deg, rgb(16 18 23 / 0.92), rgb(16 18 23 / 0.35) 55%, transparent),
+    url("assets/featured-hearth.webp") 70% 50% / cover no-repeat,
+    var(--al-bg);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .home-dashboard[data-home-art]
+  .home-page
+  .resume-scene
+  .scene-emblem {
+  background:
+    linear-gradient(90deg, rgb(16 18 23 / 0.92), rgb(16 18 23 / 0.35) 55%, transparent),
+    var(--home-art) center / cover no-repeat,
+    var(--al-bg);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .home-dashboard:not([data-home-art])
+  .home-page
+  .resume-scene
+  .scene-emblem
+  .icon {
+  visibility: hidden;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .home-page
+  .resume-scene
+  > div:last-child {
+  z-index: 1;
+  justify-content: flex-end;
+  max-width: var(--al-copy-w);
+  padding: var(--al-sp-8);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .home-page .resume-scene h2 {
+  margin: 0 0 var(--al-sp-3);
+  font-size: var(--al-fs-3xl);
+  font-weight: 900;
+  line-height: var(--al-lh-3xl);
+  text-shadow: var(--al-text-shadow);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .home-page .resume-scene p {
+  margin: 0 0 var(--al-sp-1);
+  font-size: var(--al-fs-sm);
+  line-height: var(--al-lh-prose);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .home-page
+  .resume-scene
+  h2
+  + p {
+  font-size: var(--al-fs-base);
+  font-weight: 600;
+  line-height: var(--al-lh-base);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .home-page
+  .resume-scene
+  .toolbar {
+  margin-top: var(--al-sp-4);
+  gap: var(--al-sp-6);
+}
+/* The second command reads as Alchemy's bare caps link beside the white pill. */
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .home-page
+  .resume-scene
+  .toolbar
+  > .button:not(.primary) {
+  padding: 0;
+  border-color: transparent;
+  background: transparent;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .home-page
+  .resume-scene
+  .toolbar
+  > .button:not(.primary):hover {
+  color: var(--al-accent-text);
+}
+/* Cards: next session, your character, previously, campaigns, discussions, find a table. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .home-page
+  :is(
+    .home-appointment,
+    .home-bottom > section,
+    .cm-home,
+    .chat-home,
+    .community-home,
+    .home-aside
+  ) {
+  padding: var(--al-sp-6);
+  border: var(--al-bw) solid;
+  border-radius: var(--al-r-outer);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .home-page
+  :is(
+    .home-appointment,
+    .home-bottom > section,
+    .cm-home,
+    .chat-home,
+    .community-home,
+    .home-aside
+  ) {
+  border-color: transparent;
+  background:
+    linear-gradient(var(--al-card), var(--al-card)) padding-box,
+    linear-gradient(180deg, var(--al-glass-border), var(--al-card) 60%) border-box;
+  box-shadow: var(--al-shadow-glass);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .home-page
+  :is(.home-appointment, .home-bottom, .cm-home, .chat-home, .community-home)
+  h2,
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .home-layout
+  .home-appointment
+  h2 {
+  margin: 0 0 var(--al-sp-3);
+  font-size: var(--al-fs-lg);
+  line-height: var(--al-lh-lg);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .home-page .home-bottom {
+  gap: var(--al-sp-6);
+}
+/* Grey caps metadata (H2: «RELEASE NOTES», dates). A discussion's line under its title quotes
+   the last message, so it stays in its own case: grey UI text at 12, like Alchemy's message
+   previews. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .home-page
+  :is(.home-appointment-campaign, .home-news-meta, .home-eyebrow) {
+  font-family: var(--font-label);
+  font-size: var(--al-fs-caps);
+  font-weight: 700;
+  line-height: var(--al-lh-sm);
+  letter-spacing: var(--al-track-label);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .home-page
+  .chat-home-row
+  small {
+  font-family: var(--font-ui);
+  font-size: var(--al-fs-xs);
+  font-weight: var(--al-fw-ui);
+  line-height: var(--al-lh-xs);
+  letter-spacing: 0;
+  font-variant-caps: normal;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .home-page
+  :is(.home-appointment-campaign, .home-news-meta, .home-eyebrow) {
+  color: var(--muted);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .home-page
+  .home-appointment-campaign
+  strong {
+  color: var(--al-accent-text);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .home-page .home-countdown {
+  font-family: var(--font-display);
+  font-size: var(--al-fs-lg);
+  font-weight: var(--al-fw-display);
+  line-height: var(--al-lh-lg);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .home-page .home-countdown {
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .home-page
+  :is(.home-appointment p, .home-bottom p, .cm-home p, .community-home p) {
+  margin-bottom: var(--al-sp-2);
+  font-size: var(--al-fs-sm);
+  line-height: var(--al-lh-sm);
+}
+/* «Il tuo personaggio»: the community card's avatar grammar, a round portrait with an accent
+   ring (party list, T1). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .home-page
+  .character-resume {
+  gap: var(--al-sp-4);
+  padding: var(--al-sp-2) 0;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .home-page
+  .character-resume
+  .portrait {
+  width: var(--al-av-xl);
+  height: var(--al-av-xl);
+  border-width: var(--al-bw-2);
+  border-radius: var(--al-r-round);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .home-page
+  .character-resume
+  .portrait {
+  border-color: var(--al-accent);
+  box-shadow: 0 0 0 var(--al-sp-1) var(--al-bg);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .home-page
+  .character-resume
+  strong {
+  font-family: var(--font-display);
+  font-size: var(--al-fs-lg);
+  font-weight: 700;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .home-page
+  .character-resume
+  small {
+  color: var(--al-accent-text);
+  font-size: var(--al-fs-xs);
+  white-space: nowrap;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .home-page .hp-small {
+  font-family: var(--font-display);
+  font-size: var(--al-fs-lg);
+  font-weight: 700;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .home-page .hp-small small {
+  white-space: nowrap;
+  font-family: var(--font-label);
+  font-size: var(--al-fs-caps);
+  font-weight: 700;
+  letter-spacing: var(--al-track-label);
+  font-variant-caps: all-small-caps;
+}
+/* Right column: Alchemy's segmented glass pill (marketplace GAMES / ASSETS, 48 px, radius 30)
+   for the tabs, then What's New rows. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .home-aside {
+  top: var(--al-sp-4);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .home-tabs {
+  gap: var(--al-sp-1);
+  margin: 0 0 var(--al-sp-4);
+  padding: var(--al-sp-1);
+  border-bottom: 0;
+  border-radius: var(--al-r-seg);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .home-tabs {
+  background: var(--al-glass);
+  box-shadow: inset 0 var(--al-bw) 0 var(--al-glass-border);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .home-tabs [role="tab"] {
+  flex: 1 1 auto;
+  justify-content: center;
+  min-height: var(--al-h-control);
+  padding: 0 var(--al-sp-3);
+  border-bottom: 0;
+  border-radius: var(--al-r-seg);
+  font-family: var(--font-label);
+  font-size: var(--al-fs-caps);
+  font-weight: 900;
+  letter-spacing: var(--al-track-button);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .home-tabs [role="tab"] {
+  color: var(--al-white-50);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .home-tabs [role="tab"]:hover {
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .home-tabs
+  [role="tab"][aria-selected="true"] {
+  background: var(--al-hover);
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .home-count {
+  min-width: var(--al-count);
+  height: var(--al-count);
+  padding: 0 var(--al-sp-15);
+  font-size: var(--al-fs-2xs);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .home-count {
+  background: var(--al-accent);
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .home-news-item {
+  padding: var(--al-sp-4) 0;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .home-news-item,
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .home-news-older {
+  border-top-color: var(--al-divider);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .home-news-item h3 {
+  margin: var(--al-sp-1) 0;
+  font-size: var(--al-fs-sm);
+  font-weight: 600;
+  line-height: var(--al-lh-sm);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .home-news-item .home-desc {
+  font-size: var(--al-fs-sm);
+  line-height: var(--al-lh-sm);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .home-news-item
+  .toolbar
+  .button {
+  padding-inline: var(--al-sp-3);
+  font-size: var(--al-fs-caps);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .home-badge-new {
+  border-color: transparent;
+  background: var(--accent-soft);
+  color: var(--al-accent-text);
+}
+/* Phone: Alchemy's portrait Featured card (P1): the art behind the copy, centred, the white
+   pill under it. */
+@media (max-width: 720px) {
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .home-page .resume-scene {
+    min-height: var(--al-hero-h-phone);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .home-page
+    .resume-scene
+    .scene-emblem {
+    display: block;
+    aspect-ratio: auto;
+    border: 0;
+  }
+  :root[data-direction="alchemy"]:not([data-pref-theme="light"])
+    .home-dashboard:not([data-home-art])
+    .home-page
+    .resume-scene
+    .scene-emblem {
+    background:
+      linear-gradient(180deg, transparent 25%, rgb(16 18 23 / 0.92) 78%),
+      url("assets/featured-hearth.webp") 18% 50% / cover no-repeat,
+      var(--al-bg);
+  }
+  :root[data-direction="alchemy"]:not([data-pref-theme="light"])
+    .home-dashboard[data-home-art]
+    .home-page
+    .resume-scene
+    .scene-emblem {
+    background:
+      linear-gradient(180deg, transparent 25%, rgb(16 18 23 / 0.92) 78%),
+      var(--home-art) center / cover no-repeat,
+      var(--al-bg);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .home-page
+    .resume-scene
+    > div:last-child {
+    align-items: center;
+    padding: var(--al-sp-6) var(--al-sp-4);
+    text-align: center;
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .home-page
+    .resume-scene
+    h2 {
+    font-size: var(--al-fs-2xl);
+    line-height: var(--al-lh-2xl);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .home-page
+    .resume-scene
+    .toolbar {
+    justify-content: center;
+    gap: var(--al-sp-2) var(--al-sp-6);
+  }
+}
+
+/* ------------------------------------------------------------------ Scheda */
+/* S1/S2: the character opens as a tall centred modal over the dimmed table: a 6 px glass
+   bezel around a #101217 body, the portrait full-bleed at the top fading into the body, the
+   name in the display face centred on the fade, an accent kicker, a 1 px accent rule, the
+   short centred tab strip, then calm stat-block typography (labels in extended caps, values
+   in plain text, no boxes) and section headings over a full-width 1 px accent rule. The
+   modal keeps 996 px inside (Alchemy's is 504: our 2024 sheet needs its two columns, so the
+   sheet keeps its own 900–1099 px layout). */
+@media (min-width: 721px) {
+  :root[data-direction="alchemy"][data-sample-map="on"]:not([data-pref-theme="light"])
+    body:has(.character-sheet) {
+    background:
+      radial-gradient(ellipse at center, transparent 55%, rgb(0 0 0 / 0.55)) fixed,
+      linear-gradient(var(--al-backdrop), var(--al-backdrop)) fixed,
+      url("../../assets/maps/sample/old-watch.webp") 50% 50% / cover fixed no-repeat,
+      var(--al-bg);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .character-sheet {
+    position: relative;
+    max-width: var(--al-modal-w);
+    margin: 0 auto;
+    padding: var(--al-sp-15);
+    border-radius: var(--al-r-outer);
+  }
+  :root[data-direction="alchemy"]:not([data-pref-theme="light"]) .character-sheet {
+    background: #18191c;
+    box-shadow:
+      inset 0 var(--al-bw) 0 #303133,
+      var(--al-shadow-popover);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .character-sheet
+    > .character-layout {
+    padding: 0 var(--al-sp-6) var(--al-sp-8);
+    border-radius: var(--al-r-inner);
+  }
+  :root[data-direction="alchemy"]:not([data-pref-theme="light"])
+    .character-sheet
+    > .character-layout {
+    background: var(--al-bg);
+  }
+  /* The external pill of round buttons, 12 px outside the modal's right edge (S1, D1): back
+     (Alchemy's ✕), share and manage; their words stay their names. The privacy chip keeps its
+     words visible, at the art's top right inside the modal (A8). */
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .character-sheet
+    .character-breadcrumb {
+    position: absolute;
+    z-index: 2;
+    top: var(--al-sp-4);
+    left: calc(100% + var(--al-sp-3));
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: var(--al-sp-3);
+    padding: var(--al-sp-2);
+    border-radius: var(--al-r-seg);
+  }
+  :root[data-direction="alchemy"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-breadcrumb {
+    background: #18191c;
+    box-shadow:
+      inset 0 var(--al-bw) 0 #303133,
+      var(--al-shadow-popover);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .character-sheet
+    .character-breadcrumb
+    .clib-privacy {
+    position: absolute;
+    top: var(--al-sp-15);
+    right: calc(100% + var(--al-sp-3) + var(--al-sp-15) + var(--al-sp-4));
+    inline-size: max-content;
+    max-inline-size: none;
+  }
+}
+/* The heading: the portrait (a button: it opens «Aspetto») becomes the full-bleed art of the
+   modal's top; the name, the kicker and the commands sit centred on its fade; a 1 px accent
+   rule 24 px inside the body closes it (Alchemy centres its glyph on that rule: omitted,
+   rejected-ledger item 3). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-heading {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  gap: var(--al-sp-4);
+  margin: 0;
+  padding: 0 0 var(--al-sp-6);
+  text-align: center;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-heading-identity {
+  flex-direction: column;
+  align-items: center;
+  justify-self: stretch;
+  gap: 0;
+}
+/* The art: 320 px tall, from bezel to bezel, the portrait covering the whole width as Alchemy's
+   header art (S1: cropped, full-bleed; A8); the name rises 64 px into its fade. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-heading
+  .character-portrait.character-portrait-button {
+  position: relative;
+  z-index: 0;
+  inline-size: calc(100% + 2 * var(--al-sp-6));
+  block-size: var(--al-portrait-h);
+  margin: 0 calc(-1 * var(--al-sp-6)) calc(-1 * var(--al-sp-16));
+  border-width: 0;
+  border-radius: var(--al-r-inner) var(--al-r-inner) 0 0;
+  background-size: cover;
+  background-position: 50% 34%;
+  box-shadow: none;
+  font-size: var(--al-fs-3xl);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-heading
+  .character-portrait.character-portrait-button {
+  background-color: #0a0d14;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-heading
+  .character-portrait.character-portrait-button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-heading
+  .character-portrait.character-portrait-button::after {
+  background:
+    radial-gradient(ellipse at 50% 30%, transparent 45%, rgb(16 18 23 / 0.6)),
+    linear-gradient(180deg, rgb(16 18 23 / 0.2), transparent 30%, var(--al-bg) 96%);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-heading
+  .character-portrait-button:focus-visible {
+  outline-offset: calc(-1 * var(--al-sp-1));
+}
+/* The pen: a round glass button look at the art's top left (the privacy chip holds the top
+   right, where Alchemy's sheet keeps its visibility toggle in S10). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-heading
+  .character-portrait-edit {
+  z-index: 1;
+  top: var(--al-sp-4);
+  right: auto;
+  bottom: auto;
+  left: var(--al-sp-4);
+  inline-size: var(--al-h-control);
+  block-size: var(--al-h-control);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-heading
+  .character-portrait-edit {
+  background: var(--al-glass-dark);
+  box-shadow: inset 0 var(--al-bw) 0 var(--al-glass-border);
+  color: var(--al-white);
+  -webkit-backdrop-filter: blur(var(--al-blur));
+  backdrop-filter: blur(var(--al-blur));
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-heading
+  .character-portrait-edit
+  .icon {
+  width: var(--al-icon-sm);
+  height: var(--al-icon-sm);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-heading-copy {
+  position: relative;
+  z-index: 1;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-heading
+  h1 {
+  margin: 0 0 var(--al-sp-2);
+  font-size: var(--al-fs-3xl);
+  font-weight: 900;
+  line-height: var(--al-lh-3xl);
+  text-shadow: var(--al-text-shadow);
+}
+/* Kicker: Alchemy's accent line under the name. It holds a number («Livello 3»), which small
+   caps would leave full size, so it keeps its case: accent, medium, tracked. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-heading-line {
+  margin: 0;
+  font-size: var(--al-fs-sm);
+  font-weight: 600;
+  line-height: var(--al-lh-sm);
+  letter-spacing: var(--al-track-label);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-heading-line {
+  color: var(--al-accent-text);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-heading-note {
+  margin: var(--al-sp-1) 0 0;
+  font-size: var(--al-fs-xs);
+  line-height: var(--al-lh-xs);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-heading
+  > .toolbar {
+  position: relative;
+  z-index: 1;
+  justify-content: center;
+  gap: var(--al-sp-2);
+}
+/* Band: STR…CHA in six columns and the vitals under them, as Alchemy's stat block — the label
+   in the UI face's bold caps (S2 «ARMOR CLASS», «STR»), the values in plain text under it
+   («10 +0»: Alchemy writes «12 (+1)»; no generated text here), no boxes, every cell
+   top-aligned (A8); a hover tint marks what can be rolled. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-band {
+  gap: var(--al-sp-2) var(--al-sp-4);
+  margin: 0;
+  padding: var(--al-sp-6) 0;
+  border-top: var(--al-bw) solid var(--al-accent);
+  border-bottom: var(--al-bw) solid var(--al-divider);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-band
+  .shp-abilities {
+  gap: var(--al-sp-4);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-band
+  :is(
+    .shp-ability-box,
+    [data-shp-stat="pb"] .shp-pill,
+    .character-vitals .stat,
+    .character-inspiration
+  ) {
+  gap: var(--al-sp-1);
+  padding: var(--al-sp-2) var(--al-sp-1);
+  border-width: var(--al-bw);
+  border-radius: var(--al-r-inner);
+  align-items: center;
+  text-align: center;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  :is(
+    .shp-ability-box,
+    [data-shp-stat="pb"] .shp-pill,
+    .character-vitals .stat,
+    .character-inspiration
+  ) {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  :is(
+    .shp-ability-box,
+    [data-shp-stat="pb"] .shp-pill,
+    .character-stat-button,
+    .character-inspiration
+  ):hover {
+  border-color: transparent;
+  background: var(--al-hover);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-band
+  :is([data-shp-stat="pb"] .shp-pill, .character-vitals .stat, .character-inspiration) {
+  justify-content: flex-start;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-band
+  .shp-ability-box {
+  flex-flow: row wrap;
+  align-content: flex-start;
+  justify-content: center;
+  column-gap: var(--al-sp-1);
+}
+/* Stat labels, everywhere on the sheet (band, open column, spell and inventory summaries): the
+   UI face 600 in caps from the 16 px step (≈ 11 px capitals), tracking 0.4 (S2). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  :is(
+    .shp-ability-name,
+    .shp-pill-label,
+    .character-vitals .stat > span,
+    .character-band .character-inspiration,
+    .character-main .stat > span,
+    .spl-stat dt,
+    .invp-stat-label
+  ) {
+  font-family: var(--font-ui);
+  font-size: var(--al-fs-caps-lg);
+  font-weight: var(--al-fw-ui-strong);
+  line-height: var(--al-lh-base);
+  letter-spacing: var(--al-track-button);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(
+    .shp-ability-name,
+    .shp-pill-label,
+    .character-vitals .stat > span,
+    .character-band .character-inspiration,
+    .character-main .stat > span,
+    .spl-stat dt,
+    .invp-stat-label
+  ) {
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-band
+  .shp-ability-name {
+  flex-basis: 100%;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-band
+  .shp-ability-box
+  > strong {
+  order: 2;
+  margin: 0;
+  font-size: var(--al-fs-sm);
+  font-weight: 600;
+  line-height: var(--al-lh-sm);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-band
+  .shp-ability-box
+  > small {
+  order: 1;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border-width: 0;
+  font-size: var(--al-fs-sm);
+  line-height: var(--al-lh-sm);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  .shp-ability-box
+  > small {
+  background: transparent;
+  color: var(--muted);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-band
+  :is(
+    [data-shp-stat="pb"] .shp-pill > strong,
+    .character-vitals .stat:not(.character-hp) > strong
+  ) {
+  margin: 0;
+  font-size: var(--al-fs-sm);
+  font-weight: 600;
+  line-height: var(--al-lh-sm);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-band
+  .character-vitals
+  .stat
+  small {
+  font-size: var(--al-fs-xs);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-band
+  .character-inspiration
+  > span:first-child {
+  margin: 0;
+  font-size: var(--al-fs-xl);
+  line-height: var(--al-lh-xl);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  .character-inspiration
+  > span:first-child {
+  color: var(--al-white-50);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  .character-inspiration.is-on
+  > span:first-child {
+  color: var(--al-accent-text);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-hp
+  .character-hp-value
+  strong {
+  font-family: var(--font-display);
+  font-size: var(--al-fs-2xl);
+  font-weight: 700;
+  line-height: var(--al-lh-2xl);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-hp
+  .character-hp-value
+  strong
+  small {
+  font-size: var(--al-fs-xs);
+  line-height: var(--al-lh-xs);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .shp-stats
+  .shp-pill
+  strong {
+  font-size: var(--al-fs-xl);
+  line-height: var(--al-lh-xl);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-hp
+  progress {
+  height: var(--al-sp-15);
+  border: 0;
+  border-radius: var(--al-r-mini);
+  overflow: hidden;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-hp
+  progress {
+  background: var(--hp-track);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-hp
+  progress::-webkit-progress-bar {
+  background: var(--hp-track);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-hp
+  progress::-webkit-progress-value {
+  background: var(--al-green);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-hp
+  .dt-hp-row {
+  gap: var(--al-sp-2);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-hp
+  .dt-amount {
+  min-height: var(--al-h-control);
+  border-width: var(--al-bw-2);
+  border-radius: var(--al-r-inner);
+  font-size: var(--al-fs-sm);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-hp
+  .dt-amount {
+  border-color: var(--al-divider);
+  background: var(--al-form);
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .character-sheet .dt-heal {
+  color: var(--al-green-text);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .character-sheet .dt-damage {
+  color: var(--al-red-text);
+}
+/* Body: no cards inside the modal — sections separated by space and rules. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-body {
+  gap: var(--al-sp-8) var(--al-sp-6);
+  margin-top: var(--al-sp-6);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  :is(.panel, .shp-derived .shp-col, .shp-bar) {
+  padding: 0;
+  border-width: 0;
+  border-radius: 0;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.panel, .shp-derived .shp-col, .shp-bar) {
+  background: transparent;
+  box-shadow: none;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .shp-derived
+  .shp-grid {
+  gap: var(--al-sp-8) var(--al-sp-6);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-main
+  > *
+  + *,
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-main
+  > [data-ext-slot]
+  > * {
+  margin-top: var(--al-sp-8);
+}
+/* Section headings: Alchemy's «Actions» — the display face over a full-width 1 px accent
+   rule (S2); the small group labels keep extended caps. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  :is(.shp-col h3, .shp-action-group h3, .panel h2, .panel h3, .panel > .section-heading h2) {
+  margin: 0 0 var(--al-sp-3);
+  padding: 0 0 var(--al-sp-2);
+  border-bottom: var(--al-bw) solid var(--al-accent);
+  font-family: var(--font-display);
+  font-size: var(--al-fs-base);
+  font-weight: 700;
+  line-height: var(--al-lh-base);
+  letter-spacing: 0;
+  font-variant-caps: normal;
+  text-align: start;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-col h3, .shp-action-group h3, .panel h2, .panel h3, .panel > .section-heading h2) {
+  color: var(--al-white);
+}
+/* A heading that shares its row with commands: the rule runs under the whole row, so every
+   section rule has the content's full width (A8). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .panel
+  > .section-heading {
+  align-items: center;
+  margin: 0 0 var(--al-sp-4);
+  padding: 0 0 var(--al-sp-2);
+  border-bottom: var(--al-bw) solid var(--al-accent);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .panel
+  > .section-heading
+  h2 {
+  flex: 1 1 auto;
+  margin: 0;
+  padding: 0;
+  border-bottom: 0;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .spl-concentration
+  h3 {
+  flex: 1 1 100%;
+}
+/* Group headings after content keep a 24 px space above (A8); a heading that shares its row
+   with a switch («Tiri») draws its rule under the whole row. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .shp-action-group
+  + .shp-action-group {
+  margin-top: var(--al-sp-6);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .dtray-sheet-head {
+  margin: 0 0 var(--al-sp-3);
+  padding: 0 0 var(--al-sp-2);
+  border-bottom: var(--al-bw) solid var(--al-accent);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .panel
+  .dtray-sheet-head
+  h3 {
+  margin: 0;
+  padding: 0;
+  border-bottom: 0;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  :is(.shp-col h3, .shp-action-group h3, .panel h3):not(:first-child) {
+  margin-top: var(--al-sp-6);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .shp-action-group
+  h4 {
+  margin: var(--al-sp-4) 0 var(--al-sp-2);
+  font-size: var(--al-fs-caps);
+  letter-spacing: var(--al-track-label);
+}
+/* Rows (saves, skills, senses): label and value on one line, a subtle divider. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .character-sheet .shp-row {
+  gap: var(--al-sp-2);
+  min-height: var(--al-h-control);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .character-sheet .shp-row {
+  border-bottom-color: var(--al-divider-subtle);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .shp-row-name {
+  font-size: var(--al-fs-sm);
+  font-weight: 400;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .shp-row-name
+  small {
+  font-size: var(--al-fs-xs);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .character-sheet .shp-value {
+  min-width: var(--al-h-control);
+  min-height: var(--al-h-control);
+  padding: 0 var(--al-sp-2);
+  border-width: 0;
+  border-radius: var(--al-r-inner);
+  font-size: var(--al-fs-sm);
+  font-weight: 600;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .character-sheet .shp-value {
+  background: transparent;
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-value:hover:not(:disabled) {
+  background: var(--al-hover);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .character-sheet .shp-star {
+  color: var(--al-white-50);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-star[aria-pressed="true"] {
+  color: var(--al-accent-text);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .character-sheet .shp-prof {
+  border-color: var(--al-white-50);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .character-sheet .shp-prof.is-on {
+  border-color: var(--al-accent);
+  background: var(--al-accent);
+}
+/* Segmented switches (Play / Edit, digital / physical dice): Alchemy's glass segmented pill
+   (AlchemyTabs: radius 30, 10 px extended black caps, the open one white 10 %). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .shp-mode {
+  gap: var(--al-sp-1);
+  padding: var(--al-sp-1);
+  border-width: 0;
+  border-radius: var(--al-r-seg);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .shp-mode {
+  background: var(--al-glass);
+  box-shadow: inset 0 var(--al-bw) 0 var(--al-glass-border);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .shp-mode button {
+  min-height: var(--al-h-control);
+  padding: 0 var(--al-sp-4);
+  border-radius: var(--al-r-seg);
+  font-family: var(--font-label);
+  font-size: var(--al-fs-caps);
+  font-weight: 900;
+  letter-spacing: var(--al-track-button);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .shp-mode button {
+  color: var(--al-white-50);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .shp-mode button + button {
+  border-left: 0;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .shp-mode
+  button[aria-pressed="true"] {
+  background: var(--al-hover);
+  color: var(--al-white);
+}
+/* Filter chips (ALL, ATTACK…): the same segmented grammar, as loose pills. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  :is(.shp-chip, .character-subtabs button) {
+  min-height: var(--al-h-control);
+  padding: 0 var(--al-sp-3);
+  border-width: var(--al-bw);
+  border-radius: var(--al-r-pill);
+  font-size: var(--al-fs-caps);
+  font-weight: 900;
+  letter-spacing: var(--al-track-button);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  :is(.shp-chip, .character-subtabs button) {
+  border-color: var(--al-pill);
+  background: transparent;
+  color: var(--al-white-50);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  :is(.shp-chip:hover:not([aria-pressed="true"]), .character-subtabs button:hover) {
+  background: var(--al-pill);
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  :is(.shp-chip[aria-pressed="true"], .character-subtabs button.active) {
+  border-color: var(--al-glass-border);
+  background: var(--al-hover);
+  color: var(--al-white);
+}
+/* The strip: Alchemy's short centred tab strip (STATS / SPELLS / DESCRIPTION). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-tabs {
+  justify-content: safe center;
+}
+/* The strip and «Tutte» share one 48 px row over one 1 px rule; the strip fades out before its
+   right edge (fully gone 8 px before it, 20 px before the «Tutte» glyph), so a tab it cannot
+   show reads as «more to scroll», never as a word cut by «Tutte» (A3). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-tabs-bar {
+  align-items: flex-end;
+  margin: 0 0 var(--al-sp-6);
+  border-bottom: var(--al-bw) solid var(--al-divider);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-tabs-bar
+  > .character-tabs {
+  margin: 0;
+  border-bottom: 0;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-tabs-bar:has(.character-tabs-all)
+  > .character-tabs {
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    #000 calc(100% - var(--al-sp-12)),
+    transparent calc(100% - var(--al-sp-2))
+  );
+  mask-image: linear-gradient(
+    90deg,
+    #000 calc(100% - var(--al-sp-12)),
+    transparent calc(100% - var(--al-sp-2))
+  );
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-tabs-all {
+  gap: var(--al-sp-2);
+  min-height: var(--al-h-large);
+  block-size: var(--al-h-large);
+  padding: 0 var(--al-sp-2) 0 var(--al-sp-3);
+  border: 0;
+  font-family: var(--font-label);
+  font-size: var(--al-fs-caps);
+  font-weight: var(--al-fw-black);
+  letter-spacing: var(--al-track-tab);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tabs-all {
+  color: var(--al-white-50);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tabs-all:hover {
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-tabs-all
+  .icon {
+  inline-size: var(--al-icon-sm);
+  block-size: var(--al-icon-sm);
+}
+/* Empty states: a quiet glass row (Alchemy's empty lists), not a dashed box (A6). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .empty-state {
+  margin: 0;
+  padding: var(--al-sp-3) var(--al-sp-4);
+  border: 0;
+  border-radius: var(--al-r-inner);
+  font-size: var(--al-fs-sm);
+  line-height: var(--al-lh-sm);
+  text-align: start;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .character-sheet .empty-state {
+  background: var(--al-glass);
+  box-shadow: inset 0 var(--al-bw) 0 var(--al-divider-subtle);
+  color: var(--muted);
+}
+/* Actions: Alchemy's action rows (T5: a glass row with a lighter top edge, the name in the
+   UI face, the type in grey caps at the right). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .shp-action-list {
+  display: grid;
+  gap: var(--al-sp-2);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .shp-action {
+  gap: var(--al-sp-2);
+  padding: var(--al-sp-2) var(--al-sp-3);
+  border-width: 0;
+  border-radius: var(--al-r-inner);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .character-sheet .shp-action {
+  background: var(--al-glass);
+  box-shadow: inset 0 var(--al-bw) 0 var(--al-divider);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .shp-action-copy
+  p {
+  margin: var(--al-sp-1) 0 0;
+  font-size: var(--al-fs-xs);
+  line-height: var(--al-lh-xs);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .shp-action-tools {
+  gap: var(--al-sp-2);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .character-sheet .shp-stats {
+  gap: var(--al-sp-2);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .shp-stats
+  .shp-pill {
+  min-height: var(--al-h-control);
+  padding: var(--al-sp-1) var(--al-sp-3);
+  border-width: var(--al-bw);
+  border-radius: var(--al-r-inner);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-stats
+  .shp-pill {
+  border-color: var(--al-pill);
+  background: var(--al-glass);
+}
+/* The vitals in the open column (Initiative, AC, Defences, Conditions): the same calm stat
+   block, no boxes inside the modal. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-main
+  :is(.stat, .shp-stats .shp-pill) {
+  gap: var(--al-sp-1);
+  padding: var(--al-sp-2);
+  border-width: var(--al-bw);
+  border-radius: var(--al-r-inner);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-main
+  :is(.stat, .shp-stats .shp-pill) {
+  border-color: transparent;
+  background: var(--al-glass);
+  box-shadow: inset 0 var(--al-bw) 0 var(--al-divider-subtle);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-main
+  .stat
+  strong {
+  font-size: var(--al-fs-xl);
+  line-height: var(--al-lh-xl);
+}
+/* Phone: Alchemy's modal becomes a full-screen sheet (P5); the pill of round buttons stays at
+   the top, in a row. The art is 240 px tall, so the tab strip opens above the dock's band. */
+@media (max-width: 720px) {
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .character-sheet
+    .character-heading
+    .character-portrait.character-portrait-button {
+    inline-size: calc(100% + 2 * var(--al-sp-4));
+    block-size: var(--al-portrait-h-phone);
+    margin-inline: calc(-1 * var(--al-sp-4));
+    border-radius: 0;
+    background-size: cover;
+    background-position: 50% 20%;
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .character-sheet
+    .character-breadcrumb {
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    gap: var(--al-sp-2);
+    margin-bottom: var(--al-sp-3);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .character-sheet
+    .character-breadcrumb
+    [data-character-action="collection"] {
+    margin-right: auto;
+  }
+  /* The open column's Initiative, AC and Defences join the band's row here (the app's phone
+     grid): they take the band's grammar — no glass box, the value 14 px 600 — so that row reads
+     as one block of four, not two plain cells beside two boxes. */
+  :root[data-direction="alchemy"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-main
+    .shp-stats
+    .shp-pill {
+    background: transparent;
+    box-shadow: none;
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .character-sheet
+    .shp-stats
+    .shp-pill
+    strong {
+    font-size: var(--al-fs-sm);
+    font-weight: var(--al-fw-ui-strong);
+    line-height: var(--al-lh-sm);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .character-sheet
+    .character-main
+    .shp-stats
+    .shp-stat:not([data-shp-stat="defenses"])
+    .shp-pill {
+    justify-content: flex-start;
+    padding: var(--al-sp-2) var(--al-sp-1);
+  }
+}
+/* The pill's parts at both widths: round 40 px buttons with Font Awesome glyph masks (the words
+   stay their accessible names), the privacy chip as a glass caps chip with the eye glyph and its
+   words. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-breadcrumb
+  > .muted {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-breadcrumb
+  .clib-sheet-bar {
+  display: contents;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-breadcrumb
+  :is([data-character-action="collection"], [data-clib-act]) {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  width: var(--al-h-control);
+  height: var(--al-h-control);
+  min-height: 0;
+  padding: 0;
+  border-width: 0;
+  border-radius: var(--al-r-round);
+  font-size: 0;
+  letter-spacing: 0;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-breadcrumb
+  :is([data-character-action="collection"], [data-clib-act]) {
+  background: var(--al-pill);
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-breadcrumb
+  :is([data-character-action="collection"], [data-clib-act]):hover {
+  background: var(--al-hover);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-breadcrumb
+  :is([data-character-action="collection"], .clib-privacy, [data-clib-act])::before {
+  content: "";
+  flex: none;
+  width: var(--al-icon-sm);
+  height: var(--al-icon-sm);
+  background: currentColor;
+  -webkit-mask: var(--al-glyph) center / contain no-repeat;
+  mask: var(--al-glyph) center / contain no-repeat;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-breadcrumb
+  .clib-privacy {
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--al-sp-2);
+  min-height: var(--al-h-control);
+  padding: 0 var(--al-sp-4) 0 var(--al-sp-3);
+  border-width: 0;
+  white-space: nowrap;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-breadcrumb
+  .clib-privacy {
+  background: var(--al-glass-dark);
+  box-shadow: inset 0 var(--al-bw) 0 var(--al-glass-border);
+  color: var(--al-white);
+  -webkit-backdrop-filter: blur(var(--al-blur));
+  backdrop-filter: blur(var(--al-blur));
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-breadcrumb
+  .clib-privacy
+  > span {
+  display: none;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-breadcrumb
+  [data-character-action="collection"] {
+  --al-glyph: url("assets/icons/xmark.svg");
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-breadcrumb
+  .clib-privacy {
+  --al-glyph: url("assets/icons/eye.svg");
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-breadcrumb
+  [data-clib-act="share"] {
+  --al-glyph: url("assets/icons/share-nodes.svg");
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-breadcrumb
+  [data-clib-act="manage"] {
+  --al-glyph: url("assets/icons/pen.svg");
+}
+/* Phone: the row sits on the page, so its round buttons take the bezel's dark glass. */
+@media (max-width: 720px) {
+  :root[data-direction="alchemy"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-breadcrumb
+    :is([data-character-action="collection"], [data-clib-act]) {
+    background: #18191c;
+    box-shadow: inset 0 var(--al-bw) 0 #303133;
+  }
+}
+
+/* ------------------------------------------------------------------ Tavolo */
+/* T1/T2/T5/T16: the scene is the page. The painted scene runs full-bleed behind everything
+   (blurred and dimmed where the live map does not cover it) under a vignette; the chrome is
+   translucent glass: the scene title floats at the top centre with small spaced words under
+   it, the turn order is a row of round portraits, the tools are a column of round glass
+   buttons beside the right column (Alchemy's tool rail beside the party panel), the party
+   portraits are round, the hotbar is the Lumen dice bar's glass pill with the player bar
+   (portrait in an accent ring, split HP bar) at its left, and the turn commands are the bottom
+   trio (round glass buttons, the white-ringed FAB for the dice) with END TURN as a white
+   pill. Our fixed structure stays: header, right panel and rail, hotbar band. */
+:root[data-direction="alchemy"][data-sample-map="on"]:not([data-pref-theme="light"])
+  #app:has(> .workspace.is-table)::before {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  inset: calc(-1 * var(--al-sp-12));
+  background: url("../../assets/maps/sample/old-watch.webp") 50% 50% / cover no-repeat;
+  filter: blur(var(--al-sp-6)) brightness(0.55) saturate(0.9);
+  pointer-events: none;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .workspace.is-table .map-container {
+  background: transparent;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .workspace.is-table
+  .map-container::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  pointer-events: none;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .workspace.is-table
+  .map-container::after {
+  background: radial-gradient(ellipse at 50% 45%, transparent 55%, rgb(0 0 0 / 0.55));
+}
+/* The table's header: no bar, only floating glass pills (Lumen's logo pill, round buttons). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .app-header.table-header {
+  gap: var(--al-sp-3);
+  min-height: 0;
+  padding: var(--al-sp-3) var(--al-sp-4);
+  border-bottom: 0;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .app-header.table-header {
+  background: transparent;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .app-header.table-header
+  > .button {
+  min-height: var(--al-h-control);
+  padding: 0 var(--al-sp-4);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .app-header.table-header > .button {
+  border-color: transparent;
+  background: var(--al-popover);
+  box-shadow: inset 0 var(--al-bw) 0 var(--al-glass-border);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .app-header.table-header
+  > .button:hover {
+  background: var(--al-active);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .app-header.table-header
+  :is(.brand, .service-nav) {
+  background: var(--al-popover);
+}
+/* Map grid: thin light lines, as Alchemy's tactical grid. */
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) #map-grid path {
+  stroke: var(--al-white);
+  stroke-opacity: 0.1;
+}
+/* Tokens: round portraits with a thin ring; names in the UI face (size unchanged). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  #battle-map
+  .map-token
+  text.token-name {
+  font-family: var(--font-ui);
+}
+/* Glass for every floating HUD piece: Alchemy's popover glass (rgba(13 20 28 / .85), blur)
+   with the 1 px top highlight. */
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .table-layout
+  :is(
+    .map-caption,
+    .map-zoom,
+    .map-subtools,
+    .table-hotbar .hotbar-resources,
+    .table-hotbar .combat-bar-heading
+  ) {
+  border-color: transparent;
+  background: var(--al-popover);
+  box-shadow:
+    inset 0 var(--al-bw) 0 var(--al-glass-border),
+    var(--al-shadow);
+  -webkit-backdrop-filter: blur(var(--al-blur));
+  backdrop-filter: blur(var(--al-blur));
+}
+/* Round glass buttons: tools, zoom, session buttons, rail tabs. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-layout
+  :is(.map-tool, .map-zoom .map-tool) {
+  width: var(--al-h-control);
+  height: var(--al-h-control);
+  padding: 0;
+  border-width: 0;
+  border-radius: var(--al-r-round);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .table-layout .map-tool {
+  background: var(--al-popover);
+  box-shadow: inset 0 var(--al-bw) 0 var(--al-glass-border);
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .table-layout .map-tool:hover {
+  background: var(--al-active);
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .table-layout .map-tool.active {
+  background: var(--al-white);
+  box-shadow: none;
+  color: var(--al-accent);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-layout
+  .map-tool
+  .icon {
+  width: var(--al-icon);
+  height: var(--al-icon);
+}
+/* The tool column: no panel, only the column of round buttons (T1, T2). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .table-layout .map-toolbar {
+  gap: var(--al-sp-2);
+  padding: 0;
+  border-width: 0;
+  border-radius: 0;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .table-layout .map-toolbar {
+  background: transparent;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .table-layout .map-subtools {
+  gap: var(--al-sp-2);
+  padding: var(--al-sp-15);
+  border-radius: var(--al-r-seg);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .table-layout
+  .map-subtools
+  .map-tool:not(.active) {
+  background: transparent;
+  box-shadow: none;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .table-layout .map-zoom {
+  gap: var(--al-sp-2);
+  padding: var(--al-sp-15);
+  border-radius: var(--al-r-seg);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .table-layout .map-zoom .map-tool {
+  background: transparent;
+  box-shadow: none;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .session-view-hud-button {
+  min-width: var(--al-h-control);
+  min-height: var(--al-h-control);
+  border-radius: var(--al-r-pill);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .session-view-hud-button {
+  border-color: transparent;
+  background: var(--al-popover);
+  box-shadow: inset 0 var(--al-bw) 0 var(--al-glass-border);
+  color: var(--al-white);
+}
+/* Status line: a glass caption (Alchemy's ruler label grammar). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .table-layout .map-caption {
+  gap: var(--al-sp-3);
+  padding: var(--al-sp-2) var(--al-sp-4);
+  border-radius: var(--al-r-outer);
+  font-size: var(--al-fs-xs);
+  line-height: var(--al-lh-xs);
+}
+/* Scene title: floating at the top centre in the display face, the state under it in small
+   spaced words (T1 «River's Edge Tavern / ALCHEMY DISTRICT»); no plate. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-layout
+  > .table-topline {
+  gap: var(--al-sp-1) var(--al-sp-3);
+  text-align: center;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-layout
+  > .table-topline
+  h1 {
+  margin: 0;
+  font-size: var(--al-fs-xl);
+  font-weight: 700;
+  line-height: var(--al-lh-xl);
+  text-shadow: var(--al-text-shadow);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-layout
+  > .table-topline
+  > div
+  > span {
+  font-size: var(--al-fs-xs);
+  font-weight: 400;
+  line-height: var(--al-lh-xs);
+  letter-spacing: var(--al-track-label);
+  text-shadow: var(--al-text-shadow);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .table-layout
+  > .table-topline
+  > div
+  > span {
+  color: var(--al-accent-text);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-layout
+  > .table-topline
+  .button {
+  min-height: var(--al-h-control);
+  padding: 0 var(--al-sp-4);
+  font-size: var(--al-fs-caps);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .table-layout
+  > .table-topline
+  .button:not(.primary) {
+  border-color: transparent;
+  background: var(--al-popover);
+  box-shadow: inset 0 var(--al-bw) 0 var(--al-glass-border);
+}
+/* Turn order: Alchemy's encounter as a row of round portraits under the title (44 px, the
+   creature in turn 56 px with the accent ring and glow); allies ringed white, enemies ringed
+   red and dashed (never colour alone). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-layout
+  > .initiative
+  .initiative-token {
+  gap: var(--al-sp-1);
+  padding: 0;
+  border-width: 0;
+  border-radius: var(--al-r-inner);
+  font-size: var(--al-fs-xs);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .table-layout
+  > .initiative
+  .initiative-token {
+  background: transparent;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  color: var(--al-white);
+  text-shadow: var(--al-text-shadow);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-layout
+  > .initiative
+  .token-dot {
+  border: var(--al-bw-2) solid;
+  border-radius: var(--al-r-round);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .table-layout
+  > .initiative
+  .token-dot {
+  border-color: var(--token-ally-ring);
+  box-shadow: var(--al-shadow);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .table-layout
+  > .initiative
+  .token-dot.hostile {
+  border-style: dashed;
+  border-color: var(--token-hostile-ring);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .table-layout
+  > .initiative
+  .initiative-token.current
+  .token-dot {
+  border-style: solid;
+  border-color: var(--al-accent);
+  box-shadow:
+    0 0 0 var(--al-sp-05) var(--al-bg),
+    var(--al-glow);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-layout
+  > .initiative
+  .initiative-token
+  > span:last-child {
+  max-inline-size: 100%;
+  padding: 0 var(--al-sp-1);
+  border-radius: var(--al-r-pill);
+  line-height: var(--al-lh-xs);
+  letter-spacing: 0;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .table-layout
+  > .initiative
+  .initiative-token
+  > span:last-child {
+  background: var(--al-popover);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-layout
+  > .initiative
+  .initiative-token
+  small {
+  font-size: var(--al-fs-2xs);
+  font-weight: var(--al-fw-ui-strong);
+  line-height: var(--al-lh-2xs);
+  letter-spacing: 0;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .table-layout
+  > .initiative
+  .initiative-token
+  small {
+  color: var(--al-accent-text);
+}
+/* Party: round portraits in a thin ring, the selected one in the accent ring (T1 party list). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .table-party {
+  gap: var(--al-sp-2);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .table-party-member {
+  gap: var(--al-sp-1);
+  padding: var(--al-sp-1);
+  border-radius: var(--al-r-inner);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .table-party-portrait,
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-party.is-compact
+  .table-party-portrait {
+  width: var(--al-av-md);
+  height: var(--al-av-md);
+  border-width: var(--al-bw-2);
+  border-radius: var(--al-r-round);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .table-party-portrait {
+  border-color: var(--al-glass-border);
+  box-shadow: var(--al-shadow);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .table-party-member:hover
+  .table-party-portrait {
+  border-color: var(--al-white);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .table-party-member.is-selected
+  .table-party-portrait {
+  border-color: var(--al-accent);
+  box-shadow:
+    0 0 0 var(--al-sp-05) var(--al-bg),
+    var(--al-glow);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .table-party-hp,
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-party.is-compact
+  .table-party-hp {
+  width: var(--al-av-md);
+  height: var(--al-sp-1);
+  border-radius: var(--al-r-pill);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .table-party-hp {
+  background: rgb(255 255 255 / 0.15);
+  box-shadow: none;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .table-party-name {
+  padding: 0 var(--al-sp-1);
+  border-radius: var(--al-r-mini);
+  font-size: var(--al-fs-2xs);
+  font-weight: 600;
+  line-height: var(--al-lh-2xs);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .table-party-name {
+  background: transparent;
+  text-shadow: var(--al-text-shadow);
+}
+/* The right column: a translucent glass corner column (T1 party panel), pill sub-tabs. */
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .table-layout
+  > .table-sidebar-panel {
+  border-left-color: var(--al-divider-subtle);
+  background: var(--al-popover);
+  -webkit-backdrop-filter: blur(var(--al-blur));
+  backdrop-filter: blur(var(--al-blur));
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-sidebar-panel
+  > .table-subtabs {
+  gap: var(--al-sp-1);
+  padding: var(--al-sp-3) var(--al-sp-4);
+  border-bottom-width: var(--al-bw);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .table-sidebar-panel
+  > .table-subtabs {
+  border-bottom-color: var(--al-divider);
+  background: transparent;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .table-subtab {
+  gap: var(--al-sp-1);
+  min-height: var(--al-h-control);
+  padding: 0 var(--al-sp-2);
+  border-width: 0;
+  border-radius: var(--al-r-pill);
+  font-family: var(--font-label);
+  font-size: var(--al-fs-caps);
+  font-weight: var(--al-fw-black);
+  letter-spacing: var(--al-track-label);
+  white-space: nowrap;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .table-subtab {
+  background: transparent;
+  color: var(--al-white-50);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .table-subtab:hover {
+  background: transparent;
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .table-subtab.active {
+  background: linear-gradient(var(--al-accent), var(--al-accent)) 50% 100% / var(--al-bar-w)
+    var(--al-bar-h) no-repeat;
+  color: var(--al-white);
+}
+/* The inspector: the round portrait in the accent ring, the name in the display face, the
+   AC as a small round stat. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .table-inspector {
+  padding: var(--al-sp-6);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .inspector-person {
+  gap: var(--al-sp-3);
+  margin-bottom: var(--al-sp-4);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .inspector-person .portrait {
+  width: var(--al-av-lg);
+  height: var(--al-av-lg);
+  font-size: var(--al-fs-xl);
+  border-width: var(--al-bw-2);
+  border-radius: var(--al-r-round);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .inspector-person .portrait {
+  border-color: var(--al-accent);
+  box-shadow: 0 0 0 var(--al-sp-05) var(--al-bg);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .inspector-person h2 {
+  margin: 0;
+  font-size: var(--al-fs-xl);
+  font-weight: 700;
+  line-height: var(--al-lh-xl);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .inspector-person .muted {
+  color: var(--al-accent-text);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .inspector-person .muted {
+  font-size: var(--al-fs-xs);
+  line-height: var(--al-lh-xs);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .inspector-ac {
+  min-width: var(--al-av-md);
+  padding: var(--al-sp-1) var(--al-sp-2);
+  border-width: var(--al-bw);
+  border-radius: var(--al-r-inner);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .inspector-ac {
+  border-color: var(--al-glass-border);
+  background: var(--al-glass);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-inspector
+  :is(h3, .forms-summary h3, .table-ext-panel h3) {
+  margin: var(--al-sp-6) 0 var(--al-sp-3);
+  padding-bottom: var(--al-sp-2);
+  border-bottom: var(--al-bw) solid var(--al-accent);
+  font-family: var(--font-display);
+  font-size: var(--al-fs-sm);
+  font-weight: 700;
+  line-height: var(--al-lh-sm);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .conditions-segment {
+  min-width: var(--al-h-control);
+  min-height: var(--al-h-control);
+  padding: 0;
+  border-radius: var(--al-r-round);
+  font-family: var(--font-ui);
+  font-size: var(--al-fs-sm);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .conditions-segment {
+  border-color: var(--al-glass-border);
+  background: rgb(0 0 0 / 0.25);
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .conditions-segments {
+  gap: var(--al-sp-1);
+}
+/* The rail: round glass buttons, the open tab white 10 % with a short accent bar on its left
+   (Lumen's dot-nav beside the docked sheet). */
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .table-layout > .table-sidebar-rail {
+  border-left-color: var(--al-divider-subtle);
+  background: var(--al-popover);
+  -webkit-backdrop-filter: blur(var(--al-blur));
+  backdrop-filter: blur(var(--al-blur));
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-layout
+  > .table-sidebar-rail {
+  gap: var(--al-sp-1);
+  padding: var(--al-sp-2) 0;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .table-tabs {
+  gap: var(--al-sp-1);
+  padding: var(--al-sp-1) 0;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  :is(.table-tab, .table-sidebar-toggle, .table-map-link, .table-panels-all) {
+  border-width: 0;
+  border-radius: var(--al-r-round);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  :is(.table-tab, .table-sidebar-toggle, .table-map-link, .table-panels-all) {
+  color: var(--al-white-50);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  :is(.table-tab, .table-sidebar-toggle, .table-map-link, .table-panels-all):hover {
+  background: var(--al-hover);
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .table-tab.active {
+  background: var(--al-active);
+  box-shadow: inset 0 var(--al-bw) 0 #48494f;
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .table-sidebar-rail > .table-tabs {
+  border-top-color: var(--al-divider);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .table-tab-portrait {
+  border-color: var(--al-accent);
+}
+/* The hotbar: Lumen's dice bar — one glass pill with the action slots; the player bar (the
+   portrait in an accent ring on a split HP bar) leads it; the page tabs as a short segmented
+   pair; action slots as round-ended glass chips; the resource pips in their own glass pill
+   above. */
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .action-dock.table-hotbar {
+  border-top-color: transparent;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-hotbar
+  .hotbar-identity {
+  gap: var(--al-sp-3);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-hotbar
+  .hotbar-portrait {
+  width: var(--al-av-lg);
+  height: var(--al-av-lg);
+  border-width: var(--al-bw-2);
+  border-radius: var(--al-r-round);
+  font-size: var(--al-fs-xl);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .table-hotbar .hotbar-portrait {
+  border-color: var(--al-accent);
+  box-shadow: 0 0 0 var(--al-sp-05) var(--al-bg);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-layout
+  .table-hotbar
+  .hotbar-name
+  > strong {
+  font-family: var(--font-display);
+  font-size: var(--al-fs-base);
+  font-weight: 700;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .table-hotbar .hotbar-name {
+  gap: var(--al-sp-1);
+}
+/* The split tracker bar (T5: «XP (6.5k) | HP (31)»): the HP chip is a pill whose bar fills
+   with Alchemy's HP green and carries the words over it. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .hotbar-hp {
+  position: relative;
+  gap: var(--al-sp-2);
+  min-height: var(--al-h-control);
+  padding: 0 var(--al-sp-3);
+  overflow: hidden;
+  border-width: 0;
+  border-radius: var(--al-r-pill);
+  font-family: var(--font-label);
+  font-size: var(--al-fs-caps);
+  font-weight: 700;
+  letter-spacing: var(--al-track-label);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .hotbar-hp {
+  background: rgb(255 255 255 / 0.08);
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .hotbar-hp-bar {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .hotbar-hp-bar {
+  background: transparent;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .hotbar-hp-bar > span:first-child {
+  background: var(--al-hp-bar);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .hotbar-hp.is-low
+  .hotbar-hp-bar
+  > span:first-child {
+  background: #7a5a12;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .hotbar-hp.is-down
+  .hotbar-hp-bar
+  > span:first-child {
+  background: #6e1e22;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .hotbar-hp-text {
+  position: relative;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .hotbar-hp-unit {
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-hotbar
+  .hotbar-page-tab {
+  min-height: var(--al-h-control);
+  padding: 0 var(--al-sp-3);
+  border-width: 0;
+  border-radius: var(--al-r-pill);
+  font-family: var(--font-ui);
+  font-size: var(--al-fs-xs);
+  font-weight: 600;
+  letter-spacing: 0;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .table-hotbar .hotbar-page-tab {
+  background: transparent;
+  color: var(--al-white-50);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .table-hotbar
+  .hotbar-page-tab:hover {
+  background: var(--al-pill);
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .table-hotbar
+  .hotbar-page-tab.active {
+  background: var(--al-hover);
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-hotbar
+  .combat-actions {
+  gap: var(--al-sp-15);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-hotbar
+  :is(.combat-action, .combat-dock .sm-dock-toggle) {
+  gap: var(--al-sp-15);
+  min-height: var(--al-h-control);
+  padding: 0 var(--al-sp-2);
+  border-width: 0;
+  border-radius: var(--al-r-pill);
+  font-family: var(--font-ui);
+  font-size: var(--al-fs-xs);
+  font-weight: 600;
+  letter-spacing: 0;
+  font-variant-caps: normal;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .table-hotbar
+  :is(.combat-action, .combat-dock .sm-dock-toggle) {
+  background: var(--al-pill);
+  box-shadow: inset 0 var(--al-bw) 0 var(--al-divider);
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .table-hotbar
+  :is(.combat-action:hover, .combat-action.active, .combat-dock .sm-dock-toggle:hover) {
+  background: var(--al-white);
+  box-shadow: none;
+  color: var(--al-bg);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .table-hotbar .combat-action .icon {
+  color: var(--al-accent-text);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-hotbar
+  :is(.combat-action, .combat-dock .sm-dock-toggle)
+  .icon {
+  width: var(--al-icon-sm);
+  height: var(--al-icon-sm);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .table-hotbar
+  :is(.combat-action:hover, .combat-action.active)
+  .icon {
+  color: var(--al-accent);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-hotbar
+  .combat-group-tag {
+  font-family: var(--font-label);
+  letter-spacing: var(--al-track-label);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-hotbar
+  .hotbar-resources {
+  gap: var(--al-sp-2);
+  padding: var(--al-sp-1) var(--al-sp-3);
+  border-radius: var(--al-r-pill);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .action-dock.table-hotbar
+  .hotbar-resources
+  .resources {
+  gap: var(--al-sp-2);
+  font-size: var(--al-fs-xs);
+  line-height: var(--al-lh-xs);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .action-dock.table-hotbar
+  > .hotbar-identity
+  > div
+  > span {
+  margin-top: var(--al-sp-05);
+  font-size: var(--al-fs-xs);
+  line-height: var(--al-lh-xs);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-layout
+  .table-hotbar
+  .combat-bar-heading {
+  gap: var(--al-sp-15);
+  border-radius: var(--al-r-pill);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-layout
+  .table-hotbar
+  .combat-bar-heading
+  select {
+  min-height: var(--al-h-control);
+  border-radius: var(--al-r-pill);
+  font-size: var(--al-fs-sm);
+  line-height: var(--al-lh-sm);
+}
+/* The turn commands: Alchemy's bottom trio — round glass buttons, the dice as the FAB (a
+   white disc in a white ring with the accent glyph, the ring drawn inside the button so it
+   never covers its neighbours: 48 px on the desktop, 40 on the phone) — and END TURN as the
+   white pill with accent caps, on the FAB's row (Alchemy's ✓ End Turn, copy plan; A2, A8). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .action-dock.table-hotbar
+  > .toolbar
+  .button {
+  min-width: var(--al-h-control);
+  min-height: var(--al-h-control);
+  padding: 0;
+  border-width: 0;
+  border-radius: var(--al-r-round);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .action-dock.table-hotbar
+  > .toolbar
+  .button:not(.primary) {
+  background: var(--al-popover);
+  box-shadow: inset 0 var(--al-bw) 0 var(--al-glass-border);
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .action-dock.table-hotbar
+  > .toolbar
+  .button:not(.primary):hover:not(:disabled) {
+  background: var(--al-active);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .action-dock.table-hotbar
+  > .toolbar
+  .button[data-table="dice"] {
+  background: var(--al-white);
+  box-shadow:
+    inset 0 0 0 var(--al-bw-2) var(--al-white),
+    inset 0 0 0 calc(2 * var(--al-bw-2)) var(--al-bg),
+    var(--al-shadow);
+  color: var(--al-accent);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .action-dock.table-hotbar
+  > .toolbar
+  > .button.primary[data-table="end-turn"] {
+  padding: 0 var(--al-sp-4);
+  border-width: 0;
+  border-radius: var(--al-r-pill);
+  font-family: var(--font-label);
+  font-size: var(--al-fs-caps);
+  font-weight: 900;
+  line-height: var(--al-lh-sm);
+  letter-spacing: var(--al-track-button);
+  font-variant-caps: all-small-caps;
+  white-space: nowrap;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .action-dock.table-hotbar
+  > .toolbar
+  > .button.primary[data-table="end-turn"] {
+  background: var(--al-white);
+  box-shadow: var(--al-shadow);
+  color: var(--al-accent);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .action-dock.table-hotbar
+  > .toolbar
+  > .button.primary[data-table="end-turn"]:hover:not(:disabled) {
+  background: var(--al-accent-text);
+  color: var(--al-bg);
+}
+@media (min-width: 721px) {
+  /* The tool column moves beside the right column (Alchemy's tool rail is just left of the
+     party panel), over the zoom group; the map box keeps its margins (the column is as wide
+     as before), so «fit» still frames the scene inside the controls. */
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-stage
+    > .map-toolbar {
+    right: var(--al-sp-4);
+    left: auto;
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    .map-subtools {
+    right: calc(100% + var(--al-sp-2));
+    left: auto;
+  }
+  /* The scene title floats at the top centre. */
+  /* The map box starts 48 px lower: the title floats on the scene above it, as Alchemy's
+     floats on the art (the session buttons and notices inside the map keep clear of it and
+     of the tool column; «fit» keeps working inside the box). */
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .table-stage #battle-map {
+    margin-top: var(--al-sp-12);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    .session-view-hud-bar {
+    top: calc(-1 * var(--al-sp-12));
+    right: 0;
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    .session-view-hud-stack {
+    top: calc(var(--al-sp-24) + var(--al-sp-6));
+    right: var(--al-sp-16);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    > .table-topline {
+    justify-self: center;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    margin: var(--al-sp-1) 0 0;
+    padding: 0;
+    border-width: 0;
+    border-radius: 0;
+  }
+  :root[data-direction="alchemy"]:not([data-pref-theme="light"]) .table-layout > .table-topline {
+    background: transparent;
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    > .table-topline
+    h1 {
+    max-width: var(--al-title-w);
+  }
+  /* The scene commands (the DM's encounter, scenes, rests, time; the player's rests) leave the
+     title alone: a column of glass pills in the free top-left corner, where Alchemy keeps a
+     column of its own. */
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    > .table-topline
+    > .toolbar {
+    position: absolute;
+    top: var(--al-sp-3);
+    left: var(--al-sp-4);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--al-sp-2);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    > .initiative {
+    gap: var(--al-sp-3);
+    padding: var(--al-sp-1);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    > .initiative
+    .initiative-token {
+    width: var(--al-turn-w);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    > .initiative
+    .initiative-token.current {
+    width: var(--al-turn-w-current);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    > .initiative
+    .token-dot {
+    width: var(--al-av-md);
+    height: var(--al-av-md);
+    font-size: var(--al-fs-lg);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    > .initiative
+    .initiative-token.current
+    .token-dot {
+    width: var(--al-av-lg);
+    height: var(--al-av-lg);
+    font-size: var(--al-fs-xl);
+  }
+  /* The hotbar: player bar and dice-bar pill float apart over the scene. */
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-identity,
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-center {
+    margin-bottom: var(--al-sp-2);
+    padding: var(--al-sp-2) var(--al-sp-3);
+    border-width: 0;
+  }
+  /* The dice-mode plate above the bar: its inset on the scale (the app's 10 px start). */
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    .table-hotbar
+    .combat-bar-heading {
+    padding: 0 var(--al-sp-05) 0 var(--al-sp-3);
+  }
+  /* Two rows of 40 px slots (the core box assumes 44 px ones). */
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-hotbar
+    .combat-actions {
+    max-height: calc(2 * var(--al-h-control) + var(--al-sp-15) + var(--al-sp-1));
+  }
+  :root[data-direction="alchemy"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-identity,
+  :root[data-direction="alchemy"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-center {
+    background: var(--al-popover);
+    box-shadow:
+      inset 0 var(--al-bw) 0 var(--al-glass-border),
+      var(--al-shadow);
+    -webkit-backdrop-filter: blur(var(--al-blur));
+    backdrop-filter: blur(var(--al-blur));
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-identity {
+    margin-right: var(--al-sp-2);
+    padding-left: var(--al-sp-2);
+    border-radius: var(--al-r-seg);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-center {
+    gap: var(--al-sp-2);
+    border-radius: var(--al-r-seg);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar {
+    grid-auto-rows: var(--al-h-control);
+    gap: var(--al-sp-2);
+    padding: var(--al-sp-2) var(--al-sp-4);
+    border-width: 0;
+  }
+  :root[data-direction="alchemy"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar {
+    background: var(--al-popover);
+    -webkit-backdrop-filter: blur(var(--al-blur));
+    backdrop-filter: blur(var(--al-blur));
+    box-shadow: inset var(--al-bw) var(--al-bw) 0 var(--al-divider-subtle);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar:has(> [data-table="end-turn"]) {
+    grid-template-columns: repeat(2, var(--al-h-control)) var(--al-h-large) auto;
+    column-gap: var(--al-sp-3);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar
+    > .button[data-table="dice"] {
+    align-self: center;
+    justify-self: center;
+    inline-size: var(--al-h-large);
+    block-size: var(--al-h-large);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar
+    > .button.primary[data-table="end-turn"] {
+    grid-row: 1;
+    align-self: center;
+    width: auto;
+    height: var(--al-h-control);
+    max-width: none;
+    box-shadow: var(--al-shadow);
+  }
+}
+/* The player bar shows its portrait from 1280 px (today it waits for 1500 px): Alchemy's
+   player bar is the portrait. */
+@media (min-width: 1280px) {
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-identity
+    > .hotbar-portrait {
+    display: grid;
+    flex: none;
+  }
+}
+/* Phone: the hotbar and the tab bar pinned under it are one opaque glass slab (what is under
+   them must not show through), with Alchemy's 1 px top highlight (A4). The turn resources keep
+   their whole row (A2); the tab strip fades at its right edge, so a tab it cannot show is never
+   a sliver; the map and «Tutti» sit on the tabs' line. */
+@media (max-width: 720px) {
+  :root[data-direction="alchemy"]:not([data-pref-theme="light"])
+    .table-layout
+    > :is(.action-dock.table-hotbar, .table-sidebar-rail) {
+    background: #15171c;
+    box-shadow: inset 0 var(--al-bw) 0 var(--al-glass-border);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  :root[data-direction="alchemy"]:not([data-pref-theme="light"])
+    .table-layout
+    > .table-sidebar-rail {
+    border-top-color: var(--al-divider);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    > .table-sidebar-rail {
+    align-items: center;
+    gap: var(--al-sp-1);
+    padding: var(--al-sp-15) var(--al-sp-2);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    > .table-sidebar-rail
+    > .table-tabs {
+    align-items: center;
+    gap: var(--al-sp-1);
+    padding: 0;
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - var(--al-sp-6)), transparent);
+    mask-image: linear-gradient(90deg, #000 calc(100% - var(--al-sp-6)), transparent);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    > .table-sidebar-rail
+    :is(.table-tab, .table-map-link, .table-panels-all) {
+    gap: var(--al-sp-05);
+    padding: 0 var(--al-sp-15);
+    border-radius: var(--al-r-a3);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    > .table-sidebar-rail
+    .table-tab-label {
+    font-size: var(--al-fs-2xs);
+    line-height: var(--al-lh-2xs);
+  }
+  /* The turn resources float in their own glass pill just above the bar, right of the party
+     portraits (Alchemy's pip card above the Lumen dice bar, T16): the bar's first row has no
+     room for the whole row of symbols (A2). The zoom group is a glass row at the map's bottom
+     right, in the band the scene leaves free under it (as today), so it never covers the
+     painted map; it and the party stand 8 px above the bar. */
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-hotbar
+    .hotbar-resources {
+    position: absolute;
+    grid-column: auto;
+    grid-row: auto;
+    bottom: calc(100% + var(--al-sp-2));
+    left: var(--al-sp-16);
+    max-inline-size: none;
+    padding: var(--al-sp-1) var(--al-sp-3);
+    border-radius: var(--al-r-pill);
+    white-space: nowrap;
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    .map-container
+    > .map-zoom,
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    .table-party {
+    bottom: calc(var(--al-sp-16) + var(--al-sp-4));
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    .map-container
+    > .map-zoom {
+    right: var(--al-sp-2);
+    flex-direction: row;
+  }
+  /* The DM's scene commands (four, against the player's one) sit in a 2 × 2 block of equal
+     pills instead of three and a stray one; the map is one row (48 px) shorter, so its foot —
+     the zoom row and the party — ends 8 px above the pinned bar in both roles. */
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    > .table-topline
+    > .toolbar:has(> :nth-child(3)) {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    gap: var(--al-sp-2);
+    inline-size: 100%;
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout:has(> .table-topline > .toolbar > :nth-child(3))
+    .table-stage
+    #battle-map {
+    height: calc(
+      100dvh - var(--table-rail-height, 64px) - 220px - var(--al-h-control) - var(--al-sp-2)
+    );
+  }
+  /* The session notices start under the floating turn order, not over it. */
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    .session-view-hud-stack {
+    top: calc(var(--al-sp-24) + var(--al-sp-2));
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .action-dock.table-hotbar
+    .hotbar-resources
+    .resources {
+    gap: var(--al-sp-15);
+  }
+}
+
+/* ------------------------------------------------------------------ token menu */
+/* T4: Alchemy's token context menu — the popover glass (rgba(13 20 28 / .85), blur), radius
+   14, 40 px rows (Alchemy 36) radius 8 that light up white 10 %, the icons at white 50 %, the
+   labels in the UI face; the head as the party list's row (round portrait in a ring, name in
+   the display face, the subtitle in the accent text colour). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .token-menu {
+  padding: var(--al-sp-2);
+  border-width: var(--al-bw);
+  border-radius: var(--al-r-outer);
+  font-size: var(--al-fs-sm);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .token-menu {
+  border-color: transparent;
+  background: var(--al-popover);
+  box-shadow:
+    inset 0 var(--al-bw) 0 var(--al-glass-border),
+    var(--al-shadow-popover);
+  -webkit-backdrop-filter: blur(var(--al-blur));
+  backdrop-filter: blur(var(--al-blur));
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .token-menu-head {
+  gap: var(--al-sp-3);
+  padding: var(--al-sp-1) var(--al-sp-1) var(--al-sp-2);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .token-menu-portrait {
+  width: var(--al-av-md);
+  height: var(--al-av-md);
+  border-width: var(--al-bw-2);
+  font-size: var(--al-fs-lg);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .token-menu-portrait {
+  border-color: var(--al-accent);
+  box-shadow: 0 0 0 var(--al-sp-05) var(--al-bg);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .token-menu-title strong {
+  font-family: var(--font-display);
+  font-size: var(--al-fs-base);
+  font-weight: 700;
+  line-height: var(--al-lh-base);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .token-menu-title small {
+  font-size: var(--al-fs-xs);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .token-menu-title small {
+  color: var(--al-accent-text);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .token-menu-close {
+  padding: 0;
+  border-width: 0;
+  border-radius: var(--al-r-round);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .token-menu-close {
+  background: var(--al-pill);
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .token-menu-close:hover {
+  background: var(--al-hover);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .token-menu-hp {
+  gap: var(--al-sp-2);
+  padding: 0 var(--al-sp-1);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .token-menu-hp label {
+  font-family: var(--font-label);
+  font-size: var(--al-fs-caps-lg);
+  font-weight: 700;
+  letter-spacing: var(--al-track-label);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .token-menu-hp input {
+  padding: 0 var(--al-sp-3);
+  border-width: var(--al-bw-2);
+  border-radius: var(--al-r-inner);
+  font-family: var(--font-ui);
+  font-size: var(--al-fs-sm);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .token-menu-hp input {
+  border-color: var(--al-divider);
+  background: var(--al-form);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .token-menu-hp input:focus-visible {
+  border-color: var(--al-accent);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .token-menu-help {
+  margin: var(--al-sp-1) var(--al-sp-1) var(--al-sp-2);
+  font-size: var(--al-fs-xs);
+  line-height: var(--al-lh-xs);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .token-menu-sep {
+  margin: var(--al-sp-1) var(--al-sp-2);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .token-menu-sep {
+  background: var(--al-divider);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  :is(.token-menu-item, .token-menu-back, .token-menu-toggle, .token-menu-swatch) {
+  gap: var(--al-sp-3);
+  min-height: var(--al-h-control);
+  padding: 0 var(--al-sp-3);
+  border-width: 0;
+  border-radius: var(--al-r-inner);
+  font-size: var(--al-fs-sm);
+  font-weight: 400;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  :is(.token-menu-item, .token-menu-back, .token-menu-toggle, .token-menu-swatch):hover {
+  background: var(--al-hover);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .token-menu-item .token-menu-icon {
+  color: var(--al-white-50);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .token-menu-item kbd {
+  border-radius: var(--al-r-mini);
+  font-family: var(--font-ui);
+  font-size: var(--al-fs-2xs);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .token-menu-count {
+  border-radius: var(--al-r-pill);
+  font-size: var(--al-fs-2xs);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .token-menu-count {
+  border-color: transparent;
+  background: var(--al-pill);
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .token-menu.sheet {
+  border-radius: var(--al-r-outer) var(--al-r-outer) 0 0;
+}
+
+/* ------------------------------------------------------------------ Scheda: Magie, Inventario */
+/* The category pages keep the modal's grammar (A6, A8): filter chips as the segmented pills;
+   summary cells as glass cells (radius 8, white 4 %, the 1 px top highlight) in a grid that
+   never squeezes a label (min 128 px for spells, 240 for the inventory), the stat label in
+   the UI face's caps, the value in the UI face 600 at 18; notices as glass rows; disclosure
+   summaries as accent-light links; slot pips round; level headings as the section headings;
+   list rows as Alchemy's action rows, column heads and counters in the same caps. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  :is(.spl-chip, .invp-chip) {
+  min-height: var(--al-h-control);
+  padding: 0 var(--al-sp-3);
+  border-width: var(--al-bw);
+  border-radius: var(--al-r-pill);
+  font-family: var(--font-label);
+  font-size: var(--al-fs-caps);
+  font-weight: var(--al-fw-black);
+  line-height: var(--al-lh-sm);
+  letter-spacing: var(--al-track-button);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-chip, .invp-chip) {
+  border-color: var(--al-pill);
+  background: transparent;
+  color: var(--al-white-50);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-chip:hover, .invp-chip:hover) {
+  background: var(--al-pill);
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-chip[aria-pressed="true"], .spl-chip.active, .invp-chip.active) {
+  border-color: var(--al-glass-border);
+  background: var(--al-hover);
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .character-sheet .spl-stats {
+  grid-template-columns: repeat(auto-fit, minmax(var(--al-card-min), 1fr));
+  gap: var(--al-sp-2);
+  margin: 0 0 var(--al-sp-4);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .invp-summary {
+  grid-template-columns: repeat(auto-fit, minmax(var(--al-card-min-wide), 1fr));
+  gap: var(--al-sp-2);
+  margin: 0 0 var(--al-sp-4);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .character-sheet .spl-stat {
+  justify-content: space-between;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .character-sheet .invp-stat {
+  justify-content: flex-start;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  :is(.spl-stat, .invp-stat) {
+  gap: var(--al-sp-1);
+  padding: var(--al-sp-3) var(--al-sp-4);
+  border-width: 0;
+  border-radius: var(--al-r-inner);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-stat, .invp-stat) {
+  background: var(--al-glass);
+  box-shadow: inset 0 var(--al-bw) 0 var(--al-divider);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  :is(.spl-stat dd, .invp-stat > strong) {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: var(--al-fs-lg);
+  font-weight: var(--al-fw-ui-strong);
+  line-height: var(--al-lh-lg);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  :is(.spl-stat dd small, .invp-stat > strong small, .invp-stat > small) {
+  font-size: var(--al-fs-xs);
+  font-weight: var(--al-fw-ui);
+  line-height: var(--al-lh-xs);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-stat dd small, .invp-stat > strong small, .invp-stat > small) {
+  color: var(--muted);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .invp-stat
+  .button {
+  white-space: nowrap;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  :is(.invp-bar, .invp-container-main .invp-bar) {
+  block-size: var(--al-sp-15);
+  border-radius: var(--al-r-pill);
+}
+/* The attunement diamonds become Alchemy's round pips (T16), 12 px. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  :is(.invp-pips, .spl-pips) {
+  gap: var(--al-sp-1);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  :is(.invp-pips > span, .spl-pip, .spl-slot .spl-pip) {
+  inline-size: var(--al-sp-3);
+  block-size: var(--al-sp-3);
+  border-width: var(--al-bw-2);
+  border-radius: var(--al-r-round);
+  transform: none;
+}
+/* The weapon sets: rows radius 8, the active one white 10 %. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .character-sheet .invp-sets {
+  gap: var(--al-sp-1);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .invp-sets
+  li {
+  gap: var(--al-sp-1) var(--al-sp-2);
+  padding: var(--al-sp-1) var(--al-sp-2);
+  border-radius: var(--al-r-inner);
+  font-size: var(--al-fs-sm);
+  line-height: var(--al-lh-sm);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .character-sheet
+  .invp-sets
+  li.is-active {
+  background: var(--al-hover);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .invp-sets
+  em {
+  font-size: var(--al-fs-xs);
+  line-height: var(--al-lh-xs);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .character-sheet .invp-sets em {
+  color: var(--al-white);
+}
+/* Notices: the closed spell window as a glass row. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .spl-window {
+  gap: var(--al-sp-3);
+  margin: 0 0 var(--al-sp-4);
+  padding: var(--al-sp-1) var(--al-sp-4);
+  border-width: 0;
+  border-radius: var(--al-r-inner);
+  font-size: var(--al-fs-sm);
+  line-height: var(--al-lh-sm);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-window, .spl-window.is-closed, .spl-window.is-open) {
+  background: var(--al-glass);
+  box-shadow: inset 0 var(--al-bw) 0 var(--al-divider);
+}
+/* Disclosure summaries («Perché?», «Regola d'ingombro…», «Visualizzazione…»): links in the
+   accent light, the UI face 600. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  :is(.spl-window-why > summary, .invp-details > summary, .invp-view > summary) {
+  min-height: var(--al-h-control);
+  font-family: var(--font-ui);
+  font-size: var(--al-fs-sm);
+  font-weight: var(--al-fw-ui-strong);
+  line-height: var(--al-lh-sm);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-window-why > summary, .invp-details > summary, .invp-view > summary) {
+  color: var(--al-accent-text);
+}
+/* Concentration and slot lines. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .spl-concentration.is-idle {
+  gap: var(--al-sp-1) var(--al-sp-3);
+  margin: 0 0 var(--al-sp-4);
+  padding: 0;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .character-sheet .spl-slots {
+  gap: var(--al-sp-2) var(--al-sp-6);
+  margin: 0 0 var(--al-sp-4);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  :is(.spl-slots .spl-slot, .spl-slots .spl-slot > div) {
+  gap: var(--al-sp-1) var(--al-sp-2);
+  font-size: var(--al-fs-sm);
+  line-height: var(--al-lh-sm);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .spl-slots
+  .character-slot-summary {
+  flex: 1 1 100%;
+  flex-direction: row;
+  justify-content: flex-start;
+  margin: 0;
+}
+/* Each line's command at the line's right end (on its own line when it wraps), so the three
+   commands of the block share one edge at every width instead of floating mid-line. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  :is(.spl-slots .spl-slot, .spl-concentration.is-idle)
+  > .button {
+  margin-inline: auto 0;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  :is(.spl-filters, .invp-filters, .invp-toolbar-row) {
+  gap: var(--al-sp-2);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  :is(.spl-check, .invp-check) {
+  gap: var(--al-sp-2);
+  font-size: var(--al-fs-sm);
+  line-height: var(--al-lh-sm);
+}
+/* Level headings («Trucchetti», «Livello 1 · slot 3/4») as the sheet's section headings. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .panel
+  .spl-group
+  h3 {
+  margin: var(--al-sp-6) 0 var(--al-sp-3);
+  padding: 0 0 var(--al-sp-2);
+  font-family: var(--font-display);
+  font-size: var(--al-fs-base);
+  font-weight: var(--al-fw-display);
+  line-height: var(--al-lh-base);
+  letter-spacing: 0;
+  font-variant-caps: normal;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .spl-group
+  h3
+  .muted {
+  font-family: var(--font-ui);
+  font-size: var(--al-fs-sm);
+  font-weight: var(--al-fw-ui);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .character-sheet .spl-rows {
+  margin: 0;
+}
+/* Rows: Alchemy's action rows. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  :is(.spl-row, .invp-row) {
+  gap: var(--al-sp-2) var(--al-sp-3);
+  padding: var(--al-sp-2) var(--al-sp-3);
+  border-width: 0;
+  border-radius: var(--al-r-inner);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-row, .invp-row) {
+  background: var(--al-glass);
+  box-shadow: inset 0 var(--al-bw) 0 var(--al-divider);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  :is(.spl-row + .spl-row, .invp-row + .invp-row) {
+  margin-top: var(--al-sp-2);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  :is(.spl-row-meta, .spl-row-state, .invp-row-meta) {
+  margin: var(--al-sp-1) 0 0;
+  font-size: var(--al-fs-xs);
+  line-height: var(--al-lh-xs);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  :is(.spl-row-title strong, .invp-row-name) {
+  font-size: var(--al-fs-sm);
+  line-height: var(--al-lh-sm);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .character-sheet .spl-badge {
+  min-width: var(--al-count);
+  block-size: var(--al-count);
+  padding: 0 var(--al-sp-1);
+  border-radius: var(--al-r-round);
+  font-size: var(--al-fs-2xs);
+  line-height: var(--al-lh-2xs);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .character-sheet .spl-state {
+  padding: var(--al-sp-05) var(--al-sp-2);
+  font-size: var(--al-fs-xs);
+  line-height: var(--al-lh-xs);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .invp-row-icon {
+  inline-size: var(--al-h-control);
+  block-size: var(--al-h-control);
+  border-width: 0;
+  border-radius: var(--al-r-round);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .character-sheet .invp-row-icon {
+  background: var(--al-pill);
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .invp-root-head {
+  gap: var(--al-sp-2) var(--al-sp-3);
+  margin: 0 0 var(--al-sp-3);
+  padding: 0 0 var(--al-sp-2);
+  font-size: var(--al-fs-sm);
+  line-height: var(--al-lh-sm);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .character-sheet .invp-root-head {
+  border-bottom-color: var(--al-accent);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .invp-root-head
+  strong {
+  font-family: var(--font-display);
+  font-size: var(--al-fs-base);
+  font-weight: var(--al-fw-display);
+  line-height: var(--al-lh-base);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .character-sheet .invp-cols {
+  gap: var(--al-sp-3);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .character-sheet .invp-col {
+  font-size: var(--al-fs-sm);
+  line-height: var(--al-lh-sm);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  :is(.invp-col small, .invp-columns-label) {
+  font-family: var(--font-ui);
+  font-size: var(--al-fs-sm);
+  font-weight: var(--al-fw-ui-strong);
+  line-height: var(--al-lh-sm);
+  letter-spacing: var(--al-track-button);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .invp-row-actions {
+  gap: var(--al-sp-2);
+}
+/* «Altro» shows only its glyph (the app hides its word): a round 40 px button like every
+   other icon button, not a 54 px pill around one glyph. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .invp-row-actions
+  > .button[data-invp="menu"] {
+  justify-content: center;
+  inline-size: var(--al-h-control);
+  padding: 0;
+}
+/* The stars of favourites and the hotbar's group tags on the scale. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .character-sheet .shp-star {
+  padding: 0;
+  font-size: var(--al-fs-xl);
+}
+/* Capitals only from the 14 px step (10 px capitals): the AC label (A7). The temporary HP line
+   is held at 12 px by the app (characters.css:262, a size a skin cannot raise), where small
+   caps would be 8 px: it reads in its own case, the UI face 600 at 12, like the stat values'
+   notes. Beside the dice-mode select, «Tiri e risultati» (where the app shows its words: from
+   1280 px, not tight) takes the select's face and size, the UI face 600 at 14.
+   The hotbar's group tags («Armi», «Incantesimi») live in the slot's top edge: the UI face at
+   10 px in their own case, like the turn order's «Turno attuale», not 7 px capitals. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .inspector-ac small {
+  font-family: var(--font-label);
+  font-size: var(--al-fs-caps);
+  font-weight: var(--al-fw-display);
+  line-height: var(--al-lh-sm);
+  letter-spacing: var(--al-track-label);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-vitals
+  .stat
+  > .character-hp-temp {
+  font-family: var(--font-ui);
+  font-size: var(--al-fs-xs);
+  font-weight: var(--al-fw-ui-strong);
+  line-height: var(--al-lh-xs);
+  letter-spacing: 0;
+  font-variant-caps: normal;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .combat-bar-heading
+  .text-button {
+  font-family: var(--font-ui);
+  font-weight: var(--al-fw-ui-strong);
+  letter-spacing: 0;
+  font-variant-caps: normal;
+}
+@media (min-width: 1280px) {
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-hotbar:not(.is-tight)
+    .combat-bar-heading
+    .text-button {
+    font-size: var(--al-fs-sm);
+    line-height: var(--al-lh-sm);
+  }
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-hotbar
+  .combat-group-tag {
+  top: var(--al-sp-05);
+  left: var(--al-sp-3);
+  font-family: var(--font-ui);
+  font-size: var(--al-fs-2xs);
+  font-weight: var(--al-fw-ui-strong);
+  line-height: var(--al-lh-2xs);
+  letter-spacing: 0;
+  font-variant-caps: normal;
+}
+/* Counters inside caps chips stay plain figures at 12. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .shp-chip
+  > small {
+  font-size: var(--al-fs-xs);
+  font-variant-caps: normal;
+}
+/* Off-scale sizes the app fixes in px, on the scale: zoom glyphs 20, notification counts 10,
+   map labels 12 (names, conditions, elevation, pins). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-layout
+  .map-zoom
+  .map-tool {
+  font-size: var(--al-fs-xl);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .ext-count {
+  font-size: var(--al-fs-2xs);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  #battle-map
+  :is(text.token-name, .annotations-elevation text) {
+  font-size: var(--al-fs-xs);
+}
+
+/* The cost filter beside the actions: a round 40 px button like the other slots, with no
+   1 px well around it (the well made the first row of slots 44 px tall instead of 40). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-hotbar
+  .combat-filters {
+  padding: 0;
+  border-width: 0;
+  border-radius: var(--al-r-pill);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .table-hotbar .combat-filters {
+  background: transparent;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-hotbar
+  .combat-filter {
+  min-width: var(--al-h-control);
+  border-radius: var(--al-r-round);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .table-hotbar .combat-filter {
+  background: var(--al-pill);
+  box-shadow: inset 0 var(--al-bw) 0 var(--al-divider);
+}
+
+/* ------------------------------------------------------------------ type normalisation (A7) */
+/* The app's own fixed sizes, weights, trackings and line heights brought onto the one type
+   scale, so the whole option renders a short list of styles: */
+/* labels the app tracks by 0.05 em (dt, table heads, «Risorse del turno», «Effetti»): the field
+   label grammar, Unbounded 700 caps from the 14 px step, tracking 1 */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  :is(dt, th, .character-turn-label, .shp-row-label) {
+  font-family: var(--font-label);
+  font-size: var(--al-fs-caps);
+  font-weight: var(--al-fw-display);
+  line-height: var(--al-lh-sm);
+  letter-spacing: var(--al-track-label);
+  font-variant-caps: all-small-caps;
+}
+/* inventory column heads: the stat-label grammar */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .invp-col
+  small {
+  font-size: var(--al-fs-caps-lg);
+  line-height: var(--al-lh-base);
+}
+/* glyph-like values and marks at 20: the UI face 600, line height 28 */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  :is(
+    .table-layout .map-zoom .map-tool,
+    .inspector-ac strong,
+    .character-sheet .shp-star,
+    .character-sheet .character-band .character-inspiration > span:first-child
+  ) {
+  font-family: var(--font-ui);
+  font-size: var(--al-fs-xl);
+  font-weight: var(--al-fw-ui-strong);
+  line-height: var(--al-lh-xl);
+  letter-spacing: 0;
+  font-variant-caps: normal;
+}
+/* counters and small numbers at 10 and 12 */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  :is(.ext-count, .token-menu-count) {
+  font-family: var(--font-ui);
+  font-size: var(--al-fs-2xs);
+  font-weight: var(--al-fw-ui-strong);
+  line-height: var(--al-lh-2xs);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .shp-chip
+  > small {
+  font-family: var(--font-ui);
+  font-weight: var(--al-fw-ui);
+  line-height: var(--al-lh-xs);
+  letter-spacing: 0;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-layout
+  > .table-sidebar-rail
+  .table-tab-label {
+  font-weight: var(--al-fw-ui-strong);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .token-menu-chevron {
+  font-size: var(--al-fs-lg);
+  font-weight: var(--al-fw-ui-strong);
+  line-height: var(--al-lh-lg);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .token-menu-hp input {
+  line-height: var(--al-lh-sm);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-hotbar
+  :is(.combat-action, .combat-dock .sm-dock-toggle) {
+  line-height: var(--al-lh-xs);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .home-page .hp-small small {
+  line-height: var(--al-lh-sm);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .home-page .resume-scene p {
+  line-height: var(--al-lh-sm);
+}
+/* portrait initials (behind the sample art): the display face 700 at 18 */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  :is(
+    .table-party-portrait,
+    .table-layout > .initiative .token-dot,
+    .table-layout > .initiative .initiative-token.current .token-dot,
+    .inspector-person .portrait,
+    .table-hotbar .hotbar-portrait,
+    .token-menu-portrait,
+    .home-page .character-resume .portrait
+  ) {
+  font-family: var(--font-display);
+  font-size: var(--al-fs-lg);
+  font-weight: var(--al-fw-display);
+  line-height: var(--al-lh-lg);
+}
+/* map marks and labels the app sets at 11, 13 and 17 px: 12 and 16, the UI face 600 */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  #battle-map
+  :is(.regions-mark text, .travel-point text, .map-token text:not(.token-name)) {
+  font-family: var(--font-ui);
+  font-size: var(--al-fs-xs);
+  font-weight: var(--al-fw-ui-strong);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) #battle-map text.token-name {
+  font-weight: var(--al-fw-ui-strong);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  #battle-map
+  .handouts-pin-glyph {
+  font-family: var(--font-ui);
+  font-size: var(--al-fs-base);
+  font-weight: var(--al-fw-ui-strong);
+}
+/* The spell components (V, S): white letters on the glass ring, AA at 10 px. */
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .character-sheet .spl-badge {
+  border-color: var(--al-glass-border);
+  color: var(--al-white);
+}
+/* The health pills under the tokens: 10 px, inside the app's measured pill. The DM's hidden
+   way-point glyphs keep a dark halo, so they read on any part of the painted scene. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) #battle-map .cs-health text {
+  font-family: var(--font-ui);
+  font-size: var(--al-fs-2xs);
+  font-weight: var(--al-fw-ui-strong);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) #battle-map .travel-point text {
+  paint-order: stroke;
+  stroke: var(--al-bg);
+  stroke-width: var(--al-bw-4);
+  stroke-linejoin: round;
+}
+/* Spacing the app fixes off the 2 px step, on the scale (I-250). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .character-sheet .shp-prop {
+  padding: var(--al-sp-05) var(--al-sp-2);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .conditions-vital {
+  padding: var(--al-sp-1) var(--al-sp-3);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .sm-sheet
+  h4 {
+  margin: var(--al-sp-6) 0 var(--al-sp-2);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .token-menu-item kbd {
+  padding: var(--al-sp-05) var(--al-sp-1);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .session-view-dots {
+  gap: var(--al-sp-1);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .offline-sheet {
+  margin-top: var(--al-sp-6);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  :is(.app-header .brand, .app-header .nav-link, .app-header.table-header > .button) {
+  gap: var(--al-sp-2);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .home-page
+  .character-resume
+  small {
+  margin-top: var(--al-sp-05);
+}

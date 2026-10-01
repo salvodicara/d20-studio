@@ -1,1 +1,4830 @@
-/* Direction «demiplane» — Phase C round 1 «Scelta 1 — Direzione» (I-248). Skeleton: the builder fills it. */
+/* Direction «9 · Demiplane» (id "demiplane") — Phase C round 1 «Scelta 1 — Direzione» (I-248).
+   Loaded by directions/index.mjs only while this direction is active. Dark theme only: every
+   rule starts with :root[data-direction="demiplane"]:not([data-pref-theme="light"]), so the
+   light theme keeps today's look; the eight contrast tokens also skip high contrast, the
+   map-token colours also skip the colour-vision palettes. No markup, text, !important or
+   third-party pixels, fonts, textures or logos. Reference files (REF-ONLY) are in
+   ~/Workspace/Codex/d20-studio-visual-assets/references/demiplane/ (facts.md, manifest.md);
+   the Italian table for the owner is SOURCES.md in this folder.
+
+   One design system (I-250), copied from Demiplane's Nexus sheets (MUI shell + PF2e sheet):
+   - spacing: MUI's 8-point grid 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 (--space-1…8; Demiplane's
+     8 px dice gap, 12/16 toast padding, 16 px dock margin, 24 px card gap, 80 px phone foot);
+   - type: 12 · 14 · 16 · 18 · 24 · 28 · 48 px (--text-xs…3xl: 12 numbers in badges and key
+     hints, 14 MUI button and the micro label, 16 nav, tags, row names and box header, 18 game
+     buttons, tabs and drawer body, 24 section and toast titles, 28 header name and values,
+     48 «Select a Nexus» title; 11 is left only to the app's phone rail labels); line heights
+     1 (one-line caps labels in fixed tiles), 1.2 (titles, labels, values), 1.5 (MUI body);
+   - caps without text-transform: Barlow Condensed in all-small-caps one type step up, so its
+     capitals land on Demiplane's caps sizes: micro label 14 → ≈ 7 px caps (its 10 px Barlow
+     caps), tag 16 → ≈ 8 px (its 11 px Overpass caps), button and tab 18; Cinzel is a
+     capitals face, so box headers need no caps feature;
+   - one recipe per kind: game button 40 px, 18/700 caps, 8 × 16 padding; tab 18/700 caps with
+     12 px sides (sheet bar 56 px, other strips 40 px); tag 24 px, 16/700 caps, 0 × 8, radius 4;
+     field 40 px; menu row 40 px (44 in the phone sheet, the app's touch rule);
+   - two button voices: the shell's Barlow 14/600 as written (Home, header; #006FB8 the one
+     CTA) and the game's condensed caps (sheet, Table, drawers, menus; dice blue #3276B5 the
+     primary, ghost buttons as text actions on the column edge);
+   - radii: 4 (buttons, menus, tags, chips) · 8 (panels, rows, dice-history) · 10 (header-tab
+     top corners) · 12 (art cards) · 16 (tooltip card) · 24 (pills, phone tab container) · 50 %;
+   - borders: 1 px lines (fields #8D8D8D, ≥ 3:1), 2 px for the active underline, the frame
+     and the result chip;
+   - control heights: 40 (our target floor; Demiplane's 38 px CTA; value chips) · 44 (the
+     app's hotbar tile) · 48 (dice FAB and dice circles, Daggerheart «large») · 56 (tab bar,
+     phone tab container).
+
+   elemento → prodotto → fonte
+   - shell: black 80 px bar, 1 px white 12 % rule, Barlow 16/700 Title Case nav, the open page
+     with the «All Games» 2 px #00ABFF underline, hover #22B8CF → Demiplane shell →
+     demiplane-home-live-anon-1440x900.png, -games-select-nexus-1440x900.png; facts §1.1, §5
+   - white search field with a magnifier, one blue CTA #006FB8 → Demiplane shell → same files
+   - page #1B1C22, sheet panels #202020, inset chips #0F0F0F, dice grey #3F3F3F, gold #F1CE86,
+     bronze frame #917B52, dice blue #3276B5, heal #29AC5E, damage #8A3D37, trait tag #5E0000
+     + #F3CE88, rule link #00BE77, tooltip #0A0F21 + #F3C267 → Demiplane PF2e / Daggerheart →
+     facts §1.1 (CSS counts and sd-0 samples)
+   - fonts: Barlow (shell), Roboto (body, MUI), Barlow Condensed 600/700 for GoodOT-CondBold,
+     Cinzel 700 for Taroca → facts §1.2 «Substitute we can vendor»
+   - box = #202020 body under a black caps HEADER TAB with 10 px top corners, centred →
+     PF2e sheet → demiplane-sheet-crop-pf2e-header-stat-panels.png; CSS
+     .sheet-box-component-header (facts §2)
+   - tiny grey caps label over a big value in a #0F0F0F inset chip → PF2e ABILITY/SAVING
+     THROWS, Cyberpunk stat tiles → same crop, demiplane-sheet-cyberpunk-desktop-2025.png
+   - HP cluster: ±HP field, HEAL #29AC5E over DAMAGE #8A3D37 → PF2e HIT POINTS → same crop
+   - tab bar #202020 56 px, condensed caps grey, open tab white with a 2 px gold underline →
+     PF2e tabs (facts §2 «Tabs»)
+   - filter pills, the open one filled → Marvel ALL / STANDARD / REACTION, Cyberpunk filled
+     active tab → demiplane-sheet-marvel-desktop-roll-result-power-drawer-2025.png
+   - trait tags (#5E0000, 1 px gold, caps) → PF2e CONCENTRATE / EXPLORATION →
+     demiplane-sheet-crop-pf2e-rules-drawer.png
+   - rule keywords green #00BE77 with a 1 px dotted underline; tooltip #0A0F21, 1 px #F3C267,
+     radius 16 → Demiplane rule tooltip → demiplane-dialog-live-daggerheart-rule-tooltip-1440x900.png
+   - pickers and dialogs as the right drawer (#202020 body, #0F0F0F header, type micro-label,
+     condensed caps title, ✕) → PF2e rules drawer, Marvel «SELECT ACTIVE MANEUVER» drawer →
+     demiplane-sheet-crop-pf2e-rules-drawer.png, demiplane-sheet-marvel-desktop-select-maneuver-drawer-2025.png
+   - dice: 48 px round blue FAB #3276B5 and 48 px #3F3F3F dice circles; roll toast #3F3F3F, 1 px
+     bronze, name in condensed caps, result gold → demiplane-dice-crop-pf2e-roll-toast-dice-tray.png,
+     demiplane-dice-crop-vampire-roll-history-pool.png
+   - Home: the site, not the sheet — key art behind the page title fading into #1B1C22,
+     flat sections with Barlow 24/700 titles and 1 px rules, «Select a Nexus» square art card
+     200×200 radius 12 with the label under it, the Nexus hero's two CTAs, the «All Games»
+     tab (#00ABFF), links in #00ABFF and the slanted landing tile (VIEW MY CHARACTERS) →
+     demiplane-home-live-games-select-nexus-1440x900.png,
+     demiplane-home-live-pathfinder-nexus-1440x900.png, demiplane-home-campaign-page-cyberpunk-2026.jpeg
+   - Scheda: centred framed column over full-bleed darkened art, header card with a round
+     portrait and the name in display caps → demiplane-sheet-pf2e-desktop-roll-toast-dice-tray-rules-drawer-official.jpg,
+     demiplane-sheet-cyberpunk-desktop-2025.png; phone: one full-width column (8 px sides),
+     compact identity header (portrait 48), 56 px rounded tab container on an opaque strip →
+     facts §3 (CSS border-radius 24, rgba(15,15,15,.9); .mobile-bottom-content padding 8)
+   - Tavolo: Demiplane has no VTT; its sheet grammar dresses our Table chrome (boxes with
+     header tabs, inset chips, the rules drawer as the sidebar, the dice row as the turn
+     commands) as the Demiplane sheet does inside Roll20 →
+     demiplane-sheet-daggerheart-in-roll20-vtt-garrick-2025.jpeg,
+     demiplane-table-dc20-sheet-in-roll20-action-points-2025.jpg (SOURCES.md «Differenze»)
+   - icons: Material Symbols, filled, weight 400 (Apache-2.0) — Demiplane's MUI chrome uses
+     @mui/icons-material filled → facts §1.5; icons.mjs, LICENSE-material-design-icons.txt
+   - brand (d20 logo, wordmark) pinned to today's look → code-map §0.5 */
+
+/* ------------------------------------------------------------------ fonts (vendored, OFL) */
+@font-face {
+  font-family: "Barlow";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../../assets/fonts/barlow/barlow-latin-600-normal.woff2") format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Barlow";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../../assets/fonts/barlow/barlow-latin-ext-600-normal.woff2") format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
+}
+@font-face {
+  font-family: "Barlow";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../../assets/fonts/barlow/barlow-latin-700-normal.woff2") format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Barlow";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../../assets/fonts/barlow/barlow-latin-ext-700-normal.woff2") format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
+}
+@font-face {
+  font-family: "Barlow Condensed";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../../assets/fonts/barlow-condensed/barlow-condensed-latin-600-normal.woff2")
+    format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Barlow Condensed";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../../assets/fonts/barlow-condensed/barlow-condensed-latin-ext-600-normal.woff2")
+    format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
+}
+@font-face {
+  font-family: "Barlow Condensed";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../../assets/fonts/barlow-condensed/barlow-condensed-latin-700-normal.woff2")
+    format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Barlow Condensed";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../../assets/fonts/barlow-condensed/barlow-condensed-latin-ext-700-normal.woff2")
+    format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
+}
+@font-face {
+  font-family: "Cinzel";
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url("../../assets/fonts/cinzel/cinzel-latin-wght-normal.woff2") format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Cinzel";
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url("../../assets/fonts/cinzel/cinzel-latin-ext-wght-normal.woff2") format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
+}
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("../../assets/fonts/roboto/roboto-latin-wght-normal.woff2") format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("../../assets/fonts/roboto/roboto-latin-ext-wght-normal.woff2") format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
+}
+
+/* ------------------------------------------------------------------ tokens */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) {
+  color-scheme: dark;
+  /* Surfaces: shell page #1B1C22, PF2e panels #202020, insets #0F0F0F, dice grey #3F3F3F. */
+  --bg: #1b1c22;
+  --surface: #202020;
+  --surface-2: #0f0f0f;
+  --raised: #3f3f3f;
+  --canvas: #101116;
+  --sunken: #0f0f0f;
+  --header-bg: #000000;
+  --sidebar-bg: #202020;
+  --rail-bg: #000000;
+  --hotbar-bg: #202020;
+  --float-bg: rgb(15 15 15 / 0.92);
+  --float-border: #3a3a3a;
+  --scrim: rgb(0 0 0 / 0.6);
+  /* Accent: PF2e gold (result number, active tab, nav hover). */
+  --accent: #f1ce86;
+  --accent-ink: #0f0f0f;
+  --accent-strong: #f6d288;
+  --accent-soft: rgb(241 206 134 / 0.14);
+  --accent-line: rgb(241 206 134 / 0.6);
+  /* Semantic: DAMAGE #8A3D37, HEAL #29AC5E; MUI error.light #E57373 for red words. */
+  --danger: #e57373;
+  --danger-strong: #8a3d37;
+  --danger-ink: #ffffff;
+  --danger-soft: rgb(138 61 55 / 0.35);
+  --positive: #29ac5e;
+  --positive-strong: #29ac5e;
+  --positive-soft: rgb(41 172 94 / 0.16);
+  --warning: #f3c267;
+  --warning-soft: rgb(243 194 103 / 0.16);
+  --info: #00abff;
+  --info-soft: rgb(0 171 255 / 0.16);
+  /* Toast = Demiplane's roll toast: dice grey, white words. */
+  --toast-bg: #3f3f3f;
+  --toast-ink: #ffffff;
+  --toast-error-bg: #8a3d37;
+  --toast-error-ink: #ffffff;
+  /* HP: heal green, Daggerheart gold and teal, damage red. */
+  --hp-full: #29ac5e;
+  --hp-mid: #f3c267;
+  --hp-low: #e57373;
+  --hp-down: #8a3d37;
+  --hp-temp: #81ccc3;
+  --hp-track: #0f0f0f;
+  /* Turn order and tokens: dice blue for the party, red for foes, gold for the turn. */
+  --turn-current: #f1ce86;
+  --turn-ally: #3276b5;
+  --turn-enemy: #e57373;
+  --turn-done: #8d8d8d;
+  --endturn-bg: #3276b5;
+  --token-initial: #ffffff;
+  --token-label: #ffffff;
+  --token-label-halo: #000000;
+  --status-conditions: #f3c267;
+  --vis-dm: #81ccc3;
+  /* MUI elevation 1, 8 and 24 (Demiplane's menus are elevation 8). */
+  --shadow-1:
+    0 2px 1px -1px rgb(0 0 0 / 0.2), 0 1px 1px 0 rgb(0 0 0 / 0.14), 0 1px 3px 0 rgb(0 0 0 / 0.12);
+  --shadow-2:
+    0 5px 5px -3px rgb(0 0 0 / 0.2), 0 8px 10px 1px rgb(0 0 0 / 0.14),
+    0 3px 14px 2px rgb(0 0 0 / 0.12);
+  --shadow-3:
+    0 11px 15px -7px rgb(0 0 0 / 0.2), 0 24px 38px 3px rgb(0 0 0 / 0.14),
+    0 9px 46px 8px rgb(0 0 0 / 0.12);
+  --keyline-dark: #000000;
+
+  /* ---- I-250 scales (see the head comment). */
+  /* Spacing: MUI's 8-point grid (the app's own steps, kept as Demiplane uses them). */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  /* Radii. */
+  --radius-xs: 4px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius: 8px;
+  --dp-r-tab: 10px;
+  --dp-r-card: 12px;
+  --dp-r-pill: 24px;
+  /* Borders. */
+  --dp-b-1: 1px;
+  --dp-b-2: 2px;
+  /* Control heights. */
+  --dp-h-control: 40px;
+  /* The hotbar tile (the app's 44 px action tile, kept so two rows stay under 120 px). */
+  --dp-h-tile: 44px;
+  --dp-h-large: 48px;
+  --dp-h-bar: 56px;
+  /* Line heights: 1 only for one-line caps labels inside fixed-height tiles. */
+  --dp-lh-solid: 1;
+  --dp-lh-tight: 1.2;
+  --dp-lh-body: 1.5;
+  /* Tracking: MUI button .4 px at 14 (≈ .03em), shared by every caps label, button, tab and
+     tag; the tooltip's kind line keeps Demiplane's 1 px at 11 (≈ .09em → .08em). */
+  --label-tracking: 0.03em;
+  --dp-track-tag: 0.08em;
+  /* One tag height (24, on the 4 px grid; Demiplane's tags are 20–24). */
+  --dp-h-tag: 24px;
+  /* Families. */
+  --font-display: "Cinzel", "Trajan Pro", "Iowan Old Style", Georgia, serif;
+  --font-ui:
+    "Roboto", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial,
+    sans-serif;
+  --font-label: "Barlow Condensed", "Roboto Condensed", "Arial Narrow", system-ui, sans-serif;
+  --dp-font-shell: "Barlow", "Roboto", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  /* Colours used by name below. */
+  --dp-black: #000000;
+  --dp-panel: #202020;
+  --dp-inset: #0f0f0f;
+  --dp-grey: #3f3f3f;
+  --dp-shell: #1b1c22;
+  --dp-divider: #272831;
+  --dp-micro: #8d8d8d;
+  --dp-gold: #f1ce86;
+  --dp-bronze: #917b52;
+  --dp-blue: #3276b5;
+  --dp-cta: #006fb8;
+  --dp-cta-hover: #0062a3;
+  --dp-cyan: #00abff;
+  --dp-hover-nav: #22b8cf;
+  --dp-heal: #29ac5e;
+  --dp-damage: #8a3d37;
+  --dp-tag: #5e0000;
+  --dp-tag-line: #f3ce88;
+  --dp-rule: #00be77;
+  --dp-tip: #0a0f21;
+  --dp-tip-line: #f3c267;
+  --dp-art-shade: rgb(16 17 22 / 0.72);
+  --dp-tile: #661d16;
+  --dp-tag-rule: #48d18c;
+  --dp-damage-hover: #7a3530;
+  --dp-grey-hover: #4c4c4c;
+  --dp-blue-hover: #3a85cc;
+  --dp-column: rgb(16 17 22 / 0.94);
+  /* Field edges: the micro grey, ≥ 3:1 on #202020 and #0F0F0F (WCAG 1.4.11). */
+  --dp-field-line: #8d8d8d;
+}
+/* Type scale (kept in the preference-scaled form of preferences.css). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) {
+  --text-2xs: calc(11px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --text-xs: calc(12px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --text-sm: calc(14px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --text-md: calc(16px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --text-lg: calc(18px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --text-xl: calc(24px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --text-2xl: calc(28px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+  --text-3xl: calc(48px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
+}
+/* MUI dark text (white, BFBFBF secondary), lines #3A3A3A, focus in the link blue. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]) {
+  --text: #ffffff;
+  --muted: #bfbfbf;
+  --line: #3a3a3a;
+  --focus: #00abff;
+  --line-strong: #686868;
+  --frame: #917b52;
+  --frame-soft: rgb(145 123 82 / 0.5);
+  --placeholder: #8d8d8d;
+}
+/* Token rings: the party in dice blue, foes in red (also dashed: preferences.css). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  ) {
+  --token-ally-fill: #202020;
+  --token-ally-ring: #3276b5;
+  --token-hostile-fill: #2a1514;
+  --token-hostile-ring: #e57373;
+}
+/* The map's HUD palette (combat.css): gold, white ink on black chips. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) {
+  --map-gold: #f1ce86;
+  --map-gold-bright: #f6d288;
+  --map-ink: #ffffff;
+  --map-halo: #000000;
+  --map-chip: #0f0f0f;
+  --map-muted: #bfbfbf;
+  --door-fill: #0f0f0f;
+  --door-rim: #f1ce86;
+  --door-ink: #ffffff;
+  --door-focus: #ffffff;
+}
+
+/* ------------------------------------------------------------------ page and browser surfaces */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) body {
+  background: var(--bg);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) ::selection {
+  background: rgb(0 111 184 / 0.6);
+  color: #ffffff;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) * {
+  scrollbar-color: var(--dp-grey) transparent;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) input,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) textarea {
+  caret-color: var(--dp-cyan);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) h1,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) h2 {
+  font-weight: 700;
+  line-height: var(--dp-lh-tight);
+  letter-spacing: 0.02em;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) h3 {
+  font-family: var(--dp-font-shell);
+  font-weight: 700;
+  line-height: var(--dp-lh-tight);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .muted {
+  color: var(--muted);
+}
+
+/* The brand keeps today's colours and lettering (Phase D decides it). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .brand {
+  color: #efe7d6;
+  font-family:
+    "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", "URW Palladio L", Georgia,
+    serif;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .brand .icon,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .brand .logo,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .brand b {
+  color: #dfbd78;
+}
+
+/* ------------------------------------------------------------------ demo strip and header */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .demo-strip {
+  background: var(--dp-inset);
+  border-bottom-color: var(--dp-divider);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .demo-controls select {
+  border-radius: var(--radius-xs);
+}
+/* The black 80 px bar, one 12 % white rule (MUI AppBar divider). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .app-header {
+  background: var(--dp-black);
+  border-bottom: var(--dp-b-1) solid rgb(255 255 255 / 0.12);
+  box-shadow: none;
+}
+/* Nav: Barlow 16/700 white Title Case, no icons; the open page carries the «All Games» 2 px
+   #00ABFF underline (a shape, not only a colour); hover #22B8CF. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .nav-link {
+  min-height: var(--dp-h-control);
+  padding: var(--space-2) var(--space-3);
+  border-radius: 0;
+  background: transparent;
+  color: #ffffff;
+  font-family: var(--dp-font-shell);
+  font-size: var(--text-md);
+  font-weight: 700;
+  line-height: var(--dp-lh-tight);
+  box-shadow: none;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .nav-link .icon {
+  display: none;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .nav-link.active {
+  background: transparent;
+  color: #ffffff;
+  box-shadow: inset 0 calc(var(--dp-b-2) * -1) 0 var(--dp-cyan);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .nav-link:hover {
+  background: transparent;
+  color: var(--dp-hover-nav);
+}
+/* Service icons: MUI IconButtons, white filled glyphs. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .icon-button {
+  border-radius: var(--radius-xs);
+  color: #ffffff;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .icon-button:hover {
+  background: rgb(255 255 255 / 0.08);
+  color: #ffffff;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .ext-count {
+  background: var(--dp-cyan);
+  color: var(--dp-black);
+}
+/* The account entry is the bar's one blue CTA («Sign up / Sign in», #006FB8, radius 4). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .app-header
+  .service-nav
+  [data-service="account"] {
+  background: var(--dp-cta);
+  color: #ffffff;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .app-header
+  .service-nav
+  [data-service="account"]:hover {
+  background: var(--dp-cta-hover);
+}
+@media (min-width: 1101px) {
+  /* Search: Demiplane's white field with the magnifier at its left (the button keeps its
+     name; nothing is written in it). */
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .app-header
+    .service-nav
+    [data-service="search"] {
+    justify-items: start;
+    width: 240px;
+    height: var(--dp-h-control);
+    margin-right: var(--space-4);
+    padding-inline: var(--space-3);
+    background: #ffffff;
+    color: var(--dp-grey);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .app-header
+    .service-nav
+    [data-service="search"]:hover {
+    background: #ffffff;
+    color: var(--dp-black);
+    box-shadow: inset 0 0 0 var(--dp-b-2) var(--dp-cyan);
+  }
+}
+
+/* ------------------------------------------------------------------ controls */
+/* Buttons, shell voice (Home, header): Barlow 14/600 as written, radius 4, 40 px; the
+   default a black slab with a #3A3A3A rule, primary the one blue CTA. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .button {
+  min-height: var(--dp-h-control);
+  padding: var(--space-2) var(--space-4);
+  border: var(--dp-b-1) solid var(--line);
+  border-radius: var(--radius-xs);
+  background: var(--dp-inset);
+  color: #ffffff;
+  font-family: var(--dp-font-shell);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: var(--dp-lh-tight);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .button:hover:not(:disabled) {
+  background: var(--dp-panel);
+  border-color: var(--line-strong);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .button:active:not(:disabled) {
+  background: var(--dp-black);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .button.primary {
+  border-color: var(--dp-cta);
+  background: var(--dp-cta);
+  color: #ffffff;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .button.primary:hover:not(:disabled) {
+  border-color: var(--dp-cta-hover);
+  background: var(--dp-cta-hover);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .button.quiet {
+  border-color: transparent;
+  background: transparent;
+  color: #ffffff;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .button.quiet:hover:not(:disabled) {
+  border-color: transparent;
+  background: rgb(255 255 255 / 0.08);
+}
+/* Danger = DAMAGE (#8A3D37, white label). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .button.danger {
+  border-color: var(--dp-damage);
+  background: var(--dp-damage);
+  color: #ffffff;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .button.danger:hover:not(:disabled) {
+  border-color: var(--dp-damage);
+  background: var(--dp-damage-hover);
+  color: #ffffff;
+}
+/* Active = the Cyberpunk filled tab: gold block, black label. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .button.active {
+  border-color: var(--dp-gold);
+  background: var(--dp-gold);
+  color: var(--dp-inset);
+}
+/* Text buttons: PF2e «MANAGE XP» gold condensed caps (the hotbar's rolls line keeps the
+   app's own responsive sizes: its words collapse to the bell on narrow screens). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .text-button:not(.combat-bar-heading .text-button) {
+  color: var(--dp-gold);
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+  line-height: var(--dp-lh-tight);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .text-button:not(.combat-bar-heading .text-button):hover:not(:disabled) {
+  color: var(--accent-strong);
+  text-decoration: none;
+  box-shadow: inset 0 calc(var(--dp-b-1) * -1) 0 currentColor;
+}
+/* Nexus voice: inside the sheet, the Table, drawers and menus every button is a condensed
+   caps slab (REST, REFOCUS, + ADD, HEAL, DAMAGE). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout, dialog, .token-menu, .context-menu)
+  .button {
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+/* Two button voices only: the shell's Barlow sentence case (Home, header) and the game's
+   condensed caps (sheet, Table, drawers, menus). In the game voice the primary is the
+   copy plan's --primary, the dice blue #3276B5 (END TURN, ROLL); #006FB8 stays the shell's
+   one CTA (Sign up / Sign in, «Entra al Tavolo»). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout, dialog, .token-menu, .context-menu)
+  .button.primary {
+  border-color: var(--dp-blue);
+  background: var(--dp-blue);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout, dialog, .token-menu, .context-menu)
+  .button.primary:hover:not(:disabled) {
+  border-color: var(--dp-blue-hover);
+  background: var(--dp-blue-hover);
+}
+/* Ghost buttons in the game voice are text actions (PF2e «+ ADD», «MANAGE XP»): no box, so
+   the words start on the column's edge like the labels around them; hover underlines. A
+   ghost button after another control keeps a 12 px step from it. The sheet header's
+   commands (black slabs) and the turn commands (circles) keep their boxes. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout, dialog, .token-menu)
+  .button.quiet:not(.character-heading .toolbar > .button, .action-dock > .toolbar .button) {
+  min-width: var(--dp-h-control);
+  padding-inline: 0;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout, dialog, .token-menu)
+  .button.quiet:not(
+    .character-heading .toolbar > .button,
+    .action-dock > .toolbar .button
+  ):hover:not(:disabled) {
+  background: transparent;
+  box-shadow: inset 0 calc(var(--dp-b-1) * -1) 0 currentColor;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout, dialog, .token-menu)
+  :is(.button, .shp-switch, .badge)
+  + .button.quiet:not(
+    .character-heading .toolbar > .button,
+    .action-dock > .toolbar .button,
+    .shp-col-tools > .button
+  ) {
+  margin-inline-start: var(--space-3);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) summary.button:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+/* Fields: MUI outlined inputs on the #0F0F0F inset, radius 4; blue on focus. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .field {
+  gap: var(--space-1);
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .field input,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .field select,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .field textarea,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) input[type="search"],
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  select:not(.demo-strip select, .combat-bar-heading select) {
+  min-height: var(--dp-h-control);
+  border: var(--dp-b-1) solid var(--dp-field-line);
+  border-radius: var(--radius-xs);
+  background-color: var(--dp-inset);
+  color: #ffffff;
+  font-family: var(--font-ui);
+  font-size: var(--text-md);
+  font-weight: 400;
+  letter-spacing: 0;
+  font-variant-caps: normal;
+}
+/* Every other typed field (the d20s of the initiative drawer, ±HP, the token menu's HP)
+   takes the same MUI outlined inset instead of Chromium's #3B3B3B; low specificity, so the
+   surface rules below can size them. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  :where(
+    input:not(
+      [type="checkbox"],
+      [type="radio"],
+      [type="range"],
+      [type="color"],
+      [type="file"],
+      [type="hidden"]
+    ),
+    textarea
+  ):where(:not(.demo-strip *)) {
+  border: var(--dp-b-1) solid var(--dp-field-line);
+  border-radius: var(--radius-xs);
+  background-color: var(--dp-inset);
+  color: #ffffff;
+  font-family: var(--font-ui);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  :where(
+    input:not(
+      [type="checkbox"],
+      [type="radio"],
+      [type="range"],
+      [type="color"],
+      [type="file"],
+      [type="hidden"]
+    ),
+    textarea
+  ):where(:not(.demo-strip *)):hover:not(:disabled) {
+  border-color: var(--muted);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  :where(
+    input:not(
+      [type="checkbox"],
+      [type="radio"],
+      [type="range"],
+      [type="color"],
+      [type="file"],
+      [type="hidden"]
+    ),
+    textarea
+  ):where(:not(.demo-strip *)):focus-visible {
+  border-color: var(--dp-cyan);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) select option {
+  background: var(--dp-shell);
+  color: #ffffff;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  :is(.field input, .field select, .field textarea, input[type="search"]):hover:not(:disabled),
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  select:not(.demo-strip select):hover:not(:disabled) {
+  border-color: var(--muted);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  :is(.field input, .field select, .field textarea, input[type="search"]):focus-visible,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  select:not(.demo-strip select):focus-visible {
+  border-color: var(--dp-cyan);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .check-field input,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) input[type="checkbox"],
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) input[type="radio"] {
+  accent-color: var(--dp-blue);
+}
+/* Chips: MUI chip as a black inset tag, radius 4. */
+/* Tags: one casing — every tag is a MUI chip in condensed caps (Demiplane's RULE / trait tags),
+   16 px small caps (≈ 8 px capitals, its 11 px Overpass caps), radius 4; pills (filters) are
+   the 40 px radius-24 controls. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .badge,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-state, .spl-badge, .ct-badge) {
+  border-color: var(--line);
+  border-radius: var(--radius-xs);
+  background: var(--dp-inset);
+  color: #ffffff;
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+/* Switch: MUI switch (Cyberpunk «HIDE LVL 0»): the knob on a track, blue when on. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .switch {
+  border-color: var(--line-strong);
+  background: radial-gradient(circle at 10px 50%, #e0e0e0 6px, transparent 6.5px)
+    rgb(255 255 255 / 0.3);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .switch:checked {
+  border-color: var(--dp-blue);
+  background: radial-gradient(circle at 28px 50%, #ffffff 6px, transparent 6.5px) var(--dp-blue);
+}
+/* Tabs: PF2e's tab bar — condensed caps, grey; the open one white over a 2 px gold rule. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .tabs {
+  gap: 0;
+  border-bottom-color: var(--line);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .tabs button,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-tabs [role="tab"] {
+  padding: var(--space-2) var(--space-4);
+  border-bottom: var(--dp-b-2) solid transparent;
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+  line-height: var(--dp-lh-tight);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .tabs button:hover,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-tabs [role="tab"]:hover {
+  border-bottom-color: var(--line-strong);
+  background: transparent;
+  color: #ffffff;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .tabs button.active,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-tabs
+  [role="tab"][aria-selected="true"] {
+  border-bottom-color: var(--dp-gold);
+  background: transparent;
+  color: #ffffff;
+}
+/* Panels: the box component — a #202020 body; its first heading becomes the black header tab
+   (10 px top corners, centred caps in the display face). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .panel {
+  padding: 0 var(--space-4) var(--space-4);
+  border: 0;
+  border-radius: var(--dp-r-tab) var(--dp-r-tab) var(--radius-md) var(--radius-md);
+  background: var(--dp-panel);
+  box-shadow: none;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .panel
+  > :is(.section-heading, h2, h3):first-child {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  margin: 0 calc(var(--space-4) * -1) var(--space-4);
+  padding: var(--space-1) var(--space-4);
+  border-radius: var(--dp-r-tab) var(--dp-r-tab) 0 0;
+  background: var(--dp-black);
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: var(--dp-lh-body);
+  text-align: center;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .panel
+  > .section-heading:first-child:has(button) {
+  justify-content: space-between;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .panel
+  > .section-heading:first-child
+  > :is(h2, h3) {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: var(--dp-lh-body);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .stat {
+  border: var(--dp-b-1) solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--dp-inset);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .stat > span,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) th {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .stat strong {
+  font-family: var(--font-label);
+  font-weight: 700;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .empty-state {
+  border-color: var(--line-strong);
+  border-radius: var(--radius-md);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) kbd {
+  border-color: var(--line-strong);
+  border-radius: var(--radius-xs);
+  background: var(--dp-inset);
+  color: #ffffff;
+}
+/* Rule keywords: Demiplane's green tooltip link with a 1 px dotted underline. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .compendium-term {
+  border-bottom: var(--dp-b-1) dotted var(--dp-rule);
+  color: var(--dp-rule);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .compendium-term:hover,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .compendium-term[aria-expanded="true"] {
+  color: #ffffff;
+  border-bottom-color: #ffffff;
+}
+
+/* ------------------------------------------------------------------ tooltips */
+/* Demiplane's rule tooltip card: #0A0F21, 1 px #F3C267, radius 16, a gold hairline under the
+   title, the kind as a caps tag at the right. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .compendium-tip,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .shp-tip {
+  padding: var(--space-4);
+  border: var(--dp-b-1) solid var(--dp-tip-line);
+  border-radius: var(--radius-lg);
+  background: var(--dp-tip);
+  color: #ffffff;
+  font-size: var(--text-md);
+  line-height: var(--dp-lh-body);
+  box-shadow: var(--shadow-1);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .compendium-tip.locked {
+  border-color: var(--dp-tip-line);
+  box-shadow: 0 0 0 var(--dp-b-1) var(--dp-tip-line);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .compendium-tip h4 {
+  padding-bottom: var(--space-2);
+  border-bottom: var(--dp-b-1) solid var(--dp-tip-line);
+  font-family: var(--dp-font-shell);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .compendium-tip-kind {
+  color: var(--dp-tip-line);
+  font-size: var(--text-sm);
+  letter-spacing: var(--dp-track-tag);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .compendium-tip-source {
+  color: var(--dp-micro);
+  font-size: var(--text-xs);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .compendium-tip-timer {
+  background: var(--dp-tip-line);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .ui-tip {
+  padding: var(--space-2) var(--space-3);
+  border: var(--dp-b-1) solid var(--dp-tip-line);
+  border-radius: var(--radius-md);
+  background: var(--dp-tip);
+  color: #ffffff;
+  font-size: var(--text-sm);
+}
+
+/* ------------------------------------------------------------------ drawer dialogs */
+/* Every dialog is Demiplane's right drawer (the pickers open there, not as a centred modal):
+   full height at the right edge, #202020 body, a #0F0F0F header with the title in condensed
+   caps and the ✕, actions on a #0F0F0F foot. Areas keep their own widths (lower
+   specificity through :where). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) dialog {
+  border: 0;
+  border-radius: 0;
+  background: var(--dp-panel);
+  color: #ffffff;
+  box-shadow: var(--shadow-3);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) dialog::backdrop {
+  background: var(--scrim);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .dialog-heading {
+  min-height: var(--dp-h-bar);
+  padding: var(--space-3) var(--space-5);
+  border-bottom: var(--dp-b-1) solid var(--line);
+  background: var(--dp-inset);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .dialog-heading h2 {
+  font-family: var(--font-label);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+  line-height: var(--dp-lh-tight);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .dialog-body {
+  padding: var(--space-5);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) dialog footer {
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-5);
+  border-top: var(--dp-b-1) solid var(--line);
+  background: var(--dp-inset);
+}
+@media (min-width: 721px) {
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    :where(#dialog:not(:has([data-cmdk]))) {
+    position: fixed;
+    inset: 0 0 0 auto;
+    height: 100dvh;
+    max-height: 100dvh;
+    margin: 0;
+    border-left: var(--dp-b-1) solid var(--line);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    :where(#dialog:not(:has([data-cmdk])))
+    > form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    :where(#dialog:not(:has([data-cmdk])))
+    .dialog-body {
+    flex: 1 1 auto;
+    max-height: none;
+  }
+}
+
+/* ------------------------------------------------------------------ menus and toast */
+/* Menus: Demiplane's dropdown — #1B1C22, radius 4, MUI elevation 8, Barlow 14/700 rows. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .context-menu {
+  border: 0;
+  border-radius: var(--radius-xs);
+  background: var(--dp-shell);
+  box-shadow: var(--shadow-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .context-menu [role="menuitem"] {
+  border-radius: 0;
+  font-family: var(--dp-font-shell);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .context-menu
+  [role="menuitem"]:is(:hover, :focus-visible) {
+  background: rgb(255 255 255 / 0.08);
+}
+/* Toast = the roll toast: dice grey, 1 px bronze rule, radius 8. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) #toast {
+  padding: var(--space-3) var(--space-4);
+  border: var(--dp-b-1) solid var(--dp-bronze);
+  border-radius: var(--radius-md);
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  box-shadow: var(--shadow-2);
+}
+
+@media (max-width: 720px) {
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .app-header nav .nav-link {
+    padding: var(--space-2);
+    font-size: var(--text-sm);
+  }
+}
+
+/* ================================================================== HOME (Nexus landing) */
+/* Demiplane's site, not its sheet: key art behind the page title fading into the shell
+   #1B1C22 («Select a NEXUS»), then flat sections on the page — a Barlow 24/700 title at the
+   left, the content under it, a 1 px rule between sections (the Nexus campaign page). The
+   black header tabs and Cinzel box titles stay on the Scheda. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .workspace:has(.home-dashboard) {
+  background:
+    linear-gradient(to bottom, rgb(27 28 34 / 0.5), var(--dp-shell) 360px),
+    url("assets/backdrop-library-day.webp") center top / 100% auto no-repeat,
+    var(--dp-shell);
+}
+/* «Select a Nexus»: the page title in Barlow 48/700, the line under it in white. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .page-heading h1 {
+  margin-bottom: var(--space-2);
+  font-family: var(--dp-font-shell);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  letter-spacing: 0;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .page-heading p {
+  color: #ffffff;
+  font-size: var(--text-lg);
+}
+/* Sections: flat on the page, divided by a 1 px rule. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .home-appointment,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .home-bottom > section,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .home-aside,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-page
+  :is(.cm-home, .chat-home, .community-home),
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .home-start {
+  padding: var(--space-5) 0 0;
+  border: 0;
+  border-top: var(--dp-b-1) solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-page
+  .home-appointment-main
+  > h2:first-child,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-page
+  :is(.home-bottom > section, .cm-home, .chat-home, .community-home)
+  > .section-heading:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  min-height: 0;
+  margin: 0 0 var(--space-4);
+  padding: 0;
+  background: transparent;
+  color: #ffffff;
+  font-family: var(--dp-font-shell);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: var(--dp-lh-tight);
+  text-align: start;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-page
+  :is(.home-bottom > section, .cm-home, .chat-home, .community-home)
+  > .section-heading:first-child
+  > h2 {
+  margin: 0;
+  font-family: var(--dp-font-shell);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: var(--dp-lh-tight);
+}
+/* Links on the site are text in the link blue (#00ABFF, the «All Games» underline colour), in
+   the shell button's Barlow 14/600. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-dashboard
+  .home-page
+  .text-button {
+  color: var(--dp-cyan);
+  font-family: var(--dp-font-shell);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0;
+  font-variant-caps: normal;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-dashboard
+  .home-page
+  .text-button:hover:not(:disabled) {
+  color: var(--dp-hover-nav);
+}
+
+/* «Continua a giocare» as a Nexus card row: the campaign's square art card (200 × 200,
+   radius 12, its name under it in Barlow 14/700), the scene as the title in display caps,
+   then the hero's two CTAs (blue «Entra al Tavolo», black «Apri campagna»). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .resume-scene {
+  grid-template-columns: 200px minmax(0, 1fr);
+  grid-template-rows: auto auto auto minmax(0, 1fr);
+  column-gap: var(--space-5);
+  row-gap: 0;
+  align-content: start;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-page
+  .resume-scene
+  > div:last-child {
+  display: contents;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .scene-emblem,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-dashboard[data-home-art]
+  .home-page
+  .scene-emblem {
+  grid-column: 1;
+  grid-row: 1 / 4;
+  width: 200px;
+  height: 200px;
+  border: 0;
+  border-radius: var(--dp-r-card);
+  background:
+    url("assets/card-observatory-day.webp") 62% 70% / 260% auto no-repeat,
+    var(--dp-inset);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-dashboard[data-home-art]
+  .home-page
+  .scene-emblem {
+  background:
+    var(--home-art) center / cover no-repeat,
+    var(--dp-inset);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .scene-emblem .icon {
+  visibility: hidden;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .resume-scene h2 {
+  grid-column: 1;
+  grid-row: 4;
+  align-self: start;
+  margin: var(--space-2) 0 0;
+  color: #ffffff;
+  font-family: var(--dp-font-shell);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: var(--dp-lh-tight);
+  text-align: center;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-page
+  .resume-scene
+  > div:last-child
+  > p:first-of-type {
+  grid-column: 2;
+  grid-row: 1;
+  margin: 0 0 var(--space-2);
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: var(--dp-lh-tight);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .resume-scene .muted {
+  grid-column: 2;
+  grid-row: 2;
+  margin: 0;
+  font-size: var(--text-md);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .resume-scene .toolbar {
+  grid-column: 2;
+  grid-row: 3;
+  align-self: start;
+  gap: var(--space-2);
+  margin: var(--space-5) 0 0;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-page
+  .resume-scene
+  .toolbar
+  > .button {
+  min-height: var(--dp-h-large);
+  padding-inline: var(--space-5);
+  font-size: var(--text-md);
+}
+
+/* Next session: the box with its header tab; the countdown as the result number (gold). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .home-appointment-main {
+  gap: var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .home-appointment-when {
+  color: var(--dp-gold);
+  font-family: var(--font-label);
+  font-size: var(--text-xl);
+  font-weight: 700;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-page
+  .home-appointment-campaign
+  strong {
+  color: #ffffff;
+}
+
+/* «Il tuo personaggio»: the landing page's slanted image tile (VIEW MY CHARACTERS): the
+   name in condensed caps on the tile colour, the portrait art fading in at the right. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .character-resume {
+  position: relative;
+  isolation: isolate;
+  min-height: 112px;
+  padding: var(--space-4) var(--space-7) var(--space-4) var(--space-6);
+  border: 0;
+  background: transparent;
+  overflow: visible;
+}
+/* The slant is drawn by a layer under the tile (not by clipping the button), so the focus
+   ring stays whole. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-page
+  .character-resume::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--dp-tile);
+  clip-path: polygon(4% 0, 100% 0, 96% 100%, 0 100%);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-page
+  .character-resume:hover {
+  background: transparent;
+  filter: brightness(1.2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-page
+  .character-resume
+  > .portrait {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  right: 0;
+  width: 55%;
+  height: 100%;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  clip-path: polygon(0 0, 100% 0, 92.7% 100%, 0 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000000 60%);
+  mask-image: linear-gradient(to right, transparent, #000000 60%);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-page
+  .character-resume
+  > :not(.portrait) {
+  position: relative;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-page
+  .character-resume
+  strong {
+  font-family: var(--font-label);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+  line-height: var(--dp-lh-tight);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-page
+  .character-resume
+  small {
+  color: #ffffff;
+  font-size: var(--text-sm);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-page
+  .character-resume
+  .hp-small {
+  margin-left: auto;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-xs);
+  background: rgb(0 0 0 / 0.72);
+  color: #ffffff;
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  line-height: var(--dp-lh-tight);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-page
+  .character-resume
+  .hp-small
+  small {
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-page
+  .character-resume
+  > .icon {
+  color: #ffffff;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .home-bottom h3 {
+  color: #ffffff;
+  font-family: var(--dp-font-shell);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: 0;
+  font-variant-caps: normal;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .home-chip {
+  border-color: var(--line);
+  border-radius: var(--radius-md);
+  background: var(--dp-inset);
+}
+
+/* Lists inside the boxes: rows on hairlines (#272831 as the phone drawer). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .chat-home-row {
+  border-color: var(--dp-divider);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .chat-home-row strong {
+  font-family: var(--dp-font-shell);
+  font-weight: 700;
+}
+
+/* The right column: its tabs are the site's «All Games» tab — Barlow 16/700 as written,
+   white when open over a 2 px #00ABFF underline (a shape too), a 1 px rule under the row. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .home-aside {
+  padding-top: 0;
+  border-top: 0;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .home-tabs {
+  margin: 0 0 var(--space-4);
+  padding: 0;
+  border-bottom: var(--dp-b-1) solid var(--line);
+  border-radius: 0;
+  background: transparent;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-page
+  .home-tabs
+  [role="tab"] {
+  min-height: var(--dp-h-large);
+  padding-inline: var(--space-4);
+  color: var(--muted);
+  font-family: var(--dp-font-shell);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: 0;
+  font-variant-caps: normal;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-page
+  .home-tabs
+  [role="tab"][aria-selected="true"] {
+  border-bottom-color: var(--dp-cyan);
+  color: #ffffff;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .home-count {
+  background: var(--dp-cyan);
+  color: var(--dp-black);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .home-news-item {
+  border-top-color: var(--dp-divider);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .home-news-item h3 {
+  font-size: var(--text-md);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-page
+  .home-news-item.is-unread
+  h3::before {
+  background: var(--dp-cyan);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .home-news-meta {
+  color: var(--dp-micro);
+  font-size: var(--text-sm);
+}
+/* «Nuova» as Demiplane's caps tag (Overpass-black-like RULE tag): green fill, black caps; the
+   one tag recipe (size, tracking) is at the end of the file. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .home-badge-new {
+  border: var(--dp-b-1) solid transparent;
+  border-radius: var(--radius-xs);
+  background: var(--dp-tag-rule);
+  color: var(--dp-inset);
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+/* First steps: a flat section; its label as the micro label. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .home-start {
+  padding: var(--space-4) 0 0;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .home-eyebrow {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .home-path {
+  border-color: var(--line);
+  border-radius: var(--radius-md);
+  background: var(--dp-inset);
+}
+
+@media (max-width: 720px) {
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .workspace:has(.home-dashboard) {
+    background:
+      linear-gradient(to bottom, rgb(27 28 34 / 0.62), var(--dp-shell) 280px),
+      url("assets/backdrop-library-day.webp") 40% top / auto 320px no-repeat,
+      var(--dp-shell);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .page-heading h1 {
+    font-size: var(--text-2xl);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .page-heading p {
+    font-size: var(--text-md);
+  }
+  /* Phone: the art card becomes a banner card over the title (Demiplane's single-column
+     cards), «Entra al Tavolo» stays in the first screen. */
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .resume-scene {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .scene-emblem,
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .home-dashboard[data-home-art]
+    .home-page
+    .scene-emblem,
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .home-dashboard[data-home-art]
+    .resume-scene
+    .scene-emblem {
+    display: block;
+    grid-row: auto;
+    width: 100%;
+    height: 112px;
+    aspect-ratio: auto;
+    border: 0;
+    background-size: 120% auto;
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .resume-scene h2,
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .home-page
+    .resume-scene
+    > div:last-child
+    > p:first-of-type,
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .resume-scene .muted,
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .home-page
+    .resume-scene
+    .toolbar {
+    grid-column: 1;
+    grid-row: auto;
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .resume-scene h2 {
+    margin: var(--space-2) 0 var(--space-3);
+    text-align: left;
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .home-page
+    .resume-scene
+    > div:last-child
+    > p:first-of-type {
+    font-size: var(--text-xl);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .resume-scene .muted {
+    margin-bottom: var(--space-3);
+  }
+}
+
+/* ================================================================== SCHEDA (the Nexus sheet) */
+/* A centred framed column over full-bleed, darkened art (PF2e/Cyberpunk desktop). The column
+   is 1100 px of content, so the sheet keeps its desktop grid (container ≥ 1100 px). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .workspace:has(.character-sheet) {
+  background:
+    linear-gradient(var(--dp-art-shade), var(--dp-art-shade)),
+    url("assets/backdrop-library-day.webp") center top / cover no-repeat fixed,
+    var(--canvas);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet {
+  max-width: calc(1100px + var(--space-5) * 2 + var(--dp-b-2) * 2);
+  margin-inline: auto;
+  padding: var(--space-5);
+  border: var(--dp-b-2) solid var(--dp-bronze);
+  border-radius: var(--dp-r-tab);
+  background: var(--dp-column);
+  box-shadow: var(--shadow-3);
+}
+/* Breadcrumb: Demiplane's breadcrumb chip voice (Barlow 14, grey). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-breadcrumb {
+  gap: var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-breadcrumb
+  > .button.quiet,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-breadcrumb
+  > span.muted {
+  color: var(--muted);
+  font-family: var(--dp-font-shell);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0;
+  font-variant-caps: normal;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .clib-privacy {
+  border-color: var(--line-strong);
+  background: var(--dp-black);
+  color: var(--muted);
+}
+
+/* Header card: round portrait with a gold ring, the name in display caps, the subtitle in
+   grey condensed caps, the commands as black slabs at the right (REST / REFOCUS). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-heading {
+  align-items: center;
+  gap: var(--space-5);
+  margin-block: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  border: var(--dp-b-1) solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--dp-panel);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-heading-identity {
+  align-items: center;
+  gap: var(--space-4);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-portrait {
+  inline-size: 64px;
+  block-size: 64px;
+  border: var(--dp-b-2) solid var(--dp-gold);
+  border-radius: 50%;
+  box-shadow: 0 0 0 var(--space-1) var(--dp-black);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-portrait
+  img {
+  border-radius: 50%;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-portrait-edit {
+  border-radius: 50%;
+  background: var(--dp-blue);
+  color: #ffffff;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-heading
+  h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-heading-line {
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-heading-note {
+  margin: 0;
+  color: var(--dp-gold);
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-heading
+  .toolbar {
+  gap: var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-heading
+  .toolbar
+  > .button.quiet {
+  border-color: var(--dp-black);
+  background: var(--dp-black);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-heading
+  .toolbar
+  > .button.quiet:hover:not(:disabled) {
+  border-color: var(--line-strong);
+}
+
+/* Band: the stat chips — a #202020 box, a tiny grey caps label over the value in a black
+   #0F0F0F inset chip (PF2e SAVING THROWS / ability MOD), the score under it. Every band box
+   is the same three rows — a one-line micro label, a 40 px value chip, an optional caption —
+   so all the values sit on one line (PF2e FORT / REFLEX / WILL). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .character-band {
+  margin-block: 0 var(--space-5);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(
+    .shp-ability-box,
+    .character-band [data-shp-stat="pb"] .shp-pill,
+    .character-vitals .stat,
+    .character-band .character-inspiration,
+    .shp-stats .shp-pill
+  ) {
+  gap: var(--space-1);
+  padding: var(--space-2);
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--dp-panel);
+  color: #ffffff;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(
+    .character-band .shp-ability-box,
+    .character-band [data-shp-stat="pb"] .shp-pill,
+    .character-band .character-vitals .stat:not(.character-hp),
+    .character-band .character-inspiration,
+    .shp-stats .shp-pill
+  ) {
+  display: grid;
+  grid-template-rows: auto var(--dp-h-control) auto;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
+  justify-items: center;
+  row-gap: var(--space-1);
+  padding: var(--space-3) var(--space-2);
+  white-space: nowrap;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  .stat.character-hp {
+  row-gap: var(--space-1);
+  padding-block: var(--space-3);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(
+    .shp-ability-box:not(.is-static),
+    .shp-pill,
+    button.character-stat-button,
+    button.character-inspiration
+  ):hover {
+  border-color: transparent;
+  background: #262626;
+  color: #ffffff;
+}
+/* The micro label: Barlow Condensed 14 px small caps (≈ 7 px capitals, Demiplane's 10 px
+   Barlow caps), grey, one line. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(
+    .shp-ability-name,
+    .shp-pill-label,
+    .character-vitals .stat > span:first-child,
+    .character-band .character-inspiration
+  ) {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+  line-height: var(--dp-lh-tight);
+  white-space: nowrap;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(
+    .shp-ability-box > strong,
+    .character-band [data-shp-stat="pb"] .shp-pill > strong,
+    .character-vitals .stat:not(.character-hp) > strong,
+    .shp-stats .shp-pill > strong,
+    .character-band .character-inspiration > span:first-child
+  ) {
+  display: grid;
+  place-items: center;
+  min-width: 52px;
+  height: var(--dp-h-control);
+  margin-block: 0;
+  padding: 0 var(--space-2);
+  border: var(--dp-b-1) solid var(--line);
+  border-radius: var(--radius-xs);
+  background: var(--dp-inset);
+  color: #ffffff;
+  font-family: var(--font-label);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  line-height: var(--dp-lh-tight);
+  text-align: center;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-vitals
+  .stat:not(.character-hp)
+  > strong {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: baseline;
+  justify-content: center;
+  gap: var(--space-1);
+}
+/* Captions under the chip (the score, the walking mode): condensed, grey. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-ability-box > small, .character-vitals .stat:not(.character-hp) > small) {
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 600;
+  line-height: var(--dp-lh-tight);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-vitals
+  .stat
+  strong
+  small {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-sm);
+}
+/* Heroic Inspiration: the star in the same 52 × 40 chip as its neighbours' values (the
+   label above it is the button's own words). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  .character-inspiration
+  > span:first-child {
+  grid-row: 2;
+  color: var(--dp-gold);
+  font-family: var(--font-label);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  .character-inspiration.is-on
+  > span:first-child {
+  border-color: var(--dp-gold);
+  background: var(--dp-gold);
+  color: var(--dp-inset);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  .character-inspiration.is-on {
+  color: var(--dp-gold);
+}
+/* The inspiration box gets the room its one-line label needs (half a column more, taken
+   evenly from the others) where the band is one row. */
+@container character-sheet (min-width: 1100px) {
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"]):not([data-pref-scaled="on"])
+    .character-band:not(.no-abilities):has(.character-inspiration) {
+    grid-template-columns: repeat(8, minmax(0, 1fr)) minmax(0, 1.5fr) repeat(3, minmax(0, 1fr));
+  }
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .shp-dot {
+  background: var(--dp-gold);
+}
+/* HP cluster: the ±HP field at the left, HEAL (#29AC5E) over DAMAGE (#8A3D37) beside it,
+   CURRENT / MAX as the result in its chip, the bar in heal green. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-hp
+  .dt-hp-row {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-areas:
+    "amount heal"
+    "amount damage";
+  gap: var(--space-1);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-hp
+  .dt-hp-row
+  .dt-amount {
+  height: 100%;
+  border: var(--dp-b-1) solid var(--dp-field-line);
+  border-radius: var(--radius-xs);
+  background: var(--dp-inset);
+  color: #ffffff;
+  font-family: var(--font-label);
+  font-size: var(--text-xl);
+  font-weight: 700;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .button.dt-heal,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-layout .button.dt-heal {
+  border-color: var(--dp-heal);
+  background: var(--dp-heal);
+  color: var(--dp-inset);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .button.dt-damage,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-layout .button.dt-damage {
+  border-color: var(--dp-damage);
+  background: var(--dp-damage);
+  color: #ffffff;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .button.dt-heal:hover:not(:disabled),
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-layout
+  .button.dt-heal:hover:not(:disabled) {
+  border-color: #ffffff;
+  background: var(--dp-heal);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .button.dt-damage:hover:not(:disabled),
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-layout
+  .button.dt-damage:hover:not(:disabled) {
+  border-color: #ffffff;
+  background: var(--dp-damage);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-hp
+  .character-hp-value
+  strong {
+  font-family: var(--font-label);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-hp
+  .character-hp-value {
+  display: grid;
+  place-items: center;
+  height: var(--dp-h-control);
+  min-height: var(--dp-h-control);
+  padding: 0 var(--space-2);
+  border: var(--dp-b-1) solid var(--line);
+  border-radius: var(--radius-xs);
+  background: var(--dp-inset);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-hp
+  .character-hp-value
+  strong {
+  line-height: var(--dp-lh-tight);
+}
+/* «PF temporanei» as the micro label (the app pins its size to --text-xs, so the token is
+   pointed at the micro size here). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-hp-temp {
+  --text-xs: var(--text-sm);
+  font-family: var(--font-label);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+  line-height: var(--dp-lh-tight);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-hp
+  progress {
+  accent-color: var(--dp-heal);
+}
+
+/* Left columns: boxes under black header tabs; rows with condensed caps names and value
+   chips (PF2e SKILLS). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-derived
+  .shp-col {
+  padding: 0 var(--space-3) var(--space-3);
+  border: 0;
+  border-radius: var(--dp-r-tab) var(--dp-r-tab) var(--radius-md) var(--radius-md);
+  background: var(--dp-panel);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-derived
+  .shp-col
+  > h3:first-child,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .dtray-sheet
+  > .dtray-sheet-head:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  margin: 0 calc(var(--space-3) * -1) var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--dp-r-tab) var(--dp-r-tab) 0 0;
+  background: var(--dp-black);
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: var(--dp-lh-body);
+  text-align: center;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .dtray-sheet
+  > .dtray-sheet-head:first-child {
+  justify-content: space-between;
+  margin-inline: calc(var(--space-4) * -1);
+  padding: 0 var(--space-4);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .dtray-sheet
+  > .dtray-sheet-head
+  h3 {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: 700;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .shp-row {
+  border-bottom-color: var(--line);
+}
+/* Row names: one line, centred on the value chip's line (Cyberpunk «ATHLETICS (DEX)»): the
+   name in 16 px condensed caps, the ability as the grey micro label beside it; a 40 px line
+   (8 + 24 + 8) so every row is the app's 44 px, a long name ellipsised (the full name stays
+   in the button's label and its tooltip). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .shp-row-name {
+  color: #ffffff;
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  line-height: var(--dp-lh-body);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-row
+  .shp-row-name {
+  display: block;
+  min-height: var(--dp-h-control);
+  padding: var(--space-2) var(--space-1);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-row-name
+  small {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  white-space: nowrap;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .shp-value {
+  border: var(--dp-b-1) solid var(--line-strong);
+  border-radius: var(--radius-xs);
+  background: var(--dp-inset);
+  color: #ffffff;
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  font-weight: 700;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-value:hover:not(:disabled) {
+  border-color: #ffffff;
+  background: var(--dp-black);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-value.is-static {
+  border-color: transparent;
+  background: transparent;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .shp-star {
+  border-radius: 50%;
+  color: var(--muted);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .shp-star:hover {
+  background: rgb(255 255 255 / 0.08);
+  color: var(--dp-gold);
+}
+/* Proficiency: PF2e's rank mark — a hollow ring untrained, a gold disc trained, a double
+   ring for expertise (a shape, not only a colour; the value and the tooltip say it too). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .shp-prof {
+  width: 12px;
+  height: 12px;
+  border: var(--dp-b-1) solid var(--line-strong);
+  border-radius: 50%;
+  background: transparent;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .shp-prof.is-on {
+  border-color: var(--dp-gold);
+  background: var(--dp-gold);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-prof.is-expert {
+  box-shadow:
+    0 0 0 var(--dp-b-2) var(--dp-panel),
+    0 0 0 calc(var(--dp-b-2) * 2) var(--dp-gold);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .shp-facts li {
+  border-bottom-color: var(--line);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-facts
+  strong {
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  font-weight: 700;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .shp-training dt,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .shp-row-label {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+
+/* The strip over the tabs: Play/Edit and dice as segmented black slabs (the chosen one is
+   the filled gold tab), the XP line as PF2e's LVL bar, effects as MUI switches. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .shp-bar {
+  border: 0;
+  background: transparent;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .shp-mode {
+  border: var(--dp-b-1) solid var(--line);
+  border-radius: var(--radius-xs);
+  background: var(--dp-inset);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .shp-mode button {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-mode
+  button
+  + button {
+  border-left-color: var(--line);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-mode
+  button[aria-pressed="true"] {
+  background: var(--dp-gold);
+  color: var(--dp-inset);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-mode
+  button:not([aria-pressed="true"]):hover {
+  background: var(--dp-panel);
+  color: #ffffff;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .shp-xpbar {
+  height: 4px;
+  border: 0;
+  border-radius: 0;
+  background: var(--dp-inset);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .shp-switch {
+  border-color: var(--line);
+  border-radius: var(--dp-r-pill);
+  background: var(--dp-inset);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .shp-switch-knob {
+  background: rgb(255 255 255 / 0.3);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-switch[aria-checked="true"] {
+  border-color: var(--dp-blue);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-switch[aria-checked="true"]
+  .shp-switch-knob {
+  background: var(--dp-blue);
+}
+/* Conditions: PF2e «CONDITIONS & ACTIVE EFFECTS» — the label in condensed caps, then the
+   chips and the exhaustion track as inset squares. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-summary
+  > .character-conditions {
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--dp-panel);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-summary
+  > .character-conditions
+  > span:first-child {
+  color: #ffffff;
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .conditions-vital {
+  border-color: var(--line);
+  border-radius: var(--radius-xs);
+  background: var(--dp-inset);
+  color: #ffffff;
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .conditions-segment {
+  border-color: var(--line);
+  border-radius: var(--radius-xs);
+  background: var(--dp-inset);
+  color: #ffffff;
+  font-family: var(--font-label);
+  font-weight: 700;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .conditions-segment:hover {
+  border-color: var(--line-strong);
+  background: var(--dp-black);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .conditions-segment[aria-pressed="true"] {
+  border-color: var(--dp-gold);
+  background: var(--dp-gold);
+  color: var(--dp-inset);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .conditions-exhaustion-label {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+
+/* Section tabs: PF2e's 56 px #202020 bar, condensed caps, white over a gold rule when open.
+   One tab recipe at every width: the game button's 18/700 caps with 12 px sides, so the seven
+   categories fit the framed column's 449 px strip beside «Tutte» (24 px ran 570 px). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tabs-bar {
+  border-radius: var(--radius-md);
+  background: var(--dp-panel);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .character-tabs {
+  min-height: var(--dp-h-bar);
+  border-bottom: 0;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.character-tabs button, .character-tabs-all) {
+  min-height: var(--dp-h-bar);
+  padding-block: var(--space-2);
+  padding-inline: var(--space-3);
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+
+/* Turn resources: a strip with its label in condensed caps. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .character-turn {
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--dp-panel);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-turn-label {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-resource {
+  border-color: var(--line);
+  border-radius: var(--radius-xs);
+  background: var(--dp-inset);
+}
+
+/* Lists inside the boxes: sub-group labels in grey caps with a hairline (PF2e TRAINED SKILL
+   ACTIONS); filter pills (Marvel ALL / STANDARD / REACTION, the open one filled gold). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-action-group > h3, .spl-group > h3, .invp-group > h3, .sm-sheet > h4) {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  border-bottom: 0;
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+  line-height: var(--dp-lh-tight);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-action-group > h3, .spl-group > h3, .invp-group > h3, .sm-sheet > h4)::after {
+  content: "";
+  flex: 1 1 auto;
+  height: var(--dp-b-1);
+  background: var(--line);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-chip, .character-subtabs button, .spl-chip, .invp-chip) {
+  min-height: var(--dp-h-control);
+  padding: 0 var(--space-4);
+  border: var(--dp-b-1) solid var(--line);
+  border-radius: var(--dp-r-pill);
+  background: var(--dp-inset);
+  color: #ffffff;
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(
+    .shp-chip:hover:not([aria-pressed="true"]),
+    .character-subtabs button:hover,
+    .spl-chip:hover:not([aria-pressed="true"]),
+    .invp-chip:hover:not(.active)
+  ) {
+  border-color: var(--line-strong);
+  background: var(--dp-black);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(
+    .shp-chip[aria-pressed="true"],
+    .character-subtabs button.active,
+    .spl-chip[aria-pressed="true"],
+    .invp-chip.active
+  ) {
+  border-color: var(--dp-gold);
+  background: var(--dp-gold);
+  color: var(--dp-inset);
+}
+/* Action rows: names in condensed caps, the economy as PF2e trait tags (#5E0000, gold rule),
+   rollable chips at the right. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .shp-action {
+  border-color: var(--line);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-action-copy
+  strong,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .spl-row-title
+  strong,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .invp-row-name {
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .shp-econ {
+  padding: 0 var(--space-1);
+  border: var(--dp-b-1) solid var(--dp-tag-line);
+  border-radius: 0;
+  background: var(--dp-tag);
+  color: #ffffff;
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+  line-height: var(--dp-lh-tight);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-prop, .shp-generic-open) {
+  border: var(--dp-b-1) solid var(--line);
+  border-radius: var(--radius-xs);
+  background: var(--dp-inset);
+  color: #ffffff;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-prop, .shp-generic-open):hover {
+  border-color: var(--line-strong);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-prop.is-mastery {
+  border-color: var(--dp-gold);
+  color: var(--dp-gold);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-generic-line
+  > strong {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-action-copy p, .spl-row-meta, .invp-row-meta) {
+  color: var(--muted);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .shp-uses {
+  color: var(--dp-gold);
+}
+
+/* Magie: the spellcasting numbers as label-over-chip cells; slot pips as Daggerheart track
+   pips; rows on hairlines; the state chips as inset tags. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .spl-stats {
+  gap: var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-stat, .invp-stat) {
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--dp-inset);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-stat dt, .invp-stat-label) {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+  line-height: var(--dp-lh-tight);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .spl-stat dd,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .invp-stat
+  > strong {
+  font-family: var(--font-label);
+  font-size: var(--text-xl);
+  font-weight: 700;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-pip, .invp-pips > span) {
+  border-color: var(--dp-gold);
+  border-radius: var(--radius-xs);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-pip.is-on, .invp-pips > span.on) {
+  background: var(--dp-gold);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .spl-window,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .spl-concentration,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-slot-summary {
+  padding: var(--space-2) var(--space-3);
+  border-color: var(--line);
+  border-radius: var(--radius-md);
+  background: var(--dp-inset);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .spl-concentration
+  h3 {
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-row, .invp-row) {
+  border-color: var(--line);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .spl-state {
+  border-radius: var(--radius-xs);
+  font-family: var(--font-label);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .spl-badge {
+  border-radius: var(--radius-xs);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .button.spl-cast {
+  border-color: var(--dp-blue);
+  background: var(--dp-blue);
+  color: #ffffff;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .invp-row-icon {
+  border-radius: 50%;
+  background: var(--dp-grey);
+  color: #ffffff;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .invp-bar {
+  border-radius: 0;
+  background: var(--dp-inset);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .invp-sets li {
+  border-color: var(--line);
+  border-radius: var(--radius-xs);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .invp-sets
+  li.is-active {
+  border-color: var(--dp-gold);
+}
+/* Sibling boxes share both edges: the slot boxes run the column's width like the
+   preparation and concentration boxes above them; the searches fill their row. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .spl-slots
+  > .spl-slot {
+  width: 100%;
+}
+/* The column's own commands (senses, speeds) are a list of text actions on one left edge. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .shp-col-tools {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-col-tools
+  > .button.quiet {
+  margin-inline-start: 0;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-search, .invp-search) {
+  flex: 1 1 100%;
+  justify-self: stretch;
+  width: 100%;
+  max-width: none;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-search, .invp-search)
+  input {
+  width: 100%;
+  max-width: none;
+}
+/* Search fields carry Demiplane's magnifier (Material «search», a mask in the field's grey). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-search, .invp-search) {
+  position: relative;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-search, .invp-search)::after {
+  content: "";
+  position: absolute;
+  bottom: var(--space-2);
+  left: var(--space-2);
+  width: var(--space-5);
+  height: var(--space-5);
+  background: var(--muted);
+  -webkit-mask: url("assets/icons/search.svg") center / contain no-repeat;
+  mask: url("assets/icons/search.svg") center / contain no-repeat;
+  pointer-events: none;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-search, .invp-search)
+  input[type="search"] {
+  padding-left: var(--dp-h-control);
+}
+
+@media (max-width: 720px) {
+  /* Phone: Demiplane's phone sheet is one full-width column with 8 px sides (no frame, no
+     inset card) on the plain dark page (the art stays a desktop backdrop). */
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .workspace:has(.character-sheet) {
+    background: var(--canvas);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .workspace:not(.is-table):has(.character-sheet)
+    > main {
+    padding-inline: var(--space-2);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+  /* The compact identity header: portrait 48 at the left, the name and its lines beside it,
+     the commands under them in one wrapping row. */
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-heading {
+    align-items: stretch;
+    gap: var(--space-3);
+    margin-block: var(--space-2);
+    padding: var(--space-3);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-heading-identity {
+    justify-content: flex-start;
+    gap: var(--space-3);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-portrait {
+    inline-size: var(--dp-h-large);
+    block-size: var(--dp-h-large);
+    font-size: var(--text-xl);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-heading
+    h1 {
+    font-size: var(--text-xl);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-heading
+    .toolbar {
+    justify-content: flex-start;
+    gap: var(--space-2);
+    padding-bottom: 0;
+  }
+  /* Phone tabs: Demiplane's 56 px rounded container (radius 24, #0F0F0F at 90 %) on its own
+     opaque #202020 strip, so the content scrolls away under it, never through it. */
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-tabs-bar {
+    padding-block: var(--space-2);
+    border-radius: 0;
+    background: var(--dp-panel);
+    box-shadow: 0 var(--space-1) var(--space-2) rgb(0 0 0 / 0.4);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-tabs-bar
+    > .character-tabs {
+    border-radius: var(--dp-r-pill) 0 0 var(--dp-r-pill);
+    background: rgb(15 15 15 / 0.9);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-tabs-bar
+    > .character-tabs-all {
+    border-bottom: 0;
+    border-radius: 0 var(--dp-r-pill) var(--dp-r-pill) 0;
+    background: rgb(15 15 15 / 0.9);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .character-sheet
+    :is(.character-tab-content, .character-tab-content > section) {
+    scroll-margin-top: calc(var(--dp-h-bar) + var(--space-2) * 2);
+  }
+}
+
+/* Defenses carry words, not a number: the chip keeps the label size. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-stats
+  [data-shp-stat="defenses"]
+  .shp-pill
+  > strong {
+  font-size: var(--text-lg);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .shp-switch {
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+
+/* ================================================================== TAVOLO */
+/* Demiplane has no VTT: the sheet's grammar dresses the Table's chrome, as the Demiplane sheet
+   sits over a map inside Roll20 — boxes with black header tabs, inset chips, the rules drawer
+   as the sidebar, the dice row as the turn commands. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .workspace.is-table
+  #map-grid
+  path {
+  stroke: #ffffff;
+  stroke-opacity: 0.16;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .workspace.is-table
+  #battle-map
+  .spatial-overlay {
+  --spatial-wall: #e6e6e6;
+  --spatial-door: #f1ce86;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .workspace.is-table
+  #battle-map
+  .door-display
+  > rect {
+  rx: 4px;
+  ry: 4px;
+}
+/* Tokens: round portraits with a 3 px ring (party blue, foes red), the selection in gold;
+   names in Barlow Condensed (the app's 13 px kept) on a black halo. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  #battle-map
+  .map-token
+  .token-display
+  > .token-name {
+  font-family: var(--font-label);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  stroke-width: 4px;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) #battle-map .selection-ring {
+  stroke: var(--dp-gold);
+  stroke-width: 2.5;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  #battle-map
+  .map-token
+  .token-display
+  > rect:first-of-type {
+  fill: var(--dp-inset);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  #battle-map
+  .map-token
+  .token-display
+  > rect:nth-of-type(2) {
+  fill: var(--dp-heal);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  #battle-map
+  .ct-turn-marker
+  .ct-marker-ring {
+  stroke: var(--dp-gold);
+}
+
+/* The scene plate: a black header tab (the scene in display caps, its state in grey caps). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-layout > .table-topline {
+  border: 0;
+  border-radius: var(--dp-r-tab) var(--dp-r-tab) var(--radius-md) var(--radius-md);
+  background: var(--dp-black);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: var(--shadow-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-layout > .table-topline h1 {
+  font-family: var(--font-label);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-layout
+  > .table-topline
+  > div:first-child
+  > span {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+
+/* Map tools and zoom: #202020 boxes, white filled glyphs, the chosen tool filled dice blue. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-stage .map-toolbar,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-stage .map-subtools,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .map-container > .map-zoom {
+  border: var(--dp-b-1) solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--dp-panel);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: var(--shadow-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .workspace.is-table .map-tool {
+  border: 0;
+  border-radius: var(--radius-xs);
+  background: transparent;
+  color: #ffffff;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .workspace.is-table
+  .map-tool:hover {
+  background: rgb(255 255 255 / 0.08);
+  color: #ffffff;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .workspace.is-table
+  .map-tool.active {
+  background: var(--dp-blue);
+  color: #ffffff;
+  box-shadow: none;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .workspace.is-table
+  .tool-separator {
+  background: var(--line);
+}
+/* Session controls over the map: black slabs, radius 4. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .session-view-hud-button {
+  border: var(--dp-b-1) solid var(--line);
+  border-radius: var(--radius-xs);
+  background: var(--dp-black);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  color: #ffffff;
+  box-shadow: var(--shadow-1);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .session-view-hud-button:hover {
+  border-color: var(--line-strong);
+  background: var(--dp-panel);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .session-view-hud-button.is-on {
+  border-color: var(--dp-gold);
+  box-shadow: inset 0 0 0 var(--dp-b-1) var(--dp-gold);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .session-view-chip,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .session-view-chip.is-warn {
+  border: var(--dp-b-1) solid var(--dp-bronze);
+  border-radius: var(--radius-md);
+  background: var(--dp-grey);
+  color: #ffffff;
+  box-shadow: var(--shadow-2);
+}
+/* Scale and hints: a black chip. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .map-container > .map-caption {
+  border: var(--dp-b-1) solid var(--line);
+  border-radius: var(--radius-xs);
+  background: rgb(0 0 0 / 0.86);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  color: var(--muted);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .map-container
+  > .map-caption
+  > span:first-child {
+  color: #ffffff;
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+
+/* Party column: round portraits in a dark ring (the header card's portrait), gold when
+   chosen; names in condensed caps; HP as the heal-green bar on black. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-party-member {
+  border-radius: var(--radius-md);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-party-portrait {
+  border: var(--dp-b-2) solid var(--line-strong);
+  border-radius: 50%;
+  box-shadow: 0 0 0 var(--dp-b-2) var(--dp-black);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-party-member:hover
+  .table-party-portrait {
+  border-color: #ffffff;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-party-member.is-selected
+  .table-party-portrait {
+  border-color: var(--dp-gold);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-party-hp {
+  border-radius: 0;
+  background: var(--dp-black);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-party-name {
+  padding: 0 var(--space-1);
+  border-radius: var(--radius-xs);
+  background: rgb(0 0 0 / 0.86);
+  color: #ffffff;
+  font-family: var(--font-label);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-party-status {
+  border: var(--dp-b-1) solid var(--dp-tag-line);
+  border-radius: var(--radius-xs);
+  background: var(--dp-tag);
+  color: #ffffff;
+}
+
+/* Turn order: the party and foes as chips (#202020, radius 8): round portrait with its ring
+   (party blue, foes red and dashed), the name in condensed caps; the creature in turn
+   framed in gold with its gold «Turno attuale». */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-layout
+  > .initiative
+  .initiative-token {
+  border: var(--dp-b-1) solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--dp-panel);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  color: #ffffff;
+  font-family: var(--font-label);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  box-shadow: var(--shadow-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-layout
+  > .initiative
+  .initiative-token.current {
+  border: var(--dp-b-2) solid var(--dp-gold);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-layout
+  > .initiative
+  .initiative-token
+  small {
+  color: var(--dp-gold);
+  font-family: var(--font-label);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  .table-layout
+  > .initiative
+  .token-dot {
+  box-shadow: 0 0 0 var(--dp-b-2) var(--token-ally-ring);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  .table-layout
+  > .initiative
+  .token-dot.hostile {
+  outline: var(--dp-b-2) dashed var(--token-hostile-ring);
+  outline-offset: 0;
+  box-shadow: none;
+}
+
+/* Sidebar = the rules drawer: #202020, a #0F0F0F head with the creature in condensed caps,
+   sections under grey caps micro-labels (NOTES, COMPENDIUM) on hairlines. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-layout
+  > .table-sidebar-panel {
+  border-left: var(--dp-b-1) solid var(--line);
+  background: var(--dp-panel);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-sidebar-panel
+  > .table-subtabs {
+  border-bottom-color: var(--line);
+  background: var(--dp-inset);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-subtab {
+  border: var(--dp-b-1) solid var(--line);
+  border-radius: var(--dp-r-pill);
+  background: var(--dp-panel);
+  color: #ffffff;
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-subtab:hover {
+  border-color: var(--line-strong);
+  background: var(--dp-black);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-subtab.active {
+  border-color: var(--dp-gold);
+  background: var(--dp-gold);
+  color: var(--dp-inset);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-layout .table-inspector {
+  padding: 0 var(--space-5) var(--space-5);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-layout .inspector-person {
+  margin: 0 calc(var(--space-5) * -1) var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  border-bottom: var(--dp-b-1) solid var(--line);
+  background: var(--dp-inset);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-layout
+  .inspector-person
+  .portrait {
+  border: var(--dp-b-2) solid var(--dp-gold);
+  border-radius: 50%;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-layout
+  .inspector-person
+  h2 {
+  font-family: var(--font-label);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-layout
+  .inspector-person
+  .muted {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-layout .inspector-ac {
+  border: var(--dp-b-1) solid var(--line);
+  border-radius: var(--radius-xs);
+  background: var(--dp-panel);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-layout .inspector-ac small {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-weight: 700;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-layout
+  .inspector-ac
+  strong {
+  font-family: var(--font-label);
+  font-weight: 700;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-layout
+  :is(.table-ext-panel, .forms-summary, .combat-detail)
+  > h3,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-layout .forms-summary > h3 {
+  padding-top: var(--space-4);
+  border-top: var(--dp-b-1) solid var(--line);
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-layout
+  .inspector-buttons
+  .button {
+  border-color: var(--line);
+  background: var(--dp-inset);
+}
+/* The rail: black, white filled glyphs, the open tab on #202020 over the gold rule. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-layout
+  > .table-sidebar-rail {
+  border-left: var(--dp-b-1) solid var(--line);
+  background: var(--dp-black);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-sidebar-rail > .table-tabs {
+  border-top-color: var(--line);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  :is(.table-tab, .table-sidebar-toggle, .table-map-link, .table-panels-all) {
+  border: 0;
+  border-radius: var(--radius-xs);
+  background: transparent;
+  color: #ffffff;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  :is(.table-tab, .table-sidebar-toggle, .table-map-link, .table-panels-all):hover {
+  background: rgb(255 255 255 / 0.08);
+  color: #ffffff;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-tab.active {
+  background: var(--dp-panel);
+  color: #ffffff;
+  box-shadow: inset 0 calc(var(--dp-b-2) * -1) 0 var(--dp-gold);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-tab-portrait {
+  border: var(--dp-b-1) solid var(--dp-gold);
+}
+
+/* Hotbar: the actions box (#202020); its resource row and the dice/rolls line sit on its top
+   edge as black header tabs; actions as inset chips with the tiny caps group label over the
+   name. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .combat-action,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-hotbar
+  .combat-dock
+  .sm-dock-toggle {
+  min-height: var(--dp-h-tile);
+  border: var(--dp-b-1) solid var(--line);
+  border-radius: var(--radius-xs);
+  background: var(--dp-inset);
+  color: #ffffff;
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .combat-action:hover,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-hotbar
+  .combat-dock
+  .sm-dock-toggle:hover {
+  border-color: var(--line-strong);
+  background: var(--dp-black);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-hotbar
+  .combat-action.active {
+  border-color: var(--dp-gold);
+  background: var(--dp-gold);
+  color: var(--dp-inset);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-hotbar
+  .combat-action:focus-visible {
+  outline-offset: -3px;
+}
+/* The group over the action name is the micro label (14 px small caps ≈ Demiplane's 10 px
+   caps), one solid line so the tile keeps 44 px. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .combat-group-tag {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+  line-height: var(--dp-lh-solid);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .combat-filters {
+  border-color: var(--line);
+  border-radius: var(--radius-xs);
+  background: var(--dp-inset);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .combat-filter {
+  border-radius: var(--radius-xs);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .hotbar-page-tab {
+  padding: var(--space-1) var(--space-3);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .hotbar-page-tab:hover {
+  background: rgb(255 255 255 / 0.08);
+  color: #ffffff;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .hotbar-page-tab.active {
+  background: transparent;
+  color: #ffffff;
+  box-shadow: inset 0 calc(var(--dp-b-2) * -1) 0 var(--dp-gold);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .hotbar-portrait {
+  border: var(--dp-b-2) solid var(--dp-gold);
+  border-radius: 50%;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .hotbar-hp {
+  border: var(--dp-b-1) solid var(--line);
+  border-radius: var(--radius-xs);
+  background: var(--dp-inset);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .hotbar-hp-bar {
+  border-radius: 0;
+  background: var(--dp-black);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .hotbar-hp-text {
+  font-family: var(--font-label);
+  font-weight: 700;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .hotbar-name
+  > strong {
+  font-family: var(--font-label);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .resource-word {
+  font-family: var(--font-label);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+}
+/* Turn commands = Demiplane's dice row: round 48 px dice-grey circles, the dice one the blue
+   FAB (#3276B5); End turn the blue CTA slab. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .action-dock.table-hotbar
+  > .toolbar
+  .button:not([data-table="end-turn"]) {
+  border: 0;
+  border-radius: 50%;
+  background: var(--dp-grey);
+  color: #ffffff;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .action-dock.table-hotbar
+  > .toolbar
+  .button:not([data-table="end-turn"]):hover:not(:disabled) {
+  background: var(--dp-grey-hover);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .action-dock.table-hotbar
+  > .toolbar
+  .button.active:not([data-table="end-turn"]),
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .action-dock.table-hotbar
+  > .toolbar
+  .button[aria-pressed="true"]:not([data-table="end-turn"]) {
+  background: var(--dp-gold);
+  color: var(--dp-inset);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .action-dock.table-hotbar
+  > .toolbar
+  > .button[data-table="dice"] {
+  background: var(--dp-blue);
+  box-shadow: 0 0 6px rgb(88 163 234 / 0.8);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .action-dock.table-hotbar
+  > .toolbar
+  > .button[data-table="dice"]:hover:not(:disabled) {
+  background: var(--dp-blue-hover);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .action-dock.table-hotbar
+  > .toolbar
+  > .button.primary[data-table="end-turn"] {
+  border: 0;
+  border-radius: var(--radius-xs);
+  background: var(--dp-blue);
+  color: #ffffff;
+  box-shadow: var(--shadow-2);
+  font-family: var(--font-label);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+  line-height: var(--dp-lh-tight);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .action-dock.table-hotbar
+  > .toolbar
+  > .button.primary[data-table="end-turn"]:hover:not(:disabled) {
+  background: var(--dp-blue);
+  filter: brightness(1.2);
+}
+
+@media (min-width: 721px) {
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-identity,
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-center {
+    border: var(--dp-b-1) solid var(--line);
+    background: var(--dp-panel);
+    box-shadow: var(--shadow-2);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-identity {
+    border-right: 0;
+    border-radius: var(--radius-md) 0 0 var(--radius-md);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-center {
+    border-left-color: var(--line);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar:not(:has(> .hotbar-center))
+    > .hotbar-identity {
+    border-right: var(--dp-b-1) solid var(--line);
+    border-radius: var(--radius-md);
+  }
+  /* The resource row and the dice line as black header tabs on the box's top edge. */
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .hotbar-resources,
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-bar-heading {
+    bottom: 100%;
+    border: 0;
+    border-radius: var(--dp-r-tab) var(--dp-r-tab) 0 0;
+    background: var(--dp-black);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    box-shadow: none;
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .hotbar-resources {
+    left: var(--space-4);
+    padding: var(--space-1) var(--space-4);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-bar-heading {
+    right: var(--space-4);
+    padding: 0 var(--space-1) 0 var(--space-4);
+  }
+  /* The commands' foot: three 48 px circles per row, End turn a 104 px-high CTA slab; the
+     band stays at 118 px (≤ 120). */
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar {
+    grid-template-columns: repeat(3, var(--dp-h-large));
+    grid-auto-rows: var(--dp-h-large);
+    gap: var(--space-2);
+    padding: var(--space-1) var(--space-4);
+    border-top: var(--dp-b-1) solid var(--line);
+    border-left: var(--dp-b-1) solid var(--line);
+    background: var(--dp-panel);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar:has(> [data-table="end-turn"]) {
+    grid-template-columns: repeat(3, var(--dp-h-large)) 112px;
+    column-gap: var(--space-2);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar
+    > .button {
+    width: var(--dp-h-large);
+    height: var(--dp-h-large);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar
+    > .button.primary[data-table="end-turn"] {
+    width: 112px;
+    height: calc(var(--dp-h-large) * 2 + var(--space-2));
+    padding: var(--space-2);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout.is-collapsed
+    > .action-dock.table-hotbar
+    > .toolbar {
+    margin: 0 var(--space-4) var(--space-2) 0;
+    padding: var(--space-2);
+    border: var(--dp-b-1) solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--dp-panel);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-layout > .table-topline {
+    border-radius: 0;
+    box-shadow: none;
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token,
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token:has(.token-dot.hostile) {
+    background: var(--dp-panel);
+    box-shadow: var(--shadow-2);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token.current,
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token.current:has(.token-dot.hostile) {
+    box-shadow: var(--shadow-2);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-party-portrait {
+    border-radius: 50%;
+  }
+  /* The hotbar as the phone sheet's box: #202020 under a black top rule; commands stay 40 px
+     circles (five fit beside End turn). */
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar {
+    border-top: var(--dp-b-2) solid var(--dp-black);
+    background: var(--dp-panel);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .hotbar-identity
+    .hotbar-hp {
+    border-color: var(--line);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .hotbar-resources {
+    border-radius: var(--radius-xs);
+    background: var(--dp-inset);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar
+    > [data-table="end-turn"] {
+    font-size: var(--text-lg);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    > .table-sidebar-rail {
+    border-top: var(--dp-b-1) solid var(--line);
+    border-left: 0;
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    :is(.table-tab, .table-map-link, .table-panels-all) {
+    border-radius: var(--radius-xs);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    > .table-sidebar-panel {
+    border-top: var(--dp-b-1) solid var(--line);
+    border-left: 0;
+  }
+}
+
+/* ------------------------------------------------------------------ token menu */
+/* Demiplane's dropdown (#1B1C22, radius 4, elevation 8), the head as the drawer's #0F0F0F
+   head with a round portrait and the name in condensed caps; rows in Barlow 14/700. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .token-menu {
+  border: var(--dp-b-1) solid var(--line);
+  border-radius: var(--radius-xs);
+  background: var(--dp-shell);
+  box-shadow: var(--shadow-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .token-menu.sheet {
+  border-radius: var(--dp-r-tab) var(--dp-r-tab) 0 0;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .token-menu-head {
+  background: var(--dp-inset);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .token-menu-portrait {
+  border: var(--dp-b-2) solid var(--dp-gold);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .token-menu-title,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) #token-menu-title {
+  font-family: var(--font-label);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  :is(.token-menu-item, .token-menu-back, .token-menu-toggle) {
+  border-radius: 0;
+  font-family: var(--dp-font-shell);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  :is(.token-menu-item, .token-menu-back, .token-menu-toggle, .token-menu-swatch):is(
+    :hover,
+    :focus-visible
+  ) {
+  background: rgb(255 255 255 / 0.08);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .token-menu-sep,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .token-menu hr {
+  border-color: var(--dp-divider);
+  background: var(--dp-divider);
+}
+
+/* ------------------------------------------------------------------ dice tray and rolls */
+/* The dice dock: 48 px grey circles with the die and its label; the roll button as the blue
+   FAB; the result as the roll toast (dice grey, 1 px bronze, name in condensed caps, the
+   total gold); recent rolls as the collapsed history cards. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .dtray-die-button {
+  min-width: var(--dp-h-large);
+  min-height: var(--dp-h-large);
+  border: 0;
+  border-radius: 50%;
+  background: var(--dp-grey);
+  color: #ffffff;
+  font-family: var(--font-label);
+  font-weight: 700;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .dtray-die-button:hover {
+  border-color: transparent;
+  background: var(--dp-grey-hover);
+  color: #ffffff;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .dtray-roll.button {
+  border-color: var(--dp-blue);
+  background: var(--dp-blue);
+  color: #ffffff;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .dtray-result {
+  padding: var(--space-3) var(--space-4);
+  border: var(--dp-b-1) solid var(--dp-bronze);
+  border-radius: var(--radius-md);
+  background: var(--dp-grey);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .dtray-result-title {
+  font-family: var(--font-label);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .dtray-total {
+  color: var(--dp-gold);
+  font-family: var(--font-label);
+  font-weight: 700;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .dtray-recent > * {
+  border-color: var(--dp-bronze);
+  border-radius: var(--radius-md);
+  background: var(--dp-grey);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .dtray-seg span {
+  border-color: var(--line);
+  border-radius: var(--radius-xs);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .dtray-seg input:checked + span {
+  border-color: var(--dp-gold);
+  background: var(--dp-gold);
+  color: var(--dp-inset);
+}
+
+/* ------------------------------------------------------------------ initiative drawer */
+/* «Avvia combattimento» as the right drawer: rows as inset list rows (radius 8), the total as
+   the gold result number. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  #dialog
+  [data-ct-start-dialog]
+  .ct-start-row,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) #dialog .ct-start-row {
+  border-color: var(--line);
+  border-radius: var(--radius-md);
+  background: var(--dp-inset);
+}
+/* The totals in the roll toast's «RESULT 25» voice: Barlow Condensed 28/700 gold (Cinzel is
+   for box titles only). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) #dialog .ct-start-total {
+  color: var(--dp-gold);
+  font-family: var(--font-label);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  line-height: var(--dp-lh-tight);
+}
+/* The roll commands: «Tira tutti» is the game primary (dice blue); «Tira PNG» and «Nessuno»
+   are the same bordered black slab. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  #dialog
+  .ct-start-tools
+  > .button:not(.primary) {
+  min-width: var(--dp-h-control);
+  padding-inline: var(--space-4);
+  border-color: var(--line);
+  background: var(--dp-inset);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  #dialog
+  .ct-start-tools
+  > .button:not(.primary):hover:not(:disabled) {
+  border-color: var(--line-strong);
+  background: var(--dp-panel);
+  box-shadow: none;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  #dialog
+  .ct-start-tools
+  > .button:not(.primary)
+  + .button:not(.primary) {
+  margin-inline-start: 0;
+}
+/* The roll-call notice in the rule tooltip's grammar (#0A0F21, 1 px #F3C267). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) #dialog .ct-start-call {
+  border: var(--dp-b-1) solid var(--dp-tip-line);
+  border-radius: var(--radius-md);
+  background: var(--dp-tip);
+  color: #ffffff;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) #dialog .ct-start-d20 {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) #dialog .ct-start-d20 input {
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: 0;
+  font-variant-caps: normal;
+}
+@media (min-width: 721px) {
+  /* Demiplane's drawer is 300–385 px; ours is clamp(380, 30vw, 440) so a row keeps the name,
+     the d20, its roll and the total (the row wraps as on the phone). */
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    #dialog:has([data-ct-start-dialog]) {
+    width: clamp(380px, 30vw, 440px);
+    max-width: 100vw;
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    #dialog:has([data-ct-start-dialog])
+    .dialog-body {
+    padding: var(--space-4);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"]) #dialog .ct-start-who small {
+    padding-left: 0;
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"]) #dialog .ct-start-roll {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+/* The dice mode and the rolls line: black inset select, the rolls in gold condensed caps where
+   the app shows the words (wide screens); elsewhere the app keeps only the control and bell. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-bar-heading
+  select {
+  border-color: var(--dp-field-line);
+  border-radius: var(--radius-xs);
+  background-color: var(--dp-inset);
+  color: #ffffff;
+  font-family: var(--font-label);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+/* The hotbar speaks one condensed voice: the «Dadi» label and the HP chip too, 14 px below
+   1440 and 16 px from 1440 (the dice-mode select follows them). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-bar-heading
+  > label,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .hotbar-hp {
+  font-family: var(--font-label);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+@media (min-width: 1440px) {
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar:not(.is-tight)
+    .combat-bar-heading
+    > label,
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar:not(.is-tight)
+    .combat-bar-heading
+    select,
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .hotbar-hp {
+    font-size: var(--text-md);
+  }
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-bar-heading
+  .text-button {
+  color: var(--dp-gold);
+}
+@media (min-width: 1440px) {
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar:not(.is-tight)
+    .combat-bar-heading
+    .text-button {
+    font-family: var(--font-label);
+    font-size: var(--text-lg);
+    font-weight: 700;
+    letter-spacing: var(--label-tracking);
+    font-variant-caps: all-small-caps;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  /* Phone commands: 40 px circles so the five and End turn share one row. */
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar
+    > .button:not([data-table="end-turn"]) {
+    width: var(--dp-h-control);
+    min-width: var(--dp-h-control);
+    height: var(--dp-h-control);
+    padding: 0;
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar
+    > [data-table="end-turn"] {
+    padding: 0 var(--space-4);
+  }
+}
+
+/* The app's own-SVG glyphs in the same filled Material voice (mask swap; the buttons and
+   their names are unchanged): X-card → disabled_by_default, slow down → drag_handle, raise
+   hand → back_hand, the menu caret → expand_more; on the map, find my token → person_search,
+   fit → center_focus_strong; in the hotbar, «Mosse» → sports_martial_arts. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .session-view-hud-bar
+  [data-safety-hud]
+  > .icon,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .session-view-hud-bar
+  .session-view-caret,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .workspace.is-table
+  .map-zoom
+  > :is([data-table="find-token"], [data-table="fit"])
+  > .icon,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-hotbar
+  .sm-dock-toggle
+  > .sm-glyph {
+  background: currentColor;
+  -webkit-mask: var(--dp-glyph) center / contain no-repeat;
+  mask: var(--dp-glyph) center / contain no-repeat;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .session-view-hud-bar
+  [data-safety-hud]
+  > .icon
+  > *,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .session-view-hud-bar
+  .session-view-caret
+  > *,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .workspace.is-table
+  .map-zoom
+  > :is([data-table="find-token"], [data-table="fit"])
+  > .icon
+  > *,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-hotbar
+  .sm-dock-toggle
+  > .sm-glyph
+  > * {
+  visibility: hidden;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .session-view-hud-bar
+  [data-safety-hud="stop"]
+  > .icon {
+  --dp-glyph: url("assets/icons/disabled_by_default.svg");
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .session-view-hud-bar
+  [data-safety-hud="pace"]
+  > .icon {
+  --dp-glyph: url("assets/icons/drag_handle.svg");
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .session-view-hud-bar
+  [data-safety-hud="raise-hand"]
+  > .icon {
+  --dp-glyph: url("assets/icons/back_hand.svg");
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .session-view-hud-bar
+  .session-view-caret {
+  --dp-glyph: url("assets/icons/expand_more.svg");
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .workspace.is-table
+  .map-zoom
+  > [data-table="find-token"]
+  > .icon {
+  --dp-glyph: url("assets/icons/person_search.svg");
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .workspace.is-table
+  .map-zoom
+  > [data-table="fit"]
+  > .icon {
+  --dp-glyph: url("assets/icons/center_focus_strong.svg");
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-hotbar
+  .sm-dock-toggle
+  > .sm-glyph {
+  --dp-glyph: url("assets/icons/sports_martial_arts.svg");
+}
+
+/* Map-layer glyphs (travel points) keep a black halo over the painted map, as the token
+   names do. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) #battle-map .travel-layer text {
+  paint-order: stroke;
+  stroke: var(--dp-black);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+/* ================================================================== I-250: the app's own
+   spacings on the skinned surfaces, brought onto the scales above (the design-value audit,
+   changes/visual-01/audit, listed them as off-grid: 1 · 2 · 3 · 5 · 6 · 7 · 9 · 10 · 11 · 14 · 18 ·
+   22 · 30 · 38 px). Geometry the HUD depends on keeps its sizes (the hotbar stays ≤ 120 px, the
+   tool column and the party column keep their widths within 4 px, targets stay ≥ 40 px). */
+
+/* Shell. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .workspace:not(.is-table) > main {
+  padding: var(--space-6) var(--space-7);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .app-header {
+  gap: var(--space-5);
+  padding: var(--space-3) var(--space-6);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .app-header.table-header {
+  padding-block: var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .app-header nav,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .service-nav {
+  gap: var(--space-1);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .icon-button {
+  width: var(--dp-h-control);
+  height: var(--dp-h-control);
+  padding: 0;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .badge {
+  padding: 0 var(--space-2);
+  line-height: var(--dp-lh-body);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .text-button:not(.combat-bar-heading .text-button) {
+  padding: var(--space-2) 0;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .tabs
+  button:not(.character-tabs button),
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-tabs [role="tab"] {
+  min-height: var(--dp-h-control);
+  padding: var(--space-1) var(--space-3);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .page-heading {
+  gap: var(--space-5);
+  margin-bottom: var(--space-6);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .section-heading {
+  gap: var(--space-3);
+}
+
+/* Home. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .home-tabs {
+  gap: 0;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .home-panel-head {
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-page
+  .home-appointment-main
+  > p {
+  margin: 0;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .character-resume {
+  gap: var(--space-4);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-page
+  .character-resume
+  small {
+  margin-top: var(--space-1);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-page
+  .character-resume
+  > .portrait {
+  font-size: var(--text-2xl);
+}
+
+/* Scheda. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-ability-box
+  small {
+  margin: 0;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .shp-row {
+  gap: var(--space-1);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .shp-value {
+  padding: 0 var(--space-3);
+  min-width: var(--dp-h-large);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .shp-row-name {
+  padding: var(--space-2) var(--space-1);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .shp-star {
+  font-size: var(--text-lg);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .shp-mode button {
+  padding: 0 var(--space-4);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-bar-top, .shp-xp) {
+  gap: var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .shp-switch {
+  min-height: var(--dp-h-control);
+  padding-block: 0;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .conditions-vital {
+  padding: 0 var(--space-3);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .conditions-segments {
+  gap: var(--space-1);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-summary
+  > .character-conditions
+  > span:first-child {
+  margin: 0;
+}
+
+/* Tavolo. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-party-member {
+  padding: var(--space-1);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-layout .inspector-ac {
+  padding: var(--space-1);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-layout .inspector-person {
+  gap: var(--space-3);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-stage .map-toolbar,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-stage .map-subtools,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .map-container > .map-zoom {
+  gap: var(--space-1);
+  padding: var(--space-1);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-layout
+  > .initiative
+  .initiative-token
+  small {
+  font-size: var(--text-sm);
+}
+/* Names sit on the tile's foot, so the group label above has its own line (one baseline for
+   every tile, tagged or not). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .combat-action {
+  align-items: flex-end;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .combat-group-tag {
+  top: var(--space-1);
+  left: var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .hotbar-resources {
+  gap: var(--space-3);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-bar-heading
+  .text-button {
+  padding: 0;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-sidebar-rail > .table-tabs {
+  gap: var(--space-1);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-layout .forms-toolbar {
+  gap: var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  > :is(.conditions-summary, .forms-summary, .combat-detail) {
+  margin-block: 0 var(--space-4);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-layout
+  :is(.table-ext-panel, .forms-summary, .combat-detail)
+  > h3 {
+  margin: 0 0 var(--space-3);
+}
+@media (min-width: 721px) {
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-layout > .initiative {
+    padding: var(--space-1);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token {
+    gap: var(--space-1);
+    padding: var(--space-2) var(--space-1);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-identity,
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-center {
+    margin-bottom: var(--space-2);
+    padding: var(--space-1) var(--space-3);
+  }
+}
+
+@media (max-width: 720px) {
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .workspace:not(.is-table)
+    > main {
+    padding: var(--space-5) var(--space-4);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .app-header {
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+  }
+}
+
+/* Second pass (in-page probe of the visible elements). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .nav-link {
+  gap: var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .home-layout {
+  column-gap: var(--space-5);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .home-count {
+  padding: 0 var(--space-1);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-page
+  .home-news-item
+  .toolbar {
+  gap: var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .int-cal-list {
+  gap: var(--space-1);
+  padding: var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .int-cal-item {
+  padding: var(--space-2) var(--space-3);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .shp-star {
+  padding: 0;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-portrait {
+  font-size: var(--text-2xl);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-hp
+  .dt-hp-row
+  .dt-amount {
+  padding: var(--space-1);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .shp-facts li {
+  gap: var(--space-1);
+  padding-block: var(--space-1);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-mode button, .shp-effects, .shp-favorites) {
+  gap: var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .hotbar-hp {
+  padding: var(--space-1) var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .workspace.is-table .map-tool {
+  padding: 0;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .map-container > .map-caption {
+  padding: var(--space-2) var(--space-3);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-layout
+  > .initiative
+  .token-dot {
+  font-size: var(--text-lg);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-layout
+  .inspector-person
+  .portrait {
+  font-size: var(--text-xl);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-layout > .table-topline {
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-layout > .initiative,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-stage > .table-party,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .session-view-hud-bar,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .session-view-hud-bar
+  .safety-hud-group,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .session-view-hud-button,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .conditions-quick {
+  gap: var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .conditions-segment,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .combat-filters {
+  padding: 0;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-party-member,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .session-view-dots,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .sm-dock-toggle,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .hotbar-name,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .hotbar-slots,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .hotbar-slot-level {
+  gap: var(--space-1);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .workspace.is-table
+  .map-zoom
+  > .map-tool {
+  font-size: var(--text-xl);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-hotbar
+  .hotbar-slot-level
+  > small {
+  font-family: var(--font-label);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+/* Third pass: Magie, Inventario, the initiative drawer, the token menu. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .field input,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .field select,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .field textarea,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) input[type="search"],
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  select:not(.demo-strip select, .combat-bar-heading select),
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-search, .invp-search)
+  input {
+  padding: var(--space-2) var(--space-3);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tabs-all {
+  gap: var(--space-2);
+  padding: 0 var(--space-3);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .spl-slots {
+  gap: var(--space-2) var(--space-4);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-chips, .invp-columns, .invp-row-actions) {
+  gap: var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .spl-filters {
+  gap: var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .spl-stat {
+  padding: var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .spl-row {
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-1);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.character-slot-summary, .character-slot-summary > div) {
+  gap: var(--space-1) var(--space-3);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .spl-badge {
+  padding: 0 var(--space-1);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .spl-state {
+  padding: 0 var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .invp-stat {
+  padding: var(--space-3);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .invp-root-head {
+  padding: var(--space-2) var(--space-3);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .invp-pips {
+  gap: var(--space-1);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .invp-rule ul {
+  padding-left: var(--space-4);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .invp-toolbar {
+  gap: var(--space-3);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .invp-toolbar-row {
+  gap: var(--space-3) var(--space-5);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .invp-row {
+  gap: var(--space-3);
+  padding: var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .invp-cols {
+  gap: var(--space-3);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .session-view-chip {
+  padding: var(--space-3);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-sidebar-panel
+  > .table-subtabs {
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-subtab {
+  min-height: var(--dp-h-control);
+  padding: 0 var(--space-3);
+  line-height: var(--dp-lh-tight);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) #dialog .ct-start-call,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) #dialog .ct-start-row {
+  padding: var(--space-3);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  #dialog
+  :is(.ct-start-row, .ct-start-tools, .ct-start-list) {
+  gap: var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) #dialog .ct-start-d20 input {
+  padding: var(--space-1) var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .dialog-heading {
+  gap: var(--space-4);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-hotbar
+  :is(.hotbar-hp, .combat-bar, .combat-bar-heading, .combat-actions) {
+  gap: var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .combat-actions {
+  margin: calc(var(--space-1) * -1);
+  padding: var(--space-1);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .token-menu {
+  padding: var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .token-menu-hp input {
+  padding: var(--space-2) var(--space-3);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .token-menu-item {
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .token-menu-head {
+  gap: var(--space-3);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .token-menu-close {
+  padding: 0;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-subtab,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) #dialog .ct-start-roll {
+  gap: var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .clib-sheet-bar {
+  gap: var(--space-2);
+}
+@media (max-width: 1100px) {
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .home-layout {
+    gap: var(--space-5);
+  }
+}
+@media screen and (max-width: 720px) {
+  /* HUD geometry (code-map §b6): the scene plate, the hotbar and the party column keep the
+     app's phone heights (≤ 81 / 153 / 154 px), so the zoom row and the party portraits stay
+     above the hotbar at rest. The plate: title and state on one solid line, then the scene
+     commands' 40 px row. */
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-layout > .table-topline {
+    row-gap: var(--space-1);
+    padding: var(--space-2) var(--space-4) var(--space-1);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    > .table-topline
+    h1,
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    > .table-topline
+    > div:first-child
+    > span {
+    line-height: var(--dp-lh-solid);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar {
+    gap: var(--space-1) var(--space-2);
+    padding: var(--space-1) var(--space-2) var(--space-2);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-party-member {
+    padding: 0;
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .action-dock.table-hotbar
+    > .hotbar-identity,
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .action-dock.table-hotbar
+    > .hotbar-identity
+    > div,
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .map-container > .map-caption {
+    gap: var(--space-2);
+  }
+  /* The resource symbols keep their row beside HP and the page tabs. */
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .action-dock.table-hotbar
+    .hotbar-resources
+    .resources {
+    gap: var(--space-1);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .hotbar-hp {
+    padding-inline: var(--space-1);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    > .table-sidebar-rail {
+    padding: var(--space-1);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-sidebar-rail
+    :is(.table-tab, .table-map-link, .table-panels-all) {
+    gap: var(--space-1);
+    padding: var(--space-1);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-sidebar-rail
+    .table-tab-label {
+    font-family: var(--font-label);
+    font-size: var(--text-2xs);
+    font-weight: 700;
+    letter-spacing: var(--label-tracking);
+  }
+  /* Phone turn portraits: the app's 46 px chips under the map controls (its 56 px top
+     offset is kept), padded on the grid. */
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token {
+    padding: var(--space-1);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .map-caption > span.is-fresh {
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--text-xs);
+  }
+}
+
+/* Fourth pass: the rest of the full sheet and Home below the first screen. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet :is(th, td) {
+  padding: var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-generic-open {
+  gap: var(--space-1);
+  padding: 0 var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .shp-action {
+  padding-block: var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-row-name, .ct-policy-name, .cs-switch > span) {
+  gap: var(--space-1);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-action-tools, .shp-chips, .shp-props, .offline-switch-block, .sm-list),
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .ct-policy-list
+  > li,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-resource,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .offline-switch,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .combat-dock,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .conditions-vital {
+  gap: var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .clib-privacy {
+  gap: var(--space-1);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .combat-filters {
+  gap: 0;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .shp-prop {
+  padding: 0 var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .ct-badge {
+  padding: 0 var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) kbd {
+  padding: 0 var(--space-1);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .empty-state {
+  padding: var(--space-7) var(--space-5);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .token-menu-count {
+  padding: 0 var(--space-1);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .chat-home-row {
+  gap: var(--space-3);
+  padding-block: var(--space-3);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .home-path {
+  gap: var(--space-2);
+  padding: var(--space-4);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-hotbar
+  .hotbar-slot-level
+  > i,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .compendium-term {
+  border-radius: 0;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .ct-policy-list
+  > li {
+  padding: var(--space-2) 0;
+}
+
+/* Fix round (01/10): the last text under the type scale's floor. Micro labels at 14 px small
+   caps; numbers and key hints at 12 px. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-layout .inspector-ac small,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .token-menu-title small,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-layout
+  .inspector-person
+  .muted {
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+  line-height: var(--dp-lh-tight);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-layout
+  > .initiative
+  .initiative-token {
+  font-size: var(--text-sm);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .action-dock.table-hotbar
+  > .hotbar-identity
+  > div
+  > span {
+  font-size: var(--text-xs);
+  line-height: var(--dp-lh-tight);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) kbd,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .ext-count,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .token-menu-count {
+  font-size: var(--text-xs);
+}
+/* «Aggiungi al calendario» and «Apri sessioni» share one row line (the calendar card's own
+   8 px top margin dropped inside the row). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-appointment-actions
+  .int-card-calendar {
+  margin-top: 0;
+}
+
+/* One game voice for the remaining chips and HUD words: exhaustion steps, weapon
+   properties, the generic actions and the session commands over the map. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .conditions-segment,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-prop, .shp-generic-open),
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .session-view-hud-button {
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .hotbar-hp {
+  padding-block: var(--space-1);
+  font-size: var(--text-sm);
+  line-height: var(--dp-lh-solid);
+}
+@media (min-width: 1440px) {
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .hotbar-hp {
+    font-size: var(--text-md);
+  }
+}
+/* Every disclosure row takes the same 3 px focus ring as the controls. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) summary:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+/* The app's own margins on the skinned headings, brought onto the spacing scale. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-layout > .table-topline h1 {
+  margin: 0;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .home-bottom h3 {
+  margin: 0 0 var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-action-group > h3, .spl-group > h3, .invp-group > h3, .sm-sheet > h4) {
+  margin: var(--space-4) 0 var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) #dialog .ct-start-scene,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) #dialog .ct-start-tools {
+  margin: 0 0 var(--space-3);
+}
+/* The sheet's condition line: the add command and the exhaustion track as two groups. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .conditions-quick {
+  column-gap: var(--space-5);
+}
+@media (max-width: 720px) {
+  /* Phone slot boxes stack their line and command on the box's left edge, as every other
+     box does. */
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .spl-slot {
+    align-items: flex-start;
+  }
+}
+/* The last targets under 40 px (the app's): the HP chip, the reactions filter and «Perché?». */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .hotbar-hp,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .spl-window-why
+  > summary {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--dp-h-control);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .combat-filter {
+  min-width: var(--dp-h-control);
+}
+
+/* ================================================================== I-250, second polish
+   round (01/10): one recipe per component kind, and the verifier's open items. */
+
+/* Tags: one size for every tag — 24 px (the 4 px grid; Demiplane's tags are 20–24), 0 × 8,
+   radius 4, a 1 px rule — with each tag's type and colours set above (trait tags, spell
+   components and states, badges, «Nuova»). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .badge,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-state, .spl-badge, .ct-badge, .shp-econ),
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .home-badge-new {
+  box-sizing: border-box;
+  min-block-size: var(--dp-h-tag);
+  min-inline-size: var(--dp-h-tag);
+  block-size: auto;
+  padding: 0 var(--space-2);
+  border-width: var(--dp-b-1);
+  border-style: solid;
+  border-radius: var(--radius-xs);
+  line-height: var(--dp-lh-tight);
+}
+
+/* The HP box's label and value rows match its neighbours' (micro label, 40 px chip), so
+   «18 / 22» sits on the band's value line; the ±HP cluster's extra height goes to the row
+   under the chip (it was shared out and put the chip 1.2 px low). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  .stat.character-hp:has(.dt-hp-row) {
+  grid-template-rows: auto var(--dp-h-control) minmax(0, 1fr) auto minmax(0, auto);
+}
+
+/* Fields: one height, 40 px (the typed, search and token-menu HP fields ran 42). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  :is(
+    .field input:not([type="checkbox"], [type="radio"], [type="range"], [type="color"]),
+    input[type="search"],
+    .token-menu-hp input
+  ) {
+  block-size: var(--dp-h-control);
+  padding-block: 0;
+}
+/* Disclosure rows stay 40 px: the encumbrance rule wraps to two lines in its narrow box, so it
+   takes the title line height (two lines of 1.5 made it 42). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .invp-rule
+  > summary {
+  line-height: var(--dp-lh-tight);
+}
+/* Check boxes sit on their label's 8 px gap, not on Chromium's 3–4 px margin (the roll
+   drawer, the sheet's combat policy, the spell filter). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) #dialog .ct-check input,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.ct-check, .spl-check)
+  input {
+  margin: 0;
+}
+/* Action names: the 18 px title takes the title line height, so the row name is the same
+   40 px box (8 × 4 padding) as the saves' and skills' names. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-action
+  .shp-row-name
+  > strong {
+  line-height: var(--dp-lh-tight);
+}
+
+/* The app's last off-grid margins on the skinned surfaces (2 · 3 · 6 · 10 · 14 · 18 · 21 ·
+   22 px), onto the 4 px scale; gaps already space these items, so most go to 0. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-breadcrumb {
+  margin-bottom: var(--space-5);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-foot, .cs-sheet) {
+  margin-top: var(--space-4);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.cs-sheet > h3, .dtray-sheet-free > .field, .invp-toolbar) {
+  margin-bottom: var(--space-4);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .cs-switch input {
+  margin: var(--space-1) 0 0;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .shp-uses {
+  margin-left: var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .offline-switch-block
+  .button
+  .icon {
+  margin-right: 0;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-window, .spl-concentration) {
+  margin-bottom: var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .spl-rows {
+  margin-top: var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .spl-pips {
+  margin-left: var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .spl-stat dd,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .invp-row-meta {
+  margin-top: var(--space-1);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-layout .inspector-buttons {
+  margin-top: var(--space-4);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-layout .forms-toolbar {
+  margin: var(--space-4) 0 var(--space-5);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-layout
+  .combat-detail
+  > p.muted {
+  margin-bottom: var(--space-4);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-hotbar
+  .hotbar-slot-level
+  small,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .session-view-hud-bar
+  .session-view-caret {
+  margin-inline: 0;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) #dialog .ct-start-call {
+  margin-bottom: var(--space-3);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .token-menu-hp {
+  margin-top: var(--space-1);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) #token-menu-hp-help {
+  margin: var(--space-1) 0 var(--space-2);
+}
+
+/* Creature panel commands: one column of full-width slabs, the drawer's list (two columns
+   wrapped «Scheda completa» onto two lines, a 61 px button). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-layout .inspector-buttons {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* Token menu: one row height (40; the phone sheet keeps the app's 44 touch rows); the chevron
+   and the count no longer stretch a category row to 45. Separators and Close on the scales. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .token-menu
+  :is(.token-menu-chevron, .token-menu-count) {
+  line-height: var(--dp-lh-solid);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .token-menu-sep {
+  margin: var(--space-1);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .token-menu-close {
+  border-radius: var(--radius-xs);
+}
+
+/* The scene plate and the phone's bottom sheet sit 8 px from the edge above them (the app's
+   10 px, onto the 4 px scale). */
+@media (min-width: 721px) {
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-layout > .table-topline {
+    margin-top: var(--space-2);
+  }
+}
+@media screen and (max-width: 720px) {
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    > .table-sidebar-panel {
+    margin-top: var(--space-2);
+  }
+  /* The Table header keeps today's single row on a phone (the shell's 16 px button sides and
+     4 px icon gaps wrapped the services under «App» and «Back», 105 px instead of 63): the bar
+     takes the phone sheet's 8 px sides, its two text buttons 8 px sides, the service icons sit
+     edge to edge as in the app. */
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .app-header.table-header {
+    padding-inline: var(--space-2);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .app-header.table-header
+    > .button.quiet {
+    min-width: var(--dp-h-control);
+    padding-inline: var(--space-2);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .app-header.table-header
+    .service-nav {
+    gap: 0;
+  }
+  /* The action tiles scroll sideways: their row fades over its last 24 px, so the clipped
+     edge of the next tile reads as «more to the right», not as a stray bracket. */
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .combat-actions {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      #000 calc(100% - var(--space-5)),
+      rgb(0 0 0 / 0.25) calc(100% - var(--space-3)),
+      transparent
+    );
+    mask-image: linear-gradient(
+      to right,
+      #000 calc(100% - var(--space-5)),
+      rgb(0 0 0 / 0.25) calc(100% - var(--space-3)),
+      transparent
+    );
+  }
+  /* The party column ends above the hotbar (it ran 9 px under its top edge, hiding the last
+     portrait's HP bar). */
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-stage > .table-party {
+    bottom: calc(var(--space-7) + var(--space-1));
+  }
+}
