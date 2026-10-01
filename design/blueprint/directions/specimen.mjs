@@ -14,7 +14,8 @@
 // - Markup: each fragment is the HTML its module renders (file:line on every cell), taken from
 //   the running app on 8881 (01/10/2026, the example after «Ripristina esempio», Player unless
 //   noted) with the icons and the logo produced by ui.mjs's own icon() and logo(), so a
-//   direction's icons.mjs applies. Inline styles that table.mjs fitHud adds after a render
+//   direction's icons.mjs and brand.mjs apply. index.html's <link rel="icon"> is copied into
+//   the head before the loader runs, so a direction's favicon replaces it as in the app. Inline styles that table.mjs fitHud adds after a render
 //   (top, margin-top, bottom) are left out. «composto» marks a fragment assembled from the
 //   module's template for a state the example does not reach (named in the cell).
 // - Context: each component sits inside the ancestors it has in the app (the workspace, the
@@ -239,11 +240,15 @@ function section(id, title, note, cells, grid = "") {
 
 // ------------------------------------------------------------------ shell
 
+// app.mjs:759, the brand button of both headers: logo() (ui.mjs:94, a direction's brand.mjs
+// replaces it) and the «d20 Studio» wordmark.
+const brandButton = () =>
+  `<button class="brand" data-nav="home" aria-label="d20 Studio">${logo()}<span>d20 <b>Studio</b></span></button>`;
 // app.mjs:759 (header), app.mjs:609 (navButton), app.mjs:635 (serviceButtons), ui.mjs:94 logo().
 const headerHome = () =>
   h(
     `<header class="app-header ">`,
-    `<button class="brand" data-nav="home" aria-label="d20 Studio">${logo()}<span>d20 <b>Studio</b></span></button>`,
+    brandButton(),
     `<nav aria-label="Navigazione principale">`,
     `<button class="nav-link active" data-nav="home">${icon("home")}<span>Inizio</span></button>`,
     `<button class="nav-link " data-nav="characters">${icon("person")}<span>Personaggi</span></button>`,
@@ -267,12 +272,135 @@ const serviceNav = () =>
 const headerTable = () =>
   h(
     `<header class="app-header table-header">`,
-    `<button class="brand" data-nav="home" aria-label="d20 Studio">${logo()}<span>d20 <b>Studio</b></span></button>`,
+    brandButton(),
     `<button class="button quiet" data-service="app-menu">${icon("menu")} App</button>`,
     `<button class="button quiet" data-nav="campaign" aria-label="Torna alla campagna" title="Torna alla campagna">${icon("arrow")}<span>Torna alla campagna</span></button>`,
     serviceNav(),
     `</header>`,
   );
+
+// ------------------------------------------------------------------ brand (I-251)
+
+// The tab icon: index.html's <link rel="icon"> href (own) and the one in this page's head after
+// the loader ran (now: a direction's brand.mjs favicon, or own again). Set by addIconLink/boot.
+const favicon = { own: null, now: null };
+/** index.html's <link rel="icon">, copied into this page's head before the loader runs. */
+async function addIconLink() {
+  try {
+    const html = await (await fetch("index.html", { cache: "no-store" })).text();
+    const own = new DOMParser()
+      .parseFromString(html, "text/html")
+      .querySelector('link[rel="icon"]');
+    if (!own) return;
+    const link = document.createElement("link");
+    for (const { name, value } of own.attributes) link.setAttribute(name, value);
+    document.head.querySelector("title").after(link);
+    favicon.own = link.getAttribute("href");
+  } catch {}
+}
+
+// The header as a real box (its background, padding and 81 px height), or as context only.
+const HEADER_BOX = ['box:<header class="app-header ">'];
+const HEADER = ['<header class="app-header ">'];
+const LOGO_SIZES = [16, 24, 32, 48, 96, 160];
+/** logo() at a fixed size: an inline size wins over .brand .logo (34 px) and any direction's. */
+const sizedLogo = (px) => logo().replace(/^<svg /, `<svg style="width:${px}px;height:${px}px" `);
+// Each size in the header's brand context (display:contents), so the rules a direction writes
+// on .brand .logo or .app-header .brand .logo (colour, shadow) apply as in the app.
+const logoSizes = () =>
+  h(
+    `<div class="specimen-sizes">`,
+    ...LOGO_SIZES.map(
+      (px) =>
+        `<div class="specimen-size">${within([...HEADER, '<span class="brand">'], sizedLogo(px))}<span class="specimen-size-label">${px} px</span></div>`,
+    ),
+    `</div>`,
+  );
+const tabIcon = (px) =>
+  favicon.now
+    ? `<img class="specimen-favicon" src="${esc(favicon.now)}" width="${px}" height="${px}" alt="">`
+    : `<span class="specimen-size-label">nessuna icona</span>`;
+const browserTabs = () =>
+  ["is-dark", "is-light"]
+    .map((tone) =>
+      h(
+        `<div class="specimen-tabstrip ${tone}">`,
+        `<div class="specimen-tab">${tabIcon(16)}<span>d20 Studio · Blueprint</span></div>`,
+        `<div class="specimen-tile ${tone}">${tabIcon(32)}<span class="specimen-size-label">32 px</span></div>`,
+        `</div>`,
+      ),
+    )
+    .join("");
+
+const brandCells = () => {
+  const source =
+    favicon.now && favicon.now === favicon.own
+      ? "l’icona di oggi (index.html)"
+      : favicon.now
+        ? "l’icona della direzione (brand.mjs, favicon)"
+        : "nessuna";
+  return [
+    cell({
+      name: "Testata di Inizio, 1×",
+      cls: "header.app-header .brand .logo · .brand span · .brand b",
+      src: "app.mjs:759 · ui.mjs logo()",
+      size: "wide",
+      stage: "flush",
+      html: within(HEADER_BOX, brandButton()),
+    }),
+    cell({
+      name: "Testata di Inizio, 2× (zoom CSS)",
+      cls: "header.app-header .brand",
+      src: "app.mjs:759",
+      size: "wide",
+      stage: "flush",
+      html: `<div class="specimen-zoom is-2">${within(HEADER_BOX, brandButton())}</div>`,
+    }),
+    // On a phone the Table header hides the brand (styles.css, 720 px block): no cell there.
+    phone()
+      ? ""
+      : cell({
+          name: "Testata del Tavolo, 1×",
+          cls: "header.app-header.table-header .brand",
+          src: "app.mjs:759",
+          size: "wide",
+          stage: "flush",
+          html: within(['box:<header class="app-header table-header">'], brandButton()),
+        }),
+    cell({
+      name: "Il dado da solo, sullo sfondo della pagina",
+      cls: "logo() a 16 · 24 · 32 · 48 · 96 · 160 px, nel contesto .app-header .brand",
+      src: "ui.mjs logo() · directions/<id>/brand.mjs",
+      size: "wide",
+      html: logoSizes(),
+    }),
+    cell({
+      name: "Il dado da solo, su un riquadro chiaro",
+      cls: "logo() a 16 · 24 · 32 · 48 · 96 · 160 px",
+      src: "ui.mjs logo() · directions/<id>/brand.mjs",
+      size: "wide",
+      html: `<div class="specimen-tile is-light">${logoSizes()}</div>`,
+    }),
+    cell({
+      name: "Icona della scheda del browser, 16 e 32 px",
+      cls: `link[rel="icon"]: ${source}`,
+      src: "index.html:8 · directions/<id>/brand.mjs favicon",
+      size: "half",
+      html: browserTabs(),
+    }),
+    cell({
+      // In the header's context (.app-header .brand rules apply): at ≤ 420 px the app hides the
+      // wordmark (styles.css), so a phone shows the mark alone here too.
+      name: phone()
+        ? "Marchio completo, 2× (zoom CSS): sul telefono la testata mostra solo il dado"
+        : "Marchio completo, 3× (zoom CSS)",
+      cls: ".brand: dado e scritta «d20 Studio»",
+      src: "app.mjs:759",
+      size: "wide",
+      html: `<div class="specimen-zoom is-3">${within(HEADER, brandButton())}</div>`,
+    }),
+  ].filter(Boolean);
+};
 
 // ------------------------------------------------------------------ typography
 
@@ -1385,6 +1513,12 @@ function masthead(report) {
 function render(report) {
   return h(
     masthead(report),
+    section(
+      "brand",
+      "Marchio",
+      "Il dado d20 e la scritta «d20 Studio» della direzione (I-251): nella testata a 1× e 2×, il dado da solo da 16 a 160 px sullo sfondo della pagina e su un riquadro chiaro, l’icona della scheda del browser e il marchio completo a 3×.",
+      brandCells(),
+    ),
     section("type", "Tipografia", "", typography()),
     section(
       "header",
@@ -1463,9 +1597,12 @@ async function boot() {
     return;
   }
   await injectStyles();
+  await addIconLink();
   // The app's loader, unchanged: ?direction=<id>|current|off, the key, then apply (sheets,
-  // sprite, data-direction, icon override). It appends the direction sheets after ours.
+  // sprite, data-direction, icon and logo overrides, favicon). It appends the direction sheets
+  // after ours.
   await startDirection();
+  favicon.now = document.head.querySelector('link[rel="icon"]')?.getAttribute("href") ?? null;
   const report = await checkSheets();
   root.innerHTML = render(report);
   await document.fonts?.ready;

@@ -3,7 +3,7 @@
 // 'd20-dev-direction' present; with no key the app is byte-for-byte unchanged (no attribute, no
 // link, no sprite, no strip control). It never throws: every storage and DOM access is guarded.
 // See directions/README.md for the builder contracts and changes/visual-01/code-map.md §a–§e.
-import { esc, setIconOverride } from "../ui.mjs";
+import { esc, setIconOverride, setLogoOverride } from "../ui.mjs";
 
 // label = the numbered option shown to the owner (I-248, round 1 «Scelta 1 — Direzione»).
 export const DIRECTIONS = Object.freeze([
@@ -100,6 +100,7 @@ async function apply(id) {
   const doc = documentOf();
   if (!doc) {
     setIconOverride(null);
+    setLogoOverride(null);
     return;
   }
   const root = doc.documentElement;
@@ -127,6 +128,9 @@ async function apply(id) {
     sprite(doc, null);
   }
   setIconOverride(id ? await iconsOf(id) : null);
+  const brand = id ? await brandOf(id) : null;
+  setLogoOverride(brand?.logo ?? null);
+  favicon(doc, brand?.favicon ?? null);
 }
 
 function removeLink(doc, key) {
@@ -232,6 +236,71 @@ async function iconsOf(id) {
   } catch {
     return null; // no icons.mjs: the core icons stay
   }
+}
+
+// directions/<id>/brand.mjs (optional, I-251) exports directionLogo(className) → full svg string
+// (the header mark) and `favicon`, a standalone svg document for the browser tab. Both step
+// aside under the light theme, like the icons.
+async function brandOf(id) {
+  try {
+    const mod = await import(`./${id}/brand.mjs`);
+    const pick = mod?.directionLogo;
+    const logo =
+      typeof pick === "function"
+        ? (className) => {
+            if (lightTheme()) return null;
+            try {
+              const svg = pick(className);
+              return typeof svg === "string" && svg.startsWith("<svg") ? svg : null;
+            } catch {
+              return null;
+            }
+          }
+        : null;
+    const svg = mod?.favicon;
+    const icon =
+      typeof svg === "string" && svg.startsWith("<svg")
+        ? `data:image/svg+xml,${encodeURIComponent(svg)}`
+        : null;
+    return { logo, favicon: icon };
+  } catch {
+    return null; // no brand.mjs: today's mark and tab icon stay
+  }
+}
+
+// The page's own <link rel="icon"> href while a direction's favicon replaces it; restored
+// exactly when the direction goes. A theme watcher swaps back and forth under the light theme.
+let ownIcon = null; // { link, href } while swapped
+let themeWatch = null;
+function favicon(doc, href) {
+  try {
+    themeWatch?.disconnect();
+    themeWatch = null;
+    if (!href) {
+      if (!ownIcon) return;
+      const { link, href: own } = ownIcon;
+      if (own === null) link.removeAttribute("href");
+      else link.setAttribute("href", own);
+      ownIcon = null;
+      return;
+    }
+    const link = ownIcon?.link ?? doc.querySelector('link[rel="icon"]');
+    if (!link) return;
+    ownIcon ??= { link, href: link.getAttribute("href") };
+    const own = ownIcon.href;
+    const sync = () => {
+      const want = lightTheme() ? own : href;
+      if (link.getAttribute("href") === want) return;
+      if (want === null) link.removeAttribute("href");
+      else link.setAttribute("href", want);
+    };
+    sync();
+    themeWatch = new MutationObserver(sync);
+    themeWatch.observe(doc.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-pref-theme"],
+    });
+  } catch {}
 }
 
 /** The strip control: "" unless direction mode, so the default strip markup is unchanged. */

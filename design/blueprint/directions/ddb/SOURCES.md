@@ -6,9 +6,12 @@
   I-250: una sola ricetta per ogni tipo di componente, vedi «Coerenza (I-250)»); secondo giro di
   cura lo stesso giorno, dopo la quarta verifica (vedi «Secondo giro»); terzo giro lo stesso
   giorno, dopo la quinta verifica (vedi «Terzo giro»); quarto giro lo stesso giorno, dopo la
-  sesta verifica (vedi «Quarto giro»).
+  sesta verifica (vedi «Quarto giro»); il marchio proprio dell'opzione il 01/10/2026 (I-251, vedi
+  «Marchio (I-251)»); rifinito nei dettagli la sera del 01/10/2026, dopo la critica indipendente
+  dei dettagli (I-252, vedi «Dettagli rifiniti»).
 - **Direzione:** `ddb` («2 · D&D Beyond» nel selettore «Direzione»), Fase C, Scelta 1 — Direzione (I-248).
 - **File di questa opzione:** `direction.css` (tutto l'aspetto), `icons.mjs` (le icone),
+  `brand.mjs` (il dado del marchio e l'icona della scheda del browser),
   `assets/campaign-backdrop.webp` e `assets/creation-scene.webp` (due illustrazioni tue).
 - **Riferimenti:** le immagini e i fatti di D&D Beyond sono in
   `~/Workspace/Codex/d20-studio-visual-assets/references/ddb/` (`facts.md`, `manifest.md`). Sono
@@ -17,8 +20,8 @@
   elemento, comportamenti e i valori dei colori.
 - **Schermate:** `~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/round1/ddb/` (15
   schermate; le coppie «nostra · riferimento» sono in `round1/ddb/_pairs/`). Schermate e coppie
-  sono state rifatte dopo l'ultima modifica di `direction.css` (01/10/2026, 15:24; schermate
-  15:25, coppie 15:27).
+  sono state rifatte dopo l'ultima modifica di `direction.css` (01/10/2026, 20:39; schermate
+  20:40, coppie 20:42).
 
 ## In tre righe
 
@@ -70,9 +73,9 @@
 | Scheda: illustrazione di sfondo fissa e scurita dietro le cornici                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | «Backdrop» della scheda D&D Beyond                                                                                                                         | facts §1 «Theme customisation»; `ddb-sheet-desktop-customizations-ddbred-2021.jpg`; illustrazione: `assets/creation-scene.webp` (tua)                                                                                                                                                 |
 | Scheda: fascia scura dell'intestazione, ritratto quadrato con bordo sottile nel colore del tema, nome in Roboto Condensed                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | Intestazione della scheda                                                                                                                                  | facts §1 «Character header»; `ddb-sheet-desktop-live-presto-light-1440x900.png` (<https://www.dndbeyond.com/characters/133058471>)                                                                                                                                                    |
 | Scheda: «scudi» delle caratteristiche con angoli superiori incavati, modificatore grande in un riquadro, punteggio nel medaglione ovale in basso                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Riquadri delle caratteristiche                                                                                                                             | facts §1 «Ability box» (solo proporzioni: la cornice è disegnata qui in CSS, non è quella di D&D Beyond); `ddb-sheet-desktop-underdark-inventory-2025-frame.png`                                                                                                                      |
-| Scheda: riquadri ad angoli smussati per Competenza, Movimento, Ispirazione eroica, Punti ferita e per i pannelli laterali. Competenza, Movimento e Ispirazione eroica hanno tre righe uguali: l'etichetta in alto (su una o due righe), il valore su **una sola riga comune** al centro, l'etichetta del piede (CAMMINARE) sotto                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Riquadri PROFICIENCY / SPEED / HEROIC INSPIRATION / HIT POINTS (etichetta in alto, valore al centro, parola in fondo)                                      | facts §1 «Proficiency and Speed boxes», «Hit Points box»; `ddb-sheet-desktop-underdark-inventory-2025-frame.png`                                                                                                                                                                      |
+| Scheda: riquadri ad angoli smussati per Competenza, Movimento, Ispirazione eroica, Punti ferita e per i pannelli laterali. I sei scudi, Competenza, Movimento, Ispirazione eroica e Punti ferita hanno tre righe uguali: l'etichetta dalla riga in alto, 12 px sotto il bordo (su una o due righe), il valore su **una sola riga comune** al centro, il piede (CAMMINARE, il medaglione del punteggio, i PF temporanei) sotto: tutta la fascia ha una riga delle etichette e una dei valori                                                                                                                                                                                                                                                                                                                                                                                      | Riquadri PROFICIENCY / SPEED / HEROIC INSPIRATION / HIT POINTS (etichetta in alto, valore al centro, parola in fondo)                                      | facts §1 «Proficiency and Speed boxes», «Hit Points box»; `ddb-sheet-desktop-underdark-inventory-2025-frame.png`                                                                                                                                                                      |
 | Scheda: Iniziativa nell'esagono, CA nello scudo, Difese e Condizioni in riquadri                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Riquadri INITIATIVE, ARMOR CLASS, DEFENSES, CONDITIONS                                                                                                     | facts §1 «Initiative box», «Armor Class box»                                                                                                                                                                                                                                          |
-| Scheda: PUNTI FERITA come il riquadro di D&D Beyond: CURA, il numero e DANNO uno sopra l'altro a sinistra, attuali e massimi nello stesso carattere e della stessa grandezza (26 px, il massimo in grigio), l'etichetta in fondo; nessuna barra sul computer (resta per i lettori di schermo); CURA verde e DANNO rosso                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Riquadro HIT POINTS della scheda                                                                                                                           | facts §1 «Hit Points box»; `ddb-sheet-desktop-underdark-inventory-2025-frame.png`                                                                                                                                                                                                     |
+| Scheda: PUNTI FERITA come il riquadro di D&D Beyond: CURA, il numero e DANNO uno sopra l'altro a sinistra per tutta l'altezza, 12 px dentro la cornice su ogni lato; attuali e massimi nello stesso carattere e della stessa grandezza (26 px, il massimo in grigio) sulla riga dei valori della fascia, l'etichetta sulla riga delle etichette, sotto i PF temporanei e la barra verde di 4 px (D&D Beyond non la mostra sul computer: la nostra si legge a colpo d'occhio, come sul telefono); CURA verde e DANNO rosso                                                                                                                                                                                                                                                                                                                                                        | Riquadro HIT POINTS della scheda                                                                                                                           | facts §1 «Hit Points box»; `ddb-sheet-desktop-underdark-inventory-2025-frame.png`                                                                                                                                                                                                     |
 | Scheda: etichette dei pannelli in fondo al riquadro (TIRI SALVEZZA, SENSI, COMPETENZE), Abilità con l'intestazione in alto e la sigla della caratteristica prima del nome («DES Acrobazia»), pallino bianco pieno per le competenze, ogni bonus nel suo piccolo riquadro da tirare                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | Pannelli SAVING THROWS, SENSES, SKILLS                                                                                                                     | facts §1 «Saving throws panel», «Skills panel»                                                                                                                                                                                                                                        |
 | Scheda: sensi passivi (PERCEZIONE, INDAGARE, INTUIZIONE, SCUROVISIONE) con il numero in un riquadro di 64 × 40 px **a sinistra** e l'etichetta dopo: tutti i numeri nella stessa colonna (quello da tirare resta il suo pulsante)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | Scheda D&D Beyond, pannello SENSES (il punteggio passivo a sinistra, poi il nome)                                                                          | facts §1 «Senses panel» (il valore a sinistra, poi l'etichetta); `ddb-sheet-desktop-underdark-inventory-2025-frame.png`, `ddb-sheet-desktop-live-presto-light-1440x900.png`                                                                                                           |
 | Scheda: TIRI SALVEZZA in due colonne di tre «pillole» sottili nel colore del tema (FOR, DES, COS · INT, SAG, CAR), ciascuna con il pallino della competenza, la sigla e il bonus in un tondo alla fine; il nome intero resta nel nome accessibile e nel suggerimento                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Pannello SAVING THROWS                                                                                                                                     | facts §1 «Saving throws panel»; `ddb-sheet-desktop-underdark-inventory-2025-frame.png`, `ddb-sheet-desktop-customizations-ddbred-2021.jpg`                                                                                                                                            |
@@ -81,7 +84,7 @@
 | Scheda: la colonna destra apre con INIZIATIVA, CA e DIFESE, poi CONDIZIONI, e subito la «scatola principale» (schede e contenuto) disegnata come un unico riquadro ad angoli smussati nel colore del tema, come gli altri riquadri: la riga delle schede entra nella prima schermata a 1440 × 900; titoli di sezione («Azioni») nel colore del tema                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Colonna destra e primary box della scheda («ACTIONS • Attacks per Action»)                                                                                 | facts §1 «Primary box», «Tab row», «Section headings in the tab»; `ddb-sheet-desktop-underdark-inventory-2025-frame.png`, `ddb-sheet-desktop-customizations-ddbred-2021.jpg`                                                                                                          |
 | Scheda sul telefono: intestazione scura a tutta larghezza (ritratto 48 px, nome, comandi) e subito sotto la striscia rapida piatta COMPETENZA · MOVIMENTO · INIZIATIVA · CA (valore sopra una piccola etichetta in maiuscoletto, tutte le etichette sulla stessa riga, l'iniziativa nel suo riquadrino, il pallino «modificato» accanto al valore, una riga del tema sotto), poi le schede; caratteristiche 3 × 2; contenuto in una scheda incorniciata                                                                                                                                                                                                                                                                                                                                                                                                                          | Scheda mobile                                                                                                                                              | facts §2; `ddb-sheet-mobile-live-presto-390x844.png` (<https://www.dndbeyond.com/characters/133058471>), `ddb-sheet-mobile-app-header-abilities-2026-frame.png` (<https://www.dndbeyond.com/attachments/12/938/shareddiceinmobile.gif>)                                               |
 | Tavolo: colonna degli strumenti scura e arrotondata, icone bianche a tratto, strumento attivo come quadrato rosso pieno; gli strumenti del gruppo aperto in una seconda colonna                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Barra degli strumenti di D&D Beyond Maps e il suo sottomenu Disegno                                                                                        | facts §6 «Tool rail»; `ddb-maps-initiative-portrait-strip-frame.png` (<https://www.dndbeyond.com/attachments/11/669/flexible-initiative.gif>), `ddb-maps-toolbar-draw-flyout.jpg` (<https://www.dndbeyond.com/attachments/11/205/draw-menu-2.jpg>)                                    |
-| Tavolo: ordine dei turni come le righe «Initiative Order» (riquadri `#232b2f`, ritratto rotondo con anello, nome in grassetto; il turno attuale su `#434b4e` con cornice di 2 px `#c8caca`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | Pannello Initiative Order di Maps                                                                                                                          | facts §6 «Initiative rows»; `ddb-maps-initiative-order-2026-frame.png` (<https://www.dndbeyond.com/attachments/12/811/csim-encounter.gif>)                                                                                                                                            |
+| Tavolo: ordine dei turni come le righe «Initiative Order» (riquadri `#232b2f`, ritratto rotondo con anello, nome in grassetto; il turno attuale su `#434b4e` con cornice di 2 px `#c8caca` e un bordo rosso di 3 px in alto), tutti su una piastra scura come la colonna degli strumenti                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | Pannello Initiative Order di Maps                                                                                                                          | facts §6 «Initiative rows»; `ddb-maps-initiative-order-2026-frame.png` (<https://www.dndbeyond.com/attachments/12/811/csim-encounter.gif>)                                                                                                                                            |
 | Tavolo: pedine rotonde con anello di 4 px (grigio di base, rosso per i nemici), selezione verde, nome in una targhetta scura semitrasparente subito sotto l'anello (nessun anello di stato o segno attraversa le parole); la barra dei PF sopra la pedina                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | Pedine di Maps (2026)                                                                                                                                      | facts §6 «Ring and selection», «Name pill»; `ddb-maps-tokens-nameplates-2026.png` (<https://www.dndbeyond.com/attachments/13/74/screenshot-2026-08-17-at-12-28-15.png>), `ddb-maps-token-menu-2026-frame.png`                                                                         |
 | Tavolo: ritratti del gruppo rotondi con lo stesso anello, il nome in una targhetta grigia arrotondata sul piede dell'anello                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | Pedine e targhette di Maps                                                                                                                                 | `ddb-maps-tokens-nameplates-2026.png`                                                                                                                                                                                                                                                 |
 | Tavolo: gruppi di comandi scuri e arrotondati sopra la mappa (sessione, zoom, riga di stato, risorse, barra delle azioni); gli avvisi della sessione con angoli di 4 px, fondo `#232b2f` e filo oro per quello che chiede attenzione, mai sopra i ritratti dei turni                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Gruppi in basso a destra e barra superiore di Maps; menu 2026                                                                                              | facts §6 «Bottom-right cluster»; `ddb-maps-game-log-advantage-2025-frame.png` (<https://www.dndbeyond.com/attachments/11/864/ddb_maps_advantage_disadvantage_800x450.gif>), `ddb-maps-vtt-overview-annotated.jpg` (<https://www.dndbeyond.com/attachments/11/671/maps-dashboard.jpg>) |
@@ -100,6 +103,7 @@
 | Menu della pedina: angoli vivi e un filo oro sottile; una fascia di testa più scura (l'icona della pedina in un quadrato arrotondato a bordo grigio, il nome nel carattere dei titoli molto nero, i punti ferita piccoli e grigi) sopra la fascia delle azioni; ogni azione con l'icona bianca a tratto e una parola breve in maiuscoletto grassetto grigio chiaro; fili sottili fra i gruppi                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | D&D Beyond Maps, menu della pedina 2026 (HP · ADD · ART · HIDE · RING · LOCK · MORE) e il suo pannello dei punti ferita                                    | `ddb-maps-token-menu-2026-frame.png`, `ddb-maps-token-hp-panel-2026-frame.png` (<https://www.dndbeyond.com/attachments/12/924/tokenmenu.gif>)                                                                                                                                         |
 | Tavolo in esplorazione: le zone della mappa (Brace ardenti, Scale per la cripta, la trappola) come gli spilli di Maps: un **rombo** scuro con il bordo oro e il glifo bianco, il nome in grassetto su una targhetta scura a estremità squadrate attaccata al rombo; i nomi degli spilli del DM («Pozzo del cortile») sulla stessa targhetta, staccati dalla punta dello spillo; il resto del Tavolo fuori dal combattimento come in combattimento (barra degli strumenti, gruppi scuri, pannello)                                                                                                                                                                                                                                                                                                                                                                                | D&D Beyond Maps, Scene Prep e spilli della mappa («A1: Boulders», «A2: Ocean Bay»)                                                                         | `ddb-maps-scene-prep-2026-frame.png` (<https://www.dndbeyond.com/attachments/13/105/scene-prep-main.gif>), `ddb-maps-tokens-ac-conditions-2026.png`                                                                                                                                   |
 | Quarto giro (I-250): un solo interruttore (40 × 22, rosso con il pallino bianco; nella scheda il rosso del tema), le abilità sulla riga di mezzo, i LANCIA tutti larghi uguali, ogni ritratto del gruppo alto uguale anche senza la barra dei punti ferita, i titoli dei riquadri dell'Inizio alla stessa altezza con o senza collegamento                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | Scheda D&D Beyond (interruttori, SKILLS, CAST a larghezza fissa), riquadri della home, ritratti di Maps                                                    | facts §1, §3, §6; `ddb-sheet-desktop-live-presto-spells-1440x900.png`, `ddb-home-play-dnd-tiles-my-characters-2025-frame.png`, `ddb-maps-initiative-portrait-strip-frame.png`                                                                                                         |
+| Dettagli rifiniti (I-252): testate sulla colonna della pagina (il dado sul bordo del titolo), una sola regola per le distanze fra i comandi (pulsanti con parole 8 px, icone 4, riquadri 6, pillole 4), i pulsanti silenziosi con la parola sul bordo del testo, l'ordine dei turni su una piastra, le righe che scorrono con una sfumatura invece dei «…», l'anello di fuoco di 3 px anche sui riepiloghi                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | D&D Beyond: margini della pagina e della testata uguali, pulsanti in fila a passo fisso, il rosso per ciò che è attivo; Maps: gruppi scuri arrotondati     | facts §0.1, §1, §3, §6; `ddb-home-live-anon-1440x900.png`, `ddb-maps-initiative-order-2026-frame.png`, `ddb-maps-tokens-nameplates-2026.png`                                                                                                                                          |
 
 ## Coppie per il confronto
 
@@ -243,8 +247,8 @@ schermata non mostra, è in
   («DDB Red», `#c53131`) nella scheda. Cambiando tema, cambierebbe solo nella scheda.
 - **Anello di messa a fuoco:** D&D Beyond usa un alone bianco semitrasparente di 2 px; noi
   teniamo l'anello bianco di 3 px del progetto, ben visibile.
-- **Marchio:** il d20 e la scritta «d20 Studio» restano quelli di oggi (oro e grazie): il marchio
-  si decide nella Fase D.
+- **Marchio:** D&D Beyond ha il suo logo («D&D» rosso sopra «BEYOND» bianco); noi abbiamo un
+  marchio nostro nella sua grammatica, mai il suo logo: vedi «Marchio (I-251)».
 - **Illustrazioni:** D&D Beyond usa illustrazioni sue; noi usiamo due tue tavole già approvate
   (tono ambra, a lume di candela), scurite come fa D&D Beyond. Il risultato è più caldo
   dell'originale, che ha colori più vari.
@@ -535,6 +539,120 @@ Rapporti: prima `…/visual-01/probe-ddb/polish-r4/audit-before/audit.md`, dopo
 `…/visual-01/audit/ddb/audit.md` (copia in `…/polish-r4/audit-after/`); prove, campionario prima e
 dopo, misure e ritagli in `…/visual-01/probe-ddb/polish-r4/`.
 
+## Dettagli rifiniti (I-252)
+
+Il 01/10/2026, sera: un giro unico sui dettagli dopo la critica indipendente dei dettagli (22
+osservazioni: 3 alte, 13 medie, 6 basse; prove della critica in
+`~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/detail-ddb/`). Sono state fatte
+tutte le alte e le medie e le basse da una riga, più i suggerimenti per «superare» D&D Beyond
+che costano poco e restano nella sua grammatica. Ogni misura nuova è un gradino delle scale in
+cima a `direction.css`; le regole stanno in fondo al file («detail pass») o al loro posto, con il
+loro commento.
+
+**Una sola regola per le distanze fra i comandi in fila** (I-250, a ogni larghezza): pulsanti con
+parole 8 px, pulsanti a icona 4, riquadri (caselle della barra delle azioni, ritratti dei turni)
+6, pillole dei filtri 4, segmenti attaccati 0.
+
+Misure prese nella pagina vera (1440 × 900 e 390 × 844, tema scuro), prima e dopo:
+
+| Dove                                       | Prima                                                                                                                                               | Dopo                                                                                                                                                                                           |
+| ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Testata di Inizio e Scheda                 | marchio a 32 px (inchiostro del dado a circa 35), contenuto a 48; l'icona dell'account finiva a 1408, il contenuto a 1392                           | l'inchiostro del dado a 48, sul bordo del titolo; l'account finisce a 1392; da 721 a 1000 px tutti e due a 24, come la pagina                                                                  |
+| Testata fra 881 e 908 px                   | più larga della finestra (fino a 27 px oltre)                                                                                                       | mai più larga: 16 px fra le voci fino a 1000 px (la riga sta in 881 px)                                                                                                                        |
+| Testata del Tavolo                         | marchio a 32, piastra della scena e colonna degli strumenti a 16; 24 px d'aria fra «d20 Studio» e APP, 33 fra APP e TORNA ALLA CAMPAGNA             | tutto a 16 (l'inchiostro del dado a 16); 32 e 32 px d'aria                                                                                                                                     |
+| Inizio, «Prossimo appuntamento»            | 8 px sotto il titolo                                                                                                                                | 16 px, come «Il tuo personaggio» e «Dove eravamo rimasti»                                                                                                                                      |
+| Scheda 1440, fascia in alto                | etichette degli scudi a 313, delle altre caselle a 338; modificatori degli scudi a metà 370, valori delle altre caselle a 382                       | una riga delle etichette (318) e una dei valori (centro 388) per sei scudi, Competenza, Movimento, Ispirazione e Punti ferita; le cornici degli scudi 1 px dentro come le altre                |
+| Scheda 1440, PUNTI FERITA                  | CURA a 3 px dal bordo in alto, 9 a sinistra, 11 in basso; «18 / 22» a metà 330, 52 px sopra la riga dei valori; l'etichetta in fondo; nessuna barra | 12 px dalla cornice su ogni lato; «18 / 22» sulla riga dei valori; PUNTI FERITA sulla riga delle etichette; PF temporanei e barra verde di 4 px in fondo, la barra allineata al fondo di DANNO |
+| Scheda 1440, altezza della fascia          | 138 px                                                                                                                                              | 150 px (tre comandi da 40 e i 12 px sopra e sotto); la riga delle linguette resta nella prima schermata (783–833)                                                                              |
+| Scheda 390, PUNTI FERITA                   | 5 px a sinistra, 12 sopra, 28 sotto; la barra (8 px) a 5 px dal bordo destro                                                                        | 12 px su ogni lato, CURA, la quantità e DANNO centrati (19 px sopra e sotto); barra di 4 px; «18 / 22» sempre su una riga e a 26 px; Ispirazione eroica 12 px sopra, etichette alla pari       |
+| Scheda, TIRI SALVEZZA                      | il pallino a 2 px dalla sigla («○FOR»)                                                                                                              | 6 px, come nelle abilità                                                                                                                                                                       |
+| Pulsanti in fila                           | tre distanze (8, 6, 4) per gli stessi pulsanti; sul telefono 6 fra i comandi della scheda; 4 fra LANCIA, DETTAGLI e CONFRONTA                       | 8 ovunque (scheda, inventario, magie, effetti, preferiti, piastra della scena); le icone 4 (comandi del turno, comandi della sessione); i ritratti dei turni 6 a ogni larghezza                |
+| Tavolo, tag dell'altezza «↑3 m»            | la «m» usciva di 6,2 px dalla targhetta                                                                                                             | la targhetta è il tratto scuro delle parole stesse, come i nomi delle pedine: 6 px attorno, sempre centrata, per qualsiasi altezza                                                             |
+| Tavolo, ordine dei turni                   | l'angolo di una porta si vedeva fra le carte; l'anello di fuoco tagliato di 4 px                                                                    | una piastra scura (come la colonna degli strumenti, 8 px dentro, angoli di 8): niente sotto si vede, anello intero; il turno attuale con un bordo rosso di 3 px in alto                        |
+| Tavolo, avviso «Sessione non avviata» (DM) | a 2 px sotto i ritratti; «Avvia ora» e «Non ora» in parole da 13 px su piastre grigie                                                               | 6 px sotto la piastra; i due comandi come i pulsanti dell'app (40 px, maiuscoletto da 16): «Avvia ora» rosso, «Non ora» con il bordo, 8 px fra loro                                            |
+| Tavolo, barra delle azioni                 | AZIONI e BARRA RAPIDA alte 40 (795–835, 839–879) accanto alle caselle da 44 (790–834, 840–884); MOSSE 40; distanze 4, 6 e 8                         | 44 px, sulle stesse righe delle caselle (790–834, 840–884); MOSSE 44 (anche sul telefono); distanze 6, 6, 6                                                                                    |
+| Tavolo, piede del pannello                 | SCHEDA COMPLETA tagliata dal pannello del turno senza nessun segno, anche il suo anello; strumenti fino a 1368, testo del pannello fino a 1364      | una sfumatura di 24 px dove il pannello continua, e con la tastiera il comando scorre fuori dalla sfumatura; tutto finisce a 1364                                                              |
+| Tavolo, comandi del turno                  | in esplorazione 3 + 2 a destra con 160 px vuoti; mezzo pixel (795,5)                                                                                | una riga di cinque icone, 4 px fra loro, in combattimento e fuori, su pixel interi (795 e 822); TERMINA TURNO 216 × 48                                                                         |
+| Tavolo, Dadi · Digitali · Tiri e risultati | 8 px a sinistra, 2 a destra («Tiri e risultati» a 3 px dal bordo)                                                                                   | 8 e 8                                                                                                                                                                                          |
+| Pulsanti silenziosi che aprono una riga    | la parola 9 px dentro il testo (+ CONDIZIONE a 1074 contro 1065; REGISTRA CONCENTRAZIONE e CORREGGI RISORSA a 38 contro 29)                         | la parola sul bordo del testo: il pulsante sporge del suo bordo e del suo margine (9 px); bersaglio di 40 px e anello come prima                                                               |
+| Finestre                                   | le righe d'oro 4 px oltre il testo da ogni lato                                                                                                     | sui 24 px del testo                                                                                                                                                                            |
+| Finestra dell'iniziativa                   | cinque bordi a sinistra (numero e «Sorpreso» 445, casella 475, nome 503, riga grigia 509); sul telefono la riga del d20 a 75, il nome a 100         | tre bordi: il numero in una colonna di 20 px allineata a destra, casella e «Sorpreso» a +28, nome e riga grigia a +56; sul telefono la riga del d20 a +28, su una sola riga                    |
+| Scheda, «◎ Solo campagna»                  | 6 px dal primo pulsante, come un pulsante in più                                                                                                    | 14 px, centrata sulla riga: un'etichetta prima dei pulsanti                                                                                                                                    |
+| Telefono, righe che scorrono               | uno spicchio «INC» tagliato netto da MOSSE; «Combatt…»; «MAG» tagliato da TUTTE; i filtri su tre righe con «Usi limitati» da solo                   | una ricetta: una riga, parole intere, sfumatura di 24 px dove la riga continua e 24 px di spazio dopo l'ultima voce; i filtri (Azioni, Magie, Inventario) su una riga che scorre               |
+| Telefono, riga sopra la mappa              | strumenti 50 × 50 in un pozzetto a y 92, 9 px dal bordo; comandi della sessione 44 × 40 a y 91, l'ultimo 40                                         | un riquadro di 40 px senza pozzetto a y 91, 8 px dai bordi come i comandi della sessione; ogni comando a icona 44 × 40                                                                         |
+| Anello di fuoco                            | riepiloghi («Aggiungi al calendario», «Regola d'ingombro»…) con l'anello del browser (1 px blu); «18 / 22» 2 px rosso a 2 px                        | l'anello dell'app, 3 px bianco a 3 px; nelle righe che scorrono (filtri) disegnato dentro, come nelle linguette                                                                                |
+| Puntatore                                  | «Muovi» attivo diventava grigio; tre tinte (#374045, #525c63, #232b2f)                                                                              | ciò che è attivo resta rosso, un po' più scuro; una tinta #374045 per pulsanti, strumenti e linguette del binario; le pillole tengono #525c63 (le pillole scure di D&D Beyond)                 |
+
+**Superare D&D Beyond, dove costa poco.**
+
+- **Una riga delle etichette e una dei valori** in tutta la fascia della scheda, e la barra dei
+  punti ferita anche sul computer: D&D Beyond mette i numeri dei PF su una riga loro e non mostra
+  la barra; da noi la fascia si legge come un pezzo solo. Fatto.
+- **L'ordine dei turni su una piastra**, con l'anello intero e il turno attuale segnato in rosso:
+  fatto. «Round 1» dentro la piastra no: servirebbe markup o testo in `content:`, che le opzioni
+  non possono aggiungere; il round resta nella piastra della scena.
+- **Una sola ricetta per le righe che scorrono**: fatta per cinque righe (vedi la tabella). «La
+  voce successiva visibile almeno al 40 %» vale oggi sul Tavolo a 390 px (Scena: 23 px su 58),
+  ma dipende dalla lunghezza delle parole e non si può garantire sempre.
+
+**Non fatto, o fatto in un altro modo, e perché.**
+
+- **Distanze:** le sotto-schede del pannello del Tavolo (Creatura, Riepilogo del gruppo) restano
+  a 4 px: sono pillole di filtro, come quelle della scheda. Le icone dei servizi sul telefono
+  restano attaccate: con 4 px l'intestazione del Tavolo a 390 px andrebbe su due righe (406 px di
+  comandi).
+- **Tag dell'altezza:** la proposta della critica (Roboto Condensed da 11 px) misura 24,2 unità
+  dove ne stanno 23: usciva ancora. Per questo la targhetta è il tratto delle parole.
+- **Ordine dei turni:** la piastra è opaca (con lo 0,88 proposto la porta si vedeva ancora) e
+  spostata in su di 7 px invece di un margine negativo (il margine in alto lo scrive l'app).
+- **RIPOSI** nella piastra della scena sul telefono resta dov'è: spostato di 9 px, il suo anello
+  di fuoco uscirebbe di 3 px dallo schermo. Sul computer i comandi della piastra della scena e la
+  «+ Condizione» della scheda larga seguono altre parole sulla loro riga: lì nessuno spostamento.
+- **Mezzo pixel dei comandi del turno:** la linea che separa il pannello è disegnata dentro (non è
+  più un bordo di 1 px), così le righe stanno su pixel interi senza cambiare i margini.
+- **Riga del d20 sul telefono:** sul bordo della casella (+28), non del nome (+56): lì il totale
+  andava a capo da solo (280 px di contenuto in 250).
+- **«◎ Solo campagna»:** nessun cambio d'ordine: sul telefono la barra si apre nella riga del
+  percorso e l'etichetta finirebbe prima di «← Personaggi»; GESTISCI PERSONAGGIO va comunque a capo
+  (369 px di pulsanti in 358), etichetta o no.
+- **Linguette in fondo sul telefono:** restano 12/16 in Roboto (con le parole intere ci stanno
+  già); il condensato da 13 px non serve.
+- **Riga sopra la mappa sul telefono:** scelto il riquadro senza pozzetto (non il pozzetto
+  attorno ai comandi della sessione), che è il materiale dei comandi accanto.
+
+**Verifica delle misure** (20 schermate, tema scuro; strumento `changes/visual-01/audit/`):
+
+| Misura                                     | Prima del giro  | Dopo il giro    |
+| ------------------------------------------ | --------------- | --------------- |
+| Elementi visibili                          | 2619            | 2604            |
+| Valori di spaziatura (fuori scala)         | 29 (11)         | 30 (11)         |
+| Spaziature sul passo di 2 px               | 99,6 %          | 98,8 %          |
+| Altezze dei comandi                        | 16              | 16              |
+| Stili di testo                             | 72              | 72              |
+| Grandezze · pesi · interlinee              | 11 · 4 · 13     | 11 · 4 · 13     |
+| Raggi · spessori · ombre                   | 5 · 3 · 9       | 5 · 3 · 11      |
+| Colori: testo · fondo · bordo              | 13 · 32 · 25    | 13 · 32 · 25    |
+| Pulsanti: classi · varianti (con più di 1) | 27 · 73 (13)    | 26 · 72 (13)    |
+| Contrasto AA: errori · incerti, su testi   | 0 · 151 su 1244 | 0 · 151 su 1228 |
+
+Il valore di spaziatura nuovo è il −9 px con cui un pulsante silenzioso sporge dalla colonna
+(1 px di bordo + 8 px di lato): fuori dal passo di 2 px di proposito, perché è la misura del
+pulsante stesso. Le due ombre in più sono il bordo rosso del turno attuale e la linea disegnata
+dentro sopra i comandi del turno.
+
+Garanzie controllate dopo l'ultima modifica: nessuno scorrimento laterale a 390 px (Inizio,
+scheda, magie, inventario, Tavolo in combattimento e in esplorazione, giocatore e DM);
+intestazione del Tavolo su una riga a 390 (64 px); Termina turno (118 × 40), Annulla ultima
+modifica e Annulla preparazione (40 × 40) visibili a 390; barra delle azioni alta 116 px a 1440
+(giocatore e DM); «Entra al Tavolo» fra 645 e 693 px a 390; anello di fuoco di 3 px intero sulle
+carte dei turni, sui comandi del pannello, sui riepiloghi, su «18 / 22» e sui filtri (fotografato
+con la tastiera); comandi di 40 px (sotto i 40 solo quelli dell'app: segni della mappa, porte,
+filtro «Reazioni», strisce della dimostrazione); i test della direzione (13 su 13) e Prettier.
+Rapporti: prima `…/visual-01/fix-ddb/audit-before/audit.md`, dopo `…/visual-01/audit/ddb/audit.md`
+(copia in `…/fix-ddb/audit-after/`); misure, ritagli, prove di messa a fuoco e strumenti in
+`…/visual-01/fix-ddb/` (`notes/`, `crops/`, `tools/`); le coppie rifatte con
+`…/fix-ddb/pairs-kit/pairs.sh`.
+
 ## Riferimenti aggiunti il 01/10/2026
 
 Per i nuovi stati mancavano due viste; sono state aggiunte nella cartella dei riferimenti (fuori dal
@@ -549,6 +667,106 @@ repository, solo da guardare) con le loro righe in `manifest.md`:
 - **#60** `ddb-maps-combat-encounter-list-2024-frame.png`: un fotogramma dell'animazione ufficiale
   del pannello «Combat Encounter», fotografato com'era mostrato nella pagina del post (il file
   animato non è stato scaricato).
+
+## Marchio (I-251)
+
+Il marchio di questa opzione è un **d20 di smalto rosso dentro un filo d'oro**, con il «20»
+bianco sulla faccia davanti, e accanto la scritta **«d20 Studio»** bianca, piena, con le grazie.
+Il dado è disegnato in codice (`brand.mjs`, SVG) sulla geometria comune a tutte le opzioni
+(`../brand-geometry.mjs`, un icosaedro vero visto di faccia); la scritta è il testo dell'app con
+le regole della sezione «Marchio (I-251)» in fondo a `direction.css`. Nessuna immagine.
+
+- **Dove si vede:** testata di Inizio (dado di 32 px, scritta di 26 px); testata del Tavolo (32 e
+  24 px); finestre fino a 1100 px (scritta di 24 px); telefono fra 421 e 720 px (dado di 28 px e
+  scritta di 22 px); sotto i 421 px solo il dado, dentro il bersaglio di 40 px (al Tavolo l'app lo
+  nasconde già sul telefono); l'icona della scheda del browser. Con il tema chiaro tornano il
+  marchio e l'icona di oggi.
+- **Campionario:** <http://127.0.0.1:8881/directions/specimen.html?direction=ddb>, sezione
+  «Marchio» (le due testate, il dado da 16 a 160 px su fondo scuro e chiaro, l'icona della
+  scheda a 16 e 32 px, il marchio completo a 3×).
+- **Prove:** `~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/brand-ddb/`:
+  `montage/brand-ddb-vs-product.png` (i riferimenti di D&D Beyond accanto al marchio),
+  `app/heads-1440-2x.png` e `app/home-390-head-2x.png` (le testate a 2×),
+  `states/states.png` (riposo, puntatore sopra, fuoco da tastiera; 1440, 600 e 390 px),
+  `final/spec-brand-dark-1440-ddb.png` (la sezione del campionario), `final/sizes-2x.png` (il dado
+  da 16 a 160 px a 2×), `light/` (tema chiaro), le misure in `probe-widths.json`, e le prove di
+  disegno scartate (`variants-*`, `vm*.png`).
+
+### Cosa prende dalla grammatica di D&D Beyond
+
+| Elemento del marchio                                                                                   | Da D&D Beyond                                                                                                        | Fonte                                                                              |
+| ------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| Il materiale del dado: celle di smalto rosso dentro un filo d'oro, il numero bianco sul rosso          | il pulsante «ornate» del 2025–26 (START BUILDING): bordo d'oro con riflessi, fondo rosso lucido, scritta bianca      | facts §3 «"Ornate" hex button»; `ddb-characters-premade-landing-live-1440x900.png` |
+| I rossi delle facce: #551710, #7d160f, #a7080b, #c50009 e, davanti, il rosso del sito #e40712          | la scala dei rossi del loro sistema di colori (lexicon «red» 900–500)                                                | facts §0.1                                                                         |
+| L'oro del filo: da #f6e7bd a #d9b86b, con un secondo riflesso, più scuro in basso                      | il bordo d'oro del pulsante «ornate» (#e7d29a, #f6e7bd, #d9b86b)                                                     | facts §3                                                                           |
+| La lucentezza: chiaro in alto, ombra in basso, sopra tutto lo smalto                                   | il velo bianco-nero sopra il rosso del pulsante «ornate»                                                             | facts §3                                                                           |
+| Il filo scuro attorno all'oro                                                                          | la riga scura che accompagna le cornici d'oro (#706545 sotto #d1b873)                                                | facts §3 «Gold ornamental frame»                                                   |
+| Il «20» bianco in Roboto Condensed di peso 800                                                         | i numeri e le etichette della scheda (Roboto, Roboto Condensed)                                                      | facts §0.2, §1                                                                     |
+| La scritta: grazie pesanti e svasate, bianca, piatta (senza ombre, contorni o sfumature), sull'ardesia | il logotipo della testata («BEYOND» bianco su #232b2f) e i titoli in Majesty, maiuscole e minuscole, pesanti         | facts §0.2, §0.3, §3; `ddb-home-live-anon-1440x900.png`                            |
+| Alegreya 800 al posto di Majesty                                                                       | Majesty è un carattere proprietario: Alegreya (OFL, già nel repository) è il sostituto usato da tutta questa opzione | facts §0.2                                                                         |
+| Due colori in tutto: il rosso nel simbolo, il bianco nelle parole                                      | il logo di D&D Beyond tiene il rosso per un solo elemento e il bianco per la parola grande                           | `ddb-home-live-anon-1440x900.png`                                                  |
+
+### Cosa è originale
+
+- La forma: il dado a venti facce, uguale in tutte le opzioni; qui fatto come uno smalto
+  cloisonné, con ogni spigolo un filo d'oro, la luce quasi frontale calcolata faccia per faccia
+  (la faccia del «20» è la più chiara, le altre scuriscono verso il bordo) e il «20» nella
+  faccia davanti.
+- La scritta «d20 Studio» in Alegreya 800, bianca, con le cifre allineate: il 2 e lo 0 stanno
+  all'altezza della «d» e della «S» (le cifre normali di Alegreya scendono all'altezza delle
+  minuscole e si leggerebbe «d₂₀»).
+- L'icona della scheda: lo stesso dado con tre soli rossi, fili d'oro più spessi e un filo scuro
+  attorno, senza numero (a 16 px non si leggerebbe), così si riconosce sia sulla barra scura sia
+  su quella chiara.
+
+### Perché non è una copia del logo di D&D Beyond
+
+Il logo di D&D Beyond è la «e commerciale» a forma di drago di «D&D», rossa, sopra la parola
+«BEYOND» in un carattere disegnato apposta. Qui non c'è nessuna «&», nessun drago, nessuna
+lettera di quel carattere, nessuna parola in pila: c'è un dado a venti facce, che non è il marchio
+di D&D Beyond, e una scritta su una riga in un carattere libero (Alegreya). Prendiamo solo i
+materiali e i colori del loro linguaggio (smalto rosso e oro, bianco piatto sull'ardesia), come
+per i pulsanti e le cornici del resto dell'opzione. Nessun pixel, tracciato o carattere di D&D
+Beyond è entrato nel repository.
+
+### Dettagli curati (misure a 2×)
+
+- **Allineamento:** il centro delle parole (dalla cima della «d» alla riga di base) sta sul centro
+  del dado entro un quarto di pixel, e il dado sul centro della barra, a 1440, 1024, 800 e 600 px,
+  sull'Inizio e sul Tavolo. Per ottenerlo le parole stanno su una riga intera di 28 px con 4 px
+  sopra (2 px per quelle da 24 px): niente mezzi pixel.
+- **Distanze:** 8 px fra il dado e le parole (12 px dall'inchiostro del dado, che sta 4 px dentro
+  il suo quadrato); 4 px in più dopo le parole, restituiti dal margine, così l'anello di fuoco di
+  3 px ha la stessa aria a sinistra e a destra e la testata non si sposta.
+- **Altezza:** la testata resta di 66 px sull'Inizio e 64 px al Tavolo a 1440 px, 100 px
+  sull'Inizio e 64 px al Tavolo sul telefono. Il marchio è alto 40 px ovunque, come le icone dei
+  servizi (prima 42 px sul computer e 38 px sul telefono, sotto il minimo di 40): fra 721 e 880 px
+  la testata a due righe scende quindi di 2 px (114 invece di 116, al Tavolo 98 invece di 100) e
+  fra 421 e 444 px, dove dado e icone vanno già su due righe, sale di 2 px (148 invece di 146).
+- **Larghezza:** dove la riga della testata è stretta il marchio non è più largo di prima: fino a
+  1100 px la scritta passa a 24 px (149 px in tutto, prima 151); sul telefono a 22 px con il dado
+  di 28 px (132 px, prima 135). Le icone restano sulla riga del marchio da 445 px in su (prima da
+  449).
+- **Puntatore e tastiera:** al passaggio del puntatore il dado si illumina; con la tastiera
+  l'anello bianco di 3 px dell'app, con gli angoli di 4 px dei pulsanti, mai tagliato.
+
+### Strade scartate (le prove sono nella cartella delle prove)
+
+- **Scritta tutta in maiuscole** («D20 STUDIO», come «BEYOND»): Alegreya non ha cifre per il
+  maiuscoletto, e il 2 e lo 0 restavano più bassi della «D» di un quinto.
+- **«d20» rosso e «Studio» bianco:** troppo vicino ai due colori del logo «D&D / BEYOND», e il
+  rosso sull'ardesia era al limite della leggibilità.
+- **Alone rosso del menu sotto la scritta al passaggio del puntatore:** finiva a metà della barra,
+  non sul filo in basso come sotto le voci del menu.
+- **«20» in Alegreya Black:** cifre tonde e molli; Roboto Condensed è più netto e più D&D Beyond.
+- **Icona della scheda con il solo triangolo davanti:** a 16 px sembrava un cartello di pericolo.
+
+### Da sapere (non dipende dal marchio)
+
+Fra 881 e 908 px la testata dell'Inizio era già più larga della finestra (voci del menu e icone
+non ci stavano su una riga): con il nuovo marchio sporgeva di 6 px in meno; dal giro «Dettagli
+rifiniti» la testata usa fino a 1000 px i 24 px di lato della pagina e 16 px fra le voci, e non
+sporge più.
 
 ## Licenze e attribuzioni
 
@@ -573,6 +791,12 @@ licenza SIL Open Font License 1.1, `OFL.txt` in ogni cartella; righe in
   Authors», OFL 1.1.
 - **Alegreya** — `assets/fonts/alegreya/`: «Copyright 2011 The Alegreya Project Authors»
   (Huerta Tipográfica), OFL 1.1.
+
+### Marchio (`brand.mjs`)
+
+Disegnato per questa opzione il 01/10/2026 sulla geometria comune `directions/brand-geometry.mjs`
+(vedi «Marchio (I-251)»): nostro (d20 Studio), nessun elemento di terzi (niente pixel, tracciati o
+caratteri del logo di D&D Beyond). Il «20» usa Roboto Condensed, già dichiarato qui sopra.
 
 ### Icone (`icons.mjs`)
 

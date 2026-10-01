@@ -13,7 +13,10 @@
   aperti, un terzo passaggio di I-250, vedi «Terzo giro di rifinitura»); **01/10/2026, quarto
   giro di rifinitura** dopo la sesta verifica (vedi «Quarto giro di rifinitura»); **01/10/2026,
   quinto giro di rifinitura** dopo la settima verifica (il punto medio, il basso e un quinto
-  passaggio di I-250, vedi «Quinto giro di rifinitura»).
+  passaggio di I-250, vedi «Quinto giro di rifinitura»); **01/10/2026, marchio** proprio
+  dell'opzione (I-251, vedi «Marchio»); **01/10/2026, dettagli rifiniti** dopo la critica
+  indipendente dei dettagli (I-252: 22 rilievi, tutti applicati, quattro in parte con il motivo;
+  vedi «Dettagli rifiniti»).
   **Direzione:** `bg3` (Fase C, giro 1, «Scelta 1 — Direzione», I-248).
 - **Come vederla:** <http://127.0.0.1:8881/?direction=bg3#home> (poi `#characters?id=livia` e
   `#table`; nella scheda le schede «Magie» e «Inventario»; al Tavolo il tasto destro su una
@@ -24,12 +27,14 @@
   dell'estensione del 01/10 in `probe-bg3/ext/`, quelli del secondo giro di correzioni in
   `probe-bg3/fix2/`, quelli del giro di rifinitura in `probe-bg3/fix3/`, quelli del secondo giro
   di rifinitura in `probe-bg3/fix4/`, quelli del terzo in `probe-bg3/fix5/`, del quarto in
-  `probe-bg3/fix6/`, del quinto in `probe-bg3/fix7/`); misura dei valori
+  `probe-bg3/fix6/`, del quinto in `probe-bg3/fix7/`, dei dettagli rifiniti in
+  `…/visual-01/fix-bg3/`); misura dei valori
   in `…/visual-01/audit/bg3/audit.md` (prima della rifinitura: `probe-bg3/fix3/audit-before/`;
   prima del secondo giro: `probe-bg3/fix4/audit-before/`; prima del terzo:
   `probe-bg3/fix5/audit-before/`; prima del quarto: `probe-bg3/fix6/audit-before/`; prima del
-  quinto: `probe-bg3/fix7/audit-before/`).
-- **File di questa opzione:** `direction.css` (tutto l'aspetto), `icons.mjs` (icone), `assets/`
+  quinto: `probe-bg3/fix7/audit-before/`; prima dei dettagli: `fix-bg3/audit-before/`).
+- **File di questa opzione:** `direction.css` (tutto l'aspetto), `icons.mjs` (icone), `brand.mjs`
+  (il dado del marchio e l'icona della scheda del browser), `assets/`
   (cornice delle finestre, filetti dei titoli, riccioli della striscia dei turni, disegnati per
   questo progetto; due dipinti d'esempio). Nessun pixel, carattere, texture o logo di Larian.
 
@@ -89,7 +94,7 @@ dal codice XAML del gioco e dalle immagini); l'indirizzo è quello originale del
 | Tavolo (DM), avviso «Sessione non avviata… Avvia ora / Non ora»: spostato sotto la striscia dei turni, così resta leggibile                                                                                                                                                                                                                                                                                                                                                                                                                                                         | nessun equivalente in BG3 (garanzia dell'app)                                  | codice: `session-view.css` (`.session-view-hud-stack`)                                                                                                                                                                                                                                                                                                            |
 | Pedine: nomi chiari col contorno scuro, barre dei PF rosse                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | BG3, testo sulla scena e barra PF                                              | facts A0.1 (contorno del testo), A0 (colori PF)                                                                                                                                                                                                                                                                                                                   |
 | Icone: glifi pieni per le cose del gioco, per il menu principale, per i servizi in alto (cerca, appunti, richieste, preferenze, aiuto, connessione, account) e per gli strumenti della mappa, una sola famiglia per riga; linea solo dentro i piccoli comandi (chiudi, annulla, frecce, pannello); disegna, pianifica e misura hanno tre forme diverse (matita, pergamena con penna, percorso tratteggiato)                                                                                                                                                                         | BG3, due famiglie di icone                                                     | facts A1 «Iconography»; glifi da game-icons.net (CC BY 3.0, vedi licenze); nuvola della connessione = quella dell'app, piena                                                                                                                                                                                                                                      |
-| Telefono: testo un gradino più grande della scala di BG3, caselle 64 × 52, bottoni rotondi 44 px; pillole a 14 px come sul computer; barra in basso con un'icona di 24 px per ogni scheda (ritratto compreso) e il nome intero a 12 px su una sola linea di base; la riga della scena resta su una sola fila di comandi (quello del giocatore accanto al nome); l'intestazione del Tavolo su una sola fila, come oggi                                                                                                                                                               | BG3, interfaccia col controller                                                | facts A1 «Mobile» (`*_c.xaml`: testo +33 %, slot 116 px)                                                                                                                                                                                                                                                                                                          |
+| Telefono: testo un gradino più grande della scala di BG3, caselle 58 × 52 (la casella del computer, più alta per il dito: tre intere nella finestra a 390 px), bottoni rotondi 44 px; pillole a 14 px come sul computer; barra in basso con un'icona di 24 px per ogni scheda (ritratto compreso), fino a 420 px il nome (12 px) solo sotto la scheda aperta, come le barre del controller di BG3; la riga della scena resta su una sola fila di comandi (quello del giocatore accanto al nome); l'intestazione del Tavolo su una sola fila, come oggi                              | BG3, interfaccia col controller                                                | facts A1 «Mobile» (`*_c.xaml`: testo +33 %, slot 116 px)                                                                                                                                                                                                                                                                                                          |
 | Scala unica: spazi a passi di 2 px (2 · 4 · 6 · 8 · 12 · 16 · 24 · 32 · 48), caratteri della scala di BG3 (11 · 12 · 14 · 15 · 16 · 18 · 19 · 20 · 22 · 24 · 26 · 28 · 35 · 40), interlinee 1 · 1,1 · 1,15 · 1,4, raggi 2 · 4 · 6 · 8, bordi 1 · 2 · 3 · 5 · 6, comandi alti 28 · 40 · 44                                                                                                                                                                                                                                                                                           | BG3, unità di progetto (4 unità a 4K = 2 px) e scala dei caratteri             | facts «BG3 design space», A0.1 (`DefaultTheme.Fonts.xaml`: grandezze e interlinee), A1, A3, A5                                                                                                                                                                                                                                                                    |
 | Caselle di spunta: quadratino scuro con il filo di bronzo e la spunta oro chiaro (la forma, non solo il colore, dice «sì»); nella finestra dell'iniziativa la spunta di chi combatte è tonda, come quella a sinistra di ogni riga di BG3                                                                                                                                                                                                                                                                                                                                            | BG3, pannello «Reactions» («Ask ☑» a destra, spunta tonda a sinistra)          | `bg3-panels-reactions-menu.png` — <https://bg3.wiki/w/images/8/84/Reactions_menu.png>                                                                                                                                                                                                                                                                             |
 | Campi numerici (d20, punti ferita della pedina): la stessa capsula dei campi, senza le frecce del browser                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | BG3, ricerca dell'inventario                                                   | facts A3 (OBS B41)                                                                                                                                                                                                                                                                                                                                                |
@@ -154,8 +159,9 @@ file sotto) sono in `…/round1/bg3/_pairs/`.
   su una sola fila come oggi (63 px): «App» e la freccia di ritorno hanno il margine compatto di
   6 px, i sei servizi si toccano (prima andava su due file, 109 px).
 - **Menu dei dadi della barra al telefono.** Sul computer è il campo unico (16 px dentro, testo
-  16). Al telefono resta compatto (8 px dentro, testo 12 come i nomi delle caselle): il campo
+  16). Al telefono resta compatto (8 px dentro, testo 12; 4 px tra 375 e 383 px): il campo
   intero allargava la sua colonna di 28 px e tagliava la riga delle risorse («9 m» spariva).
+  Dal 01/10 (dettagli) non ha più una pillola sua intorno: ha un solo bordo, il suo.
 - **Tabella delle azioni generiche al telefono.** Dentro la lastra (24 px per lato) la terza
   colonna usciva dalla vista; al telefono la tabella arriva al filo della lastra e le sue celle
   tengono gli 8 px di margine, così sta tutta.
@@ -165,12 +171,14 @@ file sotto) sono in `…/round1/bg3/_pairs/`.
   «Dardo di …» sembravano uguali), con la stessa regola sul computer e al telefono; il nome
   intero resta quello letto dallo screen reader e nel suggerimento.
 - **Testo piccolo al telefono (in parte diverso da quanto chiesto).** La critica chiedeva 14 px
-  per i nomi della barra in basso e delle caselle. Le pillole sono a 14 px; i nomi della barra in
-  basso e delle caselle sono a 12 px (il gradino sopra gli 11 px del computer, come vuole la
-  regola «al telefono un gradino in più»): a 14 px «Combattimento» non entra in una scheda di
-  52 px senza tagliarlo, e «Disimpegno» non entra in una casella di 64 px. Ora nessun nome è
-  tagliato: la barra in basso scorre e sfuma a destra, e le etichette stanno tutte sulla stessa
-  linea di base.
+  per i nomi della barra in basso e delle caselle. Le pillole sono a 14 px; il nome della scheda
+  aperta nella barra in basso è a 12 px. I nomi delle caselle sono a 11 px, come sul computer
+  (dal 01/10, dettagli): la casella del telefono è quella del computer, 58 px, perché tre caselle
+  intere entrino nella finestra a 390 px (con 64 px se ne vedevano 2,6 e «Mani brucianti» era
+  tagliato a metà parola); a 12 px «Disimpegno» (60,6 px) non entra in 58. Fino a 420 px le
+  schede chiuse della barra in basso mostrano solo l'icona (il nome resta il loro nome
+  accessibile), come le barre del controller di BG3: nessun nome è tagliato e le schede nella
+  finestra sono intere.
 - **Ricerca dell'inventario senza testo d'esempio.** Il campo non ha un testo d'esempio («Cerca…»)
   nel markup dell'app; un foglio di stile non può aggiungerlo. L'etichetta «Cerca
   nell'inventario» resta sopra il campo.
@@ -189,16 +197,16 @@ file sotto) sono in `…/round1/bg3/_pairs/`.
 - **La barra continua nel piede della barra laterale.** BG3 centra la barra su una scena 3D aperta;
   il nostro Tavolo tiene la barra laterale (struttura fissa). Comandi e «Termina turno» vivono nel
   suo piede: la cornice del deck prosegue sotto i comandi e finisce sotto il disco, come in BG3.
-- **Punti ferita sul medaglione.** Il pulsante dei PF sta sul medaglione ed è 74 × 28 px (oggi
-  118 × 28): è alto come oggi, sotto i 40 px come già oggi (eccezione esistente, non nuova).
-  Portarlo a 40 px allungherebbe il medaglione oltre la barra di 114 px: resta così.
+- **Punti ferita sul medaglione.** Il pulsante dei PF sta sul medaglione: dal 01/10 (dettagli) è
+  un bersaglio di 74 × 40 px con la fascia rossa di 28 px disegnata dentro (prima il pulsante
+  stesso era alto 28, come oggi): la fascia resta dov'era, la barra resta di 114 px.
 - **«Barra rapida» del DM a 1440.** Il DM ha un'icona in più («Tiri nascosti»): la fila degli
   strumenti chiede 452 px e ne ha 424, così «Opzioni della barra» resta mezza fuori (scorre;
   apre lo stesso menu del nome della pagina; «Attuale» ne taglia due). Accorciare la pillola
   del nome a 96 px non basta (mancano ancora 19 px); per farla stare bisognerebbe mandare la fila
   a capo (barra oltre i 120 px) o togliere la scritta «d20» del menu.
 - **Schermi medi (721–1279 px).** Il deck è stretto: la lastra delle risorse perde le celle e si
-  sposta sopra il nome, così non tocca più quella dei dadi («Digitali»).
+  sposta sopra il nome; la scheda dei dadi («Digitali») la segue a 12 px, come a ogni larghezza.
 - **Parti di BG3 senza equivalente nei nostri dati:** set d'armi, icona di classe, clessidra del
   turno a tempo, sedici colonne sempre visibili (da noi solo le caselle delle azioni reali più le
   vuote dei loro gruppi), paperdoll e inventario a griglia nella scheda.
@@ -226,9 +234,10 @@ file sotto) sono in `…/round1/bg3/_pairs/`.
   lettere, tranne con la preferenza «carattere leggibile», che tiene la sua. Alegreya Sans non è
   usato: BG3 con mouse e tastiera non usa caratteri senza grazie.
 - **Icone.** Cambiano 26 nomi (vedi licenze), più la nuvola della connessione (quella dell'app,
-  piena). Le icone disegnate a mano dall'app (risorse del turno nella scheda, «trova pedina»,
-  controlli della sessione, menu della pedina), i piccoli pittogrammi a linea dentro i comandi e
-  il logo restano quelli di oggi.
+  piena); la lente e il «?» sono disegnati per questo progetto (pieni, 01/10). Le icone
+  disegnate a mano dall'app (risorse del turno nella scheda, «trova pedina», controlli della
+  sessione) e i piccoli pittogrammi a linea dentro i comandi restano quelli di oggi; le righe del
+  menu della pedina non hanno icone (vedi sotto). Il marchio ha la sua sezione («Marchio»).
 - **Contrasto alto.** Con la preferenza «contrasto alto» i pulsanti tornano rettangoli con il
   bordo pieno di 2 px nel colore delle linee di quella preferenza (`#9aa9b4`, circa 8:1 sul fondo):
   la losanga taglierebbe il bordo e l'anello di 4 px. Corretto il 01/10: prima un filo di bronzo
@@ -242,10 +251,10 @@ file sotto) sono in `…/round1/bg3/_pairs/`.
   tutti della stessa misura (40 × 22 px, pomello di 12 px). Così un interruttore non si confonde
   con una casella di spunta, come oggi.
 - **Menu della pedina.** Il menu contestuale di BG3 ha solo parole. Il nostro tiene in testa il
-  gettone, il nome, i punti ferita modificabili e l'aiuto, e accanto a ogni comando la sua
-  piccola icona (disegnata dall'app): sono dati e comandi che BG3 mette altrove. Le icone sono
-  nel colore secondario, così le parole restano in primo piano. Il conteggio dei sottomenu sta in
-  un pozzetto scuro (in BG3 non c'è).
+  gettone (col suo ritratto), il nome, i punti ferita modificabili e l'aiuto: sono dati e
+  comandi che BG3 mette altrove. Dal 01/10 (dettagli) i comandi sono solo parole, come in BG3:
+  le icone a linea dell'app erano l'unica famiglia a linea tra le icone piene di questa opzione.
+  Il conteggio dei sottomenu sta in un pozzetto scuro (in BG3 non c'è).
 - **Finestra dell'iniziativa.** BG3 tira l'iniziativa da solo e non ha una finestra per farlo:
   abbiamo preso le righe del pannello «Reactions» (una creatura per riga, la spunta tonda a
   sinistra, i controlli a destra) e il numero grande del risultato di un tiro. «Sorpreso» tiene la
@@ -258,19 +267,21 @@ file sotto) sono in `…/round1/bg3/_pairs/`.
   `#00c0ff`, `#d18f00`). Il viola di BG3 per «molto raro» (`#d1007c`) è troppo scuro per una
   parola su fondo scuro (3,7:1): resta il viola chiaro dell'app nelle parole, e il viola di BG3
   solo sul bordo della casella.
-- **Monete.** La riga «30 mo · 45 ma · 120 mr · 12 sb» va a capo dentro «120 mr»: la grandezza di
-  quella riga è fissata dall'app con una regola che il foglio di stile non può superare.
+- **Monete.** La riga «30 mo · 45 ma · 120 mr · 12 sb» va a capo in due metà simili («30 mo · 45
+  ma» / «· 120 mr · 12 sb», dal 01/10): nessuna cifra resta senza la sua unità. Il punto in
+  mezzo va a capo con la seconda riga perché lo spazio prima di lui è il solo punto di a capo del
+  testo, che un foglio di stile non può cambiare.
 - **Targhetta del nome sotto la striscia dei turni.** BG3 la scrive sulla scena col solo contorno
   scuro; da noi ha anche un fondo scuro sfumato, perché sulla mappa chiara il contorno non bastava
   a 4,5:1 (misura dello strumento di verifica).
 - **Valori che restano fuori dalla scala** (vedi «Scala unica» qui sotto): geometria della
   striscia dei turni (94 px di spazio per i riccioli, 52 al telefono, −118 px di sovrapposizione
   al telefono), il medaglione che si sovrappone di 24 px al deck, l'altezza del disco «Termina
-  turno» (98 px), quella del pulsante dei PF sul medaglione (28 px, eccezione già dell'app), i
+  turno» (98 px), quella della fascia dei PF sul medaglione (28 px, dentro un bersaglio di 40), i
   rientri di −16 px che portano l'inchiostro dei pulsanti senza riquadro sul bordo della colonna,
   e i valori dell'app che questa opzione non disegna (elenco in «Scala unica»).
-- **Invariati:** logo e scritta «d20 Studio» (Fase D), tema chiaro, preferenze di contrasto alto,
-  daltonismo, carattere leggibile e movimento ridotto (vincono sempre).
+- **Invariati:** tema chiaro, preferenze di contrasto alto, daltonismo, carattere leggibile e
+  movimento ridotto (vincono sempre). Il marchio è dell'opzione (I-251, «Marchio»).
 
 ## Scala unica (I-250)
 
@@ -285,9 +296,9 @@ viene da una sola scala, presa dalle misure di BG3 (`direction.css`, blocco «sc
 | Interlinee                         | 1 (numeri in un riquadro) · 1,1 · 1,15 · 1,4 (testo corrente)                                                                                                                                                                                                                                                                                                                               | rapporti di BG3: Humongous 88/80, Small 32/28 e Title 55/48, Intermediate 54/38                                         |
 | Raggi                              | 2 (caselle, lastre e ogni pannello) · 4 (etichette) · 6 (cornici dei ritratti) · 8 (tooltip, carte dei turni) px, più pillola e cerchio                                                                                                                                                                                                                                                     | facts A1, A3                                                                                                            |
 | Bordi                              | 1 (filo dei pannelli) · 2 (bevel dei tooltip, cornici, bottoni rotondi) · 3 (cornici dei ritratti) · 5 (ghiera di «Termina turno») · 6 (separatore rosso) px                                                                                                                                                                                                                                | facts A1, A3                                                                                                            |
-| Altezze dei comandi                | 40 (bottone grande di BG3, anche minimo dell'app) · 44 (casella della barra e schede, per il tocco) · 28 (fascia dei PF) px                                                                                                                                                                                                                                                                 | facts A3 (`Btn_big` 428 × 80 a 4K), A1 (slot 88 a 4K)                                                                   |
-| Geometria con nome                 | casella del deck 58 × 48 (telefono 64 × 52), disco «Termina turno» 98, riccioli 88 (48 al telefono), etichetta 22, losanga in colonna 214, colonna numerica 64, icona della casella 18, icona della barra in basso 24 px                                                                                                                                                                    | facts A1, A3                                                                                                            |
-| Componenti                         | un solo campo (40 px, capsula, 16 px dentro, testo 16), una sola pillola (40 px, 4 · 16 px dentro, testo 14 seminegretto, scelta accesa in bronzo), una sola riga di menu (40 px, 4 · 8 px dentro, testo 18), una sola losanga (40 px, 24 px dentro; 16 al telefono), un solo bottone rotondo (40 px, ghiera di 2 px), un solo interruttore (40 × 22, pomello di 12 px, 12 px dalle parole) | BG3: ricerca dell'inventario, `btn_pil`, menu contestuale, `Btn_big`, bottoni rotondi (facts A1, A3)                    |
+| Altezze dei comandi                | 40 (bottone grande di BG3, anche minimo dell'app; anche il marchio e i PF della barra, la cui fascia di 28 px sta dentro il bersaglio) · 44 (casella della barra e schede, per il tocco) px                                                                                                                                                                                                 | facts A3 (`Btn_big` 428 × 80 a 4K), A1 (slot 88 a 4K)                                                                   |
+| Geometria con nome                 | casella del deck 58 × 48 (telefono 58 × 52), deck 100 (due file e i due fili di 2 px), disco «Termina turno» 98, riccioli 88 (48 al telefono), etichetta 22, losanga in colonna 214, colonna numerica 64, icona della casella 18, icona dei comandi rotondi 20, icona della barra in basso 24 px                                                                                            | facts A1, A3                                                                                                            |
+| Componenti                         | un solo campo (40 px, capsula, 16 px dentro, testo 16), una sola pillola (40 px, 4 · 16 px dentro, testo 14 seminegretto, scelta accesa in bronzo), una sola riga di menu (40 px, 4 · 8 px dentro, testo 16), una sola losanga (40 px, 24 px dentro; 16 al telefono), un solo bottone rotondo (40 px, ghiera di 2 px), un solo interruttore (40 × 22, pomello di 12 px, 12 px dalle parole) | BG3: ricerca dell'inventario, `btn_pil`, menu contestuale, `Btn_big`, bottoni rotondi (facts A1, A3)                    |
 
 Controllo: lo strumento di verifica (`changes/visual-01/audit/`) sull'app vera, 20 schermate,
 01/10/2026, dopo il secondo giro di correzioni (`…/probe-bg3/fix2/audit/audit.md`; prima, la
@@ -799,6 +810,230 @@ Verifiche dopo l'ultima modifica del foglio di stile (16:35:31):
   coppia nuova, `pair-hp-dialog.png` (la finestra dei punti ferita dalla barra e dalla scheda a
   1440 e dalla barra a 390, accanto alla cornice di BG3): 34 file, 23 coppie montate e 11 ritagli.
 
+### Dettagli rifiniti (01/10/2026, I-252)
+
+L'owner vede dettagli fatti «con pochezza»: misure dei bottoni, spazi tra i bottoni, margini.
+Una critica indipendente dei dettagli (`…/visual-01/detail-bg3/`: schermate, ritagli e misure
+delle 18:12–18:30) ha trovato 22 rilievi (6 alti, 8 medi, 8 bassi) e tre idee per fare meglio di
+BG3. Tutti i rilievi sono applicati in un solo giro, quattro in parte con il motivo qui sotto;
+delle tre idee, una è applicata, una c'era già nell'app, una non si può fare.
+
+Prove in `…/visual-01/fix-bg3/`: prima `before/` (le 15 schermate del giro 1 delle 16:39),
+`audit-before/` (la misura delle 19:11, sullo stato dopo il marchio), `direction-before.css`,
+`icons-before.mjs`, `SOURCES-before.md`, `notes/before-1440.json` e `notes/before-390.json`;
+dopo `audit-after/` (19:42), `notes/after-1440.json`, `notes/after-390.json`,
+`notes/after-inv-1440.json`, `probe/crops/` (ritagli del Tavolo e anello del fuoco sulle
+losanghe, rifatti dopo l'ultima modifica) e `probe/` (il Tavolo a 360, 375, 380, 414, 430, 1024,
+1280, 1366, 1400 e 1920 px). Gli strumenti: `notes/probe.js` (raggiunge uno stato col kit di
+cattura e misura nella pagina), `notes/measure.js` (una misura per rilievo), `notes/act-*.js`
+(fuoco, passaggio del puntatore, ritagli), `glyphs/make-glyphs.mjs` (la lente e il «?»).
+
+| Rilievo                                 | Prima                                                                                                                           | Dopo                                                                                                                |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| D01 · pannello tagliato dalla barra     | «Inventario» mostrava 8 px dei suoi 40 sul bordo della barra                                                                    | gli ultimi 40 px sfumano e gli ultimi 8 sono trasparenti: nessun comando tagliato in vista; 48 px liberi in fondo   |
+| D02 · contatore sopra la campanella     | 17 × 17 px sul 27 % del riquadro dell'icona                                                                                     | 16 × 16 nell'angolo del cerchio di 40 px, anello nero di 2 px; copre il 9 % del riquadro, l'angolo vuoto            |
+| D03 · menu dei dadi sopra la lastra     | pillola sovrapposta di 8 px, 9 px più alta, 6 px più corta, due bordi a 4 px                                                    | seconda scheda della lastra, 12 px dopo di lei, stessa cima e stessa base (Δ 0), 49 px tutte e due, un solo bordo   |
+| D04 · icone delle caselle che saltano   | a 2 px (nomi su due righe) e a 8 px (una riga); «Mosse» a 7 px e 20 px                                                          | tutte a 2 px e 18 px sul computer, tutte a 4 px al telefono                                                         |
+| D05 · lastra delle risorse al telefono  | 93 × 19 px, filo inferiore aperto e tagliato, forme a 2 px l'una dall'altra (righe 40/19/40)                                    | 101 × 40 chiusa, forme a 4 px con le misure del computer (13, 14, 17 px): righe 40/40/40                            |
+| D06 · nomi tagliati al telefono         | deck: 2,6 caselle da 64 («Mani brucianti» tagliato a 39 px); barra in basso: «Scena» 33 di 58 px                                | deck: 3 caselle intere da 58 (174 px) che si agganciano; barra: schede chiuse solo icona, 5 schede intere su 250 px |
+| D07 · lastra vuota in esplorazione      | 340 px, 179 vuoti                                                                                                               | 165 px: finisce dopo i comandi, come finisce sotto il disco in combattimento                                        |
+| D08 · colonne di Inizio                 | 24 px dopo «Entra al Tavolo», 12 nell'altra; ultimi bottoni a 564,5 e 606,7 px                                                  | 12 e 12; tutti e due a 606,7 px, 25 px dal piede della lastra (titoli sulla stessa linea in alto)                   |
+| D09 · titoli tra i filetti su due righe | «Competenze e addestramento», «Abilità aggiuntive»: 41 px (due righe)                                                           | 21 px (una riga): i filetti si accorciano dal ricciolo, fino a 16 px                                                |
+| D10 · monete                            | «30 mo · 45 ma · 120» / «mr · 12 sb»                                                                                            | «30 mo · 45 ma» / «· 120 mr · 12 sb»                                                                                |
+| D11 · spazi tra i bottoni               | Cura→Danno 4, piede delle finestre 12, comandi della scena 4, inventario 6, Novità 6, tiro 6, comandi del turno 12 in verticale | 8 px ovunque tra i bottoni di una fila (6 solo tra le pillole)                                                      |
+| D12 · titolo della finestra fuori asse  | centro a 692 px, l'arco a 720                                                                                                   | 720 a 1440 (195 su 195 a 390, su una riga)                                                                          |
+| D13 · marchio nella testata del Tavolo  | 141,7 × 38 px; poi 12 e 16 px                                                                                                   | 40 px di altezza; 16 e 16 px (a Inizio 24, come gli altri elementi della testata)                                   |
+| D14 · anello del fuoco sulle losanghe   | 3 px dentro la losanga a −6 px, tagliato dalle punte: sembrava un secondo filo d'oro                                            | 3 px fuori dal filo d'oro, lungo le punte, con 2 px di filo scuro in mezzo (`probe/crops/*-focus-*.png`)            |
+| D15 · strumenti della mappa             | la seconda colonna 1 px più su e a 7 px                                                                                         | stesse righe, 6 px                                                                                                  |
+| D16 · numeri dei livelli degli slot     | coprivano di 6 px il filo della casella                                                                                         | 1 px sopra la casella, nella fascia alta della lastra                                                               |
+| D17 · Magie                             | «Lancia» 88,6 e «Lancia ▾» 105,6 px (bordi a 17 px); «Trucchetto» 2,6 px sopra e 8,8 sotto; righe a 757 contro 753              | tutti 107 px, stesso bordo; maiuscole a 5,9 e 7,0 px; righe a 753                                                   |
+| D18 · «Altre azioni» dell'inventario    | a 959, 961 e 880 px                                                                                                             | tutte a 1323 px, sul bordo destro della riga                                                                        |
+| D19 · icone su mezzi pixel              | 41 icone su 46 del Tavolo a 1440; lente e «?» a contorno tra icone piene                                                        | 0 su 46; lente e «?» piene (disegnate per il progetto)                                                              |
+| D20 · schede di Novità al passaggio     | cambiava solo il filo sotto                                                                                                     | testo crema e luce dal basso, come i link della testata                                                             |
+| D21 · menu della pedina                 | righe a 18 px, passo 40 e 41 px, iniziale «L», icone a linea                                                                    | 16 px, passo 40 px, il ritratto, solo parole                                                                        |
+| D22 · bersagli piccoli e margini        | PF della barra 74 × 28; colonna delle schede a 2 px; testata del telefono a 12 px dal bordo; «Riposa» a x 0                     | PF 74 × 40 (fascia di 28 dentro); 4 px; 16 px; x 10                                                                 |
+
+Lo strumento di verifica (20 schermate; prima 19:11, dopo 19:42):
+
+| Misura                                         | Prima        | Dopo         |
+| ---------------------------------------------- | ------------ | ------------ |
+| Valori di spazio distinti (fuori scala)        | 26 (13)      | 25 (11)      |
+| Spazi sul passo di 2 px                        | 100 %        | 100 %        |
+| Altezze dei comandi                            | 25           | 23           |
+| Grandezze dei caratteri · stili di testo       | 16 · 70      | 16 · 69      |
+| Ombre                                          | 48           | 50           |
+| Colori (testo · fondo · bordo)                 | 19 · 28 · 33 | 19 · 26 · 34 |
+| Varianti dei bottoni (classi con più varianti) | 77 (11)      | 77 (11)      |
+| Contrasto AA sotto soglia                      | 0 su 1211    | 0 su 1203    |
+
+Le due ombre in più sono il filo della colonna delle schede, ora disegnato dentro di lei (così i
+medaglioni stanno su pixel interi), e la fascia dei PF al telefono, rimasta sola con la sua
+ombra dopo che quella del computer è passata alla fascia disegnata; il colore di bordo in più è
+il grigio dei separatori del menu della pedina, ora sulla riga che chiude il gruppo.
+
+Cosa è cambiato, in breve:
+
+- **La barra in basso.** La lastra delle risorse e il menu dei dadi sono due schede della stessa
+  lastra, 12 px l'una dall'altra, alte 49 px; la coppia è centrata sulla barra. Dove il browser
+  sa ancorare un elemento a un altro (Chromium, Safari 26), la scheda dei dadi segue la lastra a
+  ogni larghezza (misurato a 1024, 1280, 1366, 1400, 1440 e 1920 px: sempre 12 px, mai oltre il
+  deck); altrove resta all'estremo destro e la lastra, spostata a sinistra della metà della
+  scheda, non la tocca. I numeri dei livelli stanno sopra le loro caselle. Ogni casella ha
+  l'icona sulla stessa riga; il deck è alto 100 px, la colonna dei comandi non ha più il filo
+  trasparente in alto e la colonna delle schede disegna il suo filo dentro di sé: icone, disco e
+  medaglioni stanno su pixel interi a 1440. Fuori combattimento la cornice dei comandi finisce
+  dopo i comandi. I due file di comandi rotondi sono a 8 px, come in orizzontale.
+- **Il telefono.** La barra ha tre righe di 40 px; la casella è quella del computer (58 px) e
+  la finestra del deck ne mostra tre intere a 390 px (anche a 375–430 px), agganciandosi alla
+  casella quando scorre; il menu dei dadi prende il resto. La barra delle schede mostra solo
+  icone, col nome sotto la scheda aperta. La testata ha 16 px di margine, come la pagina; i
+  comandi del titolo della scheda hanno il margine compatto del telefono (6 px), così l'anello
+  del fuoco non tocca il bordo dello schermo.
+- **I bottoni.** 8 px tra i bottoni di una fila ovunque (6 tra le pillole); l'anello del fuoco
+  delle losanghe segue le punte, fuori dal filo d'oro; il marchio è un bersaglio di 40 px; i
+  comandi rotondi disegnano l'icona a 20 px.
+- **Scheda, Inizio, finestre e menu.** Titoli tra i filetti su una riga; «Lancia» di una sola
+  larghezza; etichette centrate; righe delle magie sul bordo del titolo; «Altre azioni» in
+  colonna; monete in due metà; le due colonne di Inizio finiscono sulla stessa linea; il titolo
+  delle finestre al centro dell'arco; il menu della pedina col ritratto, a 16 px, una riga ogni
+  40 px, solo parole.
+
+In parte, con il motivo:
+
+- **D05.** La critica chiedeva celle quadrate di 24 px per ogni forma. A 390 px la riga ha 374 px
+  per i PF (69), la lastra, le due pillole (184) e gli spazi: alla lastra ne restano 101, e con
+  celle da 24 servirebbero 141. Restano le forme con le loro misure, a 4 px, in una lastra chiusa
+  di 40 px. Sotto i 384 px le forme stanno a 2 px; a 360 px la lastra perde ancora 7 px a destra
+  (oggi, con «Attuale», ne perde di più).
+- **D10.** Le cifre restano con la loro unità, ma il «·» va a capo con la seconda metà: lo spazio
+  prima del punto è l'unico punto di a capo e il testo non si tocca.
+- **D21.** La critica chiedeva di sostituire le icone a linea con quelle piene di questa opzione.
+  Le righe sono invece solo parole: il menu contestuale di BG3 (B35) non ha icone, e una
+  maschera per ogni comando avrebbe aggiunto dieci disegni senza un riferimento.
+- **D22.** Il testo del rilievo arrivava troncato dopo «Home resum…»: le parti leggibili (PF,
+  colonna delle schede, margine della testata, «Riposa») sono fatte; la parte mancante non è
+  arrivata.
+
+Le idee per fare meglio di BG3:
+
+- **Anello del fuoco lungo le punte** (D14): fatto.
+- **Il costo dell'azione nell'angolo della casella**: c'era già. L'app mette in ogni casella la
+  forma della risorsa che spende (cerchio verde per l'azione, triangolo arancio per l'azione
+  bonus, stella magenta per la reazione), negli stessi colori della lastra, e spegne la casella
+  quando la risorsa è spesa (le mosse di solo movimento restano accese, con l'avviso);
+  nell'esempio tutte le azioni costano un'azione, per questo si vedono solo cerchi verdi.
+- **I PF sulle carte della striscia dei turni**: non si può. La carta della striscia non contiene
+  i punti ferita né un aggancio per leggerli; il foglio di stile non può portare la larghezza
+  della fascia rossa del gruppo su un altro elemento.
+
+Restano, e sono dichiarati, quelli dei giri precedenti. A 375 e 360 px l'intestazione del Tavolo
+va su due file come con «Attuale» (il controllo è a 390 px, dove resta su una).
+
+Verifiche dopo l'ultima modifica del foglio di stile (19:40:01; icone 19:30:01):
+
+- Garanzie, misurate nell'app vera (`notes/after-1440.json`, `after-390.json`): barra in basso
+  alta 114 px a 1440; nessuno scorrimento laterale a 390 e a 1440; intestazione del Tavolo su
+  una fila (63 px) a 390, da giocatore e da DM, in combattimento e in esplorazione; «Termina
+  turno», «Annulla ultima modifica» ed «Esc · Annulla preparazione» interi sullo schermo a 390;
+  «Entra al Tavolo» tra 552 e 592 px a 390; sotto i 40 px restano solo i termini e le fonti dentro
+  il testo e le caselle di spunta con la loro etichetta (il marchio e i PF della barra non più);
+  anello del fuoco di 3 px visibile e non tagliato su losanghe, bottoni senza riquadro e marchio
+  (`probe/crops/`).
+- Il test `tests/visual01-directions.test.mjs` passa (13 su 13), nessun `!important`; Prettier
+  passa su `direction.css`, `icons.mjs` e questo file.
+- Strumento di verifica: 20 stati su 20 (19:42), nessun testo sotto soglia AA.
+- Tema chiaro invariato: col tema chiaro questa opzione dà al Tavolo gli stessi valori di
+  «Attuale» (icone di 21 px, colonne della barra a 1440 e a 390, posto del contatore;
+  `probe/light/`).
+- Le 15 schermate del giro 1 e il foglio di contatto rifatti dopo quell'ora (19:43–19:44) e
+  aperti uno per uno; le coppie in `_pairs/` cancellate e rifatte da capo (19:47, 34 file) con
+  `fix-bg3/pairs-kit/pairs.sh`, il menu del calendario e la finestra dei punti ferita rifotografati
+  con `pairs-kit/cal.cjs` e `pairs-kit/items.cjs`; il ritaglio della barra ora comprende la
+  lastra delle risorse.
+
+## Marchio (I-251)
+
+Il marchio di questa opzione è un **d20 fuso in oro brunito**, con la faccia del «20» smaltata di
+nero e il numero chiaro, e accanto la scritta **«d20 Studio»** nello stesso oro: un «d20» pesante
+e uno «Studio» più leggero. Il dado è disegnato in codice (`brand.mjs`, SVG) sulla geometria
+condivisa da tutte le opzioni (`../brand-geometry.mjs`, un icosaedro vero visto di faccia); la
+scritta è il testo dell'app con le regole della sezione «brand (I-251)» in fondo a
+`direction.css`. Nessuna immagine.
+
+- **Dove si vede:** testata di Inizio (dado di 38 px, scritta di 24 px), testata del Tavolo
+  (34 px e 22 px), telefono (solo il dado, 32 px, dentro il bersaglio di 40 px; al Tavolo l'app
+  lo nasconde già), icona della scheda del browser. Con il tema chiaro tornano il marchio e
+  l'icona di oggi.
+- **Campionario:** <http://127.0.0.1:8881/directions/specimen.html?direction=bg3>, sezione
+  «Marchio» (testate, il dado da 16 a 160 px, l'icona della scheda, il marchio completo a 3×).
+- **Prove:** `~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/brand-bg3/`:
+  `montage-brand-bg3.png` (i riferimenti di BG3 accanto al marchio), `headers-1440-bg3.png` e
+  `headers-390-bg3.png` (testate prima e dopo, puntatore sopra, fuoco da tastiera, a 2×),
+  `specimen/spec-brand-dark-1440-bg3.png`, le misure in `checks/after-report.json`, le prove di
+  disegno scartate in `lab/`.
+
+### Cosa prende dalla grammatica di BG3
+
+| Elemento del marchio                                                                     | Da BG3                                                                                                     | Fonte                                                         |
+| ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| Il materiale: oro fuso, incavi bruno quasi nero, uno smusso chiaro sugli spigoli in alto | la scritta del titolo nel menu principale (metallo dorato, ombre profonde, luce dall'alto)                 | `bg3-home-main-menu-annotated.jpg` (B44)                      |
+| I toni dell'oro, dal bronzo alla luce: #77542c, #b17d44, #d9bd7c, fino a #fff2b3         | la tavolozza dell'interfaccia                                                                              | facts A0 (colori XAML), A3 (filo d'oro dei pulsanti)          |
+| La faccia del «20»: placca quasi nera dentro un filo d'oro, numero crema con alone oro   | il pannello del tiro: numero chiaro su placca scura dentro la cornice d'oro; l'alone oro #df9800 del gioco | `bg3-dice-crop-roll-panel-advantage.png`, facts A0 «TextGlow» |
+| La scritta in Alegreya, maiuscole e minuscole, senza spaziatura, cifre allineate         | il carattere di BG3 col controller e le sue regole                                                         | facts A0.1 («Controller UI faces», «Casing»)                  |
+| Un filo scuro di 1 px sotto le lettere d'oro                                             | il contorno scuro del testo di BG3                                                                         | facts A0.1 «Text stroke»                                      |
+| Puntatore sopra e fuoco da tastiera: il dado e la scritta si accendono di alone oro      | l'alone oro del testo evidenziato                                                                          | facts A0 «TextGlow»; l'anello di 3 px resta quello dell'app   |
+
+### Cosa è originale
+
+- La forma: il dado a venti facce, uguale in tutte le opzioni; qui fuso in oro con la luce
+  calcolata faccia per faccia, gli spigoli incisi, lo smusso in alto e la faccia del «20» come
+  una piccola placca smaltata.
+- La coppia di pesi della scritta: «d20» a 800 e «Studio» a 500, nello stesso oro, con il centro
+  del dado allineato al centro delle maiuscole.
+- L'icona della scheda: lo stesso dado in tre toni piatti con gli spigoli larghi e il bordo
+  scuro, senza numero (a 16 px non si leggerebbe), chiara sia su una barra scura sia su una
+  chiara.
+
+### Perché non è una copia del logo di BG3
+
+- Il logo di BG3 è una **scritta**, «Baldur's Gate», con lettere disegnate apposta (grazie a
+  spina, svolazzi, la «d» e la «G» intrecciate) e al centro il numerale romano «III» trasformato
+  in un emblema con punte e tentacoli. Il marchio bg3 non usa nessuna di queste cose: nessuna
+  lettera ridisegnata (la scritta è Alegreya, un carattere libero OFL), nessun numerale romano,
+  nessuna spina, nessun tentacolo, nessun emblema.
+- Prende solo il **materiale e la luce** (oro fuso su nero), che sono la grammatica di tutta
+  l'interfaccia del gioco, non un segno del suo logo.
+- Anche il dado non è quello del gioco: i dadi di BG3 («Scuffed Metal», «Dragonflame Red»,
+  «Behir Blue», `bg3-dice-design-picker.webp`) sono di metallo grigio-viola, rossi o blu, con i
+  numeri su tutte le facce; il nostro è d'oro, con un solo numero e la faccia centrale nera.
+- Nessun pixel, texture, carattere o tracciato di Larian; nessuna immagine di riferimento è
+  stata ricalcata o inclusa.
+
+### Misure e controlli (01/10/2026)
+
+- **Altezze invariate:** testata di Inizio a 1440 alta 81 px, del Tavolo 63 px, come prima; a 390
+  Inizio 105 px e Tavolo 63 px su una sola riga. Nessuno scorrimento orizzontale a 390;
+  «Entra al Tavolo» nei primi 844 px, «Termina turno», annulla e cancella visibili.
+- **Allineamento:** il centro del dado e il centro delle maiuscole coincidono (83,0 e 82,9 px
+  nella testata di Inizio, 74,0 e 73,9 px in quella del Tavolo); tra il dado e la scritta si
+  vedono 11 px (6 px di spazio più il margine del dado).
+- **Contrasto:** il tono più scuro dell'oro della scritta (#a8763f) sul nero della testata è
+  circa 5:1, quindi anche «Studio» a 22 px supera 4,5:1. Con l'alto contrasto la scritta torna ai
+  colori del testo, senza sfumatura.
+- **Fuoco:** l'anello di 3 px è visibile e non tagliato, con lo stesso spazio prima del dado e
+  dopo la scritta (4 px di imbottitura a destra, resi dal margine, così nulla si sposta).
+- **Movimento:** l'alone usa le durate dell'app (`--dur-base`), che diventano 0 con il
+  movimento ridotto.
+- **Test:** `tests/visual01-directions.test.mjs` 13 su 13 (contratto di `brand.mjs`: classe,
+  viewBox, `aria-hidden`, solo il testo «20», id diversi a ogni chiamata, icona con `xmlns`,
+  colori scritti per esteso, 1,4 KB); Prettier senza rilievi.
+
+### Licenza del marchio
+
+Disegnato per questo progetto il 01/10/2026: i tracciati sono generati in codice dalla geometria
+condivisa, nessun disegno di terzi. Segue la licenza del repository. Il carattere è Alegreya
+(OFL), già incluso.
+
 ## Licenze e attribuzioni
 
 ### Icone (game-icons.net, CC BY 3.0)
@@ -813,6 +1048,10 @@ Il colore segue il testo.
 
 **Attribuzione:** icone di Lorc, Delapouite, sbed, Skoll e Faithtoken da game-icons.net, CC BY 3.0.
 
+Dal 01/10/2026 (dettagli rifiniti) `search` e `help` non vengono più da game-icons: sono disegnati
+per questo progetto (sotto). Le loro righe sono tolte dalla tabella; erano `magnifying-glass` di
+Lorc e `help` di sbed.
+
 Nuove in questo giro (30/09/2026): `home`, `search`, `bell`, `settings`, `help`, `check`; cambiate
 `note` (era `quill-ink`), `pen` (era `quill`), `ruler` (era `measure-tape`), perché disegna,
 pianifica e misura si confondevano. Per `pencil` e `scroll-quill` l'Iconify API riscrive i numeri
@@ -822,10 +1061,8 @@ del tracciato: il confronto col file dell'autore dà la stessa figura (copie in
 | Nome nell'app | Icona game-icons           | Autore     | Pagina                                                                | sha256 del file scaricato                                          |
 | ------------- | -------------------------- | ---------- | --------------------------------------------------------------------- | ------------------------------------------------------------------ |
 | `home`        | `house`                    | Delapouite | <https://game-icons.net/1x1/delapouite/house.html>                    | `798497e678559499e514f99f37bf7597f5b34630beea216d4d19dfee31e67340` |
-| `search`      | `magnifying-glass`         | Lorc       | <https://game-icons.net/1x1/lorc/magnifying-glass.html>               | `154ffdd4b41ac31b03f0e10fa66ca841aba8eedfff3b153f263929ad11ac5f1b` |
 | `bell`        | `ringing-bell`             | Lorc       | <https://game-icons.net/1x1/lorc/ringing-bell.html>                   | `5b7f3115db94e9b6e39339784d687373ed871fa7d54a9f47a90e264fb1ccdc12` |
 | `settings`    | `cog`                      | Lorc       | <https://game-icons.net/1x1/lorc/cog.html>                            | `f13a1b21ebc0f0c700d00bb114efe387e95d44bce8ba63888045a6d84358721b` |
-| `help`        | `help`                     | sbed       | <https://game-icons.net/1x1/sbed/help.html>                           | `08a87d18f38f96c746f307409f7e8d1e2ad0511b7d667a4e96ef868e1e0be416` |
 | `check`       | `check-mark`               | Delapouite | <https://game-icons.net/1x1/delapouite/check-mark.html>               | `1a839f00340eeb68a4db830ad87b3a7f45e936b2c1bda74931d89c29dbd2c0b1` |
 | `person`      | `visored-helm`             | Lorc       | <https://game-icons.net/1x1/lorc/visored-helm.html>                   | `5d20ee418964af8cb5ac03867cd2d4993474d642b3ffe55b7d4e3ca2e2c41e2c` |
 | `campaign`    | `tower-flag`               | Delapouite | <https://game-icons.net/1x1/delapouite/tower-flag.html>               | `a0db7698c1f6a6bf5dd85e0ff8aa870addd363527445c08cc569ef4c33217e41` |
@@ -884,6 +1121,17 @@ d20 Folio.
 
 I ritratti e la mappa d'esempio sono quelli condivisi (`directions/sample.css`,
 `assets/PROVENANCE.json`): questa opzione ne disegna solo cornici, forme e colori.
+
+### Icone disegnate per questo progetto
+
+`search` (una lente piena con un riflesso inciso e il manico) e `help` (un disco pieno con il
+«?» e il punto incisi) sono disegnati il 01/10/2026 per questo progetto, perché la fila dei
+servizi della testata sia tutta di icone piene come la ruota dentata e l'elmo (rilievo D19 dei
+dettagli). Tracciati calcolati da zero in codice (cerchi, un arco con un tratto di spessore
+costante, il manico come rettangolo ruotato), nessuna immagine di riferimento ricalcata; il
+generatore è `…/visual-01/fix-bg3/glyphs/make-glyphs.mjs` (sha256 `cf2ac82d0fc40c610e8cf16c90f801b8e30cf3b051c4a1855ca57ce954616d24`),
+le prove a 20 e 160 px accanto. I buchi sono tagliati dal verso dei tracciati (regola nonzero),
+in un solo `<path>` come le altre icone. Seguono la licenza del repository.
 
 ### Disegni nel foglio di stile
 

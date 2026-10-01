@@ -134,6 +134,23 @@
      Beyond sheet (SKILLS, SPELLS «CAST», toggles), site cards and Maps portraits → facts §1, §3,
      §6; ddb-sheet-desktop-live-presto-spells-1440x900.png, ddb-sheet-desktop-underdark-
      inventory-2025-frame.png, ddb-home-play-dnd-tiles-my-characters-2025-frame.png
+   - Marchio (I-251, 01/10): the d20 in brand.mjs as red enamel cells in a gilt rim with white
+     type (the 2025–26 «ornate» hex button's material), the wordmark in the headline serif at
+     800, title case with lining figures, white and flat on the slate bar; the tab icon the
+     same die → D&D Beyond header logotype (heavy flared serif, white on #232b2f), Majesty
+     headlines, ornate button, gold frames → facts §0.2, §0.3, §3;
+     ddb-home-live-anon-1440x900.png, ddb-characters-premade-landing-live-1440x900.png (the
+     logo itself never copied: SOURCES.md «Marchio»)
+   - Detail pass (I-252, 01/10): both headers on the page's column (the die's ink on the title's
+     edge), one gap rule for rows of controls (labelled 8, icons 4, tiles 6, pills 4), the
+     sheet band on one label line and one value line with the HP box 12 px inside and its 4 px
+     bar, quiet buttons hung on the text edge, the turn order on a dark plate with a red top
+     edge for the turn in play, the elevation tag as the name's stroked pill, the session
+     notice's commands as the app's buttons, one recipe for phone rows that scroll (24 px fade,
+     whole words), the 3 px ring on summaries → D&D Beyond site (one page margin, buttons in rows
+     on a fixed step, red for what is active), Maps (dark rounded clusters, name pills)
+     → facts §0.1, §1, §3, §6; ddb-home-live-anon-1440x900.png, ddb-maps-initiative-order-2026-
+     frame.png, ddb-maps-tokens-nameplates-2026.png
    Details, licences and the declared differences: SOURCES.md (Italian, for the owner). */
 
 /* ------------------------------------------------------------------ fonts (vendored, OFL)
@@ -319,9 +336,9 @@
   --ddb-avatar-60: 60px;
   /* The inventory table's tracks (ddb-sheet-desktop-underdark-inventory-2025-frame.png): 56 px
      per number column; the commands' track fits DETAILS, the longest primary command (EQUIP)
-     and the menu. */
+     and the menu, 8 px apart (the labelled buttons' gap). */
   --ddb-invp-col: 56px;
-  --ddb-invp-actions: 208px;
+  --ddb-invp-actions: 216px;
 }
 
 /* ------------------------------------------------------------------ tokens
@@ -647,19 +664,7 @@
   background: #e40712;
   color: #ffffff;
 }
-/* The brand waits for Phase D: the d20 mark and the wordmark keep today's gold, parchment and
-   serif (index.html theme colour and favicon are untouched as well). */
-:root[data-direction="ddb"]:not([data-pref-theme="light"]) .brand {
-  color: #efe7d6;
-  font-family:
-    "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", "URW Palladio L", Georgia,
-    serif;
-}
-:root[data-direction="ddb"]:not([data-pref-theme="light"]) .brand .logo,
-:root[data-direction="ddb"]:not([data-pref-theme="light"]) .brand .icon,
-:root[data-direction="ddb"]:not([data-pref-theme="light"]) .brand b {
-  color: #dfbd78;
-}
+/* The brand (mark, wordmark, tab icon): the «Marchio» section at the end of this file. */
 
 /* Headings: the site's serif at a heavy weight (Majesty 700–900 on D&D Beyond). */
 :root[data-direction="ddb"]:not([data-pref-theme="light"]) h1,
@@ -867,7 +872,8 @@
 :root[data-direction="ddb"]:not([data-pref-theme="light"]) dialog footer::before {
   content: "";
   position: absolute;
-  inset-inline: var(--ddb-space-20);
+  /* On the content's own 24 px edges (heading, body and foot), not 4 px past them. */
+  inset-inline: var(--ddb-space-24);
   height: var(--ddb-line-1);
   background: #d1b873;
   pointer-events: none;
@@ -2073,7 +2079,9 @@
   .shp-col-saves
   .shp-list
   > .shp-row {
-  gap: var(--ddb-space-2);
+  /* 6 px between star, dot, abbreviation and cap, as in the skills' rows (2 px glued the dot to
+     its abbreviation). */
+  gap: var(--ddb-space-6);
   min-width: 0;
   min-height: var(--ddb-control-40);
   border: var(--ddb-line-1) solid #c53131;
@@ -2640,7 +2648,7 @@
     > .shp-effects {
     grid-column: span 6;
     flex-wrap: nowrap;
-    gap: var(--ddb-space-6);
+    gap: var(--ddb-space-8);
     padding-block: var(--ddb-space-2);
   }
   :root[data-direction="ddb"]:not([data-pref-theme="light"])
@@ -2651,7 +2659,7 @@
     grid-column: span 4;
     flex-wrap: nowrap;
     align-items: center;
-    gap: var(--ddb-space-6);
+    gap: var(--ddb-space-8);
     padding-block: var(--ddb-space-2);
   }
   /* Only the empty hint sits beside the effects: with favourites in it the strip takes its own
@@ -2704,47 +2712,65 @@
     font-size: var(--ddb-fs-12);
     line-height: var(--ddb-lh-16);
   }
-  /* HIT POINTS as D&D Beyond's box: HEAL, the amount and DAMAGE stacked on the left, current
-     and maximum at the same size, the label at the box's foot; no bar (the numbers carry it;
-     the bar stays for assistive technology). */
+  /* HIT POINTS as D&D Beyond's box, on the band's three rows (detail pass, I-252): HEAL, the
+     amount and DAMAGE stacked on the left over the box's whole height; on the right the label
+     on the band's label line, «18 / 22» on its value line (the same centre as +2 and 9 m), the
+     temporary hit points on the foot line with the 4 px bar under them (D&D Beyond shows no bar
+     on the desktop; ours reads current/maximum at a glance, as on the phone). One 12 px inset
+     on all four sides, as the neighbouring boxes (it was 2 px above, 9 px at the sides). */
   :root[data-direction="ddb"]:not([data-pref-theme="light"])
     .character-sheet
     .character-band
     .character-hp:has(.dt-hp-row) {
-    align-content: center;
-    padding-block: var(--ddb-space-2);
+    grid-template-rows: var(--ddb-lh-40) minmax(0, 1fr) var(--ddb-lh-24);
+    align-content: stretch;
+    align-items: start;
+    row-gap: 0;
+    padding: var(--ddb-space-12);
   }
   :root[data-direction="ddb"]:not([data-pref-theme="light"])
     .character-sheet
     .character-band
     .character-hp
     .dt-hp-row {
+    grid-row: 1 / -1;
     grid-template-columns: minmax(0, 1fr);
     grid-template-areas:
       "heal"
       "amount"
       "damage";
     gap: var(--ddb-space-2);
+    align-self: center;
   }
   :root[data-direction="ddb"]:not([data-pref-theme="light"])
     .character-sheet
     .character-band
     .character-hp
     > span:first-child {
-    order: 2;
-    margin-top: var(--ddb-space-4);
+    grid-row: 1;
+  }
+  :root[data-direction="ddb"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-band
+    .character-hp
+    > .character-hp-value {
+    grid-row: 2;
+    align-self: center;
+  }
+  :root[data-direction="ddb"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-band
+    .character-hp
+    > :is(.character-hp-temp, progress) {
+    grid-row: 3;
   }
   :root[data-direction="ddb"]:not([data-pref-theme="light"])
     .character-sheet
     .character-band
     .character-hp
     > progress {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
+    align-self: end;
+    height: var(--ddb-space-4);
   }
 }
 /* HIT POINTS «18 / 22»: current and maximum in the same Roboto figures and size, the maximum in
@@ -2817,12 +2843,47 @@
     .shp-pill {
     min-height: 76px;
   }
+  /* HIT POINTS on the phone (detail pass, I-252): one 12 px inset on all four sides (it was 8
+     above and 4 at the sides, so the stack and the bar sat 5 px from the frame), the label, the
+     numbers, the temporary hit points and the bar in four rows, the amount with HEAL and DAMAGE
+     centred beside them; the bar 4 px, as on the desktop. Heroic Inspiration beside it takes the
+     same 12 px above, so both labels share one line. «18 / 22» 12 px from the stack and 4 px
+     inside its own rim (the app's 8), so it stays on one line, at the desktop's 26 px. */
+  :root[data-direction="ddb"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-band
+    .character-hp:has(.dt-hp-row) {
+    grid-template-rows: repeat(4, auto);
+    column-gap: var(--ddb-space-12);
+    padding: var(--ddb-space-12);
+  }
+  :root[data-direction="ddb"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-band
+    .character-hp
+    .character-hp-value {
+    padding-inline: var(--ddb-space-4);
+  }
+  :root[data-direction="ddb"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-band
+    .character-hp
+    .dt-hp-row {
+    grid-row: 1 / -1;
+    align-self: center;
+  }
   :root[data-direction="ddb"]:not([data-pref-theme="light"])
     .character-sheet
     .character-band
     .character-hp
     > progress {
-    height: var(--ddb-space-8);
+    height: var(--ddb-space-4);
+  }
+  :root[data-direction="ddb"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-band
+    .character-inspiration {
+    padding-block: var(--ddb-space-12);
   }
 }
 /* Phone: D&D Beyond's mobile header — the name block and the commands on one dark band across
@@ -2840,7 +2901,7 @@
   :root[data-direction="ddb"]:not([data-pref-theme="light"])
     .character-sheet
     .character-breadcrumb {
-    gap: var(--ddb-space-6);
+    gap: var(--ddb-space-8);
   }
   :root[data-direction="ddb"]:not([data-pref-theme="light"]) .character-sheet .character-heading {
     gap: var(--ddb-space-8);
@@ -2854,7 +2915,7 @@
     .character-sheet
     .character-heading
     .toolbar {
-    gap: var(--ddb-space-6);
+    gap: var(--ddb-space-8);
   }
   :root[data-direction="ddb"]:not([data-pref-theme="light"])
     .character-sheet
@@ -3161,13 +3222,14 @@
 :root[data-direction="ddb"]:not([data-pref-theme="light"])
   .table-layout:has(> .initiative)
   .session-view-hud-stack {
-  top: 178px;
+  /* 6 px under the turn order's plate (detail pass: the plate runs 9 px under the portraits). */
+  top: 187px;
 }
 @media (min-width: 721px) and (max-width: 1279px) {
   :root[data-direction="ddb"]:not([data-pref-theme="light"])
     .table-layout:has(> .initiative)
     .session-view-hud-stack {
-    top: 230px;
+    top: 239px;
   }
 }
 @media (max-width: 720px) {
@@ -3618,7 +3680,9 @@
     .table-hotbar
     .combat-bar-heading {
     gap: var(--ddb-space-6);
-    padding: 0 var(--ddb-space-2) 0 var(--ddb-space-8);
+    /* 8 px on both sides, as the turn-resources pill beside it («Tiri e risultati» ended 3 px
+       from the plate's edge). */
+    padding: 0 var(--ddb-space-8);
   }
   /* The panel's foot as Maps' initiative bottom bar: the turn commands as white icon buttons
      in one row (the active tool a red square), then the wide red NEXT-style End turn. Same
@@ -4019,7 +4083,7 @@
   margin-top: var(--ddb-space-4);
 }
 :root[data-direction="ddb"]:not([data-pref-theme="light"]) .character-sheet .spl-row-actions {
-  gap: var(--ddb-space-4);
+  gap: var(--ddb-space-8);
 }
 /* CAST: the theme-filled button of the spell table, one width for «Lancia» and «Lancia ▾» (two
    44 px steps), so the column of CAST buttons lines up as in D&D Beyond (the cantrip's was 16 px
@@ -4231,7 +4295,7 @@
 }
 /* The row's commands start under the name (past the item's slot), quiet grey words. */
 :root[data-direction="ddb"]:not([data-pref-theme="light"]) .character-sheet .invp-row-actions {
-  gap: var(--ddb-space-4);
+  gap: var(--ddb-space-8);
   padding-left: calc(var(--ddb-control-40) + var(--ddb-space-12));
 }
 
@@ -4601,10 +4665,6 @@
     gap: 0;
   }
 }
-:root[data-direction="ddb"]:not([data-pref-theme="light"]) .brand {
-  gap: var(--ddb-space-8);
-  padding-block: var(--ddb-space-4);
-}
 :root[data-direction="ddb"]:not([data-pref-theme="light"]) .ext-count {
   font-size: var(--ddb-fs-12);
   line-height: var(--ddb-lh-16);
@@ -4694,9 +4754,12 @@
   line-height: var(--ddb-lh-1);
 }
 
-/* Scheda: PROFICIENCY, SPEED and HEROIC INSPIRATION as D&D Beyond's boxes — three rows: the
-   label (one or two lines) ending on one line, the value on one shared middle line, the foot
-   label (WALKING) under it. */
+/* Scheda: the six ability shields, PROFICIENCY, SPEED and HEROIC INSPIRATION as D&D Beyond's
+   boxes — three rows: the label from the box's top line (12 px in; a two-line label runs on
+   into the 40 px row), the value on one shared middle line, the foot (WALKING, the shields'
+   score medallion) under it. HIT POINTS uses the same rows (the wide sheet's HP block above),
+   so the whole band has one label line and one value line (detail pass, I-252: the shields'
+   labels sat 25 px higher and their modifiers 12 px higher than their neighbours'). */
 @container character-sheet (min-width: 900px) {
   :root[data-direction="ddb"]:not([data-pref-theme="light"])
     .character-sheet
@@ -4704,15 +4767,41 @@
     :is(
       [data-shp-stat="pb"] > .shp-pill,
       .character-vitals > [data-character-speed],
-      .character-inspiration
+      .character-inspiration,
+      .shp-ability-box
     ) {
     display: grid;
     grid-template-rows: var(--ddb-lh-40) minmax(0, 1fr) var(--ddb-lh-24);
     grid-template-columns: minmax(0, 1fr);
     justify-items: center;
-    align-items: end;
+    align-items: start;
     gap: 0;
     padding: var(--ddb-space-12) var(--ddb-space-8);
+  }
+  /* The shields' frame 1 px inside a transparent rim, as every other framed box, so their
+     labels and values sit on the same lines (the rim had been 0 on the shields only). */
+  :root[data-direction="ddb"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-band
+    .shp-ability-box {
+    padding-inline: var(--ddb-space-6);
+    border: var(--ddb-line-1) solid transparent;
+  }
+  :root[data-direction="ddb"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-band
+    .shp-ability-box
+    > strong {
+    grid-row: 2;
+    align-self: center;
+    margin: 0;
+  }
+  :root[data-direction="ddb"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-band
+    .shp-ability-box
+    > small {
+    grid-row: 3;
   }
   :root[data-direction="ddb"]:not([data-pref-theme="light"])
     .character-sheet
@@ -5532,5 +5621,553 @@
   :root[data-direction="ddb"]:not([data-pref-theme="light"]) .map-container > .map-caption > span {
     font-size: var(--ddb-fs-12);
     line-height: var(--ddb-lh-16);
+  }
+}
+
+/* ------------------------------------------------------------------ Marchio (I-251)
+   The direction's own brand. The mark is brand.mjs (red enamel d20 in a gilt rim, the «20» in
+   Roboto Condensed); here the wordmark on the existing markup, «d20 <b>Studio</b>», in D&D
+   Beyond's display grammar: white, flat, heavy flared serif on the #232b2f bar (the header
+   logotype, facts §3) in the title case of its Majesty headlines (facts §0.3), so the words
+   are Alegreya 800, the OFL stand-in for Majesty (facts §0.2), at the headlines' tight track,
+   white for both words (the colour lives in the die). Lining figures: the 2 and the 0 stand at
+   the capitals' height beside the «d» and the «S» (Alegreya's default old-style ones sit at
+   the x-height and read «d₂₀»). Not capitals: Alegreya has no small-cap figures, and under
+   all-small-caps its 2 and 0 stay a fifth shorter than the D (measured at 2×). No stroke, no
+   shadow, no gradient on the words: the logotype is flat. Mark 32 px (the 4 px rhythm; crisp
+   at 2× with 0.9 px seams), 8 px to the words (12 px from the die's ink, which sits 4 px
+   inside its square), the words' ascender-to-baseline block centred on the mark and on the
+   bar's centre line. Hover: the die brightens; focus: the app's 3 px white ring with the
+   buttons' 4 px corners. */
+:root[data-direction="ddb"] {
+  --ddb-font-brand:
+    "Alegreya", "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --ddb-mark: 32px;
+}
+/* 4 px after the words, given back by the margin: the focus ring keeps the same air on both
+   sides (the die's ink sits 4 px inside its square) and the header's layout does not move. */
+:root[data-direction="ddb"]:not([data-pref-theme="light"]) .brand {
+  gap: var(--ddb-space-8);
+  min-height: var(--ddb-control-40);
+  margin-inline-end: calc(-1 * var(--ddb-space-4));
+  padding: 0 var(--ddb-space-4) 0 0;
+  border-radius: var(--ddb-radius-4);
+  color: #ffffff;
+  font-family: var(--ddb-font-brand);
+  font-size: var(--ddb-fs-26);
+  font-weight: 800;
+  line-height: var(--ddb-lh-1);
+  letter-spacing: var(--ddb-track-display);
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"]) .brand .logo {
+  width: var(--ddb-mark);
+  height: var(--ddb-mark);
+  filter: none;
+}
+/* The words on a whole-pixel 28 px line with whole-pixel padding above (so the 40 px box centres
+   them without half pixels): 4 px for the 26 px words, 2 px for the 24 px ones, which sets the
+   ink from the «d» ascender to the baseline on the mark's middle within a quarter pixel
+   (measured at 2× on Home and the Table, 1440 to 600 px). */
+:root[data-direction="ddb"]:not([data-pref-theme="light"]) .brand span {
+  padding-block-start: var(--ddb-space-4);
+  font-variant-numeric: lining-nums;
+  line-height: var(--ddb-lh-28);
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"]) .brand b {
+  color: #ffffff;
+  font-weight: 800;
+}
+/* Hover: the enamel and the gilt catch more light (D&D Beyond's logotype has no hover of its
+   own; the nav's red glow belongs to the bar's foot, which this 40 px box does not reach). */
+:root[data-direction="ddb"]:not([data-pref-theme="light"]) .brand:hover .logo {
+  filter: brightness(1.18);
+}
+/* The Table's lighter header: the same lockup a step smaller (24 px words, the die unchanged). */
+:root[data-direction="ddb"]:not([data-pref-theme="light"]) .table-header .brand {
+  font-size: var(--ddb-fs-24);
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"]) .table-header .brand span {
+  padding-block-start: var(--ddb-space-2);
+}
+/* Narrower windows, from the step where the nav links tighten (1100 px): the 24 px words, so the
+   lockup (149 px) is no wider than the old one (151 px) where the header's one row is tight. */
+@media (max-width: 1100px) {
+  :root[data-direction="ddb"]:not([data-pref-theme="light"]) .brand {
+    font-size: var(--ddb-fs-24);
+  }
+  :root[data-direction="ddb"]:not([data-pref-theme="light"]) .brand span {
+    padding-block-start: var(--ddb-space-2);
+  }
+}
+/* Phone (≤ 720 px): the app's own 28 px die and the 22 px words, so the lockup (132 px) stays
+   under the old one (135 px) and the services keep the brand's row down to the same width
+   (measured: one row from 445 px, 449 px before; below that both wrap). The words' line keeps
+   4 px above: at 22 px beside the 28 px die that centres their ink on it (measured at 2×). */
+@media (max-width: 720px) {
+  :root[data-direction="ddb"] {
+    --ddb-mark: 28px;
+  }
+  :root[data-direction="ddb"]:not([data-pref-theme="light"]) .brand {
+    font-size: var(--ddb-fs-22);
+  }
+  :root[data-direction="ddb"]:not([data-pref-theme="light"]) .brand span {
+    padding-block-start: var(--ddb-space-4);
+  }
+}
+/* A narrow phone shows the die alone in its 40 px square: no extra room after the words. */
+@media (max-width: 420px) {
+  :root[data-direction="ddb"]:not([data-pref-theme="light"]) .brand {
+    margin-inline-end: 0;
+    padding: 0;
+  }
+}
+
+/* ------------------------------------------------------------------ detail pass (I-252, 01/10)
+   The independent detail critique of 01/10 (detail-ddb): «the devil is in the details». Every
+   value below is a step of the scales at the top; the in-place changes of the same pass (the
+   HIT POINTS box and the band's three rows, the saves' 6 px, the phone's 8 px button gaps, the
+   dialogs' rules on the 24 px edges, the dice cluster's 8 px sides, the inventory's commands
+   track) carry their own comments. One gap rule for rows of controls (I-250): labelled
+   buttons 8 px apart, icon buttons 4, tiles (hotbar slots, turn portraits) 6, filter pills 4,
+   segments 0. Notes for the owner: SOURCES.md «Dettagli rifiniti». */
+
+/* The header on the page's own column: its sides are the page's padding (48 px from 1001 px,
+   24 px down to 721), so the die and the account button line up with the title, the cards and
+   the breadcrumb (the brand sat at 32 px, 16 px outside the content); the Table's header on
+   the stage's 16 px gutter, the scene plate's and the tool column's. The die's ink, not its
+   square, starts the column: its hexagon and keyline begin 8.4 % into the mark's box
+   (brand-geometry: vertex x 13 less half the 9.2-unit keyline, of 100). Down to 1000 px the
+   header's items keep 16 px between them, so its one row fits from 881 px (it ran 13–27 px
+   past the window between 881 and 908 px). */
+@media (min-width: 1001px) {
+  :root[data-direction="ddb"]:not([data-pref-theme="light"]) .app-header:not(.table-header) {
+    padding-inline: var(--ddb-space-48);
+  }
+}
+@media (min-width: 721px) and (max-width: 1000px) {
+  :root[data-direction="ddb"]:not([data-pref-theme="light"]) .app-header:not(.table-header) {
+    column-gap: var(--ddb-space-16);
+    padding-inline: var(--ddb-space-24);
+  }
+}
+@media (min-width: 721px) {
+  :root[data-direction="ddb"]:not([data-pref-theme="light"]) .app-header.table-header {
+    padding-inline: var(--ddb-space-16);
+  }
+  :root[data-direction="ddb"]:not([data-pref-theme="light"]) .app-header .brand .logo {
+    margin-inline-start: calc(var(--ddb-mark) * -0.084);
+  }
+  /* The Table header: wordmark → App as far apart as App → «Torna alla campagna» (32 px of
+     air between the inks; it was 24 beside 33). */
+  :root[data-direction="ddb"]:not([data-pref-theme="light"]) .app-header.table-header > .brand {
+    margin-inline-end: var(--ddb-space-4);
+  }
+}
+
+/* Home: «Prossimo appuntamento» 16 px under its title, as «Il tuo personaggio» and «Dove
+   eravamo rimasti» (it had 8). */
+:root[data-direction="ddb"]:not([data-pref-theme="light"]) .home-page .home-appointment h2 {
+  margin-bottom: var(--ddb-space-16);
+}
+
+/* Sheet: the hit points' bar drawn as the Table's 4 px bars (the hotbar's #374045 track, the
+   theme's hit-point green): at 4 px the browser's own bar showed only its grey track. */
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  .character-hp
+  > progress {
+  -webkit-appearance: none;
+  appearance: none;
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--ddb-radius-pill);
+  background: #374045;
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  .character-hp
+  > progress::-webkit-progress-bar {
+  border-radius: var(--ddb-radius-pill);
+  background: #374045;
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  .character-hp
+  > progress::-webkit-progress-value {
+  border-radius: var(--ddb-radius-pill);
+  background: var(--hp-full);
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  .character-hp
+  > progress::-moz-progress-bar {
+  border-radius: var(--ddb-radius-pill);
+  background: var(--hp-full);
+}
+
+/* Sheet: the privacy tag («◎ Solo campagna») stands apart from the button row, a tag before
+   the buttons, centred on their line. */
+:root[data-direction="ddb"]:not([data-pref-theme="light"]) .character-sheet .clib-privacy {
+  align-self: center;
+  margin-inline-end: var(--ddb-space-8);
+}
+
+/* A quiet button that opens a line in a column of text hangs its 1 px rim and 8 px side
+   outside the column, so its word starts on the text's edge (it started 9 px in); the 40 px
+   target and the ring are unchanged. Where the button follows other words on its line (the
+   wide sheet's conditions, right-aligned rows), nothing moves. */
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  :is(
+    .table-inspector .inspector-quick,
+    .table-inspector .conditions-quick,
+    .character-sheet .spl-list-foot,
+    .character-sheet .spl-components > .toolbar,
+    .character-sheet .shp-col-tools
+  )
+  > .button.quiet:first-child {
+  margin-inline-start: calc((var(--ddb-button-pad-quiet) + var(--ddb-line-1)) * -1);
+}
+/* In a narrow sheet concentration's «Registra concentrazione», which wraps under its words at
+   390 px, always takes its own line, so the hang is right at every narrow width, not only
+   where the words happen to fill the line. */
+@container character-sheet (max-width: 899px) {
+  :root[data-direction="ddb"]:not([data-pref-theme="light"])
+    .character-sheet
+    .spl-concentration.is-idle {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+  }
+  :root[data-direction="ddb"]:not([data-pref-theme="light"])
+    .character-sheet
+    .spl-concentration.is-idle
+    > .button.quiet {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+  :root[data-direction="ddb"]:not([data-pref-theme="light"])
+    .character-sheet
+    :is(.conditions-quick, .invp-row-actions, .shp-action-tools)
+    > .button.quiet:first-child,
+  :root[data-direction="ddb"]:not([data-pref-theme="light"])
+    .character-sheet
+    .spl-concentration.is-idle
+    > .button.quiet {
+    margin-inline-start: calc((var(--ddb-button-pad-quiet) + var(--ddb-line-1)) * -1);
+  }
+}
+/* Each slot's «Correggi risorsa» sits under its slot's words where the app stacks them
+   (characters.css, up to 620 px); elsewhere it has a column or a place on the line of its own. */
+@media (max-width: 620px) {
+  :root[data-direction="ddb"]:not([data-pref-theme="light"])
+    .character-sheet
+    .spl-slot
+    > .button.quiet {
+    margin-inline-start: calc((var(--ddb-button-pad-quiet) + var(--ddb-line-1)) * -1);
+  }
+}
+
+/* Focus: the summaries («Aggiungi al calendario», «Primi passi», «Regola d'ingombro»…) and the
+   hit points' «18 / 22» take the app's one ring, 3 px white 3 px out (Chrome's 1 px blue ring
+   and a 2 px red one at 2 px). */
+:root[data-direction="ddb"]:not([data-pref-theme="light"]) summary:focus-visible,
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .character-hp
+  .character-hp-value:focus-visible {
+  outline: var(--ddb-line-3) solid var(--focus);
+  outline-offset: var(--ddb-line-3);
+}
+
+/* Hover keeps an active state active: the chosen tool or button stays red, a step darker (the
+   turn panel's «Muovi» turned grey under the pointer while the map rail's stayed red); the rail
+   tabs take the one hover tint of the buttons and tools (#374045; the open tab keeps its red
+   underline). The pills keep their own #525c63 (D&D Beyond's dark filter pills). */
+:root[data-direction="ddb"]:not([data-pref-theme="light"]) .button.active:hover:not(:disabled) {
+  border-color: #e40712;
+  background: rgb(228 7 18 / 0.28);
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .table-layout
+  > .action-dock.table-hotbar
+  > .toolbar
+  > .button.active:hover:not(:disabled),
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .workspace.is-table
+  .map-tool.active:hover {
+  border-color: #c50009;
+  background: #c50009;
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .table-layout
+  :is(.table-tab, .table-sidebar-toggle, .table-map-link, .table-panels-all):hover {
+  background: #374045;
+}
+
+/* Dialogs: «Avvia combattimento» rows on three edges — the order (a 20 px column, right-aligned
+   figures), the include box 8 px after it, the name and its grey line 8 px after the box (56 px
+   in); «Sorpreso» under the include box, and on a phone the d20 line too (on the name's edge it
+   no longer fits one line at 390 px: the total wrapped). A row left out (no order figure) keeps
+   the same edges. */
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  dialog
+  .ct-start-row.is-included
+  .ct-start-who::before {
+  min-width: var(--ddb-space-20);
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  dialog
+  .ct-start-row:not(.is-included)
+  .ct-start-who {
+  padding-inline-start: calc(var(--ddb-space-20) + var(--ddb-space-8));
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"]) dialog .ct-start-who small {
+  padding-left: calc((var(--ddb-space-20) + var(--ddb-space-8)) * 2);
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"]) dialog .ct-start-surprise {
+  margin-inline-start: calc(var(--ddb-space-20) + var(--ddb-space-8));
+}
+@media (max-width: 720px) {
+  :root[data-direction="ddb"]:not([data-pref-theme="light"]) dialog .ct-start-roll {
+    width: calc(100% - var(--ddb-space-20) - var(--ddb-space-8));
+    margin-inline-start: calc(var(--ddb-space-20) + var(--ddb-space-8));
+    justify-content: flex-start;
+  }
+}
+
+/* Table · elevation tag («↑3 m»): the token name's own dark pill — the words' wide round
+   stroke — instead of the app's fixed plate, which the words overran by 6 px (the plate is
+   sized for 11 px type; the stroke is always the words' length, 6 px round them). */
+:root[data-direction="ddb"]:not([data-pref-theme="light"]) #battle-map .annotations-elevation rect {
+  visibility: hidden;
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"]) #battle-map .annotations-elevation text {
+  fill: #ffffff;
+  stroke: rgb(18 24 28 / 0.74);
+  stroke-width: var(--ddb-space-12);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  paint-order: stroke;
+}
+
+/* Table · rows of controls on the one gap rule: the scene plate's commands 8 px apart, the
+   session buttons over the map 4 (icons), the turn portraits 6 at every width. */
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .table-layout
+  > .table-topline
+  > .toolbar {
+  gap: var(--ddb-space-8);
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .workspace.is-table
+  :is(.session-view-hud-bar, .safety-hud-group) {
+  gap: var(--ddb-space-4);
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"]) .table-layout > .initiative {
+  gap: var(--ddb-space-6);
+}
+/* Every icon-only session button one size (44 × 40, as its neighbours; «Nascondi interfaccia»
+   was 40). */
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .workspace.is-table
+  .session-view-hud-button.is-icon {
+  width: var(--ddb-control-44);
+}
+/* «Sessione non avviata»: «Avvia ora» and «Non ora» as the app's buttons (40 px, 12 px sides,
+   the 16 px small capitals; «Avvia ora» the red primary, «Non ora» the outline), 8 px apart —
+   they were the session row's 13 px mixed-case words on grey plates. */
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .workspace.is-table
+  .session-view-start-chip
+  > .session-view-hud-button {
+  min-height: var(--ddb-button-height);
+  padding: 0 var(--ddb-button-pad);
+  border: var(--ddb-line-1) solid #75838b;
+  border-radius: var(--ddb-radius-4);
+  background: transparent;
+  box-shadow: none;
+  color: #ffffff;
+  font-family: var(--font-ui);
+  font-size: var(--ddb-button-type);
+  font-weight: 700;
+  line-height: var(--ddb-button-line);
+  letter-spacing: var(--ddb-track-caps);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .workspace.is-table
+  .session-view-start-chip
+  > .session-view-hud-button:hover {
+  border-color: #c4cbce;
+  background: #374045;
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .workspace.is-table
+  .session-view-start-chip
+  > .session-view-hud-button[data-sv="start"] {
+  border-color: #e40712;
+  background: #e40712;
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .workspace.is-table
+  .session-view-start-chip
+  > .session-view-hud-button[data-sv="start"]:hover {
+  border-color: #c50009;
+  background: #c50009;
+}
+
+/* The turn in play: a 3 px red top edge inside the frame (D&D Beyond's red marks the active
+   tool, tab and nav item), at every width. */
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .table-layout
+  > .initiative
+  .initiative-token.current,
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .table-layout
+  > .initiative
+  .initiative-token.current:has(.token-dot.hostile) {
+  box-shadow:
+    inset 0 var(--ddb-line-3) 0 #e40712,
+    var(--ddb-shadow);
+}
+
+@media (min-width: 721px) {
+  /* The turn order on its own dark plate, the tool column's (#12181c, rounded 8 px, the 5 %
+     hairline; 8 px inside): the door control under the strip no longer shows between the
+     cards, and the cards' 3 px focus ring has room inside the strip's scroll box (it was cut
+     by 4 px). The plate grows round the cards, which stay where they were (fitHud sets the
+     strip's top margin inline, so the plate is drawn 7 px higher: 6 more padding, 1 rim). */
+  :root[data-direction="ddb"]:not([data-pref-theme="light"]) .table-layout > .initiative {
+    translate: 0 calc((var(--ddb-space-8) + var(--ddb-line-1) - var(--ddb-space-2)) * -1);
+    padding: var(--ddb-space-8);
+    border: var(--ddb-line-1) solid rgb(255 255 255 / 0.05);
+    border-radius: var(--ddb-radius-8);
+    background: #12181c;
+    box-shadow: var(--ddb-shadow);
+  }
+  /* Hotbar: the page tabs as tall as the slots (44 px), 6 px apart like the slots and 6 px from
+     them, so AZIONI and BARRA RAPIDA share the slot rows' tops and bottoms; MOSSE a slot's
+     height too. */
+  :root[data-direction="ddb"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-center {
+    gap: var(--ddb-space-6);
+  }
+  :root[data-direction="ddb"]:not([data-pref-theme="light"]) .table-hotbar .hotbar-pages {
+    gap: var(--ddb-space-6);
+  }
+  :root[data-direction="ddb"]:not([data-pref-theme="light"]) .table-hotbar .hotbar-page-tab {
+    min-height: var(--ddb-control-44);
+  }
+  /* The side panel's foot on the panel's own 20 px edges (the inspector's), the five turn
+     commands one row of 40 px icons 4 px apart, right-aligned, in combat and out of it, centred
+     on whole pixels: the separator is drawn inside (it was a 1 px border that left the rows on
+     a half pixel). */
+  :root[data-direction="ddb"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar {
+    grid-template-columns: repeat(5, var(--ddb-control-40));
+    grid-auto-rows: auto;
+    justify-content: end;
+    align-content: center;
+    column-gap: var(--ddb-space-4);
+    padding-inline: var(--ddb-space-20);
+    border-top-width: 0;
+    box-shadow: inset 0 var(--ddb-line-1) 0 #333c41;
+  }
+  /* The inspector's foot: a 24 px fade where the panel's content runs on under the turn panel,
+     and a focused command scrolls clear of it (SCHEDA COMPLETA was cut by the turn panel's
+     edge, its ring too). */
+  :root[data-direction="ddb"]:not([data-pref-theme="light"])
+    .table-sidebar-panel
+    > .table-inspector {
+    scroll-padding-block-end: var(--ddb-space-24);
+    -webkit-mask-image: linear-gradient(#000000 calc(100% - var(--ddb-space-24)), transparent);
+    mask-image: linear-gradient(#000000 calc(100% - var(--ddb-space-24)), transparent);
+  }
+}
+/* MOSSE as tall as the slots beside it at every width. */
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .table-hotbar
+  .combat-dock
+  .button.sm-dock-toggle {
+  min-height: var(--ddb-control-44);
+}
+
+/* Phone · one scroller recipe for the rows that overflow (the hotbar's slots, the bottom tabs):
+   one line, whole words (no ellipsis), a 24 px fade at the edge where the row runs on, and the
+   same 24 px of room after the last item so it scrolls clear of the fade. */
+@media (max-width: 720px) {
+  :root[data-direction="ddb"]:not([data-pref-theme="light"]) .table-hotbar .combat-actions,
+  :root[data-direction="ddb"]:not([data-pref-theme="light"]) .table-layout .table-tabs {
+    padding-inline-end: var(--ddb-space-24);
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      #000000 calc(100% - var(--ddb-space-24)),
+      transparent
+    );
+    mask-image: linear-gradient(90deg, #000000 calc(100% - var(--ddb-space-24)), transparent);
+  }
+  :root[data-direction="ddb"]:not([data-pref-theme="light"]) .table-layout .table-tab-label {
+    max-width: none;
+    text-overflow: clip;
+  }
+  /* The same recipe in the sheet: its section tabs («MAG|» was cut hard at «Tutte») and the
+     filter pills, one line that scrolls instead of a ragged second and third row («Usi
+     limitati» alone); inside the scroller the pills' focus ring is drawn inside, as the tabs'. */
+  :root[data-direction="ddb"]:not([data-pref-theme="light"]) .character-sheet .character-tabs,
+  :root[data-direction="ddb"]:not([data-pref-theme="light"])
+    .character-sheet
+    :is(.shp-chips, .spl-chips, .invp-filters) {
+    padding-inline-end: var(--ddb-space-24);
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      #000000 calc(100% - var(--ddb-space-24)),
+      transparent
+    );
+    mask-image: linear-gradient(90deg, #000000 calc(100% - var(--ddb-space-24)), transparent);
+  }
+  :root[data-direction="ddb"]:not([data-pref-theme="light"])
+    .character-sheet
+    :is(.shp-chips, .spl-chips, .invp-filters) {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+  }
+  :root[data-direction="ddb"]:not([data-pref-theme="light"])
+    .character-sheet
+    :is(.shp-chips, .spl-chips, .invp-filters)
+    > * {
+    flex: none;
+  }
+  :root[data-direction="ddb"]:not([data-pref-theme="light"])
+    .character-sheet
+    :is(.shp-chips, .spl-chips, .invp-filters)
+    :is(button, a, [tabindex]):focus-visible {
+    outline-offset: calc(var(--ddb-line-3) * -1);
+    box-shadow: inset 0 0 0 calc(var(--ddb-line-3) + var(--ddb-line-2)) var(--bg);
+  }
+  /* The folded tool column as one 40 px tile on the session buttons' line (no 4 px well), the
+     HUD's corners and plate. */
+  :root[data-direction="ddb"]:not([data-pref-theme="light"])
+    .table-stage
+    > .map-toolbar.is-collapsed {
+    padding: 0;
+    border-width: 0;
+    background: #1e2225;
+  }
+  /* The tool column 8 px from the map's top and left edges, as the session buttons are 8 px
+     from its right edge (it sat 9 px in, a pixel under their line). */
+  :root[data-direction="ddb"]:not([data-pref-theme="light"]) .table-stage > .map-toolbar {
+    top: var(--ddb-space-8);
+    left: var(--ddb-space-8);
   }
 }

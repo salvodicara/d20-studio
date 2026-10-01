@@ -65,6 +65,12 @@
      facts A1; glyphs from game-icons.net CC BY 3.0 (icons.mjs, SOURCES.md).
    - Phone: no BG3 phone UI; controller layout (bigger type, bigger targets) → facts A1
      «Mobile» (*_c.xaml). Declared in SOURCES.md «Differenze dichiarate».
+   - Brand (I-251, last section): an original gilt d20 with a dark enamel «20» face
+     (brand.mjs) and the «d20 Studio» wordmark cast in the same gilt, heavy «d20» and lighter
+     «Studio», hover lit by the gold text glow → BG3's title lettering (cast gold, dark
+     recesses, bright upper bevel; bg3-home-main-menu-annotated.jpg), the roll panel's numeral
+     on a dark plate with the gold glow (facts A0 TextGlow, bg3-dice-crop-roll-panel-advantage.png);
+     nothing of the logo's letterforms or emblem → SOURCES.md «Marchio».
    Extension of 01/10/2026 (new states and I-250 coherence):
    - Scales: one spacing scale (2 px step), BG3's type scale and leading, radii, border widths,
      control heights, all as --bg3-* tokens below → facts A0.1, A1, A3, A5. Labels in title
@@ -120,7 +126,17 @@
    - Sheet: the two compact strips (12 · 16 px) 24 px apart on a phone; the HP number a full
      40 px button on the numbers' line; label and value on one line → B43 (examine row).
    - Conditions as the vital state's tag (tooltip plate pill) → facts A3 (TT_full_bg); the
-     quick-bar page with the hotbar's round chrome, page pill and compact field → facts A1. */
+     quick-bar page with the hotbar's round chrome, page pill and compact field → facts A1.
+   Detail pass of 01/10/2026 (I-252, independent detail critique BG3-D01…D22; SOURCES.md
+   «Dettagli rifiniti»):
+   - The dice-mode menu as a second tab of the resource plate, 12 px after it, both 49 px tall
+     with the slot levels above their squares; every deck slot with its icon on one line; the
+     phone deck a whole number of slots and the phone plate a closed 40 px plate → facts A1
+     (bar_resources, HotbarSlotSize, the controller layout).
+   - The inspector fades into the hotbar's frame instead of slicing a lozenge; the lozenge's
+     focus ring drawn outside its gold rule along the points; one 8 px gap between buttons of
+     a row; control icons 20 px in 40 px chrome (whole pixels); the phone's panel bar shows
+     icons only, the open panel's name under its icon → facts A1 «Iconography», A3, B35. */
 
 /* ---------------------------------------------------------------- fonts (OFL, vendored) */
 @font-face {
@@ -233,18 +249,25 @@
      (two rows and their lines), the End Turn disc, the turn card's frame, the end caps. */
   --bg3-slot-w: 58px;
   --bg3-slot-h: 48px;
-  --bg3-slot-phone-w: 64px;
   --bg3-slot-phone-h: 52px;
   --bg3-tag-h: 22px;
-  --bg3-deck-h: calc(2 * var(--bg3-slot-h) + 3px);
+  /* Two rows of slots between the frame's 2 px brown line on top and the 2 px red rule under
+     them (BG3's 4 px@4K lines): 100 px, so the deck centres on whole pixels in the bar. */
+  --bg3-deck-h: calc(2 * var(--bg3-slot-h) + 2 * var(--bg3-line-2));
   --bg3-endturn: 98px;
   --bg3-card-frame: var(--bg3-space-2);
   --bg3-endcap-w: 88px;
   --bg3-endcap-phone-w: 48px;
   --bg3-phone-turn-h: 118px;
-  /* Icons: the deck slot's glyph and the rail's icon box (the portrait included). */
+  /* Icons: the deck slot's glyph, the glyph of a 40 px chrome control (20 px: 10 px inside, so
+     it lands on whole pixels; the app's 21 px sat on half pixels) and the phone bar's icon box
+     (the portrait included). */
   --bg3-icon-slot: 18px;
+  --bg3-icon-control: 20px;
   --bg3-icon-box: 24px;
+  /* The dice-mode tab beside the resource plate: the field and the rolls' bell (about four
+     controls wide); the plate moves left by half of it and the gap, so the pair is centred. */
+  --bg3-dice-w: calc(4 * var(--bg3-control));
   /* Btn_big at 1080p (428 × 80 units@4K → 214 × 40 px): one width for every lozenge that
      stands in a column (the main menu, Home's stacks), facts A3, A5. */
   --bg3-btn-big-w: 214px;
@@ -353,6 +376,10 @@
   --bg3-btn-rim: #d9bd7c;
   --bg3-btn-rim-top: #dece85;
   --bg3-btn-body: linear-gradient(#2c2016, #473425 50%, #2d2117);
+  /* The lozenge's focus ring and the dark keyline inside it, drawn along the points (D14);
+     transparent until the button has the keyboard focus. */
+  --bg3-btn-ring: transparent;
+  --bg3-btn-keyline: transparent;
 }
 /* The eight contrast-sensitive tokens step aside for high contrast (code-map §c). */
 :root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]) {
@@ -447,18 +474,7 @@
   outline: var(--bg3-line-3) solid var(--focus);
   outline-offset: var(--bg3-line-3);
 }
-/* The brand waits for Phase D: the logo and wordmark keep today's colours and face. */
-:root[data-direction="bg3"]:not([data-pref-theme="light"]) .brand {
-  color: #efe7d6;
-  font-family:
-    "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", "URW Palladio L", Georgia,
-    serif;
-  font-weight: 400;
-}
-:root[data-direction="bg3"]:not([data-pref-theme="light"])
-  :is(.brand .icon, .brand .logo, .brand b) {
-  color: #dfbd78;
-}
+/* The brand (mark and wordmark) has its own section at the end of this file (I-251). */
 
 /* ---------------------------------------------------------------- shared chrome: header */
 /* BG3's top bars: a near-black band closed by a bronze line over a gold hairline. */
@@ -521,6 +537,43 @@
   background: radial-gradient(circle, rgb(223 152 0 / 0.18), transparent 70%);
   color: var(--bg3-highlight);
 }
+/* The notification count is a token of its own on the medallion's corner, as BG3 sets its
+   counters on round chrome: pinned to the 40 px circle's corner, not to the glyph (detail
+   critique D02: it covered 27 % of the bell, which read as two arcs and a disc), ringed in the
+   header's black so it parts from the bell. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .app-header
+  .icon-button.has-ext-count
+  .ext-count {
+  top: 0;
+  right: 0;
+  min-width: var(--bg3-space-6);
+  height: var(--bg3-space-6);
+  padding: 0 var(--bg3-space-1);
+  line-height: var(--bg3-space-6);
+  box-shadow: 0 0 0 var(--bg3-line-2) #0c0c0c;
+}
+/* Every 40 px chrome control draws its glyph at 20 px, 10 px inside the box, so the glyph sits
+   on whole pixels (D19: the app's 21 px glyphs sat on half pixels in 41 of 46 Table controls
+   and looked soft at 1×). :where() keeps the weight low, so the phone bar's 24 px box and the
+   deck's 18 px glyph keep theirs; the light theme keeps today's 21 px. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  :where(
+    .icon-button,
+    .table-layout .map-tool,
+    .table-layout .session-view-hud-button.is-icon,
+    .table-layout .safety-hud-group > .session-view-hud-button,
+    .table-layout .table-tab,
+    .table-layout .table-sidebar-toggle,
+    .table-layout .table-panels-all,
+    .table-layout .qb .qb-icon,
+    .table-layout .combat-bar-heading .text-button,
+    .table-layout > .action-dock.table-hotbar > .toolbar > .button
+  )
+  > .icon {
+  width: var(--bg3-icon-control);
+  height: var(--bg3-icon-control);
+}
 
 /* The connection cloud in the header joins the row's filled glyphs: the app's own cloud,
    filled, its sign cut out (offline.css draws it as a mask). */
@@ -572,28 +625,36 @@
       no-repeat,
     linear-gradient(
         to bottom right,
-        transparent 50%,
+        transparent calc(50% - var(--bg3-line-5)),
+        var(--bg3-btn-ring) calc(50% - var(--bg3-line-5)) calc(50% - var(--bg3-line-2)),
+        var(--bg3-btn-keyline) calc(50% - var(--bg3-line-2)) 50%,
         var(--bg3-btn-rim-top) 50% calc(50% + 2px),
         transparent calc(50% + 2px)
       )
       0 0 / 14px 50% no-repeat,
     linear-gradient(
         to top right,
-        transparent 50%,
+        transparent calc(50% - var(--bg3-line-5)),
+        var(--bg3-btn-ring) calc(50% - var(--bg3-line-5)) calc(50% - var(--bg3-line-2)),
+        var(--bg3-btn-keyline) calc(50% - var(--bg3-line-2)) 50%,
         var(--bg3-btn-rim) 50% calc(50% + 2px),
         transparent calc(50% + 2px)
       )
       0 100% / 14px 50% no-repeat,
     linear-gradient(
         to bottom left,
-        transparent 50%,
+        transparent calc(50% - var(--bg3-line-5)),
+        var(--bg3-btn-ring) calc(50% - var(--bg3-line-5)) calc(50% - var(--bg3-line-2)),
+        var(--bg3-btn-keyline) calc(50% - var(--bg3-line-2)) 50%,
         var(--bg3-btn-rim-top) 50% calc(50% + 2px),
         transparent calc(50% + 2px)
       )
       100% 0 / 14px 50% no-repeat,
     linear-gradient(
         to top left,
-        transparent 50%,
+        transparent calc(50% - var(--bg3-line-5)),
+        var(--bg3-btn-ring) calc(50% - var(--bg3-line-5)) calc(50% - var(--bg3-line-2)),
+        var(--bg3-btn-keyline) calc(50% - var(--bg3-line-2)) 50%,
         var(--bg3-btn-rim) 50% calc(50% + 2px),
         transparent calc(50% + 2px)
       )
@@ -610,12 +671,30 @@
     0 50%
   );
 }
-/* The lozenge clips an outer ring: the ring is drawn inside, and the rim turns focus-bright. */
+/* Focus (detail critique D14): a 3 px ring in the focus colour outside the gold rule that
+   follows the points, a 2 px dark keyline between them (the outline drawn 6 px inside used to
+   read as a second gold rule). The clip grows to the lozenge's 5 px parallel offset (for a
+   40 px lozenge: the shoulders 2.6 px in, the points 6.1 px out); inside the box the corner
+   triangles paint the keyline and the ring along the points, outside it the shadows paint them
+   above, below and around the points. The browser's outline turns transparent, so forced
+   colours still show one. */
 :root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
   .button:not(.quiet):focus-visible {
-  --bg3-btn-rim: var(--focus);
-  --bg3-btn-rim-top: var(--focus);
-  outline-offset: -6px;
+  --bg3-btn-ring: var(--focus);
+  --bg3-btn-keyline: #0c0c0c;
+  outline-color: transparent;
+  box-shadow:
+    0 calc(-1 * var(--bg3-line-2)) 0 #0c0c0c,
+    0 var(--bg3-line-2) 0 #0c0c0c,
+    0 0 0 var(--bg3-space-4) var(--focus);
+  clip-path: polygon(
+    11.4px calc(-1 * var(--bg3-line-5)),
+    calc(100% - 11.4px) calc(-1 * var(--bg3-line-5)),
+    calc(100% + 6.1px) 50%,
+    calc(100% - 11.4px) calc(100% + var(--bg3-line-5)),
+    11.4px calc(100% + var(--bg3-line-5)),
+    -6.1px 50%
+  );
 }
 :root[data-direction="bg3"]:not([data-pref-theme="light"]) .button:hover:not(:disabled) {
   --bg3-btn-body: linear-gradient(#3a2a1c, #7e5838 50%, #3a2a1c);
@@ -971,6 +1050,9 @@
 /* Tags (badges, spell states): BG3 writes tags in its tag colour (#e6d892, facts A3); ours
    keep a thin pill so the words read as a tag next to a name. */
 :root[data-direction="bg3"]:not([data-pref-theme="light"]) :is(.badge, .spl-state, .ct-badge) {
+  /* The words centred in the 22 px pill (D17: the app's stretch put «Trucchetto» 2.6 px from
+     the top and 8.8 px from the bottom). */
+  align-items: center;
   gap: var(--bg3-space-2);
   min-height: var(--bg3-tag-h);
   padding: 0 var(--bg3-space-4);
@@ -1065,12 +1147,27 @@
   font-size: var(--bg3-type-massive);
   text-align: center;
 }
+/* The title centres on the crest's axis (detail critique D12: «Avvia combattimento» stood
+   28 px left of the arch, because the close medallion took its 40 px and the gap on the right
+   only): three columns, an empty 40 px one before the title as the medallion's after it. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .dialog-heading:has(> h2:first-child + .icon-button:last-child) {
+  display: grid;
+  grid-template-columns: var(--bg3-control) minmax(0, 1fr) var(--bg3-control);
+  align-items: center;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .dialog-heading:has(> h2:first-child + .icon-button:last-child)
+  > h2 {
+  grid-column: 2;
+}
 :root[data-direction="bg3"]:not([data-pref-theme="light"]) .dialog-body {
   padding: var(--bg3-space-5) var(--bg3-space-7) var(--bg3-space-7);
 }
 :root[data-direction="bg3"]:not([data-pref-theme="light"]) dialog footer {
   justify-content: center;
-  gap: var(--bg3-space-5);
+  /* One gap between the buttons of a row, 8 px (D11: the foot had 12, every other row 8). */
+  gap: var(--bg3-space-4);
   padding: var(--bg3-space-6) var(--bg3-space-7) var(--bg3-space-7);
   background: transparent;
   border-top-color: transparent;
@@ -1092,7 +1189,7 @@
     #3f3a37;
   color: var(--bg3-cream);
   font-family: var(--font-ui);
-  font-size: var(--bg3-type-default);
+  font-size: var(--bg3-type-medium);
   box-shadow: 0 4px 25px rgb(0 0 0 / 0.8);
 }
 :root[data-direction="bg3"]:not([data-pref-theme="light"])
@@ -1133,7 +1230,7 @@
   border-radius: 0;
   color: var(--bg3-cream);
   font-family: var(--font-ui);
-  font-size: var(--bg3-type-default);
+  font-size: var(--bg3-type-medium);
   font-weight: 500;
   line-height: var(--bg3-leading-snug);
 }
@@ -1155,12 +1252,30 @@
   margin: var(--bg3-space-2) 0 0;
 }
 :root[data-direction="bg3"]:not([data-pref-theme="light"]) .token-menu .token-menu-sep {
-  height: var(--bg3-line-1);
+  /* One line per row (D21): a group ends on its last row's own line, drawn in the separator's
+     brighter grey, so every row keeps the 40 px pitch (the separator added a pixel under some
+     rows only). The separator stays in the list, without a height. */
+  height: 0;
   margin: 0;
-  background: #6a625b;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .token-menu
+  .token-menu-list
+  > li:has(+ .token-menu-sep)
+  > * {
+  border-bottom-color: #6a625b;
 }
 :root[data-direction="bg3"]:not([data-pref-theme="light"]) .token-menu .token-menu-icon {
   color: var(--bg3-keyword);
+}
+/* The commands are words only, as BG3's context menu (B35): the app's line pictograms were the
+   only line icons among this skin's filled glyphs (D21). They are decoration (aria-hidden);
+   the close medallion keeps its cross. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .token-menu
+  .token-menu-item
+  > .token-menu-icon {
+  display: none;
 }
 :root[data-direction="bg3"]:not([data-pref-theme="light"])
   .token-menu
@@ -1174,7 +1289,7 @@
   color: var(--bg3-keyword);
 }
 :root[data-direction="bg3"]:not([data-pref-theme="light"]) .token-menu .token-menu-chevron {
-  font-size: var(--bg3-type-default);
+  font-size: var(--bg3-type-medium);
 }
 :root[data-direction="bg3"]:not([data-pref-theme="light"]) .token-menu .token-menu-count {
   min-width: 20px;
@@ -1212,6 +1327,52 @@
     0 0 0 var(--bg3-line-1) #0c0c0c,
     0 0 0 var(--bg3-line-2) var(--bg3-gold),
     0 2px 6px rgb(0 0 0 / 0.8);
+}
+/* The token's own portrait, as the inspector and the hotbar show it (D21: the menu alone kept
+   the initial «L»): the shared sample art (directions/sample.css, same crops) of the one
+   creature selected on the map, the one the menu belongs to. With several selected, or for a
+   creature without sample art, the initial stays. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):has(
+    #battle-map .map-token.selected[data-actor="livia"]
+  ):not(:has(#battle-map .map-token.selected:not([data-actor="livia"])))
+  .token-menu
+  .token-menu-portrait {
+  background: url("../../assets/portraits/sample/livia.webp") center / cover no-repeat #16222c;
+  color: transparent;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):has(
+    #battle-map .map-token.selected[data-actor="doran"]
+  ):not(:has(#battle-map .map-token.selected:not([data-actor="doran"])))
+  .token-menu
+  .token-menu-portrait {
+  background: url("../../assets/portraits/sample/doran.webp") center / cover no-repeat #16222c;
+  color: transparent;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):has(
+    #battle-map .map-token.selected[data-actor="mira"]
+  ):not(:has(#battle-map .map-token.selected:not([data-actor="mira"])))
+  .token-menu
+  .token-menu-portrait {
+  background: url("../../assets/portraits/sample/mira.webp") center / cover no-repeat #16222c;
+  color: transparent;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):has(
+    #battle-map .map-token.selected[data-actor="goblin-1"]
+  ):not(:has(#battle-map .map-token.selected:not([data-actor="goblin-1"])))
+  .token-menu
+  .token-menu-portrait {
+  background: url("../../assets/portraits/sample/goblin-1.webp") 52% 0 / 181.6% auto no-repeat
+    #16222c;
+  color: transparent;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):has(
+    #battle-map .map-token.selected[data-actor="goblin-2"]
+  ):not(:has(#battle-map .map-token.selected:not([data-actor="goblin-2"])))
+  .token-menu
+  .token-menu-portrait {
+  background: url("../../assets/portraits/sample/goblin-2.webp") 43.4% 0 / 181.6% auto no-repeat
+    #16222c;
+  color: transparent;
 }
 :root[data-direction="bg3"]:not([data-pref-theme="light"]) .token-menu .token-menu-title strong {
   font-size: var(--bg3-type-large);
@@ -1356,7 +1517,7 @@
   color: var(--bg3-base);
 }
 :root[data-direction="bg3"]:not([data-pref-theme="light"]) .ct-start .ct-start-roll {
-  gap: var(--bg3-space-3);
+  gap: var(--bg3-space-4);
 }
 :root[data-direction="bg3"]:not([data-pref-theme="light"]) .ct-start .ct-start-d20 {
   gap: var(--bg3-space-2);
@@ -1529,12 +1690,18 @@
   min-width: var(--bg3-btn-big-w);
   justify-content: center;
 }
+/* One stack on Home (D08): the menu column and the appointment's column both 12 px apart (the
+   menu's 24 after «Entra al Tavolo» set it apart, BG3's main-menu column is tight) and both on
+   their plate's foot, so two plates of one height end their stacks on one line. Title on the
+   inset line, the column on the foot (the app centred the block, 67 px from the foot). */
 :root[data-direction="bg3"]:not([data-pref-theme="light"])
   .home-page
   .resume-scene
-  .toolbar
-  .button.primary {
-  margin-bottom: var(--bg3-space-5);
+  > div:last-child {
+  justify-content: flex-start;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .home-page .resume-scene .toolbar {
+  margin-top: auto;
 }
 /* The appointment as BG3's «Save File Information»: every line centred on the plate. */
 :root[data-direction="bg3"]:not([data-pref-theme="light"]) .home-page .home-appointment-main {
@@ -1664,10 +1831,22 @@
 :root[data-direction="bg3"]:not([data-pref-theme="light"])
   .home-page
   .home-tabs
+  [role="tab"]:hover:not([aria-selected="true"]) {
+  /* The header links' hover (D20: only the rule under the tab changed). */
+  color: var(--bg3-cream);
+  background: radial-gradient(60% 70% at 50% 100%, rgb(223 152 0 / 0.16), transparent);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .home-page
+  .home-tabs
   [role="tab"][aria-selected="true"] {
   color: var(--bg3-title);
   border-bottom-color: #d9bd7c;
   background: radial-gradient(60% 80% at 50% 100%, rgb(223 152 0 / 0.22), transparent);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .home-page .home-news-item .toolbar {
+  /* 8 px between the buttons of a row, as everywhere (D11: 6). */
+  gap: var(--bg3-space-4);
 }
 :root[data-direction="bg3"]:not([data-pref-theme="light"]) .home-page .home-count {
   background: var(--bg3-gold);
@@ -1957,7 +2136,7 @@
   grid-row: 1 / 5;
   align-self: stretch;
   align-content: space-between;
-  gap: var(--bg3-space-2);
+  gap: var(--bg3-space-2) var(--bg3-space-4);
 }
 :root[data-direction="bg3"]:not([data-pref-theme="light"])
   .character-sheet
@@ -2050,6 +2229,13 @@
   border-color: rgb(224 25 73 / 0.7);
   color: #ffd3dc;
 }
+/* Heal and Damage 8 px apart, as the buttons of every row (D11: 4 px, their points nearly
+   touched); the amount spans both. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout, :where(dialog))
+  .dt-hp-row {
+  column-gap: var(--bg3-space-4);
+}
 /* The left block as BG3's skills column: one framed plate, centred group titles flanked by
    thin tapered rules that curl away from the title, rows without boxes, a small dot for proficiency (none when not proficient), values
    right-aligned; the row under the pointer lit from below. The plate's inset is every sheet
@@ -2071,6 +2257,7 @@
 :root[data-direction="bg3"]:not([data-pref-theme="light"])
   .character-sheet
   :is(.shp-derived .shp-col h3, .shp-action-group h3, .spl-group h3) {
+  text-wrap: balance;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2091,15 +2278,20 @@
   .character-sheet
   :is(.shp-derived .shp-col h3, .shp-action-group h3, .spl-group h3)::after {
   content: "";
-  flex: none;
-  width: 72px;
+  /* The rules give way before the title wraps (D09: two fixed 72 px rules left «Competenze e
+     addestramento» 130 px and broke it after «e»): each grows to 72 px when there is room and
+     shrinks to 16, losing its outer curl first, never its tapered end at the title. */
+  flex: 1 1 0;
+  min-width: var(--bg3-space-6);
+  max-width: 72px;
   height: 12px;
-  background: url("assets/rule-left.svg") center / contain no-repeat;
+  background: url("assets/rule-left.svg") right center / 72px 12px no-repeat;
 }
 :root[data-direction="bg3"]:not([data-pref-theme="light"])
   .character-sheet
   :is(.shp-derived .shp-col h3, .shp-action-group h3, .spl-group h3)::after {
   background-image: url("assets/rule-right.svg");
+  background-position: left center;
 }
 :root[data-direction="bg3"]:not([data-pref-theme="light"]) .character-sheet .shp-row {
   border-bottom: 0;
@@ -2838,7 +3030,28 @@
   border-top-color: var(--line);
 }
 :root[data-direction="bg3"]:not([data-pref-theme="light"]) .character-sheet .spl-row {
-  padding: var(--bg3-space-5) var(--bg3-space-2);
+  /* The rows start on the heading's edge (D17: 4 px inside it); the plate lit under the
+     pointer bleeds the 4 px out instead. */
+  position: relative;
+  isolation: isolate;
+  padding: var(--bg3-space-5) 0;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .character-sheet .spl-row:hover {
+  background: none;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .character-sheet .spl-row:hover::before {
+  content: "";
+  position: absolute;
+  inset: 0 calc(-1 * var(--bg3-space-2));
+  z-index: -1;
+  border-radius: var(--bg3-radius-1);
+  background: linear-gradient(rgb(19 15 11 / 0) 40%, #34312d);
+  pointer-events: none;
+}
+/* «Lancia» and «Lancia ▾» share one width, so their left edges line up down the list (D17:
+   17 px apart); half a Btn_big. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .character-sheet .spl-cast {
+  min-width: calc(var(--bg3-btn-big-w) / 2);
 }
 :root[data-direction="bg3"]:not([data-pref-theme="light"]) .character-sheet .spl-row-title {
   gap: var(--bg3-space-4);
@@ -2924,6 +3137,10 @@
   font-weight: 500;
   line-height: var(--bg3-leading-snug);
   color: var(--bg3-title);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .character-sheet .invp-coins-line {
+  /* Two lines of similar length, so no figure loses its unit (D10: «… 120» / «mr · 12 sb»). */
+  text-wrap: balance;
 }
 :root[data-direction="bg3"]:not([data-pref-theme="light"]) .character-sheet .invp-stat > small {
   font-size: var(--bg3-type-small);
@@ -3117,7 +3334,15 @@
   font-family: var(--font-display);
 }
 :root[data-direction="bg3"]:not([data-pref-theme="light"]) .character-sheet .invp-row-actions {
-  gap: var(--bg3-space-3);
+  gap: var(--bg3-space-4);
+}
+/* «Altre azioni» (≡) ends every row's commands on one column, the row's right edge (D18: it
+   drifted with the commands before it, 959, 961 and 880 px). */
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .character-sheet
+  .invp-row-actions
+  > .button.quiet[data-invp="menu"] {
+  margin-inline-start: auto;
 }
 /* Icon-only commands of a row («Altre azioni»: the words are its name) and the group band's
    fold toggle (▸ ▾, which kept the browser's 1 · 6 px inset) are the one icon button of the
@@ -3256,6 +3481,12 @@
   background: radial-gradient(circle at 50% 32%, #7b909a, #4e5d65 55%, #29333a);
   color: var(--bg3-title);
 }
+/* A tool's sub-tools stand on the tools' own rows, one column gap (6 px) to the right (D15:
+   1 px higher and 7 px away, from the app's framed group). */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .table-layout .map-subtools {
+  top: 0;
+  left: calc(100% + var(--bg3-space-3));
+}
 /* «This tool has more»: a small gold stud on the medallion's ring, lower right. */
 :root[data-direction="bg3"]:not([data-pref-theme="light"]) .table-layout .map-tool-group::after {
   right: 3px;
@@ -3342,7 +3573,7 @@
   border-radius: 0;
   color: var(--bg3-cream);
   font-family: var(--font-ui);
-  font-size: var(--bg3-type-default);
+  font-size: var(--bg3-type-medium);
   font-weight: 500;
   line-height: var(--bg3-leading-snug);
 }
@@ -4137,8 +4368,10 @@
   .table-hotbar
   .hotbar-slot-level
   > small {
+  /* The level stands wholly above its squares (D16: it covered the box's top rule by 6 px),
+     in the plate's raised top band. */
   position: absolute;
-  top: -9px;
+  bottom: calc(100% + var(--bg3-space-1));
   left: 50%;
   margin: 0;
   translate: -50% 0;
@@ -4169,18 +4402,41 @@
   background: radial-gradient(circle, #aefeff 0 25%, #00d2ff 70%);
   box-shadow: 0 0 5px rgb(0 210 255 / 0.7);
 }
-/* Dice mode and the rolls queue: a small plate like the resource plate; the dice-mode menu is
-   the one field (40 px capsule, 16 px inside, Medium 16/500; verification 3, open item 4). */
+/* Dice mode and the rolls queue: the dice-mode menu is the one field (40 px capsule, 16 px
+   inside, Medium 16/500; verification 3, open item 4) and keeps the only rim (D03: the app's
+   pill around it drew a second rim 4 px outside the field's); the bell beside it. Their words
+   stay their accessible names at every width (the app's compact form), so the pair keeps one
+   width. On the desktop they stand in a tab of their own beside the resource plate (below). */
 :root[data-direction="bg3"]:not([data-pref-theme="light"])
   .table-layout
   .table-hotbar
   .combat-bar-heading {
-  border: var(--bg3-line-1) solid var(--bg3-bronze);
-  border-radius: var(--radius-pill);
-  background: rgb(12 12 12 / 0.92);
+  gap: var(--bg3-space-2);
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
   color: var(--bg3-keyword);
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-bar-heading
+  > label {
+  gap: 0;
+  font-size: 0;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-bar-heading
+  .text-button {
+  justify-content: center;
+  min-width: var(--bg3-control);
+  font-size: 0;
 }
 :root[data-direction="bg3"]:not([data-pref-theme="light"])
   .table-layout
@@ -4433,6 +4689,14 @@
   border-left-color: var(--bg3-border);
   background: linear-gradient(90deg, #0c0c0c, #0a0908);
 }
+/* The rail's line drawn inside it, so its 40 px medallions centre on whole pixels in its 56 px
+   (D19: the 1 px border left 55 px and put them at x .5). */
+@media (min-width: 721px) {
+  :root[data-direction="bg3"]:not([data-pref-theme="light"]) .table-layout > .table-sidebar-rail {
+    border-left-width: 0;
+    box-shadow: inset var(--bg3-line-1) 0 0 var(--bg3-border);
+  }
+}
 :root[data-direction="bg3"]:not([data-pref-theme="light"])
   .table-layout
   :is(.table-tab, .table-sidebar-toggle, .table-panels-all) {
@@ -4676,6 +4940,25 @@
 :root[data-direction="bg3"]:not([data-pref-theme="light"]) .table-layout .table-inspector {
   padding: var(--bg3-space-7) var(--bg3-space-6);
 }
+/* The inspector scrolls behind the hotbar's frame: its last 40 px fade out (wholly gone 8 px
+   before the frame's bronze line) instead of slicing a lozenge in half (D01: «Inventario»
+   showed 8 of its 40 px);
+   48 px at its foot let the last command clear the fade, and a command reached with the
+   keyboard stops above it. */
+@media (min-width: 721px) {
+  :root[data-direction="bg3"]:not([data-pref-theme="light"]) .table-layout .table-inspector {
+    padding-bottom: var(--bg3-space-9);
+    scroll-padding-bottom: var(--bg3-control);
+    -webkit-mask-image: linear-gradient(
+      #000 calc(100% - var(--bg3-control)),
+      transparent calc(100% - var(--bg3-space-4))
+    );
+    mask-image: linear-gradient(
+      #000 calc(100% - var(--bg3-control)),
+      transparent calc(100% - var(--bg3-space-4))
+    );
+  }
+}
 :root[data-direction="bg3"]:not([data-pref-theme="light"])
   .table-layout
   .table-inspector
@@ -4751,6 +5034,15 @@
   gap: var(--bg3-space-5);
   padding-left: var(--bg3-space-5);
 }
+/* 8 px between the scene's commands, as between every row of buttons (D11: 4). */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .table-layout > .table-topline .toolbar {
+  gap: var(--bg3-space-4);
+}
+/* The rail's medallions 4 px apart, as the two commands above them (D22: 2 px, the bezels
+   nearly touched). */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .table-layout .table-tabs {
+  gap: var(--bg3-space-2);
+}
 :root[data-direction="bg3"]:not([data-pref-theme="light"])
   .table-layout
   :is(.table-stage > .map-toolbar, .map-subtools, .map-container > .map-zoom) {
@@ -4762,12 +5054,6 @@
   > .map-caption {
   gap: var(--bg3-space-5);
   padding: var(--bg3-space-4) var(--bg3-space-5);
-}
-:root[data-direction="bg3"]:not([data-pref-theme="light"])
-  .table-layout
-  .table-hotbar
-  .combat-bar-heading {
-  padding-left: var(--bg3-space-4);
 }
 :root[data-direction="bg3"]:not([data-pref-theme="light"])
   .table-layout
@@ -4898,7 +5184,8 @@
 
 /* Desktop geometry. The band's right gutter closes, so identity, deck and the sidebar's foot
    (commands and End Turn) read as one bar; the bar sits on the screen's bottom edge. Heights:
-   deck 2 × 49 + 3 px of lines = 101, bar 101 + 10 + 4 = 115 ≤ 120 (b62-ia-journey 255). */
+   deck 2 × 48 + 2 × 2 px of lines = 100 (centred on whole pixels), bar 114 ≤ 120
+   (b62-ia-journey 255). */
 @media (min-width: 721px) {
   :root[data-direction="bg3"]:not([data-pref-theme="light"])
     .table-layout
@@ -4940,12 +5227,26 @@
     position: relative;
     isolation: isolate;
     grid-template-columns: repeat(3, var(--bg3-control));
-    grid-auto-rows: 46px;
+    /* The two rows of round commands 8 px apart, as across (D11: 12 down, 8 across), the
+       pair centred on the End Turn disc. */
+    grid-auto-rows: var(--bg3-control);
     justify-content: start;
+    align-content: center;
     column-gap: var(--bg3-space-4);
-    row-gap: var(--bg3-space-3);
+    row-gap: var(--bg3-space-4);
     padding: var(--bg3-space-2) var(--bg3-space-6) var(--bg3-space-2) var(--bg3-space-5);
+    /* No (transparent) top border: the content box is 106 px, so the disc and the two rows
+       centre on whole pixels (D19). */
+    border-top-width: 0;
     border-radius: 0;
+  }
+  /* Out of combat (no End Turn) the frame ends after the commands, as it ends under the disc
+     in combat (D07: 179 px of empty framed plate right of the five buttons). */
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar:not(:has(> [data-table="end-turn"])) {
+    width: max-content;
   }
   :root[data-direction="bg3"]:not([data-pref-theme="light"])
     .table-layout
@@ -4995,6 +5296,45 @@
     font-weight: 400;
     align-self: center;
   }
+  /* The HP band (BG3's red bar with its numerals) is 28 px tall inside a 40 px target (D22:
+     the button itself was 74 × 28): the band is drawn by the button's ::before, 6 px in from
+     the top and the foot; the fill and the numerals sit on it. */
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .hotbar-hp {
+    min-height: var(--bg3-control);
+    border: 0;
+    background: none;
+    box-shadow: none;
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .hotbar-hp::before {
+    content: "";
+    position: absolute;
+    inset: calc((var(--bg3-control) - var(--bg3-control-sm)) / 2) 0;
+    border: var(--bg3-line-1) solid #4a1a10;
+    border-radius: var(--bg3-radius-2);
+    background: #360c02;
+    box-shadow:
+      0 0 0 1px #0c0c0c,
+      0 0 0 2px rgb(119 84 44 / 0.8);
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .hotbar-hp:hover::before {
+    border-color: var(--bg3-gold);
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .hotbar-hp-bar {
+    inset: calc((var(--bg3-control) - var(--bg3-control-sm)) / 2 + var(--bg3-line-2))
+      var(--bg3-line-2);
+  }
   /* The deck: every group a block of two rows of 58 × 49 slots, empty slots drawn on the
      field; a red separator before each group and before «Mosse». */
   :root[data-direction="bg3"]:not([data-pref-theme="light"])
@@ -5009,6 +5349,7 @@
     max-height: none;
     margin: 0;
     padding: 0;
+    border-top-width: var(--bg3-line-2);
     overflow-x: auto;
     overflow-y: hidden;
   }
@@ -5089,6 +5430,15 @@
     line-height: var(--bg3-leading-tight);
     text-align: center;
   }
+  /* Every named slot has its icon on one line, 2 px from the slot's top, whether its name takes
+     one line or two (D04: centring set two-line slots at 2 px, one-line ones at 8); the
+     filter tiles, icon only, stay centred. */
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    :is(.combat-action, .combat-dock .sm-dock-toggle) {
+    justify-content: flex-start;
+  }
   :root[data-direction="bg3"]:not([data-pref-theme="light"])
     .table-layout
     .table-hotbar
@@ -5098,7 +5448,7 @@
   :root[data-direction="bg3"]:not([data-pref-theme="light"])
     .table-layout
     .table-hotbar
-    .combat-action
+    :is(.combat-action, .combat-dock .sm-dock-toggle)
     .icon {
     flex: none;
     width: var(--bg3-icon-slot);
@@ -5106,7 +5456,8 @@
     margin: 0;
   }
   /* The name under the icon: two lines at Tiny, clamped, the same rule as on the phone
-     (critique F7: one line cut «Dardo in…» and «Dardo di …» to the same stub). */
+     (critique F7: one line cut «Dardo in…» and «Dardo di …» to the same stub); its box is
+     always two lines tall, so the icon above never moves (D04). */
   :root[data-direction="bg3"]:not([data-pref-theme="light"])
     .table-layout
     .table-hotbar
@@ -5114,6 +5465,7 @@
     > span:not([class]) {
     display: -webkit-box;
     max-width: 100%;
+    min-height: calc(2 * var(--bg3-leading-tight) * 1em);
     overflow: hidden;
     line-height: var(--bg3-leading-tight);
     -webkit-box-orient: vertical;
@@ -5129,6 +5481,7 @@
     gap: 0;
     height: var(--bg3-deck-h);
     border: var(--bg3-line-1) solid #3d2012;
+    border-top-width: var(--bg3-line-2);
     border-left: var(--bg3-line-6) solid var(--bg3-red);
     border-bottom: var(--bg3-line-2) solid #820e0f;
     background:
@@ -5142,7 +5495,9 @@
     .combat-dock
     .sm-dock-toggle
     .dock-text {
+    min-height: calc(2 * var(--bg3-leading-tight) * 1em);
     font-size: var(--bg3-type-tiny);
+    line-height: var(--bg3-leading-tight);
   }
   :root[data-direction="bg3"]:not([data-pref-theme="light"])
     .table-layout
@@ -5178,11 +5533,13 @@
     .table-layout
     .table-hotbar
     .hotbar-resources {
+    /* Centred with the dice tab beside it: the pair's middle on the bar's (D03). The top band
+       (16 px) holds the slot levels above their squares (D16); 49 px tall, as the dice tab. */
     left: 50%;
     bottom: calc(100% + var(--bg3-space-1));
     gap: var(--bg3-space-5);
-    padding: var(--bg3-space-3) var(--bg3-space-5) var(--bg3-space-2);
-    translate: -50% 0;
+    padding: var(--bg3-space-6) var(--bg3-space-5) var(--bg3-space-2);
+    translate: calc(-50% - (var(--bg3-dice-w) + var(--bg3-space-5)) / 2) 0;
   }
   :root[data-direction="bg3"]:not([data-pref-theme="light"])
     .table-layout
@@ -5191,11 +5548,43 @@
     .resources {
     gap: var(--bg3-space-2);
   }
+  /* The dice tab: a second tab of the resource plate (D03: the app's pill overlapped the plate
+     by 4 px, 9 px higher and 6 px shorter) — the plate's line, fill, radius and foot, 12 px
+     after it (anchored to it where the browser can, below), 49 px tall around the field. */
   :root[data-direction="bg3"]:not([data-pref-theme="light"])
     .table-layout
     .table-hotbar
     .combat-bar-heading {
-    bottom: calc(100% + var(--bg3-space-4));
+    bottom: calc(100% + var(--bg3-space-1));
+    padding: var(--bg3-space-2);
+    border: var(--bg3-line-1) solid var(--bg3-bronze);
+    border-bottom: 0;
+    border-radius: var(--bg3-radius-2) var(--bg3-radius-2) 0 0;
+    background: linear-gradient(rgb(20 16 12 / 0.96), rgb(8 7 6 / 0.97));
+    box-shadow:
+      inset 0 0 0 1px #0c0c0c,
+      inset 0 1px 0 2px rgb(177 125 68 / 0.35),
+      0 -2px 10px rgb(0 0 0 / 0.6);
+  }
+}
+/* Where anchor positioning exists, the dice tab starts 12 px after the plate's right edge at
+   every desktop width; elsewhere it keeps the bar's right end (the plate, moved left by half
+   the tab, never meets it). */
+@supports (anchor-name: --bg3-resources) {
+  @media (min-width: 721px) {
+    :root[data-direction="bg3"]:not([data-pref-theme="light"])
+      .table-layout
+      .table-hotbar
+      .hotbar-resources {
+      anchor-name: --bg3-resources;
+    }
+    :root[data-direction="bg3"]:not([data-pref-theme="light"])
+      .table-layout
+      .table-hotbar
+      .combat-bar-heading {
+      right: auto;
+      left: calc(anchor(--bg3-resources right) + var(--bg3-space-5));
+    }
   }
 }
 /* The medallion shows from 1280 px: the compact deck leaves it the width it needs. It stands
@@ -5241,12 +5630,14 @@
     .hotbar-hp {
     position: absolute;
     right: 13px;
-    bottom: 14px;
+    /* The 28 px band stays where it was (14 px over the medallion's foot); the 40 px target
+       around it reaches 6 px above and below. */
+    bottom: var(--bg3-space-4);
     z-index: 1;
     width: 74px;
     min-width: 0;
-    height: var(--bg3-control-sm);
-    min-height: var(--bg3-control-sm);
+    height: var(--bg3-control);
+    min-height: var(--bg3-control);
     padding: 0 var(--bg3-space-2);
     border-radius: var(--bg3-radius-2);
   }
@@ -5496,11 +5887,19 @@
     background: none;
     box-shadow: none;
   }
+  /* The resource plate is a closed 40 px plate between the HP band and the page pills, so the
+     row reads 40 / 40 / 40 (D05: a 19 px strip with its lower line open and clipped); the
+     shapes keep the desktop's sizes and stand 4 px apart (they touched). */
   :root[data-direction="bg3"]:not([data-pref-theme="light"])
     .table-layout
     .table-hotbar
     .hotbar-resources {
+    align-self: stretch;
+    justify-content: center;
     gap: var(--bg3-space-3);
+    padding: 0 var(--bg3-space-2);
+    border-bottom: var(--bg3-line-1) solid var(--bg3-bronze);
+    border-radius: var(--bg3-radius-2);
   }
   :root[data-direction="bg3"]:not([data-pref-theme="light"])
     .table-layout
@@ -5519,16 +5918,7 @@
     .action-dock.table-hotbar
     .hotbar-resources
     .resources {
-    gap: var(--bg3-space-1);
-  }
-  :root[data-direction="bg3"]:not([data-pref-theme="light"])
-    .table-layout
-    .action-dock.table-hotbar
-    .hotbar-resources
-    .resources
-    > span::before {
-    width: 11px;
-    height: 11px;
+    gap: var(--bg3-space-2);
   }
   :root[data-direction="bg3"]:not([data-pref-theme="light"])
     .table-layout
@@ -5536,17 +5926,27 @@
     .hotbar-hp {
     min-width: 0;
   }
-  /* The dice-mode menu keeps the phone bar's compact field (8 px inside, Mini 12, the slot
-     names' size): the whole field widened its column by 28 px and cut the resource row
-     («9 m» disappeared). Declared in SOURCES.md. */
+  /* The dice-mode menu keeps the phone bar's compact field (8 px inside, Mini 12): the whole
+     field widened its column by 28 px and cut the resource row («9 m» disappeared). Declared
+     in SOURCES.md. It fills its column, the bell after it. */
   :root[data-direction="bg3"]:not([data-pref-theme="light"])
     .table-layout
     .table-hotbar
     .combat-bar-heading
     select {
+    width: 100%;
     padding-inline: var(--bg3-space-4);
     font-size: var(--bg3-type-mini);
   }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-bar-heading
+    > label {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  /* The deck snaps to whole slots (D06: «Ma… bruci» was cut mid-word at the window's edge). */
   :root[data-direction="bg3"]:not([data-pref-theme="light"])
     .table-layout
     .table-hotbar
@@ -5554,22 +5954,36 @@
     gap: 0;
     padding: 0;
     border-bottom-width: var(--bg3-line-2);
+    scroll-snap-type: x mandatory;
   }
+  /* The phone deck uses the desktop's slot, BG3's one slot: 58 px wide with the Tiny names
+     (64 px slots fitted 2.6 in the window), one taller row for the finger; the icon on one
+     line 4 px from the top whatever the name's lines (D04). */
   :root[data-direction="bg3"]:not([data-pref-theme="light"])
     .table-layout
     .table-hotbar
     :is(.combat-action, .combat-dock .sm-dock-toggle) {
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     gap: var(--bg3-space-1);
-    width: var(--bg3-slot-phone-w);
-    min-width: var(--bg3-slot-phone-w);
+    width: var(--bg3-slot-w);
+    min-width: var(--bg3-slot-w);
     height: var(--bg3-slot-phone-h);
     min-height: var(--bg3-slot-phone-h);
-    padding: var(--bg3-space-1) 0;
-    font-size: var(--bg3-type-mini);
+    padding: var(--bg3-space-2) 0 0;
+    font-size: var(--bg3-type-tiny);
     line-height: var(--bg3-leading-tight);
     text-align: center;
+    scroll-snap-align: start;
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-dock
+    .sm-dock-toggle
+    .dock-text {
+    min-height: calc(2 * var(--bg3-leading-tight) * 1em);
+    font-size: var(--bg3-type-tiny);
   }
   :root[data-direction="bg3"]:not([data-pref-theme="light"])
     .table-layout
@@ -5581,13 +5995,14 @@
     height: var(--bg3-icon-slot);
     margin: 0;
   }
-  /* The slot row scrolls sideways: its right end fades, so a cut slot reads as «more». */
+  /* The slot row scrolls sideways: its last 6 px fade, so the row reads as «more» without
+     dimming a name (the slots are whole now). */
   :root[data-direction="bg3"]:not([data-pref-theme="light"])
     .table-layout
     .table-hotbar
     .combat-actions {
-    -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent);
-    mask-image: linear-gradient(90deg, #000 85%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - var(--bg3-space-3)), transparent);
+    mask-image: linear-gradient(90deg, #000 calc(100% - var(--bg3-space-3)), transparent);
   }
   :root[data-direction="bg3"]:not([data-pref-theme="light"])
     .table-layout
@@ -5596,6 +6011,7 @@
     > span:not([class]) {
     display: -webkit-box;
     max-width: 100%;
+    min-height: calc(2 * var(--bg3-leading-tight) * 1em);
     overflow: hidden;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
@@ -5735,8 +6151,12 @@
     line-height: var(--bg3-leading-tight);
   }
   :root[data-direction="bg3"]:not([data-pref-theme="light"]) .table-layout .table-tabs {
-    -webkit-mask-image: linear-gradient(90deg, #000 88%, transparent);
-    mask-image: linear-gradient(90deg, #000 88%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - var(--bg3-space-5)), transparent);
+    mask-image: linear-gradient(90deg, #000 calc(100% - var(--bg3-space-5)), transparent);
+    scroll-snap-type: x mandatory;
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"]) .table-layout .table-tab {
+    scroll-snap-align: start;
   }
   :root[data-direction="bg3"]:not([data-pref-theme="light"]) .table-layout .table-tab.active {
     border-color: var(--bg3-gold);
@@ -5758,8 +6178,9 @@
   :root[data-direction="bg3"]:not([data-pref-theme="light"]) .workspace:not(.is-table) > main {
     padding: var(--bg3-space-7) var(--bg3-space-6);
   }
+  /* The header's gutter is the page's, 16 px (D22: 12). */
   :root[data-direction="bg3"]:not([data-pref-theme="light"]) .app-header:not(.table-header) {
-    padding: var(--bg3-space-4) var(--bg3-space-5);
+    padding: var(--bg3-space-4) var(--bg3-space-6);
   }
   /* The Table header keeps its one row, as today (b61-table-structure; verification 3, open
      item 1): «App» and the way back take the phone's compact quiet inset (6 px, as the scene
@@ -5804,12 +6225,22 @@
     border-left: 0;
   }
   /* The heading's commands wrap under the name: the row moves out by the quiet buttons'
-     inset, so whichever command starts a line has its ink on the page's edge (F10). */
+     inset, so whichever command starts a line has its ink on the page's edge (F10). They take
+     the phone's compact quiet inset (6 px, as the Table's header and scene line), so the
+     first box starts 10 px from the screen's edge and its focus ring is not flush with it
+     (D22: «Riposa» started at x 0). */
   :root[data-direction="bg3"]:not([data-pref-theme="light"])
     .character-sheet
     .character-heading
     > .toolbar {
-    margin-inline-start: calc(-1 * var(--bg3-space-6));
+    margin-inline-start: calc(-1 * var(--bg3-space-3));
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-heading
+    > .toolbar
+    .button.quiet {
+    padding-inline: var(--bg3-space-3);
   }
   /* The command that starts a line sits on the screen's edge: the quiet ring is drawn inside
      (every quiet command of the row, so the row has one ring). */
@@ -5841,6 +6272,99 @@
   :root[data-direction="bg3"]:not([data-pref-theme="light"]) .dialog-heading h2 {
     font-size: var(--bg3-type-title);
   }
+  /* The centred title keeps one line on the phone: its columns 4 px from the medallion's. */
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .dialog-heading:has(> h2:first-child + .icon-button:last-child) {
+    column-gap: var(--bg3-space-2);
+  }
+}
+/* The phone bar's columns (D06): the deck window holds a whole number of slots (three at 390 px:
+   3 × 58 + its two 1 px sides) and the dice field takes what is left (at least the field and
+   the bell, 3 × 40 px); HP and the resource plate share the deck's width above it, the page
+   pills the dock's and the field's. */
+@media (min-width: 384px) and (max-width: 720px) {
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar {
+    --bg3-phone-deck: calc(
+      round(
+          down,
+          100% - var(--bg3-slot-w) - 2 * var(--bg3-space-3) - 3 * var(--bg3-control) - 2 *
+            var(--bg3-line-1),
+          var(--bg3-slot-w)
+        ) +
+        2 * var(--bg3-line-1)
+    );
+    column-gap: var(--bg3-space-3);
+    grid-template-columns:
+      auto minmax(0, 1fr) var(--bg3-slot-w)
+      calc(100% - var(--bg3-phone-deck) - var(--bg3-slot-w) - 2 * var(--bg3-space-3));
+  }
+}
+/* 375–383 px (the small iPhones): three whole slots too, with the compact forms of the dice
+   field (4 px inside) and of the page pills (12 px inside), so the pills keep the dock's and
+   the field's width (2 × 40 + 32 px is the field with its bell). */
+@media (min-width: 375px) and (max-width: 383px) {
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar {
+    --bg3-phone-deck: calc(
+      round(
+          down,
+          100% - var(--bg3-slot-w) - 2 * var(--bg3-space-3) - 2 * var(--bg3-control) -
+            var(--bg3-space-8) - 2 * var(--bg3-line-1),
+          var(--bg3-slot-w)
+        ) +
+        2 * var(--bg3-line-1)
+    );
+    column-gap: var(--bg3-space-3);
+    grid-template-columns:
+      auto minmax(0, 1fr) var(--bg3-slot-w)
+      calc(100% - var(--bg3-phone-deck) - var(--bg3-slot-w) - 2 * var(--bg3-space-3));
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-bar-heading
+    select {
+    padding-inline: var(--bg3-space-2);
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .hotbar-pages
+    .hotbar-page-tab {
+    padding-inline: var(--bg3-space-5);
+  }
+}
+/* Narrower phones: the shapes of the resource plate 2 px apart, so the plate stays whole. */
+@media (max-width: 383px) {
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .action-dock.table-hotbar
+    .hotbar-resources
+    .resources {
+    gap: var(--bg3-space-1);
+  }
+}
+/* The phone's panel bar shows icons, as BG3's controller bars: only the open panel keeps its
+   name under its icon (D06: «Scena» showed «Sce» at the bar's edge); every tab stays whole in
+   the window (44 px, the bar snaps to tabs) and keeps its name as its accessible name. */
+@media (max-width: 420px) {
+  :root[data-direction="bg3"]:not([data-pref-theme="light"]) .table-layout .table-tab:not(.active) {
+    min-width: var(--bg3-control-lg);
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-tab:not(.active)
+    > .table-tab-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
 }
 /* Narrow sheets (the app moves the item columns to their own line under 560 px): the same row
    anatomy in three lines — name, columns, commands — all starting at the name's edge. */
@@ -5861,5 +6385,92 @@
     > .invp-row-actions {
     grid-row: 3;
     width: auto;
+  }
+}
+
+/* ---------------------------------------------------------------- brand (I-251) */
+/* The mark (brand.mjs: a gilt d20 with a dark enamel «20» face) and the «d20 Studio» wordmark
+   cast in the same gilt, BG3's brand grammar without its logo (SOURCES.md «Marchio»):
+   - one material: the wordmark is gold metal lit from above (bright top, darker lower half,
+     a reflected light under the baseline), on a 1 px dark edge, as BG3's title lettering and
+     its dark text stroke (facts A0.1 «Text stroke»);
+   - BG3's face and casing: Alegreya, title case, no tracking (facts A0.1 «Casing»), lining
+     figures; weight sets the lockup: a heavy «d20» (800) and a lighter «Studio» (500);
+   - sizes on the scale: Title (24 px) in the header, Big (22 px) in the Table's; the mark
+     38 px (34 px in the Table's header, 32 px on a phone) so the die is about twice the
+     capitals' height; 6 px between them, plus the die's own side margin (13 % of the box);
+   - hover and focus light the gilt with BG3's gold text glow (#df9800, facts A0 TextGlow);
+     the 3 px ring of every button stays, with as much room after the wordmark as before the
+     die's ink (4 px of padding); the brand is a 40 px target and its box stands one header
+     gap from the next item, as every other item of the row (D13: 38 px, 12 px to «App»);
+   - high contrast: the wordmark steps down to the plain text colours (no gradient). */
+:root[data-direction="bg3"] {
+  --bg3-mark: 38px;
+  --bg3-mark-table: 34px;
+  --bg3-mark-phone: 32px;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) {
+  --bg3-gilt: linear-gradient(#fff4c4, #f0d796 38%, #c99a55 62%, #a8763f 78%, #d9b874);
+  --bg3-gilt-edge: drop-shadow(0 1px 1px rgb(0 0 0 / 0.9));
+  --bg3-mark-shadow: drop-shadow(0 2px 4px rgb(0 0 0 / 0.8));
+  --bg3-gilt-glow: drop-shadow(0 0 7px rgb(223 152 0 / 0.5));
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .brand {
+  gap: var(--bg3-space-3);
+  min-height: var(--bg3-control);
+  padding: var(--bg3-space-1) 0;
+  border-radius: var(--bg3-radius-2);
+  color: var(--bg3-title);
+  font-family: var(--font-display);
+  font-size: var(--bg3-type-title);
+  font-weight: 800;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .table-header .brand {
+  font-size: var(--bg3-type-big);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .brand b {
+  font-weight: 500;
+  color: inherit;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .brand
+  > span {
+  background: var(--bg3-gilt);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: var(--bg3-gilt-edge);
+  transition: filter var(--dur-base) var(--ease-out);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .brand .logo {
+  width: var(--bg3-mark);
+  height: var(--bg3-mark);
+  filter: var(--bg3-mark-shadow);
+  transition: filter var(--dur-base) var(--ease-out);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .table-header .brand .logo {
+  width: var(--bg3-mark-table);
+  height: var(--bg3-mark-table);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .brand:is(:hover, :focus-visible) .logo {
+  filter: var(--bg3-mark-shadow) var(--bg3-gilt-glow);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .brand:is(:hover, :focus-visible)
+  > span {
+  filter: var(--bg3-gilt-edge) var(--bg3-gilt-glow);
+}
+@media (min-width: 421px) {
+  :root[data-direction="bg3"]:not([data-pref-theme="light"]) .brand {
+    padding-inline-end: var(--bg3-space-2);
+  }
+}
+@media (max-width: 720px) {
+  :root[data-direction="bg3"]:not([data-pref-theme="light"]) .brand {
+    font-size: var(--bg3-type-big);
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"]) .brand .logo {
+    width: var(--bg3-mark-phone);
+    height: var(--bg3-mark-phone);
   }
 }

@@ -20,7 +20,9 @@
 .specimen-page .specimen-section-title,
 .specimen-page .specimen-caption,
 .specimen-page .specimen-loading,
-.specimen-page .specimen-row-title {
+.specimen-page .specimen-row-title,
+.specimen-page .specimen-size-label,
+.specimen-page .specimen-tab {
   font-family:
     system-ui,
     -apple-system,
@@ -198,6 +200,98 @@
   font-size: 14px;
 }
 
+/* «Marchio» (I-251). CSS zoom scales layout as well as paint, so a zoomed header or lockup
+   takes its real room in the cell. The light tile and the two tab strips are the specimen's
+   own surfaces (a light page, Chrome-like dark and light tab strips), never a component. */
+.specimen-page .specimen-zoom.is-2 {
+  zoom: 2;
+}
+.specimen-page .specimen-zoom.is-3 {
+  zoom: 3;
+}
+.specimen-page .specimen-sizes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 20px 32px;
+}
+.specimen-page .specimen-size {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.specimen-page .specimen-size-label {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1;
+}
+.specimen-page .specimen-tile {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 4px;
+}
+.specimen-page .specimen-tile.is-light {
+  background: #f4f2ed;
+}
+.specimen-page .specimen-tile.is-light .specimen-size-label {
+  color: #57534b;
+}
+.specimen-page .specimen-tabstrip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px 24px;
+  margin: 0 0 12px;
+  padding: 10px 12px 0;
+  border-radius: 4px;
+}
+.specimen-page .specimen-tabstrip:last-child {
+  margin-bottom: 0;
+}
+.specimen-page .specimen-tabstrip.is-dark {
+  background: #202124;
+}
+.specimen-page .specimen-tabstrip.is-light {
+  background: #dee1e6;
+}
+.specimen-page .specimen-tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 220px;
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 8px 8px 0 0;
+  font-size: 12px;
+  line-height: 1;
+}
+.specimen-page .specimen-tabstrip.is-dark .specimen-tab {
+  background: #35363a;
+  color: #e8eaed;
+}
+.specimen-page .specimen-tabstrip.is-light .specimen-tab {
+  background: #ffffff;
+  color: #3c4043;
+}
+.specimen-page .specimen-tabstrip .specimen-tile {
+  padding: 8px 12px 10px;
+  background: transparent;
+}
+.specimen-page .specimen-tabstrip.is-dark .specimen-size-label {
+  color: #bdc1c6;
+}
+.specimen-page .specimen-tabstrip.is-light .specimen-size-label {
+  color: #3c4043;
+}
+.specimen-page .specimen-favicon {
+  display: block;
+  flex: none;
+}
+
 @media (max-width: 720px) {
   .specimen-page {
     padding: 16px 16px 48px;
@@ -208,6 +302,10 @@
   }
   .specimen-page .specimen-cell.is-half {
     grid-column: auto;
+  }
+  /* The 3× lockup is about 510 px wide: 2× fits a phone's cell. */
+  .specimen-page .specimen-zoom.is-3 {
+    zoom: 2;
   }
   /* On a phone the Table is one column (styles.css 720 px block): panel and rail stack. */
   .specimen-page .specimen-stage.is-sidebar {

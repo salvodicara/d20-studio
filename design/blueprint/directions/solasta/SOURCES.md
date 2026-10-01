@@ -51,8 +51,8 @@ riferimento: non sono nel repository.
 | Inizio: «Continua a giocare» come la scheda della campagna di New Adventure: immagine orizzontale in alto (192 px), il nome della campagna in sans normale da 24 px sul suo bordo inferiore, poi la riga in maiuscolo, la frase in corsivo e i pulsanti                                                                                        | «New Adventure» («Crown of the Magister», «STARTING LEVEL») | `solasta-home-new-adventure-party-official.png`                                                                                                                                                                                                                                                                                        |
 | Inizio: «Il tuo personaggio» come ritratto del gruppo: busto alto 128 × 192 su ardesia, ai suoi piedi il nome in maiuscoletto, la classe azzurra, i PF verde acqua                                                                                                                                                                             | Ritratti del gruppo (ANTON, Rogue 1)                        | `solasta-home-new-adventure-party-official.png`                                                                                                                                                                                                                                                                                        |
 | Inizio: un solo spazio fra colonne e schede (24 px)                                                                                                                                                                                                                                                                                            | Griglia del menu                                            | misura (I-250)                                                                                                                                                                                                                                                                                                                         |
-| Scheda: fondo nero, pulsante «← Personaggi» grigio come «CLOSE», ritratto tondo con anello grigio, nome in maiuscoletto spaziato                                                                                                                                                                                                               | Scheda del personaggio                                      | `solasta-sheet-inventory-equipment-rpgwatch.jpg`; `solasta-sheet-spells-prepare-official.jpeg`                                                                                                                                                                                                                                         |
-| Scheda: caratteristiche con striscia grigia in alto, punteggio grande, modificatore in un chip il cui blu cresce col valore                                                                                                                                                                                                                    | Riquadri delle caratteristiche                              | `crops/solasta-sheet-crop-creation-stat-panel-2022.jpg` (facts §5: +0 grigio … +4 blu vivo)                                                                                                                                                                                                                                            |
+| Scheda: fondo nero, pulsante «← Personaggi» grigio come «CLOSE», ritratto tondo (64 px) con anello grigio, nome in maiuscoletto spaziato                                                                                                                                                                                                       | Scheda del personaggio                                      | `solasta-sheet-inventory-equipment-rpgwatch.jpg`; `solasta-sheet-spells-prepare-official.jpeg`                                                                                                                                                                                                                                         |
+| Scheda: caratteristiche nella cella dei valori derivati, il modificatore come numero grande e il punteggio in un chip il cui blu cresce col modificatore (quinto giro)                                                                                                                                                                         | Riquadri delle caratteristiche                              | `crops/solasta-sheet-crop-creation-stat-panel-2022.jpg` (facts §5: +0 grigio … +4 blu vivo)                                                                                                                                                                                                                                            |
 | Scheda: valori derivati (Competenza, Movimento, CA, Iniziativa) in celle `#424545` con cifre azzurro cielo; ogni cella con lo stesso margine (12 / 8 px), etichetta in alto e valore subito sotto, così etichette e valori di una fila stanno su una sola linea                                                                                | Griglia AC / INIT / MOVE                                    | `crops/solasta-sheet-crop-creation-stat-panel-2022.jpg`; `solasta-sheet-spells-prepare-official.jpeg`                                                                                                                                                                                                                                  |
 | Scheda: PF con cifre verde acqua e barra verde acqua; «Cura» verde-grigio e «Danno» rosa                                                                                                                                                                                                                                                       | Blocco ritratto; FINISH / CANCEL                            | `solasta-table-combat-hud-bonus-other-pass-official.png`; `solasta-sheet-creation-identity-dragonborn-steam.jpg`                                                                                                                                                                                                                       |
 | Scheda · Magie: valori di lancio in celle; nomi degli incantesimi in serif grassetto maiuscoletto; filtri come chip con linea rame                                                                                                                                                                                                             | Scheda degli incantesimi                                    | `solasta-sheet-spells-prepare-official.jpeg`                                                                                                                                                                                                                                                                                           |
@@ -77,8 +77,8 @@ riferimento: non sono nel repository.
 Le nostre schermate sono in
 `~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/round1/solasta/`; le coppie già
 montate (nostra app a sinistra, riferimento a destra) sono in `_pairs/`. Schermate, foglio
-riassuntivo e coppie sono stati rifatti il 01/10/2026 alle 15:39–15:40, dopo l'ultima modifica
-del quarto giro (`direction.css` delle 15:38:47); le coppie si rifanno con
+riassuntivo e coppie sono stati rifatti il 01/10/2026 alle 20:13–20:15, dopo l'ultima modifica
+del quinto giro (`direction.css` delle 20:12:31; «Dettagli rifiniti»); le coppie si rifanno con
 `…/visual-01/probe-solasta/pairs.sh`.
 
 | Vista                    | Nostra schermata                                                               | Riferimenti migliori                                                                                       | Coppia montata                                                                    |
@@ -143,7 +143,8 @@ del quarto giro (`direction.css` delle 15:38:47); le coppie si rifanno con
   di stato sotto la mappa resta tutta coperta dalla barra anche con una targa della scena
   di una sola riga; lo zoom e la colonna del gruppo stanno 88 px sopra il piede della
   mappa, almeno 15 px sopra la barra. I nomi delle schede in basso sono in maiuscoletto da
-  12 px; «Combattimento» resta tagliato come oggi.
+  12 px; ogni scheda è larga quanto il suo nome, quindi «Combattimento» si legge intero
+  (oggi «Combattim…»), e la fila sfuma verso «Tutti» (quinto giro).
 - **Le figure degli incantesimi.** Le sette celle (classe, caratteristica, attacco, CD,
   preparate, trucchetti, libro) stanno su due file di almeno 140 px, perché le cifre da
   24 px («Mago 3») restino su una riga.
@@ -159,8 +160,8 @@ del quarto giro (`direction.css` delle 15:38:47); le coppie si rifanno con
   stessa riga rame di 4 px delle schede.
 - **Anello del fuoco.** Solasta non ha un anello del fuoco: qui è bianco quasi puro
   (`#F4F4F4`), 3 px, distinto dal blu della selezione.
-- **Marchio.** Il logo e il nome «d20 Studio» restano quelli di oggi (Fase D), con le loro
-  misure (20–22 px).
+- **Marchio.** Dal 01/10/2026 la direzione ha il suo marchio (I-251): vedi «Marchio» più
+  sotto.
 - **Colori gemelli (terzo giro).** Tre valori misurati distano al massimo 6 unità per canale
   da un altro e a occhio non si distinguono: la colonna della scheda `#2A2C29`, il riquadro
   «altro» `#323232` e il corpo dei suggerimenti e del menu della pedina `#384D5E`. Sono
@@ -169,6 +170,16 @@ del quarto giro (`direction.css` delle 15:38:47); le coppie si rifanno con
   un solo azzurro `#5AC1FA`.
 - **Avviso «Sessione non avviata».** Scende sotto le carte dei turni, che sono più alte, così
   «Avvia ora / Non ora» si leggono (anche sul telefono, dove oggi è coperto).
+- **Il modificatore è il numero grande (quinto giro).** Nelle caratteristiche Solasta scrive
+  grande il punteggio («11») e mette il modificatore nel chip; qui è il contrario, perché il
+  modificatore è il numero che si tira: «+2» è il numero da 24 px nell'azzurro dei valori
+  derivati, «14» sta nel chip a gradini di blu. Le dieci celle della fascia sono una sola
+  ricetta (`#424545`, 12 / 8 px), senza la striscia grigia in alto.
+- **Chi viene dopo (quinto giro).** La carta dei turni che segue quella attiva ha una riga
+  ghiaccio di 2 px in alto e il nome in bianco. Solasta segna solo la carta attiva.
+- **Riquadri del telefono uno alla volta (quinto giro).** Al telefono la fila dei riquadri
+  mostra un riquadro intero alla volta (largo quanto la sua finestra) e scorre a scatti di un
+  riquadro: prima si vedeva una lama di 1 px del riquadro dopo.
 
 ## Correzioni dopo la revisione (01/10/2026)
 
@@ -302,6 +313,118 @@ prima. Controlli statici: 547 regole, tutte col prefisso, nessun `!important`, n
 `text-transform`, nessun testo in `content`, ogni colore con la guardia del tema chiaro;
 `tests/visual01-directions.test.mjs` 7 su 7; Prettier pulito.
 
+## Dettagli rifiniti (quinto giro, 01/10/2026)
+
+Il proprietario ha chiesto la perfezione nei dettagli (I-252: misure dei pulsanti, spazi fra i
+pulsanti, margini). Una revisione indipendente ha misurato la direzione al pixel
+(`~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/detail-solasta/notes.txt`:
+punti S1–S24, B1–B3 del marchio, tre idee per «superare» Solasta). Il testo ricevuto si
+interrompeva a metà di S19: S19–S24 e B1–B3 sono presi dalle note della revisione. Tutti i
+punti alti e medi sono applicati, e dei bassi quelli da una riga e qualcuno in più; i pochi
+respinti hanno il motivo più sotto. Le misure (prima e dopo), gli script, gli anelli del fuoco
+e i ritagli sono in `~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/fix-solasta/`;
+i file di prima sono in `fix-solasta/before/`.
+
+Ogni regola nuova o cambiata è nel `direction.css`: quelle che cambiano una ricetta stanno con
+la ricetta (righe della scheda, fascia delle statistiche, medaglione, targa della scena del
+telefono, tasti, celle del telefono), le altre nell'ultima sezione prima del marchio,
+«details (round 5)», con un commento per punto. Tutti i valori vengono dalle scale (I-250).
+
+| Punto                                     | Prima                                                                                                                                                                               | Dopo                                                                                                                                                                                                                                                                       |
+| ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| S1 Tiri salvezza e abilità (alto)         | Il nome stava 4 px sotto il bordo della riga: la sua linea di base 7,2 px sopra quella del valore                                                                                   | Nome e sigla sulla linea centrale della riga, ognuno sulla sua linea di base: 0 px fra nome e valore in tutte le 24 righe, a 1440 e a 390; stella, casella e valore sullo stesso centro (0 px di scarto)                                                                   |
+| S2 Fascia delle statistiche (alto)        | Due ricette di cella (`#292525` con striscia grigia, `#424545` senza); etichette su due linee di base (379,9 e 388,9), numeri su tre (412,3, 432,7, 441); 35 px vuoti sotto il chip | Una ricetta per tutte e dieci le celle (`#424545`, 12 / 8 px, etichetta con due righe riservate): etichette tutte a 388,9, numeri tutti a 432,7 (24 / 1,1 / 700); il chip 8 px sotto il numero. Il modificatore è il numero grande, il punteggio va nel chip (vedi «Idee») |
+| S3 Spazi fra pulsanti (alto)              | 8 / 12 / 24 / 4 px per la stessa coppia di pulsanti da 40 px                                                                                                                        | Una regola: 8 px fra due pulsanti con cornice, 24 px prima di un comando senza cornice. «Trasforma… · Creature collegate» e «Gioco·Modifica · Dadi» 8 (erano 12), «Tira tutti · Tira PNG» 8 (era 24), «Nessuno» resta a 24; le celle ardesia del telefono 4 (S4)           |
+| S4 Barra del telefono (alto)              | 1 / 1 / 4 / 6 / 9,2 / 29,5 px nello stesso blocco; la seconda fila a 684 e 685; «Termina turno» a x 241,48                                                                          | 4 px fra tutte le celle e i blocchi (comandi del turno, pagine, dadi, fila della sessione, zoom); seconda fila tutta a 684; «Termina turno» riempie la fila da 12 px dopo «Annulla» al bordo (x 236, 146 px, i 12 px del computer); la barra resta alta 149 px             |
+| S5 Inventario (alto)                      | Colonne a x 987,8 / 969,7 / 1052,4, «Dettagli» a 1179,8 / 1161,7 / 1244,4: salivano e scendevano lungo la lista                                                                     | Righe su colonne fisse quando la lista è larga almeno 584 px: Qtà, Peso e Cariche a x 963 e «Dettagli» a 1155 in ogni riga, il menu a 1323                                                                                                                                 |
+| S6 Medaglione (alto)                      | Un'ellisse: 52 × 68 px (44 × 56 al telefono)                                                                                                                                        | Un cerchio di 64 px a ogni larghezza, col volto che lo copre; il distintivo della piuma (24 px, quadrato) centrato sul punto a 45° dell'anello (101,9 / 290,8 contro 101,9 / 290,9)                                                                                        |
+| S7 Icona della mappa (alto)               | La bussola nell'anello sembrava un cartello di divieto, ed era la stessa per Mappa, Scena, Sposta vista, Scene e Nascondi interfaccia                                               | Una mappa del tesoro per Mappa e Sposta vista; una torre con bandiera per la scheda Scena e il comando «Scene» del DM; un occhio per «Nascondi interfaccia». Nessun'icona uguale vicina a un'altra con un altro significato                                                |
+| S8 Titoli a sinistra (medio)              | Cinque titoli da 15 px rame, centrati                                                                                                                                               | Titoli di lastra da 17 px chiari, a sinistra, 16 px sopra la lista; «Abilità aggiuntive» resta etichetta rame da 15 px, a sinistra, 16 px sotto la lista e 8 sopra il suo testo                                                                                            |
+| S9 Pannello Creatura tagliato (medio)     | Il bordo della barra tagliava a metà «Inventario» (al DM «Scheda completa»); i comandi del turno finivano 8 px oltre il contenuto del pannello                                      | Gli ultimi 24 px del pannello sfumano, così il taglio si legge «continua sotto»; il blocco del turno finisce a x 1360, sul bordo del contenuto del pannello                                                                                                                |
+| S10 Buco nel blocco del turno (medio)     | Tre celle sopra, due sotto, e il buco nell'angolo esterno accanto a «Termina turno»                                                                                                 | Le due celle tenui nelle colonne 2 e 3: il buco va sotto «Muovi» e il blocco chiude contro «Termina turno» (anche in esplorazione)                                                                                                                                         |
+| S11 Ritmo dell'Inizio (medio)             | I due comandi dell'appuntamento (325 px in 312) andavano a capo storti; titolo → contenuto 8 px, testo → comandi 32,9                                                               | I due comandi a tutta larghezza, uno sotto l'altro, a 8 px; titolo 16 px sopra il contenuto e ultimo testo 24 px sopra i comandi (24,9: la lastra prende l'altezza di «Continua a giocare» accanto)                                                                        |
+| S12 Finestra dell'iniziativa (medio)      | Casella di «Sorpreso» a x 458, sotto il numero; quella di inclusione a 486, il nome a 514. Al telefono i due pulsanti (306,5 px in 304) andavano a capo storti                      | «Sorpreso» con la casella a 486 sotto quella di inclusione e la parola a 514 sotto il nome. Al telefono i due pulsanti a tutta larghezza, il pieno in fondo; gli strumenti in una riga a ogni larghezza (8 px, poi 24 prima di «Nessuno»; righe a 8)                       |
+| S13 Anello del fuoco tagliato (medio)     | 4 px tagliati in alto sulle carte dei turni; al telefono le celle vicine coprivano l'anello dei comandi del turno                                                                   | Dove la fila scorre o le celle sono a 4 px l'anello di 3 px sta 4 px dentro il controllo, come sui riquadri delle azioni; sul ritratto un alone scuro di 6 px. Provato con la tastiera: 0 tagli su carte, comandi del turno, «Termina turno», schede in basso              |
+| S14 Strisce del telefono (medio)          | «Inventar» tagliato netto sotto «Tutte»; «Combattim…» coi puntini; 9 px fra «Scena» e «Tutti»                                                                                       | La striscia della scheda tiene 16 px d'aria quando porta in vista una scheda e sfuma i suoi bordi; le schede in basso sono larghe quanto il nome («Combattimento» intero, 79 px) e la fila sfuma verso «Tutti»                                                             |
+| S15 Icona e parola (medio)                | 0 px su «Tiri e risultati», 4 su «Tira l'iniziativa», 8 altrove                                                                                                                     | 8 px su ogni comando con icona (tutti misurati), 12 solo nelle righe da 40 px del menu della pedina; «Digitali» in maiuscoletto come le parole vicine                                                                                                                      |
+| S16 Menu della pedina (medio)             | La lettera «L» in un quadrato                                                                                                                                                       | Il ritratto dipinto della creatura, lo stesso del pannello Creatura                                                                                                                                                                                                        |
+| S17 Targa della scena al telefono (medio) | Comandi da 12 px; «Riposi» a fine riga 1 in esplorazione, in riga 2 a sinistra in combattimento                                                                                     | Comandi da 15 px come ogni pulsante; «Riposi» sempre a fine riga 1 (in combattimento lo stato va sotto il titolo e la targa passa da 82,8 a 57,1 px); i comandi del DM sempre in riga 2. L'intestazione del Tavolo resta su una riga                                       |
+| S18 Tasti (basso)                         | Due ricette (grigio pieno nel pannello, scuro con linea nel menu), alte 15,2 px                                                                                                     | Una: pozzo scuro con linea ardesia di 1 px, 12 px su riga da 16, alta 18 px; sulla riga rame del menu diventa una linea scura (prima le lettere scure finivano sul fondo scuro)                                                                                            |
+| S19 Testata del Tavolo (basso)            | Dado di 34 px sopra una scritta di 20                                                                                                                                               | Dado di 28 px (la proporzione dell'Inizio, 34 su 24); 8 px sopra e sotto, la testata resta alta 63 px. Gli spazi e le linee di base: vedi «Respinti»                                                                                                                       |
+| S20 Strumenti della mappa                 | La seconda colonna 1 px più alta, 15 px fra le celle; «Disegna» e «Pianifica percorso» due piume                                                                                    | Le due colonne sulla stessa riga (179 … 311), 8 px fra le lastre e 16 fra le celle; «Disegna» ha un pennello                                                                                                                                                               |
+| S21 Passaggio del mouse                   | I comandi di testo si sottolineavano, quelli tenui no; le icone della fila della sessione non si schiarivano                                                                        | Nessuna sottolineatura: tutti i comandi senza cornice si schiariscono; le icone della sessione si schiariscono come gli strumenti; ogni cella cliccabile della fascia mostra la stessa linea rame interna                                                                  |
+| S22 Valori fuori scala                    | Comandi a segmenti 42 px; chip 19,4; tasti 15,2; «Termina turno» a x 241,48; fila della sessione a 6 px; avviso «Sessione non avviata» 6 / 10 px                                    | 40; 20; 18; 236; 4; 8 / 12                                                                                                                                                                                                                                                 |
+| S23 Inventario e scheda                   | La ricerca dell'inventario larga 460 px su 614; la riga dell'esperienza spinta a destra                                                                                             | La ricerca a tutta larghezza; la riga dell'esperienza a sinistra, sotto «Gioco»                                                                                                                                                                                            |
+| S24 Inizio                                | Il contatore di «Novità» rosa sulla riga rame                                                                                                                                       | Un chip scuro con le cifre rame                                                                                                                                                                                                                                            |
+| B3 Marchio                                | Cuciture ghiaccio a 2,4 unità al 75 % (0,8 px a 34 px): a 1× le quattro ardesie si confondevano                                                                                     | Cuciture piene da 3 unità (1 px)                                                                                                                                                                                                                                           |
+
+**Le garanzie, rimisurate dopo l'ultima modifica** (`fix-solasta/guards/`): barra alta 112 px a
+1440 × 900, 1366 × 768 e 1280 × 800, nessun riquadro fuori dalla barra; «Termina turno»,
+«Annulla ultima modifica» e «Annulla preparazione» visibili a ogni larghezza; a 390 nessuno
+scorrimento laterale su Inizio, scheda, magie, finestra dell'iniziativa e Tavolo (giocatore e
+DM, combattimento ed esplorazione), intestazione del Tavolo su una riga, rotaia fissata a
+844 px, barra alta 149 px; «Entra al Tavolo» finisce a 580 px; nessun comando sotto i 40 px
+oltre ai collegamenti dentro il testo (fonte SRD, termini del glossario), come prima. Gli anelli
+del fuoco sono in `fix-solasta/focus/`.
+
+**Misura di coerenza** (`changes/visual-01/audit/audit.js --direction solasta`, 20 stati; prima
+alle 18:36 sulla versione della revisione, copia in `fix-solasta/audit-before/`; dopo alle
+20:13 sul `direction.css` delle 20:12:31, `audit/solasta/` e `fix-solasta/audit-after/`):
+
+| Misura                             | Prima                  | Dopo                      |
+| ---------------------------------- | ---------------------- | ------------------------- |
+| Spazi fra elementi (gap): valori   | 10 (1 px ×4, 6 px ×22) | 9 (nessun 1 px, 6 px ×12) |
+| Pulsanti: classi visive · varianti | 27 · 69                | 26 · 65                   |
+| Chip: misure diverse               | 10 (19,5 px ×29)       | 9 (20 px ×35)             |
+| Colori: testo · fondo · bordo      | 23 · 36 · 20           | 23 · 39 · 19              |
+| Ombre                              | 7                      | 9                         |
+| Contrasto AA: errori               | 0 su 1221              | 0 su 1221                 |
+
+Lo strumento ora deduce un passo di 4 px invece di 2 (sono spariti i gap di 1 px), per questo
+conta come «fuori passo» i 2, 6, 10 e 14 px dell'app che restano (geometria del Tavolo e
+della mappa, come prima). I tre fondi in più sono il colore del testo dipinto dalle maschere
+delle icone nuove e il chip scuro del contatore di «Novità»; le due ombre in più sono la riga
+ghiaccio di chi viene dopo e la linea della rotaia disegnata dentro la barra. Il 28 px nuovo
+nella scala è il rientro di «Sorpreso» (casella di 20 px + 8), lo stesso calcolo dei 56 px
+della riga «Personaggio · Iniziativa» che c'era già.
+
+### Idee per superare Solasta
+
+1. **Chi viene dopo** (applicata). La carta dopo quella di turno ha una riga ghiaccio di 2 px
+   in alto e il nome in bianco: il tavolo vede chi si prepara senza un comando in più.
+2. **Il costo sul riquadro** (c'era già). Il segno nell'angolo di ogni riquadro è già la forma
+   della legenda (● azione, ▲ bonus, ✦ reazione), negli stessi colori della riga delle
+   risorse: nel combattimento d'esempio Livia ha solo azioni, per questo si vedono solo cerchi.
+3. **Il modificatore come numero grande** (applicata, S2). È il numero che si tira; il
+   punteggio va nel chip a gradini di blu e le dieci celle stanno su una linea di etichette e
+   una di numeri, come né Solasta né D&D Beyond fanno.
+
+### Respinti, con il motivo
+
+- **S19, spazi della testata.** Fra le lettere lo spazio è già uguale: 17 px dalla fine di
+  «Studio» all'icona di «App» e 17 px dalla fine di «App» all'icona di «Torna alla
+  campagna». I 12 px misurati sono fra i riquadri: quello del marchio ha 4 px d'aria per
+  l'anello del fuoco.
+- **S19, linea di base della scritta.** Dado, scritta e comandi stanno sullo stesso centro
+  (y 74): con misure diverse (20 e 15 px) le linee di base non possono coincidere senza
+  staccare la scritta dal centro del dado.
+- **S2, i PF.** Restano il numero da 32 px dichiarato (I-250), con la loro linea di base: la
+  cella dei PF ha il campo e i due pulsanti a sinistra ed è lei a dare l'altezza alla fascia
+  (137,6 px), perciò anche i 24–35 px sotto i chip delle altre celle restano.
+- **S22, resti.** La cella PF della barra (103–104 px) è la geometria della barra; la x
+  334,52 del menu della pedina è il punto del clic, calcolata dall'app; le pagine «Azioni /
+  Barra rapida» alte 42 px sono metà di un riquadro da 84.
+- **S23, il testo d'aiuto della ricerca.** Il campo non ha un testo d'aiuto nel markup, che
+  una direzione non può cambiare.
+- **S24, la riga del turno in esplorazione.** «Esplora la scena liberamente» va su tre righe
+  nel blocco del personaggio: è il testo dell'app, sta nei suoi 84 px senza tagli, e a 13 px
+  andrebbe comunque su due righe diventando l'unica riga di testo da 13 px della barra.
+- **S20, la piuma di «Pianifica percorso».** Resta: è la stessa icona delle note
+  nell'intestazione, e ora che «Disegna» ha il pennello non ce ne sono due uguali vicine.
+- **B1, il «20» a 34 px su uno schermo 1×.** Il numero è alto 6,5 px (il massimo che la
+  geometria comune concede, 19 unità su 100) e a 1× diventa una macchia; a 2× si legge. Il
+  «20» sulla faccia rame è il marchio comune a tutte le direzioni (I-251), quindi resta.
+
 ## Coerenza (I-250)
 
 Misure dello strumento `changes/visual-01/audit/audit.js --direction solasta` sui 10 stati del
@@ -401,16 +524,82 @@ Che cosa resta, di proposito:
 - le misure fuori scala che rimangono sono la geometria della mappa e del Tavolo dell'app
   (margini 80 / 88 / 168, colonne, i 10 px delle file compatte del telefono, le righe di 1 px
   fra i riquadri), i margini di 3 px dell'interruttore «Il DM può modificare questa scheda»
-  (un controllo del browser) e il marchio, che aspetta la Fase D;
+  (un controllo del browser) e i 5 px sopra e sotto il marchio, quelli dell'app, che tengono
+  l'altezza della testata del Tavolo;
 - le altezze frazionarie (137,5, 103,5, 19,5 px) vengono dalle interlinee 1,1 e 1,45 sui testi
   da 14–24 px: mezzo pixel, invisibile;
-- due coppie gemelle restano: l'oro di un segno della mappa dell'app e quello del marchio
-  (Fase D), e `#2A2C29` dell'app per le righe dentro le lastre (finestra dell'iniziativa,
-  proprietà delle armi), che devono distinguersi dalla lastra;
+- una coppia gemella resta: `#2A2C29` dell'app per le righe dentro le lastre (finestra
+  dell'iniziativa, proprietà delle armi), che devono distinguersi dalla lastra (l'oro del
+  vecchio marchio, gemello di un segno della mappa, non c'è più);
 - le linguette contano ancora 12 varianti perché la barra in basso del telefono (52 px) e le
   celle delle pagine della barra seguono la loro geometria a ogni larghezza;
 - i collegamenti e le caselle dentro il testo (fonti SRD, termini del glossario, caselle di
   spunta) sono sotto i 40 px come in «Attuale».
+
+## Marchio (I-251, 01/10/2026)
+
+Il dado e l'icona della scheda del browser sono in `brand.mjs`; la scritta «d20 Studio» è
+l'ultima sezione di `direction.css`. Come il resto della direzione si vede solo con il tema
+scuro: con il tema chiaro tornano il dado e l'icona di oggi. Riferimenti in
+`~/Workspace/Codex/d20-studio-visual-assets/references/solasta/`, fuori dal repository.
+
+### Che cosa prende dalla grammatica di Solasta
+
+| Parte del marchio                                                                                                       | Da dove, in Solasta                                                  | Fonte                                                                                                                |
+| ----------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| Il dado disegnato piatto, con poche tinte piene e gli spigoli chiari (nessuna linea scura intorno, nessuna sfumatura)   | il dado «D20» del riquadro dei tiri                                  | SL10 `solasta-table-dice-roll-widget-d20-official.png`; ritaglio `crops/solasta-table-crop-roll-widget-d20-2022.png` |
+| Le nove facce laterali in quattro ardesie piene `#222A2E` `#3B4B55` `#53656F` `#6C8089`, gli spigoli ghiaccio `#B5D3DE` | le lastre del combattimento e le loro linee di 1 px più chiare       | SL1 `solasta-table-combat-hud-bonus-other-pass-official.png`; facts §1, §4                                           |
+| La faccia del «20» in rame pieno `#D69E76`, il numero nell'inchiostro scuro `#241A15`                                   | la riga attiva del menu principale, riempita di rame                 | SL32 `solasta-home-main-menu-user-locations-official.png`; facts §6                                                  |
+| Il «20» in un serif grassetto con grazie (Crimson Pro 700, cifre allineate)                                             | i numeri sui dadi lanciati nel mondo                                 | SL20 `solasta-dice-inworld-initiative-rolls-official.jpg`                                                            |
+| «Studio» in serif grassetto, maiuscola e maiuscoletto, rame `#F5B486`; «d20» nell'inchiostro dei nomi `#DEDCDC`         | i nomi propri («Spring Update Dungeon») e le etichette rame del menu | SL32; facts §2                                                                                                       |
+| Nessuna ombra, nessun bagliore, nessun metallo                                                                          | l'interfaccia di gioco, piatta (non il logo, che è dorato)           | facts §0                                                                                                             |
+
+### Che cosa è originale
+
+- **Il disegno del dado.** Un vero icosaedro visto di fronte, dalla geometria comune
+  `directions/brand-geometry.mjs`: è la stessa famiglia di dadi di tutte le direzioni. La luce
+  viene dall'alto a sinistra ed è resa con quattro tinte piene, non con sfumature.
+- **L'idea.** La faccia uscita è «la riga attiva»: rame su un corpo di ardesia, come la voce
+  scelta nel menu di Solasta.
+- **La scritta.** «d20» resta la notazione del dado, in minuscolo; «Studio» è scritto come un
+  nome proprio di Solasta. Resta con le grazie perché in testata le pagine sono in maiuscolo
+  spaziato senza grazie: una scritta in quello stile sembrerebbe una pagina in più.
+- **L'icona della scheda.** Lo stesso dado senza numero (a 16 px sarebbero due pixel di
+  rumore), con spigoli più spessi e un filo nero esterno che lo tiene nitido anche su una
+  barra delle schede chiara.
+
+### Perché non è una copia del logo di Solasta
+
+Il logo di Solasta (SL32, SL20) è la parola «SOLASTA» in lettere dorate a cuneo, in rilievo,
+attraversata da un anello d'oro con una coda, e sotto «Crown of the Magister» in maiuscole
+rame con svolazzi. Il nostro marchio non ha oro, rilievo, anello, coda, lettere a cuneo né
+svolazzi, e non usa nessuna lettera del logo: prende solo i colori e il modo di disegnare
+dell'interfaccia di gioco. Non somiglia nemmeno al dado dell'editore Tactical Adventures (un
+icosaedro a facce arancioni, rosse e gialle, SL61): qui il corpo è ardesia e una sola faccia è
+rame. Nessun pixel, carattere o tracciato di Solasta è nel repository.
+
+### Misure
+
+- **Testata.** Dado 34 px (28 sul telefono e al Tavolo, dal quinto giro: 34 su una scritta
+  di 20 era sproporzionato), scritta 24 px (20 al Tavolo e sotto i 720 px),
+  8 px fra dado e scritta (12 visibili: il dado sta 4 px dentro il suo riquadro). Il centro
+  delle cifre e delle maiuscole coincide con il centro del dado: la scritta è alzata di 1 px,
+  misurata su catture a 2×.
+- **Stati.** Al passaggio del mouse la scritta si schiarisce (`#F5F5F5`) e la faccia del dado
+  passa al rame chiaro `#F5B486`. Con la tastiera resta l'anello di 3 px dell'app, a 11 px
+  dal dado e dall'ultima lettera; al Tavolo 7 px a destra, così resta a 6 px da «App».
+- **Altezze invariate.** Testata di Inizio 81 px, del Tavolo 63 px (col dado da 28 px il
+  marchio ha 8 px sopra e sotto invece di 5), del telefono 109 px. A
+  390 px resta solo il dado e la testata del Tavolo sul telefono non mostra il marchio, come
+  oggi.
+- **Spigoli.** Contorno 4,5 unità su 100 (1,5 px a 34 px), cuciture piene da 3 unità (1 px;
+  fino al quarto giro 2,4 unità al 75 %, che a 1× confondevano le quattro ardesie vicine);
+  l'icona della scheda 6 e 4 unità.
+
+Prove in `~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/brand-solasta/`:
+`brand-solasta-montage.png` (il marchio accanto ai riferimenti di Solasta), `final/`
+(testate a 1440 e 390 a 2×, sezione «Marchio» del campionario), `final/check/check-header.json`
+(misure prima e dopo).
 
 ## Licenze e attribuzioni
 
@@ -425,38 +614,49 @@ diventa `currentColor` (`icons.mjs`). Licenza: Creative Commons Attribution 3.0
 
 **Attribuzione:** icone di Lorc, Delapouite, sbed, Guard13007 e Quoting da game-icons.net, CC BY 3.0.
 
-| Nome nell'app                     | Icona game-icons                     | Autore     | Pagina                                                              | sha256 del file scaricato                                                                                                                                                 |
-| --------------------------------- | ------------------------------------ | ---------- | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `home`                            | `village`                            | Delapouite | <https://game-icons.net/1x1/delapouite/village.html>                | `45805e2ba3ee12adcc1c67e8183e526831156a3fc9eba0595e687d79078c4048`                                                                                                        |
-| `person`                          | `hood`                               | Lorc       | <https://game-icons.net/1x1/lorc/hood.html>                         | `0b2b02bc124425c32e7c62b46c1a7bc3083d9cb2c0692797ca5f7f42dae7816a`                                                                                                        |
-| `campaign`                        | `flying-flag`                        | Lorc       | <https://game-icons.net/1x1/lorc/flying-flag.html>                  | `6c8494106cbf51024af8af4e6cb76c134df47dba7403f020681cc91e414ff7bb`                                                                                                        |
-| `book`                            | `open-book`                          | Lorc       | <https://game-icons.net/1x1/lorc/open-book.html>                    | `fea1988dca10d827a6159328da655f9aaefcd642e2a08588d728424190fcd285`                                                                                                        |
-| `search`                          | `magnifying-glass`                   | Lorc       | <https://game-icons.net/1x1/lorc/magnifying-glass.html>             | `089f628ebb75669198850f8a5caacb648f557e6844652709abcbd709f1f03037`                                                                                                        |
-| `note`                            | `quill-ink`                          | Lorc       | <https://game-icons.net/1x1/lorc/quill-ink.html>                    | `6a43bf64d202adbb9a27b806c0a9891be31552399e2ebbc81a09531f2f13ea99`                                                                                                        |
-| `bell`                            | `ringing-bell`                       | Lorc       | <https://game-icons.net/1x1/lorc/ringing-bell.html>                 | `af3c98f2179d59dab8396ad7f80eef7dff2819585af838e26b2b8c52e8b610de`                                                                                                        |
-| `settings`                        | `gears`                              | Lorc       | <https://game-icons.net/1x1/lorc/gears.html>                        | `260ff96e39b1804e74072658cfa6cd382062826f6e8d40cb106fc530a6d38548`                                                                                                        |
-| `help`                            | `help`                               | sbed       | <https://game-icons.net/1x1/sbed/help.html>                         | `cd104a20e411728b4ce4e4acfd7aace96ead8f2731925cb4af3992e25df85cbb`                                                                                                        |
-| `check`                           | `check-mark`                         | Delapouite | <https://game-icons.net/1x1/delapouite/check-mark.html>             | `ce5073c2fd9fec62ef11f6b3fd093e0a3bb6e28fd3dcf1fa2a4bfab282cb5e48`                                                                                                        |
-| `play`                            | `play-button`                        | Guard13007 | <https://game-icons.net/1x1/guard13007/play-button.html>            | `f3cc25dc35d60ce4341e1e72dc0bf582100a7750e767455835fad3fd78c96f7a`                                                                                                        |
-| `map`                             | `compass`                            | Lorc       | <https://game-icons.net/1x1/lorc/compass.html>                      | `beb88d002e3f2e3759a41c626ff67f52b9d92d70605a24e8e8d3ea9915208f20`                                                                                                        |
-| `clock`                           | `stopwatch`                          | Lorc       | <https://game-icons.net/1x1/lorc/stopwatch.html>                    | `33b426a8eba3a34ee76b6d11865292a5f2e4db13dd0e6207f8f8277c0df6de20`                                                                                                        |
-| `pen`                             | `quill`                              | Lorc       | <https://game-icons.net/1x1/lorc/quill.html>                        | `3798e2034a4d7e2baef3dc7664ce9ccb30f4296c9f900cf94b3f8fcb7a0c0e5d`                                                                                                        |
-| `dice`                            | `rolling-dices`                      | Delapouite | <https://game-icons.net/1x1/delapouite/rolling-dices.html>          | `876d2c2a2359d40d571a6f169db5a2d531e23beeed270b43247d63d227ad5a2c`                                                                                                        |
-| `move`                            | `sprint`                             | Lorc       | <https://game-icons.net/1x1/lorc/sprint.html>                       | `0c3c00ac8e9e9299c32ef5d5cc788d2d7c60614fdc382c3706d1d36783941c36`                                                                                                        |
-| `ruler`                           | `measure-tape`                       | Delapouite | <https://game-icons.net/1x1/delapouite/measure-tape.html>           | `bd2ac6102895c2f51e080997a8305a1b77f927ee5aad073878609e0a93fad75d`                                                                                                        |
-| `flag`                            | `position-marker`                    | Delapouite | <https://game-icons.net/1x1/delapouite/position-marker.html>        | `af3ed43cd81383f98e70e091bdd821f87c29c014ab04164c8c12f9d9343ba7bd`                                                                                                        |
-| `eye`                             | `semi-closed-eye`                    | Lorc       | <https://game-icons.net/1x1/lorc/semi-closed-eye.html>              | `27eac39f0232eb9fd371d40fcd2f0be0e40883d854e697a573662ff8390dd312`                                                                                                        |
-| `shield`                          | `checked-shield`                     | Lorc       | <https://game-icons.net/1x1/lorc/checked-shield.html>               | `9bbb465f5272eae12dfa536a31f0204eb6d65259607db5e86618d55881c945a0`                                                                                                        |
-| `chat`                            | `conversation`                       | Lorc       | <https://game-icons.net/1x1/lorc/conversation.html>                 | `72ef567510df69d8b5f759cfe262bd483d55baee89e455ce2b87711847be50fc`                                                                                                        |
-| `swords`                          | `sword-clash`                        | Lorc       | <https://game-icons.net/1x1/lorc/sword-clash.html>                  | `3539d083a42b5d81144efbd6807bd07523c3c0ef1144448d443aeb5561627679`                                                                                                        |
-| `sword`                           | `pointy-sword`                       | Lorc       | <https://game-icons.net/1x1/lorc/pointy-sword.html>                 | `664296c33c4bcb0f913f8af02a29fa8bc6b555fff557a7fd786a2dc60f5decdb`                                                                                                        |
-| `light`                           | `lantern-flame`                      | Lorc       | <https://game-icons.net/1x1/lorc/lantern-flame.html>                | `7161627a48ed29eae7f15c608010a20ead24977f8f67476c98f0f769a78c7986`                                                                                                        |
-| `scroll`                          | `tied-scroll`                        | Lorc       | <https://game-icons.net/1x1/lorc/tied-scroll.html>                  | `8dec10d48e8c0012a30d7146b4187e8ed9aa016029de5f87cc254c129dc3c1d6`                                                                                                        |
-| `cards`                           | `card-play`                          | Quoting    | <https://game-icons.net/1x1/quoting/card-play.html>                 | `3d3558b885175c7a1e5297a1e2762d71fcb609ab15db16d46c4b3ffc150102ec`                                                                                                        |
-| `bag`                             | `knapsack`                           | Lorc       | <https://game-icons.net/1x1/lorc/knapsack.html>                     | `d5f3f1b087b23f8a1082674b9ac19f1530b936802f8f1bb2982d5f7e03547396`                                                                                                        |
-| `undo`                            | `anticlockwise-rotation`             | Delapouite | <https://game-icons.net/1x1/delapouite/anticlockwise-rotation.html> | `81bdef95c5974378ad186499b093331df5dc494b9ab314b622db093f7844b177`                                                                                                        |
-| `close`                           | `cancel`                             | sbed       | <https://game-icons.net/1x1/sbed/cancel.html>                       | `e8d3551075bea82946e201c20ac6958a6a150644a6e8010aeabecafdd86daa8a`                                                                                                        |
-| (maschera CSS di «Termina turno») | `hourglass` → `assets/hourglass.svg` | Lorc       | <https://game-icons.net/1x1/lorc/hourglass.html>                    | file scaricato `38459facefd9e01b25f2ef5d490d6ac5ac49ae51441b15f7c140e389e7650959`; file nel repository `1c2efeff8a2062bd83a89ce6dec0cd8465aa0b4f66ef9c6f02055a76e40cc73d` |
+| Nome nell'app                                             | Icona game-icons                                         | Autore     | Pagina                                                              | sha256 del file scaricato                                                                                                                                                                      |
+| --------------------------------------------------------- | -------------------------------------------------------- | ---------- | ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `home`                                                    | `village`                                                | Delapouite | <https://game-icons.net/1x1/delapouite/village.html>                | `45805e2ba3ee12adcc1c67e8183e526831156a3fc9eba0595e687d79078c4048`                                                                                                                             |
+| `person`                                                  | `hood`                                                   | Lorc       | <https://game-icons.net/1x1/lorc/hood.html>                         | `0b2b02bc124425c32e7c62b46c1a7bc3083d9cb2c0692797ca5f7f42dae7816a`                                                                                                                             |
+| `campaign`                                                | `flying-flag`                                            | Lorc       | <https://game-icons.net/1x1/lorc/flying-flag.html>                  | `6c8494106cbf51024af8af4e6cb76c134df47dba7403f020681cc91e414ff7bb`                                                                                                                             |
+| `book`                                                    | `open-book`                                              | Lorc       | <https://game-icons.net/1x1/lorc/open-book.html>                    | `fea1988dca10d827a6159328da655f9aaefcd642e2a08588d728424190fcd285`                                                                                                                             |
+| `search`                                                  | `magnifying-glass`                                       | Lorc       | <https://game-icons.net/1x1/lorc/magnifying-glass.html>             | `089f628ebb75669198850f8a5caacb648f557e6844652709abcbd709f1f03037`                                                                                                                             |
+| `note`                                                    | `quill-ink`                                              | Lorc       | <https://game-icons.net/1x1/lorc/quill-ink.html>                    | `6a43bf64d202adbb9a27b806c0a9891be31552399e2ebbc81a09531f2f13ea99`                                                                                                                             |
+| `bell`                                                    | `ringing-bell`                                           | Lorc       | <https://game-icons.net/1x1/lorc/ringing-bell.html>                 | `af3c98f2179d59dab8396ad7f80eef7dff2819585af838e26b2b8c52e8b610de`                                                                                                                             |
+| `settings`                                                | `gears`                                                  | Lorc       | <https://game-icons.net/1x1/lorc/gears.html>                        | `260ff96e39b1804e74072658cfa6cd382062826f6e8d40cb106fc530a6d38548`                                                                                                                             |
+| `help`                                                    | `help`                                                   | sbed       | <https://game-icons.net/1x1/sbed/help.html>                         | `cd104a20e411728b4ce4e4acfd7aace96ead8f2731925cb4af3992e25df85cbb`                                                                                                                             |
+| `check`                                                   | `check-mark`                                             | Delapouite | <https://game-icons.net/1x1/delapouite/check-mark.html>             | `ce5073c2fd9fec62ef11f6b3fd093e0a3bb6e28fd3dcf1fa2a4bfab282cb5e48`                                                                                                                             |
+| `play`                                                    | `play-button`                                            | Guard13007 | <https://game-icons.net/1x1/guard13007/play-button.html>            | `f3cc25dc35d60ce4341e1e72dc0bf582100a7750e767455835fad3fd78c96f7a`                                                                                                                             |
+| `map`                                                     | `treasure-map` (copia Iconify, vedi sotto)               | Lorc       | <https://game-icons.net/1x1/lorc/treasure-map.html>                 | `79a4552770bf03bbd68f33db8b6bf7f40a6a788a7a979f656e2206a22955ce37`                                                                                                                             |
+| `clock`                                                   | `stopwatch`                                              | Lorc       | <https://game-icons.net/1x1/lorc/stopwatch.html>                    | `33b426a8eba3a34ee76b6d11865292a5f2e4db13dd0e6207f8f8277c0df6de20`                                                                                                                             |
+| `pen`                                                     | `quill`                                                  | Lorc       | <https://game-icons.net/1x1/lorc/quill.html>                        | `3798e2034a4d7e2baef3dc7664ce9ccb30f4296c9f900cf94b3f8fcb7a0c0e5d`                                                                                                                             |
+| `dice`                                                    | `rolling-dices`                                          | Delapouite | <https://game-icons.net/1x1/delapouite/rolling-dices.html>          | `876d2c2a2359d40d571a6f169db5a2d531e23beeed270b43247d63d227ad5a2c`                                                                                                                             |
+| `move`                                                    | `sprint`                                                 | Lorc       | <https://game-icons.net/1x1/lorc/sprint.html>                       | `0c3c00ac8e9e9299c32ef5d5cc788d2d7c60614fdc382c3706d1d36783941c36`                                                                                                                             |
+| `ruler`                                                   | `measure-tape`                                           | Delapouite | <https://game-icons.net/1x1/delapouite/measure-tape.html>           | `bd2ac6102895c2f51e080997a8305a1b77f927ee5aad073878609e0a93fad75d`                                                                                                                             |
+| `flag`                                                    | `position-marker`                                        | Delapouite | <https://game-icons.net/1x1/delapouite/position-marker.html>        | `af3ed43cd81383f98e70e091bdd821f87c29c014ab04164c8c12f9d9343ba7bd`                                                                                                                             |
+| `eye`                                                     | `semi-closed-eye`                                        | Lorc       | <https://game-icons.net/1x1/lorc/semi-closed-eye.html>              | `27eac39f0232eb9fd371d40fcd2f0be0e40883d854e697a573662ff8390dd312`                                                                                                                             |
+| `shield`                                                  | `checked-shield`                                         | Lorc       | <https://game-icons.net/1x1/lorc/checked-shield.html>               | `9bbb465f5272eae12dfa536a31f0204eb6d65259607db5e86618d55881c945a0`                                                                                                                             |
+| `chat`                                                    | `conversation`                                           | Lorc       | <https://game-icons.net/1x1/lorc/conversation.html>                 | `72ef567510df69d8b5f759cfe262bd483d55baee89e455ce2b87711847be50fc`                                                                                                                             |
+| `swords`                                                  | `sword-clash`                                            | Lorc       | <https://game-icons.net/1x1/lorc/sword-clash.html>                  | `3539d083a42b5d81144efbd6807bd07523c3c0ef1144448d443aeb5561627679`                                                                                                                             |
+| `sword`                                                   | `pointy-sword`                                           | Lorc       | <https://game-icons.net/1x1/lorc/pointy-sword.html>                 | `664296c33c4bcb0f913f8af02a29fa8bc6b555fff557a7fd786a2dc60f5decdb`                                                                                                                             |
+| `light`                                                   | `lantern-flame`                                          | Lorc       | <https://game-icons.net/1x1/lorc/lantern-flame.html>                | `7161627a48ed29eae7f15c608010a20ead24977f8f67476c98f0f769a78c7986`                                                                                                                             |
+| `scroll`                                                  | `tied-scroll`                                            | Lorc       | <https://game-icons.net/1x1/lorc/tied-scroll.html>                  | `8dec10d48e8c0012a30d7146b4187e8ed9aa016029de5f87cc254c129dc3c1d6`                                                                                                                             |
+| `cards`                                                   | `card-play`                                              | Quoting    | <https://game-icons.net/1x1/quoting/card-play.html>                 | `3d3558b885175c7a1e5297a1e2762d71fcb609ab15db16d46c4b3ffc150102ec`                                                                                                                             |
+| `bag`                                                     | `knapsack`                                               | Lorc       | <https://game-icons.net/1x1/lorc/knapsack.html>                     | `d5f3f1b087b23f8a1082674b9ac19f1530b936802f8f1bb2982d5f7e03547396`                                                                                                                             |
+| `undo`                                                    | `anticlockwise-rotation`                                 | Delapouite | <https://game-icons.net/1x1/delapouite/anticlockwise-rotation.html> | `81bdef95c5974378ad186499b093331df5dc494b9ab314b622db093f7844b177`                                                                                                                             |
+| `close`                                                   | `cancel`                                                 | sbed       | <https://game-icons.net/1x1/sbed/cancel.html>                       | `e8d3551075bea82946e201c20ac6958a6a150644a6e8010aeabecafdd86daa8a`                                                                                                                             |
+| (maschera CSS di «Termina turno»)                         | `hourglass` → `assets/hourglass.svg`                     | Lorc       | <https://game-icons.net/1x1/lorc/hourglass.html>                    | file scaricato `38459facefd9e01b25f2ef5d490d6ac5ac49ae51441b15f7c140e389e7650959`; file nel repository `1c2efeff8a2062bd83a89ce6dec0cd8465aa0b4f66ef9c6f02055a76e40cc73d`                      |
+| (maschera CSS di «Nascondi interfaccia»)                  | `semi-closed-eye` → `assets/semi-closed-eye.svg`         | Lorc       | <https://game-icons.net/1x1/lorc/semi-closed-eye.html>              | file scaricato `27eac39f0232eb9fd371d40fcd2f0be0e40883d854e697a573662ff8390dd312` (lo stesso di `eye`); file nel repository `fbcc3498330878b1ebece95cd7f6b219bd8cbc428d83c1a2aaf6c30a5989e8a9` |
+| (maschera CSS della scheda «Scena» e del comando «Scene») | `tower-flag` → `assets/tower-flag.svg` (copia Iconify)   | Delapouite | <https://game-icons.net/1x1/delapouite/tower-flag.html>             | file scaricato `a0db7698c1f6a6bf5dd85e0ff8aa870addd363527445c08cc569ef4c33217e41`; file nel repository `9d88a03ce71fa852fcb69b250d9885614bd2c9eb85bcc50191caa7adf6c222e7`                      |
+| (maschera CSS di «Disegna»)                               | `paint-brush` → `assets/paint-brush.svg` (copia Iconify) | Delapouite | <https://game-icons.net/1x1/delapouite/paint-brush.html>            | file scaricato `a4407ca65c072c88f16f05de802ac718dbeefa2221c825cce419970e68fa8f86`; file nel repository `7bd6e9696d34bab9df4e39282881f97f6cc5f5e614ae77358f5debf28301fee4`                      |
+
+Quinto giro (01/10/2026): `treasure-map`, `tower-flag` e `paint-brush` non sono stati scaricati
+di nuovo. Sono le copie già scaricate il 30/09–01/10 da `https://api.iconify.design/game-icons/<nome>.svg`
+per le opzioni 1 e 7 (stessi sha256 delle loro righe in `bg3/SOURCES.md` e `owlcat/SOURCES.md`;
+copie in `…/visual-01/probe-bg3/game-icons-fetched/` e `…/probe-owlcat/game-icons/`, autore
+verificato sul repository game-icons). Il tracciato è quello di Iconify, invariato; nelle tre
+maschere in `assets/` è tolto solo l'involucro. La bussola `lorc/compass` non è più usata: a
+20–24 px sembrava un cartello di divieto.
 
 Le icone generiche (più, frecce, menu, pannello, griglia) restano quelle dell'app, disegnate
 con un tratto più spesso; le icone disegnate dall'app stessa (risorse del turno, pedina,
@@ -473,7 +673,7 @@ ogni cartella ha il suo `OFL.txt` preso da `google/fonts` al commit
 | `assets/fonts/source-sans-3/` | Source Sans 3, variabile 200–900, normale: `source-sans-3-latin-wght-normal.woff2`, `source-sans-3-latin-ext-wght-normal.woff2` (pacchetto `@fontsource-variable/source-sans-3@5.3.0`)                                                                                     | Copyright 2010-2020 Adobe, with Reserved Font Name «Source»                               | `7a19a7027e125257d310c6dbd78ae3a30b5ea1e3794d60b12bb28227a003bfda`, `a85a7459bdb3cdc1136751e151a506bae653fc29ada3ca86237477df6f1b59e6`; `OFL.txt` `09746787287a289323b0ec3cff4d1a4a801331b82b7207c1e186f5d26619a392`                                                                                                                                         |
 | `assets/fonts/crimson-pro/`   | Crimson Pro, variabile 200–900, normale e corsivo: `crimson-pro-latin-wght-normal.woff2`, `crimson-pro-latin-ext-wght-normal.woff2`, `crimson-pro-latin-wght-italic.woff2`, `crimson-pro-latin-ext-wght-italic.woff2` (pacchetto `@fontsource-variable/crimson-pro@5.3.0`) | Copyright 2018 The Crimson Pro Project Authors (https://github.com/Fonthausen/CrimsonPro) | `20ce4189b9e41b3439a2a36dd63deff44b6d91182532202cb96b65521b4a3c23`, `ac89a08a6e022ad4f3af961eb95474b7d8531c67ff88b40194bb3569d2d64e1d`, `b3faa8f9ce36db53253e11fb107d77b983150c5c21dc8fcf3906234530ab69f2`, `01df7b443a6f81915a65df47439121da8307f8a574fadd7cde57c77d0b68c77b`; `OFL.txt` `1820869bd5baa1c2d88fa87c89eea532cf9442d841008acab720654b7f82823d` |
 
-Il marchio («d20 Studio») resta nel carattere di sistema di oggi. La preferenza «carattere
+Il marchio usa gli stessi caratteri: Crimson Pro 700 per la scritta e per il «20» sul dado. La preferenza «carattere
 leggibile» (Verdana) continua a valere sopra questi caratteri. «Source Sans 3 Fallback» non è
 un file: è un nome dato all'Arial già installata (`local("Arial")`), ridimensionata, usata
 solo finché Source Sans 3 non è caricato.
@@ -484,6 +684,9 @@ solo finché Source Sans 3 non è caricato.
 | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
 | `assets/campaign-hall.webp` (1672 × 941, 87 072 B) | `~/Workspace/Codex/d20-studio-visual-assets/candidates/plates/compendium-scene.webp` (MANIFEST riga 31, SAFE) | Immagine generata dal proprietario (gpt-image via ChatGPT, C2PA nel master `images_d20folio/PROMPT_18.png`) | `4d71cd5ce9de6680b0ff7841c46f73c9d4245d9479fdfa80ff7fe2f5b211db07` | Nessuna (copia identica); immagine della campagna nell'Inizio («Continua a giocare»), come la miniatura della campagna di «New Adventure» |
 | `assets/hourglass.svg`                             | game-icons.net `lorc/hourglass.svg` (vedi sopra)                                                              | Lorc, CC BY 3.0                                                                                             | `1c2efeff8a2062bd83a89ce6dec0cd8465aa0b4f66ef9c6f02055a76e40cc73d` | Tolto il quadrato di sfondo; usato solo come maschera                                                                                     |
+| `assets/semi-closed-eye.svg`                       | game-icons.net `lorc/semi-closed-eye.svg` (vedi sopra)                                                        | Lorc, CC BY 3.0                                                                                             | `fbcc3498330878b1ebece95cd7f6b219bd8cbc428d83c1a2aaf6c30a5989e8a9` | Tolto il quadrato di sfondo; usato solo come maschera («Nascondi interfaccia»)                                                            |
+| `assets/tower-flag.svg`                            | game-icons.net `delapouite/tower-flag` (copia Iconify, vedi sopra)                                            | Delapouite, CC BY 3.0                                                                                       | `9d88a03ce71fa852fcb69b250d9885614bd2c9eb85bcc50191caa7adf6c222e7` | Tolto l'involucro; usato solo come maschera (scheda «Scena», comando «Scene»)                                                             |
+| `assets/paint-brush.svg`                           | game-icons.net `delapouite/paint-brush` (copia Iconify, vedi sopra)                                           | Delapouite, CC BY 3.0                                                                                       | `7bd6e9696d34bab9df4e39282881f97f6cc5f5e614ae77358f5debf28301fee4` | Tolto l'involucro; usato solo come maschera («Disegna»)                                                                                   |
 
 I ritratti e la mappa dipinta sono quelli comuni a tutte le direzioni (`directions/sample.css`,
 `assets/PROVENANCE.json`). Nessun pixel, carattere, texture, logo o cornice di Solasta è nel

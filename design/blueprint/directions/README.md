@@ -1,15 +1,20 @@
 # Directions · the dev-only «Direzione» selector (Phase C, visual-01)
 
-Round 1 of Phase C («Scelta 1 — Direzione», I-248) shows the owner the real app skinned as four
+Round 1 of Phase C («Scelta 1 — Direzione», I-248) shows the owner the real app skinned as nine
 numbered directions, next to today's look («Attuale»):
 
-| Option | id        | Label in the selector |
-| ------ | --------- | --------------------- |
-| —      | `current` | «Attuale» / «Current» |
-| 1      | `bg3`     | 1 · Baldur's Gate 3   |
-| 2      | `ddb`     | 2 · D&D Beyond        |
-| 3      | `foundry` | 3 · Foundry VTT       |
-| 4      | `owlbear` | 4 · Owlbear Rodeo     |
+| Option | id          | Label in the selector |
+| ------ | ----------- | --------------------- |
+| —      | `current`   | «Attuale» / «Current» |
+| 1      | `bg3`       | 1 · Baldur's Gate 3   |
+| 2      | `ddb`       | 2 · D&D Beyond        |
+| 3      | `foundry`   | 3 · Foundry VTT       |
+| 4      | `owlbear`   | 4 · Owlbear Rodeo     |
+| 5      | `solasta`   | 5 · Solasta           |
+| 6      | `roll20`    | 6 · Roll20            |
+| 7      | `owlcat`    | 7 · Pathfinder WotR   |
+| 8      | `alchemy`   | 8 · Alchemy RPG       |
+| 9      | `demiplane` | 9 · Demiplane         |
 
 The full brief (selectors, tokens, risks) is `changes/visual-01/code-map.md`. This page is the
 contract between the loader and the builders of each direction.
@@ -34,7 +39,7 @@ contract between the loader and the builders of each direction.
 `app.mjs` imports `startDirection`, `directionControl` and `bindDirection` from `index.mjs` (three
 insertion points: the import, `await startDirection()` right after `loadExtensions`, the control
 after «Visita come» and `bindDirection(render)` in `bindShell`). `ui.mjs` exposes
-`setIconOverride(fn)`.
+`setIconOverride(fn)` and `setLogoOverride(fn)`.
 
 `applyDirection(id)` (chained, so quick changes never interleave):
 
@@ -52,15 +57,24 @@ after «Visita come» and `bindDirection(render)` in `bindShell`). `ui.mjs` expo
    - then `data-direction="<id>"` on `<html>`.
 3. **Icons:** `import("./<id>/icons.mjs")`; if it exists and exports `directionIcon`, it becomes
    the icon override, otherwise `setIconOverride(null)`.
-4. **«Attuale» or off:** attribute, links, sprite, `data-sample-map` and the icon override are all
-   removed: the page is exactly as before.
+4. **Brand (I-251):** `import("./<id>/brand.mjs")`; if it exports `directionLogo`, it becomes the
+   logo override (`logo()` returns its string), otherwise `setLogoOverride(null)`. If it exports
+   `favicon`, the page's `<link rel="icon">` href becomes `data:image/svg+xml,<encoded favicon>`;
+   the original href is kept and put back, byte for byte, when the direction goes. Under the
+   light theme both step aside (today's mark and tab icon), like the icons: the logo is checked
+   at render time and a `MutationObserver` on `data-pref-theme` swaps the tab icon.
+5. **«Attuale» or off:** attribute, links, sprite, `data-sample-map`, the icon and logo overrides
+   and the favicon swap are all removed: the page is exactly as before.
 
-**Zero effect with no key.** No attribute, no link, no sprite, no strip control, `icon()` output
-byte-identical. The only difference is one extra same-origin GET for this module. Proof for this
-scaffold: `~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/scaffold/`.
+**Zero effect with no key.** No attribute, no link, no sprite, no strip control, `icon()` and
+`logo()` output byte-identical, favicon href untouched. The only difference is one extra
+same-origin GET for this module. Proof for the scaffold:
+`~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/scaffold/`; for the brand hook:
+`…/visual-01/brand/`.
 
-**Known noise.** A direction without `icons.mjs` makes the browser log one 404 for it (the import
-is caught). The same holds for the sample map HEAD request when the file is absent.
+**Known noise.** A direction without `icons.mjs` or `brand.mjs` makes the browser log one 404 for
+each (the import is caught). The same holds for the sample map HEAD request when the file is
+absent.
 
 ## Contract for a direction builder
 
@@ -113,8 +127,86 @@ export function directionIcon(name) {
   `fill="currentColor" stroke="none"`. Anything that is not a string starting with `<svg`, or a
   throw, falls back to the core icon.
 - Names in use per surface: code-map §d. `iconPath()` (token-menu rows) is not overridden. Own-SVG
-  icons (turn resources, find-token, session HUD, token menu, logo) are reachable only with CSS
-  masks from `direction.css`.
+  icons (turn resources, find-token, session HUD, token menu) are reachable only with CSS masks
+  from `direction.css`; the logo has its own hook, `brand.mjs` below.
+
+### `brand.mjs` (optional, I-251): the direction's own d20 mark
+
+Each direction has its own brand: a d20 mark and the «d20 Studio» wordmark in the direction's
+language, plus the browser-tab icon. The mark is original: it follows the copied product's
+visual language (material, palette, line, light) but never copies its logo. The die is always a
+**true icosahedron seen face-on**, drawn as SVG in code from `directions/brand-geometry.mjs`:
+never a raster, never a generated image, never a pentagon or a six-spoke ring.
+
+```js
+// directions/<id>/brand.mjs
+import * as g from "../brand-geometry.mjs";
+
+export function directionLogo(className) {
+  const lit = `lit-${g.uniqueSuffix()}`; // a fresh id per call: the logo can render twice
+  const faces = g.svgFaces((face) =>
+    face.role === "front"
+      ? { fill: `url(#${lit})` }
+      : { fill: "currentColor", "fill-opacity": (0.42 + 0.58 * face.tone).toFixed(2) },
+  );
+  return g.logoSvg(
+    className,
+    `<defs><linearGradient id="${lit}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbf0d4"/><stop offset="1" stop-color="#e9d29c"/></linearGradient></defs>` +
+      `<g stroke="var(--logo-edge, #12171d)" stroke-width="1.8" stroke-linejoin="round">${faces}</g>` +
+      g.numeral('font-family="Georgia, serif" font-weight="700" fill="#2a2116"'),
+  );
+}
+
+// A standalone document for the browser tab: xmlns, literal colours, legible at 16 and 32 px.
+export const favicon = g.faviconSvg(
+  `<polygon points="${g.OUTLINE}" fill="#dfbd78" stroke="#12171d" stroke-width="4" stroke-linejoin="round"/>` +
+    `<polygon points="${g.CENTER_FACE}" fill="#f7e6bd" stroke="#12171d" stroke-width="4" stroke-linejoin="round"/>`,
+);
+```
+
+**`directionLogo(className)`** returns the whole mark:
+`<svg class="${className}" viewBox="…" … aria-hidden="true">…</svg>`, class first (the
+`logoSvg(className, inner, attrs)` helper writes this shape). Anything that is not a string
+starting with `<svg`, or a throw, falls back to today's mark.
+
+- **Sizes.** The header draws it at 34 px (28 px at ≤ 720 px; `.brand .logo` in `styles.css`);
+  it must stay crisp at 24–32 px and scale cleanly to 160 px. Check both in the specimen's
+  «Marchio» section. At small sizes fewer, bolder strokes win: seams ≥ 1.6 units, the outline
+  ≥ 3, no hairline detail that only shows at 160 px.
+- **Geometry.** Use `brand-geometry.mjs`: `VIEWBOX` (`0 0 100 100`), `OUTLINE` (the hexagon),
+  `CENTER_FACE` (the «20» face), `FACES` (the ten visible faces, each `{ id, role:
+'top'|'front'|'flank'|'bottom', vertices, points, normal, tone }`), `SEAMS` (the twelve inner
+  edges, a path), `V` (named vertices), `shade(light)` (tones 0..1 for another light;
+  `LIGHT` is from the upper left), `svgFaces(style)` and `numeral(attrs, size)`. Restyle it
+  freely (fills, gradients, strokes, bevels, line-only, engraved); do not move vertices.
+- **The numeral.** The only text allowed is «20» in the front face, written with `numeral()`:
+  baseline at y 60, `NUMERAL.size` 18, at most `NUMERAL.max` 19 for a «20» up to 1.15 em wide.
+  Fonts with old-style figures (Alegreya, Georgia) need `style="font-variant-numeric:
+lining-nums"` so both digits stand on the baseline. A direction may leave it out at 16 px.
+- **Ids.** Gradients, filters, masks and clip paths get a per-call suffix (`uniqueSuffix()`):
+  the logo renders more than once on a page. Every `url(#…)` points inside the same mark.
+- **No** external images, `<image>`, `<use>`, `href`, `<foreignObject>` or scripts; **no** text
+  other than the numeral. Colours may use `currentColor` and the direction's custom properties
+  (`var(--accent)`, `var(--logo-edge)`), since the mark is inline in the page.
+
+**`favicon`** (optional) is a standalone SVG document: `<svg xmlns="http://www.w3.org/2000/svg"
+viewBox="…">…</svg>` (`faviconSvg(inner, attrs)`), with literal colours only (no
+`currentColor`, no `var()`: a tab icon has no page CSS), under 8 KB, legible at 16 and 32 px on
+both a dark and a light tab strip (a silhouette and the front face with a dark edge read best;
+the numeral rarely survives at 16 px).
+
+**The wordmark** is styled in `direction.css` on the existing header markup (`app.mjs:759`,
+unchanged): `<button class="brand" data-nav="home" aria-label="d20 Studio"><svg class="logo">…</svg><span>d20 <b>Studio</b></span></button>`.
+Prefixed rules on `.brand` (gap, padding, font), `.brand span` (the whole wordmark), `.brand b`
+(«Studio»; today it is the accent colour at weight 400) and `.brand .logo` (mark size, colour,
+shadow); `.table-header .brand` is the Table's 20 px variant; at ≤ 420 px the wordmark is hidden
+and the mark alone stays a 40 px target. Same rules as the rest of `direction.css`: colours under
+the light guard, no `content:` text, no `text-transform`, the text stays «d20 Studio» (case,
+spacing and letter-spacing are the style, not the words), the 3 px focus ring stays visible.
+
+`tests/visual01-directions.test.mjs` checks every `brand.mjs` it finds: the export, the root's
+class, viewBox and `aria-hidden`, no external reference or other text, ids unique across two
+calls and resolved inside the mark, the favicon's `xmlns`, literal colours and size.
 
 ### Direction assets
 

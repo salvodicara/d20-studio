@@ -48,6 +48,10 @@
                     15 px copper; page gutter 32 / 48 px (32 below 1000 px, 24 / 16 on a
                     phone); the Table's side panel 24 px inside, its sub-tabs 8 / 12 px;
                     every bare icon button 21 px (the token menu's close too)
+   - details ...... (round 5, detail critique) 8 px between boxed buttons, 24 px before a bare
+                    command; 4 px between slate cells; the band's ten cells one recipe;
+                    focus rings 4 px inside controls packed or clipped; key hints 18 px,
+                    chips 20 px; the last section «details (round 5)» lists every fix
    - rhythm ....... (round 4, I-250) inside a plate, a panel or a dialog: title 16 px over its
                     content, blocks 16 px apart, a sub-section label 16 px under the block
                     before it and 8 px over its own content, a caption 8 px under its block;
@@ -93,8 +97,10 @@
      its foot; party card = tall bust ..... main menu, New Adventure .. facts §6 [L SL32, SL33]
    - Sheet: CLOSE chip, round medallion,
      spaced small-caps name, ability boxes
-     with graded modifier chips, derived
-     cells in sky blue ..................... character sheet .......... facts §5 [J SL21, SL26]
+     with graded chips, derived cells in
+     sky blue (round 5: the ability boxes
+     are derived cells, the modifier the
+     hero numeral, the score in the chip) .. character sheet .......... facts §5 [J SL21, SL26]
    - Table: full-width row of portrait cards
      with 5 px teal rules, ally slate / enemy
      blood red, the active card taller ..... initiative bar ............ facts §4 [L SL1 SLC2]
@@ -515,20 +521,7 @@
 :root[data-direction="solasta"]:not([data-pref-theme="light"]) .icon[stroke="currentColor"] {
   stroke-width: 2.2;
 }
-/* The brand waits for Phase D: the logo and wordmark keep today's colours and face. */
-:root[data-direction="solasta"]:not([data-pref-theme="light"]) .brand {
-  color: #efe7d6;
-  font-family:
-    "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", "URW Palladio L", Georgia,
-    serif;
-  font-weight: 400;
-  font-variant-caps: normal;
-  letter-spacing: 0.01em;
-}
-:root[data-direction="solasta"]:not([data-pref-theme="light"])
-  :is(.brand .icon, .brand .logo, .brand b) {
-  color: #dfbd78;
-}
+/* The brand (mark, wordmark, tab icon, I-251) is the last section of this file. */
 
 /* ------------------------------------------------------------------ shared chrome: header */
 /* The header is Solasta's character-sheet tab bar: a black band, the pages as tracked copper
@@ -543,9 +536,6 @@
 }
 :root[data-direction="solasta"]:not([data-pref-theme="light"]) .app-header .service-nav {
   gap: var(--space-1);
-}
-:root[data-direction="solasta"]:not([data-pref-theme="light"]) .app-header .brand {
-  gap: var(--space-2);
 }
 @media (min-width: 721px) {
   :root[data-direction="solasta"]:not([data-pref-theme="light"]) .app-header {
@@ -781,6 +771,7 @@
 }
 :root[data-direction="solasta"]:not([data-pref-theme="light"]) .text-button:hover:not(:disabled) {
   color: var(--accent-strong);
+  text-decoration: none;
 }
 /* Fields: the settings dropdown — a dark well, a 1 px copper line, copper text and chevron;
    text inputs keep the neutral line and turn copper on focus. Every field is 40 px tall with
@@ -882,7 +873,8 @@
       50% / var(--space-3) var(--space-3) no-repeat,
     var(--sl-copper-fill);
 }
-/* Chips: Solasta's flat dark-teal personality chips (FORMAL, LAWFULNESS). */
+/* Chips: Solasta's flat dark-teal personality chips (FORMAL, LAWFULNESS); a 16 px line, so a
+   chip is a whole 20 px tall (detail S22: 19.4). */
 :root[data-direction="solasta"]:not([data-pref-theme="light"]) .badge {
   border: 0;
   border-radius: 0;
@@ -894,7 +886,7 @@
   font-weight: var(--sl-w-caps);
   font-variant-caps: all-small-caps;
   letter-spacing: var(--sl-track-caps);
-  line-height: var(--sl-lh-tight);
+  line-height: var(--space-4);
 }
 /* Tabs: tracked copper capitals; the open one white over the 4 px copper underline. Two
    tiers (round 2): the primary bars (the header's pages, the sheet's tab bar) 20 px on a
@@ -946,9 +938,9 @@
   color: var(--sl-sky-ink);
   font-weight: var(--sl-w-strong);
 }
-/* Small counts and key hints: 12 px (the scale's smallest step). */
+/* Small counts: 12 px (the scale's smallest step; key hints below, «spacing on the scale»). */
 :root[data-direction="solasta"]:not([data-pref-theme="light"])
-  :is(.ext-count, .home-page .home-count, kbd) {
+  :is(.ext-count, .home-page .home-count) {
   font-size: var(--text-2xs);
   line-height: var(--sl-lh-tight);
 }
@@ -1487,22 +1479,48 @@
   > .button.quiet:hover {
   background: #5a5a5a;
 }
-/* The medallion: a round portrait with a 2 px grey ring on the slate backdrop. */
+/* The medallion: a round portrait with a 2 px grey ring on the slate backdrop, a true circle
+   of 64 px at every width (the app's 52 × 68 and 44 × 56 boxes made an ellipse, detail S6),
+   the face covering it. The square quill badge (24 px) sits centred on the ring at 45°, outside the
+   clip, so the circle stays whole under it. */
 :root[data-direction="solasta"]:not([data-pref-theme="light"])
   .character-sheet
   .character-heading
   .character-portrait {
+  --sl-medal: var(--space-8);
+  --sl-badge: var(--space-5);
+  inline-size: var(--sl-medal);
+  block-size: var(--sl-medal);
+  overflow: visible;
   border: var(--sl-2) solid #8a8a8a;
   border-radius: 50%;
   background-color: var(--sl-backdrop);
+  background-size: cover;
   box-shadow: 0 0 0 var(--sl-2) #0c0b0b;
 }
 :root[data-direction="solasta"]:not([data-pref-theme="light"])
   .character-sheet
   .character-portrait-edit {
+  right: calc(
+    var(--sl-medal) / 2 - (var(--sl-medal) / 2 - var(--sl-hair)) * 0.7071 - var(--sl-2) -
+      var(--sl-badge) / 2
+  );
+  bottom: calc(
+    var(--sl-medal) / 2 - (var(--sl-medal) / 2 - var(--sl-hair)) * 0.7071 - var(--sl-2) -
+      var(--sl-badge) / 2
+  );
+  inline-size: var(--sl-badge);
+  block-size: var(--sl-badge);
   border-radius: 0;
   background: var(--sl-neutral);
   color: var(--sl-copper);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-portrait-edit
+  .icon {
+  width: var(--space-4);
+  height: var(--space-4);
 }
 :root[data-direction="solasta"]:not([data-pref-theme="light"])
   .character-sheet
@@ -1532,30 +1550,41 @@
   border-radius: 0;
   background: var(--sl-panel);
 }
-/* Ability boxes (SL21, SLC8): a grey caps strip on top, the score large, the modifier in a
-   square chip under it, its blue stepping up with the value (Solasta's own ramp). */
+/* Ability boxes (SL21, SLC8): the band's one cell recipe (detail S2, 01/10): the derived
+   cells' #424545 plate, 12 / 8 px, the same caps label with its two lines reserved, so the
+   ten labels share one baseline and the numbers the next. The modifier, what a player rolls,
+   is the hero numeral (24 / 1.1 / 700, sky like every derived value); the score sits 8 px
+   under it in a square chip whose blue steps up with the modifier (Solasta's own ramp). */
 :root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .shp-abilities {
   gap: var(--space-2);
 }
 :root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .shp-ability-box {
   justify-content: flex-start;
   gap: var(--space-1);
-  padding: 0 0 var(--space-2);
-  border: var(--sl-hair) solid var(--sl-edge);
+  padding: var(--space-3) var(--space-2);
+  border: 0;
   border-radius: 0;
-  background: var(--sl-page);
+  background: var(--sl-cell);
 }
+/* One hover for every clickable cell of the band: a 1 px copper line inside the plate (the
+   app's border hovers had no border left to colour). */
 :root[data-direction="solasta"]:not([data-pref-theme="light"])
   .character-sheet
-  .shp-ability-box:not(.is-static):hover {
-  border-color: var(--sl-copper-line);
+  :is(
+    .shp-ability-box:not(.is-static),
+    button.shp-pill,
+    .character-stat-button,
+    button.character-inspiration
+  ):hover {
+  box-shadow: inset 0 0 0 var(--sl-hair) var(--sl-copper-line);
 }
 :root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .shp-ability-name {
   order: 0;
   align-self: stretch;
-  padding: var(--sl-2) 0;
-  background: var(--sl-neutral);
-  color: var(--sl-ink);
+  min-height: calc(2em * var(--sl-lh-tight));
+  padding: 0;
+  background: none;
+  color: var(--sl-ink-slate);
   font-size: var(--text-sm);
   font-weight: var(--sl-w-caps);
   font-variant-caps: all-small-caps;
@@ -1566,46 +1595,51 @@
 :root[data-direction="solasta"]:not([data-pref-theme="light"])
   .character-sheet
   .shp-ability-box
-  > small {
+  > strong {
   order: 1;
-  border: 0;
-  border-radius: 0;
+  min-width: 0;
+  margin-block: 0;
   padding: 0;
   background: none;
-  color: var(--sl-white);
+  color: var(--sl-sky-ink);
   font-size: var(--text-2xl);
   font-weight: var(--sl-w-strong);
   line-height: var(--sl-lh-tight);
+  font-variant-numeric: lining-nums tabular-nums;
 }
 :root[data-direction="solasta"]:not([data-pref-theme="light"])
   .character-sheet
   .shp-ability-box
-  > strong {
+  > small {
   order: 2;
   min-width: var(--space-6);
+  margin-top: var(--space-1);
   padding: 0 var(--space-1);
+  border: 0;
+  border-radius: 0;
   background: var(--sl-mod-0);
   color: var(--sl-ink-bright);
   font-size: var(--text-sm);
   font-weight: var(--sl-w-strong);
   line-height: var(--sl-lh-body);
+  font-variant-numeric: lining-nums tabular-nums;
 }
 :root[data-direction="solasta"]:not([data-pref-theme="light"])
   .character-sheet
   .shp-ability-box[aria-label$="+1"]
-  > strong {
+  > small {
   background: var(--sl-mod-1);
 }
 :root[data-direction="solasta"]:not([data-pref-theme="light"])
   .character-sheet
   .shp-ability-box[aria-label$="+2"]
-  > strong {
+  > small {
   background: var(--sl-mod-2);
 }
 :root[data-direction="solasta"]:not([data-pref-theme="light"])
   .character-sheet
   .shp-ability-box[aria-label$="+3"]
-  > strong {
+  > small {
   background: var(--sl-mod-3);
 }
 :root[data-direction="solasta"]:not([data-pref-theme="light"])
@@ -1616,7 +1650,7 @@
     [aria-label$="+6"],
     [aria-label$="+7"]
   )
-  > strong {
+  > small {
   background: var(--sl-mod-4);
 }
 /* Derived stats (AC / INIT / MOVE / PROF. / HP): Solasta's #424545 cells, caps label, the
@@ -1820,9 +1854,28 @@
   border-radius: 0;
   background: var(--sl-panel);
 }
-:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .shp-col h3 {
+/* Their titles are plate titles like every other (17 px ink, on the content's left edge, 16 px
+   over the list); «Abilità aggiuntive», under the skills, stays a 15 px copper sub-section
+   label, 16 px under the list and 8 px over its own (detail S8: all five were 15 px copper,
+   centred). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-derived
+  .shp-col
+  > h3 {
+  margin: var(--space-4) 0 var(--space-2);
   color: var(--sl-copper);
   font-size: var(--text-md);
+  text-align: start;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-derived
+  .shp-col
+  > h3:first-child {
+  margin: 0 0 var(--space-4);
+  color: var(--sl-ink);
+  font-size: var(--text-lg);
 }
 :root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .shp-row {
   border-color: #3a3c39;
@@ -1836,6 +1889,15 @@
 }
 :root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .shp-value:hover {
   background: var(--sl-slate-hover);
+}
+/* The name and its abbreviation (each on its own baseline) hang on the row's centre line,
+   with the star, the box and the value; a two-line name stays centred (detail S1: the name
+   sat 4 px under the row's top, 7 px above the value). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-row
+  .shp-row-name {
+  align-content: center;
 }
 :root[data-direction="solasta"]:not([data-pref-theme="light"])
   .character-sheet
@@ -1926,10 +1988,14 @@
   background: var(--sl-copper-chip);
   color: var(--sl-ink-bright);
 }
+/* The segmented controls' line is drawn inside their 40 px buttons (an outline 1 px in), so
+   the control is 40 px tall like every command beside it (detail S22: 42 px with a border). */
 :root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .shp-mode {
   gap: 0;
-  border: var(--sl-hair) solid var(--sl-copper-line);
+  border: 0;
   border-radius: 0;
+  outline: var(--sl-hair) solid var(--sl-copper-line);
+  outline-offset: calc(-1 * var(--sl-hair));
   background: transparent;
 }
 :root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .shp-mode button {
@@ -2003,7 +2069,7 @@
   font-weight: var(--sl-w-caps);
   font-variant-caps: all-small-caps;
   letter-spacing: var(--sl-track-caps);
-  line-height: var(--sl-lh-tight);
+  line-height: var(--space-4);
 }
 /* Segmented controls (Gioco / Modifica, the dice mode): the button recipe's 8 / 16 px. */
 :root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .shp-mode button {
@@ -2316,6 +2382,7 @@
   .table-layout
   .session-view-hud-button:hover {
   background: var(--sl-slate-hover);
+  color: var(--sl-ink-bright);
 }
 /* The session row is the tool column's cells (round 2): 24 px glyphs, 8 px each side, so an
    icon-only button is the 40 px square of a map tool; the words of the session chips are a
@@ -2672,14 +2739,6 @@
   .table-sidebar-panel
   h3 {
   color: var(--sl-copper);
-}
-:root[data-direction="solasta"]:not([data-pref-theme="light"])
-  .table-layout
-  .table-sidebar-panel
-  kbd {
-  border-radius: 0;
-  background: var(--sl-neutral);
-  color: var(--sl-ink-bright);
 }
 :root[data-direction="solasta"]:not([data-pref-theme="light"])
   :is(.table-layout, .character-sheet)
@@ -3787,13 +3846,13 @@
     .table-hotbar
     .hotbar-pages {
     flex-direction: row;
-    gap: var(--sl-hair);
+    gap: var(--space-1);
   }
   :root[data-direction="solasta"]:not([data-pref-theme="light"])
     .table-layout
     > .action-dock.table-hotbar
     > .toolbar {
-    gap: var(--sl-hair);
+    gap: var(--space-1);
   }
   :root[data-direction="solasta"]:not([data-pref-theme="light"])
     .table-layout
@@ -3815,8 +3874,9 @@
     > .action-dock.table-hotbar
     > .toolbar
     > [data-table="end-turn"] {
+    flex: 1 0 auto;
     gap: var(--space-2);
-    margin-left: auto;
+    margin-left: var(--space-2);
     padding: 0 var(--space-3);
     font-size: var(--text-sm);
   }
@@ -3841,10 +3901,13 @@
     border-radius: 0;
     background: var(--sl-sep);
   }
+  /* Its top line is drawn inside the bar (a 1 px inset shadow, not a border), so the 52 px
+     tabs fit the bar and their focus ring is not cut at the top (detail S13). */
   :root[data-direction="solasta"]:not([data-pref-theme="light"])
     .table-layout
     > .table-sidebar-rail {
-    border-top: var(--sl-hair) solid #1e1e1e;
+    border-top: 0;
+    box-shadow: inset 0 var(--sl-hair) 0 #1e1e1e;
   }
   /* The rail's names: the tab bar's tracked capitals at the scale's smallest step (today's
      10 px sentence case is gone). */
@@ -3892,11 +3955,29 @@
   :root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout .table-party {
     bottom: calc(var(--space-8) + var(--space-5));
   }
-  /* The compact rows the app measures on a phone keep compact commands: 12 px capitals. */
-  :root[data-direction="solasta"]:not([data-pref-theme="light"])
-    :is(.table-header > .button, .table-layout > .table-topline .button) {
+  /* The Table header, which the app measures to keep on one row, keeps compact commands
+     (12 px capitals). The scene plate's commands are buttons like every other (15 px, detail
+     S17: they were 12 px). */
+  :root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-header > .button {
     padding-block: var(--space-2);
     font-size: var(--text-2xs);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    > .table-topline
+    .button {
+    padding-block: var(--space-2);
+    font-size: var(--text-md);
+  }
+  /* The scene plate's commands keep one place in every state (detail S17: «Riposi» sat at the
+     end of line 1 in exploration and dropped to line 2 in combat): the title block takes at
+     least 192 px, so a lone command stays at the end of line 1 (the state line goes under
+     the title when it does not fit) and a full row of commands (the DM's) takes line 2. */
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    > .table-topline
+    > div:first-child {
+    flex: 1 1 calc(6 * var(--space-6));
   }
 }
 
@@ -4124,18 +4205,18 @@
     .character-sheet .shp-mode button,
     .character-sheet .shp-xp,
     .table-layout .conditions-quick,
-    .ct-start-roll
+    .ct-start-roll,
+    .character-sheet .shp-bar-top,
+    .table-layout .forms-toolbar
   ) {
   gap: var(--space-2);
 }
 :root[data-direction="solasta"]:not([data-pref-theme="light"])
   :is(
-    .character-sheet .shp-bar-top,
     .character-sheet .invp-toolbar,
     .character-sheet .invp > .section-heading,
     .character-sheet .spl-filters,
     .character-sheet .offline-switch,
-    .table-layout .forms-toolbar,
     .table-layout .inspector-person,
     .character-sheet .invp-row,
     .character-sheet .invp-cols,
@@ -4218,6 +4299,25 @@
 }
 :root[data-direction="solasta"]:not([data-pref-theme="light"]) kbd {
   padding: 0 var(--space-1);
+}
+/* One key hint everywhere (detail S18: a filled grey chip in the Creature panel, a dark
+   outlined one in the token menu, both 15.2 px tall): Solasta's dark well with the 1 px slate
+   line, 12 px capitals on a 16 px line, 18 px tall. On a highlighted (copper) menu row it
+   turns into a dark outline on the copper, so its keys stay legible. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) :is(kbd, .inspector-quick kbd) {
+  display: inline-block;
+  border: var(--sl-hair) solid var(--sl-sep);
+  border-radius: 0;
+  background: var(--sunken);
+  color: var(--sl-ink-slate);
+  font-size: var(--text-2xs);
+  line-height: var(--space-4);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  :is(.token-menu-item:hover, .token-menu-item:focus-visible)
+  kbd {
+  border-color: var(--sl-ink-on-copper);
+  background: transparent;
 }
 /* Margins: the sheet's heading and sections. */
 :root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .character-heading {
@@ -4536,4 +4636,509 @@
 }
 :root[data-direction="solasta"]:not([data-pref-theme="light"]) .token-menu-chevron {
   color: var(--sl-copper);
+}
+
+/* ------------------------------------------------------------------ details (round 5) */
+/* Round 5 (01/10/2026), the independent detail critique (S1–S24, brand B1–B3 and three
+   «surpass» ideas; SOURCES.md «Dettagli rifiniti» has the numbers before and after). A fix
+   that changed an existing recipe sits with it: S1 and S8 (the sheet's lists), S2 (the stat
+   band), S6 (the medallion), S17 (the scene plate on a phone), S18 (key hints) and the 4 px
+   phone clusters of S4. The rest is here, one comment per finding. */
+
+/* S3 — one rule for a row of commands: 8 px between two boxed buttons, 24 px before a bare
+   command. In the initiative dialog «Tira tutti» and «Tira PNG» stood 24 px apart, as far as
+   «Nessuno»; with 8 px the three also share one line on a phone. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .ct-start .toolbar.ct-start-tools {
+  column-gap: var(--space-2);
+  row-gap: var(--space-2);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .ct-start
+  .toolbar.ct-start-tools
+  > .button.quiet {
+  margin-inline-start: var(--space-4);
+}
+
+/* S4 — slate cells stand 4 px apart in every cluster: the session buttons over the map too
+   (6 px), like the zoom cells and the tool column. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  :is(.session-view-hud-bar, .session-view-hud-bar > .safety-hud-group) {
+  gap: var(--space-1);
+}
+@media screen and (max-width: 720px) {
+  /* The phone hotbar's blocks 4 px apart (6, and 9 px from the weapon tile to «Mosse»), the
+     second row on one top edge (the tiles stood 1 px higher than «Mosse» and the dice). End
+     turn (phone block above) fills its row from 12 px after the turn cells, as on a desktop,
+     to the bar's edge: a whole-pixel width (it started at x 241.5, 29.5 px away). */
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar {
+    column-gap: var(--space-1);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    :is(.combat-dock, .combat-bar-heading) {
+    align-self: start;
+  }
+  /* The scrolling row of tiles shows whole tiles only: each tile takes the row's width and
+     the row snaps tile by tile (a 1 px sliver of the next tile stood beside the first, so the
+     first tile looked 9 px from «Mosse»). */
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-actions {
+    container-type: inline-size;
+    scroll-snap-type: x mandatory;
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-actions
+    .combat-action {
+    width: 100cqi;
+    max-width: none;
+    scroll-snap-align: start;
+  }
+}
+
+/* S5 — inventory rows on fixed columns wherever the list is wide enough: the icon, the name,
+   the three value columns (3 × the app's 52 px + 2 × 12) and the commands (208 px: «Dettagli»,
+   the item's own command, the menu at the far right; the widest set, Dettagli · Bevi · menu,
+   is 201 px). «Qtà», «Peso», «Cariche» and «Dettagli» stand on one x in every row (they
+   zig-zagged by up to 83 px with the width of the commands). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet section.invp {
+  container: sl-invp / inline-size;
+}
+@container sl-invp (min-width: 584px) {
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .character-sheet
+    .invp-row:has(> .invp-cols) {
+    display: grid;
+    grid-template-columns:
+      var(--sl-control) minmax(0, 1fr) calc(3 * 52px + 2 * var(--space-3))
+      calc(13 * var(--space-4));
+    align-items: center;
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .character-sheet
+    .invp-row
+    > .invp-cols {
+    justify-content: flex-end;
+    margin-left: 0;
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .character-sheet
+    .invp-row:has(> .invp-cols)
+    > .invp-row-actions {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .character-sheet
+    .invp-row:has(> .invp-cols)
+    > .invp-row-actions
+    > [data-invp="menu"] {
+    margin-left: auto;
+  }
+}
+
+/* S7 — no two controls share one picture: «Nascondi interfaccia» gets an eye and the Scene tab
+   and the DM's «Scene» command a tower with its flag (they showed the map glyph of «Mappa»
+   and «Sposta vista»; that glyph is now a treasure map, icons.mjs). S20 — «Disegna» gets a
+   brush, so it no longer repeats the quill of «Pianifica percorso» one column away. Masks
+   over the icon box, as End turn's hourglass; the drawn glyph hides. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  :is(
+    .session-view-hud-button[data-sv="clean"],
+    #table-tab-scene,
+    .table-topline [data-table="scenes"],
+    .map-tool-group[data-tool-group="draw"],
+    .map-tool[data-tool="annotations-draw"]
+  )
+  > .icon {
+  background: currentColor;
+  -webkit-mask: var(--sl-glyph) center / contain no-repeat;
+  mask: var(--sl-glyph) center / contain no-repeat;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  :is(
+    .session-view-hud-button[data-sv="clean"],
+    #table-tab-scene,
+    .table-topline [data-table="scenes"],
+    .map-tool-group[data-tool-group="draw"],
+    .map-tool[data-tool="annotations-draw"]
+  )
+  > .icon
+  > * {
+  visibility: hidden;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .session-view-hud-button[data-sv="clean"] {
+  --sl-glyph: url("assets/semi-closed-eye.svg");
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  :is(#table-tab-scene, .table-topline [data-table="scenes"]) {
+  --sl-glyph: url("assets/tower-flag.svg");
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  :is(.map-tool-group[data-tool-group="draw"], .map-tool[data-tool="annotations-draw"]) {
+  --sl-glyph: url("assets/paint-brush.svg");
+}
+
+/* S20 — the tools of the open group stand on the column's top edge, 8 px to its right (the
+   app's -1 / 7 px set them 1 px high and 15 px from the column's cells). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout .map-subtools {
+  top: 0;
+  left: calc(100% + var(--space-2));
+}
+
+@media (min-width: 721px) {
+  /* S9 — the Creature panel fades over its last 24 px, so the cut at the band's edge reads as
+     «more below» (a button was sliced through its middle); the turn cells end on the panel's
+     content edge, 24 px in (they ran 8 px past it). */
+  :root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-layout .table-inspector {
+    -webkit-mask-image: linear-gradient(#000 calc(100% - var(--space-5)), transparent);
+    mask-image: linear-gradient(#000 calc(100% - var(--space-5)), transparent);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar {
+    padding-right: var(--space-5);
+  }
+  /* S10 — the two quiet cells fill the second row's inner columns, so the block of five
+     closes against End turn and the gap sits under the active «Muovi» (it was the block's
+     outer corner, 56 px of hole beside End turn). */
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar
+    > .button.quiet:not(.button.quiet ~ .button.quiet) {
+    grid-column: 2;
+  }
+}
+
+/* S13 — the focus ring is never clipped: inside the turn-order strip (it scrolls, and cut the
+   ring's top by 4 px) and the turn cells (4 px apart, the next cell painted over it) the
+   3 px ring is drawn 4 px inside the control, as on the hotbar tiles; on a portrait card a
+   dark 6 px halo inside the picture keeps it legible on a bright face. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  > .initiative
+  .initiative-token:focus-visible,
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  > .action-dock.table-hotbar
+  > .toolbar
+  > .button:focus-visible {
+  outline-offset: calc(-1 * var(--space-1));
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  > .initiative
+  .initiative-token:focus-visible
+  .token-dot {
+  box-shadow: inset 0 0 0 calc(var(--space-1) + var(--sl-2)) var(--sl-black);
+}
+
+/* Surpass — the creature on deck: the card after the active one carries a 2 px ice rule on
+   top and its name in the bright ink, so the table sees who comes next without a new control
+   (Solasta marks only the active card). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  > .initiative
+  .initiative-token.current
+  + .initiative-token
+  .token-dot {
+  box-shadow: inset 0 var(--sl-2) 0 var(--sl-ice);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  > .initiative
+  .initiative-token.current
+  + .initiative-token
+  > span:last-child {
+  color: var(--sl-ink-bright);
+}
+
+/* S22 — the «Sessione non avviata» notice over the map takes the plate padding of the scale,
+   8 / 12 px (the app's 6 / 10). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .session-view-chip.is-warn {
+  padding: var(--space-2) var(--space-3);
+}
+
+/* S23 — the inventory search spans the plate like the filters under it (the app's 460 px
+   cap left it 154 px short), and the experience line starts on the column's left edge under
+   «Gioco» (it was pushed to the right on its own row). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .invp-search {
+  max-width: none;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-bar-top
+  > .shp-xp {
+  margin-left: 0;
+}
+
+/* S11 — the Home plates share one rhythm: title 16 px over its content, the last text 24 px
+   over the command row. The appointment's two commands take the column's full width, one
+   under the other (they needed 325 px of a 312 px column and wrapped ragged). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .home-page .home-appointment {
+  gap: var(--space-5);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .home-page .home-appointment h2 {
+  margin-bottom: var(--space-4);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .home-page
+  .home-appointment-main
+  > :last-child {
+  margin-bottom: 0;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .home-page
+  .home-appointment-actions
+  :is(.int-card-calendar, .int-cal-menu, .home-appointment-actions > .button) {
+  flex: 1 1 100%;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .home-page
+  .home-appointment-actions
+  .int-cal-menu
+  > summary.button {
+  display: flex;
+  justify-content: center;
+}
+/* S24 — the unread count on the selected copper row is a dark chip with copper figures (pink
+   on copper before). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .home-page
+  .home-tabs
+  [role="tab"][aria-selected="true"]
+  .home-count {
+  background: var(--sl-ink-on-copper);
+  color: var(--sl-copper);
+}
+
+/* S12 — the initiative dialog's rows keep two columns: the «Sorpreso» box under the include
+   box and its word under the name (the box sat under the order number). On a phone the
+   footer's two commands take the full width, the filled one last. */
+@media (min-width: 721px) {
+  :root[data-direction="solasta"]:not([data-pref-theme="light"]) .ct-start .ct-start-surprise {
+    padding-left: calc(20px + var(--space-2));
+  }
+}
+@media (max-width: 420px) {
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    #dialog:has(.ct-start)
+    footer
+    > .button {
+    flex: 1 1 100%;
+  }
+}
+
+/* S14 — scrolling strips show that they scroll: the sheet's tab strip keeps 16 px of air at
+   both ends when it brings a tab into view and fades its ends over 16 px; the Table's bottom
+   bar fades its far end and sizes each tab to its name, so «Combattimento» is whole (it ended
+   in «…»), with 2 % tracking at 12 px. */
+@media (max-width: 720px) {
+  :root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .character-tabs {
+    scroll-padding-inline: var(--space-4);
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 var(--space-4),
+      #000 calc(100% - var(--space-4)),
+      transparent
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 var(--space-4),
+      #000 calc(100% - var(--space-4)),
+      transparent
+    );
+  }
+  /* The bottom bar's tabs are filled when chosen: only its far end fades. */
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-sidebar-rail
+    > .table-tabs {
+    scroll-padding-inline: var(--space-4);
+    -webkit-mask-image: linear-gradient(to left, transparent, #000 var(--space-4));
+    mask-image: linear-gradient(to left, transparent, #000 var(--space-4));
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-sidebar-rail
+    > .table-tabs
+    > .table-tab {
+    flex: none;
+    padding: 0 var(--space-2);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-sidebar-rail
+    .table-tab-label {
+    max-width: none;
+    letter-spacing: 0.02em;
+  }
+}
+
+/* S15 — 8 px between an icon and its words on every command (0 on «Tiri e risultati», 4 on
+   «Tira l'iniziativa»); 12 px stays for the token menu's 40 px rows. «Digitali», the only
+   sentence-case word in the dice plate, takes the tracked capitals of its neighbours. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .text-button:has(> .icon) {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .ct-start .ct-start-roll-one {
+  gap: var(--space-2);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-bar-heading
+  select {
+  font-weight: var(--sl-w-caps);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--sl-track-caps);
+}
+
+/* S16 — the token menu's medallion shows the creature's painted portrait, as the Creature
+   panel does (it showed the letter «L»): the shared sample art, cropped as sample.css crops
+   it, while one sample creature is selected; the letter stays, transparent, as the box's
+   text. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]):has(
+    .table-layout .map-token.selected[data-actor="livia"]
+  ) {
+  --sl-menu-face: url("../../assets/portraits/sample/livia.webp");
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]):has(
+    .table-layout .map-token.selected[data-actor="doran"]
+  ) {
+  --sl-menu-face: url("../../assets/portraits/sample/doran.webp");
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]):has(
+    .table-layout .map-token.selected[data-actor="mira"]
+  ) {
+  --sl-menu-face: url("../../assets/portraits/sample/mira.webp");
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]):has(
+    .table-layout .map-token.selected[data-actor="goblin-1"]
+  ) {
+  --sl-menu-face: url("../../assets/portraits/sample/goblin-1.webp");
+  --sl-menu-face-crop: 52% 0 / 181.6% auto;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]):has(
+    .table-layout .map-token.selected[data-actor="goblin-2"]
+  ) {
+  --sl-menu-face: url("../../assets/portraits/sample/goblin-2.webp");
+  --sl-menu-face-crop: 52% 0 / 181.6% auto;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]):has(
+    .table-layout
+      .map-token.selected:is(
+        [data-actor="livia"],
+        [data-actor="doran"],
+        [data-actor="mira"],
+        [data-actor="goblin-1"],
+        [data-actor="goblin-2"]
+      )
+  ):not(:has(.table-layout .map-token.selected ~ .map-token.selected))
+  .token-menu-portrait:not(:has(svg)) {
+  background: var(--sl-menu-face) var(--sl-menu-face-crop, center / cover) no-repeat
+    var(--sl-backdrop);
+  color: transparent;
+}
+
+/* ------------------------------------------------------------------ brand (I-251) */
+/* Elemento → prodotto → fonte (SOURCES.md «Marchio»):
+   - mark: flat slate faces, light edges ..... roll widget D20 glyph, HUD plates . SL10, facts §4
+   - the «20» face filled copper ............ the main menu's active row ......... facts §6 SL32
+   - «20» in a bold bracketed serif ......... in-world dice numerals ............ SL20
+   - «Studio» in the names' bold serif caps
+     and small caps, copper ................ names («Spring Update Dungeon») .... facts §2, SL32
+   - no shadow, no glow, no metal ............ the flat HUD (not the gilt logo) .. facts §0
+   The mark is directions/solasta/brand.mjs. The wordmark is Crimson Pro 700: «d20» stays the
+   dice notation in the names' ink, «Studio» is set like a Solasta proper name (a capital and
+   small capitals, tracked as the caps) in the copper of the menu labels. It stays serif, so it
+   never reads as one more tracked-sans header tab. Mark and words are 8 px apart (12 px of
+   visible space: the die sits 4 px inside its box), both centred on the header's line. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .brand {
+  gap: var(--space-2);
+  color: var(--sl-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--sl-w-strong);
+  letter-spacing: var(--sl-track-name);
+  line-height: var(--sl-lh-tight);
+}
+/* Crimson Pro sits 1 px low in its line box: lifted, the figures' and capitals' middle is the
+   die's middle (measured on 2× captures of Home and the Table, 01/10/2026). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .brand > span {
+  translate: 0 -1px;
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .brand b {
+  font-weight: var(--sl-w-strong);
+  font-variant-caps: small-caps;
+  letter-spacing: var(--sl-track-caps);
+  color: var(--sl-copper);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) :is(.brand .icon, .brand .logo) {
+  color: var(--sl-copper-fill);
+  filter: none;
+}
+/* Hover: the words brighten and the die's copper face lights up (brand.mjs reads
+   --sl-brand-face); the 3 px focus ring is the app's, 3 px outside the box. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .brand:hover {
+  color: var(--sl-ink-bright);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .brand:hover .logo {
+  --sl-brand-face: var(--sl-copper);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-header .brand {
+  font-size: var(--text-xl);
+}
+/* At the Table the die keeps Home's proportion to its words (34 / 24 px there, 28 / 20 here:
+   it was 34 over 20, brand B2); 8 px above and below keep the brand's 44 px, so the Table
+   header stays 63 px tall. Die, words and the header's commands share one centre line. */
+@media (min-width: 721px) {
+  :root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-header .brand {
+    padding-block: var(--space-2);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-header .brand .logo {
+    width: calc(var(--space-6) - var(--space-1));
+    height: calc(var(--space-6) - var(--space-1));
+  }
+}
+/* On a desktop the box gets air, given back by the margin, so the 3 px ring clears the die and
+   the last letter alike (4 px + the die's own 4 px inside its box on the left, 8 px on the
+   right: 11 px each) and nothing in the header moves. The Table's header keeps 16 px to the
+   next button, so there the right side takes 4 px and the ring stays 6 px clear of «App». The
+   block padding stays the app's 5 px: the Table header's height is the brand's 44 px + 2 × 8. */
+@media (min-width: 721px) {
+  :root[data-direction="solasta"]:not([data-pref-theme="light"]) .brand {
+    margin-inline: calc(-1 * var(--space-1)) calc(-1 * var(--space-2));
+    padding-inline: var(--space-1) var(--space-2);
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"]) .table-header .brand {
+    margin-inline: calc(-1 * var(--space-1));
+    padding-inline: var(--space-1);
+  }
+}
+@media (max-width: 720px) {
+  :root[data-direction="solasta"]:not([data-pref-theme="light"]) .brand {
+    font-size: var(--text-xl);
+  }
 }

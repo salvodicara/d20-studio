@@ -6,12 +6,14 @@ owner rules I-250 (one coherent system, «no padding, margin, button or font lef
 and I-248 (numbered choices shown with screenshots): one page per direction puts every button,
 field, tab and Table piece side by side.
 
-| File                                            | Role                                                       |
-| ----------------------------------------------- | ---------------------------------------------------------- |
-| `design/blueprint/directions/specimen.html`     | the page: root attributes, the 11 static links, the script |
-| `design/blueprint/directions/specimen.mjs`      | stylesheets, direction, markup of every cell, checks       |
-| `design/blueprint/directions/specimen.css`      | layout of the page only, every rule under `.specimen-page` |
-| `changes/visual-01/specimen/shoot-specimen.mjs` | full-page captures at 1440 and 390, with checks            |
+| File                                            | Role                                                        |
+| ----------------------------------------------- | ----------------------------------------------------------- |
+| `design/blueprint/directions/specimen.html`     | the page: root attributes, the 11 static links, the script  |
+| `design/blueprint/directions/specimen.mjs`      | stylesheets, direction, markup of every cell, checks        |
+| `design/blueprint/directions/specimen.css`      | layout of the page only, every rule under `.specimen-page`  |
+| `changes/visual-01/specimen/shoot-specimen.mjs` | full-page captures at 1440 and 390, with checks             |
+| `changes/visual-01/specimen/crop-specimen.mjs`  | section crops for the board (`spec-brand-…`, `spec-type-…`) |
+| `changes/visual-01/specimen/check-brand.mjs`    | browser check of the loader's brand hook (I-251)            |
 
 Nothing in the app links or imports these files; `index.html` never loads `specimen.css`.
 
@@ -63,8 +65,10 @@ loader adds `data-direction` and `data-sample-map` exactly as in the app.
 **Markup.** Each fragment is the HTML its module renders, taken from the running app on 8881
 (01/10/2026, the example after «Ripristina esempio», Player unless noted) and cited in the cell
 caption and in the code (`file:line`). Icons and the logo are produced by `ui.mjs`'s own `icon()`
-and `logo()` after the direction is applied, so a direction's `icons.mjs` replaces them as in
-the app. Inline styles that `table.mjs fitHud` adds after a render (`margin-top`, `top`,
+and `logo()` after the direction is applied, so a direction's `icons.mjs` and `brand.mjs` replace
+them as in the app. Before the loader runs, the page copies `index.html`'s `<link rel="icon">`
+into its head (the only head element it adds besides the sheets), so a direction's `favicon`
+replaces it as in the app and the «Marchio» section shows whichever icon is in place. Inline styles that `table.mjs fitHud` adds after a render (`margin-top`, `top`,
 `bottom`) are left out; the module renders none. Cells marked «composto» show a state the
 example does not reach, written from the module's own template (the conditions chips, the token
 and party statuses, the turn order mid-round, the later-turn hotbar, a few button variants).
@@ -98,6 +102,7 @@ own system face, so it never restyles a component.
 
 | Section (on the page)      | Cells                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Marchio                    | `header.app-header .brand` at 1× and 2× (CSS zoom) and the Table's at 1× (desktop); `logo()` alone at 16, 24, 32, 48, 96 and 160 px on the page background and on a light tile, in the `.app-header .brand` context; the `<link rel="icon">` at 16 px in a dark and a light browser tab and at 32 px; the lockup (mark and wordmark) at 3× (2× on a phone, mark only: the app hides the wordmark at ≤ 420 px)                                                                                                                                   |
 | Tipografia                 | `.page-heading h1 + p` with its toolbar, `.section-heading h2`, `h3`, `p`, `p.muted`, `small`, `small.error`, `kbd`, `.stats > .stat` (small-caps label and numbers)                                                                                                                                                                                                                                                                                                                                                                            |
 | Intestazione e navigazione | `header.app-header` (brand, `.nav-link.active`, `.service-nav .icon-button`, count badge) and `header.app-header.table-header`                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | Pulsanti                   | `.button`, `.primary`, `.quiet`, `.danger`, `.active`, `:disabled`, `.primary:disabled`, without and with an icon, in four surfaces (everywhere, Inizio, Scheda, Tavolo panel); `.icon-button`, `.icon-button.has-ext-count`, dialog close, `.text-button` with and without icon                                                                                                                                                                                                                                                                |
@@ -147,9 +152,43 @@ and `current`); the key is removed for `off` and set otherwise; the direction sh
 every app and direction sheet loaded; the static links match `index.html`; the app-sheet list
 equals the running app's; no page error, console error or failed request; no sideways page
 scroll. Known noise is recorded, not failed: the loader's 404 for a direction without
-`icons.mjs`, and an aborted request for `old-watch.webp` (the loader's HEAD probe).
+`icons.mjs` or `brand.mjs`, and an aborted request for `old-watch.webp` (the loader's HEAD probe).
 
 Exit code: 0 every shot ok, 1 a shot failed, 2 the stylesheet list drifted from the app.
+
+### Section crops for the board
+
+```
+perl -e 'alarm 150; exec @ARGV' -- node changes/visual-01/specimen/crop-specimen.mjs \
+  --specimen-out <dir> --shots-out <dir> --directions off,current,bg3 [--crops brand]
+```
+
+Loads the specimen at 1440 (dark, dpr 1) per direction, writes the full page and
+`sections.json` (page boxes of every section) to `--specimen-out`, and crops sections by their
+title, with a 16 px margin, into `--shots-out`: `spec-brand-dark-1440-<dir>.png` («Marchio»),
+`spec-type-…` («Tipografia»), `spec-buttons-…` («Pulsanti»), `spec-fields-…` («Campi dei
+moduli») and `spec-dialogs-…` («Finestre di dialogo» with «Avvisi e suggerimenti»). `--crops`
+picks some (`brand,type,buttons,fields,dialogs`). It refuses to write inside the worktree. The
+board's `…/visual-01/board/specimen/crop-specimen.mjs` is a shim that runs this file with the
+board's folders as defaults.
+
+### The brand hook
+
+```
+perl -e 'alarm 150; exec @ARGV' -- node changes/visual-01/specimen/check-brand.mjs \
+  --out <dir> [--before http://127.0.0.1:8886/] [--direction bg3] [--plain bg3]
+```
+
+Serves a test `brand.mjs` for `--direction` through Playwright (`page.route`; nothing is written
+in a direction folder) and checks, in the app and in the specimen: the header mark and the tab
+icon are the direction's; under the light theme both step aside and come back in dark; back to
+«Attuale» the favicon href is restored byte for byte and `#app` is as before the switch; then
+`off` equals a page with no key; a direction without `brand.mjs` (`--plain`) keeps today's mark
+and icon with only the known 404; the «Marchio» section shows 16 marks with 16 distinct gradient
+ids and the direction's favicon. With `--before` (the app before the hook, for example
+`git archive HEAD design/blueprint` served on another port) it also compares `#home` and
+`#table` with no key: `#app`, the whole `<html>` and the favicon href (origin and blob ids
+normalised). Output: `check-brand.json`, a header and a «Marchio» screenshot; exit 1 on a failure.
 
 ## Validation, 01/10/2026
 
@@ -165,6 +204,14 @@ style comparison (app page vs specimen, same direction: bg3 for the sheet band, 
 pill, HP box and tabs; bg3 and owlbear for the hotbar, party portrait, inspector, rail tab, map
 tools and token) showed no difference other than widths that follow the cell or the state. A negative test (one sheet blocked, `index.html` altered) turned
 the masthead red with both problems listed.
+
+**«Marchio» (brand hook, 01/10/2026).** `check-brand.mjs --before` against the tag's blueprint
+(`git archive HEAD`, port 8886): 26 of 26 checks, in
+`~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/brand/hook/`. `shoot-specimen.mjs`
+for `off`, `current` and `bg3` at 1440 and 390 (6 of 6 ok, no sideways scroll; bg3 logs the
+known 404 for its absent `brand.mjs`), in `…/brand/specimen-full/`; the crops
+`spec-brand-dark-1440-{off,current,bg3}.png` in `…/brand/shots/` (`off` and `current` are
+pixel-identical).
 
 ## Not reproduced, or not exactly
 

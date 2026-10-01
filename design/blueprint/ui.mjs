@@ -91,7 +91,16 @@ export function copyToCampaign(ctx, pick, load = () => import("./campaign-data.m
       ),
     );
 }
+// Phase C (dev only, I-251): a direction may answer with its own full
+// '<svg class="${className}" … aria-hidden="true">…</svg>' mark, or null to keep today's.
+// Set only by directions/index.mjs; with no override logo() is unchanged.
+let logoOverride = null;
+export function setLogoOverride(fn) {
+  logoOverride = typeof fn === "function" ? fn : null;
+}
 export function logo(className = "logo") {
+  const alt = logoOverride?.(className);
+  if (typeof alt === "string" && alt.startsWith("<svg")) return alt;
   const faces = d20Faces
     .map(
       ([points, opacity]) =>
