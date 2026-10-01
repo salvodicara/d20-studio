@@ -1,10 +1,9 @@
 # Opzione 8 · Alchemy RPG — da dove viene ogni scelta
 
 Scelta 1 — Direzione, primo giro (I-248), 01/10/2026, resa coerente in ogni misura (I-250); giro
-di correzioni dello stesso giorno sulle critiche A1–A8 (sezione «Risposte alla critica») e secondo
-giro di rifinitura sui punti della verifica indipendente (sezioni «Risposte alla verifica» e
-«Coerenza (I-250)»). Tema
-scuro, a 1440 × 900 e 390 × 844. Le schermate sono in
+di correzioni dello stesso giorno sulle critiche A1–A8 (sezione «Risposte alla critica»), secondo
+e terzo giro di rifinitura sui punti della verifica indipendente (sezioni «Risposte alla verifica»
+e «Coerenza (I-250)»). Tema scuro, a 1440 × 900 e 390 × 844. Le schermate sono in
 `~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/round1/alchemy/`; i confronti già
 montati (nostra schermata a sinistra, riferimento a destra) in `round1/alchemy/_pairs/`. Le immagini
 di riferimento sono in `~/Workspace/Codex/d20-studio-visual-assets/references/alchemy/`
@@ -109,10 +108,10 @@ S10 e D7 vengono dal centro d'aiuto (<https://help.alchemyrpg.com/>).
 | Titolo della scena in alto al centro, sopra la mappa; sotto, in piccolo, lo stato                                                                                                | «River's Edge Tavern / ALCHEMY DISTRICT»                                   | [O] T1                                                                                              |
 | Ordine dei turni: ritratti rotondi da 44 px sotto il titolo, quello di turno da 56 con anello d'accento e alone; nemici con anello rosso tratteggiato; nomi sempre interi        | Lista dell'incontro (resa in fila, come chiede il piano in `facts.md`)     | [C] pannello dell'incontro; [O] T19 `alchemy-table-lumen-alien-tactical-grid-turn-order-panel.webp` |
 | Strumenti della mappa come colonna di pulsanti rotondi di vetro accanto alla colonna destra, icone a filo; lo strumento attivo è un disco bianco                                 | Rotaia degli strumenti accanto al pannello del gruppo                      | [O] T1, T2 `alchemy-table-5e-tactical-map-tokens-tool-rail.png`                                     |
-| Comandi della scena (DM: incontro, scene, riposi, tempo) in una colonna di pillole in alto a sinistra                                                                            | Colonne d'angolo                                                           | [O] T1, T7                                                                                          |
+| Comandi della scena (DM: incontro, scene, riposi, tempo) in una colonna di pillole in alto a sinistra; sul telefono in due file di pillole uguali                                | Colonne d'angolo                                                           | [O] T1, T7                                                                                          |
 | Colonna destra di vetro traslucido con sotto-linguette a barretta corta; ritratto rotondo con anello, nome nella lettera larga                                                   | Pannello del gruppo (PARTY / NPCS)                                         | [O] T1                                                                                              |
 | Ritratti del gruppo rotondi, quello scelto con anello d'accento e alone                                                                                                          | Avatar del gruppo                                                          | [O] T1                                                                                              |
-| Barra del giocatore: ritratto con anello d'accento accanto a una barra divisa con i punti ferita in verde                                                                        | Player bar (XP / HP)                                                       | [O] T5 (#225A47)                                                                                    |
+| Barra del giocatore: ritratto con anello d'accento accanto a una barra divisa con i punti ferita in verde; lo stato del turno sotto, su una riga                                 | Player bar (XP / HP)                                                       | [O] T5 (#225A47)                                                                                    |
 | Barra delle azioni come una pillola di vetro con le caselle in pillole più piccole; risorse e dadi in pillole di vetro sopra                                                     | Barra dei dadi del layout Lumen                                            | [O] T16                                                                                             |
 | Il pulsante dei dadi come FAB: disco bianco con un anello bianco disegnato dentro il pulsante (48 px sul computer, 40 sul telefono) e il glifo d20 nel colore d'accento          | Trio in basso (impostazioni, FAB, microfono)                               | [O] T1, [C] `size-a12`                                                                              |
 | «Termina turno» come pillola bianca con testo d'accento in maiuscoletto esteso, sulla stessa riga del FAB                                                                        | «✓ End Turn» e il piano della barra in `facts.md`                          | [C] notifiche di turno; `facts.md` §1                                                               |
@@ -124,7 +123,7 @@ S10 e D7 vengono dal centro d'aiuto (<https://help.alchemyrpg.com/>).
 ## Coppie per il confronto
 
 Le coppie già montate sono in `round1/alchemy/_pairs/` (01–12), rifatte il 01/10/2026 dopo il
-secondo giro dalle schermate nuove (script `probe-alchemy/round2/pairs.py` tra le prove). Ogni
+terzo giro dalle schermate nuove (script `probe-alchemy/round3/pairs.py` tra le prove). Ogni
 coppia mostra la nostra schermata e il primo riferimento della riga; gli altri restano nella
 cartella dei riferimenti.
 
@@ -217,13 +216,20 @@ cartella dei riferimenti.
     come i pallini sopra la barra dei dadi di Lumen. Lo zoom è una fila di vetro in basso a
     destra, nella fascia che la scena lascia libera (come oggi), e con i ritratti del gruppo resta
     8 px sopra la barra fissa. Il DM ha quattro comandi di scena contro uno: sul telefono stanno in
-    un blocco di 2 × 2 pillole uguali, e la sua mappa è più bassa di una riga (48 px), così zoom e
-    ritratti cadono nello stesso punto per entrambi i ruoli, mai sotto la barra.
+    due file di pillole uguali, il comando dell'incontro («Avvia combattimento», «Concludi
+    incontro»: troppo lunghi per mezza riga) su tutta la prima, Scene, Riposi e Tempo in tre terzi
+    uguali sotto; la sua mappa è più bassa di una riga (48 px), così zoom e ritratti cadono nello
+    stesso punto per entrambi i ruoli, mai sotto la barra. Aperta in cima alla pagina, la colonna
+    degli strumenti della mappa ha passi da 4 px (8 sul computer) e finisce sopra la barra.
 18. **Dock del telefono.** Il dock di Alchemy galleggia sul contenuto. Qui sta su una fascia del
     colore della pagina, alta quanto il dock più 16 px sopra e sotto, che sfuma in 24 px: quello
     che scorre sotto il dock svanisce, invece di toccarlo o di leggersi attorno. Nella Scheda il
     ritratto sul telefono è alto 240 px (320 sul computer), così la fila delle linguette, con la
-    linguetta aperta, si apre sopra la fascia.
+    linguetta aperta, si apre sopra la fascia. La fascia è solo decorazione: i tocchi la
+    attraversano. Dock, rotaia, cerchio del profilo e fascia stanno sotto i livelli a tutto schermo
+    dell'app (immagine a schermo intero delle dispense, registro e chat, scheda sulla mappa), che li
+    coprono come coprono la testata di oggi. Nel lettore della Biblioteca «Torna su» sale 8 px
+    sopra la fascia e prende il vetro del dock, così il testo sotto non si legge attraverso.
 19. **Inizio, carte in fila.** Sotto il riquadro illustrato «Il tuo personaggio», «Dove eravamo
     rimasti» e «Prossimo appuntamento» sono una fila di tre carte alte uguali, come le file di
     carte di Alchemy; oggi la prima resta alta quanto il suo contenuto (scelta C2-5 della revisione
@@ -231,7 +237,21 @@ cartella dei riferimenti.
 20. **Classi di pulsanti.** L'audit conta ancora 28 aspetti di pulsante (sfondo, bordo, contenuto):
     molte sono componenti diversi dell'app (stelle dei preferiti, nomi cliccabili delle abilità,
     valori da tirare, ritratti del gruppo) che hanno forme diverse anche in Alchemy. Non li abbiamo
-    forzati in un'unica forma.
+    forzati in un'unica forma. Le barre segmentate (linguette dell'Inizio, «Azioni / Barra rapida»,
+    «Gioco / Modifica», dadi digitali / fisici) hanno una sola ricetta: 40 px, rientro 12, maiuscoletto
+    esteso da 10 px. Le sottolinguette del pannello del Tavolo («Creatura», «Riepilogo del gruppo»)
+    restano da 40 px con rientro 8: con la misura delle linguette della Scheda (48, rientro 16,
+    spaziatura 2) non entrano nei 308 px del pannello.
+21. **Barra del giocatore sul computer.** Con il ritratto, accanto restano 122 px: «Esplora la scena
+    liberamente» andava su due righe e alzava la barra a 126 px (limite 120). Ritratto e nome con
+    la pillola dei punti ferita stanno sulla prima riga, lo stato del turno sotto entrambi, su una
+    riga: 110 px in esplorazione e in combattimento, da 1024 a 1440 px di larghezza.
+22. **Oggetti da usare.** Nel pannello «Creatura» gli oggetti («Bacchetta di dardi incantati 3/7»)
+    sono cose, non comandi: righe nel carattere dell'interfaccia (Lexend 600 da 14), come le caselle
+    degli oggetti nella barra delle azioni, con le cariche subito dopo il nome. Nelle maiuscole
+    estese il nome andava su due righe in una pillola da 42 px.
+23. **«Tiri e risultati» nella barra.** «Tiri e risultati» resta nel carattere dell'interfaccia
+    come «Dadi» e «Digitali» accanto: è una frase della stessa targa, non un comando a sé.
 
 ## Risposte alla critica (01/10/2026)
 
@@ -260,13 +280,35 @@ garanzie ricontrollate sulle schermate rifatte.
 | [alta] Tavolo del DM a 390: «Centra la scena» e Mira sotto la barra fissa                            | Lo zoom torna una fila di vetro in basso a destra, nella fascia libera sotto la scena; i quattro comandi del DM stanno in un blocco 2 × 2 e la sua mappa è più bassa di 48 px, così la base della mappa cade dove cade per il giocatore. Prova `elementFromPoint`: 4 pulsanti dello zoom e 3 ritratti liberi in combattimento, esplorazione e vista del DM. |
 | [garanzia] Testata del Tavolo su due righe a 390 (124 px; oggi una riga da 63)                       | «App» e «Torna alla campagna» rotondi da 40 px, la pillola dei servizi senza margine interno, come nelle altre pagine: una riga da 64 px in tutti gli stati del Tavolo.                                                                                                                                                                                     |
 | [garanzia] Striscia della dimostrazione alta 127 px a 390 (le altre opzioni 96)                      | La striscia (del blueprint, non di Alchemy) tiene il carattere di sistema di oggi: 96 px, come in ogni opzione.                                                                                                                                                                                                                                             |
-| [media] Il dock del telefono copre il contenuto (Inizio, linguetta aperta della Scheda, prima magia) | Fascia del colore della pagina dietro il dock (Differenze, punto 19): sotto il dock il contenuto svanisce invece di toccarlo. Nella Scheda il ritratto sul telefono scende a 240 px: la fila delle linguette con «Azioni» aperta sta tra 684 e 732 px, sopra la fascia (che parte a 752).                                                                   |
+| [media] Il dock del telefono copre il contenuto (Inizio, linguetta aperta della Scheda, prima magia) | Fascia del colore della pagina dietro il dock (Differenze, punto 18): sotto il dock il contenuto svanisce invece di toccarlo. Nella Scheda il ritratto sul telefono scende a 240 px: la fila delle linguette con «Azioni» aperta sta tra 684 e 732 px, sopra la fascia (che parte a 752).                                                                   |
 | [bassa] «STO» e «INVEN» tagliati accanto a «Tutte»                                                   | La sfumatura della fila finisce del tutto 8 px prima del suo bordo, 20 px prima del simbolo di «Tutte»: la linguetta che non entra si legge come «c'è altro», non come una parola tagliata.                                                                                                                                                                 |
 | [bassa] «PF temporanei» in maiuscoletto da 8 px                                                      | La regola delle etichette della banda la batteva (più specifica): ora la riga è Lexend 600 a 12 px nel suo maiuscolo e minuscolo (Differenze, punto 7).                                                                                                                                                                                                     |
 | [bassa] Tavolo del giocatore a 390: la colonna dello zoom tocca la mappa e «Scale per la cripta»     | Risolto con la fila dello zoom sotto la scena (prima riga).                                                                                                                                                                                                                                                                                                 |
 | Coppie `_pairs` vecchie                                                                              | Rifatte tutte e 12 dalle schermate nuove.                                                                                                                                                                                                                                                                                                                   |
 
+## Risposte alla verifica (terzo giro, 01/10/2026)
+
+Punti aperti della verifica indipendente (`notes/open-items-round3.json`, voce «alchemy»), più tre
+difetti trovati in questo giro ricontrollando le garanzie, la Scheda intera e il campionario.
+
+| Punto                                                                                                                                                  | Cosa è cambiato                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [alta] Lettore della Biblioteca a 390: «Torna su» sotto la fascia del dock, invisibile e non toccabile                                                 | La fascia non prende più i tocchi; dock, rotaia, profilo e fascia scendono sotto i livelli a tutto schermo dell'app (z 39 e 38, sotto il 40 di dispense a schermo intero, registro, scheda sulla mappa); «Torna su» sale 8 px sopra la fascia (704–744, la fascia parte a 752) con il vetro del dock. Prova `elementFromPoint`: il centro del pulsante è il pulsante (Differenze, punto 18).                                           |
+| [garanzia, trovata qui] Barra delle azioni a 1440 × 900 alta 126 px in esplorazione (limite 120; b62 la misura così, DM in esplorazione)               | Stato del turno sotto ritratto e nome (Differenze, punto 21): 110 px in esplorazione e in combattimento, giocatore e DM, anche a 1366 × 768 (fondo a 768), 1280 e 1024.                                                                                                                                                                                                                                                                |
+| [media] Pillole su due righe nel pannello «Creatura» («Scheda completa», «Bacchetta di dardi incantati 3/7»)                                           | «Scheda completa», «Inventario» e «Riposa» sono pillole larghe quanto le loro parole, su una riga, che vanno a capo come gruppo; gli oggetti da usare sono righe nel carattere dell'interfaccia con le cariche dopo il nome (Differenze, punto 22). Nessuna pillola del pannello o dei comandi della scena è più alta di 40 px, a 1440 e a 390.                                                                                        |
+| [bassa] La fascia prende i tocchi anche nella sfumatura                                                                                                | `pointer-events: none`: a 24 px dal suo bordo un tocco arriva al testo della pagina.                                                                                                                                                                                                                                                                                                                                                   |
+| [bassa] Comandi della scena del DM a 390 non uguali (181/177, 205/151)                                                                                 | Comando dell'incontro su tutta la riga (366 px), Scene, Riposi e Tempo da 117 px ciascuno, una riga di testo ciascuno (Differenze, punto 17). Con colonne da metà riga «Avvia combattimento» (206 px) e «Concludi incontro» (181) sarebbero andati su due righe.                                                                                                                                                                       |
+| [bassa] Carte dell'Inizio a 48 px in verticale, 24 in orizzontale, a 1440                                                                              | Nessuno spazio tra le righe della griglia oltre al margine di 24 px di ogni carta: 24 px tra il riquadro illustrato e la fila di carte, tra le colonne e tra «Prossimo appuntamento» e le novità.                                                                                                                                                                                                                                      |
+| [bassa] DM a 390, in cima alla pagina, colonna degli strumenti fino a 648 (barra a 631)                                                                | Passi da 4 px sul telefono: la colonna aperta finisce a 624, in combattimento e in esplorazione.                                                                                                                                                                                                                                                                                                                                       |
+| [bassa] Icone da 18 px in «Menu di Livia» e «Trova la mia pedina»; rientri di 12 e 16 px nelle novità; «Cerca nella Biblioteca» con rientro nel titolo | Le icone del menu della pedina sono da 20 come ogni altra (pillole, righe del menu, chiusura; 16 restano le condizioni nei chip); i comandi delle novità hanno il rientro di 16 di ogni pillola (testo di «Segna come letta» allineato con «Segna tutte come lette»); «Cerca nella Biblioteca» è un collegamento senza rientro come gli altri comandi discreti dei titoli. «Difese» a 390 resta come oggi (riga della banda dell'app). |
+| [info] Strumento del DM sotto la pedina di turno a 390                                                                                                 | Come in «Attuale» («Pianifica percorso» sotto il ritratto di turno, in cima alla pagina); nessuna modifica.                                                                                                                                                                                                                                                                                                                            |
+| [trovato qui] Scheda a 390: tabella delle azioni generiche larga 405 px in 358, colonna «Regola» tagliata al bordo                                     | Testo delle celle a 14 px e «Tempo» che può andare a capo sul telefono: 358 px (colonne 121, 97, 141), nessun contenitore più largo del suo riquadro sulle pagine controllate.                                                                                                                                                                                                                                                         |
+| [trovato qui, campionario] Condizioni attive come riquadri quadrati di tre altezze; «Chiedi» e «Trucchetto» fuori dalla ricetta delle etichette        | Condizioni e stato vitale («Cosciente») sono una sola pillola da 40 px (le condizioni del controllore restano pulsanti da 40); «Chiedi» (reazioni) e lo stato delle magie prendono forma e carattere delle etichette, con i loro colori di stato.                                                                                                                                                                                      |
+| Schermate e coppie vecchie                                                                                                                             | Rifatte tutte (15 schermate più il foglio di contatto; il rapporto precedente diceva 16 per errore) dopo l'ultima modifica, e coppie 01–12.                                                                                                                                                                                                                                                                                            |
+
 ## Coerenza (I-250)
+
+### Secondo giro
 
 Audit dei valori (`changes/visual-01/audit/audit.js --direction alchemy`, 20 stati a 1440 e 390,
 tema scuro). Prima: il foglio di stile delle 10:37 (audit delle 11:36). Dopo: il foglio di stile
@@ -316,8 +358,63 @@ Cosa è stato reso uguale:
 Restano, e perché: i margini fissi del Tavolo attorno alla mappa (76, 88, 152 px) e le bordature
 dell'immagine dell'Inizio (−64, −24, −16) sono geometria della pagina; le parole cliccabili nel
 testo delle azioni («TS», «azione bonus») sono alte 17 px con 1 px di margine perché sono parole
-nella riga; le 28 classi di pulsante sono componenti diversi (Differenze, punto 18); le icone da 18
-sono le righe del menu della pedina, disegnate dal menu stesso e uguali tra loro.
+nella riga; le 28 classi di pulsante sono componenti diversi (Differenze, punto 20). (Le icone da
+18 del menu della pedina sono passate a 20 nel terzo giro, sotto.)
+
+### Terzo giro
+
+Prima: il foglio di stile del secondo giro (12:10), audit della verifica delle 13:00 (copia in
+`probe-alchemy/round3/audit-before.md`). Dopo: il foglio di stile finale delle 14:26, audit delle
+14:28 (`audit/alchemy/audit.md`, copia in `probe-alchemy/round3/audit-after.md`). Campionario dei
+componenti: `probe-alchemy/round3/specimen-after/`.
+
+| Misura                                          | Prima                                     | Dopo                                          |
+| ----------------------------------------------- | ----------------------------------------- | --------------------------------------------- |
+| Elementi visibili                               | 2499                                      | 2497                                          |
+| Spaziature (padding, margini, distanze)         | 28 valori; passo 2 px al 100 %; 14 fuori  | 25 valori; passo 2 px al 100 %; 14 fuori      |
+| Margini (valori)                                | 22 (con 10, 14, 18, 22 fuori dalla scala) | 18 (10, 14, 18 e 22 tolti)                    |
+| Altezze dei comandi                             | 18                                        | 18                                            |
+| Caratteri · grandezze · pesi · interlinee       | 3 · 9 · 4 · 14                            | 3 · 9 · 4 · 14                                |
+| Stili di testo                                  | 46                                        | 46                                            |
+| Raggi · bordi · ombre                           | 7 · 2 · 19                                | 7 · 2 · 19                                    |
+| Colori (testo · sfondo · bordo)                 | 13 · 30 · 11                              | 13 · 30 · 11                                  |
+| Pulsanti: varianti; classi con più varianti     | 65; 7                                     | 67; 7                                         |
+| Campi · menu a tendina: varianti                | 2 · 1                                     | 2 · 1                                         |
+| Linguette · etichette · pannelli: varianti      | 9 · 10 · 38                               | 9 · 10 · 38                                   |
+| Etichette: altezze                              | 7 (12, 20, 24, 26, 40, 74, 134)           | 6 («Chiedi» da 24 diventa un'etichetta da 26) |
+| Grandezze delle icone                           | 4 (20, 16, 18, 14)                        | 3 (20, 16, 14)                                |
+| Contrasto AA                                    | 0 casi su 1155 testi                      | 0 casi su 1155 testi                          |
+| Pulsanti con il margine del browser (`1px 6px`) | nessuno                                   | nessuno                                       |
+
+Cosa è stato reso uguale:
+
+- **Barre segmentate.** «Azioni» e «Barra rapida» nella barra delle azioni prendono la ricetta delle
+  altre barre segmentate (40 px, rientro 12, maiuscoletto esteso da 10 px) invece di Lexend 600 da
+  12; «Gioco / Modifica» e i dadi digitali / fisici passano dal rientro 16 al 12 delle altre. I due
+  pulsanti in più contati dall'audit (65 → 67) sono proprio questi quattro interruttori della
+  Scheda: per l'audit sono «pulsanti» e prima coincidevano con la pillola comune da 16, mentre le
+  linguette dell'Inizio e della barra, con lo stesso aspetto, le conta altrove. Le linguette della
+  barra hanno ora una sola variante (prima due caratteri).
+- **Pillole.** Nessuna pillola su due righe nei pannelli del Tavolo; «Termina turno» ha il bordo di
+  1 px delle altre pillole principali (stessa misura, prima 0); i comandi delle novità hanno il
+  rientro di 16 come ogni pillola; i collegamenti discreti dei titoli non hanno rientro anche
+  accanto a una pillola.
+- **Etichette e stati.** Condizioni attive e stato vitale sono una sola pillola da 40 px; «Chiedi»
+  e lo stato delle magie («Trucchetto») hanno forma e carattere delle etichette.
+- **Icone.** Le icone del menu della pedina (righe, chiusura, «Menu di Livia», «Trova la mia
+  pedina») sono da 20 come ogni altra; restano 16 nei comandi compatti e 14 per i simboli delle
+  risorse del turno nella Scheda, alti quanto il testo.
+- **Spaziature.** I margini che l'app fissa a 10, 14, 18 e 22 px tornano sulla scala (8, 16, 16,
+  24): condizioni e moduli del pannello «Creatura», dettaglio della mossa, piede delle azioni,
+  barra dell'inventario, riquadro delle impostazioni della scheda, pannello del Tavolo sul
+  telefono; l'ultima riga del dettaglio della mossa perde il margine di 1 em del browser. Inizio:
+  24 px tra le carte in ogni direzione.
+- **Caselle.** Le caselle da spuntare hanno un solo carattere (14) come gli altri campi.
+
+Restano, e perché: le misure fisse del Tavolo attorno alla mappa (76, 88, 152), le bordature
+dell'immagine dell'Inizio e le parole cliccabili nel testo delle azioni (sopra); i 28 aspetti di
+pulsante (Differenze, punto 20); «Tiri e risultati» nel carattere della targa dei dadi (Differenze,
+punto 23); le sottolinguette compatte del pannello del Tavolo (Differenze, punto 20).
 
 ## Licenze e attribuzioni
 
@@ -363,7 +460,35 @@ opzione sono elencati in `assets/ATTRIBUTION.md`. Mancano le righe in `assets/PR
 | rotaia e dock dell'Inizio (solo maschere CSS)                            | Font Awesome house, user, user-group, book-open (pieni)                                                                      |
 | pillola esterna della scheda (solo maschere CSS)                         | Font Awesome xmark, eye, share-nodes, pen (pieni)                                                                            |
 
-## Verifiche (01/10/2026, dopo il secondo giro)
+## Verifiche (01/10/2026, dopo il terzo giro)
+
+- Schermate di `round1/alchemy/` rifatte tutte (15 più il foglio di contatto) dopo l'ultima
+  modifica del foglio di stile (14:26:24; schermate 14:27, `manifest.json` tutte «ok»), e aperte
+  una per una; coppie 01–12 rifatte alle 14:31. Copia delle schermate precedenti:
+  `probe-alchemy/round3/before-round1/`.
+- Garanzie (sonda `probe-alchemy/round3/guard.js` sugli stati del kit, `guard/guard-final.txt`):
+  barra delle azioni a 1440 × 900 alta 110 px per giocatore e DM, in esplorazione e in
+  combattimento (prima 126 in esplorazione); a 1366 × 768 finisce a 768. Testata del Tavolo a 390
+  su una riga da 64 px in ogni stato (1440: 72). «Termina turno» (233–382 a quota 732), «Annulla
+  ultima modifica» e «Annulla» visibili e in cima a 390, anche per il DM. Nessuno scorrimento
+  orizzontale a 390 su Inizio, Scheda (Azioni, Magie, Inventario), Tavolo e finestra; nessun
+  contenitore più largo del suo riquadro oltre alle file che scorrono di proposito (linguette della
+  Scheda e del Tavolo, caselle della barra), come in «Attuale». «Entra al Tavolo» a 390 tra 614 e
+  654 px. Dock a 390: i 4 pulsanti liberi, la fascia senza tocchi. Strumenti del DM a 390 in cima
+  alla pagina: ultimo a 624, barra a 631.
+- Fuoco: anello pieno da 3 px sulle linguette della barra, le pillole e gli oggetti del pannello
+  «Creatura», i comandi della scena, «Menu di Livia» e il dock (`out/focus.txt`).
+- Regole del file: 676 regole, 690 selettori, tutti con il prefisso e la guardia del tema scuro
+  (`notes/prefix-audit.js`: 0 senza prefisso); nessun `!important`, `text-transform` o testo in
+  `content`.
+- Contrasto: l'audit dei valori dà 0 casi su 1155 testi (sezione «Coerenza (I-250)»).
+- Test `tests/visual01-directions.test.mjs`: 7 su 7 superati. Prettier: file conformi.
+- Prove: `~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/probe-alchemy/round3/`
+  (`guard.js` e `guard/`, `scripts/` e `out/` per le misure e i ritagli, `full/` per Inizio e Scheda
+  interi, `specimen-mid/` e `specimen-after/` per il campionario, `audit-before.md` e
+  `audit-after.md`, `direction.before-round3.css`).
+
+## Verifiche del secondo giro (01/10/2026)
 
 - Schermate di `round1/alchemy/` rifatte tutte (16 più il foglio di contatto) dopo l'ultima
   modifica del foglio di stile (12:10:17), e aperte una per una; coppie 01–12 rifatte.

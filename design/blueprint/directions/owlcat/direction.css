@@ -188,6 +188,8 @@
   --oc-ctl: 40px;
   --oc-ctl-lg: 44px;
   --oc-slot: 48px;
+  /* The glyph on an iron tile: the app's own 21 px square icon, at every width. */
+  --oc-glyph: 21px;
   /* The app's own steps, moved onto the same scales. */
   --text-2xs: var(--oc-fs-11);
   --text-xs: var(--oc-fs-12);
@@ -596,10 +598,15 @@
   box-shadow: var(--oc-shadow-plate);
 }
 /* The tabs: bronze-grey small capitals, no pictogram (WotR's tab bar is words only); the open
-   page is the plum shield hanging from the bar between two iron horns (W12 INVENTORY). */
+   page is the plum shield hanging from the bar between two iron horns (W12 INVENTORY). The
+   app's 5 px between tabs and 9 px inside them move onto the 2 px scale. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .app-header nav {
+  gap: var(--oc-sp-2);
+}
 :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .app-header .nav-link {
   position: relative;
   isolation: isolate;
+  gap: var(--oc-sp-3);
   border-radius: var(--oc-radius);
   color: var(--oc-on-iron-dim);
   font-size: var(--oc-fs-15);
@@ -830,6 +837,7 @@
   :is(.home-page, .character-sheet, .table-layout, dialog, .token-menu)
   :is(.badge, .spl-badge, .spl-state, .ct-badge) {
   align-items: center;
+  gap: var(--oc-sp-2);
   min-height: var(--oc-sp-6);
   height: auto;
   padding: 0 var(--oc-sp-3);
@@ -1179,6 +1187,21 @@
   font-weight: 600;
   line-height: var(--oc-lh-tight);
   background: var(--oc-rule) left bottom / 160px 10px no-repeat;
+}
+/* A short title («Accesso rapido», «Trova un tavolo») sits in a heading row that shrinks it
+   to its words: it keeps at least the rule's own 160 px, so the rule is never cut and its node
+   stays in the middle. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .home-page
+  :is(.home-appointment, .home-bottom, .cm-home, .home-recent, .chat-home, .community-home)
+  h2 {
+  min-width: 160px;
+}
+/* «Accesso rapido» follows the grid of leaves above it: grid items paint after ordinary
+   blocks, so on the phone the halo of «Dove eravamo rimasti» fell across its top. Positioned,
+   it paints in order over the halo of the leaf above, as every other leaf does. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .home-recent {
+  position: relative;
 }
 :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .section-heading {
   margin-bottom: var(--oc-sp-4);
@@ -2334,6 +2357,11 @@
   border-radius: var(--oc-radius);
   background: transparent;
   color: var(--oc-on-iron-dim);
+  /* The section tabs' recipe (I-250): 15 px small capitals at 600, 12 px inside, the strip's
+     height (the app's 16 px at 700 and 10/12 padding made it a second tab kind). */
+  padding: 0 var(--oc-sp-4);
+  font-size: var(--oc-fs-15);
+  font-weight: 600;
   font-variant-caps: all-small-caps;
   letter-spacing: var(--oc-track-wide);
 }
@@ -2343,6 +2371,10 @@
   color: var(--oc-on-iron);
 }
 /* Panels inside the book: no card; each section opens on its title over the drafting rule. */
+/* «Disponibilità offline» keeps the book's 24 px between sections (the app's 20 px). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .offline-sheet {
+  margin-top: var(--oc-sp-6);
+}
 :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .panel {
   padding: var(--oc-sp-5) 0;
   border: 0;
@@ -2488,7 +2520,9 @@
     .panel > p.muted:not(.shp-foot),
     .panel > p.empty-state,
     .panel > p.dtray-sheet-policy,
-    .sm-sheet > p.muted
+    .sm-sheet > p.muted,
+    .spl-section > p.muted,
+    .loot-stash-coins > p
   ) {
   margin-bottom: var(--oc-sp-4);
 }
@@ -2504,13 +2538,28 @@
 :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .cs-switch > input {
   margin-top: var(--oc-sp-1);
 }
-/* Check boxes beside their words: the label's gap spaces them, not the browser's 3–4 px. */
+/* Check boxes beside their words: the label's gap spaces them, not the browser's 3–4 px; one
+   20 px box (the spell and initiative checks' size) also for the core check field, whose
+   18 px box and 9 px padding were a second kind (the HP widget's «Colpo critico»). */
 :root[data-direction="owlcat"]:not([data-pref-theme="light"])
   :is(.character-sheet, dialog)
   :is(.ct-check, .spl-check)
   > input {
   margin: 0;
   font-size: var(--oc-fs-15);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout, dialog)
+  .check-field {
+  padding-block: var(--oc-sp-3);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout, dialog)
+  .check-field
+  > input {
+  width: calc(var(--oc-sp-5) + var(--oc-sp-2));
+  height: calc(var(--oc-sp-5) + var(--oc-sp-2));
+  margin: 0;
 }
 :root[data-direction="owlcat"]:not([data-pref-theme="light"])
   .character-sheet
@@ -2906,6 +2955,18 @@
   backdrop-filter: none;
   box-shadow: var(--oc-plate);
 }
+/* The plates' spacing on the 2 px scale (the app's 5 px): 4 px between tiles, 4 px inside the
+   zoom plate. On the phone the tool column keeps the app's 2 px. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .map-zoom {
+  padding: var(--oc-sp-2);
+}
+@media (min-width: 721px) {
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    :is(.map-toolbar, .map-subtools) {
+    gap: var(--oc-sp-2);
+  }
+}
 :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .map-tool,
 :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .session-view-hud-button,
 :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .map-tools-toggle {
@@ -2918,6 +2979,20 @@
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
   box-shadow: var(--oc-bevel);
+}
+/* One glyph on every 40 px iron tile (I-250): map tools, zoom, the session buttons over the
+   map and the turn commands all draw the 21 px square the app gives its icons (the app's
+   18 px session glyphs and the phone's 18 and 19 px tool glyphs were three more sizes). The
+   session menu's caret keeps its size. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(
+    .table-layout .map-tool,
+    .session-view-hud-button,
+    .table-layout > .action-dock.table-hotbar > .toolbar > .button:not(.primary)
+  )
+  > .icon:not(.session-view-caret) {
+  width: var(--oc-glyph);
+  height: var(--oc-glyph);
 }
 /* Hovered, a tile's rim lights (the gem); its fill stays iron, so hover never reads as
    active. */
@@ -3117,6 +3192,15 @@
     line-height: var(--oc-lh-tight);
     letter-spacing: 0;
     font-variant-caps: all-small-caps;
+  }
+  /* The card in turn carries two lines on its plate (the name, «Turno attuale»): the plate
+     takes a whole 28 px, so the card is a whole 108 px tall. */
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token.current
+    > span:last-child {
+    min-height: calc(var(--oc-sp-6) + var(--oc-sp-2));
   }
   :root[data-direction="owlcat"]:not([data-pref-theme="light"])
     .table-layout
@@ -3347,6 +3431,28 @@
     linear-gradient(90deg, transparent, var(--oc-brush) 6%, var(--oc-brush) 94%, transparent) top /
       100% var(--oc-bw-2) no-repeat,
     transparent;
+}
+/* The inspector's parts on the 2 px scale (the app's 25 px above each extension panel and
+   the forms toolbar's 14/22 px): 24 px between parts, the toolbar 16 px under its title and
+   24 px above what follows. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  > .table-ext-panel {
+  margin-top: var(--oc-sp-6);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .forms-summary
+  .forms-toolbar {
+  margin-block: var(--oc-sp-5) var(--oc-sp-6);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-ext-panel
+  :is(.sm-panel, .media-token-panel)
+  > p.muted {
+  margin-bottom: var(--oc-sp-4);
 }
 /* The rail: an iron column of tool tiles; the open section a plum tile (W1 log tabs). */
 :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout > .table-sidebar-rail {
@@ -3657,9 +3763,9 @@
     flex: 1;
     min-width: 0;
     min-height: var(--oc-ctl);
-    padding: 0 var(--oc-sp-3);
-    font-size: var(--oc-fs-13);
-    font-weight: 600;
+    padding: 0 var(--oc-sp-4);
+    font-size: var(--oc-fs-15);
+    font-weight: 400;
     font-variant-caps: normal;
     letter-spacing: 0;
   }
@@ -4387,18 +4493,38 @@
     border-top: var(--oc-bw-2) solid var(--oc-iron-edge);
     background: var(--oc-iron-bar);
   }
+  /* The dice mode is the skin's one field at every width (I-250): 15 px, 12 px inside, the
+     words as written (the app's phone label is 0 px and would pass its small capitals on). */
   :root[data-direction="owlcat"]:not([data-pref-theme="light"])
     .table-layout
     .table-hotbar
     .combat-bar-heading
     select {
-    padding: 0 var(--oc-sp-2);
-    font-size: var(--oc-fs-13);
-    font-weight: 600;
+    padding: 0 var(--oc-sp-4);
+    font-size: var(--oc-fs-15);
+    font-weight: 400;
+    font-variant-caps: normal;
+    letter-spacing: 0;
   }
-  /* The HP plate keeps the phone's narrow padding, so the four econ cells fit beside it. */
-  :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .hotbar-hp {
-    padding: 0 var(--oc-sp-2);
+  /* The turn commands: one 40 px iron tile, the glyph whole (the app's phone 6/10 and 6/8
+     padding made 41 and 40 px tiles and squeezed the glyph to 19 px). */
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar
+    > .button:not(.primary, .stand-control, [data-table="stand"]) {
+    min-width: var(--oc-ctl);
+    padding: 0;
+  }
+  /* Row 1 is not row 2: the actions, «Mosse» and the dice field size the phone's columns and
+     leave the econ cells' column 71 px, while the four cells need 84. They also take the free
+     start of the pills' column; the pills shrink to their words at the row's end (later in
+     the page, so they stay on top), and nothing overlaps at 390. */
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-hotbar .hotbar-resources {
+    grid-column: 2 / 4;
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .hotbar-pages {
+    justify-self: end;
   }
   /* The econ cells as glyph cells (their words stay the names): each a 16 px plum or iron
      cell 2 px from the next, so all four fit beside the HP (W23 keeps the bar whole). */
@@ -4454,12 +4580,14 @@
     color: var(--oc-on-iron-dim);
     font-size: var(--oc-fs-11);
   }
+  /* The scroll row lends its 8 px to the slots' rings on three sides; on the right it stops
+     at its own cell, so a slot cut by the scroll keeps the bar's 4 px gap before «Mosse». */
   :root[data-direction="owlcat"]:not([data-pref-theme="light"])
     .table-layout
     .table-hotbar
     .combat-actions {
     padding: var(--oc-sp-3);
-    margin: calc(-1 * var(--oc-sp-3));
+    margin: calc(-1 * var(--oc-sp-3)) 0 calc(-1 * var(--oc-sp-3)) calc(-1 * var(--oc-sp-3));
   }
   :root[data-direction="owlcat"]:not([data-pref-theme="light"])
     .table-layout
@@ -4530,15 +4658,14 @@
   }
 }
 @media screen and (max-width: 720px) {
-  /* End turn keeps the commands' row: the plate drops the wide tracking, the hourglass stays. */
+  /* End turn keeps the commands' row as a plate; its words keep the disc's type (13 px small
+     capitals, 0.08 em), and the hourglass stays. */
   :root[data-direction="owlcat"]:not([data-pref-theme="light"])
     .action-dock.table-hotbar
     > .toolbar
     > .button.primary[data-table="end-turn"] {
     padding: 0 var(--oc-sp-4);
     gap: var(--oc-sp-2);
-    font-size: var(--oc-fs-12);
-    letter-spacing: var(--oc-track-caps);
   }
   :root[data-direction="owlcat"]:not([data-pref-theme="light"])
     .action-dock.table-hotbar
@@ -4556,11 +4683,8 @@
   }
 }
 @media screen and (max-width: 720px) {
-  /* The page pills give the econ cells their room on the phone's first hotbar row. */
-  :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .hotbar-page-tab {
-    padding: 0 var(--oc-sp-3);
-    letter-spacing: 0;
-  }
+  /* The page pills keep the one pill recipe (12 px inside, 0.08 em) on the phone too: the econ
+     cells are glyph cells, so the first hotbar row has room for them and the HP plate's 8 px. */
   :root[data-direction="owlcat"]:not([data-pref-theme="light"])
     .table-layout
     .table-hotbar

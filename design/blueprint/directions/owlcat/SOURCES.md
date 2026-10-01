@@ -129,8 +129,8 @@ di riferimento» in fondo) oppure la misura in `facts.md`.
 ## Coppie per il confronto
 
 Schermate nostre: `~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/round1/owlcat/`;
-le coppie già affiancate sono in `…/round1/owlcat/_pairs/` (rifatte il 01/10 alle 11:52, dopo il
-secondo giro di rifinitura; ogni pannello alla sua larghezza, con il nome del file sopra).
+le coppie già affiancate sono in `…/round1/owlcat/_pairs/` (rifatte il 01/10 alle 14:08, dopo il
+terzo giro di rifinitura; ogni pannello alla sua larghezza, con il nome del file sopra).
 
 | Coppia                   | Nostra schermata                                | Riferimento WotR                                                                                     |
 | ------------------------ | ----------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
@@ -151,7 +151,7 @@ secondo giro di rifinitura; ogni pannello alla sua larghezza, con il nome del fi
 I file delle coppie seguono l'ordine della tabella: da `pair-01-inizio.jpg` a
 `pair-12-menu-pedina.jpg`, più `pair-13-barra.jpg`. Le coppie del telefono e delle magie e
 dell'esplorazione mostrano anche la schermata a 390 px accanto a quella a 1440. Lo script che le
-rifà è `probe-owlcat/fix2/pairs.sh` (fuori dal repository).
+rifà è `probe-owlcat/fix3/pairs.sh` (fuori dal repository).
 
 ## Differenze dichiarate
 
@@ -193,7 +193,10 @@ rifà è `probe-owlcat/fix2/pairs.sh` (fuori dal repository).
 11. **Telefono**: WotR non ha un'interfaccia per telefono; si usano gli stessi materiali nella
     struttura del telefono dell'app (dal layout per controller W23). La barra delle azioni mostra
     solo i segni delle celle (le parole restano i nomi accessibili): quattro celle da 16 px a 2 px
-    l'una dall'altra, tutte visibili accanto ai punti ferita. Sulla targa della scena del DM i
+    l'una dall'altra, tutte visibili accanto ai punti ferita. Le colonne del telefono le decide la
+    seconda fila (azioni, «Mosse», il campo dei dadi) e lasciano alle celle solo 71 px: le celle
+    usano anche l'inizio libero della colonna delle pagine, che stanno in fondo alla fila. Sulla
+    targa della scena del DM i
     quattro comandi, alla misura unica dei pulsanti, vanno su due righe (prima ne bastava una a
     13 px): i comandi restano su due righe al massimo, come chiede l'app.
 12. **Alto contrasto**: con la preferenza «alto contrasto» la carta diventa ferro e l'inchiostro
@@ -263,45 +266,121 @@ di spunta da 20 px dell'app, come in «Attuale»); 550 selettori tutti con il pr
 `!important`, `text-transform` o testo in `content`; protezioni di tema chiaro, alto contrasto e
 movimento senza eccezioni; `tests/visual01-directions.test.mjs` 7/7; Prettier pulito.
 
+## Terzo giro di rifinitura del 01/10 (verifica indipendente)
+
+Ogni punto della verifica (`notes/open-items-round3.json`, voce `owlcat`: quattro punti bassi),
+con l'esito, più il controllo I-250 di questo giro. Misure: sonde in `probe-owlcat/fix3/`
+(`scripts/m-check.cjs` sugli stati del kit, cartelle `q-final-390/` e `q-final-1440/`;
+`scripts/recent.cjs` per «Accesso rapido», cartella `q-recent/`); CSS di prima in
+`probe-owlcat/fix3/direction-before-fix3.css`.
+
+| Punto         | Cosa diceva                                                                                                  | Esito                                                                                                                                                                                                                                                                                                                                                                                       |
+| ------------- | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Bassa         | A 390 px l'alone di «Dove eravamo rimasti» scuriva i primi 20 px di «Accesso rapido»                         | Applicato: «Accesso rapido» è posizionato, quindi dipinge sopra l'alone del foglio di sopra come gli altri fogli. Misurato in una sessione con una scheda aperta (le schermate del giro 1 non hanno schede recenti): bordo superiore pulito, 16 px sotto il foglio a 390 e 24 a 1440 (`q-recent/recent-390.png`, `recent-1440.png`)                                                         |
+| Bassa         | Il titolo «Accesso rapido» (148 px) tagliava a destra la riga da disegno di 160 px; il nodo era fuori centro | Applicato: ogni titolo dei fogli dell'Inizio è largo almeno quanto la sua riga (160 px). «Accesso rapido» e «Trova un tavolo» ora sono larghi 160 px, con la riga intera e il nodo al centro, a 390 e a 1440                                                                                                                                                                                |
+| Bassa         | A 390 px la fila delle azioni finiva 4 px sotto il bordo di «Mosse», senza spazio                            | Applicato: la fila presta i suoi 8 px agli anelli di fuoco solo sopra, sotto e a sinistra; a destra si ferma alla sua cella. Fra la casella tagliata e «Mosse» restano 4 px, la distanza della barra, in tutti e tre gli stati del Tavolo                                                                                                                                                   |
+| Bassa (I-250) | Sul Tavolo c'erano due ricette di menu a tendina: dadi 13 px/600 con 0/8; tipo di danno 15 px/400 con 0/12   | Applicato: il campo dei dadi segue la ricetta unica dei campi a ogni larghezza (15 px, peso 400, 12 px dentro, le parole come sono scritte). Nello strumento i menu a tendina visibili sono ora una sola variante; il tipo di danno, nel pannello sotto la piega, ha le stesse misure (sonda: 15 px, 400, 0/12). Sul telefono il campo si allarga di 26 px: vedi «Differenze dichiarate» 11 |
+
+Controllo I-250 di questo giro (strumento, campionario `probe-owlcat/fix3/specimen-before/` e
+`specimen-after/`, Inizio, Magie, Inventario e Tavolo anche a pagina intera):
+
+- **Una ricetta per tipo, anche sul telefono.** Le pagine della barra (Azioni, Barra rapida) hanno
+  12 px dentro e 0,08 em come a 1440 e come le sottoschede del pannello: prima erano 8 px e 0. La
+  piastra dei PF ha 8 px dentro come a 1440 (prima 4). I comandi del turno sono una sola tessera da
+  40 px: prima erano 41 e 40 px, con i 6/10 e 6/8 px dell'app. «Tutte» nella fila delle sezioni
+  della scheda segue le linguette (15 px, 600, 12 px dentro; prima 16 px, 700, 10/12). Termina turno
+  sul telefono ha il tipo del disco (13 px, 0,08 em; prima 12 px, 0,04 em).
+- **Un solo segno sulle tessere di ferro:** 21 px, il quadrato dell'app, su strumenti, zoom,
+  pulsanti della sessione sopra la mappa e comandi del turno. Prima c'erano anche 18 px (la sessione
+  e gli strumenti sul telefono) e 19 px (i comandi sul telefono). Il triangolino del menu
+  «Sessione» resta com'è.
+- **Una sola casella di spunta da 20 px**, la misura dei controlli delle magie e dell'iniziativa,
+  anche nel campo di spunta dell'app («Colpo critico» nel pannello dei PF). Prima era 18 px, con 9 px
+  intorno e i 3 px del browser.
+- **Spazi sul passo di 2 px.** Linguette dell'intestazione: 4 px fra l'una e l'altra e 8 px dentro
+  (prima 5 e 9). Piastre della mappa: 4 px fra le tessere e 4 px dentro lo zoom (prima 5). Fra segno
+  e parola nei cartellini: 4 px (prima 5). Sopra «Disponibilità offline»: 24 px (prima 20). Parti
+  dell'ispettore: 24 px fra l'una e l'altra (prima 25). Barra delle forme: 16 px sopra e 24 sotto
+  (prima 14/22). Paragrafi del bottino, delle sezioni delle magie e dei pannelli del Tavolo: 12 px
+  sotto (prima 15). La carta di chi è di turno ha una targhetta di 28 px, così è alta 108 px intera
+  (prima 107,5).
+- **Il telefono, riga per riga:** le celle d'azione usano l'inizio libero della colonna delle
+  pagine. Sono intere, a 47,8 px dalla prima linguetta, e la linguetta resta cliccabile fino al suo
+  bordo sinistro.
+
+Garanzie ricontrollate dopo l'ultima modifica (14:03:07):
+
+- la barra è alta 117 px a 1440 in ogni stato del Tavolo, e a 1366 × 768 finisce a 768 px;
+- a 390 px l'intestazione del Tavolo sta su una riga (63 px) in tutti gli stati;
+- la larghezza della pagina è 390 su 390 in tutti gli stati;
+- Termina turno, Annulla e Annulla preparazione sono visibili e in cima a 390;
+- «Entra al Tavolo» finisce a 543 px;
+- nessun comando sotto i 40 px nell'intestazione, nella targa, nella barra, negli strumenti e nella
+  colonna;
+- 531 regole con 564 selettori, tutti con il prefisso; nessun `!important`, `text-transform` o
+  testo in `content`;
+- `tests/visual01-directions.test.mjs` passa 7 test su 7; Prettier è pulito.
+
+Le 15 schermate del giro 1 e il foglio dei provini sono stati rifatti alle 14:06–14:07, dopo
+l'ultima modifica, e le 13 coppie alle 14:07–14:08. Tutti i file sono stati aperti e guardati uno
+per uno.
+
 ## Coerenza (I-250)
 
 Strumento di verifica (`changes/visual-01/audit/`) sui 20 stati del giro 1 (1440 e 390, tema
-scuro), prima (`verify-owlcat/audit/`, CSS delle 10:39) e dopo (`audit/owlcat/`, CSS delle
-11:44:53); sotto la piega, Inizio, Magie, Inventario e Tavolo a pagina intera, prima
-(`probe-owlcat/fix2/audit-below-before/`, lo stesso CSS delle 10:39 servito a parte) e dopo
-(`probe-owlcat/fix2/audit-below-after/`); campionario dei componenti prima e dopo
-(`probe-owlcat/fix2/specimen-before/`, `specimen-after/`).
+scuro) e, sotto la piega, su Inizio, Magie, Inventario e Tavolo a pagina intera (8 schermate).
+Tre misure:
 
-| Misura (20 schermate del giro 1)                | Prima        | Dopo         |
-| ----------------------------------------------- | ------------ | ------------ |
-| Valori di spazio distinti (fuori scala)         | 37 (25)      | 33 (21)      |
-| Spazi sul passo di 2 px                         | 94,5 %       | 98,9 %       |
-| Altezze dei comandi                             | 22           | 22           |
-| Grandezze · pesi · stili di testo               | 11 · 5 · 76  | 11 · 3 · 75  |
-| Ombre                                           | 15           | 15           |
-| Colori (testo · fondo · bordo)                  | 23 · 25 · 23 | 23 · 25 · 24 |
-| Varianti dei bottoni                            | 77           | 76           |
-| Varianti dei campi                              | 3            | 2            |
-| Varianti delle linguette                        | 12           | 10           |
-| Varianti di etichette e pillole                 | 17           | 12           |
-| Varianti degli interruttori e caselle di spunta | 4            | 3            |
-| Varianti delle lastre e dei pannelli            | 48           | 43           |
-| Bottoni con il margine predefinito del browser  | 0            | 0            |
-| Contrasto AA sotto soglia                       | 49 su 1230   | 0 su 1231    |
+- **Giro 2, prima:** CSS delle 10:39, cartelle `verify-owlcat/audit/` e
+  `probe-owlcat/fix2/audit-below-before/`.
+- **Giro 3, prima:** CSS delle 11:44:53, cioè il «dopo» del giro 2. Lo strumento è stato rifatto
+  alle 13:00 (copia in `probe-owlcat/fix3/audit-before/`) e sotto la piega si usa
+  `probe-owlcat/fix2/audit-below-after/`. Le piccole differenze dal «dopo» scritto nel giro 2
+  vengono dalla nuova misura, non dal CSS.
+- **Giro 3, dopo:** CSS delle 14:03:07, cartelle `audit/owlcat/` e
+  `probe-owlcat/fix3/audit-below-after/`.
 
-| Misura (8 schermate a pagina intera)      | Prima       | Dopo        |
-| ----------------------------------------- | ----------- | ----------- |
-| Valori di spazio distinti (fuori scala)   | 34 (23)     | 32 (21)     |
-| Spazi sul passo di 2 px                   | 91,7 %      | 98,6 %      |
-| Altezze dei comandi                       | 20          | 19          |
-| Grandezze · pesi · stili di testo         | 12 · 5 · 74 | 11 · 3 · 72 |
-| Varianti delle linguette                  | 11          | 9           |
-| Varianti di etichette e pillole           | 13          | 11          |
-| Varianti delle lastre e dei pannelli      | 37          | 34          |
-| Comandi e campi con i margini del browser | 5           | 0           |
-| Contrasto AA sotto soglia                 | 28 su 1423  | 0 su 1423   |
+«—» vuol dire che quel valore non era stato annotato.
 
-Che cosa è cambiato:
+| Misura (20 schermate del giro 1)                   | Giro 2, prima | Giro 3, prima | Giro 3, dopo |
+| -------------------------------------------------- | ------------- | ------------- | ------------ |
+| Valori di spazio distinti (fuori scala)            | 37 (25)       | 32 (20)       | 31 (20)      |
+| Spazi sul passo di 2 px                            | 94,5 %        | 99,0 %        | 99,4 %       |
+| Altezze dei comandi                                | 22            | 22            | 22           |
+| Grandezze · pesi · stili di testo                  | 11 · 5 · 76   | 11 · 3 · 75   | 11 · 3 · 72  |
+| Ombre                                              | 15            | 15            | 15           |
+| Colori (testo · fondo · bordo)                     | 23 · 25 · 23  | 23 · 25 · 24  | 23 · 25 · 24 |
+| Varianti dei bottoni                               | 77            | 76            | 69           |
+| Varianti dei campi di testo e numerici             | 3             | 2             | 2            |
+| Varianti dei menu a tendina                        | —             | 2             | 1            |
+| Varianti delle linguette (classi con più varianti) | 12            | 10 (3)        | 8 (1)        |
+| Varianti di etichette e pillole                    | 17            | 12            | 12           |
+| Varianti degli interruttori e caselle di spunta    | 4             | 3             | 3            |
+| Varianti delle lastre e dei pannelli               | 48            | 43            | 44           |
+| Bottoni con il margine predefinito del browser     | 0             | 0             | 0            |
+| Contrasto AA sotto soglia                          | 49 su 1230    | 0 su 1231     | 0 su 1227    |
+
+| Misura (8 schermate a pagina intera)            | Giro 2, prima | Giro 3, prima | Giro 3, dopo |
+| ----------------------------------------------- | ------------- | ------------- | ------------ |
+| Valori di spazio distinti (fuori scala)         | 34 (23)       | 32 (21)       | 30 (19)      |
+| Spazi sul passo di 2 px                         | 91,7 %        | 98,6 %        | 99,7 %       |
+| Altezze dei comandi                             | 20            | 19            | 18           |
+| Grandezze · pesi · stili di testo               | 12 · 5 · 74   | 11 · 3 · 72   | 11 · 3 · 68  |
+| Varianti dei bottoni (classi con più varianti)  | —             | 75 (13)       | 68 (12)      |
+| Varianti dei menu a tendina                     | —             | 3             | 2            |
+| Varianti delle linguette                        | 11            | 9             | 7            |
+| Varianti di etichette e pillole                 | 13            | 11            | 11           |
+| Varianti degli interruttori e caselle di spunta | —             | 3             | 2            |
+| Varianti delle lastre e dei pannelli            | 37            | 34            | 35           |
+| Comandi e campi con i margini del browser       | 5             | 0             | 0            |
+| Contrasto AA sotto soglia                       | 28 su 1423    | 0 su 1423     | 0 su 1421    |
+
+C'è una variante di lastra in più perché, sul telefono, la piastra dei dadi è ora larga 142 px:
+lo strumento conta come lastra tutto ciò che supera i 120 px. Il disegno non cambia.
+
+Che cosa è cambiato nel giro 3: vedi «Terzo giro di rifinitura» qui sopra.
+
+Che cosa era cambiato nel giro 2:
 
 - **Una ricetta per tipo.** Un solo cartellino (24 px, 8 px ai lati, 12 px in maiuscoletto) per
   `.badge`, componenti e stati delle magie, cartellini delle reazioni; un solo campo numerico (40
@@ -325,14 +404,31 @@ Che cosa è cambiato:
   ferro; la barra delle sezioni della scheda non getta più ombra sulla riga che le scorre sotto
   («Libro»); la banda «Concentrazione» ha la capolettera come le altre; la barra del peso ha il
   suo spazio, così «Peso incompleto…» non tocca la pennellata.
-- **Restano, dichiarati:** 13 classi di bottoni con più varianti, quasi tutte componenti diversi
-  che lo strumento mette nella stessa classe visiva (stelle dei preferiti, nomi delle righe,
-  carte del gruppo, caselle delle caratteristiche, linguette dell'intestazione a 51 px come la
-  barra di WotR); 43 varianti di lastre, una per ruolo del HUD; gli spazi della geometria fissa
-  della mappa (76 · 88 · 152 · 292 px e gli scostamenti che `fitHud` scrive nella pagina), del
-  marchio (fermo fino alla fase D) e il rientro di 52,8 px dei dati sotto il nome nella finestra
-  dell'iniziativa (calcolato dall'app in em); 213 testi «incerti» sopra la mappa o sotto la piega,
-  misurati negli altri stati.
+
+Restano, dichiarati:
+
+- **Bottoni.** 13 classi hanno più di una variante. Quasi tutte sono componenti diversi che lo
+  strumento mette nella stessa classe visiva: stelle dei preferiti, nomi delle righe, carte del
+  gruppo, caselle delle caratteristiche, linguette dell'intestazione a 51 px come la barra di WotR,
+  il disco di Termina turno da 96 px, le icone di servizio da 42 px dell'app.
+- **Due campi, non uno.** Il campo numerico (16 px grassetto al centro) e il campo di testo
+  (15 px, 12 px dentro) sono due tipi diversi.
+- **Misure del telefono decise dall'app.** Le voci del menu della pedina e le linguette della
+  scheda sono alte 44 px invece di 40; le linguette della colonna del Tavolo sono alte 52 px.
+- **Altezze 43 e 45,5 px.** Sono i riquadri esterni dei due pulsanti della lettera
+  dell'appuntamento, inclinata di −1,5° («Differenze dichiarate» 10). I pulsanti restano alti
+  40 px.
+- **Altezze con i decimali sulla fascia della scheda al telefono (87,5 e 130,5 px).** Seguono il
+  contenuto, con interlinee di 1,25 e 1,15; succede anche in «Attuale».
+- **Lastre.** 44 varianti, una per ruolo del HUD.
+- **Spazi fissi dell'app.** Restano gli spazi della geometria della mappa (76 · 88 · 152 · 292 px e
+  gli scostamenti che `fitHud` scrive nella pagina), del corpo della pagina (`main`) e
+  dell'intestazione. Resta anche il rientro di 52,8 px dei dati sotto il nome nella finestra
+  dell'iniziativa, che l'app calcola in em.
+- **Altri valori fermi.** Il marchio è fermo fino alla fase D; i puntini della sessione restano a
+  3 px, misura dell'app.
+- **Testi incerti.** 213 testi sopra la mappa o sotto la piega restano «incerti»; sono misurati
+  negli altri stati.
 
 ## Licenze e attribuzioni
 

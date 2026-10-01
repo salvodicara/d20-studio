@@ -1,12 +1,13 @@
 # Opzione 6 · Roll20 — da dove viene ogni scelta
 
 Scelta 1 — Direzione, primo giro (I-248), 01/10/2026. Tema scuro, a 1440 × 900 e 390 × 844, con
-ogni misura presa da una sola scala (I-250); secondo giro di rifinitura dopo la verifica
-indipendente, vedi «Coerenza (I-250)» e «Secondo giro di rifinitura». Le schermate sono in
-`~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/round1/roll20/`; i confronti già
-montati (nostra schermata a sinistra, Roll20 a destra) in `round1/roll20/_pairs/`. Le immagini di
-riferimento sono in `~/Workspace/Codex/d20-studio-visual-assets/references/roll20/`: restano lì,
-non entrano nel progetto.
+ogni misura presa da una sola scala (I-250); secondo e terzo giro di rifinitura dopo le verifiche
+indipendenti, vedi «Coerenza (I-250)», «Secondo giro di rifinitura» e «Terzo giro di rifinitura».
+Le schermate sono in `~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/round1/roll20/`;
+i confronti già montati (nostra schermata a sinistra, Roll20 a destra) in `round1/roll20/_pairs/`.
+Le immagini di riferimento sono in
+`~/Workspace/Codex/d20-studio-visual-assets/references/roll20/`: restano lì, non entrano nel
+progetto.
 
 ## In tre righe
 
@@ -96,28 +97,28 @@ componenti «Grimoire» `roll20.net/static-fallback/nav-bar/master/assets/main-D
 
 ### Tavolo
 
-| Elemento                                                                                                                                                                                                                                                                                                                | Prodotto copiato                                    | Fonte                                                                                                                                                                        |
-| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Colonna degli strumenti nera #0C0C0C, piena altezza, incollata al bordo sinistro (48 px, circa il 3 % dello schermo); glifi pieni #E6E6E6 senza piastra; lo strumento attivo su una casella #353535 con filo #5D5D5D e angoli da 12 px                                                                                  | Jumpgate, colonna degli strumenti                   | [O] T6; T3 `roll20-table-jumpgate-dark-hexmap-full-ui-2026.png` (<https://blog.roll20.net/posts/10x-vtt-performance-update/>)                                                |
-| Il gruppo di strumenti aperto come pannello nero attaccato alla colonna                                                                                                                                                                                                                                                 | Menu a comparsa degli strumenti di Roll20           | [O] T6, T31 (crop numerato della colonna)                                                                                                                                    |
-| Ritratti del gruppo come i pulsanti «LAYERS» in fondo alla colonna: quadrati arrotondati, quello scelto acceso del suo verde (#30673C, filo #598563), piccole maiuscole sotto                                                                                                                                           | Pulsanti dei livelli di Jumpgate («TOKENS», «GM»)   | [O] T6, T3                                                                                                                                                                   |
-| La mappa dalla colonna degli strumenti fino al pannello laterale e al bordo in basso: lo zoom galleggia sull'illustrazione; la barra delle macro, i dadi e la targa galleggiano sulla mappa (si vede sotto di loro appena si ingrandisce o si sposta la vista); «Centra la scena» tiene la scena sopra la barra         | Jumpgate                                            | [O] T3, T4 `roll20-table-jumpgate-dark-map-pins-full-ui-2026.png` (<https://blog.roll20.net/posts/map-pins-customization/>)                                                  |
-| Comandi galleggianti di vetro scuro rgba(0,0,0,.6) con un filo #A5A1A7: la riga della sessione in alto a destra, lo zoom verticale sotto di essa                                                                                                                                                                        | Pulsante delle pagine e zoom di Jumpgate            | [O] T6, T3                                                                                                                                                                   |
-| Ordine dei turni come la finestra «Turn Order»: #1F1F1F galleggiante accanto alla colonna, una riga per creatura (gettone tondo, nome), la riga attuale verde #094424 con un filo più chiaro                                                                                                                            | «Turn Order» di Roll20                              | [O] T15 `roll20-table-turn-order-dark-active-row-frame.png` (<https://help.roll20.net/hc/en-us/articles/360039178634-Turn-Tracker>)                                          |
-| Targa della scena come finestra opaca #1F1F1F con l'ombra delle finestre (come la Turn Order sotto di lei): i muri della mappa non passano più tra i comandi; nella vista del master il nome sta sopra i comandi e la targa è larga quanto la riga più lunga                                                            | Finestre galleggianti di Jumpgate («Turn Order»)    | [O] T15, T6                                                                                                                                                                  |
-| Barra delle azioni come barra delle macro: un gettone viola #702C91 per azione, tutti alti 44 px (con o senza l'etichetta del gruppo), parole bianche, angoli piccoli; la targa del giocatore a sinistra; l'anello del fuoco disegnato dentro il gettone (e dentro le righe dei turni), come l'anello interno di Roll20 | Macro quick bar e player plate; fuoco di «Grimoire» | [O] T44 `roll20-table-macro-hotbar-token-actions-frame.png` (<https://blog.roll20.net/posts/what-you-missed-in-2025-on-roll20/>); T1; [CSS] `inset 0 0 0 4px` (facts §0.5)   |
-| «Termina turno» come «next» della finestra Turn Order promosso a viola pieno, nel piede del pannello (dove Roll20 mette «Send»)                                                                                                                                                                                         | Turn Order e chat di Roll20                         | [O] T15; T6                                                                                                                                                                  |
-| Pagine della barra («Azioni / Barra rapida») come gruppo segmentato grigio, la pagina aperta su una casella più chiara                                                                                                                                                                                                  | Controllo segmentato di Roll20                      | [O] D4 `roll20-dialog-grid-settings-2026.png` (<https://blog.roll20.net/posts/align-to-grid-new/>)                                                                           |
-| Pannello laterale #1F1F1F dietro un divisorio nero; linguette a icona, la aperta piena lilla #8D56A7; sotto-linguette sulla fascia viola #2D123A                                                                                                                                                                        | Barra laterale di Jumpgate                          | [O] T6; T1 `roll20-table-jumpgate-dark-map-chat-rolltemplates-3ddice-2026.png` (<https://blog.roll20.net/posts/dd-sheet-now-on-phones/>)                                     |
-| Classe armatura come «bolla» rotonda scura in un anello blu #7C9BC4                                                                                                                                                                                                                                                     | Bolle dei segnalini (Bar 2 = CA)                    | [O] T20 `roll20-table-token-hp-ac-bubbles-annotated-2025.png` (<https://help.roll20.net/hc/en-us/articles/29258224833431-10-Using-Roll20-to-play>); T22 (colori delle barre) |
-| Segnalini: arte tonda in un filo chiaro su una linea nera; ostili in rosso Bar 3 #B31D1D (e tratteggio dell'app); selezione azzurra #5E85D4 con un filo nero (al fuoco da tastiera tratteggiata da 3 px, come oggi); punti ferita come pastiglia verde #7CC48A sopra il segnalino; nome bianco con contorno nero sotto  | Segnalini di Jumpgate                               | [O] T18 `roll20-table-token-bubbles-hpbar-nameplate-rolltemplate-frame.png` (<https://blog.roll20.net/posts/what-you-missed-in-2025-on-roll20/>); T22                        |
-| Porte e finestre come quadrati bianchi incorniciati sul muro                                                                                                                                                                                                                                                            | Porte di Jumpgate                                   | [O] T44                                                                                                                                                                      |
-| Punti di viaggio del master (forzieri, tracce, nascondigli) come le porte: disco nero, filo e glifo bianchi                                                                                                                                                                                                             | Porte di Jumpgate                                   | [O] T44                                                                                                                                                                      |
-| Slot degli incantesimi nella barra come rombi rossi                                                                                                                                                                                                                                                                     | La stessa grammatica della scheda                   | [O] S16                                                                                                                                                                      |
-| Griglia sottile chiara                                                                                                                                                                                                                                                                                                  | Griglia di Jumpgate                                 | [O] T6                                                                                                                                                                       |
-| Finestra dell'iniziativa come finestra di Roll20 con righe di Turn Order (totale a destra in Nunito pieno)                                                                                                                                                                                                              | Finestre modali e Turn Order                        | [O] D1, D8, T15                                                                                                                                                              |
-| Menu della pedina come il menu del tasto destro: lista scura arrotondata (12 px), righe con icona e parole in grassetto, la riga sotto il puntatore su #353535 con parole lilla                                                                                                                                         | Menu contestuale di Jumpgate                        | [O] T25                                                                                                                                                                      |
-| Telefono: barre sotto la mappa come la barra dell'app di Roll20 Characters (#111111), linguette a icona con la aperta lilla                                                                                                                                                                                             | Roll20 Characters su telefono                       | [O] S18                                                                                                                                                                      |
+| Elemento                                                                                                                                                                                                                                                                                                                                                | Prodotto copiato                                    | Fonte                                                                                                                                                                        |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Colonna degli strumenti nera #0C0C0C, piena altezza, incollata al bordo sinistro (48 px, circa il 3 % dello schermo); glifi pieni #E6E6E6 senza piastra; lo strumento attivo su una casella #353535 con filo #5D5D5D e angoli da 12 px                                                                                                                  | Jumpgate, colonna degli strumenti                   | [O] T6; T3 `roll20-table-jumpgate-dark-hexmap-full-ui-2026.png` (<https://blog.roll20.net/posts/10x-vtt-performance-update/>)                                                |
+| Il gruppo di strumenti aperto come pannello nero attaccato alla colonna                                                                                                                                                                                                                                                                                 | Menu a comparsa degli strumenti di Roll20           | [O] T6, T31 (crop numerato della colonna)                                                                                                                                    |
+| Ritratti del gruppo come i pulsanti «LAYERS» in fondo alla colonna: quadrati arrotondati, quello scelto acceso del suo verde (#30673C, filo #598563), piccole maiuscole sotto                                                                                                                                                                           | Pulsanti dei livelli di Jumpgate («TOKENS», «GM»)   | [O] T6, T3                                                                                                                                                                   |
+| La mappa dalla colonna degli strumenti fino al pannello laterale e al bordo in basso: lo zoom galleggia sull'illustrazione; la barra delle macro, i dadi e la targa galleggiano sulla mappa (si vede sotto di loro appena si ingrandisce o si sposta la vista); «Centra la scena» tiene la scena sopra la barra                                         | Jumpgate                                            | [O] T3, T4 `roll20-table-jumpgate-dark-map-pins-full-ui-2026.png` (<https://blog.roll20.net/posts/map-pins-customization/>)                                                  |
+| Comandi galleggianti di vetro scuro rgba(0,0,0,.6) con un filo #A5A1A7: la riga della sessione in alto a destra, lo zoom verticale sotto di essa                                                                                                                                                                                                        | Pulsante delle pagine e zoom di Jumpgate            | [O] T6, T3                                                                                                                                                                   |
+| Ordine dei turni come la finestra «Turn Order»: #1F1F1F galleggiante accanto alla colonna, una riga per creatura (gettone tondo, nome), la riga attuale verde #094424 con un filo più chiaro; sotto 1440 × 900 una colonna di ritratti da 40 px (come i pulsanti dei livelli) con il suo spazio sulla mappa, il turno attuale verde con la barra bianca | «Turn Order» di Roll20                              | [O] T15 `roll20-table-turn-order-dark-active-row-frame.png` (<https://help.roll20.net/hc/en-us/articles/360039178634-Turn-Tracker>)                                          |
+| Targa della scena come finestra opaca #1F1F1F con l'ombra delle finestre (come la Turn Order sotto di lei): i muri della mappa non passano più tra i comandi; nella vista del master il nome sta sopra i comandi e la targa è larga quanto la riga più lunga                                                                                            | Finestre galleggianti di Jumpgate («Turn Order»)    | [O] T15, T6                                                                                                                                                                  |
+| Barra delle azioni come barra delle macro: un gettone viola #702C91 per azione, tutti alti 44 px (con o senza l'etichetta del gruppo), parole bianche, angoli piccoli; la targa del giocatore a sinistra; l'anello del fuoco disegnato dentro il gettone (e dentro le righe dei turni), come l'anello interno di Roll20                                 | Macro quick bar e player plate; fuoco di «Grimoire» | [O] T44 `roll20-table-macro-hotbar-token-actions-frame.png` (<https://blog.roll20.net/posts/what-you-missed-in-2025-on-roll20/>); T1; [CSS] `inset 0 0 0 4px` (facts §0.5)   |
+| «Termina turno» come «next» della finestra Turn Order promosso a viola pieno, nel piede del pannello (dove Roll20 mette «Send»)                                                                                                                                                                                                                         | Turn Order e chat di Roll20                         | [O] T15; T6                                                                                                                                                                  |
+| Pagine della barra («Azioni / Barra rapida») come gruppo segmentato grigio, la pagina aperta su una casella più chiara                                                                                                                                                                                                                                  | Controllo segmentato di Roll20                      | [O] D4 `roll20-dialog-grid-settings-2026.png` (<https://blog.roll20.net/posts/align-to-grid-new/>)                                                                           |
+| Pannello laterale #1F1F1F dietro un divisorio nero; linguette a icona, la aperta piena lilla #8D56A7; sotto-linguette sulla fascia viola #2D123A                                                                                                                                                                                                        | Barra laterale di Jumpgate                          | [O] T6; T1 `roll20-table-jumpgate-dark-map-chat-rolltemplates-3ddice-2026.png` (<https://blog.roll20.net/posts/dd-sheet-now-on-phones/>)                                     |
+| Classe armatura come «bolla» rotonda scura in un anello blu #7C9BC4                                                                                                                                                                                                                                                                                     | Bolle dei segnalini (Bar 2 = CA)                    | [O] T20 `roll20-table-token-hp-ac-bubbles-annotated-2025.png` (<https://help.roll20.net/hc/en-us/articles/29258224833431-10-Using-Roll20-to-play>); T22 (colori delle barre) |
+| Segnalini: arte tonda in un filo chiaro su una linea nera; ostili in rosso Bar 3 #B31D1D (e tratteggio dell'app); selezione azzurra #5E85D4 con un filo nero (al fuoco da tastiera tratteggiata da 3 px, come oggi); punti ferita come pastiglia verde #7CC48A sopra il segnalino; nome bianco con contorno nero sotto                                  | Segnalini di Jumpgate                               | [O] T18 `roll20-table-token-bubbles-hpbar-nameplate-rolltemplate-frame.png` (<https://blog.roll20.net/posts/what-you-missed-in-2025-on-roll20/>); T22                        |
+| Porte e finestre come quadrati bianchi incorniciati sul muro                                                                                                                                                                                                                                                                                            | Porte di Jumpgate                                   | [O] T44                                                                                                                                                                      |
+| Punti di viaggio del master (forzieri, tracce, nascondigli) come le porte: disco nero, filo e glifo bianchi                                                                                                                                                                                                                                             | Porte di Jumpgate                                   | [O] T44                                                                                                                                                                      |
+| Slot degli incantesimi nella barra come rombi rossi                                                                                                                                                                                                                                                                                                     | La stessa grammatica della scheda                   | [O] S16                                                                                                                                                                      |
+| Griglia sottile chiara                                                                                                                                                                                                                                                                                                                                  | Griglia di Jumpgate                                 | [O] T6                                                                                                                                                                       |
+| Finestra dell'iniziativa come finestra di Roll20 con righe di Turn Order (totale a destra in Nunito pieno)                                                                                                                                                                                                                                              | Finestre modali e Turn Order                        | [O] D1, D8, T15                                                                                                                                                              |
+| Menu della pedina come il menu del tasto destro: lista scura arrotondata (12 px), righe con icona e parole in grassetto, la riga sotto il puntatore su #353535 con parole lilla                                                                                                                                                                         | Menu contestuale di Jumpgate                        | [O] T25                                                                                                                                                                      |
+| Telefono: barre sotto la mappa come la barra dell'app di Roll20 Characters (#111111), linguette a icona con la aperta lilla                                                                                                                                                                                                                             | Roll20 Characters su telefono                       | [O] S18                                                                                                                                                                      |
 
 ## Misure coerenti (I-250)
 
@@ -134,22 +135,78 @@ queste scale, copiate dal CSS di Roll20:
   attivo, menu) · 16 (foglio del telefono) · pastiglia.
 - **Bordi:** 1 px; 2 px per le caselle di competenza e lo strumento attivo.
 - **Comandi:** 40 px (il minimo dell'app), 44 px per i gettoni della barra delle macro, 46 px per il
-  pulsante «Entra al Tavolo», 48 px per la colonna degli strumenti. Sul telefono e nelle caselle
+  pulsante «Entra al Tavolo», 48 px per la colonna degli strumenti (e per la colonna dei turni sotto
+  1440 × 900: celle da 40 px con 4 px attorno). Sul telefono e nelle caselle
   dell'inventario c'è la misura piccola di «Grimoire»: 14 px, 8 px ai lati.
 - **Una forma per componente:** un solo comando terziario, un solo gettone piccolo (24 px), un solo
   titolo di pannello della scheda, un solo titolo di casella della fascia, una sola altezza per i
-  gettoni della barra.
+  gettoni della barra, un solo campo (anche la quantità dei punti ferita), un solo riquadro dei punti
+  ferita su Scheda e Tavolo, una sola etichetta di condizione.
+- **Glifi:** 20 px in ogni comando (solo icona o icona e parole), 16 px nelle righe del menu della
+  pedina e nei gettoni della barra delle macro (parole da 13 px), 14 px per la freccina del menu e i
+  segni delle risorse, 13 px per la matita del ritratto.
 
 Risultato della verifica dei valori (`changes/visual-01/audit/audit.js --direction roll20`, 20 stati,
-01/10/2026, dopo il secondo giro): spaziature su passo di 2 px nel 99 % dei casi; 12 dimensioni di
+01/10/2026, dopo il terzo giro): spaziature su passo di 2 px nel 99 % dei casi; 12 dimensioni di
 testo, tutte sulla scala tranne le etichette disegnate dentro la mappa (11 e 17 px, scalano con lo
-zoom) e il marchio d20 Studio (fermo fino alla fase D); 6 rapporti d'interlinea; 6 raggi; 8 ombre;
-90 varianti di pulsante, 14 classi con più di una variante; nessun pulsante con il margine
-predefinito del browser; contrasto: nessun testo sotto AA su 1218. Le altre eccezioni sono la
-geometria fissa del Tavolo (posizioni calcolate dal programma). Il confronto prima e dopo è in
-«Coerenza (I-250)».
+zoom) e il marchio d20 Studio (fermo fino alla fase D); 6 rapporti d'interlinea; 6 raggi; 9 ombre;
+85 varianti di pulsante, 14 classi con più di una variante; 4 misure di glifo; nessun comando con
+il margine predefinito del browser; contrasto: nessun testo sotto AA su 1217. Le altre eccezioni
+sono la geometria fissa del Tavolo (posizioni calcolate dal programma). Il confronto prima e dopo è
+in «Coerenza (I-250)».
 
 ## Coerenza (I-250)
+
+### Terzo giro di rifinitura (01/10/2026)
+
+Strumento di verifica sui 20 stati del giro 1 (1440 e 390, tema scuro, compresa la scheda intera),
+prima (`…/probe-roll20/r3/audit-before-r3.md`, la verifica indipendente delle 12:59 su
+`direction.css` delle 11:46) e dopo (`…/visual-01/audit/roll20/audit.md`, `direction.css` delle
+13:31; lo stato della finestra dell'iniziativa a 390 è stato rifatto una volta perché la macchina,
+molto carica, aveva perso il foglio della direzione). Sotto la piega: Inizio e Scheda a pagina
+intera (`…/probe-roll20/r3/full/`) e il campionario dei componenti (`…/probe-roll20/r3/specimen/`,
+1440 e 390), letti uno per uno.
+
+| Misura (20 schermate del giro 1)                    | Prima             | Dopo              |
+| --------------------------------------------------- | ----------------- | ----------------- |
+| Elementi visibili                                   | 2582              | 2580              |
+| Valori di spazio distinti (fuori scala)             | 31 (15)           | 31 (15)           |
+| Spazi sul passo di 2 px                             | 99,2 %            | 99,2 %            |
+| Altezze dei comandi                                 | 18                | 18                |
+| Grandezze dei caratteri · interlinee · stili        | 12 · 26 · 89      | 12 · 26 · 87      |
+| Raggi · spessori dei bordi · ombre                  | 6 · 3 · 8         | 6 · 3 · 9         |
+| Colori (testo · fondo · bordo; coppie quasi uguali) | 24 · 28 · 22 (11) | 24 · 28 · 22 (11) |
+| Pulsanti: classi visive, varianti (classi con più)  | 24, 88 (14)       | 24, 85 (14)       |
+| Campi: classi visive, varianti                      | 2, 4              | 1, 2              |
+| Misure dei glifi                                    | 9                 | 4                 |
+| Linguette · gettoni · pannelli: varianti            | 13 · 14 · 42      | 13 · 14 · 42      |
+| Bottoni con il margine predefinito del browser      | 0                 | 0                 |
+| Contrasto AA sotto soglia (incerti)                 | 0 su 1218 (1)     | 0 su 1217 (1)     |
+
+- **Un solo campo.** La quantità dei punti ferita del Tavolo (tra Cura e Danno) era l'ultimo campo
+  con l'aspetto del browser (bordo incassato grigio, fondo #3B3B3B, angoli vivi); ora è il campo di
+  tutta l'opzione, come sulla Scheda (che prima aveva una sua versione da 20/800 su #171717). Il dado
+  da 20 della finestra dell'iniziativa passa da 13 a 16 px come gli altri campi dei dadi: i campi
+  scendono da 4 varianti a 2 (testo e formula, stesso riquadro).
+- **Un solo glifo per comando.** 20 px nei comandi con parole (prima 21 px dall'1,3 em dell'app,
+  18 px in alcune righe), nei pulsanti di vetro della sessione (prima 18) e nel riquadro degli
+  oggetti dell'inventario; «Altre azioni» delle righe dell'inventario è il quadrato da 40 px degli
+  altri comandi con sola icona (prima 55 × 40); i gettoni della barra delle macro e «Mosse» hanno un
+  glifo da 16 px (prima 17, e 17 × 20 schiacciato in «Mosse» sul telefono). Da 9 misure a 4.
+- **Pulsanti:** Stop, Rallenta e Nascondi interfaccia sono un quadrato da 40 px (prima 44, 44 e 40);
+  il «+» e il «−» dello zoom sono a 24/800, all'altezza dei glifi pieni accanto (a 20/400 sembravano
+  più piccoli); da 88 a 85 varianti.
+- **Sotto la piega:** sul telefono la scheda «Il tuo personaggio» dell'Inizio teneva «MAGA ·» e
+  «LIVELLO 3» su due righe: ora la riga della classe sta su una riga (piccole maiuscole da 13 px,
+  colonne a 12 px, la colonna dei punti ferita stretta quanto i suoi numeri). Le etichette delle
+  condizioni (campionario) avevano tre forme: ora una sola, 40 px con le parole al centro e la × di
+  fine concentrazione nel quadrato da 40 px.
+- **Ombre:** l'unica nuova è la barra bianca del turno attuale (vedi «Terzo giro di rifinitura»).
+- **Restano:** come nel secondo giro (margini fissi della mappa, «Ispirazione eroica» del telefono
+  alta quanto i punti ferita, il marchio d20 Studio), più le iniziali delle pedine disegnate dentro la
+  mappa, che scalano con lo zoom.
+
+### Secondo giro di rifinitura (01/10/2026)
 
 Secondo giro di rifinitura, 01/10/2026. Strumento di verifica (`changes/visual-01/audit/`) sui 20
 stati del giro 1 (1440 e 390, tema scuro, compresa la scheda intera), prima
@@ -205,7 +262,7 @@ pagina intera (`…/probe-roll20/r2/before-full/`, `after-full/`) e il campionar
 ## Coppie per il confronto
 
 Montaggi pronti in `round1/roll20/_pairs/` (nostra schermata a sinistra, riferimento a destra),
-rifatti dopo l'ultima cattura del secondo giro con `…/probe-roll20/r2/pairs.py` (alti 700 px, sotto
+rifatti dopo l'ultima cattura del terzo giro con `…/probe-roll20/r3/pairs.py` (alti 700 px, sotto
 ogni immagine chi è e il nome del file).
 
 | Schermata                | Nostra schermata                         | Riferimenti Roll20                                                                                         |
@@ -247,7 +304,12 @@ Cose che Roll20 fa e noi no, o che facciamo diversamente, e perché.
    personaggi: la scritta sotto è il nome, non un livello.
 5. **La finestra dei turni non ha il titolo «Turn Order», la rotella, la freccia in fondo né i
    valori d'iniziativa**: l'app non li mostra in quella lista e non possiamo aggiungere testo. Non si
-   trascina.
+   trascina. Da 1440 × 900 in su resta la finestra con i nomi, che galleggia sull'angolo in alto a
+   sinistra della scena come in Roll20 (nell'esempio non copre nessuna pedina; ogni riga seleziona la
+   sua creatura). Sotto 1440 × 900, dove la finestra cadeva sulla scena (a 1366 × 768 copriva la
+   pedina di turno), diventa una colonna di ritratti da 40 px come i pulsanti dei livelli, con i nomi
+   tenuti come testo accessibile, e la scena si adatta a destra della colonna. Il turno attuale è
+   verde con una barra bianca sul lato sinistro, anche sul telefono.
 6. **Segnalini:** niente tre bolle colorate sopra il segnalino (l'app non ha altri valori da
    mostrare), la pastiglia dei punti ferita non ha il numero dentro, la selezione è un anello azzurro
    e non il riquadro con le maniglie quadrate. Gli ostili tengono il tratteggio dell'app (mai solo il
@@ -298,15 +360,31 @@ Cose che Roll20 fa e noi no, o che facciamo diversamente, e perché.
     disegnata come la barra di navigazione scura di Roll20. Il marchio d20 Studio resta com'è.
 16. **Solo tema scuro:** con il tema chiaro questa opzione mostra l'aspetto di oggi. Roll20 chiaro
     (bianco e magenta #E10085) è nei riferimenti, non qui.
+17. **Due grammatiche, dichiarate.** La Scheda copia la scheda D&D 2024 di Roll20 (rosso e oro,
+    Figtree in maiuscoletto, pulsanti contornati di grigio, scelto in rosso pieno); tutto il resto
+    copia «Grimoire» e il Jumpgate (viola e lilla, Nunito, pulsanti contornati di lilla, scelto in
+    viola). È la stessa divisione di Roll20 tra scheda e piattaforma. Il componente condiviso ha però
+    un solo aspetto: il riquadro dei punti ferita (Cura e Danno come caselle #353535 con parole verdi
+    e rosse, la quantità come ogni campo) è uguale su Scheda e Tavolo; cambia solo il carattere delle
+    parole, quello della pagina. Gli stati scelti fuori dalla Scheda restano quattro, ognuno con il suo
+    ruolo in Roll20: la pagina aperta (#702C91 pieno), la linguetta del pannello aperta (#8D56A7 con il
+    filo lilla), lo strumento attivo della colonna (casella #353535 con filo grigio), la pagina della
+    barra (#3D3D3D).
 
-## Controlli fatti (01/10/2026, dopo il secondo giro di rifinitura)
+## Controlli fatti (01/10/2026, dopo il terzo giro di rifinitura)
 
 - Barra delle azioni a 1440 × 900: **112 px** (il limite è 120); 112 px anche a 1366 × 768.
   «Termina turno» 96 × 86 px a schermo, Annulla e Annulla l'ultima mossa 40 × 40.
 - Telefono (390 × 844, come un telefono vero): barra **153 px**, come «Attuale»; «Termina turno»
   146 × 40 nella riga dei comandi, Annulla e Annulla l'ultima mossa 40 × 40, tutti a schermo e non
-  coperti (`elementFromPoint`, giocatore e master); intestazione del Tavolo su **una riga** (64 px;
-  prima di questo giro andava su due, 105 px).
+  coperti (`elementFromPoint`, giocatore e master); intestazione del Tavolo su **una riga** (64 px,
+  come dal secondo giro).
+- Pedine raggiungibili in combattimento (sonda `…/probe-roll20/r3/cover.js`, centro e quattro punti
+  interni di ogni pedina con `elementFromPoint`, giocatore e master): a 1440 × 900, 1366 × 768,
+  1280 × 800 e 1024 × 768 il centro di tutte e cinque le pedine è libero in tutti gli 8 casi (prima
+  del giro: Livia coperta dalla finestra dei turni a 1366, 1280 e 1024, anche Doran e Mira a 1024).
+  Prova: `…/probe-roll20/r3/token-cover-final.txt` e le schermate in `…/r3/cover-final/`. Il
+  riquadro della scena del master a 1024 × 768 passa da 4 righe a 3 (titolo e due righe di comandi).
 - «Entra al Tavolo» a 390: finisce a 645 px, dentro i primi 844.
 - Nessuno scorrimento orizzontale a 390 e a 1440 su Inizio, Scheda (anche Magie e Inventario),
   Tavolo, finestra dell'iniziativa e menu della pedina; la tabella delle mosse della scheda ora sta
@@ -314,10 +392,12 @@ Cose che Roll20 fa e noi no, o che facciamo diversamente, e perché.
 - Bersagli: nessun comando sotto i 40 px nel Tavolo, sull'Inizio, in Magie; nella Scheda restano solo
   quelli che ha anche «Attuale» (parole del compendio dentro le frasi, collegamenti alle fonti), e
   sulla mappa del master i punti di viaggio e le porte, come in «Attuale».
-- Fuoco da tastiera: anello pieno da 3 px #D1BBDC, dentro il controllo su gettoni e righe dei turni.
+- Fuoco da tastiera: anello pieno da 3 px #D1BBDC, dentro il controllo su gettoni e righe dei turni;
+  è l'unico lilla della Scheda (il nodo scelto dei Doni ora ha il filo rosso chiaro da 2 px).
 - Senza colori: la sotto-sezione aperta della scheda si distingue come il filtro scelto (fondo più
-  chiaro, filo da 2 px, pallino).
-- Verifica dei valori: **0 testi sotto AA** su 1218 (vedi «Coerenza (I-250)»).
+  chiaro, filo da 2 px, pallino); il turno attuale ha la barra bianca a sinistra oltre al verde,
+  nella colonna compatta e sul telefono; il nodo scelto dei Doni ha il filo doppio.
+- Verifica dei valori: **0 testi sotto AA** su 1217 (vedi «Coerenza (I-250)»).
 - `node --test design/blueprint/tests/*.test.mjs`: 2688 su 2688; Prettier pulito sui file di questa
   opzione; nessun `!important`, nessun `text-transform`, solo `content: ""`; ogni selettore
   comincia con il prefisso dell'opzione.
@@ -357,6 +437,26 @@ Restano come in «Attuale», perché sono della disposizione dell'app e non di q
 e i punti di viaggio con un'area più piccola di 40 px sulla mappa del master; l'avviso «Sessione
 non avviata» sotto i ritratti dei turni nella vista del master sul telefono; sul telefono la
 striscia delle sezioni della scheda scorre e taglia la sezione vicina a quella aperta, come oggi.
+
+## Terzo giro di rifinitura (01/10/2026)
+
+Le osservazioni della terza verifica indipendente (`notes/open-items-round3.json`, voce `roll20`) e
+il passaggio I-250 sullo strumento di verifica, sul campionario e sotto la piega. Nessuna respinta.
+
+| Voce                         | Osservazione                                                                                                 | Correzione                                                                                                                                                                                                                                                                                 |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Pedine coperte (media)       | Sotto 1440 × 900 la finestra dei turni copriva la pedina di turno (a 1024 × 768 anche Doran e Mira)          | Sotto 1440 × 900 la finestra diventa una colonna di ritratti da 40 px e la scena si adatta alla sua destra (spazio interno della mappa, come quello della barra); la mappa arriva ancora alla colonna degli strumenti. Tutte le pedine libere a 1366, 1280 e 1024 (vedi «Controlli fatti») |
+| Campo dei PF (media)         | La quantità tra Cura e Danno nel pannello Creatura aveva l'aspetto del browser                               | Il campo di tutta l'opzione (filo grigio da 1 px, #0C0C0C, angoli da 4, 6/8 px, Figtree 16), uguale sulla Scheda                                                                                                                                                                           |
+| Lilla nella Scheda (bassa)   | Il nodo scelto dei Doni aveva un anello lilla fisso, letto come un fuoco rimasto                             | Filo rosso chiaro da 2 px; il lilla resta solo per il fuoco da tastiera                                                                                                                                                                                                                    |
+| Glifi della sessione (bassa) | Glifi da 18 px accanto ai 20 della mappa; pulsanti larghi 44, 44 e 40                                        | Glifi da 20 px; Stop, Rallenta e Nascondi interfaccia un quadrato da 40 px                                                                                                                                                                                                                 |
+| Due sistemi (bassa)          | Cura/Danno, «+ Condizione» e i pulsanti diversi tra Scheda e Tavolo; quattro stati scelti fuori dalla Scheda | Riquadro dei PF uguale sui due lati (solo il carattere segue la pagina); la divisione è dichiarata in «Differenze dichiarate» 17                                                                                                                                                           |
+| Finestra dell'iniziativa     | A 390 la riga con «Annulla l'avvio» era più alta delle altre (31 px contro 22)                               | «Annulla l'avvio» va sulla sua riga sotto le parole, come in «Attuale»: le righe del testo restano a 22 px                                                                                                                                                                                 |
+| Prove vecchie                | Schermate e montaggi del secondo giro                                                                        | Tutto il giro 1 (15 schermate e il foglio di contatto) rifatto dopo l'ultima modifica (13:31), i 12 montaggi in `_pairs/` rifatti dopo la cattura                                                                                                                                          |
+| I-250                        | Varianti e valori fuori scala (vedi «Coerenza»)                                                              | Un solo campo, un glifo per tipo di comando, «Altre azioni» da 40 px, lo zoom a 24/800, la scheda «Il tuo personaggio» sul telefono su una riga, una sola etichetta di condizione                                                                                                          |
+
+Restano come in «Attuale»: a 1024 × 768 il riquadro della scena del master copre l'inizio
+dell'avviso «Sessione non avviata» (la posizione dell'avviso è del programma); l'avviso sotto i
+ritratti dei turni nella vista del master sul telefono.
 
 ## Licenze e attribuzioni
 

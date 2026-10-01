@@ -117,6 +117,14 @@
      news panel 24 px under it, the phone scene plate one height in and out of combat → D&D
      Beyond sheet tags, inputs and «Play D&D» tiles → facts §1, §3; ddb-sheet-desktop-underdark-
      inventory-2025-frame.png, ddb-home-play-dnd-tiles-my-characters-2025-frame.png
+   - Third polish round (I-250, 01/10): the favourites on a row of their own with whole 40 px
+     chips, the Home cards 24 px apart and the two tiles one height on tablets too, the
+     experience as two whole lines, one tab family (the news tabs in the sheet's condensed
+     capitals), one condition chip (40 px, 4 px corners, words centred) and one 4 px life-state
+     box on the sheet and the Table, every panel title of the sheet's tabs in the red capitals
+     16 px over its content, the session notice's commands on their own row → D&D Beyond sheet,
+     site and Maps → facts §1, §3, §6; ddb-sheet-desktop-underdark-inventory-2025-frame.png,
+     ddb-home-play-dnd-tiles-my-characters-2025-frame.png
    Details, licences and the declared differences: SOURCES.md (Italian, for the owner). */
 
 /* ------------------------------------------------------------------ fonts (vendored, OFL)
@@ -1176,13 +1184,41 @@
     margin: 0;
   }
 }
-/* Tablets (one column): the news panel 24 px under the last card, as between the cards. */
+/* Tablets (one column): 24 px between every card as on wide screens — the key art, «Prossimo
+   appuntamento», the row of «Il tuo personaggio» and «Dove eravamo rimasti» (two tiles of one
+   height, the art tile filling its card), the cards under them and the news panel. */
 @media (min-width: 721px) and (max-width: 1100px) {
   :root[data-direction="ddb"]:not([data-pref-theme="light"]) .home-page .home-layout {
     row-gap: var(--ddb-space-24);
   }
   :root[data-direction="ddb"]:not([data-pref-theme="light"]) .home-page .home-main > .home-start {
     margin: 0;
+  }
+  :root[data-direction="ddb"]:not([data-pref-theme="light"]) .home-page .home-main > .resume-scene {
+    margin-bottom: var(--ddb-space-24);
+  }
+  :root[data-direction="ddb"]:not([data-pref-theme="light"])
+    .home-page
+    .home-main
+    :is(.home-appointment, .home-bottom) {
+    margin: 0 0 var(--ddb-space-24);
+  }
+  :root[data-direction="ddb"]:not([data-pref-theme="light"]) .home-page .home-main .home-bottom {
+    align-items: stretch;
+  }
+  :root[data-direction="ddb"]:not([data-pref-theme="light"])
+    .home-page
+    .home-bottom
+    > section:has(> .character-resume) {
+    display: flex;
+    flex-direction: column;
+  }
+  :root[data-direction="ddb"]:not([data-pref-theme="light"])
+    .home-page
+    .home-bottom
+    > section
+    > .character-resume {
+    flex: 1 1 auto;
   }
 }
 /* «Il tuo personaggio» as the «My Characters» tile inside its card: one large art tile — the
@@ -1283,7 +1319,9 @@
   font-weight: 400;
 }
 
-/* The news panel: the carousel's caps tabs (white open tab over the red line), the count and
+/* The news panel: the tab row of the sheet (the same condensed bold capitals, 48 px, 12 × 8 px),
+   the open tab white over the site's red line where the sheet draws the character's theme
+   colour (D&D Beyond: the site red #e40712, the sheet its theme «DDB Red» #c53131), the count and
    «Nuova» as D&D Beyond's small red badges. The card's own padding (24 px, 16 on a phone) with
    the tab row across its top edge, the first tab's words in line with the card's content. */
 :root[data-direction="ddb"]:not([data-pref-theme="light"]) .home-page .home-aside {
@@ -1311,7 +1349,8 @@
   padding: var(--ddb-space-12) var(--ddb-space-8);
   border-bottom-width: var(--ddb-line-3);
   color: #a2acb2;
-  font-family: var(--font-ui);
+  font-family: var(--font-label);
+  font-weight: 700;
   font-size: var(--ddb-caps-13);
   line-height: var(--ddb-lh-20);
   letter-spacing: var(--ddb-track-caps);
@@ -1701,6 +1740,32 @@
   padding: var(--ddb-space-6) var(--ddb-space-8);
   border-radius: var(--ddb-radius-4);
   background: rgb(12 16 19 / 0.82);
+}
+/* Favourites: split chips on the fields' dark well with the grey rim — the use half 40 px with
+   12 px sides and its words on one line, the tool half a 40 px square; a chip never shrinks. */
+:root[data-direction="ddb"]:not([data-pref-theme="light"]) .character-sheet .shp-fav {
+  flex: none;
+  border-color: #525c63;
+  border-radius: var(--ddb-radius-4);
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-fav-use, .shp-fav-tool) {
+  background: #10161a;
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-fav-use, .shp-fav-tool):hover:not(:disabled, .is-static) {
+  background: #374045;
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"]) .character-sheet .shp-fav-use {
+  padding: 0 var(--ddb-space-12);
+  font-size: var(--ddb-fs-14);
+  line-height: var(--ddb-lh-20);
+  white-space: nowrap;
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"]) .character-sheet .shp-fav-tool {
+  padding: 0;
 }
 :root[data-direction="ddb"]:not([data-pref-theme="light"])
   .character-sheet
@@ -2266,7 +2331,10 @@
     .cs-sheet > h2,
     .cs-sheet > h3,
     .spl-concentration > h3,
-    .bp-sheet > h3
+    .bp-sheet > h3,
+    .jp-sheet-box > h2,
+    .forms-summary > h3,
+    .hbe-sheet .section-heading h3
   ),
 :root[data-direction="ddb"]:not([data-pref-theme="light"]) .character-sheet .shp-action-group h3 {
   color: #f06a6a;
@@ -2412,6 +2480,9 @@
     font-size: var(--ddb-fs-13);
     line-height: var(--ddb-lh-18);
   }
+  /* The experience as two whole lines, «Livello 3 · 900 / 2700 PE» over the small «(dal
+     livello)», never broken inside a phrase; a row too narrow for it sends it to the second row,
+     as Undo does. */
   :root[data-direction="ddb"]:not([data-pref-theme="light"])
     .character-sheet
     .shp-bar-top
@@ -2420,6 +2491,15 @@
     min-width: 0;
     line-height: var(--ddb-lh-18);
     text-align: end;
+    white-space: nowrap;
+  }
+  :root[data-direction="ddb"]:not([data-pref-theme="light"])
+    .character-sheet
+    .shp-bar-top
+    .shp-xp
+    > span:not(.shp-xpbar)
+    small {
+    display: block;
   }
   :root[data-direction="ddb"]:not([data-pref-theme="light"])
     .character-sheet
@@ -2457,6 +2537,22 @@
     align-items: center;
     gap: var(--ddb-space-6);
     padding-block: var(--ddb-space-2);
+  }
+  /* Only the empty hint sits beside the effects: with favourites in it the strip takes its own
+     row and wraps (the effects their own row too), so every chip keeps its words whole. */
+  :root[data-direction="ddb"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-summary
+    .shp-bar:has(> .shp-favorites .shp-fav)
+    > :is(.shp-effects, .shp-favorites) {
+    grid-column: 1 / -1;
+  }
+  :root[data-direction="ddb"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-summary
+    .shp-bar
+    > .shp-favorites:has(.shp-fav) {
+    flex-wrap: wrap;
   }
   :root[data-direction="ddb"]:not([data-pref-theme="light"])
     .character-sheet
@@ -2931,6 +3027,16 @@
   .session-view-chip.is-warn {
   border-color: #d1b873;
   background: #232b2f;
+}
+/* «Sessione non avviata»: the words, then «Avvia ora» and «Non ora» together on the row under
+   them at every width (on a phone they had sat inside the sentence's lines). */
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .workspace.is-table
+  .session-view-start-chip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ddb-space-8);
 }
 /* Maps never stacks panels over the initiative strip: in combat the session notices start
    under the turn portraits (top of the portraits + their height + 6 px); on a phone, where the
@@ -4596,6 +4702,70 @@
   font-weight: 700;
   line-height: var(--ddb-lh-18);
 }
+/* One condition look wherever the conditions show (the sheet, the Table's panel, the HP
+   dialog): D&D Beyond's 4 px boxes. The life state stays a 28 px box; each active condition is
+   a 40 px chip on the fields' dark well with the grey rim drawn inside (so a controller's chip,
+   the button that manages it, is 40 px too), its words 13/18 bold and centred; concentration
+   keeps the red rim, its × a 32 px square 4 px from the rim. */
+:root[data-direction="ddb"]:not([data-pref-theme="light"]) .conditions-vital {
+  border-radius: var(--ddb-radius-4);
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"]) .conditions-chips {
+  align-items: center;
+  gap: var(--ddb-space-6);
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"]) .conditions-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ddb-space-4);
+  min-height: var(--ddb-control-40);
+  padding: 0 var(--ddb-space-12);
+  border: 0;
+  border-radius: var(--ddb-radius-4);
+  background: #10161a;
+  box-shadow: inset 0 0 0 var(--ddb-line-1) #525c63;
+  color: #ffffff;
+  font-size: var(--ddb-fs-13);
+  font-weight: 700;
+  line-height: var(--ddb-lh-18);
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"]) .conditions-chip.is-concentration {
+  box-shadow: inset 0 0 0 var(--ddb-line-1) #e40712;
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .conditions-chip:has(> .conditions-chip-manage) {
+  padding: 0;
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .conditions-chip:has(> .conditions-chip-end) {
+  padding-inline-end: var(--ddb-space-4);
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"]) .conditions-chip-manage {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--ddb-control-40);
+  padding: 0 var(--ddb-space-12);
+  border-radius: var(--ddb-radius-4);
+  line-height: var(--ddb-lh-18);
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  :is(.conditions-chip-manage, .conditions-chip-end):hover {
+  background: #374045;
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"]) .conditions-chip-end {
+  display: inline-grid;
+  place-items: center;
+  min-width: var(--ddb-space-32);
+  min-height: var(--ddb-space-32);
+  margin: 0;
+  padding: 0;
+  border-radius: var(--ddb-radius-4);
+  font-size: var(--ddb-fs-16);
+  line-height: var(--ddb-lh-1);
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"]) .conditions-chip-manage:focus-visible {
+  outline: var(--ddb-line-3) solid var(--focus);
+}
 :root[data-direction="ddb"]:not([data-pref-theme="light"])
   :is(.character-sheet, .table-layout)
   .conditions-exhaustion-label {
@@ -4630,6 +4800,72 @@
 }
 :root[data-direction="ddb"]:not([data-pref-theme="light"]) .character-sheet .shp-action-group > h3 {
   margin-top: var(--ddb-space-16);
+}
+/* Every panel title of the tab 16 px over its content, as the section headings (ACTIONS,
+   CUSTOM ACTIONS): REACTIONS and the DM's edits had 18, WHO MAY EDIT, STARTING EQUIPMENT and
+   LEVELS 8, REPUTATION 21.6, LINKED FORMS 18, ROLLS 8 and MOVEMENT 24 (these two sit in an 8 px grid, so their
+   own margin is the other 8); the notes under them 16 px over the next block (they had 14). */
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tab-content
+  :is(
+    .ct-policy-box > h3,
+    .cs-sheet > h2,
+    .cs-sheet > h3,
+    .bp-sheet > h3,
+    .jp-sheet-box > h2,
+    .forms-summary > h3
+  ) {
+  margin: 0 0 var(--ddb-space-16);
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tab-content
+  :is(.bp-sheet, .hbe-sheet)
+  > p.muted {
+  margin: 0 0 var(--ddb-space-16);
+}
+/* STRUCTURED HOMEBREW's title on its command's line (its own 16 px under it had pushed it 8 px
+   above the command); the heading row keeps the 16 px. */
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tab-content
+  .hbe-sheet
+  .section-heading
+  h3 {
+  margin: 0;
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tab-content
+  .section-heading
+  + .item-list {
+  margin-top: var(--ddb-space-16);
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tab-content
+  .forms-summary
+  > .forms-toolbar {
+  margin: 0 0 var(--ddb-space-24);
+}
+/* A reputation tier («Fidato (+3)», «Neutrale») is a state box like the life state: 28 px,
+   4 px corners, 12 px sides, 13/18 bold (it was the app's round pill). */
+:root[data-direction="ddb"]:not([data-pref-theme="light"]) .character-sheet .jp-tier {
+  padding: var(--ddb-space-4) var(--ddb-space-12);
+  border-radius: var(--ddb-radius-4);
+  line-height: var(--ddb-lh-18);
+}
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tab-content
+  :is(.dtray-sheet-head, .sm-sheet > h4) {
+  margin-bottom: var(--ddb-space-8);
+}
+/* Glossary terms: the dotted line exactly under the word (the app's 1 px sides were the one odd
+   padding left). */
+:root[data-direction="ddb"]:not([data-pref-theme="light"]) .compendium-term {
+  padding-inline: 0;
 }
 :root[data-direction="ddb"]:not([data-pref-theme="light"])
   .character-sheet

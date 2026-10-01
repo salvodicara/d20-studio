@@ -223,6 +223,10 @@
   --al-av-lg: 56px;
   --al-av-xl: 72px;
   --al-blur: 50px;
+  /* Stacking: the rail, the profile circle and the phone dock float over the page, under the
+     app's full-screen layers (z 40: the handout full view, the chat sheet, the sheet drawer),
+     which cover them as they cover today's header; the dock's band sits just under the dock. */
+  --al-z-chrome: 39;
   /* Fixed sizes (not spacing): icons 20 (Alchemy's 20–24 px glyphs) and 16 inside compact
      controls (action slots, «Tutte», the portrait pen), the logo 28, counters 20, the active
      tab bar 14 × 3, the glass bezel art: the Featured hero 360 (400 on a phone), the sheet
@@ -658,6 +662,7 @@
   border-radius: var(--al-r-mini);
   appearance: none;
   background: center / var(--al-sp-4) no-repeat;
+  font-size: var(--al-fs-sm);
   cursor: pointer;
 }
 /* Radios are round (the same weight as the shared rule above, later, so it wins). */
@@ -748,7 +753,9 @@
 
 /* ------------------------------------------------------------------ shared chrome: chips */
 /* Chips: Alchemy's dark caps pill («ALL AGES», «GM»): white 5 % fill, 10 px extended caps. */
-:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) :where(.badge) {
+/* The reaction policy chip of the sheet («Chiedi») and the tracker's chips take the badge's
+   shape and type (the app draws them apart); their state colours stay the app's. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) :where(.badge, .ct-badge) {
   gap: var(--al-sp-1);
   padding: var(--al-sp-05) var(--al-sp-2);
   border-width: var(--al-bw);
@@ -829,16 +836,17 @@
 }
 /* A heading's quiet command is a bare caps link (Alchemy's «SEE ALL»), like the text links
    beside other headings: no pill inset, so its words line up with the card's edge («Tutte le
-   discussioni» under «Tutte le campagne»); hover lights the words. */
+   discussioni» under «Tutte le campagne»), also beside the heading's pill («Cerca nella
+   Biblioteca» after «Gestisci magie»); hover lights the words. */
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
-  .section-heading
-  > .button.quiet {
+  :is(.section-heading > .button.quiet, .section-heading > .toolbar > .button.quiet) {
   min-inline-size: var(--al-h-control);
   padding: 0;
 }
 :root[data-direction="alchemy"]:not([data-pref-theme="light"])
-  .section-heading
-  > .button.quiet:hover:not(:disabled) {
+  :is(.section-heading > .button.quiet, .section-heading > .toolbar > .button.quiet):hover:not(
+    :disabled
+  ) {
   background: transparent;
   color: var(--al-accent-text);
 }
@@ -928,7 +936,7 @@
     .app-header:not(.table-header)
     nav {
     position: fixed;
-    z-index: 50;
+    z-index: var(--al-z-chrome);
     top: 50%;
     left: var(--al-sp-4);
     flex-direction: column;
@@ -951,7 +959,7 @@
     .service-nav
     [data-service="account"] {
     position: fixed;
-    z-index: 50;
+    z-index: var(--al-z-chrome);
     bottom: var(--al-sp-4);
     left: calc(var(--al-sp-4) + var(--al-sp-15));
     width: var(--al-h-large);
@@ -1071,7 +1079,7 @@
     .app-header:not(.table-header)
     nav {
     position: fixed;
-    z-index: 50;
+    z-index: var(--al-z-chrome);
     bottom: var(--al-sp-4);
     left: 50%;
     order: 0;
@@ -1112,16 +1120,25 @@
     letter-spacing: 0;
   }
   /* A fixed band behind the dock (the page's own colour, fading in over 24 px): what scrolls
-     under the dock fades out instead of reading through or around it. */
+     under the dock fades out instead of reading through or around it. It is decoration only:
+     taps go through it, and the page's own fixed bottom button («Torna su» of the Library
+     reader) rises above it and the dock, 8 px over the band. */
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) {
+    --al-dock-band: calc(var(--al-h-large) + 2 * var(--al-sp-15) + 2 * var(--al-sp-4));
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .compendium-top {
+    bottom: calc(var(--al-dock-band) + var(--al-sp-2));
+  }
   :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
     .app-header:not(.table-header)::after {
     content: "";
     position: fixed;
-    z-index: 49;
+    z-index: calc(var(--al-z-chrome) - 1);
     right: 0;
     bottom: 0;
     left: 0;
-    block-size: calc(var(--al-h-large) + 2 * var(--al-sp-15) + 2 * var(--al-sp-4));
+    block-size: var(--al-dock-band);
+    pointer-events: none;
   }
   :root[data-direction="alchemy"]:not([data-pref-theme="light"])
     .app-header:not(.table-header)::after {
@@ -1136,6 +1153,19 @@
     font-size: var(--al-fs-2xl);
     line-height: var(--al-lh-2xl);
   }
+}
+
+/* The Library reader's floating «Torna su» floats over the text at every width: it takes the
+   dock's glass (opaque, blurred) instead of the page pill's 5 % white, which let the words
+   under it read through. */
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .compendium-top {
+  border-color: transparent;
+  background: rgb(27 30 38 / 0.92);
+  box-shadow:
+    inset 0 var(--al-bw) 0 var(--al-glass-border),
+    var(--al-shadow-popover);
+  -webkit-backdrop-filter: blur(var(--al-blur));
+  backdrop-filter: blur(var(--al-blur));
 }
 
 /* ------------------------------------------------------------------ shared chrome: dialogs */
@@ -1492,8 +1522,11 @@
   margin: 0 0 var(--al-sp-6);
 }
 @media (min-width: 1101px) {
+  /* One 24 px rhythm both ways: the columns are 24 px apart and every card keeps its 24 px
+     bottom margin, with no row gap on top of it (the cards were 48 px apart vertically). */
   :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .home-layout {
     column-gap: var(--al-sp-6);
+    row-gap: 0;
   }
   /* The hero takes the whole column, as Alchemy's Featured carousel. */
   :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
@@ -1815,7 +1848,9 @@
   font-family: var(--font-label);
   font-size: var(--al-fs-caps);
   font-weight: 900;
+  line-height: var(--al-lh-sm);
   letter-spacing: var(--al-track-button);
+  font-variant-caps: all-small-caps;
 }
 :root[data-direction="alchemy"]:not([data-pref-theme="light"]) .home-tabs [role="tab"] {
   color: var(--al-white-50);
@@ -1856,11 +1891,13 @@
   font-size: var(--al-fs-sm);
   line-height: var(--al-lh-sm);
 }
+/* The news commands are ordinary pills: the same 16 px inset as every pill (the app trims
+   them to 12), so «Segna come letta» lines up with «Segna tutte come lette» above it. */
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
   .home-news-item
   .toolbar
   .button {
-  padding-inline: var(--al-sp-3);
+  padding-inline: var(--al-sp-4);
   font-size: var(--al-fs-caps);
 }
 :root[data-direction="alchemy"]:not([data-pref-theme="light"]) .home-badge-new {
@@ -2615,11 +2652,12 @@
 }
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .shp-mode button {
   min-height: var(--al-h-control);
-  padding: 0 var(--al-sp-4);
+  padding: 0 var(--al-sp-3);
   border-radius: var(--al-r-seg);
   font-family: var(--font-label);
   font-size: var(--al-fs-caps);
   font-weight: 900;
+  line-height: var(--al-lh-sm);
   letter-spacing: var(--al-track-button);
   font-variant-caps: all-small-caps;
 }
@@ -3487,6 +3525,47 @@
   border-color: var(--al-glass-border);
   background: var(--al-glass);
 }
+/* The panel's command pills keep one line each (I-250: no two-line pills): «Scheda completa»,
+   «Inventario» and «Riposa» are pills as wide as their words that wrap as a group, like
+   «Trasforma…» and «Creature collegate». The usable items («Bacchetta di dardi incantati
+   3/7») are things, not commands: rows in the UI face, as the hotbar's item slots, with the
+   charges right after the name and both read from the start. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-layout
+  .inspector-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--al-sp-2);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-layout
+  .inspector-buttons
+  .button {
+  white-space: nowrap;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-layout
+  .invp-inspector-item-list
+  .button {
+  justify-content: flex-start;
+  gap: var(--al-sp-2);
+  font-family: var(--font-ui);
+  font-size: var(--al-fs-sm);
+  font-weight: var(--al-fw-ui-strong);
+  line-height: var(--al-lh-sm);
+  letter-spacing: 0;
+  text-align: start;
+  font-variant-caps: normal;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-layout
+  .invp-inspector-item-list
+  .button
+  small {
+  font-size: var(--al-fs-xs);
+  font-weight: var(--al-fw-ui);
+  line-height: var(--al-lh-xs);
+}
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
   .table-inspector
   :is(h3, .forms-summary h3, .table-ext-panel h3) {
@@ -3644,17 +3723,21 @@
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .hotbar-hp-unit {
   font-variant-caps: all-small-caps;
 }
+/* The page tabs are the segmented pills of the Home column and the sheet's Play / Edit switch
+   (I-250: one recipe per tab kind): 40 px, 12 px inset, 10 px extended black capitals. */
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
   .table-hotbar
   .hotbar-page-tab {
   min-height: var(--al-h-control);
   padding: 0 var(--al-sp-3);
   border-width: 0;
-  border-radius: var(--al-r-pill);
-  font-family: var(--font-ui);
-  font-size: var(--al-fs-xs);
-  font-weight: 600;
-  letter-spacing: 0;
+  border-radius: var(--al-r-seg);
+  font-family: var(--font-label);
+  font-size: var(--al-fs-caps);
+  font-weight: var(--al-fw-black);
+  line-height: var(--al-lh-sm);
+  letter-spacing: var(--al-track-button);
+  font-variant-caps: all-small-caps;
 }
 :root[data-direction="alchemy"]:not([data-pref-theme="light"]) .table-hotbar .hotbar-page-tab {
   background: transparent;
@@ -3812,7 +3895,8 @@
   > .toolbar
   > .button.primary[data-table="end-turn"] {
   padding: 0 var(--al-sp-4);
-  border-width: 0;
+  border-width: var(--al-bw);
+  border-style: solid;
   border-radius: var(--al-r-pill);
   font-family: var(--font-label);
   font-size: var(--al-fs-caps);
@@ -3826,6 +3910,7 @@
   .action-dock.table-hotbar
   > .toolbar
   > .button.primary[data-table="end-turn"] {
+  border-color: var(--al-white);
   background: var(--al-white);
   box-shadow: var(--al-shadow);
   color: var(--al-accent);
@@ -3834,6 +3919,7 @@
   .action-dock.table-hotbar
   > .toolbar
   > .button.primary[data-table="end-turn"]:hover:not(:disabled) {
+  border-color: var(--al-accent-text);
   background: var(--al-accent-text);
   color: var(--al-bg);
 }
@@ -4059,6 +4145,43 @@
     display: grid;
     flex: none;
   }
+  /* With the portrait the words get a 122 px column, where «Esplora la scena liberamente»
+     broke on two lines and lifted the bar to 126 px (limit 120): the portrait and the name
+     with its HP pill share the first row, the state line runs under both on one line. */
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-identity {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-content: center;
+    align-items: center;
+    gap: var(--al-sp-05) var(--al-sp-3);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-identity
+    > div {
+    display: contents;
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-identity
+    .hotbar-name {
+    grid-column: 2;
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-identity
+    > div
+    > span {
+    grid-column: 1 / -1;
+    margin-top: 0;
+    white-space: nowrap;
+  }
 }
 /* Phone: the hotbar and the tab bar pinned under it are one opaque glass slab (what is under
    them must not show through), with Alchemy's 1 px top highlight (A4). The turn resources keep
@@ -4144,17 +4267,40 @@
     right: var(--al-sp-2);
     flex-direction: row;
   }
-  /* The DM's scene commands (four, against the player's one) sit in a 2 × 2 block of equal
-     pills instead of three and a stray one; the map is one row (48 px) shorter, so its foot —
-     the zoom row and the party — ends 8 px above the pinned bar in both roles. */
+  /* The DM's scene commands (four, against the player's one) sit in two rows of equal pills:
+     the encounter command («Avvia combattimento» / «Concludi incontro», too long for half the
+     row on one line) across the first, Scene, Riposi and Tempo in three equal thirds under it;
+     the map is one row (48 px) shorter, so its foot — the zoom row and the party — ends 8 px
+     above the pinned bar in both roles. */
   :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
     .table-layout
     > .table-topline
     > .toolbar:has(> :nth-child(3)) {
     display: grid;
-    grid-template-columns: max-content minmax(0, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--al-sp-2);
     inline-size: 100%;
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    > .table-topline
+    > .toolbar:has(> :nth-child(4))
+    > :first-child {
+    grid-column: 1 / -1;
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    > .table-topline
+    > .toolbar:has(> :nth-child(3))
+    > .button {
+    white-space: nowrap;
+  }
+  /* The map tools fold out in a column of 4 px steps (8 on the desktop), so at the top of the
+     page the column ends above the pinned bar for the DM too. */
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    .map-toolbar {
+    gap: var(--al-sp-1);
   }
   :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
     .table-layout:has(> .table-topline > .toolbar > :nth-child(3))
@@ -4228,6 +4374,22 @@
   padding: 0;
   border-width: 0;
   border-radius: var(--al-r-round);
+}
+/* One glyph size (I-250): the menu's own icons are 20 px like every other row, round button
+   and pill glyph (the menu draws them at 18), also where its buttons sit in the Creature panel
+   («Menu di Livia», «Trova la mia pedina»); the condition chips keep the compact 16. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  :is(
+    .token-menu-item,
+    .token-menu-toggle,
+    .token-menu-swatch,
+    .token-menu-close,
+    .token-menu-back,
+    .button
+  )
+  > .token-menu-icon {
+  width: var(--al-icon);
+  height: var(--al-icon);
 }
 :root[data-direction="alchemy"]:not([data-pref-theme="light"]) .token-menu-close {
   background: var(--al-pill);
@@ -4608,10 +4770,16 @@
   font-size: var(--al-fs-2xs);
   line-height: var(--al-lh-2xs);
 }
+/* A spell's state («Trucchetto», «Preparata») is a badge like the action-cost ones (I-250: one
+   chip for a row's state words); its state colours stay the app's. */
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .character-sheet .spl-state {
   padding: var(--al-sp-05) var(--al-sp-2);
-  font-size: var(--al-fs-xs);
-  line-height: var(--al-lh-xs);
+  font-family: var(--font-label);
+  font-size: var(--al-fs-caps);
+  font-weight: 700;
+  line-height: var(--al-lh-sm);
+  letter-spacing: var(--al-track-label);
+  font-variant-caps: all-small-caps;
 }
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
   .character-sheet
@@ -4923,8 +5091,65 @@
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .character-sheet .shp-prop {
   padding: var(--al-sp-05) var(--al-sp-2);
 }
+/* Status pills (I-250: one pill for every status word): the vital state («Cosciente») and the
+   active conditions («Avvelenato», «(C) Benedizione ×») share one 40 px pill — the app draws
+   the conditions as square tiles of three heights (a word, the controller's «manage» button,
+   the concentration chip with its ×). */
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .conditions-vital {
-  padding: var(--al-sp-1) var(--al-sp-3);
+  gap: var(--al-sp-2);
+  min-block-size: var(--al-h-control);
+  padding: 0 var(--al-sp-3);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .conditions-chips {
+  gap: var(--al-sp-2);
+}
+/* A word chip stays a line box (a flex box would drop the space in «Indebolimento 2»): one
+   38 px line inside the 1 px rim makes it 40 px. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .conditions-chip {
+  display: inline-block;
+  padding: 0 var(--al-sp-3);
+  border-width: var(--al-bw);
+  border-style: solid;
+  border-radius: var(--al-r-pill);
+  font-family: var(--font-ui);
+  font-size: var(--al-fs-sm);
+  font-weight: var(--al-fw-ui-strong);
+  line-height: calc(var(--al-h-control) - 2 * var(--al-bw));
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .conditions-chip {
+  border-color: var(--line-strong);
+  background: var(--surface-2);
+  color: var(--al-white);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .conditions-chip.is-concentration {
+  border-color: var(--al-accent);
+}
+/* The controller's chip is its «manage» button: a 40 px target laid over the chip's rim. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .conditions-chip:has(> .conditions-chip-manage) {
+  display: inline-flex;
+  padding: 0;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .conditions-chip-manage {
+  min-height: var(--al-h-control);
+  margin: calc(-1 * var(--al-bw));
+  padding: 0 var(--al-sp-3);
+  border-radius: var(--al-r-pill);
+  line-height: var(--al-lh-sm);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .conditions-chip-manage:hover {
+  background: var(--al-hover);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .conditions-chip-end {
+  inline-size: var(--al-sp-6);
+  block-size: var(--al-sp-6);
+  margin-left: var(--al-sp-1);
+  padding: 0;
+  line-height: var(--al-sp-6);
+  vertical-align: middle;
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .conditions-chip-end:hover {
+  background: var(--al-hover);
 }
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
   .character-sheet
@@ -4952,4 +5177,80 @@
   .character-resume
   small {
   margin-top: var(--al-sp-05);
+}
+/* Margins the app sets at 10, 14, 18 and 22 px (on the 2 px step, off Alchemy's 4 px a-scale):
+   the nearest step, 8 / 16 / 16 / 24 (I-250). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-layout
+  .table-inspector
+  > .conditions-summary.embedded {
+  margin: 0 0 var(--al-sp-4);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-layout
+  :is(.forms-toolbar, .forms-tabs) {
+  margin-block: var(--al-sp-4) var(--al-sp-6);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-layout
+  .combat-detail {
+  margin: var(--al-sp-4) 0;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .character-sheet .shp-foot {
+  margin: var(--al-sp-4) 0 0;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .invp-toolbar {
+  margin-bottom: var(--al-sp-4);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .character-sheet .cs-sheet {
+  margin-top: var(--al-sp-4);
+}
+@media (min-width: 721px) {
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .character-sheet
+    .character-breadcrumb {
+    margin-bottom: var(--al-sp-6);
+  }
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-summary
+  > .character-conditions
+  > span:first-child {
+  margin-top: var(--al-sp-2);
+}
+@media (max-width: 720px) {
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    > .table-sidebar-panel {
+    margin-top: var(--al-sp-2);
+  }
+}
+/* The Creature panel's last line under the move details («Scegli una mossa…») kept the
+   browser's 1 em paragraph margin (14 px) inside the section's 16 px padding. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .table-layout
+  .combat-detail
+  > p:last-child {
+  margin-bottom: 0;
+}
+/* The sheet's table of generic actions: the cells in the table text size (14, Alchemy's dense
+   text), and on a phone the «Tempo» column may wrap («Parte / dell'Attacco»): with the
+   extended capitals of the row heads the table was 405 px in its 358 px box and cut the
+   «Regola» column at the screen's edge. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .sm-actions-table
+  td {
+  font-size: var(--al-fs-sm);
+}
+@media (max-width: 720px) {
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .character-sheet
+    .sm-actions-table
+    td:nth-child(2) {
+    white-space: normal;
+  }
 }

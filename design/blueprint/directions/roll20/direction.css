@@ -69,7 +69,12 @@
    - Polish round 2 (I-250): sheet sub-tabs, use
      boxes, links and bars in the sheet's red and
      gold; scene plate as an opaque window; travel
-     points as the white-framed door markers ...... [S1], [S16], [T15], [T44] */
+     points as the white-framed door markers ...... [S1], [S16], [T15], [T44]
+   - Polish round 3 (I-250): below 1440 × 900 the
+     Turn Order folds to a column of 40 px layer
+     cells with its own lane on the map; one HP
+     widget on sheet and Table; one glyph size per
+     control kind; one condition chip ............. [T6], [T15], [S1], [S8] */
 
 /* ------------------------------------------------------------------ fonts (vendored, OFL) */
 @font-face {
@@ -1771,38 +1776,65 @@
   progress::-moz-progress-bar {
   background: var(--r20-green);
 }
-:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .dt-hp-row {
+/* One HP widget on the Scheda and on the Tavolo (polish round 3): the same #353535 tiles with
+   green and red words, the same 4 px gaps and corners, and the amount as every other field
+   (a #0C0C0C well inside the 1 px grey rim, 16 px). Only the words' face follows the page:
+   the sheet's small capitals on the Scheda, Nunito on the Tavolo (Differenze dichiarate 17). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout)
+  .dt-hp-row {
   gap: var(--r20-sp-2);
 }
-:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .dt-hp-row .button {
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout)
+  .dt-hp-row
+  .button {
   border-color: var(--r20-s2);
   border-radius: var(--r20-r-1);
   background: var(--r20-s2);
 }
-:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .dt-hp-row .dt-heal {
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout)
+  .dt-hp-row
+  .dt-heal {
   color: var(--r20-heal);
 }
 :root[data-direction="roll20"]:not([data-pref-theme="light"])
-  .character-sheet
+  :is(.character-sheet, .table-layout)
   .dt-hp-row
   .dt-damage {
   color: var(--r20-dmg);
 }
 :root[data-direction="roll20"]:not([data-pref-theme="light"])
-  .character-sheet
+  :is(.character-sheet, .table-layout)
   .dt-hp-row
   .button:hover:not(:disabled) {
   border-color: var(--r20-tile-edge);
   background: #404040;
 }
-:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .dt-amount {
-  padding: 0 var(--r20-sp-4);
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout)
+  .dt-amount {
+  min-height: var(--r20-ctl);
+  padding: var(--r20-sp-3) var(--r20-sp-4);
   border: var(--r20-bw-1) solid var(--r20-tile-edge);
   border-radius: var(--r20-r-1);
-  background: var(--r20-sheet-panel);
+  background: var(--r20-page);
   color: var(--text);
-  font-size: var(--r20-fs-20);
-  font-weight: 800;
+  font-family: var(--font-ui);
+  font-size: var(--r20-fs-16);
+  font-weight: 400;
+  line-height: var(--r20-lh-body);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout)
+  .dt-amount:hover {
+  border-color: var(--r20-p6);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout)
+  .dt-amount:focus-visible {
+  border-color: var(--r20-p6);
 }
 /* Saves, senses, skills (S11): rows without rules; the name in white, the ability as a dark
    chip, the bonus plain — boxed in red when proficient — and the proficiency ring at the end. */
@@ -3516,6 +3548,10 @@
     .initiative-token.current:has(.token-dot.hostile) {
     border-color: var(--r20-turn-on-line);
     background: var(--r20-turn-on);
+    /* The white bar of the compact desktop column: the turn never rests on colour alone. */
+    box-shadow:
+      inset calc(var(--r20-bw-2) + var(--r20-bw-1)) 0 0 #ffffff,
+      var(--r20-shadow-1);
   }
   :root[data-direction="roll20"]:not([data-pref-theme="light"])
     .table-layout
@@ -4019,8 +4055,12 @@
 :root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-tab-label {
   font-size: var(--r20-fs-12);
 }
+/* The zoom's «+» and «−» are words: drawn at 24/800 they match the filled 20 px glyphs beside
+   them (at 20/400 they read thinner and smaller). */
 :root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout .map-zoom .map-tool {
-  font-size: var(--r20-fs-20);
+  font-size: var(--r20-fs-24);
+  font-weight: 800;
+  line-height: var(--r20-lh-solid);
 }
 :root[data-direction="roll20"]:not([data-pref-theme="light"]) .inspector-person .portrait {
   font-size: var(--r20-fs-20);
@@ -4519,4 +4559,259 @@
   .sm-actions-table
   :is(th, td):nth-child(2) {
   white-space: normal;
+}
+
+/* ------------------------------------------------------------------ polish round 3 (I-250)
+   The third independent pass: the turn order never covers the scene on a smaller desktop, the
+   last unattended field, one glyph size per control kind, the sheet's selection in its red. */
+/* Below 1440 × 900 the floating Turn Order window would sit on the fitted scene (at 1366 × 768
+   it covered the token in turn). There it folds to its portraits — Roll20's layer buttons: a
+   40 px cell per combatant, the round token inside, the names kept as accessible text — and
+   the map keeps that column clear: the fitted scene starts right of it (padding of the map's
+   content box, as the hotbar's room at the bottom; code-map §b6), while the map itself still
+   reaches the tool column. The current turn keeps the window's green and adds a white bar on
+   its left edge, so it never rests on colour alone. */
+@media (min-width: 721px) and (max-width: 1439px), (min-width: 721px) and (max-height: 899px) {
+  :root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout > .initiative {
+    width: auto;
+    gap: var(--r20-sp-2);
+    padding: var(--r20-sp-2);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token,
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token.current {
+    justify-content: center;
+    width: var(--r20-ctl);
+    height: var(--r20-ctl);
+    padding: 0;
+    border-bottom: 0;
+    border-radius: var(--r20-r-2);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token.current {
+    box-shadow: inset calc(var(--r20-bw-2) + var(--r20-bw-1)) 0 0 #ffffff;
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token
+    > span:last-child {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout:has(> .initiative)
+    > .table-stage
+    #battle-map {
+    padding-left: calc(var(--r20-col) + 2 * var(--r20-sp-5));
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout:has(> .initiative):has(.map-subtools:not([hidden]))
+    > .table-stage
+    #battle-map {
+    padding-left: calc(2 * var(--r20-col) + 2 * var(--r20-sp-5));
+  }
+}
+/* A narrow desktop plate (the DM's four scene commands beside the session's row): the
+   commands take Grimoire's small size, as on a phone, so they hold two lines, not three. */
+@media (min-width: 721px) and (max-width: 1199px) {
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    > .table-topline
+    > .toolbar
+    > .button {
+    padding: 0 var(--r20-sp-4);
+    font-size: var(--r20-fs-14);
+    letter-spacing: 0;
+  }
+}
+/* The session's glass row: the glyph of every 40 px control (20 px, as the map tools and the
+   zoom); its single-glyph buttons (Stop, Slow down, Hide interface) one 40 px square. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .session-view-hud-button
+  > .icon:not(.session-view-caret) {
+  flex: none;
+  width: calc(var(--r20-sp-6) + var(--r20-sp-2));
+  height: calc(var(--r20-sp-6) + var(--r20-sp-2));
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .session-view-hud-bar
+  > .safety-hud-group
+  > .session-view-hud-button,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .session-view-hud-bar
+  > .session-view-hud-button.is-icon {
+  justify-content: center;
+  width: auto;
+  min-width: var(--r20-ctl);
+  padding: 0;
+}
+/* A text command's glyph: the 20 px of the icon-only controls (the app's 1.3 em drew 21 px at
+   16 and 18 px in a few rows). The macro chips keep theirs at the chips' 13 px words. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  :is(.button:not(.sm-dock-toggle), .nav-link, .text-button, .character-tabs-all)
+  > .icon {
+  flex: none;
+  width: calc(var(--r20-sp-6) + var(--r20-sp-2));
+  height: calc(var(--r20-sp-6) + var(--r20-sp-2));
+}
+/* The macro chips (and «Mosse» beside them) draw one 16 px glyph at their 13 px words, the menu
+   rows' size (the app's 1.3 em gave 17 px, squeezed to 17 × 20 in «Mosse» on a phone). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  :is(.combat-action, .sm-dock-toggle)
+  > .icon {
+  flex: none;
+  width: var(--r20-sp-6);
+  height: var(--r20-sp-6);
+}
+/* The item row's glyph tile draws the same 20 px glyph. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .invp-row-icon
+  > .icon {
+  width: calc(var(--r20-sp-6) + var(--r20-sp-2));
+  height: calc(var(--r20-sp-6) + var(--r20-sp-2));
+}
+/* An item row's «Altre azioni» is an icon-only command: the 40 px square of every other one. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .invp-row-actions
+  > .button.quiet[data-invp="menu"] {
+  justify-content: center;
+  min-width: var(--r20-ctl);
+  padding: 0;
+}
+/* Dice fields (the initiative window's d20, the free formula, the dice inputs): Roboto Mono at
+   the fields' 16 px. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  :is(
+    .ct-start-d20 input,
+    [data-dtray-formula],
+    [data-dtray-sheet-formula],
+    [data-qb-formula],
+    input[name="dice"],
+    input[name="damageDice"]
+  ) {
+  font-family: var(--r20-font-mono);
+  font-size: var(--r20-fs-16);
+}
+/* The players' roll call: «Annulla l'avvio» on its own line under the words (as «Attuale»), so
+   the banner keeps one leading instead of a line stretched by the 40 px target. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .ct-start-call > .text-button {
+  display: flex;
+  width: fit-content;
+}
+/* The Doni tree: the chosen node in the sheet's light red (a 2 px rim), the lilac ring only for
+   the keyboard focus. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .projects-node.is-selected {
+  border-color: var(--r20-sheet-light);
+  outline: 0;
+  box-shadow: inset 0 0 0 var(--r20-bw-1) var(--r20-sheet-light);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .projects-node.is-selected:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+/* Active conditions: one chip — the exhaustion cells' #353535 inside the grey rim, 40 px high
+   with the words on its middle line, whether the chip is plain, opens its list or ends a
+   concentration (its × the 40 px square of every command). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout)
+  .conditions-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--r20-sp-2);
+  min-height: var(--r20-ctl);
+  padding: 0 var(--r20-sp-5);
+  border-color: var(--r20-tile-edge);
+  border-radius: var(--r20-r-1);
+  background: var(--r20-s2);
+  color: var(--text);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout)
+  .conditions-chip.is-concentration {
+  padding-right: 0;
+  border-color: var(--r20-p6);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout)
+  .conditions-chip:has(> .conditions-chip-manage) {
+  padding: 0;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout)
+  .conditions-chip-manage {
+  padding: 0 var(--r20-sp-5);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout)
+  .conditions-chip-end {
+  min-width: var(--r20-ctl);
+  min-height: var(--r20-ctl);
+  margin: 0;
+  border-radius: var(--r20-r-1);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout)
+  .conditions-chip-end:hover {
+  background: rgb(255 255 255 / 0.08);
+}
+/* «Il tuo personaggio» on a phone: the card row keeps the class line on one line — the tiny
+   capitals' 13 px step (as the chips' labels), 12 px between the columns, the HP column as
+   narrow as its figures. */
+@media screen and (max-width: 720px) {
+  :root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-page .character-resume {
+    gap: var(--r20-sp-5);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .home-page
+    .character-resume
+    > span:not(.portrait):not(.hp-small) {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .home-page
+    .character-resume
+    > .hp-small {
+    flex: 0 0 min-content;
+    white-space: nowrap;
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .home-page
+    .character-resume
+    > .hp-small
+    > small {
+    white-space: normal;
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .home-page
+    .character-resume
+    > span
+    > small {
+    font-size: var(--r20-fs-13);
+  }
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-page .character-resume > .icon {
+  flex: none;
+  width: calc(var(--r20-sp-6) + var(--r20-sp-2));
+  height: calc(var(--r20-sp-6) + var(--r20-sp-2));
 }

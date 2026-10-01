@@ -8,7 +8,9 @@
   dichiarate»); **01/10/2026, giro di rifinitura** dopo la terza verifica (i sei punti aperti, e
   la coerenza di I-250 misurata dallo strumento di verifica e dal campionario dei componenti,
   anche sotto la piega); **01/10/2026, secondo giro di rifinitura** dopo la quarta verifica
-  (i quattro punti aperti e un secondo passaggio di I-250, vedi «Coerenza (I-250)»).
+  (i quattro punti aperti e un secondo passaggio di I-250, vedi «Coerenza (I-250)»);
+  **01/10/2026, terzo giro di rifinitura** dopo la quinta verifica (il punto medio e i bassi
+  aperti, un terzo passaggio di I-250, vedi «Terzo giro di rifinitura»).
   **Direzione:** `bg3` (Fase C, giro 1, «Scelta 1 — Direzione», I-248).
 - **Come vederla:** <http://127.0.0.1:8881/?direction=bg3#home> (poi `#characters?id=livia` e
   `#table`; nella scheda le schede «Magie» e «Inventario»; al Tavolo il tasto destro su una
@@ -18,9 +20,10 @@
   (16 immagini, coppie affiancate in `_pairs/`); controlli in `…/visual-01/probe-bg3/` (quelli
   dell'estensione del 01/10 in `probe-bg3/ext/`, quelli del secondo giro di correzioni in
   `probe-bg3/fix2/`, quelli del giro di rifinitura in `probe-bg3/fix3/`, quelli del secondo giro
-  di rifinitura in `probe-bg3/fix4/`); misura dei valori in `…/visual-01/audit/bg3/audit.md`
-  (prima della rifinitura: `probe-bg3/fix3/audit-before/`; prima del secondo giro:
-  `probe-bg3/fix4/audit-before/`).
+  di rifinitura in `probe-bg3/fix4/`, quelli del terzo in `probe-bg3/fix5/`); misura dei valori
+  in `…/visual-01/audit/bg3/audit.md` (prima della rifinitura: `probe-bg3/fix3/audit-before/`;
+  prima del secondo giro: `probe-bg3/fix4/audit-before/`; prima del terzo:
+  `probe-bg3/fix5/audit-before/`).
 - **File di questa opzione:** `direction.css` (tutto l'aspetto), `icons.mjs` (icone), `assets/`
   (cornice delle finestre, filetti dei titoli, riccioli della striscia dei turni, disegnati per
   questo progetto; due dipinti d'esempio). Nessun pixel, carattere, texture o logo di Larian.
@@ -125,7 +128,7 @@ file sotto) sono in `…/round1/bg3/_pairs/`.
 | Scheda · Inventario      | `sheet-inventory-dark-1440-bg3.png`                                                          | `bg3-panels-tooltip-skill.png` (barra del peso, griglia, ricerca); `bg3-panels-context-menu-inventory.jpg` (banda del gruppo «Adrianna»)                                                          | 1440 × 900             | `pair-inventory.png`                                                                                            |
 | Finestra dell'iniziativa | `dialog-initiative-dark-1440-bg3.png`                                                        | `bg3-panels-reactions-menu.png` (righe con la spunta); `bg3-dice-crop-roll-panel-advantage.png` (numero del risultato); `bg3-panels-subclass-select-steam.jpg` (cornice)                          | 1440 × 900             | `pair-initiative.png`, `pair-dialog.png`                                                                        |
 | Menu della pedina        | `token-menu-dark-1440-bg3.png`                                                               | `bg3-panels-context-menu-inventory.jpg` (ritaglio del menu)                                                                                                                                       | 1440 × 900             | `pair-token-menu.png`                                                                                           |
-| Menu del calendario      | sonda `probe-bg3/fix3/cal-390.png`, `cal-1440.png` («Aggiungi al calendario» aperto, Inizio) | `bg3-panels-context-menu-inventory.jpg` (ritaglio del menu)                                                                                                                                       | 390 × 844 e 1440 × 900 | `pair-calendar-menu.png`                                                                                        |
+| Menu del calendario      | sonda `probe-bg3/fix5/cal-390.png`, `cal-1440.png` («Aggiungi al calendario» aperto, Inizio) | `bg3-panels-context-menu-inventory.jpg` (ritaglio del menu)                                                                                                                                       | 390 × 844 e 1440 × 900 | `pair-calendar-menu.png`                                                                                        |
 | Fascia della scheda      | `sheet-dark-1440-bg3.png` (ritaglio della fascia)                                            | `bg3-sheet-examine-enemy.jpg` (riga STR–CHA, scudo)                                                                                                                                               | 1440 × 900             | `pair-band.png`                                                                                                 |
 
 ## Differenze dichiarate
@@ -182,6 +185,12 @@ file sotto) sono in `…/round1/bg3/_pairs/`.
   suo piede: la cornice del deck prosegue sotto i comandi e finisce sotto il disco, come in BG3.
 - **Punti ferita sul medaglione.** Il pulsante dei PF sta sul medaglione ed è 74 × 28 px (oggi
   118 × 28): è alto come oggi, sotto i 40 px come già oggi (eccezione esistente, non nuova).
+  Portarlo a 40 px allungherebbe il medaglione oltre la barra di 114 px: resta così.
+- **«Barra rapida» del DM a 1440.** Il DM ha un'icona in più («Tiri nascosti»): la fila degli
+  strumenti chiede 452 px e ne ha 424, così «Opzioni della barra» resta mezza fuori (scorre;
+  apre lo stesso menu del nome della pagina; «Attuale» ne taglia due). Accorciare la pillola
+  del nome a 96 px non basta (mancano ancora 19 px); per farla stare bisognerebbe mandare la fila
+  a capo (barra oltre i 120 px) o togliere la scritta «d20» del menu.
 - **Schermi medi (721–1279 px).** Il deck è stretto: la lastra delle risorse perde le celle e si
   sposta sopra il nome, così non tocca più quella dei dadi («Digitali»).
 - **Parti di BG3 senza equivalente nei nostri dati:** set d'armi, icona di classe, clessidra del
@@ -482,6 +491,101 @@ a pagina intera, nessun testo sotto soglia AA. Le 15 schermate del giro 1 e il f
 contatto sono stati rifatti dopo quell'ora (11:52) e aperti uno per uno; le 31 coppie in
 `_pairs/` rifatte da capo con `…/probe-bg3/fix4/pairs.sh` (il menu del calendario aperto da
 `fix4/cal.cjs`).
+
+### Terzo giro di rifinitura (01/10/2026)
+
+Dopo la quinta verifica indipendente (`…/visual-01/notes/open-items-round3.json`, voce `bg3`: un
+punto medio e cinque bassi) e un terzo passaggio di I-250 con lo strumento di verifica, il
+campionario e le pagine intere (scheda, Inizio scorso, Magie, Inventario, Tavolo). Prove in
+`…/visual-01/probe-bg3/fix5/`: prima `audit-before/`, `audit-below/`, `specimen-before/`; dopo
+`…/visual-01/audit/bg3/audit.md`, `audit-below-after/`, `specimen-after/`, `focus/`.
+
+| Misura (20 schermate del giro 1)               | Prima        | Dopo         |
+| ---------------------------------------------- | ------------ | ------------ |
+| Valori di spazio distinti (fuori scala)        | 27 (14)      | 27 (14)      |
+| Spazi sul passo di 2 px                        | 99,4 %       | 99,4 %       |
+| Comandi discreti con le lettere sul filo       | 29           | 39           |
+| Altezze dei comandi                            | 22           | 22           |
+| Grandezze dei caratteri · stili di testo       | 16 · 71      | 16 · 71      |
+| Ombre                                          | 48           | 48           |
+| Colori (testo · fondo · bordo)                 | 21 · 28 · 33 | 21 · 28 · 33 |
+| Varianti dei bottoni (classi con più varianti) | 77 (11)      | 77 (11)      |
+| Varianti delle schede (linguette)              | 8            | 8            |
+| Varianti delle lastre e dei pannelli           | 41 (6)       | 41 (6)       |
+| Bottoni con il margine predefinito del browser | 0            | 0            |
+| Contrasto AA sotto soglia                      | 0 su 1221    | 0 su 1219    |
+
+| Misura (8 schermate a pagina intera)           | Prima     | Dopo      |
+| ---------------------------------------------- | --------- | --------- |
+| Valori di spazio distinti (fuori scala)        | 27 (12)   | 27 (12)   |
+| Comandi discreti con le lettere sul filo       | 68        | 79        |
+| Varianti dei bottoni (classi con più varianti) | 73 (10)   | 73 (10)   |
+| Varianti delle lastre e dei pannelli           | 35 (4)    | 35 (4)    |
+| Bottoni con il margine predefinito del browser | 0         | 0         |
+| Contrasto AA sotto soglia                      | 0 su 1416 | 0 su 1416 |
+
+Il giro non aggiunge valori: sposta comandi già sulla scala. La riga «comandi discreti con le
+lettere sul filo» conta gli elementi col margine di −16 px. Lo strumento non misura gli anelli
+del fuoco: li misura `fix5/p-focus.js`. La misura delle 12:54 dava 10 testi sotto soglia, tutti
+nella scheda a 390. Era un errore di misura, non di questa opzione: in quella corsa la striscia
+di sviluppo mostrava «Aree aggiuntive: 3 con avvisi» (aree lente sulla macchina carica), la
+pagina era larga 518 px e i pixel venivano letti nel posto sbagliato. La corsa pulita delle
+13:14 (`fix5/audit-before/`) dà 0 su 1221 con lo stesso foglio di stile.
+
+Cosa è cambiato:
+
+- **Anello del fuoco tagliato** (punto medio). I comandi discreti che partono sul filo della
+  colonna hanno l'anello di 3 px dentro il bottone, come la losanga: «← Personaggi», «Riposa»,
+  «Rivedi scelte» (e ogni comando discreto dell'intestazione della scheda al telefono), «Ultima
+  mossa», «+ Condizione». Al telefono il loro bordo sta a x = 0; nel pannello del Tavolo lo
+  taglia il bordo del pannello. La sonda `fix5/p-focus.js` trova l'anello intero in tutti, a
+  1440 e a 390 (`fix5/focus/`, `fix5/focus-*.json`).
+- **«Prossimo appuntamento» a 1440** (basso). La colonna dei due bottoni sta 24 px sotto i dati,
+  come al telefono (era 16).
+- **Punti ferita della scheda, fuoco** (basso). L'anello è quello della losanga (3 px, 6 px
+  dentro): gira attorno ai numeri e non attraversa più «Punti ferita» né «PF temporanei».
+- **Comandi discreti sul filo del testo** (I-250, sotto la piega). Valgono ora anche per «Gestisci
+  sensi» e «Gestisci velocità», per il «+ Condizione» della scheda, per «Offline e
+  sincronizzazione», per «Apri al Tavolo», per «Cambia…» della politica dei tiri, per «Annota
+  magia concessa» e «Registra materiale di valore…». Nel pannello «Creatura» valgono per «Trova
+  la mia pedina», per gli oggetti da usare e per «Cambia set». Prima queste lettere stavano
+  16 px dentro rispetto al testo sopra. La regola resta F10 (critique). Ogni comando che la
+  segue parte sempre a capo:
+  - gli strumenti della colonna e gli oggetti da usare stanno in colonna;
+  - il comando di una frase sta sotto la frase, 4 px più giù (prima era dopo la frase al
+    telefono e andava a capo sul computer);
+  - nella lista dei focus, «Impugna» resta in fondo alla riga a ogni larghezza e le parole
+    vanno a capo accanto.
+
+Restano, e sono dichiarati, oltre a quelli dei giri precedenti:
+
+- «Opzioni della barra» del DM a 1440 (vedi «Differenze dichiarate», con la misura) e la fascia
+  dei punti ferita della barra in basso.
+- Al telefono, «Dettagli» delle azioni della scheda: le righe con e senza «+5» hanno la prima
+  lettera allo stesso punto, 16 px dentro rispetto alla descrizione. Portarle sul filo
+  disallineerebbe le une dalle altre.
+- I comandi discreti che vanno a capo dentro una fila mista: «Cerca nella Biblioteca» e
+  «Dividi tra il gruppo» al telefono, «Aspetto nella scheda», «Chi può vedere». Dipende dalla
+  larghezza se aprono la riga: spostarli col margine li accavallerebbe dove non vanno a capo.
+- Fuori da questa opzione, per il coordinatore: `directions/index.mjs` è cambiato alle 12:00
+  (icone di riserva col tema chiaro); non tocca il tema scuro.
+
+Verifiche dopo l'ultima modifica del foglio di stile (13:28:06):
+
+- Sonda delle garanzie (`fix5/probe.cjs`, `fix5/probe/`):
+  - intestazione del Tavolo su una fila (63 px) in combattimento, da DM e in esplorazione a 390;
+  - nessuno scorrimento laterale a 390 e a 1440;
+  - «Termina turno» e «Annulla» interi sullo schermo a 390;
+  - barra in basso alta 114 px a 1440;
+  - «Entra al Tavolo» tra 556 e 596 px a 390;
+  - sotto i 40 px restano solo i comandi della striscia di sviluppo e la fascia dei punti ferita
+    della barra.
+- Il test `tests/visual01-directions.test.mjs` passa (7 su 7). Nessuna regola senza prefisso
+  (`notes/prefix-audit.js`), nessun `!important`. Prettier passa.
+- Strumento di verifica: 20 stati su 20 e 8 su 8 a pagina intera, nessun testo sotto soglia AA.
+- Le 15 schermate del giro 1 e il foglio di contatto sono stati rifatti dopo quell'ora
+  (13:33–13:34) e aperti uno per uno. Le 31 coppie in `_pairs/` sono state rifatte da capo con
+  `fix5/pairs.sh` (13:35–13:37), col menu del calendario aperto da `fix5/cal.cjs`.
 
 ## Licenze e attribuzioni
 

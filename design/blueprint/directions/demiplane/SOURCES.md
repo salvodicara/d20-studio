@@ -6,7 +6,7 @@ Fase C, round 1 «Scelta 1 — Direzione» (I-248), 01/10/2026. Pelle di svilupp
 riferimento (solo consultazione, mai nel repository):
 `~/Workspace/Codex/d20-studio-visual-assets/references/demiplane/` (`facts.md`, `manifest.md`).
 Schermate della nostra app: `~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/round1/demiplane/`
-(coppie affiancate in `_pairs/`).
+(coppie affiancate in `_pairs/`, rifatte con `probe-demiplane/polish3/pairs.sh`).
 
 ## In tre righe
 
@@ -26,51 +26,53 @@ Schermate della nostra app: `~/Workspace/Codex/d20-blueprint-evidence/2026-09-30
 Ogni valore viene da queste scale, copiate dal prodotto (fonti in `facts.md` §1.3–1.4 e nel
 foglio CSS pubblico estratto in `demiplane-code-css-excerpts-2026-10-01.txt`):
 
-| Scala                 | Valori                                                                                                                                                                                                                                                                                                                                                                                    |
-| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Spazi                 | 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 px (griglia da 8 di MUI, la libreria di Demiplane)                                                                                                                                                                                                                                                                                                    |
-| Testo                 | 12 · 14 · 16 · 18 · 24 · 28 · 48 px (11 solo per le etichette della barra del Tavolo sul telefono, dell'app); interlinea 1 (etichette di una riga nelle tessere), 1,2 (titoli, etichette, valori), 1,5 (testo)                                                                                                                                                                            |
-| Maiuscole             | Barlow Condensed in maiuscoletto (`all-small-caps`) un gradino sopra: micro-etichetta 14 (≈ 7 px, come le maiuscole da 10 px di Demiplane), etichetta-tag 16, pulsante e linguetta 18; Cinzel è già un carattere a sole maiuscole                                                                                                                                                         |
-| Voci dei pulsanti     | Due sole: il sito (Barlow 14/600 come scritto; #006FB8 l'unico pulsante d'azione) e il gioco (maiuscolo condensato; il primario è il blu dei dadi #3276B5; i pulsanti «fantasma» sono parole d'azione sul bordo della colonna)                                                                                                                                                            |
-| Raggi                 | 4 (pulsanti, menu, etichette, tasselli) · 8 (riquadri, righe) · 10 (angoli alti della linguetta) · 12 (schede con immagine) · 16 (tooltip) · 24 (pillole) · cerchio                                                                                                                                                                                                                       |
-| Bordi                 | 1 px linee (campi #8D8D8D, ≥ 3:1 sul fondo); 2 px sottolineatura attiva, cornice, ritratto                                                                                                                                                                                                                                                                                                |
-| Altezze dei controlli | 24 (ogni etichetta-tag) · 40 (il nostro minimo tattile; il pulsante Demiplane è 38; campi, tasselli, righe dei menu) · 44 (la tessera della barra delle azioni e le righe del menu nel foglio del telefono, dell'app) · 48 (dado blu e cerchi dei dadi) · 56 (barra delle schede)                                                                                                         |
-| Caratteri             | Barlow (cornice del sito), Roboto (testo e campi), Barlow Condensed 600/700 (etichette, pulsanti di gioco), Cinzel 700 (titoli dei riquadri e nome sulla Scheda, titolo della scena all'Inizio)                                                                                                                                                                                           |
-| Una ricetta per tipo  | Pulsante di gioco 40 px, 18/700 maiuscoletto, 8 × 16; pulsante del sito Barlow 14/600, 8 × 16 (anche i collegamenti azzurri); linguetta 18/700 maiuscoletto con 12 px ai lati (56 px nella barra della Scheda, 40 nelle altre); etichetta-tag 24 px, 16/700, 0 × 8, raggio 4; campo 40 px; riga di menu 40 px (44 nel foglio del telefono); titoletto di gruppo 18/700 grigio con filetto |
+| Scala                 | Valori                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Spazi                 | 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 px (griglia da 8 di MUI, la libreria di Demiplane)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| Testo                 | 12 · 14 · 16 · 18 · 24 · 28 · 48 px (11 solo per le etichette della barra del Tavolo sul telefono, dell'app); interlinea 1 (etichette di una riga nelle tessere), 1,2 (titoli, etichette, valori), 1,5 (testo)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| Maiuscole             | Barlow Condensed in maiuscoletto (`all-small-caps`) un gradino sopra: micro-etichetta 14 (≈ 7 px, come le maiuscole da 10 px di Demiplane), etichetta-tag 16, pulsante e linguetta 18; Cinzel è già un carattere a sole maiuscole                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| Voci dei pulsanti     | Due sole: il sito (Barlow 14/600 come scritto; #006FB8 l'unico pulsante d'azione) e il gioco (maiuscolo condensato; il primario è il blu dei dadi #3276B5; i pulsanti «fantasma» sono parole d'azione sul bordo della colonna)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| Raggi                 | 4 (pulsanti, menu, etichette, tasselli) · 8 (riquadri, righe) · 10 (angoli alti della linguetta) · 12 (schede con immagine) · 16 (tooltip) · 24 (pillole) · cerchio                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| Bordi                 | 1 px linee (campi #8D8D8D, ≥ 3:1 sul fondo); 2 px sottolineatura attiva, cornice, ritratto                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| Altezze dei controlli | 24 (ogni etichetta-tag) · 40 (il nostro minimo tattile; il pulsante Demiplane è 38; campi, tasselli, righe dei menu, condizioni) · 44 (la tessera della barra delle azioni, «Mosse» e, sul telefono, la tendina dei dadi accanto a loro; le righe del menu nel foglio del telefono, dell'app) · 48 (dado blu e cerchi dei dadi; la linguetta MUI dell'Inizio) · 56 (barra delle schede) · 84 (riquadri dell'ordine dei turni, 112 quello di turno) · 96 (ritratti del gruppo)                                                                                                                                                                                                                                                                                  |
+| Caratteri             | Barlow (cornice del sito), Roboto (testo e campi), Barlow Condensed 600/700 (etichette, pulsanti di gioco), Cinzel 700 (titoli dei riquadri e nome sulla Scheda, titolo della scena all'Inizio)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| Una ricetta per tipo  | Pulsante di gioco 40 px, 18/700 maiuscoletto, 8 × 16; pulsante del sito Barlow 14/600, 8 × 16 (anche i collegamenti azzurri); linguetta 18/700 maiuscoletto con 12 px ai lati (56 px nella barra della Scheda, 40 nelle altre); etichetta-tag 24 px, 16/700, 0 × 8, raggio 4; campo di testo 40 px, Roboto 16, 0 × 12 (anche le tendine); campo numerico (d20 dell'iniziativa, ±PF) Barlow Condensed 18/700 centrato, 0 × 8 (24 nel campo alto della fascia); interruttore MUI: pallino chiaro su binario bianco al 30 %, blu dei dadi quando è acceso; condizione attiva 40 px, 18/700 maiuscoletto, 0 × 12; riga di menu 40 px (44 nel foglio del telefono); titoletto di gruppo 18/700 grigio con filetto (anche «Abilità aggiuntive» e «Modifiche del DM») |
 
 Verifica con lo strumento di audit (`changes/visual-01/audit`, 10 stati × 2 larghezze): numeri
-prima e dopo il secondo giro di rifinitura in «Coerenza (I-250)» qui sotto. Restano fuori scala
+prima e dopo il terzo giro di rifinitura in «Coerenza (I-250)» qui sotto. Restano fuori scala
 solo i valori strutturali o vincolati dell'app elencati in «Differenze dichiarate».
 
 ## Coerenza (I-250)
 
 Audit dei valori (`node changes/visual-01/audit/audit.js --direction demiplane`, 20 stati, tema
-scuro). «Prima» è l'audit delle 11:40 del 01/10 (dopo il primo giro di correzioni), «dopo» quello
-delle 12:34 del 01/10, lanciato dopo l'ultima modifica di `direction.css` (12:29). Rapporto completo:
+scuro). «Prima» è l'audit delle 13:01 del 01/10 (rilanciato dalla verifica indipendente dopo il
+secondo giro; `direction.css` delle 12:29), «dopo» quello delle 14:18, lanciato dopo l'ultima
+modifica di `direction.css` (14:11). Rapporto completo:
 `~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/audit/demiplane/audit.md`; copia del
-«prima» in `probe-demiplane/polish2/audit-before.md`.
+«prima» in `probe-demiplane/polish3/audit-before.md`. Il secondo giro aveva già portato gli spazi
+da 32 a 23 valori, i fuori scala da 20 a 11 e le varianti dei pulsanti da 91 a 82.
 
-| Misura                                        | Prima                                          | Dopo                                                                                            |
-| --------------------------------------------- | ---------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| Elementi visibili                             | 2547                                           | 2548                                                                                            |
-| Spazi (padding, margini, gap)                 | 32 valori; passo 4 px sul 95 %; 20 fuori scala | 23 valori; passo 4 px sul 100 %; 11 fuori scala (geometria dell'HUD, marchio, parole di regola) |
-| Margini                                       | 26 valori                                      | 16 valori                                                                                       |
-| Altezze dei controlli                         | 19                                             | 16                                                                                              |
-| Altezze delle etichette-tag                   | 21 · 22 · 24 · 26                              | 24 per tutte                                                                                    |
-| Caratteri                                     | 5 famiglie, 12 dimensioni, 3 pesi, 90 stili    | 5 famiglie, 12 dimensioni, 3 pesi, 88 stili                                                     |
-| Raggi · bordi · ombre                         | 7 · 2 · 14                                     | 7 · 2 · 14                                                                                      |
-| Colori (testo · fondo · bordo)                | 12 · 28 · 18                                   | 12 · 28 · 18                                                                                    |
-| Pulsanti: varianti (classi con più varianti)  | 91 (17)                                        | 82 (16)                                                                                         |
-| Linguette · righe di menu: varianti           | 11 · 3                                         | 10 · 2 (40 sul computer, 44 sul telefono)                                                       |
-| Pulsanti con il padding di Chromium `1px 6px` | 0                                              | 0                                                                                               |
-| Contrasto AA                                  | 0 errori, 0 incerti su 1189 testi              | 0 errori, 0 incerti su 1192 testi                                                               |
+| Misura                                        | Prima (13:01)                                                             | Dopo (14:18)                                                                                    |
+| --------------------------------------------- | ------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| Elementi visibili                             | 2548                                                                      | 2548                                                                                            |
+| Spazi (padding, margini, gap)                 | 23 valori; passo 4 px sul 100 %; 11 fuori scala                           | 23 valori; passo 4 px sul 100 %; 11 fuori scala (geometria dell'HUD, marchio, parole di regola) |
+| Altezze dei controlli                         | 16 (83 e 87 fuori griglia: turni e ritratto di Doran)                     | 14 (turni 84, ritratti 96)                                                                      |
+| Caratteri                                     | 5 famiglie, 12 dimensioni, 3 pesi, 27 interlinee, 16 spaziature, 88 stili | 5 famiglie, 12 dimensioni, 3 pesi, 28 interlinee, 14 spaziature, 82 stili                       |
+| Raggi · bordi · ombre                         | 7 · 2 · 14                                                                | 7 · 2 · 14                                                                                      |
+| Colori (testo · fondo · bordo)                | 12 · 28 · 18                                                              | 12 · 28 · 18                                                                                    |
+| Pulsanti: varianti (classi con più varianti)  | 82 (16)                                                                   | 79 (16)                                                                                         |
+| Campi · tendine · linguette · righe di menu   | 4 · 2 · 10 · 2                                                            | 4 · 2 · 10 · 2 (un tipo per variante: numerico, testo, ricerca, ±PF alto)                       |
+| Pulsanti con il padding di Chromium `1px 6px` | 0                                                                         | 0                                                                                               |
+| Contrasto AA                                  | 0 errori, 0 incerti su 1192 testi                                         | 0 errori, 0 incerti su 1192 testi                                                               |
 
 Le varianti che restano sono livelli di misura voluti: telefono e computer (barra delle azioni,
-ritratti del gruppo, schede del menu), il pulsante tondo dei dadi, il grande «Termina turno», i
-riquadri della fascia (123 px, decisi dal riquadro dei PF), il campo ±PF da 84 px, i d20 del
-cassetto nella voce di gioco e il marchio d20 (Fase D). Il campionario dei componenti
-(`directions/specimen.html?direction=demiplane`, prove in `probe-demiplane/polish2/specimen-b/`)
-mostra le stesse ricette.
+ritratti del gruppo, schede del menu, tendina dei dadi 14/16 px), il pulsante tondo dei dadi, il
+grande «Termina turno», i riquadri della fascia (123 px, decisi dal riquadro dei PF), il campo ±PF
+da 84 px, le due voci dei pulsanti (sito e gioco) e il marchio d20 (Fase D). Il campionario dei
+componenti (`directions/specimen.html?direction=demiplane`, prove in
+`probe-demiplane/polish3/specimen-before/` e `specimen-after/`) mostra le stesse ricette, anche
+negli stati composti che l'esempio non raggiunge (condizioni attive, pagina «Barra rapida»,
+pannello dei PF del Tavolo).
 
 ## Elemento → prodotto copiato → fonte
 
@@ -189,8 +191,9 @@ piatto accanto a `demiplane-home-campaign-page-cyberpunk-2026.jpeg` e
     123 px (li decide il riquadro dei PF con il campo ±PF da 84 px). Sul telefono la barra delle
     azioni parla un gradino sotto (PF, tendina dei dadi e «Dadi» a 14 px, 16 dal computer a
     1440 px), le righe del menu della pedina sono da 44 px (la regola tattile dell'app) e la fila
-    delle tessere sfuma negli ultimi 24 px: la tessera tagliata dopo la prima si legge come «ce n'è
-    ancora», non come una parentesi.
+    delle tessere si schiarisce del tutto negli ultimi 12 px (sfuma dai 24): della tessera tagliata
+    dopo la prima resta solo un filo, mai lettere; la tendina dei dadi accanto alle tessere è alta
+    44 px come loro.
 12. **Cassetto solo da 721 px.** Sul telefono le finestre restano quelle dell'app (ricolorate). Il
     cassetto dell'iniziativa è largo 30 vw (al massimo 440 px, Demiplane 300–385): così ogni
     riga tiene nome, d20, tiro e totale; per starci la riga va su tre righe (chi, tiro, sorpresa)
@@ -208,7 +211,32 @@ piatto accanto a `demiplane-home-campaign-page-cyberpunk-2026.jpeg` e
     daltonismo, carattere leggibile e movimento ridotto vincono sulla direzione. Demiplane non ha
     una scheda D&D: gli schemi d20 vengono da Pathfinder 2e, Cyberpunk RED e DC20.
 18. **Difetto già presente.** Nel Tavolo del DM l'avviso «Sessione non avviata» copre in parte i
-    ritratti dei turni, come nelle altre direzioni.
+    ritratti dei turni, come nelle altre direzioni. Nelle schede Extra e Abilità i rimandi in riga
+    «SRD 5.2.1 IT p. N» restano sotto i 40 px come oggi (Fase D, dell'app).
+19. **Linguette dell'Inizio a 48 px.** Le schede «Novità · Guide · Supporto» sono la Tab MUI del
+    sito (48 px, 16 px ai lati, Barlow 16/700 come scritto), non la linguetta di gioco da 40: due
+    voci, come i pulsanti.
+20. **Barra rapida.** Le due tendine della pagina «Barra rapida» parlano a 14 px anche a 1440 (la
+    tendina dei dadi della testata è 16): così gli strumenti finiscono dentro la barra (oggi
+    «Normale» e il pulsante delle opzioni restano tagliati).
+
+## Terzo giro di rifinitura (01/10, verifica indipendente e I-250)
+
+| Rilievo                                                      | Cosa è cambiato                                                                                                                                                                                                                                                                                   |
+| ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| «Copia» 30 px nell'elenco Personaggi (garanzia)              | Le azioni di testo hanno un minimo di 40 px e i collegamenti delle schede personaggio tengono i loro 8 × 12: «Copia» torna 54 × 44 a 1440 e a 390; nessun bersaglio sotto i 40 px in `#characters` (`probe-demiplane/polish3/chars-live.txt`)                                                     |
+| ±PF del pannello Creatura con il padding di Chromium (basso) | Ricetta unica del campo numerico: d20 dell'iniziativa e ±PF (scheda, pannello Creatura, cassetti) in Barlow Condensed 700 centrato, 0 × 8; le tendine hanno lo 0 × 12 dei campi di testo                                                                                                          |
+| Altezze miste nella fila del telefono (basso)                | La tendina dei dadi è alta 44 px come le tessere e «Mosse»; la fila delle tessere si schiarisce del tutto negli ultimi 12 px, così della tessera tagliata non restano lettere                                                                                                                     |
+| I-250: ritratti del gruppo e turni                           | Ogni ritratto del gruppo 96 px (la barra dei PF tiene il suo posto anche quando il giocatore non la vede: Doran era 87); i riquadri dell'ordine dei turni 84 px (erano 83)                                                                                                                        |
+| I-250: Inizio sotto la piega                                 | «Tutte le discussioni» è il collegamento azzurro come «Tutte le campagne» e «Tutti gli annunci» (era un pulsante bianco rientrato); «Novità precedenti» e le altre pieghe in azzurro (erano oro Roboto); «Accesso rapido» è una sezione piatta come le vicine (era un riquadro con titolo Cinzel) |
+| I-250: Scheda sotto la piega                                 | «Abilità aggiuntive» e «Modifiche del DM» come titoletto di gruppo (erano in Barlow); i due interruttori uguali (Roboto 16/700, binario MUI, blu se acceso: quello del DM era oro); risorse del turno nella voce della barra delle azioni; testo «offline» allineato sulla riga                   |
+| I-250: componenti composti del campionario                   | Condizioni attive come chip di gioco 40 px (erano la lastra bronzo dell'app in Roboto); pieghe del widget PF in maiuscoletto di gioco; pagina «Barra rapida» con pillola, lastre e tendine della barra delle azioni (era una pillola Cinzel e tendine Roboto 16 che uscivano dalla barra)         |
+| I-250: dettagli tipografici                                  | Spaziatura impostata dove si imposta la misura (abilità nelle righe, colonne dell'inventario, conteggi dei filtri, tasti), unità e denominatori nel peso 600 che il carattere usa davvero, tutti i titoli Cinzel a 0,04 em; 88 → 82 stili                                                         |
+
+Prove: schermate del round 1 rifatte alle 14:11–14:13 dopo l'ultima modifica di `direction.css`
+(14:11:20; tutte aperte; due stati ripresi una volta per l'attesa di avvio del kit), coppie rifatte
+alle 14:14 con `probe-demiplane/polish3/pairs.sh`, garanzie, axe e fuoco rifatti
+(`round1/demiplane/*.txt`), audit delle 14:18, campionario prima e dopo.
 
 ## Secondo giro di rifinitura (01/10, verifica indipendente e I-250)
 
@@ -249,26 +277,28 @@ coppie rifatte con `probe-demiplane/polish2/pairs.sh`, garanzie, axe e fuoco rif
 
 Nessun rilievo respinto.
 
-## Verifiche (01/10/2026, dopo il secondo giro)
+## Verifiche (01/10/2026, dopo il terzo giro)
 
 - Barra delle azioni 113 px a 1440×900 (limite 120) in combattimento, DM ed esplorazione; nessuno
-  scorrimento orizzontale a 390 e a 1440 in tutti i dieci stati (anche Scheda intera); Termina
-  turno, «Annulla preparazione» e «Annulla ultima modifica» visibili a 390 (in basso a 772 px su
-  844); «Entra al Tavolo» finisce a 733 px a 390; barra del Tavolo a 390 su una riga (63 px).
-- Zoom e gruppo a 390: i quattro comandi di zoom (centro a y = 606) e i tre ritratti del gruppo
-  rispondono al tocco in combattimento, DM ed esplorazione (il gruppo finisce a y = 631, la barra
-  comincia a y = 634).
-- Bersagli: nessun controllo sotto i 40 px negli stati provati (anche i tre dell'app di prima).
+  scorrimento orizzontale a 390 e a 1440 in tutti i dieci stati (anche Scheda intera) e
+  nell'elenco Personaggi; Termina turno, «Annulla preparazione» e «Annulla ultima modifica»
+  visibili a 390 (in basso a 772 px su 844); «Entra al Tavolo» finisce a 733 px a 390; barra del
+  Tavolo a 390 su una riga (63 px).
+- Zoom e gruppo: i quattro comandi di zoom e i tre ritratti del gruppo rispondono al tocco in
+  combattimento, DM ed esplorazione (a 1440 i ritratti a y = 580, 684, 788; a 390 il gruppo finisce
+  a y = 631, la barra comincia a y = 634); coperti solo dal menu della pedina aperto (390) e dal
+  cassetto dell'iniziativa, come prima.
+- Bersagli: nessun controllo sotto i 40 px negli stati provati né in `#characters` («Copia»
+  54 × 44).
 - Fuoco da tastiera: anello di 3 px #00ABFF su ogni controllo raggiunto con Tab su Inizio, Scheda e
-  Tavolo; anche le righe `summary`.
+  Tavolo (63 su 63); la pedina mostra il suo anello tratteggiato dell'app.
 - Contrasto: axe-core 4.13 (solo `color-contrast`) 0 violazioni in 18 prove (9 stati × 2
   larghezze); audit 0 testi sotto AA e 0 incerti su 1192; bordi dei campi ≥ 3:1 (WCAG 1.4.11).
-- `node --test design/blueprint/tests/visual01-directions.test.mjs`: 7 superati; tema chiaro
-  invariato (tutte le regole hanno il prefisso con `:not([data-pref-theme="light"])`, e
-  `icons.mjs` lascia le icone dell'app nel tema chiaro).
+- `node --test design/blueprint/tests/visual01-directions.test.mjs`: 7 superati; 667 regole, tutte
+  con il prefisso e `:not([data-pref-theme="light"])`, nessun `!important`, `text-transform` o testo
+  in `content` (`probe-demiplane/polish3/lint.txt`); Prettier pulito.
 - Prove: `round1/demiplane/guarantees-demiplane.txt`, `axe-demiplane.txt`, `focus-demiplane.txt`;
-  audit in `visual-01/audit/demiplane/audit.md`; sonde in `probe-demiplane/fix/` e
-  `probe-demiplane/polish2/`.
+  audit in `visual-01/audit/demiplane/audit.md`; sonde in `probe-demiplane/polish3/`.
 
 ## Licenze e attribuzioni
 

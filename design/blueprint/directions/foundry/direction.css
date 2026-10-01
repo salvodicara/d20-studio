@@ -79,7 +79,18 @@
                                         (16 bold, centred: d20, hit points); bold labels
    - Badges, pills, filters .......... dnd5e D3/D6 [O] 3 px corners everywhere; filter pills in
                                         even columns on a wide sheet
-   - «Accesso rapido» ................ H1/H2 [O] the join screen's panel, as every Inizio panel */
+   - «Accesso rapido» ................ H1/H2 [O] the join screen's panel, as every Inizio panel
+   Polish round 3 (01/10, notes/open-items-round3.json and I-250):
+   - Focused action on the phone ..... the sheet tabs' snap: a focused action is scrolled whole
+                                        into view (Tab and Shift+Tab), no snap at rest
+   - Disclosure links ................ F10 [O] orange link commands: one recipe (14/600) for the
+                                        links and the stand-alone disclosures
+   - Field values .................... F12/F13 [O] regular words in fields and menus; the bold is
+                                        the label's (number boxes stay bold)
+   - One box per kind ................ Inizio's tabs in the tabs' 40 px box, «Nuova» in the
+                                        badges' small caps, one row value box, one dashed empty
+                                        zone, the phone's page tabs and square glyphs as the
+                                        desktop's */
 
 /* ------------------------------------------------------------------ fonts (vendored, OFL) */
 @font-face {
@@ -551,6 +562,32 @@
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .text-button:hover:not(:disabled) {
   color: var(--accent-strong);
 }
+/* An orange disclosure that stands alone is a link command too, with the link's one recipe
+   (14/600, 6 px above and below, the buttons' leading): «Visualizzazione» over the inventory,
+   «Perché?» in the preparation notice, «Novità precedenti» on Inizio, «Pedine in scena» in the
+   Table's panel (round 3: they were 14/400, 14/400, 15/600 and 15/400). «Regola d'ingombro»
+   stays the last line of the load card's note, at the note's size and weight. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  :is(
+    .character-sheet .invp-view,
+    .character-sheet .spl-window-why,
+    .home-page .home-news-older,
+    .table-layout .token-menu-list-details
+  )
+  > summary {
+  padding-block: var(--fv-sp-3);
+  font-size: var(--fv-fs-14);
+  font-weight: 600;
+  line-height: var(--fv-lh-snug);
+}
+/* A disclosure takes the one 3 px focus ring of every control (the app's ring list leaves
+   summary out, so the browser's thin default ring showed). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  :is(.home-page, .character-sheet, .table-layout)
+  summary:focus-visible {
+  outline: var(--fv-bw-3) solid var(--focus);
+  outline-offset: var(--fv-bw-3);
+}
 /* The demo strip's two selects («Visita come», «Direzione») are the blueprint's own, not the
    product's: they keep today's fill, rim, corners and ink in every option (the base select
    reads tokens this direction redefines, so they are pinned here; W2 open item). */
@@ -577,6 +614,14 @@
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .field {
   font-weight: 700;
+}
+/* The bold belongs to the label only: what is typed or chosen in a text field, a menu or a text
+   area stays regular, as in Foundry's dialogs (round 3: inputs inherited the label's 700, so a
+   campaign name or a search read bold everywhere outside the sheet). The number boxes below set
+   their own bold. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  :is(.field input, .field select, .field textarea) {
+  font-weight: 400;
 }
 /* One field geometry (Foundry's dialog rows, F12/F13): 40 px, 0 × 12 px, a 1 px rim. */
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
@@ -1109,17 +1154,21 @@
   .button {
   min-height: var(--fv-ctl);
 }
-/* The side panel's tabs: the setup screen's section titles (serif words, the open one lit). */
+/* The side panel's tabs: the setup screen's section titles (serif words, the open one lit), in
+   the tabs' one box (40 px, 6 × 12, 4 px corners, as the sheet's, the panel's and the bar's tabs;
+   round 3: they were 44 px with 4 × 12 and square corners). */
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page .home-tabs {
   border-bottom-color: var(--fv-sep);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page .home-tabs [role="tab"] {
-  min-height: var(--fv-ctl-lg);
-  padding: var(--fv-sp-2) var(--fv-sp-5);
+  min-height: var(--fv-ctl);
+  padding: var(--fv-sp-3) var(--fv-sp-5);
+  border-radius: var(--fv-radius-2);
   color: var(--muted);
   font-family: var(--font-display);
   font-size: var(--fv-fs-20);
   font-weight: 900;
+  line-height: var(--fv-lh-tight);
   letter-spacing: var(--fv-track-title);
   font-variant-caps: small-caps;
 }
@@ -1130,13 +1179,29 @@
   color: #f5f3ef;
   border-bottom-color: var(--fv-active);
 }
+/* The unread count keeps its own text leading (the tab's 1.1 set its digit 12/13.2, a value of
+   no other text; the pill is 20 px tall either way). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page .home-tabs .home-count {
+  line-height: var(--fv-lh-body);
+}
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page .home-news-item {
   border-top-color: var(--fv-sep);
 }
 /* The «Nuova» badge sits on a translucent panel over the art: an opaque near-black plate keeps
-   its orange word legible on every pixel (audit 01/10: 2.28:1 at the worst pixel). */
+   its orange word legible on every pixel (audit 01/10: 2.28:1 at the worst pixel). It is a
+   label like every other badge: the one small-cap size, bold, tracked (round 3: it was the only
+   badge in 12 px regular lower case, 21 px tall beside the sheet's 26). */
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page .home-badge-new {
   background: var(--fv-cool-5);
+  font-size: var(--fv-fs-caps);
+  font-weight: 700;
+  letter-spacing: var(--fv-track-label);
+  font-variant-caps: all-small-caps;
+}
+/* «Primi passi» (under the panels) is a label too: the one small-cap size (16; the app's 15,
+   round 3). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page .home-eyebrow {
+  font-size: var(--fv-fs-caps);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .home-page .home-news-item h3 {
   font-weight: 700;
@@ -1815,8 +1880,12 @@
   letter-spacing: var(--fv-track-label);
   font-variant-caps: all-small-caps;
 }
+/* One value box in every row (round 3): 44 px wide at least, 4 × 6 inside, for the skills,
+   the senses and the saving throws alike (the skills had 4 × 12 in the app's 56, the senses 48,
+   the saves 4 × 6 in 44). */
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .shp-value {
-  padding: var(--fv-sp-2) var(--fv-sp-5);
+  min-width: var(--fv-ctl-lg);
+  padding: var(--fv-sp-2) var(--fv-sp-3);
   border-color: transparent;
   background: transparent;
   color: var(--text);
@@ -1859,13 +1928,6 @@
   .shp-col-saves
   .shp-row {
   gap: var(--fv-sp-2);
-}
-:root[data-direction="foundry"]:not([data-pref-theme="light"])
-  .character-sheet
-  .shp-col-saves
-  .shp-value {
-  min-width: var(--fv-ctl-lg);
-  padding-inline: var(--fv-sp-3);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .character-sheet
@@ -2149,6 +2211,8 @@
   .shp-empty {
   flex: 1 1 260px;
   padding: var(--fv-sp-4) var(--fv-sp-5);
+  font-size: var(--fv-fs-14);
+  line-height: var(--fv-lh-body);
   border: var(--fv-bw-2) dashed rgb(207 210 218 / 0.35);
   border-radius: var(--fv-radius-2);
   color: var(--muted);
@@ -2285,10 +2349,11 @@
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .character-sheet
   .character-tabs-all {
+  /* A tab of the strip: the tabs' 40 px (round 3: it was 44 beside them). */
   align-self: center;
   font-family: var(--fv-font-sheet-label);
   font-size: var(--fv-fs-caps);
-  min-height: var(--fv-ctl-lg);
+  min-height: var(--fv-ctl);
   padding: 0 var(--fv-sp-5);
   border-bottom: 0;
   color: var(--fv5-gold);
@@ -2376,9 +2441,13 @@
   line-height: var(--fv-lh-snug);
 }
 /* An empty list is the favourites' dashed zone (2 px, 4 px corners, centred muted words), with
-   the panel's 16 px inner margin (the app's 1 px rim, 6 px corners and 45 × 20 margin). */
+   the zone's one inner margin, the cards' 8 × 12, and its 14 px words (the app's 1 px rim, 6 px
+   corners and 45 × 20 margin; round 3: 16 px and 15 px words here, 8 × 12 and 14 px in the
+   favourites made two zones of one kind). */
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .empty-state {
-  padding: var(--fv-sp-6);
+  padding: var(--fv-sp-4) var(--fv-sp-5);
+  font-size: var(--fv-fs-14);
+  line-height: var(--fv-lh-body);
   border: var(--fv-bw-2) dashed rgb(207 210 218 / 0.35);
   border-radius: var(--fv-radius-2);
   color: var(--muted);
@@ -2861,14 +2930,16 @@
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .character-sheet .invp-row-actions {
   gap: var(--fv-sp-2);
 }
-/* A disclosure that stands alone is a link command at the one link size (14; the app's 13,
-   round 2): «Visualizzazione» over the list, «Perché?» in the preparation notice. «Regola
-   d'ingombro» stays the last line of the load card's note, at the note's size. */
+/* «Altro» on an item shows only its glyph (its word is the accessible name): a 40 × 40 square
+   glyph key with no inner padding, like every icon-only command (round 3: 47 × 40 with the
+   buttons' 12 px sides). */
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .character-sheet
-  :is(.invp-view, .spl-window-why)
-  > summary {
-  font-size: var(--fv-fs-14);
+  .invp-row-actions
+  .button[data-invp="menu"] {
+  justify-content: center;
+  min-width: var(--fv-ctl);
+  padding: 0;
 }
 /* A container's open/close key («▾ Borsa conservante») is a square glyph key like the other
    icon controls: the arrow centred with no inner padding (the browser's 1 × 6 px, round 2), in
@@ -3616,9 +3687,9 @@
 }
 /* Page controls (the hotbar's page arrows): small dark squares, the open page outlined. */
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .hotbar-page-tab {
-  /* A boxed command: the buttons' label (14/600) and block padding (6); the app's inline
-     padding stays (12, 8 on the phone). */
-  padding-block: var(--fv-sp-3);
+  /* A boxed command: the buttons' label (14/600) and padding (6 × 12), on the phone too (round 3:
+     the app's 8 px sides there made a second variant of one tab). */
+  padding: var(--fv-sp-3) var(--fv-sp-5);
   border: var(--fv-bw-1) solid #000000;
   border-radius: var(--fv-radius-2);
   background: var(--fv-slot);
@@ -4350,6 +4421,15 @@
     > .table-sidebar-rail {
     border-top-color: var(--fv-sep);
   }
+  /* The square icon controls keep the desktop's 21 px glyph box on the phone (round 3): the app
+     narrows the map tools' and the turn commands' glyphs to 18 and 19 px wide (21 tall), which
+     set «Trova» and «Centra» smaller than «+» and «−» in the same column. */
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .table-layout
+    :is(.map-tool, .action-dock > .toolbar .button)
+    .icon {
+    width: var(--fv-icon);
+  }
   /* The chips keep the app's phone strip; the group's name becomes readable (11 px). */
   :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .combat-group-tag {
     font-size: var(--fv-fs-11);
@@ -4464,6 +4544,27 @@
     button:focus-visible {
     position: relative;
     z-index: 2;
+  }
+  /* The sheet tabs' recipe (round 3): while an action has the keyboard focus it is the strip's
+     only snap point, so the strip brings it whole into view (the browser does not scroll an
+     action that is only partly hidden: «Schivata» was reached with its ring and name cut at the
+     strip's edge). The snap margin is 12 px, not the tabs' 32: an action is wider than a tab
+     («Dardo incantato» 121 px), and in a 32 px margin it overflowed the snap area, so its ring
+     still touched the edge; the focused action is drawn over the shade anyway. At rest the strip
+     does not snap, so the partly shown next action stays the cue that it scrolls. */
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-actions:has(button:focus-visible) {
+    scroll-padding-inline: var(--fv-sp-5);
+    scroll-snap-type: x mandatory;
+  }
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-actions
+    button:focus-visible {
+    scroll-snap-align: end;
   }
   @container scroll-state(scrollable: inline-start) {
     :root[data-direction="foundry"]:not([data-pref-theme="light"])

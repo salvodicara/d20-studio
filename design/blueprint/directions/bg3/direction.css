@@ -1874,6 +1874,17 @@
   .character-hp-value:hover {
   background: radial-gradient(70% 90% at 50% 100%, rgb(223 152 0 / 0.2), transparent);
 }
+/* Its focus ring is the lozenge's (3 px, 6 px inside the box): around the numbers' row, clear
+   of the label line and the temporary-HP line that the target reaches into (the app's 2 px
+   ring 2 px outside ran across both). */
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  .character-hp
+  .character-hp-value:focus-visible {
+  outline-width: var(--bg3-line-3);
+  outline-offset: calc(-1 * var(--bg3-space-3));
+}
 :root[data-direction="bg3"]:not([data-pref-theme="light"])
   .character-sheet
   .character-band
@@ -4436,6 +4447,14 @@
   :root[data-direction="bg3"]:not([data-pref-theme="light"]) .home-page .home-layout {
     row-gap: 0;
   }
+  /* The appointment's button column stands one plate gap (24 px) under the facts, as on the
+     phone (the app's 16 px flex gap of the wide grid). */
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .home-page
+    .home-layout
+    .home-appointment {
+    gap: var(--bg3-space-7);
+  }
 }
 /* Plates side by side share one height, as BG3's panels in a row. */
 :root[data-direction="bg3"]:not([data-pref-theme="light"]) .home-page .home-bottom {
@@ -4682,17 +4701,85 @@
   font-size: var(--bg3-type-tiny);
 }
 /* A quiet button that starts a line or a column puts its ink on the column's edge (critique
-   F10): its 16 px inline padding moves outside the column, the target stays 40 px. */
+   F10): its 16 px inline padding moves outside the column, the target stays 40 px. Its padding
+   box then starts on the column's edge, often a clipping one (the phone gutter, the inspector's
+   overflow), so its 3 px ring is drawn inside the button, as the lozenge's (third verification:
+   outside, the ring's left side was cut). The sheet's column tools, a plate's sentence with its
+   command («Apri al Tavolo», «Cambia…»), the offline plate's command and, in the Creature
+   panel, «Trova la mia pedina», the items to use and the weapon set's change follow it too
+   (third polish round, I-250: their ink stood 16 px inside the text above them). */
 :root[data-direction="bg3"]:not([data-pref-theme="light"])
   :is(
     .character-sheet .character-breadcrumb > .button.quiet:first-child,
     .character-sheet .spl-concentration > .button.quiet,
     .character-sheet .spl-slots .spl-slot > .button.quiet,
     .character-sheet .invp-row-actions > .button.quiet:first-child,
+    .character-sheet .conditions-quick > .conditions-quick-add.quiet,
+    .character-sheet .shp-col-tools > .button.quiet,
+    .character-sheet .sm-sheet > p > .button.quiet,
+    .character-sheet .dtray-sheet-policy > .button.quiet,
+    .character-sheet .offline-switch-block > .button.quiet,
+    .character-sheet .spl-list-foot > .button.quiet:first-child,
+    .character-sheet .spl-components > .toolbar > .button.quiet:first-child,
     .table-layout .inspector-quick > .button.quiet:first-child,
-    .table-layout .table-inspector .conditions-quick > .conditions-quick-add.quiet
+    .table-layout .table-inspector .conditions-quick > .conditions-quick-add.quiet,
+    .table-layout .table-inspector .token-menu-panel > .button.quiet,
+    .table-layout .table-inspector .invp-inspector-item-list > .button.quiet,
+    .table-layout .table-inspector .invp-inspector-set > .button.quiet
   ) {
   margin-inline-start: calc(-1 * var(--bg3-space-6));
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  :is(
+    .character-sheet .character-breadcrumb > .button.quiet:first-child,
+    .character-sheet .spl-concentration > .button.quiet,
+    .character-sheet .spl-slots .spl-slot > .button.quiet,
+    .character-sheet .invp-row-actions > .button.quiet:first-child,
+    .character-sheet .conditions-quick > .conditions-quick-add.quiet,
+    .character-sheet .shp-col-tools > .button.quiet,
+    .character-sheet .sm-sheet > p > .button.quiet,
+    .character-sheet .dtray-sheet-policy > .button.quiet,
+    .character-sheet .offline-switch-block > .button.quiet,
+    .character-sheet .spl-list-foot > .button.quiet:first-child,
+    .character-sheet .spl-components > .toolbar > .button.quiet:first-child,
+    .table-layout .inspector-quick > .button.quiet:first-child,
+    .table-layout .table-inspector .conditions-quick > .conditions-quick-add.quiet,
+    .table-layout .table-inspector .token-menu-panel > .button.quiet,
+    .table-layout .table-inspector .invp-inspector-item-list > .button.quiet,
+    .table-layout .table-inspector .invp-inspector-set > .button.quiet,
+    .character-sheet .invp-stat .button.quiet
+  ):focus-visible {
+  outline-offset: calc(-1 * var(--bg3-line-3));
+}
+/* So each of those commands always starts its line: the column tools («Gestisci sensi»,
+   «Gestisci velocità») and the items to use stand in a column at every width, and a sentence's
+   command stands under its sentence (4 px, the tools' row gap) instead of after it or wrapped. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  :is(
+    .character-sheet .shp-col-tools,
+    .character-sheet .sm-sheet > p:has(> .button.quiet),
+    .character-sheet .dtray-sheet-policy,
+    .table-layout .table-inspector .invp-inspector-item-list,
+    .table-layout .table-inspector .invp-inspector-set
+  ) {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  row-gap: var(--bg3-space-2);
+}
+/* A focus row keeps its command («Impugna», «Riponi») at the row's end at every width, as the
+   sheet's other list rows: the words wrap beside it instead of pushing it under them, where it
+   stood 16 px inside the words' edge. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .character-sheet .spl-focus-list > li {
+  flex-wrap: nowrap;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .character-sheet
+  .spl-focus-list
+  > li
+  > span {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 /* High contrast: the round chrome keeps its 2 px ring in the preference's line colour. */
@@ -5641,6 +5728,15 @@
     .character-heading
     > .toolbar {
     margin-inline-start: calc(-1 * var(--bg3-space-6));
+  }
+  /* The command that starts a line sits on the screen's edge: the quiet ring is drawn inside
+     (every quiet command of the row, so the row has one ring). */
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-heading
+    > .toolbar
+    .button.quiet:focus-visible {
+    outline-offset: calc(-1 * var(--bg3-line-3));
   }
   /* The generic actions' table runs to the plate's line on the phone (its rows keep their
      8 px cell inset): inside the 24 px inset its third column scrolled out of view. */

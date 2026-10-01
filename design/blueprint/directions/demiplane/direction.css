@@ -21,7 +21,10 @@
      capitals face, so box headers need no caps feature;
    - one recipe per kind: game button 40 px, 18/700 caps, 8 × 16 padding; tab 18/700 caps with
      12 px sides (sheet bar 56 px, other strips 40 px); tag 24 px, 16/700 caps, 0 × 8, radius 4;
-     field 40 px; menu row 40 px (44 in the phone sheet, the app's touch rule);
+     text field 40 px, Roboto 16, 0 × 12 (selects too); number field 40 px, Barlow Condensed
+     18/700 centred, 0 × 8; switch: light knob on a 30 % white track, dice blue when on;
+     condition chip 40 px, 18/700 caps, 0 × 12; menu row 40 px (44 in the phone sheet, the
+     app's touch rule); party tile 96 px and turn-order chip 84 px (112 the current one);
    - two button voices: the shell's Barlow 14/600 as written (Home, header; #006FB8 the one
      CTA) and the game's condensed caps (sheet, Table, drawers, menus; dice blue #3276B5 the
      primary, ghost buttons as text actions on the column edge);
@@ -1237,7 +1240,7 @@
   font-family: var(--font-display);
   font-size: var(--text-2xl);
   font-weight: 700;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
   line-height: var(--dp-lh-tight);
 }
 :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .resume-scene .muted {
@@ -3895,8 +3898,12 @@
   padding: 0 var(--space-2);
   line-height: var(--dp-lh-body);
 }
+/* Text actions start on the column edge (no side padding) but never shrink under the 40 px
+   target; the character cards' «Apri scheda · Gestisci · Copia · Elimina» row keeps its
+   8 × 12 padding (character-library.css), so «Copia» stays 54 px wide. */
 :root[data-direction="demiplane"]:not([data-pref-theme="light"])
-  .text-button:not(.combat-bar-heading .text-button) {
+  .text-button:not(.combat-bar-heading .text-button, .clib-link) {
+  min-width: var(--dp-h-control);
   padding: var(--space-2) 0;
 }
 :root[data-direction="demiplane"]:not([data-pref-theme="light"])
@@ -4827,4 +4834,425 @@
   :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-stage > .table-party {
     bottom: calc(var(--space-7) + var(--space-1));
   }
+}
+
+/* ================================================================== I-250, third polish
+   round (01/10): the verifier's open items, then the last same-kind differences that the
+   design-value audit and the component specimen still showed (below the first screen too). */
+
+/* Text actions: the controls' 4 px corner (the focus ring follows it, as on the ghost
+   buttons); the character cards' links keep their 40 px floor with their own sides. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .text-button {
+  border-radius: var(--radius-xs);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .clib-link {
+  min-width: var(--dp-h-control);
+}
+
+/* Number fields — the initiative drawer's d20s and ±HP on the sheet, in the Creature panel
+   and in the drawers — one recipe: the value chip's Barlow Condensed 700, centred, 0 × 8
+   inside the field's 1 px edge (18 px in a 40 px field; the sheet band's tall field keeps
+   24). The Creature panel's ±HP no longer keeps Chromium's 1 × 2 padding and Roboto. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  :is(#dialog .ct-start-d20 input, .dt-hp-row .dt-amount) {
+  padding: 0 var(--space-2);
+  font-family: var(--font-label);
+  font-weight: 700;
+  letter-spacing: 0;
+  font-variant-caps: normal;
+  text-align: center;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  :is(.table-layout, dialog)
+  .dt-hp-row
+  .dt-amount {
+  font-size: var(--text-lg);
+}
+
+/* Selects share the text fields' 0 × 12 in the 40 px field (they kept 8 px above and below);
+   the hotbar's dice mode keeps its 8 px sides. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  :is(.field select, select:not(.demo-strip select, .combat-bar-heading select)) {
+  padding-block: 0;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-bar-heading
+  select {
+  padding: 0 var(--space-2);
+}
+
+/* Party column: every portrait tile is the same 96 px (4 + 56 + 4 + 4 + 4 + 20 + 4); the HP
+   bar keeps its row when the player does not see a companion's HP (Doran ran 87). */
+@media (min-width: 721px) {
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-party:not(.is-compact)
+    .table-party-member {
+    grid-template-rows: auto var(--space-1) auto;
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-party:not(.is-compact)
+    .table-party-hp {
+    grid-row: 2;
+    height: var(--space-1);
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-party:not(.is-compact)
+    .table-party-name {
+    grid-row: 3;
+    line-height: calc(var(--space-4) + var(--space-1));
+  }
+  /* Turn order: the chips stand on the 4 px grid (84; the current one is 112). */
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token {
+    min-height: calc(var(--dp-h-control) * 2 + var(--space-1));
+  }
+}
+
+@media screen and (max-width: 720px) {
+  /* The dice mode stands in the action tiles' row on a phone: the tiles' and «Mosse»' 44 px. */
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-bar-heading
+    select {
+    block-size: var(--dp-h-tile);
+  }
+  /* The tile row's edge: clear over its last 12 px, so the clipped next tile shows as a faint
+     edge only, never as stray letters. */
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .combat-actions {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      #000 calc(100% - var(--space-5)),
+      transparent calc(100% - var(--space-3))
+    );
+    mask-image: linear-gradient(
+      to right,
+      #000 calc(100% - var(--space-5)),
+      transparent calc(100% - var(--space-3))
+    );
+  }
+}
+
+/* Home: «Tutte le discussioni» is the same «see all» link as «Tutte le campagne» and «Tutti
+   gli annunci»; the folds («Novità precedenti», «Cronologia degli incidenti») read as the
+   site's links too (they were gold Roboto). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-dashboard
+  .home-page
+  :is(.cm-home, .chat-home, .community-home)
+  > .section-heading
+  > .button.quiet {
+  min-width: var(--dp-h-control);
+  padding-inline: 0;
+  border-color: transparent;
+  background: transparent;
+  color: var(--dp-cyan);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-dashboard
+  .home-page
+  :is(.cm-home, .chat-home, .community-home)
+  > .section-heading
+  > .button.quiet:hover:not(:disabled) {
+  background: transparent;
+  color: var(--dp-hover-nav);
+}
+/* «Accesso rapido» (shown once a sheet was opened on this device) is a flat site section like
+   its neighbours, its title in Barlow 24/700 (it was a bordered box with a Cinzel title). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .home-page .home-recent {
+  padding: var(--space-5) 0 0;
+  border: 0;
+  border-top: var(--dp-b-1) solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-page
+  .home-recent
+  > .section-heading {
+  gap: var(--space-2) var(--space-4);
+  margin: 0 0 var(--space-4);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-page
+  .home-recent
+  > .section-heading
+  > h2 {
+  margin: 0;
+  color: #ffffff;
+  font-family: var(--dp-font-shell);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  letter-spacing: 0;
+  font-variant-caps: normal;
+  line-height: var(--dp-lh-tight);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .home-page
+  .home-details
+  > summary {
+  color: var(--dp-cyan);
+  font-family: var(--dp-font-shell);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+/* Sheet: sub-headings inside the boxes («Abilità aggiuntive», «Modifiche del DM a questa
+   scheda») are the boxes' group label — grey condensed caps over a hairline, as «Azione» and
+   «Movimento» (they were Barlow, the shell's face). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-derived .shp-col > h3:not(:first-child), .cs-sheet > h3) {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+  line-height: var(--dp-lh-tight);
+  text-align: start;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-derived
+  .shp-col
+  > h3:not(:first-child) {
+  margin: var(--space-4) 0 var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-derived .shp-col > h3:not(:first-child), .cs-sheet > h3)::after {
+  content: "";
+  flex: 1 1 auto;
+  height: var(--dp-b-1);
+  background: var(--line);
+}
+/* The sheet's two setting switches name their setting the same way (Roboto 16/700; the
+   offline one was 600) and share the MUI switch of the specimen: a light knob on a 30 %
+   white track, blue when on (the DM switch was gold, the offline one black). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.offline-switch > span:not(.offline-switch-track), .cs-switch > span > strong) {
+  font-family: var(--font-ui);
+  font-size: var(--text-md);
+  font-weight: 700;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .offline-switch-block {
+  align-items: baseline;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .cs-switch input {
+  border-color: var(--line-strong);
+  background: radial-gradient(circle at 10px 50%, #e0e0e0 6px, transparent 6.5px)
+    rgb(255 255 255 / 0.3);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .cs-switch
+  input:checked {
+  border-color: var(--dp-blue);
+  background: radial-gradient(circle at 28px 50%, #ffffff 6px, transparent 6.5px) var(--dp-blue);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .offline-switch-track {
+  border-color: var(--line-strong);
+  background: rgb(255 255 255 / 0.3);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .offline-switch-track::after {
+  background: #e0e0e0;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .offline-switch
+  input:checked
+  + .offline-switch-track {
+  border-color: var(--dp-blue);
+  background: var(--dp-blue);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .offline-switch
+  input:checked
+  + .offline-switch-track::after {
+  background: #ffffff;
+}
+/* Turn resources on the sheet speak the hotbar's resource voice (Barlow Condensed 700, as
+   written; they were Roboto 600). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-resource {
+  font-family: var(--font-label);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+}
+
+/* Active conditions are game tags at control height (the chip opens the condition list): the
+   inset chip, a 1 px rule (gold for Concentration), condensed caps, 0 × 12 — they kept the
+   app's warm bronze plate and Roboto. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .conditions-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: var(--dp-h-control);
+  border: var(--dp-b-1) solid var(--line);
+  border-radius: var(--radius-xs);
+  background: var(--dp-inset);
+  color: #ffffff;
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .conditions-chip:not(:has(> .conditions-chip-manage)),
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .conditions-chip-manage {
+  padding: 0 var(--space-3);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .conditions-chip.is-concentration {
+  border-color: var(--dp-gold);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .conditions-chip:hover {
+  border-color: var(--line-strong);
+}
+
+/* The HP widget's folds («Correggi i punti ferita», «PF temporanei e massimo», «Registro PF»,
+   «Difese ai danni», «Proponi al DM») are game rows: white condensed caps like the ghost
+   buttons beside them (they were Roboto 600). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  :is(.table-layout, .character-sheet, dialog)
+  .dt-more
+  > summary {
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+
+/* The hotbar's quick-bar page in the actions page's voice: page arrows and tools as the inset
+   40 px slabs, the page name as a filter pill (it was a Cinzel pill), the two dice selects as
+   the dice-mode select, the slots' words and keys condensed. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .qb-icon {
+  padding: 0;
+  border: var(--dp-b-1) solid var(--line);
+  border-radius: var(--radius-xs);
+  background: var(--dp-inset);
+  color: #ffffff;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-hotbar
+  .qb-icon:hover:not(:disabled) {
+  border-color: var(--line-strong);
+  background: var(--dp-black);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .qb-icon.active {
+  border-color: var(--dp-gold);
+  background: var(--dp-gold);
+  color: var(--dp-inset);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .qb-page-name {
+  gap: var(--space-2);
+  padding: 0 var(--space-4);
+  border: var(--dp-b-1) solid var(--line);
+  border-radius: var(--dp-r-pill);
+  background: var(--dp-inset);
+  color: #ffffff;
+  font-family: var(--font-label);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-hotbar
+  .qb-page-name.is-shared {
+  border-style: dashed;
+  border-color: var(--dp-gold);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .qb-page-num {
+  color: var(--dp-gold);
+  font-weight: 700;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .qb-select {
+  gap: var(--space-2);
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .qb-select select {
+  min-height: var(--dp-h-control);
+  padding: 0 var(--space-2);
+  border: var(--dp-b-1) solid var(--dp-field-line);
+  border-radius: var(--radius-xs);
+  background-color: var(--dp-inset);
+  color: #ffffff;
+  font-family: var(--font-label);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  font-variant-caps: all-small-caps;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-hotbar
+  :is(.qb-select.is-set select, .qb-select select:has(option[value="physical"]:checked)) {
+  border-color: var(--dp-gold);
+  color: var(--dp-gold);
+}
+/* The page row keeps the 14 px step of the dice mode under 1440 at every width, and the
+   row's 8 px gap (the app's 10), so the tools end inside the bar at 1440 (they ran 7 px
+   past it; today's look clips «Normale» and the options button). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .qb-row {
+  column-gap: var(--space-2);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .qb-slot {
+  border-radius: var(--radius-xs);
+  font-family: var(--font-label);
+  font-size: var(--text-xs);
+  font-weight: 700;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-hotbar
+  :is(.qb-key, .qb-steps-count, .qb-uses) {
+  font-family: var(--font-label);
+}
+
+/* Type details: tracking is set where the size is set (a smaller label inside a bigger one —
+   the row's ability, the inventory's column names, the filter counts, a key hint — took its
+   parent's tracking in px); the units and denominators beside a value («/ 22», «m», «/ 75
+   kg», «· slot 3/4») ask for the 600 face that Barlow Condensed renders them in (no 400 is
+   vendored), as the scores and «Camminare» under the chips; Cinzel titles all track 0.04em. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-row-name > small, .invp-col > small, .shp-chip > small) {
+  letter-spacing: var(--label-tracking);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) kbd,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  .character-inspiration
+  > span:first-child {
+  letter-spacing: 0;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(
+    .character-hp-value strong small,
+    .character-stat-button strong small,
+    .invp-stat strong small,
+    .spl-group > h3 .muted,
+    .spl-stat dd small
+  ) {
+  font-weight: 600;
 }

@@ -4,7 +4,8 @@
   stesso giorno dopo la seconda critica indipendente (pulsanti in tre soli tipi, colonne allineate,
   passaggio di chiusura sulle misure); rifinito il 01/10/2026 dopo la terza verifica (giro di cura
   I-250: una sola ricetta per ogni tipo di componente, vedi «Coerenza (I-250)»); secondo giro di
-  cura lo stesso giorno, dopo la quarta verifica (vedi «Secondo giro»).
+  cura lo stesso giorno, dopo la quarta verifica (vedi «Secondo giro»); terzo giro lo stesso
+  giorno, dopo la quinta verifica (vedi «Terzo giro»).
 - **Direzione:** `ddb` («2 · D&D Beyond» nel selettore «Direzione»), Fase C, Scelta 1 — Direzione (I-248).
 - **File di questa opzione:** `direction.css` (tutto l'aspetto), `icons.mjs` (le icone),
   `assets/campaign-backdrop.webp` e `assets/creation-scene.webp` (due illustrazioni tue).
@@ -15,7 +16,7 @@
   elemento, comportamenti e i valori dei colori.
 - **Schermate:** `~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/round1/ddb/` (15
   schermate; le coppie «nostra · riferimento» sono in `round1/ddb/_pairs/`). Schermate e coppie
-  sono state rifatte dopo l'ultima modifica di `direction.css` (01/10/2026, 11:49).
+  sono state rifatte dopo l'ultima modifica di `direction.css` (01/10/2026, 13:37).
 
 ## In tre righe
 
@@ -114,7 +115,7 @@ la nostra, a destra i riferimenti, ciascuna con il nome del file) sono in
 | Tavolo                   | `table-combat-dark-1440-ddb.png`                                    | `ddb-maps-initiative-portrait-strip-frame.png` (vista giocatore: ritratti in fila, strumento attivo rosso); `ddb-maps-tokens-nameplates-2026.png` (pedine e targhette)                  | 1440 × 900 |
 | Tavolo                   | `table-combat-dark-390-ddb.png`, `table-combat-dm-dark-390-ddb.png` | nessun riferimento per il telefono (vedi sotto); per i materiali `ddb-maps-tokens-nameplates-2026.png`                                                                                  | 390 × 844  |
 | Tavolo in esplorazione   | `table-explore-dark-1440-ddb.png`                                   | `ddb-maps-scene-prep-2026-frame.png` (Maps fuori dal combattimento: mappa, strumenti, spilli con il nome); `ddb-maps-tokens-ac-conditions-2026.png` (spillo «A2: Ocean Bay», targhette) | 1440 × 900 |
-| Tavolo in esplorazione   | `table-explore-dark-390-ddb.png`                                    | nessun riferimento per il telefono (Maps non ha il telefono); per i materiali `ddb-maps-tokens-nameplates-2026.png`                                                                     | 390 × 844  |
+| Tavolo in esplorazione   | `table-explore-dark-390-ddb.png`                                    | nessun riferimento per il telefono (Maps non ha il telefono); per i materiali `ddb-maps-tokens-ac-conditions-2026.png` (spilli e targhette)                                             | 390 × 844  |
 | Scheda · Magie           | `sheet-spells-dark-1440-ddb.png`                                    | `ddb-sheet-desktop-live-presto-spells-1440x900.png` (scheda SPELLS, tema chiaro blu della demo: si confrontano disposizione e misure, non i colori)                                     | 1440 × 900 |
 | Scheda · Magie           | `sheet-spells-dark-390-ddb.png`                                     | `ddb-sheet-mobile-live-presto-spells-390x844.png`                                                                                                                                       | 390 × 844  |
 | Scheda · Inventario      | `sheet-inventory-dark-1440-ddb.png`                                 | `ddb-sheet-desktop-underdark-inventory-2025-frame.png`; `ddb-sheet-desktop-underdark-party-inventory-2025-frame.png` (da vicino)                                                        | 1440 × 900 |
@@ -233,6 +234,10 @@ schermata non mostra, è in
   vanno uno sotto l'altro: nessuna parola va a capo dentro un pulsante.
 - **Fascia illustrata dell'Inizio:** in D&D Beyond va da bordo a bordo; sul computer da noi è larga
   quanto il contenuto, con i margini delle altre pagine (sul telefono va da bordo a bordo).
+- **Linea della linguetta aperta:** una sola linguetta in tutta l'app (carattere condensato,
+  48 px, 12 × 8 px), ma la linea sotto quella aperta ha il colore del posto, come in D&D Beyond:
+  il rosso del sito (`#e40712`) sull'Inizio e nella campagna, il colore del tema del personaggio
+  («DDB Red», `#c53131`) nella scheda. Cambiando tema, cambierebbe solo nella scheda.
 - **Anello di messa a fuoco:** D&D Beyond usa un alone bianco semitrasparente di 2 px; noi
   teniamo l'anello bianco di 3 px del progetto, ben visibile.
 - **Marchio:** il d20 e la scritta «d20 Studio» restano quelli di oggi (oro e grazie): il marchio
@@ -389,6 +394,72 @@ delle integrazioni non parte nemmeno con «Attuale».
 Rapporti: prima `…/visual-01/probe-ddb/polish-r2/audit-before/audit.md`, dopo
 `…/visual-01/audit/ddb/audit.md`; prove, campionario e schermate intere in
 `…/visual-01/probe-ddb/polish-r2/`.
+
+### Terzo giro (01/10/2026)
+
+Dopo la quinta verifica indipendente: un difetto grave (i preferiti tagliati), uno medio
+(l'Inizio sui tablet), due dettagli (la riga dei PE, le linguette dell'Inizio) e un altro
+passaggio sul campionario dei componenti, sulla verifica delle misure e sulle parti della scheda
+sotto la prima schermata.
+
+| Misura (20 schermate, tema scuro)        | Prima del giro  | Dopo il giro    |
+| ---------------------------------------- | --------------- | --------------- |
+| Valori di spaziatura (fuori scala)       | 29 (11)         | 28 (11)         |
+| Spaziature sul passo di 2 px             | 99 %            | 100 %           |
+| Altezze dei comandi                      | 19              | 19              |
+| Stili di testo                           | 72              | 72              |
+| Grandezze · pesi · interlinee            | 11 · 4 · 15     | 11 · 4 · 15     |
+| Raggi · spessori · ombre                 | 5 · 3 · 9       | 5 · 3 · 9       |
+| Pulsanti: varianti (tipi con più di una) | 74 (13)         | 74 (13)         |
+| Campi · tendine: varianti                | 3 · 1           | 3 · 1           |
+| Linguette · etichette: varianti          | 10 · 7          | 10 · 6          |
+| Pulsanti con il riempimento del browser  | 0               | 0               |
+| Contrasto AA: errori · incerti, su testi | 0 · 151 su 1244 | 0 · 151 su 1244 |
+
+Il valore di spaziatura che manca è il 18 px sotto due titoli della scheda (Reazioni, Modifiche
+del DM); la variante di etichetta in meno è l'avviso «Sessione non avviata», ora alto uguale (98
+px) sul computer e sul telefono. Quasi tutto il resto di questo giro sta dove la
+verifica non guarda (i preferiti, che l'esempio non ha; i tablet; le altre linguette della
+scheda; le condizioni, che l'esempio non ha), ed è stato misurato a parte nella pagina vera:
+
+| Dove                                                      | Prima                                                                                                | Dopo                                                                                                |
+| --------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| Scheda a 1440, 1366 e 1280, con 1–4 preferiti             | i preferiti stretti accanto a «Effetti»: «Furtiv / +2», «Acroba / +2», «Fu» (tagliati)               | «Effetti» e «Preferiti» su due righe intere; ogni preferito alto 40 px su una riga («Furtività +2») |
+| Inizio a 768 e 1024 px                                    | «Il tuo personaggio» attaccato a «Le tue campagne» (0 px); sopra 20 e 20 px; riquadri alti 294 e 232 | 24 px fra tutti i riquadri, come sul computer; i due riquadri alti uguali (294 px)                  |
+| Scheda a 1440, riga dei PE                                | «Livello 3 · 900 / 2700 PE (dal» e sotto «livello)»                                                  | «Livello 3 · 900 / 2700 PE» e sotto, piccolo, «(dal livello)»; nessuna frase spezzata               |
+| Scheda a 1280, riga dei PE                                | il testo in tre righe in 93 px                                                                       | la riga dei PE va sotto Gioco/Modifica e Dadi, come quando c'è «Annulla»                            |
+| Inizio, linguette Novità / Guide / Supporto               | carattere Roboto (le altre linguette Roboto Condensed)                                               | Roboto Condensed come la scheda e la barra delle azioni                                             |
+| «Cosciente» (stato vitale)                                | quadrato nella scheda, tondo nel pannello del Tavolo                                                 | angoli di 4 px ovunque                                                                              |
+| Condizioni attive (Avvelenato, Prono, «(C) Benedizione»…) | alte 42 px; in alcune le parole in alto; la × della concentrazione con il riempimento del browser    | alte 40 px, parole centrate, fondo scuro dei campi con il bordo grigio; la × un quadrato di 32 px   |
+| Titoli dei pannelli nelle linguette della scheda          | 8, 18, 21,6 o 24 px sopra il contenuto; «Reputazione» (26 px), «Forme» e «Homebrew» (16 px) bianchi  | tutti in maiuscoletto rosso, 16 px sopra il contenuto; «Homebrew» sulla riga del suo comando        |
+| Reputazione (Fidato, Neutrale…)                           | pillole tonde da 26 px                                                                               | riquadri da 28 px con angoli di 4 px, come «Cosciente»                                              |
+| Avviso «Sessione non avviata» sul telefono (DM)           | «Avvia ora» dentro la seconda riga del testo, «Non ora» su una terza                                 | il testo su due righe, i due comandi insieme sulla riga sotto                                       |
+| Parole del glossario («TS», «azione bonus»)               | 1 px ai lati                                                                                         | la sottolineatura punteggiata a filo della parola                                                   |
+
+Che cosa è cambiato, in breve:
+
+- **Preferiti:** finché la striscia è vuota, il suggerimento resta accanto a «Effetti»; appena
+  c'è un preferito, «Effetti» e «Preferiti» prendono una riga intera ciascuno e i preferiti vanno a
+  capo. Ogni preferito ha la ricetta dei campi (fondo scuro, bordo grigio, 40 px, 12 px ai lati).
+- **Inizio sui tablet:** la stessa distanza di 24 px fra tutti i riquadri e i due riquadri della
+  fila alti uguali, come sul computer.
+- **PE:** due righe intere sempre uguali; se la riga non le contiene, i PE scendono sotto.
+- **Una sola linguetta:** stesso carattere, misure e spaziature sull'Inizio e nella scheda; cambia
+  solo il colore della linea, di proposito (vedi «Differenze dichiarate»).
+- **Condizioni:** una sola forma nella scheda, nel pannello del Tavolo e nella finestra dei punti
+  ferita.
+- **Titoli dei pannelli:** stessa forma e stessa distanza anche nelle linguette Capacità, Storia ed
+  Extra, che la verifica non fotografa.
+
+Garanzie controllate dopo l'ultima modifica: intestazione del Tavolo su una riga a 390 (64 px),
+Termina turno (118 × 40), Annulla ultima modifica e Annulla preparazione (40 × 40) visibili a 390,
+nessuno scorrimento laterale a 390 (Inizio, scheda, magie, inventario, Tavolo in esplorazione e in
+combattimento, giocatore e DM), barra delle azioni alta 116 px a 1440 (giocatore e DM), «Entra al
+Tavolo» fra 645 e 693 px a 390, comandi di 40 px (sotto i 40 solo quelli che lo sono già oggi:
+parole del glossario, pastiglia dei punti ferita, filtro «Reazioni»), anello di messa a fuoco di
+3 px anche sulle condizioni. Rapporti: prima
+`…/visual-01/probe-ddb/polish-r3/audit-before/audit.md`, dopo `…/visual-01/audit/ddb/audit.md`;
+prove, campionario prima e dopo, misure e ritagli in `…/visual-01/probe-ddb/polish-r3/`.
 
 ## Riferimenti aggiunti il 01/10/2026
 

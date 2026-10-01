@@ -121,9 +121,20 @@
      as the others, its label the grey body2 form label → MUI Card, Container → O15
    - news-item actions with the one outlined-button padding and MUI's 8 px action gap →
      MUI CardActions → O11, O15
-   - one card-title style (18/24 medium), one body2-medium line (14/20) for tabs, chips, table
-     heads and toggle segments, no 600 weight left → MUI typography → facts.md 2B
-   - the sheet's free roll as TextField + Button on one line, 8 px apart → O10, O16 */
+   - one body2-medium line (14/20) for tabs, chips, table heads and toggle segments, no 600
+     weight left → MUI typography → facts.md 2B
+   - the sheet's free roll as TextField + Button on one line, 8 px apart → O10, O16
+   (01/10/2026, third polish round after the fifth verification, block «THIRD POLISH ROUND»)
+   - one title per card kind: every Home and sheet card h5 24/32 regular, 16 px above its
+     content; the left column's list cards and the subsections inside a card 18/24 medium;
+     list subheaders grey body2 medium → MUI Card, ListSubheader → O15, O5, O12
+   - every card ends 24 px under its last line; the special moves and the linked forms as
+     cards; the phone's sheet cards at MUI's 16 px inset → MUI Card, CardContent → O15
+   - «Accesso rapido» the same Home card; the side card one 24 px gutter away up to 1100 px;
+     the news actions always on two lines → O15, MUI CardActions
+   - selects with the outlined field's recipe; active conditions as the filter chips'
+     40 px pills; the Exhaustion levels reached in the warning amber; the inventory's bag
+     toggles as 40 px icon buttons → O10, O12, MUI Chip, IconButton */
 
 /* ------------------------------------------------------------------ Roboto (vendored) */
 @font-face {
@@ -1324,7 +1335,14 @@
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
   .home-page
-  :is(.home-appointment, .home-bottom > section, .cm-home, .chat-home, .community-home)
+  :is(
+    .home-appointment,
+    .home-bottom > section,
+    .home-recent,
+    .cm-home,
+    .chat-home,
+    .community-home
+  )
   h2 {
   font-size: var(--ob-fs-h5);
   font-weight: 400;
@@ -1332,7 +1350,14 @@
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
   .home-page
-  :is(.home-appointment, .home-bottom > section, .cm-home, .chat-home, .community-home) {
+  :is(
+    .home-appointment,
+    .home-bottom > section,
+    .home-recent,
+    .cm-home,
+    .chat-home,
+    .community-home
+  ) {
   padding: var(--ob-sp-3) var(--ob-sp-4);
 }
 /* The countdown in regular Roboto, lavender (the one accent). */
@@ -1613,7 +1638,14 @@
   }
   :root[data-direction="owlbear"]:not([data-pref-theme="light"])
     .home-page
-    :is(.home-appointment, .home-bottom > section, .cm-home, .chat-home, .community-home) {
+    :is(
+      .home-appointment,
+      .home-bottom > section,
+      .home-recent,
+      .cm-home,
+      .chat-home,
+      .community-home
+    ) {
     padding: var(--ob-sp-2);
   }
 }
@@ -2260,8 +2292,16 @@
   > .conditions-segment:last-child {
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
 }
-:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .conditions-segment:hover {
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .conditions-segment:hover:not(.filled) {
   background: var(--ob-hover);
+}
+/* The levels reached keep the app's meaning, filled in the warning amber with dark ink (the
+   transparent segment above had left their dark ink on the paper: unreadable). */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .conditions-segment.filled {
+  border-color: var(--warning);
+  background: var(--warning);
+  color: var(--accent-ink);
 }
 
 /* Scheda · Magie: Owlbear has no spellbook — the same grammar as its lists and dialogs: the
@@ -4214,10 +4254,6 @@
     margin-inline: calc(-1 * var(--ob-sp-2));
     padding-inline: 0;
   }
-  /* The Home cards stack with the page's one 24 px gutter, as on the desktop. */
-  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .home-layout {
-    gap: var(--ob-sp-3);
-  }
   /* Main pages on the phone: body2 (14 px), MUI's tab size, instead of the app's 13 px. */
   :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .app-header .nav-link {
     font-size: var(--ob-fs-body2);
@@ -4274,8 +4310,8 @@
   }
 }
 
-/* Type on the scale: section titles h5 24/32, the sharing card's title 18/24, the room's name
-   on its tile h6 20/32; one medium weight (500) where the app wrote 600 (the vital-state chip,
+/* Type on the scale: section titles h5 24/32 (every sheet card's title: «THIRD POLISH ROUND»),
+   the room's name on its tile h6 20/32; one medium weight (500) where the app wrote 600 (the vital-state chip,
    the offline switch, key chips); the HP's foot line and the inspiration star tracked as the
    caption and as a glyph; the summary pills' numbers 24/32 on the phone too. */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
@@ -4283,9 +4319,6 @@
   .section-heading
   h2 {
   line-height: var(--ob-lh-h5);
-}
-:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .cs-sheet h2 {
-  line-height: var(--ob-lh-title);
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .resume-scene h2 {
   line-height: var(--ob-lh-h6);
@@ -4453,6 +4486,10 @@
    the desktop grid (the app's 20, 16, 0 and 28 px between them). The column's own children
    and the widgets inside its extension slots are the stack's items. */
 @media (max-width: 1100px) {
+  /* The side card sits one gutter under the column too (the app's 36 px between them). */
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .home-layout {
+    gap: var(--ob-sp-3);
+  }
   :root[data-direction="owlbear"]:not([data-pref-theme="light"])
     .home-page
     .home-layout
@@ -4521,15 +4558,12 @@
   font-weight: 500;
 }
 
-/* One card-title style (MUI's 18 px title, 24 px line, medium): every h3 of a card or panel
-   (sheet columns, Tiri, Reazioni, Home «Resoconto», the Table panel's sections), the sheet's
-   sharing card title (h2 at the same step) and the dock's name, instead of 18/27 and 18/24
-   regular. */
+/* The title step (MUI's 18 px title, 24 px line, medium) on its 24 px line: every h3 that
+   heads a subsection inside a card, the list cards of the sheet's left column, the Table
+   panel's sections, Home «Resoconto» and the dock's name, instead of 18/27. (A sheet card's
+   own title is h5 24/32 whatever its tag: «THIRD POLISH ROUND».) */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) h3 {
   line-height: var(--ob-lh-title);
-}
-:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .cs-sheet h2 {
-  font-weight: 500;
 }
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
   .table-layout
@@ -4559,13 +4593,16 @@
   flex: 1 1 240px;
 }
 
-/* «Apri al Tavolo» under the special moves' line: a text button that starts its line sits
-   8 px out, so its label meets the paragraph's text edge. */
+/* «Apri al Tavolo» under the special moves' line, always on a line of its own (whatever the
+   card's width; inline, it stretched the paragraph's last line to 40 px): a text button that
+   starts its line sits 8 px out, so its label meets the paragraph's text edge. */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"])
   .character-sheet
   .sm-sheet
   > p
   > .button.quiet:last-child {
+  display: flex;
+  inline-size: fit-content;
   margin-inline-start: calc(-1 * var(--ob-sp-1));
 }
 
@@ -4640,4 +4677,293 @@
     > .button.quiet {
     margin-inline-start: calc(-1 * var(--ob-sp-1));
   }
+}
+
+/* ================================================================== THIRD POLISH ROUND */
+/* 01/10/2026, after the fifth verification (open-items-round3): the Home «Accesso rapido»
+   card (its Home card recipe is in the lists above), one title per card kind, the cards'
+   insets, the side card's gutter up to 1100 px, the news actions, the selects, and the I-250
+   pass on the specimen and below the fold. */
+
+/* «Accesso rapido»: the Home card's title row, one 16 px step above its content as on every
+   Home card (the app's 12); its helper line as MUI's CardHeader subheader (grey body2). */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .home-page
+  .home-recent
+  > .section-heading {
+  margin-bottom: var(--ob-sp-2);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .home-page
+  .home-recent
+  > .section-heading
+  > small {
+  color: var(--muted);
+  font-size: var(--ob-fs-body2);
+  line-height: var(--ob-lh-body2);
+  letter-spacing: var(--ob-track-body2);
+}
+/* The news in the 296 px side card: the item's action and «Segna come letta» always on two
+   lines, the text action at the line's end (it wrapped in some items and not in others). */
+@media (min-width: 1101px) {
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
+    .home-page
+    .home-aside
+    .home-news-item
+    .toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  /* The side card scrolls inside its sticky box when the news are long: a control focused at
+     its edge keeps its whole ring in view, as in the Table's panels. */
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .home-aside {
+    scroll-padding-block: var(--ob-sp-2);
+  }
+}
+/* The tab's unread count as MUI's Badge: caption, medium. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .home-page .home-count {
+  font-weight: 500;
+}
+
+/* One title per card kind (I-250). A sheet card (a top-level panel, the special moves, the
+   linked forms) titles itself as every Home card does, MUI h5 24/32 regular, whatever its
+   heading tag, one 16 px step above its content; the narrow list cards of the left column
+   (.shp-col, Owlbear's list panels) and every subsection inside a card keep the title step
+   18/24 medium; list subheaders stay grey body2 medium. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(
+    .panel > .section-heading > :is(h2, h3),
+    .panel > :is(h2, h3):first-child,
+    .dtray-sheet > .dtray-sheet-head > h3,
+    .forms-summary > h3:first-child
+  ) {
+  margin: 0;
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: var(--ob-fs-h5);
+  font-weight: 400;
+  line-height: var(--ob-lh-h5);
+  letter-spacing: normal;
+  font-variant-caps: normal;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(
+    .panel > :is(h2, h3):first-child,
+    .forms-summary > h3:first-child,
+    .panel > .section-heading
+  ) {
+  margin-bottom: var(--ob-sp-2);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  .panel
+  > .section-heading
+  + * {
+  margin-top: 0;
+}
+/* «Tiri» is a grid with the app's 8 px row gap: 8 + 8 under its title row. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  .dtray-sheet
+  > .dtray-sheet-head {
+  margin-bottom: var(--ob-sp-1);
+}
+/* The special moves and the linked forms are sheet cards like their neighbours (they sat on
+   the page between two cards), with the panels' 24 px inset and their 1 px clear outline, so
+   their text sits on the column's one text edge. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.sm-sheet, .forms-summary) {
+  padding: var(--ob-sp-3);
+  border: var(--ob-bw-1) solid transparent;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  .forms-summary
+  > .forms-toolbar {
+  margin: 0;
+}
+/* The level-up and starting-equipment cards: the panels' one 24 px inset (the app's 16/18). */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .bp-sheet {
+  padding: var(--ob-sp-3);
+}
+/* A card ends 24 px under its last line, as it starts above its first: no paragraph margin
+   under the last block (it made 40 px under «Azioni personalizzate», «Tiri», «Monete»…). */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.panel, .sm-sheet, .forms-summary)
+  > :last-child,
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  .panel
+  > :last-child
+  > p:last-child {
+  margin-block-end: 0;
+}
+/* Subsections inside a card: the title step (the special moves' «Movimento» was 16 bold). */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .sm-sheet h4 {
+  font-size: var(--ob-fs-title);
+  font-weight: 500;
+  line-height: var(--ob-lh-title);
+}
+/* The labels over the personality traits and the notes: list subheaders like «Trucchetti»
+   and «Addosso» (grey body2 medium, sentence case), not small caps that read as buttons. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.character-personality h3, .shp-note-head h3) {
+  color: var(--muted);
+  font-family: var(--font-ui);
+  font-size: var(--ob-fs-body2);
+  font-weight: 500;
+  line-height: var(--ob-lh-body2);
+  letter-spacing: var(--ob-track-body2);
+  font-variant-caps: normal;
+}
+/* A text button that starts a line of its own in a sheet card sits 8 px out, so its label
+   meets the card's text edge (MUI CardActions), as on Home and in the Creature panel. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(
+    .panel > .button.quiet,
+    .offline-switch-block > .button.quiet,
+    .spl-list-foot > .button.quiet:first-child,
+    .spl-components > .toolbar > .button.quiet:first-child,
+    .spl-focus-list > li > .button.quiet,
+    .character-personality .toolbar > .button.quiet:first-child
+  ) {
+  margin-inline-start: calc(-1 * var(--ob-sp-1));
+}
+/* Body2 and caption text on their 20 px line (MUI 1.43 and 1.66) where the app's 1.5 gave
+   21 and 18 px: the sheet's descriptions, labels, row details and helper lines, the room
+   card's note and the news texts. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(
+    .character-turn-label,
+    .character-hp > span,
+    .character-stat-button > small,
+    [id^="character-conditions-"],
+    .conditions-exhaustion-label,
+    .shp-row-label,
+    .shp-empty,
+    .shp-xp > span,
+    .shp-row-name small,
+    .shp-training dt,
+    .shp-action-copy > p,
+    .shp-uses,
+    .shp-foot,
+    #dtray-sheet-formula-help,
+    .ct-policy-name > small,
+    .cs-switch small,
+    .sm-source,
+    .invp-stat > small,
+    .invp-row-meta,
+    .invp-search > span,
+    .invp-col > small
+  ),
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .home-page
+  :is(.resume-scene p.muted, .home-agreed, .home-aside .home-desc) {
+  line-height: var(--ob-lh-body2);
+}
+/* The sheet heading's lines and the Home heading's line are body2 only on the phone. */
+@media (max-width: 720px) {
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
+    :is(
+      .character-sheet .character-heading-line,
+      .character-sheet .character-heading-note,
+      .home-page .page-heading p
+    ) {
+    line-height: var(--ob-lh-body2);
+  }
+}
+
+/* Selects: the outlined field's recipe (body1 on its 24 px line, 12 px inside, no extra
+   padding above and below), as the text fields beside them. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) select:not(.demo-strip *) {
+  padding-block: 0;
+  line-height: var(--ob-lh-body1);
+}
+
+/* Active conditions as MUI chips, the filter chips' recipe (a 40 px pill on white 8 %, body2
+   medium, 12 px inside, the label centred); the concentration chip keeps its lavender ring
+   inside the pill; the end «×» a round 24 px icon button (it kept the browser's padding). */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .conditions-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ob-sp-05);
+  min-height: var(--ob-h-sm);
+  padding: 0 var(--ob-sp-15);
+  border-width: 0;
+  border-radius: var(--ob-radius-pill);
+  background: var(--ob-hover);
+  color: var(--text);
+  font-size: var(--ob-fs-body2);
+  font-weight: 500;
+  line-height: var(--ob-lh-body2);
+  letter-spacing: var(--ob-track-body2);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .conditions-chip.is-concentration {
+  box-shadow: inset 0 0 0 var(--ob-bw-1) var(--accent);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .conditions-chip:has(> .conditions-chip-manage) {
+  padding: 0;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .conditions-chip-manage {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ob-sp-05);
+  min-height: var(--ob-h-sm);
+  padding: 0 var(--ob-sp-15);
+  border-radius: var(--ob-radius-pill);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .conditions-chip-end {
+  display: inline-grid;
+  place-items: center;
+  margin: 0;
+  padding: 0;
+}
+/* The special moves' table inside its card as the card's other lists: its first and last
+   cells on the card's text edge, its rules across the card's content (the cells' own 8 px
+   stay between the columns). */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  .sm-sheet
+  > .table-wrap
+  :is(th, td):first-child {
+  padding-inline-start: 0;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  .sm-sheet
+  > .table-wrap
+  :is(th, td):last-child {
+  padding-inline-end: 0;
+}
+/* Phone: every sheet card at MUI's 16 px phone inset, as the Home cards and the dialogs (the
+   app's 24 left the special moves' table too narrow for its columns). */
+@media (max-width: 720px) {
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
+    .character-sheet
+    :is(.panel, .sm-sheet, .forms-summary) {
+    padding: var(--ob-sp-2);
+  }
+}
+/* The inventory's container toggles (open / close a bag) kept the browser's button padding
+   and the app's outline: a 40 px MUI IconButton like the row's other icon actions, white
+   glyph, no outline, the 8 % hover. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .invp-toggle {
+  padding: 0;
+  border-color: transparent;
+  border-radius: var(--ob-radius);
+  color: var(--text);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .invp-toggle:hover {
+  background: var(--ob-hover);
 }
