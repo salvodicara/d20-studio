@@ -10,7 +10,10 @@
   anche sotto la piega); **01/10/2026, secondo giro di rifinitura** dopo la quarta verifica
   (i quattro punti aperti e un secondo passaggio di I-250, vedi «Coerenza (I-250)»);
   **01/10/2026, terzo giro di rifinitura** dopo la quinta verifica (il punto medio e i bassi
-  aperti, un terzo passaggio di I-250, vedi «Terzo giro di rifinitura»).
+  aperti, un terzo passaggio di I-250, vedi «Terzo giro di rifinitura»); **01/10/2026, quarto
+  giro di rifinitura** dopo la sesta verifica (vedi «Quarto giro di rifinitura»); **01/10/2026,
+  quinto giro di rifinitura** dopo la settima verifica (il punto medio, il basso e un quinto
+  passaggio di I-250, vedi «Quinto giro di rifinitura»).
   **Direzione:** `bg3` (Fase C, giro 1, «Scelta 1 — Direzione», I-248).
 - **Come vederla:** <http://127.0.0.1:8881/?direction=bg3#home> (poi `#characters?id=livia` e
   `#table`; nella scheda le schede «Magie» e «Inventario»; al Tavolo il tasto destro su una
@@ -20,10 +23,12 @@
   (16 immagini, coppie affiancate in `_pairs/`); controlli in `…/visual-01/probe-bg3/` (quelli
   dell'estensione del 01/10 in `probe-bg3/ext/`, quelli del secondo giro di correzioni in
   `probe-bg3/fix2/`, quelli del giro di rifinitura in `probe-bg3/fix3/`, quelli del secondo giro
-  di rifinitura in `probe-bg3/fix4/`, quelli del terzo in `probe-bg3/fix5/`); misura dei valori
+  di rifinitura in `probe-bg3/fix4/`, quelli del terzo in `probe-bg3/fix5/`, del quarto in
+  `probe-bg3/fix6/`, del quinto in `probe-bg3/fix7/`); misura dei valori
   in `…/visual-01/audit/bg3/audit.md` (prima della rifinitura: `probe-bg3/fix3/audit-before/`;
   prima del secondo giro: `probe-bg3/fix4/audit-before/`; prima del terzo:
-  `probe-bg3/fix5/audit-before/`).
+  `probe-bg3/fix5/audit-before/`; prima del quarto: `probe-bg3/fix6/audit-before/`; prima del
+  quinto: `probe-bg3/fix7/audit-before/`).
 - **File di questa opzione:** `direction.css` (tutto l'aspetto), `icons.mjs` (icone), `assets/`
   (cornice delle finestre, filetti dei titoli, riccioli della striscia dei turni, disegnati per
   questo progetto; due dipinti d'esempio). Nessun pixel, carattere, texture o logo di Larian.
@@ -112,24 +117,25 @@ Nessuna immagine nuova è stata scaricata: quelle della cartella bastavano.
 Le coppie già montate (nostro screenshot a sinistra, immagine del prodotto a destra, col nome del
 file sotto) sono in `…/round1/bg3/_pairs/`.
 
-| Superficie               | Nostro screenshot                                                                            | Immagine del prodotto                                                                                                                                                                             | Viewport               | Coppia montata                                                                                                  |
-| ------------------------ | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | --------------------------------------------------------------------------------------------------------------- |
-| Inizio                   | `home-dark-1440-bg3.png`                                                                     | `bg3-home-main-menu-annotated.jpg` (scena, colonna di losanghe); `bg3-home-load-save-screen.jpg` (anteprima + dati)                                                                               | 1440 × 900             | `pair-home.png`                                                                                                 |
-| Inizio                   | `home-dark-390-bg3.png`                                                                      | `bg3-home-main-menu-annotated.jpg` (BG3 non ha il telefono)                                                                                                                                       | 390 × 844              | `pair-home-390.png`                                                                                             |
-| Scheda                   | `sheet-dark-1440-bg3.png`                                                                    | `bg3-sheet-examine-enemy.jpg` (riga FOR–CAR, scudo, titoli tra filetti); `bg3-panels-tooltip-skill.png` (colonna delle abilità)                                                                   | 1440 × 900             | `pair-sheet.png`                                                                                                |
-| Scheda                   | `sheet-dark-390-bg3.png`                                                                     | `bg3-sheet-inventory-equipment.jpg` (pannello col controller)                                                                                                                                     | 390 × 844              | `pair-sheet-390.png`                                                                                            |
-| Tavolo                   | `table-combat-dark-1440-bg3.png`, `table-combat-dm-dark-1440-bg3.png`                        | `bg3-table-combat-hud-spectator-steam.jpg`; dettagli `bg3-table-crop-hotbar-4k.png`, `bg3-table-crop-turn-order-strip.png`, `bg3-table-crop-party-portraits-4k.png`, `bg3-table-crop-endturn.png` | 1440 × 900             | `pair-table.png`, `pair-table-dm.png`, `pair-hotbar.png`, `pair-turn.png`, `pair-party.png`, `pair-endturn.png` |
-| Tavolo                   | `table-combat-dark-390-bg3.png`, `table-combat-dm-dark-390-bg3.png`                          | `bg3-table-crop-turn-order-strip.png`, `bg3-table-crop-endturn.png`                                                                                                                               | 390 × 844              | `pair-table-390.png`                                                                                            |
-| Finestre                 | `dialog-initiative-dark-1440-bg3.png` (ritaglio della finestra)                              | `bg3-panels-subclass-select-steam.jpg`                                                                                                                                                            | 1440 × 900             | `pair-dialog.png`                                                                                               |
-| Tavolo in esplorazione   | `table-explore-dark-1440-bg3.png`                                                            | `bg3-table-hud-4k-exploration.jpg` (barra, ritratti del gruppo, minimappa)                                                                                                                        | 1440 × 900             | `pair-explore.png`                                                                                              |
-| Tavolo in esplorazione   | `table-explore-dark-390-bg3.png`                                                             | `bg3-table-hud-4k-exploration.jpg` (BG3 non ha il telefono)                                                                                                                                       | 390 × 844              | `pair-explore-390.png`                                                                                          |
-| Scheda · Magie           | `sheet-spells-dark-1440-bg3.png`                                                             | `bg3-panels-tooltip-spell.jpg` (striscia in alto, livelli, tooltip della magia)                                                                                                                   | 1440 × 900             | `pair-spells.png`                                                                                               |
-| Scheda · Magie           | `sheet-spells-dark-390-bg3.png`                                                              | `bg3-panels-tooltip-spell.jpg`                                                                                                                                                                    | 390 × 844              | `pair-spells-390.png`                                                                                           |
-| Scheda · Inventario      | `sheet-inventory-dark-1440-bg3.png`                                                          | `bg3-panels-tooltip-skill.png` (barra del peso, griglia, ricerca); `bg3-panels-context-menu-inventory.jpg` (banda del gruppo «Adrianna»)                                                          | 1440 × 900             | `pair-inventory.png`                                                                                            |
-| Finestra dell'iniziativa | `dialog-initiative-dark-1440-bg3.png`                                                        | `bg3-panels-reactions-menu.png` (righe con la spunta); `bg3-dice-crop-roll-panel-advantage.png` (numero del risultato); `bg3-panels-subclass-select-steam.jpg` (cornice)                          | 1440 × 900             | `pair-initiative.png`, `pair-dialog.png`                                                                        |
-| Menu della pedina        | `token-menu-dark-1440-bg3.png`                                                               | `bg3-panels-context-menu-inventory.jpg` (ritaglio del menu)                                                                                                                                       | 1440 × 900             | `pair-token-menu.png`                                                                                           |
-| Menu del calendario      | sonda `probe-bg3/fix6/cal-390.png`, `cal-1440.png` («Aggiungi al calendario» aperto, Inizio) | `bg3-panels-context-menu-inventory.jpg` (ritaglio del menu)                                                                                                                                       | 390 × 844 e 1440 × 900 | `pair-calendar-menu.png`                                                                                        |
-| Fascia della scheda      | `sheet-dark-1440-bg3.png` (ritaglio della fascia)                                            | `bg3-sheet-examine-enemy.jpg` (riga STR–CHA, scudo)                                                                                                                                               | 1440 × 900             | `pair-band.png`                                                                                                 |
+| Superficie                | Nostro screenshot                                                                                              | Immagine del prodotto                                                                                                                                                                             | Viewport               | Coppia montata                                                                                                  |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | --------------------------------------------------------------------------------------------------------------- |
+| Inizio                    | `home-dark-1440-bg3.png`                                                                                       | `bg3-home-main-menu-annotated.jpg` (scena, colonna di losanghe); `bg3-home-load-save-screen.jpg` (anteprima + dati)                                                                               | 1440 × 900             | `pair-home.png`                                                                                                 |
+| Inizio                    | `home-dark-390-bg3.png`                                                                                        | `bg3-home-main-menu-annotated.jpg` (BG3 non ha il telefono)                                                                                                                                       | 390 × 844              | `pair-home-390.png`                                                                                             |
+| Scheda                    | `sheet-dark-1440-bg3.png`                                                                                      | `bg3-sheet-examine-enemy.jpg` (riga FOR–CAR, scudo, titoli tra filetti); `bg3-panels-tooltip-skill.png` (colonna delle abilità)                                                                   | 1440 × 900             | `pair-sheet.png`                                                                                                |
+| Scheda                    | `sheet-dark-390-bg3.png`                                                                                       | `bg3-sheet-inventory-equipment.jpg` (pannello col controller)                                                                                                                                     | 390 × 844              | `pair-sheet-390.png`                                                                                            |
+| Tavolo                    | `table-combat-dark-1440-bg3.png`, `table-combat-dm-dark-1440-bg3.png`                                          | `bg3-table-combat-hud-spectator-steam.jpg`; dettagli `bg3-table-crop-hotbar-4k.png`, `bg3-table-crop-turn-order-strip.png`, `bg3-table-crop-party-portraits-4k.png`, `bg3-table-crop-endturn.png` | 1440 × 900             | `pair-table.png`, `pair-table-dm.png`, `pair-hotbar.png`, `pair-turn.png`, `pair-party.png`, `pair-endturn.png` |
+| Tavolo                    | `table-combat-dark-390-bg3.png`, `table-combat-dm-dark-390-bg3.png`                                            | `bg3-table-crop-turn-order-strip.png`, `bg3-table-crop-endturn.png`                                                                                                                               | 390 × 844              | `pair-table-390.png`                                                                                            |
+| Finestre                  | `dialog-initiative-dark-1440-bg3.png` (ritaglio della finestra)                                                | `bg3-panels-subclass-select-steam.jpg`                                                                                                                                                            | 1440 × 900             | `pair-dialog.png`                                                                                               |
+| Tavolo in esplorazione    | `table-explore-dark-1440-bg3.png`                                                                              | `bg3-table-hud-4k-exploration.jpg` (barra, ritratti del gruppo, minimappa)                                                                                                                        | 1440 × 900             | `pair-explore.png`                                                                                              |
+| Tavolo in esplorazione    | `table-explore-dark-390-bg3.png`                                                                               | `bg3-table-hud-4k-exploration.jpg` (BG3 non ha il telefono)                                                                                                                                       | 390 × 844              | `pair-explore-390.png`                                                                                          |
+| Scheda · Magie            | `sheet-spells-dark-1440-bg3.png`                                                                               | `bg3-panels-tooltip-spell.jpg` (striscia in alto, livelli, tooltip della magia)                                                                                                                   | 1440 × 900             | `pair-spells.png`                                                                                               |
+| Scheda · Magie            | `sheet-spells-dark-390-bg3.png`                                                                                | `bg3-panels-tooltip-spell.jpg`                                                                                                                                                                    | 390 × 844              | `pair-spells-390.png`                                                                                           |
+| Scheda · Inventario       | `sheet-inventory-dark-1440-bg3.png`                                                                            | `bg3-panels-tooltip-skill.png` (barra del peso, griglia, ricerca); `bg3-panels-context-menu-inventory.jpg` (banda del gruppo «Adrianna»)                                                          | 1440 × 900             | `pair-inventory.png`                                                                                            |
+| Finestra dell'iniziativa  | `dialog-initiative-dark-1440-bg3.png`                                                                          | `bg3-panels-reactions-menu.png` (righe con la spunta); `bg3-dice-crop-roll-panel-advantage.png` (numero del risultato); `bg3-panels-subclass-select-steam.jpg` (cornice)                          | 1440 × 900             | `pair-initiative.png`, `pair-dialog.png`                                                                        |
+| Menu della pedina         | `token-menu-dark-1440-bg3.png`                                                                                 | `bg3-panels-context-menu-inventory.jpg` (ritaglio del menu)                                                                                                                                       | 1440 × 900             | `pair-token-menu.png`                                                                                           |
+| Menu del calendario       | sonda `probe-bg3/fix7/cal-390.png`, `cal-1440.png` («Aggiungi al calendario» aperto, Inizio)                   | `bg3-panels-context-menu-inventory.jpg` (ritaglio del menu)                                                                                                                                       | 390 × 844 e 1440 × 900 | `pair-calendar-menu.png`                                                                                        |
+| Fascia della scheda       | `sheet-dark-1440-bg3.png` (ritaglio della fascia)                                                              | `bg3-sheet-examine-enemy.jpg` (riga STR–CHA, scudo)                                                                                                                                               | 1440 × 900             | `pair-band.png`                                                                                                 |
+| Finestra dei punti ferita | sonda `probe-bg3/fix7/items/hpdlg-*.png` («Punti ferita · Livia» aperta dalla barra del Tavolo e dalla scheda) | `bg3-panels-subclass-select-steam.jpg` (cornice)                                                                                                                                                  | 1440 × 900 e 390 × 844 | `pair-hp-dialog.png`                                                                                            |
 
 ## Differenze dichiarate
 
@@ -687,6 +693,111 @@ Verifiche dopo l'ultima modifica del foglio di stile (15:11:09):
 - Le 15 schermate del giro 1 e il foglio di contatto sono stati rifatti dopo quell'ora
   (15:15–15:17) e aperti uno per uno. Le 31 coppie in `_pairs/` sono state cancellate e rifatte
   da capo con `fix6/pairs.sh` (15:18–15:19), col menu del calendario aperto da `fix6/cal.cjs`.
+
+### Quinto giro di rifinitura (01/10/2026)
+
+Dopo la settima verifica indipendente (`…/visual-01/notes/open-items-round5.json`, voce `bg3`:
+un punto medio e uno basso, tutti e due fatti; prove della verifica in `…/visual-01/verify6-bg3/`)
+e un quinto passaggio di I-250 con lo strumento di verifica, il campionario e le pagine intere
+(scheda, Inizio scorso, Magie, Inventario, Tavolo). Prove in `…/visual-01/probe-bg3/fix7/`:
+prima `audit-before/` (la misura delle 15:14, dopo l'ultima modifica del giro precedente),
+`audit-below-before/` (la stessa a pagina intera, 15:15), `specimen-before/`, `before/` (le 15
+schermate del giro 1), `direction-before.css`, `SOURCES-before.md`; dopo
+`…/visual-01/audit/bg3/audit.md`, `audit-below-after/`, `specimen-after/`, `items/`
+(`items.cjs`: i due punti misurati nell'app vera, con le schermate della finestra dei punti
+ferita); `samewidth.py` e `offscale.py` elencano i componenti con più varianti alla stessa
+larghezza e i testi fuori dalla scala dei caratteri.
+
+| Misura (20 schermate del giro 1)               | Prima        | Dopo         |
+| ---------------------------------------------- | ------------ | ------------ |
+| Valori di spazio distinti (fuori scala)        | 27 (14)      | 27 (14)      |
+| Distanze tra gli elementi (gap) distinte       | 10           | 10           |
+| Spazi sul passo di 2 px                        | 99,4 %       | 99,4 %       |
+| Altezze dei comandi                            | 23           | 23           |
+| Grandezze dei caratteri · stili di testo       | 16 · 71      | 16 · 71      |
+| Ombre                                          | 48           | 48           |
+| Colori (testo · fondo · bordo)                 | 21 · 28 · 33 | 21 · 28 · 33 |
+| Varianti dei bottoni (classi con più varianti) | 77 (11)      | 77 (11)      |
+| Varianti delle schede (linguette)              | 8            | 8            |
+| Varianti delle lastre e dei pannelli           | 41 (6)       | 41 (6)       |
+| Varianti di caselle e interruttori (classi)    | 8 (2)        | 8 (2)        |
+| Bottoni con il margine predefinito del browser | 0            | 0            |
+| Contrasto AA sotto soglia                      | 0 su 1217    | 0 su 1217    |
+
+| Misura (8 schermate a pagina intera)                | Prima     | Dopo      |
+| --------------------------------------------------- | --------- | --------- |
+| Valori di spazio distinti (fuori scala)             | 27 (12)   | 27 (12)   |
+| Varianti dei bottoni (classi con più varianti)      | 73 (10)   | 73 (10)   |
+| Varianti delle lastre e dei pannelli                | 35 (4)    | 35 (4)    |
+| Riepiloghi che aprono una sezione con un altro peso | 1         | 0         |
+| Bottoni con il margine predefinito del browser      | 0         | 0         |
+| Contrasto AA sotto soglia                           | 0 su 1416 | 0 su 1416 |
+
+I numeri dei 20 stati non cambiano: la finestra dei punti ferita non è tra gli stati del giro 1,
+l'interruttore invisibile non si vede e «Pedine in scena» sta sotto la piega. Le 15 schermate
+rifatte sono identiche pixel per pixel a quelle di prima, salvo 8 pixel di contorno
+antialiasato nella finestra dell'iniziativa (`magick compare -metric AE`); lo stesso per il
+campionario (0 pixel diversi, a 1440 e a 390).
+
+Cosa è cambiato:
+
+- **Cura e Danno nella finestra dei punti ferita** (punto medio). La finestra «Punti ferita ·
+  Livia», aperta dai PF 18/22 della scheda o dai PF della barra del Tavolo (la strada principale
+  al Tavolo), mostrava Cura e Danno come due losanghe di bronzo uguali, mentre dietro di lei la
+  fascia della scheda e il pannello del Tavolo li mostrano blu-verde e rosso (e «Attuale» li
+  distingue in verde e rosso). Ora sono la losanga blu-verde e quella rossa anche nella
+  finestra, a 1440 e a 390, aperta da tutte e due le strade (`items/items-bg3.json`,
+  `items/hpdlg-*.png`). La finestra entra nelle stesse quattro regole con `:where()`, quindi il
+  loro peso non cambia e con il contrasto alto vince ancora il filo del contrasto alto (2 px
+  `#9aa9b4` nella finestra come nella scheda: `fix7/hc.cjs`, `hc.txt`).
+- **Interruttore «Ispirazione eroica»** (basso). La casella invisibile teneva i 44 × 26 px
+  dell'app sotto una traccia di 40 × 22 (4 px in più a destra, 2 sopra e sotto): ora ha la
+  scatola della traccia, 40 × 22, nello stesso punto (`items`, `inspiration.same: true` a 1440 e
+  a 390). Il bersaglio resta la riga intera di 40 px e l'anello del fuoco resta sulla traccia.
+- **Riepiloghi** (I-250, sotto la piega). Ogni riepilogo che apre una sezione è color oro chiaro
+  e seminegretto («Correggi i punti ferita», «PF temporanei e massimo», «Novità precedenti»):
+  «Pedine in scena (5)», nel pannello del Tavolo, era l'unico a 500; ora è a 600 come gli altri.
+
+Cercato e lasciato com'è, con il motivo:
+
+- le varianti che lo strumento conta alla stessa larghezza sono componenti diversi o stati
+  (la riga attiva delle schede col filo sotto, il controllo a due segmenti «Gioco · Modifica»
+  col divisorio, «Termina turno», i bottoni rotondi della barra, il contatore delle notifiche),
+  oppure geometria e stati composti già dichiarati sopra;
+- la spunta tonda di chi combatte nella finestra dell'iniziativa accanto alla casella quadrata
+  di «Sorpreso» è voluta: copia la riga del pannello Reazioni di BG3 (B30), vedi sopra;
+- nel campionario a 390 le losanghe delle celle «Scheda» e «Tavolo (pannello laterale)» si
+  stringono in colonna: succede uguale con «Attuale» (`…/visual-01/specimen/specimen-current-390.png`),
+  perché in quelle celle la catena della scheda del telefono non ha una larghezza propria; nell'app
+  le stesse losanghe sono intere (schermate del giro 1);
+- i testi a 13, 17 e 23 px che lo strumento trova sono le etichette SVG della mappa (unità della
+  mappa, non pixel dello schermo) e le iniziali coperte dai dipinti; le interlinee «normal» sono
+  quelle stesse etichette, i ritratti coperti e il menu dei dadi nativo.
+
+Restano, e sono dichiarati, quelli dei giri precedenti.
+
+Verifiche dopo l'ultima modifica del foglio di stile (16:35:31):
+
+- Sonda delle garanzie (`fix7/probe.cjs`, copia di quella del giro precedente, `fix7/probe/`,
+  `fix7/probe1440/`, `probe-390.txt`, `probe-1440.txt`; `fix7/cancel.cjs`, `cancel.txt`), con
+  gli stessi valori del giro precedente:
+  - intestazione del Tavolo su una fila (63 px) in combattimento, da DM e in esplorazione a 390;
+  - nessuno scorrimento laterale a 390 e a 1440;
+  - «Termina turno», «Annulla ultima modifica» ed «Esc · Annulla preparazione» interi sullo
+    schermo a 390, da giocatore e da DM;
+  - barra in basso alta 114 px a 1440;
+  - «Entra al Tavolo» tra 556 e 596 px a 390;
+  - sotto i 40 px restano solo i comandi della striscia di sviluppo e la fascia dei punti ferita
+    della barra.
+- Il test `tests/visual01-directions.test.mjs` passa (7 su 7). Nessuna regola senza prefisso
+  (`notes/prefix-audit.js`), nessun `!important`. Prettier passa.
+- Strumento di verifica: 20 stati su 20 (16:36) e 8 su 8 a pagina intera (16:37), nessun testo
+  sotto soglia AA; campionario a 1440 e a 390 (16:37), tutti i controlli passati.
+- Le 15 schermate del giro 1 e il foglio di contatto sono stati rifatti dopo quell'ora
+  (16:39–16:40) e aperti uno per uno. Le coppie in `_pairs/` sono state cancellate e rifatte da
+  capo con `fix7/pairs.sh` (16:40–16:41), col menu del calendario aperto da `fix7/cal.cjs` e una
+  coppia nuova, `pair-hp-dialog.png` (la finestra dei punti ferita dalla barra e dalla scheda a
+  1440 e dalla barra a 390, accanto alla cornice di BG3): 34 file, 23 coppie montate e 11 ritagli.
 
 ## Licenze e attribuzioni
 

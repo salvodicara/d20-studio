@@ -2,8 +2,8 @@
 
 Scelta 1 — Direzione, primo giro (I-248), 01/10/2026, resa coerente in ogni misura (I-250); giro
 di correzioni dello stesso giorno sulle critiche A1–A8 (sezione «Risposte alla critica»), secondo,
-terzo e quarto giro di rifinitura sui punti della verifica indipendente (sezioni «Risposte alla
-verifica» e «Coerenza (I-250)»). Tema scuro, a 1440 × 900 e 390 × 844. Le schermate sono in
+terzo, quarto e quinto giro di rifinitura sui punti della verifica indipendente (sezioni «Risposte
+alla verifica» e «Coerenza (I-250)»). Tema scuro, a 1440 × 900 e 390 × 844. Le schermate sono in
 `~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/round1/alchemy/`; i confronti già
 montati (nostra schermata a sinistra, riferimento a destra) in `round1/alchemy/_pairs/`. Le immagini
 di riferimento sono in `~/Workspace/Codex/d20-studio-visual-assets/references/alchemy/`
@@ -59,6 +59,7 @@ S10 e D7 vengono dal centro d'aiuto (<https://help.alchemyrpg.com/>).
 | Pulsante secondario: pillola scura (bianco al 5 %) con maiuscoletto esteso nero                                                                                                                                          | «ADD ANOTHER ACTION», «ADD ROLL»                               | [O] D7 `alchemy-dialog-action-editor-daggerheart.png`                                                               |
 | Campi: bordo di 2 px bianco al 10 % che diventa d'accento al fuoco, fondo nero al 14 %, raggio 8; alti 48 nei moduli, 40 quelli in riga (il d20 dell'iniziativa, i punti ferita)                                         | Moduli di Alchemy                                              | [O] D6 `alchemy-dialog-signup-1440.png`, D7; [C] `formBackground`                                                   |
 | Caselle da spuntare da 20 px: pozzetto scuro con bordo di 2 px; spuntate, piene d'accento con il segno bianco (lo stato si legge dal segno, non dal colore)                                                              | Interruttori e caselle dei moduli                              | [O] D7, S10 `alchemy-sheet-gold-edit-character-tab.png`                                                             |
+| Interruttori da 40 × 24: spenti con la traccia traslucida e il pomello bianco a sinistra, accesi verdi #289C61 con il pomello a destra (lo stato si legge dalla posizione del pomello); uno solo in tutta l'app          | Interruttori iOS delle impostazioni                            | [O] D6, D9 `alchemy-dialog-profile-gameplay-settings.jpg`; [C] verde `--theme-color-green`; `facts.md` «Switch»     |
 | Finestre: fondo scuro al 60 %, cornice di vetro di 6 px, corpo #101217, immagine in testa che sfuma nel corpo, titolo in nero esteso da 30 px, riga d'accento sotto, pulsante di chiusura rotondo fuori dal bordo destro | Finestra delle note di versione                                | [O] D1 `alchemy-dialog-release-notes-1440.png` (<https://app.alchemyrpg.com/?item=6aadcfb79acb983d9577897d>)        |
 | Finestre sul telefono: foglio a tutto schermo, titolo centrato sull'immagine, chiusura rotonda in alto a destra, pulsanti a tutta larghezza uno sotto l'altro                                                            | Finestra sul telefono                                          | [O] P5 `alchemy-phone-dialog-release-notes-390.png`                                                                 |
 | Menu: vetro scuro, raggio 14, righe da 40 px raggio 8 che si accendono al 10 %, icone al 50 %                                                                                                                            | Menu della pedina                                              | [O] T4; [C] stili delle voci di menu                                                                                |
@@ -123,7 +124,7 @@ S10 e D7 vengono dal centro d'aiuto (<https://help.alchemyrpg.com/>).
 ## Coppie per il confronto
 
 Le coppie già montate sono in `round1/alchemy/_pairs/` (01–12), rifatte il 01/10/2026 dopo il
-quarto giro dalle schermate nuove (script `probe-alchemy/round4/pairs.py` tra le prove). Ogni
+quinto giro dalle schermate nuove (script `probe-alchemy/round5/pairs.py` tra le prove). Ogni
 coppia mostra la nostra schermata e il primo riferimento della riga; gli altri restano nella
 cartella dei riferimenti.
 
@@ -159,8 +160,9 @@ cartella dei riferimenti.
 4. **Barra delle azioni.** Il classico Alchemy elenca le azioni in basso a sinistra. Qui usiamo la
    barra dei dadi del layout Lumen, una pillola di vetro, su due righe di caselle (la nostra
    barra ha più azioni). Il FAB e «Termina turno» stanno in basso a destra, ai piedi del pannello,
-   sulla stessa riga; sotto, Annulla e Annulla ultima modifica. La barra resta alta 110 px (limite
-   120).
+   sulla stessa riga; sotto, Annulla e Annulla ultima modifica. La barra è alta 108 px (limite 120) in ogni turno e in ogni pagina: le caselle stanno a 4 px l'una dall'altra, come le due
+   linguette «Azioni» e «Barra rapida» accanto, così due righe di caselle sono alte quanto le due
+   linguette (84 px).
 5. **Ritratto nella barra.** Il ritratto nella barra del giocatore si vede da 1280 px; oggi si
    vede da 1500. Le sette azioni di Livia stanno comunque su due righe.
 6. **Misure dei comandi.** Tutti i comandi sono alti almeno 40 px: le pillole di Alchemy da 32 e i
@@ -229,7 +231,12 @@ cartella dei riferimenti.
     «▾ Riduci» resta sopra la pillola delle risorse; le opzioni del DM partono a destra della
     colonna aperta. La pagina finisce 32 px più in alto (l'altezza della pillola delle risorse più
     il suo spazio di 8 px), così l'ultima riga del pannello («Aspetto nella scheda») non passa
-    sotto la pillola.
+    sotto la pillola. La barra delle opzioni del disegno sta dentro la mappa, e la mappa disegna i
+    suoi segni sopra di lei (è l'ordine dell'app, come oggi): nella vista d'esempio del DM, a
+    pagina ferma, il segno della porta «Porta · Aperta» copre «Testo o nota sulla pedina», e un
+    tocco lì apre la porta. Dipende da dove sta la vista: spostando la mappa lo strumento torna
+    libero. In «Attuale», nella stessa vista, sono i pulsanti dello zoom a coprire due o tre
+    strumenti della stessa barra.
 18. **Dock del telefono.** Il dock di Alchemy galleggia sul contenuto. Qui sta su una fascia del
     colore della pagina, alta quanto il dock più 16 px sopra e sotto, che sfuma in 24 px: quello
     che scorre sotto il dock svanisce, invece di toccarlo o di leggersi attorno. Nella Scheda il
@@ -254,12 +261,15 @@ cartella dei riferimenti.
 21. **Barra del giocatore sul computer.** Con il ritratto, accanto restano 122 px: «Esplora la scena
     liberamente» andava su due righe e alzava la barra a 126 px (limite 120). Ritratto e nome con
     la pillola dei punti ferita stanno sulla prima riga, lo stato del turno sotto entrambi, su una
-    riga: 110 px in esplorazione e in combattimento, da 1024 a 1440 px di larghezza. Da 1280 px lo
-    stato del turno è nel passo da 10 px (come i metadati di Alchemy): «Puoi preparare una mossa
-    fuori turno», la frase più lunga, occupa 182 dei 190 px della targa (a 12 px erano 219 e
-    l'ultima lettera usciva dalla targa). Allargare la targa di 29 px, come proponeva la verifica,
-    toglieva lo stesso spazio alla pillola delle azioni: a 1440 due caselle uscivano dalla vista e
-    la pillola si spostava a ogni cambio di turno.
+    riga: la barra è alta 108 px in esplorazione e in combattimento, per il giocatore e per il DM,
+    in ogni turno, da 1024 a 1440 px di larghezza. Lo stato del turno è nel passo da 10 px (come i
+    metadati di Alchemy) a ogni larghezza del computer: «Puoi preparare una mossa fuori turno», la
+    frase più lunga, occupa 182 dei 190 px della targa (a 12 px erano 219 e l'ultima lettera usciva
+    dalla targa). Sotto 1280 px, senza ritratto, un nome lungo («Sentinella») manda la pillola dei
+    punti ferita su una seconda riga: con lo stato a 12 px la targa era alta 102 e la barra 110 nel
+    turno di quella creatura, 108 in quello di Livia. Allargare la targa di 29 px, come proponeva
+    la verifica, toglieva lo stesso spazio alla pillola delle azioni: a 1440 due caselle uscivano
+    dalla vista e la pillola si spostava a ogni cambio di turno.
 22. **Oggetti da usare.** Nel pannello «Creatura» gli oggetti («Bacchetta di dardi incantati 3/7»)
     sono cose, non comandi: righe nel carattere dell'interfaccia (Lexend 600 da 14), come le caselle
     degli oggetti nella barra delle azioni, con le cariche subito dopo il nome. Nelle maiuscole
@@ -268,12 +278,21 @@ cartella dei riferimenti.
     come «Dadi» e «Digitali» accanto: è una frase della stessa targa, non un comando a sé.
 24. **«Barra rapida» nella barra.** Il nome della pagina («1/1 Combattimento») è nel carattere
     dell'interfaccia delle caselle (Lexend 600 da 14) e si legge per intero; le dieci caselle sono
-    alte 40 px come ogni casella della barra e larghe 50, così a 1440 entrano tutte come oggi; la
-    barra resta alta 112 px (prima 116). Gli strumenti della pagina scorrono di lato come oggi
+    alte 40 px come ogni casella della barra e larghe 50, così a 1440 entrano tutte come oggi; le
+    due righe stanno a 4 px come nella pagina «Azioni», così la barra resta alta 108 px quando si
+    cambia pagina (prima 112 qui e 110 nell'altra). Gli strumenti della pagina scorrono di lato come oggi
     quando non entrano: a 1440 il menu del d20 si vede per 35 dei suoi 144 px (oggi per 114 dei
     134), perché la targa del giocatore e le linguette «Azioni / Barra rapida» lasciano alla pillola
     66 px meno di oggi. Farli entrare voleva dire rimpicciolire i menu a tendina sotto la loro
     ricetta unica.
+25. **Interruttori.** Un solo interruttore ovunque, quello di Alchemy (D6, D9; `facts.md`
+    «Switch»): pillola da 40 × 24, spento con la traccia traslucida e il pomello bianco, acceso
+    verde #289C61 (il verde di Alchemy per «attivo») con il pomello a destra. È la posizione del
+    pomello, non il colore, a dire se è acceso. Le caselle da spuntare restano nel colore
+    d'accento (rosso nel gioco, oro fuori): in Alchemy gli interruttori sono verdi in ogni tema.
+    L'app disegna i suoi interruttori in tre misure (40 × 22 con pomello da 12, 44 × 26 con
+    pomello da 18) e, con il bianco come accento, acceso era una traccia bianca con il pomello
+    rosso.
 
 ## Risposte alla critica (01/10/2026)
 
@@ -342,6 +361,24 @@ difetti dello stesso genere trovati qui ricontrollando gli stati.
 | [trovato qui] Telefono, DM, pagina ferma: le opzioni del DM (fino a 599) coprivano la fila dello zoom (da 569)                                                           | Con le opzioni 48 px più in alto finiscono a 551, 18 px sopra lo zoom.                                                                                                                                                                                                                                                                                                     |
 | [trovato qui] Telefono, strumenti di disegno, pagina ferma: la barra delle opzioni finiva a 657, sotto la barra fissa (da 631)                                           | Stessa regola delle opzioni del DM: finisce a 551.                                                                                                                                                                                                                                                                                                                         |
 | Schermate e coppie vecchie                                                                                                                                               | Rifatte tutte (15 schermate e il foglio di contatto) dopo l'ultima modifica, e coppie 01–12.                                                                                                                                                                                                                                                                               |
+
+## Risposte alla verifica (quinto giro, 01/10/2026)
+
+Punti aperti della verifica indipendente (`notes/open-items-round5.json`, voce «alchemy»), più due
+difetti trovati qui ricontrollando la Scheda intera e l'audit.
+
+| Punto                                                                                                                                                      | Cosa è cambiato                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [media] Tre misure di interruttore nella Scheda: «Il DM può modificare questa scheda» 40 × 24, «Disponibile offline» 40 × 22, «Ispirazione eroica» 44 × 26 | Un solo interruttore, quello di Alchemy (Differenze, punto 25): traccia da 40 × 24, pomello da 18 a 2 px dal bordo, 12 px tra traccia e nome, anello del fuoco da 3 px a 2 px, nome in Lexend 600 da 16 per tutti e tre (quello dell'Ispirazione era 400); acceso verde con il pomello bianco a destra, spento traslucido con il pomello a sinistra. La regola vale ovunque compaiano queste forme, non solo nella Scheda (controllata nella Scheda e nel campionario). Misure: `out/checks-final.json`. |
+| [bassa] Telefono, DM, strumenti di disegno, pagina ferma: il segno della porta copre «Testo o nota sulla pedina»                                           | Dichiarato (Differenze, punto 17): la barra delle opzioni sta dentro la mappa, che disegna i suoi segni sopra di lei, e quale segno la copre dipende dalla vista. Nessuna posizione della barra evita ogni segno in ogni vista; questa evita la fila dello zoom e la barra fissa.                                                                                                                                                                                                                        |
+| [bassa] «Cosciente» grigio nella Scheda, bianco nel pannello «Creatura»                                                                                    | Bianco in entrambi, come le condizioni accanto: la Scheda passava il suo grigio alla pillola.                                                                                                                                                                                                                                                                                                                                                                                                            |
+| [info] Barra del DM alta 110 px nel turno di Livia, 108 in quello della Sentinella                                                                         | 108 px in ogni caso: caselle a 4 px come le linguette accanto (due righe di caselle sono alte quanto le due linguette, 84 px) e righe a 4 px anche nella pagina «Barra rapida» (era 112). Sotto 1280 px lo stato del turno è ora nel passo da 10 px, perché lì un nome lungo portava la barra a 110 solo nel turno di quella creatura (Differenze, punti 4, 21 e 24).                                                                                                                                    |
+| [info] Anello del fuoco dei punti ferita della Scheda da 2 px                                                                                              | 3 px come ogni comando (l'app lo disegna da 2 in `damage.css`).                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| [info] Interlinee calcolate 20,0004 / 15,9996 / 28,0008 px                                                                                                 | Le proporzioni sono rapporti esatti (`calc(20 / 14)` e così via): ogni passo dà pixel interi (20, 16, 28, 36).                                                                                                                                                                                                                                                                                                                                                                                           |
+| [info] «Tiri e risultati» in Lexend, le parole cliccabili dell'Inizio in Unbounded                                                                         | Resta, dichiarato (Differenze, punto 23).                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| [trovato qui] Scheda a 390, «Recupero arcano»: il contatore «1 di 1» andava a capo a metà («1 di» / «1»), anche oggi                                       | Il contatore è un gruppo unico: va a capo intero, allineato al nome (prima rientrava di 6 px); sul computer sta a 8 px dalla casella degli usi.                                                                                                                                                                                                                                                                                                                                                          |
+| [trovato qui] Distanze da 10 px dell'app (barra della Scheda, riga dei PE, barre di Inventario e moduli, interruttore offline)                             | Sul passo da 8 (12 per l'interruttore, come gli altri): l'audit non conta più distanze da 10 px.                                                                                                                                                                                                                                                                                                                                                                                                         |
+| Schermate e coppie vecchie                                                                                                                                 | Rifatte tutte (15 schermate e il foglio di contatto, 16:50) dopo l'ultima modifica del foglio di stile (16:49:51, solo il commento in testa; le regole sono delle 16:41), e coppie 01–12 (16:51).                                                                                                                                                                                                                                                                                                        |
 
 ## Coerenza (I-250)
 
@@ -511,6 +548,53 @@ porte, nome dello spillo «Pozzo del cortile»), che l'audit conta con interline
 SVG non hanno righe; il menu dei dadi, che Chromium disegna sempre con l'interlinea normale; il
 marchio nel suo carattere di oggi.
 
+### Quinto giro
+
+Prima: il foglio di stile del quarto giro (15:58), audit delle 16:03 (copia in
+`probe-alchemy/round5/audit-before.md`; la verifica indipendente ha ottenuto gli stessi numeri).
+Dopo: il foglio di stile finale delle 16:49, audit delle 16:51 (`audit/alchemy/audit.md`, copia in
+`probe-alchemy/round5/audit-after.md`). Campionario dei componenti: `probe-alchemy/round5/specimen/`.
+
+| Misura                                          | Prima                                                              | Dopo                                             |
+| ----------------------------------------------- | ------------------------------------------------------------------ | ------------------------------------------------ |
+| Elementi visibili                               | 2497                                                               | 2498                                             |
+| Spaziature (padding, margini, distanze)         | 25 valori; passo 2 px al 100 %; 14 fuori                           | 24 valori; passo 2 px al 100 %; 14 fuori         |
+| Distanze tra elementi (gap)                     | 9 valori (10 px in 10 contenitori)                                 | 8 valori (10 tolto)                              |
+| Altezze dei comandi                             | 16                                                                 | 16                                               |
+| Caratteri · grandezze · pesi · interlinee       | 3 · 9 · 4 · 13                                                     | 3 · 9 · 4 · 13                                   |
+| Interlinee calcolate                            | 20,0004 · 15,9996 · 28,0008 px                                     | 20 · 16 · 28 px (intere)                         |
+| Stili di testo                                  | 37                                                                 | 37                                               |
+| Raggi · bordi · ombre                           | 7 · 2 · 19                                                         | 7 · 2 · 19                                       |
+| Colori (testo · sfondo · bordo)                 | 13 · 30 · 11                                                       | 13 · 30 · 12 (il verde dell'interruttore acceso) |
+| Pulsanti: varianti; classi con più varianti     | 65; 7                                                              | 65; 7                                            |
+| Campi · menu a tendina: varianti                | 2 · 1                                                              | 2 · 1                                            |
+| Linguette · etichette · pannelli: varianti      | 9 · 10 · 38                                                        | 9 · 10 · 38                                      |
+| Interruttori della Scheda: misure della traccia | 3 (40 × 24, 40 × 22, 44 × 26)                                      | 1 (40 × 24)                                      |
+| Barra delle azioni a 1440 × 900                 | 110 · 108 · 112 (turno di Livia, della Sentinella, «Barra rapida») | 108 in ogni turno e pagina                       |
+| Grandezze delle icone                           | 3 (20, 16, 14)                                                     | 3 (20, 16, 14)                                   |
+| Contrasto AA                                    | 0 casi su 1155 testi                                               | 0 casi su 1155 testi                             |
+| Pulsanti con il margine del browser (`1px 6px`) | nessuno                                                            | nessuno                                          |
+
+Cosa è stato reso uguale:
+
+- **Interruttori.** Una sola ricetta per le quattro forme dell'app (interruttore di base, riga
+  delle impostazioni, «Disponibile offline», «Ispirazione eroica»): traccia, pomello, distanza dal
+  nome, anello del fuoco e carattere del nome (Differenze, punto 25).
+- **Barra delle azioni.** Una sola altezza (108 px) e una sola distanza tra le righe (4 px) per
+  caselle, linguette e pagine; lo stato del turno in un solo passo (10 px) a ogni larghezza del
+  computer.
+- **Stati.** «Cosciente» ha lo stesso inchiostro bianco nella Scheda e nel pannello «Creatura».
+- **Fuoco.** I punti ferita della Scheda hanno l'anello da 3 px di ogni comando.
+- **Interlinee.** Ogni passo della scala dà pixel interi.
+- **Spaziature.** Le distanze da 10 px dell'app passano al passo da 8 (12 per l'interruttore); il
+  contatore degli usi non rientra più quando va a capo.
+
+Restano, e perché: le misure fisse del Tavolo attorno alla mappa, le bordature dell'immagine
+dell'Inizio e le parole cliccabili nel testo delle azioni (secondo giro); i 28 aspetti di
+pulsante (Differenze, punto 20); «Tiri e risultati» nel carattere della targa dei dadi
+(Differenze, punto 23); le etichette in SVG sulla mappa, il menu dei dadi e il marchio (quarto
+giro); il segno della porta sopra la barra del disegno in una vista del DM (Differenze, punto 17).
+
 ## Licenze e attribuzioni
 
 | File                                                                                                                       | Origine                                                                                                                                                                                                                                                                            | Licenza                                                                                                               | sha256                                                                                                                                                                                                                                                                                                         | Modifiche                                                                |
@@ -554,6 +638,40 @@ opzione sono elencati in `assets/ATTRIBUTION.md`. Mancano le righe in `assets/PR
 | dice (il FAB)                                                            | Font Awesome dice-d20 (pieno)                                                                                                |
 | rotaia e dock dell'Inizio (solo maschere CSS)                            | Font Awesome house, user, user-group, book-open (pieni)                                                                      |
 | pillola esterna della scheda (solo maschere CSS)                         | Font Awesome xmark, eye, share-nodes, pen (pieni)                                                                            |
+
+## Verifiche (01/10/2026, dopo il quinto giro)
+
+- Schermate di `round1/alchemy/` rifatte tutte (15 più il foglio di contatto, 16:50:04–16:50:34)
+  dopo l'ultima modifica del foglio di stile (16:49:51), `manifest.json` tutte «ok», nessuna in
+  `_failed/`; aperte una per una, con il foglio di contatto. Coppie 01–12 rifatte alle 16:51.
+  Copia delle schermate precedenti: `probe-alchemy/round5/before-round1/`.
+- Barra delle azioni (sonda `probe-alchemy/round5/hotbar2.js`, `out/hotbar2-final.json`, dopo
+  l'ultima modifica): 108 px in combattimento (turno di Livia), fuori turno (turno della
+  Sentinella) e in esplorazione, per giocatore e DM, a 1440 × 900, 1366 × 768 (fondo a 768),
+  1280 × 800 e 1024 × 768, nella pagina «Azioni» e in «Barra rapida»: 48 misure, tutte 108; nessuno
+  scorrimento orizzontale.
+- Garanzie (sonda `probe-alchemy/round5/guard.js`, `guard/alchemy/guard.json`): testata del
+  Tavolo a 390 su una riga da 64 px (1440: 72). «Termina turno» (233–382 a quota 732), «Annulla
+  ultima modifica» e «Annulla» visibili e in cima a 390, anche per il DM; a 1440 «Termina turno»
+  in cima. Nessuno scorrimento orizzontale a 390. «Entra al Tavolo» a 390 finisce a 654 px. Dock a
+  390: i 4 pulsanti liberi, la fascia senza tocchi. Strumenti del DM a 390 in cima alla pagina:
+  ultimo a 624, barra a 631 (resta «Pianifica percorso» sotto la pedina di turno, come oggi).
+  A 390 la barra fissa resta alta 149 px, come nel quarto giro.
+- Interruttori, «Cosciente», fuoco e interlinee (`probe-alchemy/round5/checks.js`,
+  `out/checks-final.json`): tre tracce da 40 × 24 con pomello da 18, distanza 12; «Cosciente»
+  bianco a 14 px nella Scheda e nel pannello; anello dei punti ferita 3 px; interlinee calcolate
+  20, 16 e 36 px.
+- Regole del file: tutte con il prefisso (`notes/prefix-audit.js`: 0 senza prefisso) e la guardia
+  del tema scuro; 0 colori senza la guardia del tema chiaro, nessun token di contrasto senza la
+  guardia del contrasto alto, nessun `--dur-*`; nessun `!important`, `text-transform` o testo in
+  `content`.
+- Contrasto: l'audit dei valori dà 0 casi su 1155 testi (sezione «Coerenza (I-250)»).
+- Test `tests/visual01-directions.test.mjs`: 7 su 7 superati. Prettier: file conformi.
+- Prove: `~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/probe-alchemy/round5/`
+  (`h.js` e le sonde `hotbar.js`, `hotbar2.js`, `hb1024.js`, `qbtree.js`, `checks.js`,
+  `swlabels.js`, `recup.js`, `recup2.js`, `drawcover.js`, `guard.js`, `pairs.py`, `bystyle.py`;
+  `out/` per misure e ritagli, `full/` per Inizio e Scheda interi, `specimen/` per il campionario,
+  `audit-before.md` e `audit-after.md`, `direction.before-round5.css`, `SOURCES.before-round5.md`).
 
 ## Verifiche (01/10/2026, dopo il quarto giro)
 

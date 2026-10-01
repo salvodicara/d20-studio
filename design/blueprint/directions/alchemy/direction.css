@@ -44,6 +44,9 @@
      pill primary, close as a round glass button outside the modal → D1, D6, D7, P5
    - menus: popover rgba(13 20 28 / .85) + blur, radius 14, rows radius 8, destructive red →
      T4; facts.md §1 «Token context menu»
+   - switches: one iOS-style switch for the app's four markups, 40 × 24, translucent off track,
+     white 18 px knob, green #289C61 on (the knob's side says the state) → D6, D9; facts.md
+     «Switch» [O], green [C]
    - icons: in the game and the service buttons Alchemy's thin stroked line icons → Lucide
      1.49.0 (ISC) at stroke 1.5 (icons.mjs); the Home rail and dock filled → Font Awesome Free
      7.3.1 solid (CC BY 4.0) as CSS masks; white active / white 50 % inactive → facts.md
@@ -171,15 +174,16 @@
   --al-fs-xl: calc(20px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
   --al-fs-2xl: calc(24px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
   --al-fs-3xl: calc(30px * var(--pref-text-scale, 1) * var(--pref-ui-scale, 1));
-  --al-lh-2xs: 1.2;
-  --al-lh-xs: 1.3333;
-  --al-lh-sm: 1.4286;
-  --al-lh-base: 1.5;
-  --al-lh-lg: 1.5556;
-  --al-lh-xl: 1.4;
-  --al-lh-2xl: 1.3333;
-  --al-lh-3xl: 1.2;
-  --al-lh-prose: 1.8571;
+  /* Exact ratios (line ÷ size), so each step computes to whole pixels (20, not 20.0004). */
+  --al-lh-2xs: calc(12 / 10);
+  --al-lh-xs: calc(16 / 12);
+  --al-lh-sm: calc(20 / 14);
+  --al-lh-base: calc(24 / 16);
+  --al-lh-lg: calc(28 / 18);
+  --al-lh-xl: calc(28 / 20);
+  --al-lh-2xl: calc(32 / 24);
+  --al-lh-3xl: calc(36 / 30);
+  --al-lh-prose: calc(26 / 14);
   /* Capitals: Alchemy sets tabs, labels and buttons as 10–12 px extended UPPERCASE. Without
      text-transform the same capitals are small caps, which Blink and WebKit synthesise at 0.7
      of the size: the sm step (14 px) gives 10 px capitals (tabs, buttons, kickers), the base
@@ -232,7 +236,8 @@
      tab bar 14 × 3, the glass bezel art: the Featured hero 360 (400 on a phone), the sheet
      portrait 320 (240 on a phone), the sheet modal 1008 (996 inside), the hero copy 560, the scene title
      520, turn-order columns 80 (the active one 96, so «Esploratore» and «Turno attuale» fit),
-     check boxes 20, the summary cards' minimum widths 128 (spells) and 240 (inventory). */
+     check boxes 20, the switch knob 18 (in a 40 × 24 track), the summary cards' minimum widths
+     128 (spells) and 240 (inventory). */
   --al-icon: 20px;
   --al-icon-sm: 16px;
   --al-logo: 28px;
@@ -249,6 +254,7 @@
   --al-turn-w: 80px;
   --al-turn-w-current: 96px;
   --al-check: 20px;
+  --al-knob: 18px;
   --al-card-min: 128px;
   --al-card-min-wide: 240px;
   /* The app's own steps on the same scale. */
@@ -742,10 +748,100 @@
   background-color: var(--al-form);
   color: var(--al-white);
 }
-/* The settings switch sits on the 2 px step beside its first line (the app nudges it 3 px). */
+/* Switches (I-250: one switch, one size): Alchemy's iOS-style switch (D6, D9; facts.md
+   «Switch»): a 40 × 24 pill, off a translucent track with a white knob, on Alchemy's green
+   #289C61 with the knob at the right end: the knob's side, not the colour, says it is on. One
+   recipe for the app's four markups: the core .switch and the settings row (.cs-switch: the
+   input is the track, the knob a radial gradient), the offline and Heroic Inspiration switches
+   (a track span after a hidden input, the knob its ::after). The app draws them 40 × 22 and
+   44 × 26 with 12 and 18 px knobs. Knob 18, 2 px inside the rim; label 12 px from the track;
+   ring 3 px at 2 px. The settings switch sits on the 2 px step beside its first line (the app
+   nudges it 3 px). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  :is(.switch, .cs-switch input, .offline-switch-track, .dtray-switch-track) {
+  inline-size: var(--al-h-control);
+  block-size: var(--al-sp-6);
+  border-width: var(--al-bw);
+  border-radius: var(--al-r-pill);
+}
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .cs-switch input {
-  height: var(--al-sp-6);
   margin: var(--al-sp-05) 0 0;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .dtray-switch input {
+  inline-size: var(--al-h-control);
+  block-size: var(--al-sp-6);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  :is(.cs-switch, .offline-switch, .dtray-switch) {
+  gap: var(--al-sp-3);
+}
+/* Every switch's name is Lexend 600 16 («Disponibile offline», the settings title); the
+   Heroic Inspiration one was 400. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .dtray-switch {
+  font-weight: var(--al-fw-ui-strong);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  :is(.offline-switch-track, .dtray-switch-track)::after {
+  top: var(--al-sp-05);
+  left: var(--al-sp-05);
+  inline-size: var(--al-knob);
+  block-size: var(--al-knob);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  :is(
+    .offline-switch input:checked + .offline-switch-track,
+    .dtray-switch input:checked + .dtray-switch-track
+  )::after {
+  transform: translateX(
+    calc(var(--al-h-control) - 2 * var(--al-bw) - 2 * var(--al-sp-05) - var(--al-knob))
+  );
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  :is(.switch, .cs-switch input):focus-visible {
+  outline-offset: var(--al-sp-05);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) :is(.switch, .cs-switch input) {
+  border-color: var(--line-strong);
+  background: radial-gradient(
+      circle at calc(var(--al-sp-05) + var(--al-knob) / 2) 50%,
+      var(--al-white) calc(var(--al-knob) / 2),
+      transparent calc(var(--al-knob) / 2 + 0.5px)
+    )
+    var(--al-hover);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  :is(.switch, .cs-switch input):checked {
+  border-color: var(--al-green);
+  background: radial-gradient(
+      circle at calc(100% - var(--al-sp-05) - var(--al-knob) / 2) 50%,
+      var(--al-white) calc(var(--al-knob) / 2),
+      transparent calc(var(--al-knob) / 2 + 0.5px)
+    )
+    var(--al-green);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  :is(.offline-switch-track, .dtray-switch-track) {
+  border-color: var(--line-strong);
+  background: var(--al-hover);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  :is(.offline-switch-track, .dtray-switch-track)::after {
+  background: var(--al-white);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  :is(
+    .offline-switch input:checked + .offline-switch-track,
+    .dtray-switch input:checked + .dtray-switch-track
+  ) {
+  border-color: var(--al-green);
+  background: var(--al-green);
+}
+:root[data-direction="alchemy"]:not([data-pref-theme="light"])
+  :is(
+    .offline-switch input:checked + .offline-switch-track,
+    .dtray-switch input:checked + .dtray-switch-track
+  )::after {
+  background: var(--al-white);
 }
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) input,
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) textarea {
@@ -2397,6 +2493,13 @@
   .character-hp-value {
   min-height: var(--al-h-control);
 }
+/* Its ring is the 3 px ring of every control (the app draws this one 2 px). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .character-hp
+  .character-hp-value:focus-visible {
+  outline-width: 3px;
+}
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
   .character-sheet
   .character-hp
@@ -3793,10 +3896,14 @@
   background: var(--al-hover);
   color: var(--al-white);
 }
+/* The slots stand 4 px apart in both directions, like the page tabs beside them and the
+   toolbar's rows round the FAB: two rows of slots are as tall as the two tabs (84 px), so the
+   bar keeps one height (108 px) on every turn and page; with the app's 6 px gap the rows grew
+   2 px past the tabs on a two-row turn (110 px) but not on a one-row one (108). */
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
   .table-hotbar
-  .combat-actions {
-  gap: var(--al-sp-15);
+  :is(.combat-actions, .combat-dock) {
+  gap: var(--al-sp-1);
 }
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
   .table-hotbar
@@ -4088,11 +4195,12 @@
     .combat-bar-heading {
     padding: 0 var(--al-sp-05) 0 var(--al-sp-3);
   }
-  /* Two rows of 40 px slots (the core box assumes 44 px ones). */
+  /* Two rows of 40 px slots 4 px apart, plus the 2 px focus well (the core box assumes 44 px
+     slots 6 px apart). */
   :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
     .table-hotbar
     .combat-actions {
-    max-height: calc(2 * var(--al-h-control) + var(--al-sp-15) + var(--al-sp-1));
+    max-height: calc(2 * var(--al-h-control) + var(--al-sp-1) + var(--al-sp-1));
   }
   :root[data-direction="alchemy"]:not([data-pref-theme="light"])
     .table-layout
@@ -4172,6 +4280,21 @@
     box-shadow: var(--al-shadow);
   }
 }
+/* The turn state line under the name is the 10 px step at every desktop width (I-250: one
+   size for one line; it was 12 px below 1280). Without the portrait (721–1279 px) a long name
+   («Sentinella») puts its HP pill on a second row; with 12 px under it the card was 102 px tall
+   and the bar 110 on that creature's turn, 108 on Livia's. */
+@media (min-width: 721px) {
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-identity
+    > div
+    > span {
+    font-size: var(--al-fs-2xs);
+    line-height: var(--al-lh-2xs);
+  }
+}
 /* The player bar shows its portrait from 1280 px (today it waits for 1500 px): Alchemy's
    player bar is the portrait. */
 @media (min-width: 1280px) {
@@ -4222,21 +4345,24 @@
     > span {
     grid-column: 1 / -1;
     margin-top: 0;
-    font-size: var(--al-fs-2xs);
-    line-height: var(--al-lh-2xs);
   }
 }
 /* The hotbar's «Barra rapida» page: the page name in the UI face of the action slots (Lexend
    600 14: «1/1 Combattimento» whole, where the display face cut it to «Comba…»), the ten slots
    40 px tall like every slot of the bar and 50 px wide, so all ten fit the dice-bar pill at
-   1440 as today, and the row gap on the 8 px step. The tools keep scrolling sideways when the
-   pill is narrower than they are, as today. */
+   1440 as today; the two rows 4 px apart like the actions page (the slots' 2 px focus well
+   hangs under the row instead of adding to it), so both pages are 84 px and the bar keeps
+   108 px when the page changes (it was 112 here, 110 on the actions page). The tools keep
+   scrolling sideways when the pill is narrower than they are, as today. */
 @media (min-width: 721px) {
   :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .table-hotbar .qb {
     --qb-slot: 50px;
   }
   :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .table-hotbar .qb-row {
-    column-gap: var(--al-sp-2);
+    gap: var(--al-sp-1) var(--al-sp-2);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .table-hotbar .qb-slots {
+    margin-bottom: calc(-1 * var(--al-sp-05));
   }
   :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
     .table-hotbar
@@ -5220,6 +5346,13 @@
   stroke-width: var(--al-bw-4);
   stroke-linejoin: round;
 }
+/* The uses counter («1 di 1») is one word group: on a phone it broke as «1 di» / «1» after the
+   pips (also today); it now moves to the next line whole, flush with the name (the space before
+   it keeps it 8 px from the pips; the app's extra 6 px margin indented the wrapped line). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .character-sheet .shp-uses {
+  margin-left: 0;
+  white-space: nowrap;
+}
 /* Spacing the app fixes off the 2 px step, on the scale (I-250). */
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .character-sheet .shp-prop {
   padding: var(--al-sp-05) var(--al-sp-2);
@@ -5234,6 +5367,11 @@
   padding: 0 var(--al-sp-3);
   font-size: var(--al-fs-sm);
   line-height: var(--al-lh-sm);
+}
+/* One ink for the pill in the Sheet and in the Creature panel (the Sheet's summary passed its
+   grey down to it): white, like the condition chips beside it. */
+:root[data-direction="alchemy"]:not([data-pref-theme="light"]) .conditions-vital {
+  color: var(--al-white);
 }
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .conditions-chips {
   gap: var(--al-sp-2);
@@ -5325,6 +5463,7 @@
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
   .table-layout
   :is(.forms-toolbar, .forms-tabs) {
+  gap: var(--al-sp-2);
   margin-block: var(--al-sp-4) var(--al-sp-6);
 }
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
@@ -5338,7 +5477,17 @@
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
   .character-sheet
   .invp-toolbar {
+  gap: var(--al-sp-2);
   margin-bottom: var(--al-sp-4);
+}
+/* The app's 10 px gaps (sheet bar, XP line, inventory and forms toolbars) on the 8 px step. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .shp-bar-top {
+  row-gap: var(--al-sp-2);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .character-sheet .shp-xp {
+  column-gap: var(--al-sp-2);
 }
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .character-sheet .cs-sheet {
   margin-top: var(--al-sp-4);

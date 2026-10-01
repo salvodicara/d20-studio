@@ -74,7 +74,12 @@
      Turn Order folds to a column of 40 px layer
      cells with its own lane on the map; one HP
      widget on sheet and Table; one glyph size per
-     control kind; one condition chip ............. [T6], [T15], [S1], [S8] */
+     control kind; one condition chip ............. [T6], [T15], [S1], [S8]
+   - Polish round 5 (I-250): every pill tab lilac
+     at rest (--tabs-button-text-color); sheet
+     panels end on their padding; spacing on the
+     quarter-rem steps; the phone resource marks
+     wrap instead of clipping ..................... [CSS], [S1], [S18] */
 
 /* ------------------------------------------------------------------ fonts (vendored, OFL) */
 @font-face {
@@ -735,6 +740,7 @@
   margin-bottom: var(--r20-sp-8);
 }
 :root[data-direction="roll20"]:not([data-pref-theme="light"]) .page-heading h1 {
+  margin-bottom: var(--r20-sp-4);
   font-size: var(--r20-fs-32);
   font-weight: 900;
 }
@@ -954,6 +960,11 @@
   gap: var(--r20-sp-7);
   padding: var(--r20-sp-6);
 }
+/* «Accesso rapido» (shown once a sheet was opened here) has every other card's 24 px inset,
+   not the app's 22 × 24 (18 × 16 on a phone) (polish round 5). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-page .home-main .home-card {
+  padding: var(--r20-sp-7);
+}
 :root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-page .scene-emblem {
   border: 0;
   border-radius: var(--r20-r-2);
@@ -1053,6 +1064,7 @@
   padding: var(--r20-sp-7);
 }
 :root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-page .home-bottom h3 {
+  margin-bottom: var(--r20-sp-4);
   font-size: var(--r20-fs-18);
 }
 /* Your character: a Roll20 Characters card row — the round framed portrait, the name in
@@ -1122,13 +1134,15 @@
   font-family: var(--font-display);
   font-weight: 800;
 }
-/* The right column: Roll20's Announcements panel, its tabs as Grimoire tabs. */
+/* The right column: Roll20's Announcements panel, its tabs as Grimoire tabs. Its words keep
+   every Home card's 24 px inset, so they line up with «Prossimo appuntamento» above and with
+   the first tab's words (polish round 5; the tab strip still runs edge to edge). */
 :root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-aside {
-  padding: var(--r20-sp-3) var(--r20-sp-6) var(--r20-sp-7);
+  padding: var(--r20-sp-3) var(--r20-sp-7) var(--r20-sp-7);
 }
 :root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-tabs {
   gap: var(--r20-sp-2);
-  margin: 0 calc(-1 * var(--r20-sp-6)) var(--r20-sp-6);
+  margin: 0 calc(-1 * var(--r20-sp-7)) var(--r20-sp-6);
   padding: var(--r20-sp-3) var(--r20-sp-5);
   border-bottom-color: var(--r20-edge);
 }
@@ -2141,6 +2155,18 @@
   .character-sheet
   .character-conditions {
   padding: var(--r20-sp-5) var(--r20-sp-6);
+}
+/* On a phone the title stands on its own line above the conditions: the app's 10 px that
+   centre it on the 40 px controls beside it only made the top inset 22 px against 12 under
+   the last control (polish round 5). */
+@media (max-width: 480px) {
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-summary
+    > .character-conditions
+    > span:first-child {
+    margin-top: 0;
+  }
 }
 
 /* Section tabs (S1): COMBAT · SPELLS · INVENTORY in bold small capitals, each over its own
@@ -3312,15 +3338,18 @@
   border: 0;
   border-radius: var(--r20-r-2);
   background: transparent;
-  color: var(--r20-p7);
+  color: var(--r20-p6);
   font-family: var(--font-ui);
   font-size: var(--r20-fs-14);
   font-weight: 700;
   letter-spacing: 0;
   font-variant-caps: normal;
 }
+/* One pill tab in every state (polish round 5): Grimoire's lilac words at rest
+   (--tabs-button-text-color #A980BD), the #353535 tile under the pointer, the filled
+   #702C91 when open — as the Home's «Novità · Guide · Supporto». */
 :root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-subtab:hover {
-  background: rgb(255 255 255 / 0.08);
+  background: var(--r20-s2);
   color: #ffffff;
 }
 :root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-subtab.active {
@@ -3477,11 +3506,35 @@
     .sm-dock-toggle {
     padding: 0 var(--r20-sp-4);
   }
+  /* The resource marks keep «9 m» whole (polish round 5). The HP cell drops the app's empty
+     second column (its 6 px gap stood after the pill) and the rolls bell is centred in its
+     40 px cell beside the dice select, which stands flush: at 390 the marks fit on one line.
+     On a narrower phone they wrap to a second line inside the 40 px row instead of clipping. */
   :root[data-direction="roll20"]:not([data-pref-theme="light"])
     .action-dock.table-hotbar
     .hotbar-resources
     .resources {
+    flex-wrap: wrap;
     gap: 0 var(--r20-sp-2);
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .action-dock.table-hotbar
+    > .hotbar-identity
+    > div:not(:has(.resources)) {
+    column-gap: 0;
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-bar-heading {
+    gap: 0;
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-bar-heading
+    .text-button {
+    text-align: center;
   }
   /* The page tabs' grey group hugs its two tabs at the row's end. */
   :root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout .hotbar-pages {
@@ -3994,6 +4047,66 @@
 }
 :root[data-direction="roll20"]:not([data-pref-theme="light"]) .home-page .home-appointment {
   padding: var(--r20-sp-7);
+}
+/* Spacing on the scale (polish round 5): today's 10, 14, 18 and 22 px left between blocks and
+   inside a few rows move to Grimoire's quarter-rem steps (12, 16, 24). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-bar-top {
+  gap: var(--r20-sp-5) var(--r20-sp-6);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-xp {
+  gap: var(--r20-sp-3) var(--r20-sp-5);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-foot {
+  margin-top: var(--r20-sp-6);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .offline-switch {
+  gap: var(--r20-sp-5);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .invp-toolbar {
+  gap: var(--r20-sp-5);
+  margin-bottom: var(--r20-sp-6);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .spl-filters {
+  gap: var(--r20-sp-5) var(--r20-sp-6);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .spl-slots {
+  gap: var(--r20-sp-3) var(--r20-sp-6);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .spl-window.is-closed,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .spl-concentration.is-idle {
+  margin-bottom: var(--r20-sp-5);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .spl-row {
+  gap: var(--r20-sp-6);
+  padding-block: var(--r20-sp-5);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  > .conditions-summary.embedded {
+  margin-bottom: var(--r20-sp-6);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  .forms-toolbar {
+  gap: var(--r20-sp-5);
+  margin-block: var(--r20-sp-6) var(--r20-sp-7);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout .combat-detail {
+  margin-block: var(--r20-sp-6);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout #combat-detail > p {
+  margin-bottom: var(--r20-sp-6);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .ct-start
+  :is(.ct-start-scene, .ct-start-call) {
+  margin-bottom: var(--r20-sp-5);
 }
 /* Leading on the scale (I-250): the few of today's line heights left over — the hotbar's
    small lines, the move help, the session notices, the counter badge. */
@@ -4975,8 +5088,15 @@
   > * {
   margin-block: 0;
 }
-/* The rolls panel ends on its padding (its policy line kept a 16 px margin under it). */
-:root[data-direction="roll20"]:not([data-pref-theme="light"]) .dtray-sheet-policy {
+/* Every sheet panel ends on its padding, as «Tiri» did first (polish round 5): its last block,
+   and the last block of a closing group (a note section's last line), keeps no bottom margin,
+   so the inset under the last line matches the one above the title. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .panel > :last-child,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .character-sheet
+  .panel
+  > :last-child
+  > :last-child {
   margin-bottom: 0;
 }
 /* Switches and check boxes on their line: no browser margin (the sheet's DM switch sat 3 px

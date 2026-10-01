@@ -1,8 +1,8 @@
 # Opzione 6 · Roll20 — da dove viene ogni scelta
 
 Scelta 1 — Direzione, primo giro (I-248), 01/10/2026. Tema scuro, a 1440 × 900 e 390 × 844, con
-ogni misura presa da una sola scala (I-250); secondo, terzo e quarto giro di rifinitura dopo le
-verifiche indipendenti, vedi «Coerenza (I-250)» e le sezioni dei giri di rifinitura in fondo.
+ogni misura presa da una sola scala (I-250); secondo, terzo, quarto e quinto giro di rifinitura dopo
+le verifiche indipendenti, vedi «Coerenza (I-250)» e le sezioni dei giri di rifinitura in fondo.
 Le schermate sono in `~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/round1/roll20/`;
 i confronti già montati (nostra schermata a sinistra, Roll20 a destra) in `round1/roll20/_pairs/`.
 Le immagini di riferimento sono in
@@ -144,22 +144,93 @@ queste scale, copiate dal CSS di Roll20:
   gettoni della barra, un solo campo (anche la quantità dei punti ferita e il menu della modalità dei
   dadi, tutti a 16 px), un solo riquadro dei punti ferita su Scheda e Tavolo, una sola etichetta di
   condizione (40 px, il filo disegnato dentro), una sola linguetta a pastiglia (sotto-schede del
-  Tavolo e «Novità · Guide · Supporto» dell'Inizio: 40 px, 12 px ai lati, 14/700), 24 px tra le schede
-  dell'Inizio e tra le sezioni della Scheda a ogni larghezza.
+  Tavolo e «Novità · Guide · Supporto» dell'Inizio: 40 px, 12 px ai lati, 14/700, parole lilla
+  #A980BD a riposo, casella #353535 al passaggio, piena #702C91 quando è aperta), 24 px tra le schede
+  dell'Inizio e tra le sezioni della Scheda a ogni larghezza, 24 px dentro ogni scheda dell'Inizio
+  (anche «Accesso rapido» e il pannello delle novità), ogni pannello della Scheda chiuso sul suo
+  margine (stessa distanza sopra il titolo e sotto l'ultima riga).
 - **Glifi:** 20 px in ogni comando (solo icona o icona e parole), 16 px nelle righe del menu della
   pedina, nei gettoni della barra delle macro e in «Tiri e risultati» quando ha le parole (parole da
   13 px), 14 px per la freccina del menu e i segni delle risorse, 13 px per la matita del ritratto.
 
 Risultato della verifica dei valori (`changes/visual-01/audit/audit.js --direction roll20`, 20 stati,
-01/10/2026, dopo il quarto giro): spaziature su passo di 2 px nel 99,9 % dei casi; 12 dimensioni di
-testo, tutte sulla scala tranne le etichette disegnate dentro la mappa (11 e 17 px, scalano con lo
-zoom) e il marchio d20 Studio (fermo fino alla fase D); 6 rapporti d'interlinea; 6 raggi; 9 ombre;
-85 varianti di pulsante, 14 classi con più di una variante; 4 misure di glifo; nessun comando con
-il margine predefinito del browser; contrasto: nessun testo sotto AA su 1215. Le altre eccezioni
-sono la geometria fissa del Tavolo (posizioni calcolate dal programma). Il confronto prima e dopo è
-in «Coerenza (I-250)».
+01/10/2026, dopo il quinto giro): spaziature su passo di 2 px nel 100 % dei casi, e quelle usate da
+almeno 3 elementi sono tutte sulla scala di «Grimoire» (più i 60 px della geometria del Tavolo); 12
+dimensioni di testo, tutte sulla scala tranne le etichette disegnate dentro la mappa (11 e 17 px,
+scalano con lo zoom) e il marchio d20 Studio (fermo fino alla fase D); 6 rapporti d'interlinea; 6
+raggi; 9 ombre; 85 varianti di pulsante, 14 classi con più di una variante; 4 misure di glifo;
+nessun comando con il margine predefinito del browser; contrasto: nessun testo sotto AA su 1221. Le
+altre eccezioni sono la geometria fissa del Tavolo (posizioni calcolate dal programma). Il confronto
+prima e dopo è in «Coerenza (I-250)».
 
 ## Coerenza (I-250)
+
+### Quinto giro di rifinitura (01/10/2026)
+
+Strumento di verifica sui 20 stati del giro 1 (1440 e 390, tema scuro, compresa la scheda intera),
+prima (`…/probe-roll20/r5/audit-before-r5.md`, il rapporto delle 15:24 su `direction.css` delle
+15:20, rimasto invariato fino a questo giro) e dopo (`…/visual-01/audit/roll20/audit.md`, copia in
+`…/probe-roll20/r5/audit-after-r5.md`, su `direction.css` delle 16:41, l'ultima modifica). Sotto la
+piega: Inizio e Scheda a pagina intera (`…/probe-roll20/r5/full-after/`) e il campionario dei
+componenti (`…/probe-roll20/r5/specimen-before/`, `specimen-mid/`, `specimen-after/`, 1440 e 390),
+letti uno per uno. «Accesso rapido» e la fascia «Torna al Tavolo» non sono nei 20 stati: misurati a
+parte (`…/probe-roll20/r5/homecards.js`, `ret.js`).
+
+| Misura (20 schermate del giro 1)                    | Prima             | Dopo              |
+| --------------------------------------------------- | ----------------- | ----------------- |
+| Elementi visibili                                   | 2574              | 2581              |
+| Valori di spazio distinti (fuori scala)             | 27 (11)           | 25 (13)           |
+| Spazi sul passo di 2 px                             | 99,9 %            | 100 %             |
+| Spazi usati da 3+ elementi fuori dalla scala        | 10, 14, 18, 22    | nessuno           |
+| Altezze dei comandi                                 | 18                | 18                |
+| Grandezze dei caratteri · interlinee · stili        | 12 · 26 · 87      | 12 · 26 · 87      |
+| Raggi · spessori dei bordi · ombre                  | 6 · 3 · 9         | 6 · 3 · 9         |
+| Colori (testo · fondo · bordo; coppie quasi uguali) | 24 · 28 · 22 (11) | 23 · 28 · 22 (11) |
+| Pulsanti: classi visive, varianti (classi con più)  | 24, 85 (14)       | 24, 85 (14)       |
+| Campi: classi visive, varianti                      | 1, 2              | 1, 2              |
+| Misure dei glifi                                    | 4                 | 4                 |
+| Linguette · gettoni · pannelli: varianti            | 11 · 14 · 42      | 11 · 14 · 42      |
+| Bottoni con il margine predefinito del browser      | 0                 | 0                 |
+| Contrasto AA sotto soglia (incerti)                 | 0 su 1215 (1)     | 0 su 1221 (1)     |
+
+- **Una sola scala anche per gli avanzi.** I 10, 14, 18 e 22 px rimasti dall'aspetto di oggi tra i
+  blocchi e dentro alcune righe passano ai passi di «Grimoire»: la barra della scheda (Gioco ·
+  Modifica, PE) a 12/16 e 6/12, la nota sotto le azioni e l'interruttore offline, la barra di
+  ricerca dell'inventario (12, 16 sotto), i filtri e gli slot delle magie (12/16, 6/16), la finestra
+  di preparazione chiusa e la concentrazione (12 sotto), le righe delle magie (12 sopra e sotto, 16
+  tra le parti), nel pannello della creatura le condizioni (16 sotto), i comandi delle forme (16
+  sopra, 24 sotto, 12 tra loro) e la mossa scelta (16 sopra e sotto), nella finestra dell'iniziativa
+  le due righe di testo (12 sotto), sull'Inizio il titolo della pagina (8 sopra il sottotitolo) e il
+  titolo del resoconto (8 invece dei 18 del browser). Le quattro misure non sono più nella scala
+  dell'opzione; restano «rare» (1–2 elementi ciascuna, per questo i valori fuori scala salgono da 11 a
+  13): vedi «Restano».
+- **Pannelli chiusi sul loro margine.** Dopo «Tiri», tutti i pannelli della Scheda: l'ultimo blocco
+  (e l'ultimo blocco di un gruppo finale, come l'ultima nota) non tiene il margine sotto. In ogni
+  sezione (Azioni, Magie, Inventario, Capacità, Storia, Note, Extra), a 1440 e a 390: 17 px sopra e
+  17 px sotto in tutti i pannelli (prima 31–33 sotto in dieci pannelli). Sul telefono la casella
+  delle condizioni ha il titolo su una riga sua: senza i 10 px che lo centrano accanto ai comandi,
+  13 px sopra e sotto (prima 23 e 13).
+- **Una sola scheda dell'Inizio.** «Accesso rapido» ha i 24 px di ogni altra scheda (prima 22 × 24, 18
+  × 16 sul telefono); il pannello delle novità tiene 24 px ai lati come le schede sopra di lui, così
+  «7 da leggere» sta sulla stessa verticale di «Prossimo appuntamento» e delle parole della prima
+  linguetta (prima 8 px più a sinistra). Ora «Segna tutte come lette» va sulla riga sotto, con le
+  parole sul bordo del testo.
+- **Una sola linguetta a pastiglia, anche a riposo.** Le sotto-schede del pannello del Tavolo
+  («Riepilogo del gruppo») avevano le parole #C6ABD3 e al passaggio una casella bianca all'8 %;
+  ora sono come «Guide · Supporto» dell'Inizio: parole lilla #A980BD (`--tabs-button-text-color` di
+  «Grimoire», 5,2:1 sulla striscia #2D123A), casella #353535 al passaggio, piena #702C91 aperta.
+  **Le pagine della barra delle azioni («Azioni · Barra rapida») sono un altro componente**, dichiarato:
+  il controllo segmentato di «Grimoire» (un gruppo #252525, la pagina aperta su una casella #3D3D3D,
+  le altre parole grigie #B3B3B3), con le stesse misure delle linguette (40 px, 14/700, angoli da 8).
+- **Valori fuori scala:** nuovo solo il -24 px che porta la striscia delle linguette delle novità da
+  bordo a bordo (il margine del pannello, sulla scala). **Restano**, come nel quarto giro, i margini
+  fissi della mappa (48, 56, 60, 64, 108, 120, 160 px e il -112 del telefono), il marchio d20 Studio
+  (5 e 9 px), «Ispirazione eroica» del telefono alta quanto i punti ferita, i ritratti del gruppo alti
+  63,5 px, le linguette inclinate sovrapposte di 6 px, i termini del compendio alti 20,5 px; più i 10
+  px della disposizione del Tavolo sul telefono (il pannello laterale sotto la barra, la targa della
+  scena, la riga della scala) e i 10 px che centrano il titolo «Condizioni» sui comandi da 40 px
+  accanto a lui da 481 px in su ((40 − 19,2) / 2). I 32 px sotto il titolo della pagina sono sulla
+  scala ma usati da un solo elemento (lo strumento li elenca accanto al titolo della scena).
 
 ### Quarto giro di rifinitura (01/10/2026)
 
@@ -316,7 +387,7 @@ pagina intera (`…/probe-roll20/r2/before-full/`, `after-full/`) e il campionar
 ## Coppie per il confronto
 
 Montaggi pronti in `round1/roll20/_pairs/` (nostra schermata a sinistra, riferimento a destra),
-rifatti dopo l'ultima cattura del quarto giro con `…/probe-roll20/r4/pairs.py` (alti 700 px, sotto
+rifatti dopo l'ultima cattura del quinto giro con `…/probe-roll20/r5/pairs.py` (alti 700 px, sotto
 ogni immagine chi è e il nome del file).
 
 | Schermata                | Nostra schermata                         | Riferimenti Roll20                                                                                         |
@@ -392,7 +463,7 @@ Cose che Roll20 fa e noi no, o che facciamo diversamente, e perché.
     giocatori; l'Inizio dell'app ha una sola scheda «Continua a giocare», copiata come una riga in
     grande, senza quei dati. Il titolo resta bianco (come Roll20 Characters), non blu come la vecchia
     pagina chiara. Sul telefono la copertina non c'è (l'app la nasconde) e «Entra al Tavolo» resta
-    nei primi 844 px (599–645 px).
+    nei primi 844 px (597–643 px).
 11. **Telefono:** Roll20 non ha un tavolo per telefono («optimized for tablet, not phones», Help
     Center). Il nostro Tavolo su telefono tiene la disposizione dell'app nella grammatica di Roll20
     Characters; niente pulsante tondo del d20 in basso a destra (servirebbe nuovo codice). Nella
@@ -425,15 +496,24 @@ Cose che Roll20 fa e noi no, o che facciamo diversamente, e perché.
     filo lilla), lo strumento attivo della colonna (casella #353535 con filo grigio), la pagina della
     barra (#3D3D3D).
 
-## Controlli fatti (01/10/2026, dopo il quarto giro di rifinitura)
+## Controlli fatti (01/10/2026, dopo il quinto giro di rifinitura)
+
+Rifatti sul `direction.css` finale (16:41) con le sonde di `…/probe-roll20/r5/` (`guar.js`,
+`res.js`, `pgap.js`, `homecards.js`, `ret.js`; risultati nei `.txt` accanto).
 
 - Barra delle azioni a 1440 × 900: **112 px** (il limite è 120); 112 px anche a 1366 × 768,
-  1280 × 800 e 1024 × 768.
+  1280 × 800 e 1024 × 768 (giocatore e master).
   «Termina turno» 96 × 86 px a schermo, Annulla e Annulla l'ultima mossa 40 × 40.
 - Telefono (390 × 844, come un telefono vero): barra **153 px**, come «Attuale»; «Termina turno»
   146 × 40 nella riga dei comandi, Annulla e Annulla l'ultima mossa 40 × 40, tutti a schermo e non
   coperti (`elementFromPoint`, giocatore e master); intestazione del Tavolo su **una riga** (64 px,
   come dal secondo giro).
+- Riga delle risorse sul telefono: «9 m» intero. A 390 la riga è larga 87,6 px per 82,8 px di segni
+  (prima 77,6 per 82,8: la «m» tagliata), su una riga; a 375 e a 360 i segni vanno su due righe
+  dentro la riga da 40 px (72,6 e 57,6 px di larghezza, alti 31,2). `scrollWidth` uguale a
+  `clientWidth` (88/88, 73/73, 58/58) in combattimento da giocatore e da master e in esplorazione.
+  «Attuale» la taglia a tutte e tre le larghezze (92 su 91, 76 e 61 px). A 375 e a 360, come in
+  «Attuale», «Termina turno» va sulla riga sotto i comandi.
 - Pedine raggiungibili in combattimento (sonda `…/probe-roll20/r3/cover.js`, centro e quattro punti
   interni di ogni pedina con `elementFromPoint`, giocatore e master): a 1440 × 900, 1366 × 768,
   1280 × 800 e 1024 × 768 il centro di tutte e cinque le pedine è libero in tutti gli 8 casi (prima
@@ -443,7 +523,7 @@ Cose che Roll20 fa e noi no, o che facciamo diversamente, e perché.
   Rifatta dopo il quarto giro a 1366, 1280 e 1024 (giocatore e master): nessun centro coperto, stessi
   punti liberi del terzo giro (`…/probe-roll20/r4/token-cover-r4.txt`); la riga dei dadi resta a
   destra delle risorse a 1280, 1366 e 1440.
-- «Entra al Tavolo» a 390: finisce a 645 px, dentro i primi 844; 694 px con la fascia «Torna al
+- «Entra al Tavolo» a 390: finisce a 643 px, dentro i primi 844; 692 px con la fascia «Torna al
   Tavolo» aperta.
 - Fascia «Torna al Tavolo» (1440 e 390, Inizio e Scheda): alta 49 px (era 55), comando 40 px con il
   glifo da 20 px, parole e nota sulla stessa linea, nessun margine del browser; sul telefono il comando
@@ -459,7 +539,11 @@ Cose che Roll20 fa e noi no, o che facciamo diversamente, e perché.
 - Senza colori: la sotto-sezione aperta della scheda si distingue come il filtro scelto (fondo più
   chiaro, filo da 2 px, pallino); il turno attuale ha la barra bianca a sinistra oltre al verde,
   nella colonna compatta e sul telefono; il nodo scelto dei Doni ha il filo doppio.
-- Verifica dei valori: **0 testi sotto AA** su 1215 (vedi «Coerenza (I-250)»).
+- Pannelli della Scheda: 17 px sopra e 17 sotto in tutti i pannelli di tutte le sezioni, a 1440 e a
+  390; la casella delle condizioni 13 e 13. Schede dell'Inizio (con «Accesso rapido»): 24 px dentro
+  ogni scheda a 1440 e a 390, «Continua a giocare» 16 come prima.
+- Verifica dei valori: **0 testi sotto AA** su 1221 (vedi «Coerenza (I-250)»); le parole lilla
+  delle sotto-schede del Tavolo 5,2:1 sulla striscia #2D123A.
 - `node --test design/blueprint/tests/*.test.mjs`: 2688 su 2688; Prettier pulito sui file di questa
   opzione; nessun `!important`, nessun `text-transform`, solo `content: ""`; ogni selettore
   comincia con il prefisso dell'opzione.
@@ -536,6 +620,20 @@ il passaggio I-250 sullo strumento di verifica, sul campionario e sotto la piega
 | SOURCES.md (bassa)                  | «Differenze dichiarate» 10 diceva 653–699 px                                                                                                                   | 599–645 px, come la misura                                                                                                                                                                                                                                                                                                              |
 | Prove vecchie                       | Schermate e montaggi del terzo giro                                                                                                                            | Tutto il giro 1 (15 schermate e il foglio di contatto) rifatto dopo l'ultima modifica (15:20): 15:20–15:21, e alle 15:22 di nuovo «Tavolo in esplorazione» e «Magie» a 1440, che avevano registrato un tempo scaduto del server; i 12 montaggi in `_pairs/` rifatti alle 15:22–15:23                                                    |
 | I-250                               | Valori e varianti fuori scala (vedi «Coerenza»)                                                                                                                | Un ritmo da 24 px su Inizio e Scheda, ritratto e liste di regole sul bordo, una linguetta a pastiglia, un campo, un'etichetta di condizione, sei valori fuori scala tolti                                                                                                                                                               |
+
+## Quinto giro di rifinitura (01/10/2026)
+
+Le osservazioni della quinta verifica indipendente (`notes/open-items-round5.json`, voce `roll20`) e
+il passaggio I-250 sullo strumento di verifica, sul campionario e sotto la piega. Nessuna respinta.
+
+| Voce                             | Osservazione                                                                                                                                          | Correzione                                                                                                                                                                                                                                                                                                                                     |
+| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| «9 m» tagliato (alta)            | Sul telefono il menu dei dadi a 16 px allargava la sua colonna e la riga delle risorse tagliava la «m» (Tavolo da giocatore, da master, esplorazione) | Solo sotto i 721 px: la casella dei PF perde la colonna vuota dell'app (6 px dopo la pastiglia), il campanello di «Tiri e risultati» sta al centro della sua casella da 40 px accanto al menu: la riga passa da 77,6 a 87,6 px, «9 m» intero su una riga. Il menu resta a 16 px. Sotto i 390 px i segni vanno a capo invece di essere tagliati |
+| Margine sotto i pannelli (media) | In dieci pannelli della Scheda l'ultimo paragrafo lasciava 31–33 px sotto l'ultima riga contro 17 sopra il titolo                                     | La regola di «Tiri» vale per tutti i pannelli della Scheda (anche l'ultimo blocco di un gruppo finale): 17 e 17 in tutte le sezioni, a 1440 e a 390                                                                                                                                                                                            |
+| «Accesso rapido» (bassa)         | 22 × 24 px contro i 24 delle altre schede dell'Inizio                                                                                                 | 24 px, anche sul telefono (era 18 × 16)                                                                                                                                                                                                                                                                                                        |
+| Linguette a riposo (bassa)       | La linguetta non aperta in tre aspetti (lilla sull'Inizio, #C6ABD3 nel Tavolo, grigia nella barra)                                                    | Inizio e Tavolo uguali: parole #A980BD, #353535 al passaggio, #702C91 aperta. Le pagine della barra sono dichiarate come il controllo segmentato di «Grimoire» (vedi «Coerenza»)                                                                                                                                                               |
+| Prove vecchie                    | Schermate e montaggi del quarto giro                                                                                                                  | Tutto il giro 1 (15 schermate e il foglio di contatto) rifatto dopo l'ultima modifica (16:41:17): 16:41:43–16:42:06; i 12 montaggi in `_pairs/` rifatti alle 16:42:12–16:42:22                                                                                                                                                                 |
+| I-250                            | Valori e forme lasciati da oggi (vedi «Coerenza»)                                                                                                     | Gli spazi da 10, 14, 18 e 22 px tra i blocchi sui passi di «Grimoire»; il pannello delle novità con il margine da 24 px delle schede; il titolo «Condizioni» sul telefono senza i 10 px di centratura                                                                                                                                          |
 
 ## Licenze e attribuzioni
 

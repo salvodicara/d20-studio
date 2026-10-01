@@ -833,8 +833,9 @@
    a bronze rim and knob; the cream track and a dark knob when on, so the knob's side says
    «on», not only the colour). «Ispirazione eroica» drew a larger track (44 × 26, an 18 px
    knob): it takes the others' 40 × 22 with the 12 px knob, and the three labels stand 12 px
-   from their track (they were 12, 8 and 10). */
-:root[data-direction="bg3"] .dtray-switch-track {
+   from their track (they were 12, 8 and 10). Its invisible input takes the track's box too
+   (it kept the app's 44 × 26, 4 px past the track). */
+:root[data-direction="bg3"] :is(.dtray-switch input, .dtray-switch-track) {
   width: var(--bg3-control);
   height: var(--bg3-tag-h);
 }
@@ -1011,6 +1012,15 @@
 :root[data-direction="bg3"]:not([data-pref-theme="light"])
   :is(details > summary:not(.button), .spl-window-why > summary) {
   color: var(--bg3-highlight);
+}
+/* A disclosure that opens a section is semibold, as the hit-point widget's and Home's
+   («Correggi i punti ferita», «Novità precedenti»); I-250, fifth round: the Table panel's
+   «Pedine in scena» was the only one at 500. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  .token-menu-list-details
+  > summary {
+  font-weight: 600;
 }
 /* Dialogs: BG3's framed panel («Select Subclass») — a near-black plate whose single thin
    bronze line is the frame; at each corner the line ends in a small thorn with two hooks
@@ -2023,16 +2033,18 @@
   color: var(--bg3-cream);
 }
 /* Heal and Damage as the teal and the red lozenge wherever the hit-point widget stands (the
-   sheet's band and the Table's widget; I-250: the Table's were plain bronze lozenges). */
+   sheet's band, the Table's widget and the «Punti ferita» dialog opened from either; I-250:
+   the Table's, then the dialog's, were plain bronze lozenges). The dialog joins through
+   :where(), so the rules keep their weight (high contrast's line colour still wins). */
 :root[data-direction="bg3"]:not([data-pref-theme="light"])
-  :is(.character-sheet, .table-layout)
+  :is(.character-sheet, .table-layout, :where(dialog))
   .dt-heal {
   --bg3-btn-body: linear-gradient(#063547, #0b4a63 50%, #063547);
   border-color: #6d5e4b;
   color: #eef6f7;
 }
 :root[data-direction="bg3"]:not([data-pref-theme="light"])
-  :is(.character-sheet, .table-layout)
+  :is(.character-sheet, .table-layout, :where(dialog))
   .dt-damage {
   --bg3-btn-body: linear-gradient(#3a0c12, #6a1220 50%, #3a0c12);
   border-color: rgb(224 25 73 / 0.7);
@@ -2452,12 +2464,12 @@
   color: var(--bg3-base);
 }
 :root[data-direction="bg3"]:not([data-pref-theme="light"])
-  :is(.character-sheet, .table-layout)
+  :is(.character-sheet, .table-layout, :where(dialog))
   .dt-heal:hover:not(:disabled) {
   --bg3-btn-body: linear-gradient(#0a4156, #13668a 50%, #0a4156);
 }
 :root[data-direction="bg3"]:not([data-pref-theme="light"])
-  :is(.character-sheet, .table-layout)
+  :is(.character-sheet, .table-layout, :where(dialog))
   .dt-damage:hover:not(:disabled) {
   --bg3-btn-body: linear-gradient(#5a0d17, #9a0615 50%, #5a0d17);
 }
