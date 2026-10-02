@@ -5,23 +5,23 @@ con l'opzione applicata, affiancato all'immagine del prodotto copiato e a «elem
 fonte». L'owner risponde con i numeri. Nulla si applica a tutta l'app prima della risposta; la
 risposta si registra parola per parola come decisione I-2xx.
 
-| #   | Scelta                                                                         | Dipende da | Giro | Stato    |
-| --- | ------------------------------------------------------------------------------ | ---------- | ---- | -------- |
-| 1   | Direzione generale, per superficie (Inizio, Scheda, Tavolo)                    | —          | 1    | in corso |
-| 2   | Colori (palette e colore del tema)                                             | 1          | 2    | da fare  |
-| 3   | Caratteri (titoli, interfaccia, etichette)                                     | 1          | 2    | da fare  |
-| 4   | Icone (voce: glifi pieni di gioco o contorni; set)                             | 1          | 2    | da fare  |
-| 5   | Pulsanti e campi                                                               | 1–3        | 2    | da fare  |
-| 6   | Schede, pannelli, dialoghi, barre laterali (anche nomi visibili: arretrato P3) | 1–5        | 3    | da fare  |
-| 7   | Pedine e mappa (anelli, bersaglio, barre, didascalia: arretrato P2)            | 1–2        | 3    | da fare  |
-| 8   | Barra delle azioni (hotbar, risorse, Fine turno)                               | 1–4        | 3    | da fare  |
-| 9   | Ritratti del turno                                                             | 1–2        | 3    | da fare  |
-| 10  | Dadi e animazioni                                                              | 1–2        | 3    | da fare  |
-| 11  | Scheda del personaggio (dettaglio)                                             | 1–5        | 4    | da fare  |
-| 12  | Pagine della campagna (Kanka / World Anvil)                                    | 1–5        | 4    | da fare  |
-| 13  | Biblioteca                                                                     | 1–5        | 4    | da fare  |
-| 14  | Telefono (intestazioni, fogli, Tavolo: arretrato P2)                           | 1–13       | 4    | da fare  |
-| 15  | Tema chiaro                                                                    | 1–14       | 5    | da fare  |
+| #   | Scelta                                                                         | Dipende da | Giro | Stato                                                   |
+| --- | ------------------------------------------------------------------------------ | ---------- | ---- | ------------------------------------------------------- |
+| 1   | Direzione generale, per superficie (Inizio, Scheda, Tavolo)                    | —          | 1    | **scelta: Baldur's Gate 3, tutta l'app (I-253, I-254)** |
+| 2   | Colori (palette e colore del tema)                                             | 1          | 2    | da fare                                                 |
+| 3   | Caratteri (titoli, interfaccia, etichette)                                     | 1          | 2    | da fare                                                 |
+| 4   | Icone (voce: glifi pieni di gioco o contorni; set)                             | 1          | 2    | da fare                                                 |
+| 5   | Pulsanti e campi                                                               | 1–3        | 2    | da fare                                                 |
+| 6   | Schede, pannelli, dialoghi, barre laterali (anche nomi visibili: arretrato P3) | 1–5        | 3    | da fare                                                 |
+| 7   | Pedine e mappa (anelli, bersaglio, barre, didascalia: arretrato P2)            | 1–2        | 3    | da fare                                                 |
+| 8   | Barra delle azioni (hotbar, risorse, Fine turno)                               | 1–4        | 3    | da fare                                                 |
+| 9   | Ritratti del turno                                                             | 1–2        | 3    | da fare                                                 |
+| 10  | Dadi e animazioni                                                              | 1–2        | 3    | da fare                                                 |
+| 11  | Scheda del personaggio (dettaglio)                                             | 1–5        | 4    | da fare                                                 |
+| 12  | Pagine della campagna (Kanka / World Anvil)                                    | 1–5        | 4    | da fare                                                 |
+| 13  | Biblioteca                                                                     | 1–5        | 4    | da fare                                                 |
+| 14  | Telefono (intestazioni, fogli, Tavolo: arretrato P2)                           | 1–13       | 4    | da fare                                                 |
+| 15  | Tema chiaro                                                                    | 1–14       | 5    | da fare                                                 |
 
 ## Scelta 1 — Direzione (Giro 1)
 
