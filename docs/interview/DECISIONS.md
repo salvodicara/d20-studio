@@ -4990,3 +4990,20 @@ resta aperto e l'intervista continua una domanda alla volta.
   (tutta l'app in stile BG3 o qualche pezzo da altre opzioni, icone e immagini, mappe) si fanno
   all'owner prima del Giro 2. Restano I-250 (un solo design curato in ogni dettaglio), I-251
   (marchio d20) e I-252 (superare i modelli).
+
+## I-254 — Scelta 1 chiusa: Baldur's Gate 3 per tutta l'app; immagini e mappe con le proposte
+
+- **Provenienza:** domande del 02/10/2026 all'owner (tutta l'app in stile BG3? come fare le
+  immagini? mappe pronte dentro l'app? dove prende le mappe il vostro DM?); l'owner ha risposto
+  «nessuna preferenza» a tutte e quattro. Dato che le proposte sono gratuite e reversibili, il
+  coordinatore applica le opzioni consigliate e lo dichiara all'owner; qualsiasi correzione
+  dell'owner prevale.
+- **Decisione:** (1) Scelta 1 = opzione 1, Baldur's Gate 3, per tutta l'app (Tavolo, Scheda,
+  Inizio, Campagna, Biblioteca), da rifinire fino a un livello premium che superi il modello
+  (I-252, I-253); (2) immagini: prima la strada gratuita — simboli vettoriali da game-icons.net
+  (CC BY 3.0) e immagini dipinte generate con l'imagegen di Codex sull'abbonamento dell'owner —
+  con una prova di 10–20 immagini per tipo prima della produzione; i pacchetti a pagamento solo
+  su richiesta e con un sì esplicito per la spesa; (3) mappe: caricamento dell'utente e import da
+  Dungeondraft (già nel blueprint) più una piccola raccolta di mappe pronte nello stesso stile
+  dipinto, con muri e porte già messi; nessun negozio (esclusione invariata); (4) la fonte delle
+  mappe del DM del gruppo resta da chiedere.
