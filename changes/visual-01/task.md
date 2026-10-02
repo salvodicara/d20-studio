@@ -115,8 +115,13 @@ scelta numerata dell'owner, non solo direzione, icone e caratteri. Registro dell
   50 ritagli del campionario); pagine private aggiornate (Scelta 1 versione 4 con la sezione
   «Marchio», Altri stati versione 3) e quattro griglie mandate all'owner.
 
+- 02/10/2026: l'owner sceglie Baldur's Gate 3 per tutta l'app, «premium», «magico», con tante icone
+  e immagini; chiede come funzioneranno le mappe e i prossimi passi (I-253, I-254). Avviato il Giro
+  2 (workflow `phase-c-round2`, script in `…/notes/phase-c-round2.js`): rifinitura premium di bg3,
+  prove di icone dipinte e mappe pronte con Codex, varianti combinabili (`?variant=`) per colori,
+  caratteri, pulsanti e campi, icone.
+
 ## Prossima azione
 
-Attendere la risposta dell'owner alla Scelta 1; intanto chiudere il terzo giro di rifinitura,
-ricatturare e ripubblicare le due pagine. Dopo la risposta: Giro 2 (scelte 2–5) secondo
-[NEXT](../../docs/NEXT.md).
+Chiudere il Giro 2: catture, pagina privata «Scelte 2–5», griglie per il telefono e domande
+numerate all'owner secondo [NEXT](../../docs/NEXT.md).
