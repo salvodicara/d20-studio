@@ -16,7 +16,8 @@
    :not([data-pref-vision]:not([data-pref-vision="standard"])). No !important, no content text,
    no text-transform (capitals are font-variant-caps), no markup change; 40 px targets and the
    3 px focus ring stay; the map box, the tool column, the hotbar rows and the End turn slot keep
-   their geometry (the hotbar stays ≤ 118 px: its two rows of chips become one row of slots).
+   their geometry (the hotbar measures 119 px, within 120: its two rows of chips become one
+   row of slots).
 
    Elemento → prodotto → fonte (W = references/owlcat manifest rows; [O] sampled, [E] edge
    measure, [T] text ink, [I] our inference — all values in facts.md)
@@ -303,9 +304,7 @@
   --oc-mask-heart: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath d='M480.25 156.355c0 161.24-224.25 324.43-224.25 324.43S31.75 317.595 31.75 156.355c0-91.41 70.63-125.13 107.77-125.13c77.65 0 116.48 65.72 116.48 65.72s38.83-65.73 116.48-65.73c37.14.01 107.77 33.72 107.77 125.14'/%3E%3C/svg%3E");
   /* The rolls' die (game-icons «dice-six-faces-four», Delapouite, CC BY 3.0). */
   --oc-mask-die: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath d='M74.5 36A38.5 38.5 0 0 0 36 74.5v363A38.5 38.5 0 0 0 74.5 476h363a38.5 38.5 0 0 0 38.5-38.5v-363A38.5 38.5 0 0 0 437.5 36zm48.97 36.03A50 50 0 0 1 172 122a50 50 0 0 1-100 0a50 50 0 0 1 51.47-49.97m268 0A50 50 0 0 1 440 122a50 50 0 0 1-100 0a50 50 0 0 1 51.47-49.97m-268 268A50 50 0 0 1 172 390a50 50 0 0 1-100 0a50 50 0 0 1 51.47-49.97m268 0A50 50 0 0 1 440 390a50 50 0 0 1-100 0a50 50 0 0 1 51.47-49.97'/%3E%3C/svg%3E");
-  /* Detail round: the calendar of «Aggiungi al calendario» (game-icons «calendar»,
-     Delapouite) and the blade of «Danno» (game-icons «broadsword», Lorc), CC BY 3.0. */
-  --oc-mask-calendar: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath d='M119 31v66h18V31zm256 0v66h18V31zM73 89v30h366V89h-28v26h-54V89H155v26h-54V89zm0 48v302h366V137zm110 14h18v32h46v-32h18v32h46v-32h18v32h46v-32h18v32h32v18h-32v46h32v18h-32v46h32v18h-32v46h32v18H265v32h-18v-32h-46v32h-18v-32h-46v32h-18v-32H87v-18h32v-46H87v-18h32v-46H87v-18h32v-46H87v-18h96zm-46 50v46h46v-46zm64 0v46h46v-46zm64 0v46h46v-46zm64 0v46h46v-46zm-192 64v46h46v-46zm64 0v46h46v-46zm64 0v13.27A25.38 25.38 0 0 1 278.27 265zm32.73 0A25.38 25.38 0 0 1 311 278.27V265zm31.27 0v46h46v-46zm-41 16c-3.973 0-7 3.027-7 7s3.027 7 7 7s7-3.027 7-7s-3.027-7-7-7m-23 16.73V311h13.27A25.38 25.38 0 0 1 265 297.73m46 0A25.38 25.38 0 0 1 297.73 311H311zM137 329v46h46v-46zm64 0v46h46v-46zm64 0v46h46v-46zm64 0v46h46v-46z'/%3E%3C/svg%3E");
+  /* Detail round: the blade of «Danno» (game-icons «broadsword», Lorc), CC BY 3.0. */
   --oc-mask-blade: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath d='m491.844 22.533l-83.42 14.865L196.572 249.25c3.262 4.815 5.37 10.72 5.37 16.932c0 5.863-1.71 11.35-4.643 15.996a53 53 0 0 0-16.027-2.477c-15.724 0-29.904 6.89-39.69 17.796l-9.112-9.113l17.237-17.237a546 546 0 0 1-13.19-17.6l-19.443 19.44l-13.215-13.215l21.828-21.827a548 548 0 0 1-12.792-20.068L72.093 258.68l58.314 58.314a53 53 0 0 0-2.49 16.063a52.9 52.9 0 0 0 4.592 21.564l-72.14 72.14l-14.56-14.56L21.013 437l14.558 14.56l-8.607 8.608l27.246 27.246l8.606-8.61l14.56 14.56l24.798-24.8l-14.557-14.556l72.158-72.16a52.9 52.9 0 0 0 21.498 4.562a53 53 0 0 0 16.063-2.49l58.363 58.363L296.5 401.48a549 549 0 0 1-20.068-12.793l-21.83 21.83L241.39 397.3l19.442-19.44a550 550 0 0 1-17.603-13.194l-17.238 17.238l-9.16-9.16c10.905-9.785 17.795-23.965 17.795-39.69c0-5.346-.806-10.51-2.285-15.39c4.703-3.04 10.288-4.817 16.265-4.816c6.21 0 11.776 1.77 16.52 4.955L476.98 105.95zm-66.227 53.012l13.215 13.215l-191.684 191.68l-13.214-13.213zM181.273 298.39c19.257 0 34.665 15.41 34.665 34.665c0 19.256-15.408 34.666-34.665 34.666s-34.666-15.41-34.666-34.665s15.41-34.666 34.666-34.666'/%3E%3C/svg%3E");
   /* The header's connection tile in the filled family of the other tiles: a solid cloud
      with its state cut out (check, cross, three dots, exclamation), drawn here as plain
@@ -671,10 +670,18 @@
     padding-block: var(--oc-sp-4) var(--oc-sp-3);
   }
   /* The Table's header keeps the stage's 16 px gutter, and 16 px between its parts (the app's
-     18). */
+     18). «Torna alla campagna» lends its 16 px to the gap after «App», as a line-opening
+     borderless command does: its words stand 34 px of ink from «App», as «App» stands 37 from
+     the brand (the two commands' paddings made it 50). */
   :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .app-header.table-header {
     gap: var(--oc-sp-5);
     padding-inline: var(--oc-sp-5);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .app-header.table-header
+    > .button.quiet
+    + .button.quiet {
+    margin-inline-start: calc(-1 * var(--oc-sp-5));
   }
 }
 /* The header's edges line up with the page under it: the mark on the column's 48 px edge, the
@@ -684,6 +691,15 @@
   :root[data-direction="owlcat"]:not([data-pref-theme="light"])
     .app-header:not(.table-header):has(~ .workspace:not(.with-sidebar)) {
     padding-inline: max(var(--oc-sp-8), calc((100% - 1440px) / 2 + var(--oc-sp-8)));
+  }
+}
+/* From 1001 to 1100 px the page keeps its 48 px edge while the app's header stepped in to 20
+   (sixth round): the header follows the page there too (the row needs 856 px of the 905). At
+   1000 px and below the page's edge is 28 px and the header keeps 20, for the room. */
+@media (min-width: 1001px) and (max-width: 1100px) {
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .app-header:not(.table-header):has(~ .workspace:not(.with-sidebar)) {
+    padding-inline: var(--oc-sp-8);
   }
 }
 /* Header services: WotR's tool tiles — dark square iron tiles with light engraved glyphs
@@ -800,7 +816,8 @@
     .conditions-quick-add,
     .inspector-quick > .button.quiet:first-child,
     :is(.invp-inspector-item-list, .invp-inspector-set, .loot-inspector-purse, .token-menu-panel)
-      > .button.quiet
+      > .button.quiet,
+    .media-token-panel > .toolbar > .button.quiet
   ):focus-visible {
   outline-offset: calc(-1 * var(--oc-bw-focus));
 }
@@ -853,10 +870,173 @@
       .spl-row-actions > .button:not(.quiet) + .button.quiet,
       .spl-row-actions > .button.quiet:first-child,
       .shp-action-tools > .button.quiet:first-child,
-      .invp-row-actions > .button.quiet:first-child,
       .spl-concentration > .button.quiet
     ) {
     margin-inline-start: calc(-1 * var(--oc-sp-5));
+  }
+}
+/* The rest of the line-opening borderless commands (sixth round, verification H1), at every
+   width: under a row's words («Registra materiale di valore…», «Annota magia concessa»,
+   «Impugna»), an item's «Dettagli» (on the line under its name at 1440 too), after a
+   paragraph («Offline e sincronizzazione»), a section's command when it drops under the
+   title («+ Azione personalizzata»; beside the title the row's free space takes the 16 px),
+   the inspector's «Aspetto nella scheda» and, on Home, «Unisciti con un invito» and
+   «Nascondi i primi passi». */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(
+    .character-sheet .spl-list-foot > .button.quiet:first-child,
+    .character-sheet .spl-components > .toolbar > .button.quiet:first-child,
+    .character-sheet .spl-focus-list > li > .button.quiet,
+    .character-sheet .invp-row-actions > .button.quiet:first-child,
+    .character-sheet .offline-switch-block > .button.quiet,
+    .character-sheet .section-heading > .button.quiet:last-child,
+    .table-layout .table-inspector .media-token-panel > .toolbar > .button.quiet,
+    .home-page .home-path > .toolbar > .button.quiet:first-child,
+    .home-page .home-start > .button.quiet
+  ) {
+  margin-inline-start: calc(-1 * var(--oc-sp-5));
+}
+/* «Cambia…» follows the dice policy on its line on a wide sheet: its leading glyph made the
+   command's baseline the glyph's foot, so the words stood 6 px off the sentence's; centred
+   on the line it reads with them. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .dtray-sheet-policy
+  > .button {
+  vertical-align: middle;
+}
+/* A borderless command after bordered ones takes a line of its own (an empty break, as
+   «Nessuno»), so its pull never lands mid-line: the inspector's «Aspetto nella scheda»
+   always, and on a narrow sheet «Cerca nella Biblioteca» under «Aggiungi oggetto» or
+   «Gestisci magie» (both now start the line, as the inventory's did) and «Dividi tra il
+   gruppo» under the two coin commands. The second line stands 8 px under the first. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  .media-token-panel
+  > .toolbar {
+  gap: 0;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  .media-token-panel
+  > .toolbar::after {
+  content: "";
+  flex-basis: 100%;
+  order: 1;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  .media-token-panel
+  > .toolbar
+  > .button.quiet {
+  order: 2;
+  margin-top: var(--oc-sp-3);
+}
+/* «Cambia set → …» follows «Mischia: Bastone» only when the inspector is wide enough (1440);
+   on a phone it stayed on that line and its pull laid its box 6 px over the words. It always
+   takes the line under the active set, so the pull lands at the column's edge. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  .invp-inspector-set {
+  row-gap: 0;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  .invp-inspector-set::after {
+  content: "";
+  flex-basis: 100%;
+  order: 1;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  .invp-inspector-set
+  > .button.quiet {
+  order: 2;
+  margin-top: var(--oc-sp-3);
+}
+@container character-sheet (max-width: 899px) {
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .character-sheet
+    :is(.section-heading, .loot-stash-coins)
+    > .toolbar:has(> .button:not(.quiet) + .button.quiet:last-child) {
+    justify-content: flex-start;
+    row-gap: 0;
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .character-sheet
+    :is(.section-heading, .loot-stash-coins)
+    > .toolbar:has(> .button:not(.quiet) + .button.quiet:last-child)::after {
+    content: "";
+    flex-basis: 100%;
+    order: 1;
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .character-sheet
+    :is(.section-heading, .loot-stash-coins)
+    > .toolbar:has(> .button:not(.quiet) + .button.quiet:last-child)
+    > .button.quiet:last-child {
+    order: 2;
+    margin-top: var(--oc-sp-3);
+    margin-inline-start: calc(-1 * var(--oc-sp-5));
+  }
+  /* A command written inside a sentence («Cambia…» after the dice policy, «Apri al Tavolo»
+     after the generic actions' note) opens the line under it, so it always starts at the
+     column's edge instead of wherever the words wrap. */
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .character-sheet
+    :is(.dtray-sheet-policy, .sm-sheet > p.muted)
+    > .button.quiet {
+    display: flex;
+    width: fit-content;
+    margin-inline-start: calc(-1 * var(--oc-sp-5));
+  }
+}
+/* On a phone the sheet's commands stand under its name: the row lends its 16 px to the
+   borderless ones, so every line's first word stands on the column's edge however the five
+   wrap; «Vai al Tavolo», framed, takes the 16 px back. */
+@media (max-width: 720px) {
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-heading
+    > .toolbar {
+    max-width: calc(100% + var(--oc-sp-5));
+    margin-inline-start: calc(-1 * var(--oc-sp-5));
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-heading
+    > .toolbar
+    > .button:not(.quiet) {
+    margin-inline-start: var(--oc-sp-5);
+  }
+  /* The Table's scene strip does the same on its 16 px gutter (the inspector's): «Riposi» (or
+     the DM's «Tempo» on the second line) starts under the scene's name, the framed «Concludi
+     incontro» takes the 16 px back, and the ring is drawn inside, at the screen's edge. */
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    > .table-topline
+    > .toolbar {
+    margin-inline-start: calc(-1 * var(--oc-sp-5));
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    > .table-topline
+    > .toolbar
+    > .button:not(.quiet) {
+    margin-inline-start: var(--oc-sp-5);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .table-layout
+    > .table-topline
+    > .toolbar
+    > .button:focus-visible {
+    outline-offset: calc(-1 * var(--oc-bw-focus));
   }
 }
 :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .button.active,
@@ -878,7 +1058,10 @@
 }
 /* Glyphs in commands (detail round): two sizes and one gap — the 21 px glyph in every 40 px
    command, 16 px in the 13–15 px small-cap tabs and toggles, 8 px from the words everywhere
-   (the areas drew 16 · 17 · 18 · 21 px glyphs 4 · 6 · 8 px away). */
+   (the areas drew 16 · 17 · 18 · 21 px glyphs 4 · 6 · 8 px away). The gap is the only
+   distance: a glyph keeps no margin of its own (sixth round: «Offline e sincronizzazione»
+   added the area's 6 px, 14 px in all), and the inspector's creature list draws its menu and
+   «Trova» glyphs at 21 px too (they were 18). */
 :root[data-direction="owlcat"]:not([data-pref-theme="light"])
   :is(.home-page, .character-sheet, .table-layout, dialog, .token-menu)
   .button {
@@ -891,9 +1074,15 @@
 :root[data-direction="owlcat"]:not([data-pref-theme="light"])
   .token-menu
   .token-menu-item
-  > .token-menu-icon {
+  > .token-menu-icon,
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .table-layout
+  .token-menu-panel
+  .button
+  svg {
   width: var(--oc-glyph);
   height: var(--oc-glyph);
+  margin-inline: 0;
 }
 :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .character-tabs-all {
   gap: var(--oc-sp-3);
@@ -907,12 +1096,14 @@
 }
 /* Within a pair or a row of siblings the glyphs are on all or on none (they are decorative):
    «Gioco · Modifica» beside the wordless «Dadi digitali · fisici», «Riepilogo del gruppo»
-   beside «Creatura», «Scene» beside «Riposi» and «Tempo» lose theirs. */
+   beside «Creatura», «Scene» beside «Riposi» and «Tempo», and (sixth round) «Tira tutti»
+   beside «Tira PNG» lose theirs. */
 :root[data-direction="owlcat"]:not([data-pref-theme="light"])
   :is(
     .character-sheet .shp-mode button,
     .table-layout .table-sidebar-panel > .table-subtabs > .table-subtab,
-    .table-layout > .table-topline .toolbar > .button.quiet
+    .table-layout > .table-topline .toolbar > .button.quiet,
+    dialog .ct-start-tools > .button[data-ct-start-roll]
   )
   > .icon {
   display: none;
@@ -1099,6 +1290,48 @@
   > input[type="checkbox"]:disabled {
   opacity: 0.55;
   cursor: not-allowed;
+}
+/* Radios beside them: the same 20 px well in the 2 px iron rim, round as a medallion (the
+   browser's 13 px disc stood next to the drawn boxes); chosen, the plum rim around a plum
+   seed in the parchment (a shape, not a colour alone). The segmented choice's words stand
+   8 px away, the skin's one control-to-words gap. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(.home-page, .character-sheet, .table-layout, dialog, .token-menu)
+  input[type="radio"] {
+  appearance: none;
+  flex: none;
+  width: calc(var(--oc-sp-5) + var(--oc-sp-2));
+  height: calc(var(--oc-sp-5) + var(--oc-sp-2));
+  margin: 0;
+  border: var(--oc-bw-2) solid var(--oc-iron-line);
+  border-radius: var(--oc-round);
+  background: var(--oc-field);
+  box-shadow: var(--oc-field-shade);
+  cursor: pointer;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(.home-page, .character-sheet, .table-layout, dialog, .token-menu)
+  input[type="radio"]:hover:not(:disabled) {
+  border-color: var(--oc-keyword);
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(.home-page, .character-sheet, .table-layout, dialog, .token-menu)
+  input[type="radio"]:checked {
+  border-color: var(--oc-plum);
+  background: radial-gradient(circle, var(--oc-plum) 0 var(--oc-sp-2), var(--oc-field) 0);
+  box-shadow: none;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(.home-page, .character-sheet, .table-layout, dialog, .token-menu)
+  input[type="radio"]:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout, dialog)
+  .dt-seg
+  label {
+  gap: var(--oc-sp-3);
 }
 /* Badges: small-cap labels in a hairline cell. */
 :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .badge {
@@ -1777,23 +2010,15 @@
   display: flex;
   width: 100%;
 }
-/* «Aggiungi al calendario» shows a calendar, not the hourglass of the timers (game-icons
-   «calendar», Delapouite, CC BY 3.0; the core glyph stays for the timers). */
+/* The letter's two commands are words only, as WotR's iron plates (W19 «BACK  NEXT»): the
+   pair carries a glyph on both or on neither (sixth round: the calendar stood on «Aggiungi
+   al calendario» alone, beside a bare «Apri sessioni»). The core hourglass stays for the
+   timers. */
 :root[data-direction="owlcat"]:not([data-pref-theme="light"])
   .int-cal-menu
   > summary.button
   > .icon {
   display: none;
-}
-:root[data-direction="owlcat"]:not([data-pref-theme="light"])
-  .int-cal-menu
-  > summary.button::before {
-  content: "";
-  flex: none;
-  width: var(--oc-glyph);
-  height: var(--oc-glyph);
-  background: currentColor;
-  mask: var(--oc-mask-calendar) center / contain no-repeat;
 }
 /* No orphan in the letter's last line («(Europe/Rome).»). */
 :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .home-agreed {
@@ -1951,9 +2176,13 @@
   padding: var(--oc-sp-4) var(--oc-sp-5) var(--oc-sp-5);
 }
 /* The letter-book holds no padding of its own: its tab strip runs edge to edge and each page
-   carries the leaves' 12/16/16. */
+   carries the leaves' 12/16/16. The book scrolls, so a focused page draws its 3 px ring inside
+   its edge, as the inspector's commands do (outside, the book cut it on three sides). */
 :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .home-aside {
   padding: 0;
+}
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .home-panel:focus-visible {
+  outline-offset: calc(-1 * var(--oc-bw-focus));
 }
 :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page .home-aside > .home-tabs {
   margin: 0;
@@ -2247,6 +2476,16 @@
   row-gap: var(--oc-sp-3);
   align-content: start;
   padding: var(--oc-sp-3) var(--oc-sp-2);
+}
+/* The 128 px stack is centred on the cell, not on its first three lines (it stood 2 px above
+   the cell's top and 14 px clear of its foot): the 8 px of the bar's line and its gap are
+   split, 6 px clear above and below. */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-band
+  .character-hp
+  .dt-hp-row {
+  margin-block: var(--oc-sp-3) calc(-1 * var(--oc-sp-3));
 }
 :root[data-direction="owlcat"]:not([data-pref-theme="light"])
   .character-sheet
@@ -2570,6 +2809,13 @@
   .button.dt-damage::before {
   mask-image: var(--oc-mask-blade);
 }
+/* Cura · the amount · Danno are three tiles of one kind: 4 px apart wherever they stand (the
+   Table's row kept the area's 6 px, the sheet's stack 4). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"])
+  :is(.table-layout, dialog, .token-menu)
+  .dt-hp-row {
+  gap: var(--oc-sp-2);
+}
 /* In the band the three stand one above the other, as D&D Beyond's HP box (HEAL · the amount ·
    DAMAGE): each command as wide as the column, so the glyph and the word fit whole. */
 :root[data-direction="owlcat"]:not([data-pref-theme="light"])
@@ -2746,6 +2992,30 @@
   :is(th, td) {
   padding: var(--oc-sp-2) var(--oc-sp-3);
 }
+/* On a phone the book's column is 318 px: the generic actions' table keeps 4 px on each side
+   of its inner rules and its words on the column's edges (none at the start, the 8 px a
+   link's ring needs at the end), so it fits whole (with 8 px everywhere it was 337 px wide
+   and scrolled, its rules cut at the column's edge). */
+@media (max-width: 720px) {
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .character-sheet
+    .sm-actions-table
+    :is(th, td) {
+    padding-inline: var(--oc-sp-2);
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .character-sheet
+    .sm-actions-table
+    :is(th, td):first-child {
+    padding-inline-start: 0;
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .character-sheet
+    .sm-actions-table
+    :is(th, td):last-child {
+    padding-inline-end: var(--oc-sp-3);
+  }
+}
 :root[data-direction="owlcat"]:not([data-pref-theme="light"])
   .character-sheet
   .sm-actions-table
@@ -2780,7 +3050,6 @@
   background: transparent;
 }
 :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .shp-mode {
-  gap: var(--oc-sp-1);
   border: 0;
   border-radius: var(--oc-radius);
   --bg: var(--oc-plum-soft);
@@ -2958,12 +3227,10 @@
    first line's baseline, the value — a figure or the words of the defences — trimmed to its
    capitals and baseline on the second, 12 px inside every tile, 16 px between tiles (the
    band's gutter). The app centred each tile's content, so the shorter «Difese» sat 6 px
-   lower. */
-:root[data-direction="owlcat"]:not([data-pref-theme="light"])
-  .character-sheet
-  .character-summary
-  .shp-stats {
-  gap: var(--oc-sp-5);
+   lower. The tiles' row (.shp-stats) has no box of its own: the summary's grid places them,
+   so the 16 px is that grid's column gap (a narrow sheet places them in its 4-column grid). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .character-summary {
+  column-gap: var(--oc-sp-5);
 }
 :root[data-direction="owlcat"]:not([data-pref-theme="light"])
   .character-sheet
@@ -2992,7 +3259,11 @@
   text-box: trim-both cap alphabetic;
 }
 /* A narrow sheet keeps the app's slim «Difese» line under the two boxes (D&D Beyond's phone
-   button): label and words on one row, centred in its 44 px. */
+   button): label and words on one row, centred in its 44 px. Iniziativa and CA share the
+   row of the band's Competenza and Movimento there, so they set the ledger's three lines
+   (32 · 40 · 20 px, 8 px apart, 8 px inside): labels and figures on one baseline across the
+   row (the tiles' own two lines put them 3 and 9 px higher); the first and last lines are
+   1 px shorter, for the tile's hairline frame, so the row stays 124 px. */
 @container character-sheet (max-width: 899px) {
   :root[data-direction="owlcat"]:not([data-pref-theme="light"])
     .character-sheet
@@ -3003,6 +3274,18 @@
     display: flex;
     align-items: center;
     padding-block: 0;
+  }
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-summary
+    .shp-stats
+    :is([data-shp-stat="initiative"], [data-shp-stat="ac"])
+    .shp-pill {
+    grid-template-rows:
+      minmax(calc(var(--oc-sp-7) - var(--oc-bw-1)), auto) minmax(var(--oc-ctl), auto)
+      minmax(calc(var(--oc-sp-5) + var(--oc-sp-2) - var(--oc-bw-1)), auto);
+    row-gap: var(--oc-sp-3);
+    padding: var(--oc-sp-3) var(--oc-sp-2);
   }
 }
 :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .shp-dot {
@@ -3268,8 +3551,15 @@
 :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .invp-row-meta {
   margin-top: var(--oc-sp-1);
 }
+/* The empty state keeps 16 px inside its dashed frame (the sheet's «no inline padding» for
+   paragraphs and titles took the app's 20 px away: the words touched the frame). */
 :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .empty-state {
-  padding-block: var(--oc-sp-8);
+  padding: var(--oc-sp-8) var(--oc-sp-5);
+}
+/* «Modifiche del DM a questa scheda» opens a group of its own: 16 px under the switch (it
+   stood 6 px under its note). */
+:root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .cs-sheet > h3 {
+  margin-top: var(--oc-sp-5);
 }
 :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .character-sheet .cs-switch > input {
   margin-top: var(--oc-sp-1);
@@ -4056,7 +4346,7 @@
 /* Party (W1 tray grammar): tall portrait cards in iron, the HP as a vertical pure-green bar on
    the card's left edge (W1 #03FB05), the name on a parchment plate; the selected one in a
    cream frame with a violet gem crown. Declared: the cards keep the app's column at the
-   map's lower left (the bottom band holds the hotbar within 118 px). */
+   map's lower left (the bottom band holds the hotbar within 120 px: 119 measured). */
 :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .table-party {
   gap: var(--oc-sp-3);
 }
@@ -5230,20 +5520,20 @@
     .nav-link.active::after {
     inset: var(--oc-bw-1);
   }
-  /* The header's tiles keep the one 4 px tile gap on a phone too (the Table's header sets
-     them edge to edge below, to stay on one row). */
+  /* The header's tiles keep the one 4 px tile gap on a phone, the Table's too. */
   :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .service-nav {
     gap: var(--oc-sp-2);
   }
   /* The Table's header stays on one row, as today: its two commands keep the app's compact
-     phone size (the 6 px moved onto the 4 px step, 12 px small capitals) and the service
-     tiles sit edge to edge, as WotR's tool tiles. */
+     phone size (the 6 px moved onto the 4 px step, 12 px small capitals) and stand 4 px apart
+     like the tiles (sixth round: the tiles were edge to edge; with «App» and «Torna» 4 px
+     apart the row is 388 of 390 px). */
   :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-header > .button {
     padding: var(--oc-sp-2);
     font-size: var(--oc-fs-12);
   }
-  :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-header .service-nav {
-    gap: 0;
+  :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .app-header.table-header {
+    gap: var(--oc-sp-2);
   }
   /* Home: the book page fills the screen; the lettered lines keep their size. */
   :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .home-page > .page-heading h1 {
@@ -5309,9 +5599,10 @@
     h1 {
     font-size: var(--oc-fs-28);
   }
-  /* Table: the scene line as a parchment strip under the iron header. */
+  /* Table: the scene line as a parchment strip under the iron header, on the inspector's
+     16 px gutter. */
   :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout > .table-topline {
-    padding: var(--oc-sp-3) var(--oc-sp-4);
+    padding: var(--oc-sp-3) var(--oc-sp-5);
     border-bottom: var(--oc-bw-2) solid var(--oc-iron-edge);
     background: var(--oc-paper);
     color: var(--oc-ink);
@@ -5573,12 +5864,16 @@
     border-radius: var(--oc-radius);
     background: var(--oc-iron-line);
   }
+  /* The bar's 2 px iron edge is drawn inside it (a shadow, not a border), so its 52 px tiles
+     fit its 52 px row: as a border it took 2 px off the row, the scrolled tabs stood 2 px
+     above «Mappa» and «Tutti» and the rings lost 2 px at the edges (sixth round). */
   :root[data-direction="owlcat"]:not([data-pref-theme="light"])
     .table-layout
     > .table-sidebar-rail {
-    border-top: var(--oc-bw-2) solid var(--oc-iron-edge);
+    border-top: 0;
     border-left: 0;
     background: var(--oc-iron-bar);
+    box-shadow: inset 0 var(--oc-bw-2) 0 var(--oc-iron-edge);
   }
   :root[data-direction="owlcat"]:not([data-pref-theme="light"]) .table-layout .table-tab-label {
     display: -webkit-box;

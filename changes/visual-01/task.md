@@ -94,6 +94,20 @@ scelta numerata dell'owner, non solo direzione, icone e caratteri. Registro dell
   private aggiornate (Scelta 1 versione 3, Altri stati versione 2) e tre griglie mandate
   all'owner; commit locale `bb019df`. Terzo giro di rifinitura in corso sulle nove direzioni.
 
+- 01/10/2026: terzo, quarto e quinto giro di rifinitura (commit `672360d`, `68ad05b`,
+  `4017ac6`); correzione dell'avviso del DM coperto in Demiplane (`932a542`). L'owner chiede un
+  marchio per direzione attorno al d20 e un risultato che superi i modelli: registrati I-251 e
+  I-252.
+- 01–02/10/2026: marchio per direzione (aggancio del logo in `ui.mjs`, geometria vera
+  dell'icosaedro in `directions/brand-geometry.mjs` dal codice d20 Folio dell'owner, icona della
+  scheda, sezione «Marchio» del campionario) e caccia ai dettagli a 2× con critica, correzione e
+  verifica per ognuna delle nove direzioni (`e90818c`); sesto giro (`303802a`). Il server 8881 è
+  caduto una volta durante il sesto giro (8 agenti bloccati): ora è sorvegliato da
+  `…/notes/keep-8881.sh`. Alcuni agenti con file molto grandi superano i 3 minuti per risposta e
+  vengono interrotti: le verifiche delle garanzie sono ora uno script deterministico,
+  [`capture/guarantees.js`](capture/guarantees.js). Punti residui per la fase di applicazione:
+  `…/notes/open-items-for-application.json` (fuori dal repository).
+
 ## Prossima azione
 
 Attendere la risposta dell'owner alla Scelta 1; intanto chiudere il terzo giro di rifinitura,
