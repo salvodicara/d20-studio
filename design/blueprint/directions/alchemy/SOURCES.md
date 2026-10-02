@@ -4,7 +4,9 @@ Scelta 1 — Direzione, primo giro (I-248), 01/10/2026, resa coerente in ogni mi
 di correzioni dello stesso giorno sulle critiche A1–A8 (sezione «Risposte alla critica»), secondo,
 terzo, quarto e quinto giro di rifinitura sui punti della verifica indipendente (sezioni «Risposte
 alla verifica» e «Coerenza (I-250)»), giro dei dettagli sulla critica AL-D01…D16 (sezione «Dettagli
-rifiniti»: distanze tra i pulsanti, allineamento ottico, carte uguali, fuoco, marchio). Tema scuro, a 1440 × 900 e 390 × 844. Le schermate sono in
+rifiniti»: distanze tra i pulsanti, allineamento ottico, carte uguali, fuoco, marchio), sesto giro
+sui punti della verifica dopo il marchio (sezioni «Risposte alla verifica (sesto giro)» e «Coerenza
+(I-250)», «Sesto giro»). Tema scuro, a 1440 × 900 e 390 × 844. Le schermate sono in
 `~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/round1/alchemy/`; i confronti già
 montati (nostra schermata a sinistra, riferimento a destra) in `round1/alchemy/_pairs/`. Le immagini
 di riferimento sono in `~/Workspace/Codex/d20-studio-visual-assets/references/alchemy/`
@@ -126,9 +128,9 @@ S10 e D7 vengono dal centro d'aiuto (<https://help.alchemyrpg.com/>).
 
 ## Coppie per il confronto
 
-Le coppie già montate sono in `round1/alchemy/_pairs/` (01–12), rifatte il 01/10/2026 dopo il
-giro dei dettagli dalle schermate nuove (19:59, script `fix-alchemy/pairs.py` tra le prove, copia di
-`probe-alchemy/round5/pairs.py`). Ogni
+Le coppie già montate sono in `round1/alchemy/_pairs/` (01–12), rifatte dopo il sesto giro dalle
+schermate nuove (05:34–05:39, script `polish6-alchemy/r5/pairs.py` tra le prove, copia di
+`fix-alchemy/pairs.py` che accetta anche un elenco di coppie). Ogni
 coppia mostra la nostra schermata e il primo riferimento della riga; gli altri restano nella
 cartella dei riferimenti.
 
@@ -300,6 +302,20 @@ cartella dei riferimenti.
     pomello da 18) e, con il bianco come accento, acceso era una traccia bianca con il pomello
     rosso.
 
+26. **Sfumature delle file che scorrono.** Ogni fila che scorre di lato sfuma dal lato dove ce n'è
+    ancora, con una lunghezza scelta sulla sua fila: 72 px per le linguette della Scheda stretta,
+    48 per le linguette del Tavolo sul telefono (quasi la linguetta più stretta, 58: a 390 px il
+    pezzo di «Scena» accanto a «Tutti» resta un'ombra), 24 per la fila delle azioni (più lunga
+    sbiadirebbe l'unica azione intera che il telefono mostra a 390). A 360 px, fuori dalle
+    larghezze garantite, «Combattimento» finisce sul bordo della fila e la sfumatura ne scurisce
+    le ultime lettere, e la fila delle azioni (122 px) non mostra un'azione intera.
+27. **Colonna delle novità dell'Inizio.** Da 1101 px la colonna è una carta fissa alta quanto lo
+    schermo e il pannello aperto scorre dentro di lei (sezione «Risposte alla verifica (sesto
+    giro)»). Per tenere dentro il riquadro che scorre i comandi allineati otticamente e gli anelli
+    del fuoco, la carta passa i suoi rientri laterali e inferiore alle linguette e al pannello: a
+    vista sono i 24 px di ogni carta dell'Inizio, ma nel codice la carta ha il rientro «24 0 0 0» e
+    l'audit dell'Inizio intero la conta come seconda variante di carta.
+
 ## Risposte alla critica (01/10/2026)
 
 | Critica                                                                                      | Cosa è cambiato                                                                                                                                                                                                                                                                                                                            |
@@ -468,6 +484,25 @@ ottico), −16 (lo stesso sul telefono), −8 (ritmo dei pulsanti) e −6 (strum
 l'altezza 72 è la riga di «Il tuo personaggio», ora alta quanto il ritratto (era 88); l'ombra in
 più è l'anello d'accento del gruppo aperto; la classe in più con più varianti è il marchio
 (pillola da 48 all'Inizio, da 40 al Tavolo, rotondo sul telefono: AL-D10).
+
+## Risposte alla verifica (sesto giro, 01/10/2026)
+
+Punti aperti della verifica indipendente dopo il marchio e i dettagli
+(`notes/open-items-round6.json`, voce «alchemy»), tutti applicati in un solo giro, più due cose
+trovate qui (l'allineamento ottico nelle carte delle Guide e il contatore delle novità). Prove in
+`polish6-alchemy/r5/` (sonde `*.cjs`, misure in `*/result.json`, ritagli); i tentativi precedenti
+di questo stesso giro sono in `polish6-alchemy/` (`before/` ha i file di partenza).
+
+| Punto                                                                                                                                                                                              | Cosa è cambiato                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [media] Colonna «Novità» dell'Inizio più alta dello schermo (917 su 866 a 1440 × 900, 965 su 766 a 1280 × 800): «Novità precedenti» nascosta e la terza notizia tagliata, senza segnale            | Il trattamento della colonna destra del Tavolo (AL-D07): da 1101 px, dove la colonna è una carta fissa alta quanto lo schermo, il pannello aperto scorre dentro la carta sotto le linguette, sfuma negli ultimi 24 px (il rientro inferiore di ogni carta dell'Inizio, invece dei 32 proposti) e scorre fino a lasciare l'ultima riga sopra la sfumatura; scorso, sfuma anche sotto le linguette, nei 16 px tra loro e il testo. La carta tiene tutto il suo bordo (Differenze, punto 27). Pannello e contenuto: 794 e 809 px a 1440 × 900, 662 e 857 a 1366 × 768, 694 e 885 a 1280 × 800, 694 e 905 a 1101 × 800; in fondo «Novità precedenti (4)» è intera (`r5/aside-*`, `r5/s0/`) |
+| [media] «Il tuo personaggio» schiacciato tra 1280 e 1439 px (colonna del nome 50 px, «Maga · / Livello 3» a capo, «18 / 22» a 12 px da «Livia»; tra 1101 e 1279 i punti ferita in fondo alla riga) | Una sola forma a ogni larghezza, quella di una riga d'elenco con un corpo su due righe (griglia 72 · resto · 20, distanze 12 e 8): ritratto e libro centrati ai due capi; nel corpo il nome con la riga d'accento, sempre su una riga, e 8 px sotto i punti ferita, sul bordo del nome. Colonna del nome 202 px a 1440, 182 a 1366, 159 a 1280, 112 a 1101, 192 a 390; punti ferita allineati al nome a ogni larghezza (`r5/s1/`, `r5/s1b/`, `r5/charcard-s1-cmp.png`). La riga è alta 104 px ovunque (prima 72 a 1440 e 104 sotto). La frase «nessuna riga schiacciata» delle verifiche dopo i dettagli è corretta lì                                                                 |
+| [media] Barra in esplorazione: il dado da 48 px in una colonna da 40 con distanze di 8, quindi 8 e 4 px a vista                                                                                    | In esplorazione la barra usa le colonne del combattimento senza «Termina turno» (40 · 40 · 48, distanze 12): 12 · 12 a vista, come 12 · 12 · 12 in combattimento; barra alta 108 px in ogni caso (`r5/dock-final/`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| [bassa] Ritmo 8 / 32: filtri delle magie a 6 px, pillola → ☰ «Altre azioni» 26 px, pillola → «+ Effetto» 25                                                                                       | I filtri di Magie, Azioni e Inventario tutti a 8 px; dopo una pillola il glifo ☰ e «+ Effetto» stanno a 32 e 33 px a vista come ogni comando discreto (`r5/sheet/result.json`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| [bassa] Allineamento ottico assente sull'Inizio: «Segna tutte come lette» 17 px dentro il bordo del testo                                                                                          | «Segna tutte come lette» e «Segna come letta» sporgono di 17 px (16 di rientro più 1 di bordo): quando aprono una riga la prima lettera sta sul bordo del testo, accanto a «7 da leggere» il comando finisce sul bordo; «Segna come letta» accanto alla pillola resta a 32 px a vista. Esteso ai comandi discreti che aprono una riga nelle carte delle Guide («Ripristina tutti i tour», visibile nel campionario). «7 da leggere» passa a 14/20 come le altre righe sotto i titoli; il contatore della linguetta è quello delle notifiche (Lexend 600 10/12)                                                                                                                         |
+| [bassa] Telefono, linguette in basso: un pezzo di 25 px di «Scena» («Sc») accanto a «Tutti» sotto una sfumatura di 24 px; a 360 px la fila delle azioni non mostra un'azione intera                | La fila delle linguette sfuma per 48 px: a 390 il pezzo di «Scena» sta tutto nella sfumatura e «Combattimento» resta intero e leggibile; a 412 «Scena» è sfumata, a 360 la sfumatura scurisce la fine di «Combattimento», che lì finisce sul bordo (Differenze, punto 26). La fila delle azioni a 360 px resta com'era (Differenze, punto 26)                                                                                                                                                                                                                                                                                                                                          |
+| [bassa] Monete «30 mo · 45 ma · 120 mr · 12 sb» a capo tra «12» e «sb»                                                                                                                             | La riga delle monete è un passo più piccola (16/24 invece di 18/28: una lista di importi, non un numero solo) e sta su una riga a 1440 (266 px nella carta da 298) e a 390; in una carta più stretta va a capo bilanciata                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| Schermate e coppie vecchie                                                                                                                                                                         | Rifatte tutte dopo l'ultima modifica del foglio di stile (sezione «Verifiche (01/10/2026, dopo il sesto giro)»)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 
 ## Coerenza (I-250)
 
@@ -684,6 +719,69 @@ pulsante (Differenze, punto 20); «Tiri e risultati» nel carattere della targa 
 (Differenze, punto 23); le etichette in SVG sulla mappa, il menu dei dadi e il marchio (quarto
 giro); il segno della porta sopra la barra del disegno in una vista del DM (Differenze, punto 17).
 
+### Sesto giro
+
+Prima: il foglio di stile del giro dei dettagli, audit della verifica (`polish6-alchemy/audit-before/`;
+un audit a metà giro, con la prima versione della riga del personaggio, è in
+`polish6-alchemy/r4/audit-start.md`). Dopo: il foglio di stile finale (05:23:49), audit delle
+05:39 (`audit/alchemy/audit.md`, copia in `polish6-alchemy/r5/audit-after.md`). Campionario dei
+componenti: `polish6-alchemy/r5/specimen/` (1440 e 390, aperto per intero). Inizio intero sotto la
+piega: `polish6-alchemy/r5/audit-homefull/`.
+
+| Misura                                              | Prima                                   | Dopo                                    |
+| --------------------------------------------------- | --------------------------------------- | --------------------------------------- |
+| Elementi visibili                                   | 2495                                    | 2497                                    |
+| Spaziature (padding, margini, distanze)             | 27 valori; passo 2 px al 99 %; 14 fuori | 27 valori; passo 2 px al 99 %; 14 fuori |
+| Altezze dei comandi                                 | 17 (72 la riga di «Il tuo personaggio») | 17 (104 la stessa riga)                 |
+| Caratteri · grandezze · pesi · interlinee           | 2 · 8 · 4 · 11                          | 2 · 8 · 4 · 11                          |
+| Stili di testo                                      | 34                                      | 34                                      |
+| Raggi · bordi · ombre                               | 7 · 2 · 20                              | 7 · 2 · 20                              |
+| Colori (testo · sfondo · bordo)                     | 12 · 30 · 12                            | 12 · 30 · 12                            |
+| Pulsanti: classi; varianti; classi con più varianti | 29; 64; 8                               | 29; 64; 8                               |
+| Campi · menu a tendina: varianti                    | 2 · 1                                   | 2 · 1                                   |
+| Linguette · etichette · pannelli: varianti          | 9 · 10 · 38                             | 9 · 10 · 38                             |
+| Grandezze delle icone                               | 3 (20, 16, 14)                          | 3 (20, 16, 14)                          |
+| Contrasto AA                                        | 0 casi su 1154 testi                    | 0 casi su 1157 testi                    |
+| Pulsanti con il margine del browser (`1px 6px`)     | nessuno                                 | nessuno                                 |
+
+A metà giro la prima versione della riga del personaggio (ritratto e libro in posizione assoluta
+dentro rientri di 84 e 32 px) aveva aggiunto il valore 84 fuori scala (28 valori, 15 fuori): la
+griglia finale non ha rientri e lo toglie.
+
+Cosa è stato reso uguale:
+
+- **«Il tuo personaggio».** Una sola forma a ogni larghezza, con le distanze della scala (12 tra le
+  parti, 8 tra le righe del corpo).
+- **Ritmo dei comandi.** Ogni fila di filtri della Scheda a 8 px; ogni comando discreto dopo una
+  pillola a 32 px a vista, anche il glifo ☰ e «+ Effetto».
+- **Allineamento ottico.** Anche sull'Inizio: testa e notizie della colonna «Novità», carte delle
+  Guide.
+- **Contatori e righe di testa.** Il contatore della linguetta «Novità» è quello delle notifiche
+  (prima aveva l'interlinea 1,43 dell'etichetta: 14,29 px); «7 da leggere» è una riga da 14/20
+  come le altre sotto i titoli.
+- **Barra delle azioni.** In esplorazione le colonne e le distanze del combattimento.
+- **Colonne che scorrono.** La colonna «Novità» scorre e sfuma come la colonna destra del Tavolo.
+
+Sotto la piega. Inizio intero (`--states home-full`, 1440 e 390): 0 casi su 151 testi, 13
+incerti. Sono il riquadro illustrato e il marchio, misurati sui pixel nello stato «home» (passano),
+e «Guide» / «Supporto» (#8D8E93), che l'audit stima 3,46–4,74:1 dai colori del gradiente della
+carta: sui pixel lo sfondo sotto le linguette è #222328 a 390 e a 1280, cioè 4,8:1, che passa
+(`r5/tabsbg/`). Nessun valore fuori scala nuovo: −17 è l'allineamento ottico, il rientro «24 0 0 0»
+della colonna è dichiarato (Differenze, punto 27). Scheda intera: è tra i 20 stati (0 casi).
+
+Il campionario mostra due limiti suoi, non della direzione (uguali con «Attuale»): sul telefono le
+celle «Scheda» e «Tavolo (pannello laterale)» hanno la catena della scheda larga 0 px, così i
+pulsanti stanno in una colonna di 24 px e vanno a capo lettera per lettera; la cella della testata
+dell'Inizio disegna dentro i suoi 64 px la rotaia, che nell'app è fissa sul bordo sinistro.
+
+Restano, e perché: le misure fisse del Tavolo attorno alla mappa, le bordature dell'immagine
+dell'Inizio e le parole cliccabili nel testo delle azioni (secondo giro); i 28 aspetti di
+pulsante (Differenze, punto 20); «Tiri e risultati» nel carattere della targa dei dadi
+(Differenze, punto 23); le etichette in SVG sulla mappa, il menu dei dadi e il marchio (quarto
+giro); il segno della porta sopra la barra del disegno in una vista del DM (Differenze, punto 17);
+le tre lunghezze delle sfumature (Differenze, punto 26) e il rientro della colonna delle novità
+(Differenze, punto 27); l'altezza 104 della riga del personaggio, che è una sola.
+
 ## Marchio (I-251)
 
 Il marchio di questa opzione è un **d20 fatto di tessere d'oro piatte**, separate da tagli veri
@@ -826,6 +924,37 @@ opzione sono elencati in `assets/ATTRIBUTION.md`. Mancano le righe in `assets/PR
 | rotaia e dock dell'Inizio (solo maschere CSS)                            | Font Awesome house, user, user-group, book-open (pieni)                                                                      |
 | pillola esterna della scheda (solo maschere CSS)                         | Lucide x, eye, share-2, pencil (a filo 1,5)                                                                                  |
 
+## Verifiche (01/10/2026, dopo il sesto giro)
+
+- Orari: l'orologio della macchina (il giro è finito dopo la mezzanotte, il 02/10/2026).
+- Schermate di `round1/alchemy/` rifatte tutte (15 più il foglio di contatto, 05:29–05:31) dopo
+  l'ultima modifica del foglio di stile (05:23:49; marchio e icone invariati), `manifest.json`
+  tutte «ok», nessuna in `_failed/`; aperte una per una, con il foglio di contatto. Copia delle
+  schermate di prima: `polish6-alchemy/r5/round1-before/`. Coppie 01–12 rifatte (05:34–05:39),
+  tutte leggibili (`magick identify`), 01 e 07 aperte.
+- Garanzie (sonda `polish6-alchemy/r5/guard.cjs`, dopo l'ultima modifica): a 390 nessuno
+  scorrimento orizzontale su Inizio, Scheda (Azioni, Magie, Inventario) e Tavolo (giocatore, DM,
+  esplorazione); testata del Tavolo su una riga (64 px, ogni pezzo alla stessa altezza, l'ultimo
+  finisce a 374); «Termina turno», «Annulla ultima modifica» e «Annulla» visibili e toccabili;
+  «Entra al Tavolo» finisce a 654 px. Barra delle azioni a 1440 × 900 alta 108 px in
+  combattimento (giocatore e DM) e in esplorazione (`r5/dock-final/`).
+- Larghezze intermedie: riga di «Il tuo personaggio» a 1440, 1366, 1280, 1101 e 390 (sopra);
+  colonna «Novità» a 1440 × 900, 1366 × 768, 1280 × 800, 1101 × 800; linguette del telefono a 360,
+  390 e 412.
+- Test `tests/visual01-directions.test.mjs`: 13 su 13. Prettier: file conformi.
+- Prove: `~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/polish6-alchemy/r5/`.
+- Ricontrollo a parte (02/10/2026, 05:56–06:05, nessuna modifica al foglio di stile, quindi
+  schermate, coppie e audit restano quelli sopra): le sette voci rimisurate dal vivo, con le
+  stesse cifre (colonna «Novità» 809 su 794 a 1440 × 900, 857 su 662 a 1366 × 768, 885 su 694 a
+  1280 × 800, sfuma e in fondo mostra «Novità precedenti (4)»; colonna del nome 202 · 182 · 159
+  · 112 · 192 px, sottotitolo su una riga; barra in esplorazione 40 · 40 · 48 a distanze 12, alta
+  108; filtri a 8; pillola → comando discreto 32–33 px; monete su una riga a 1440 e a 390);
+  garanzie a 390 (Inizio e Tavolo giocatore, DM, esplorazione: nessuno scorrimento orizzontale,
+  testata su una riga da 64 px, «Termina turno», «Annulla ultima modifica» e «Annulla» toccabili,
+  «Entra al Tavolo» fino a 654 px); anello del fuoco 3 px pieno su sette comandi di Inizio,
+  Scheda e Tavolo; Scheda e Inizio interi sotto la piega e campionario a 1440 e 390 riaperti;
+  0 regole senza prefisso. Prove in `polish6-alchemy/rerun/`.
+
 ## Verifiche (01/10/2026, dopo i dettagli)
 
 - Schermate di `round1/alchemy/` rifatte tutte (15 e il foglio di contatto, 19:58:32–19:59:15)
@@ -842,8 +971,10 @@ opzione sono elencati in `assets/ATTRIBUTION.md`. Mancano le righe in `assets/PR
 - Marchio (sonda `mods/brand.js`): all'Inizio dado, rotaia e profilo centrati a 40 px; centro del
   dado e delle maiuscole 83 e 83; al Tavolo 75 e 75. Campionario «Marchio» e «Pulsanti»:
   `fix-alchemy/specimen/`. Il «20» dentro la faccia: 3,3 unità dal bordo, centrato a 49,9.
-- Larghezze intermedie: carte dell'Inizio uguali a 1280 (325 px) e 1101 (278), nessuna riga
-  schiacciata; testata della Scheda su una riga a 1024 e 1440, in due colonne a 900, 800 e 390.
+- Larghezze intermedie: carte dell'Inizio uguali a 1280 (325 px) e 1101 (278); testata della
+  Scheda su una riga a 1024 e 1440, in due colonne a 900, 800 e 390. (Corretto nel sesto giro: qui
+  c'era anche «nessuna riga schiacciata», ma tra 1280 e 1439 px la colonna del nome di «Il tuo
+  personaggio» era larga 50 px e «Maga · Livello 3» andava a capo.)
 - Regole del file: 0 senza prefisso (`notes/prefix-audit.js`), colori sotto la guardia del tema
   chiaro, nessun `!important`, `text-transform` o testo in `content`; l'unico `@keyframes`
   (`al-scroll-fade`) è un'animazione guidata dallo scorrimento, senza tempo, che con il movimento

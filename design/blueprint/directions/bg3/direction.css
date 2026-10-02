@@ -136,7 +136,18 @@
    - The inspector fades into the hotbar's frame instead of slicing a lozenge; the lozenge's
      focus ring drawn outside its gold rule along the points; one 8 px gap between buttons of
      a row; control icons 20 px in 40 px chrome (whole pixels); the phone's panel bar shows
-     icons only, the open panel's name under its icon → facts A1 «Iconography», A3, B35. */
+     icons only, the open panel's name under its icon → facts A1 «Iconography», A3, B35.
+   Sixth polish round of 01/10/2026 (verification of the brand round and the I-250 audit;
+   SOURCES.md «Sesto giro di rifinitura»):
+   - The round turn commands, End Turn and «Mosse» keep the focus colour (the lozenge's ring
+     does not apply to them); one deck pitch (58 px, the group separator inside its group's
+     last column) so the desktop window holds whole slots and snaps to them, as the phone's;
+     the phone's panel bar whole at every width (48 px pitches, icons only up to 720 px)
+     → facts A1 (HotbarSlotSize, the controller layout).
+   - «Scena» with its own glyph, a framed landscape drawn for this project
+     (assets/scene.svg), so it no longer repeats the Map link's map → facts A1 «Iconography».
+   - One 20 px glyph in every button with words and in the item square; a menu's last row
+     without a line; the purse on two lines that break after a unit → B35, B41. */
 
 /* ---------------------------------------------------------------- fonts (OFL, vendored) */
 @font-face {
@@ -556,9 +567,18 @@
 /* Every 40 px chrome control draws its glyph at 20 px, 10 px inside the box, so the glyph sits
    on whole pixels (D19: the app's 21 px glyphs sat on half pixels in 41 of 46 Table controls
    and looked soft at 1×). :where() keeps the weight low, so the phone bar's 24 px box and the
-   deck's 18 px glyph keep theirs; the light theme keeps today's 21 px. */
+   deck's 18 px glyph keep theirs; the light theme keeps today's 21 px. Since the sixth round
+   (I-250) the same 20 px glyph goes in every button with words too — lozenges, quiet and
+   compact buttons («Nuova», «Altre azioni»), text buttons, the header's links (App, Torna alla
+   campagna) — and in the inventory's item square: there were 16, 19, 20 and 21 px glyphs side
+   by side, and the header's sat on half pixels. Pills and tabs keep their 16 px glyph. */
 :root[data-direction="bg3"]:not([data-pref-theme="light"])
   :where(
+    .button,
+    .text-button,
+    .nav-link,
+    .character-resume,
+    .character-sheet .invp-row-icon,
     .icon-button,
     .table-layout .map-tool,
     .table-layout .session-view-hud-button.is-icon,
@@ -573,6 +593,17 @@
   > .icon {
   width: var(--bg3-icon-control);
   height: var(--bg3-icon-control);
+}
+/* «Scena» has its own glyph (a framed landscape, drawn for this project: assets/scene.svg):
+   the app gives the Scene tab and the phone's Map link the same «map» icon, and with the
+   closed tabs' names hidden the two looked alike side by side (verification of 01/10). The
+   icon hook only knows the name, so the tab's glyph is a mask in the text colour; the app's
+   path stays in place, unpainted. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .table-layout #table-tab-scene > .icon {
+  fill: transparent;
+  background: currentColor;
+  -webkit-mask: url("assets/scene.svg") center / contain no-repeat;
+  mask: url("assets/scene.svg") center / contain no-repeat;
 }
 
 /* The connection cloud in the header joins the row's filled glyphs: the app's own cloud,
@@ -1264,6 +1295,16 @@
   > li:has(+ .token-menu-sep)
   > * {
   border-bottom-color: #6a625b;
+}
+/* The last row of a menu draws no line: the plate's edge closes it (the line sat 8 px above
+   the foot, verification of 01/10). The line turns transparent, so the 40 px pitch stays. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  :is(
+    .context-menu > [role="menuitem"]:last-child,
+    .token-menu .token-menu-list > li:last-child > *,
+    .int-cal-menu .int-cal-list > .int-cal-item:last-child
+  ) {
+  border-bottom-color: transparent;
 }
 :root[data-direction="bg3"]:not([data-pref-theme="light"]) .token-menu .token-menu-icon {
   color: var(--bg3-keyword);
@@ -3142,6 +3183,16 @@
   /* Two lines of similar length, so no figure loses its unit (D10: «… 120» / «mr · 12 sb»). */
   text-wrap: balance;
 }
+/* On the computer's sheet the purse takes two lines in its 136 px box: at most 7 em a line,
+   filled in order, so the first line ends on a unit and its dot and the second starts with a
+   figure («30 mo · 45 ma ·» / «120 mr · 12 sb»; balanced, the dot opened the second line). The
+   phone's one-column strip keeps the purse on one line. */
+@container character-sheet (min-width: 900px) {
+  :root[data-direction="bg3"]:not([data-pref-theme="light"]) .character-sheet .invp-coins-line {
+    max-width: 7em;
+    text-wrap: wrap;
+  }
+}
 :root[data-direction="bg3"]:not([data-pref-theme="light"]) .character-sheet .invp-stat > small {
   font-size: var(--bg3-type-small);
   line-height: var(--bg3-leading-snug);
@@ -4115,11 +4166,14 @@
   text-shadow: var(--bg3-text-halo);
 }
 /* The deck scrolls sideways and would clip an outer ring: the slot draws the same 3 px ring
-   inside itself, as the core does in scrolling strips (styles.css «Anello del fuoco»). */
+   inside itself, as the core does in scrolling strips (styles.css «Anello del fuoco»). The
+   ring keeps the focus colour: «Mosse» is a .button, whose lozenge rule turns the outline
+   transparent (verification of 01/10: no visible focus on «Mosse»). */
 :root[data-direction="bg3"]:not([data-pref-theme="light"])
   .table-layout
   .table-hotbar
   :is(.combat-action, .combat-filter, .combat-dock .sm-dock-toggle):focus-visible {
+  outline-color: var(--focus);
   outline-offset: -3px;
 }
 /* Groups are known by the red separators; their tags stay for no one (aria-hidden). */
@@ -4539,12 +4593,16 @@
 }
 /* Its 3 px ring sits 3 px out, as today's (fourth verification: at 7 px the ring passed the
    window's edge, at the bottom at 1440 and at the right at 390): it covers the cyan rim's
-   outer pixel and stays a pale-gold ring around the cyan one. */
+   outer pixel and stays a pale-gold ring around the cyan one. The round commands beside it
+   take the core's ring, 3 px out. Neither is a lozenge, so both keep the focus colour (the
+   lozenge rule turns the outline transparent and draws its ring along the points: here its
+   shadows and clip are replaced, so nothing was drawn — verification of 01/10). */
 :root[data-direction="bg3"]:not([data-pref-theme="light"])
   .table-layout
   > .action-dock.table-hotbar
   > .toolbar
-  > .button.primary[data-table="end-turn"]:focus-visible {
+  > .button:focus-visible {
+  outline-color: var(--focus);
   outline-offset: var(--bg3-line-3);
 }
 /* The hotbar's «Barra rapida» page (B53) with the actions page's pieces (second polish round,
@@ -5403,14 +5461,82 @@
     > .combat-group:has(> .combat-action:nth-child(9)) {
     grid-template-columns: repeat(5, var(--bg3-slot-w));
   }
+  /* One pitch for the whole deck (verification of 01/10: at 1024 the 6 px separators put the
+     window's edge mid-slot, «Dar… incar…»): the red separator closes each group inside the
+     pitch, its last column 52 px + 6, so every column starts on a multiple of 58 px and the
+     window below holds whole slots. The narrow column is the last one, where a group of three
+     keeps its short second name (the bottom row's long «Disimpegno», 56 px, stays 58 wide). */
   :root[data-direction="bg3"]:not([data-pref-theme="light"])
     .table-layout
     .table-hotbar
     .combat-actions
-    > :is(.combat-group, .combat-filters)
-    + :is(.combat-group, .combat-filters) {
-    border-left: var(--bg3-line-6) solid var(--bg3-red);
-    box-shadow: inset 1px 0 0 #6a1211;
+    > :is(.combat-group, .combat-filters):not(:last-child) {
+    grid-template-columns: calc(var(--bg3-slot-w) - var(--bg3-line-6));
+    border-right: var(--bg3-line-6) solid var(--bg3-red);
+    box-shadow: inset -1px 0 0 #6a1211;
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-actions
+    > :is(
+      .combat-group:has(> .combat-action:nth-child(3)),
+      .combat-filters:has(> .combat-filter:nth-child(3))
+    ):not(:last-child) {
+    grid-template-columns: var(--bg3-slot-w) calc(var(--bg3-slot-w) - var(--bg3-line-6));
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-actions
+    > .combat-group:has(> .combat-action:nth-child(5)):not(:last-child) {
+    grid-template-columns: repeat(2, var(--bg3-slot-w)) calc(var(--bg3-slot-w) - var(--bg3-line-6));
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-actions
+    > .combat-group:has(> .combat-action:nth-child(7)):not(:last-child) {
+    grid-template-columns: repeat(3, var(--bg3-slot-w)) calc(var(--bg3-slot-w) - var(--bg3-line-6));
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-actions
+    > .combat-group:has(> .combat-action:nth-child(9)):not(:last-child) {
+    grid-template-columns: repeat(4, var(--bg3-slot-w)) calc(var(--bg3-slot-w) - var(--bg3-line-6));
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-actions
+    > :is(.combat-group, .combat-filters):not(:last-child)
+    > * {
+    width: 100%;
+  }
+  /* The window: a whole number of slots (the phone's rule), its two 1 px sides added; the
+     columns it cannot hold scroll, a slot at a time. It stands against «Mosse», so the dock
+     stays the deck's last slot and the spare width (under 58 px) goes before it. Its last
+     6 px fade, as on the phone: the row reads as «more», and a group's separator that ends
+     the window does not double the one before «Mosse». */
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-actions {
+    justify-self: end;
+    width: calc(
+      round(down, 100% - 2 * var(--bg3-line-1), var(--bg3-slot-w)) + 2 * var(--bg3-line-1)
+    );
+    scroll-snap-type: x mandatory;
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - var(--bg3-space-3)), transparent);
+    mask-image: linear-gradient(90deg, #000 calc(100% - var(--bg3-space-3)), transparent);
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-actions
+    :is(.combat-action, .combat-filter) {
+    scroll-snap-align: start;
   }
   :root[data-direction="bg3"]:not([data-pref-theme="light"])
     .table-layout
@@ -6033,6 +6159,16 @@
     height: var(--bg3-control-lg);
     border-radius: var(--bg3-radius-round);
   }
+  /* The round commands' glyph is the 20 px square of every control (the app's phone bar draws
+     it 19 px wide, 0.5 px off the centre). */
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar
+    > .button:has(.dock-text)
+    > .icon {
+    width: var(--bg3-icon-control);
+  }
   :root[data-direction="bg3"]:not([data-pref-theme="light"])
     .table-layout
     > .action-dock.table-hotbar
@@ -6150,9 +6286,11 @@
     font-size: var(--bg3-type-mini);
     line-height: var(--bg3-leading-tight);
   }
+  /* The window ends on a tab's edge: its last 6 px fade (the deck's rule), so the bar reads as
+     «more» without dimming an icon. */
   :root[data-direction="bg3"]:not([data-pref-theme="light"]) .table-layout .table-tabs {
-    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - var(--bg3-space-5)), transparent);
-    mask-image: linear-gradient(90deg, #000 calc(100% - var(--bg3-space-5)), transparent);
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - var(--bg3-space-3)), transparent);
+    mask-image: linear-gradient(90deg, #000 calc(100% - var(--bg3-space-3)), transparent);
     scroll-snap-type: x mandatory;
   }
   :root[data-direction="bg3"]:not([data-pref-theme="light"]) .table-layout .table-tab {
@@ -6348,11 +6486,21 @@
   }
 }
 /* The phone's panel bar shows icons, as BG3's controller bars: only the open panel keeps its
-   name under its icon (D06: «Scena» showed «Sce» at the bar's edge); every tab stays whole in
-   the window (44 px, the bar snaps to tabs) and keeps its name as its accessible name. */
-@media (max-width: 420px) {
+   name under its icon (D06: «Scena» showed «Sce» at the bar's edge), up to 720 px (with every
+   name shown, «Consultazione» was cut at 720). Every tab stays whole in the window at every
+   phone width (verification of 01/10: whole only at exactly 390): a closed tab and its gap
+   are one 48 px pitch (44 + 4), the open tab is the app's 58 px plus whole pitches for a
+   longer name (58, 106 px…, where the browser sizes from content), and the window is 58 px
+   plus the whole pitches that fit between the Map link and «Tutti» (58 px each), with
+   «Tutti» at the bar's end: five tabs at 390 px, four at 360–389. Scrolled, the window may
+   show 10 px of a closed tab at one end, which are empty (its icon is 10 px in).
+   The bar snaps to tabs and every tab keeps its name as its accessible name. */
+@media (max-width: 720px) {
   :root[data-direction="bg3"]:not([data-pref-theme="light"]) .table-layout .table-tab:not(.active) {
     min-width: var(--bg3-control-lg);
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"]) .table-layout .table-tab.active {
+    width: calc-size(max-content, round(up, size - 58px, 48px) + 58px);
   }
   :root[data-direction="bg3"]:not([data-pref-theme="light"])
     .table-layout
@@ -6364,6 +6512,20 @@
     overflow: hidden;
     clip-path: inset(50%);
     white-space: nowrap;
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    > .table-sidebar-rail
+    > .table-tabs {
+    flex: none;
+    width: max-content;
+    max-width: calc(58px + round(down, 100% - 3 * 58px - 2 * var(--bg3-space-2), 48px));
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    > .table-sidebar-rail
+    > .table-panels-all {
+    margin-left: auto;
   }
 }
 /* Narrow sheets (the app moves the item columns to their own line under 560 px): the same row

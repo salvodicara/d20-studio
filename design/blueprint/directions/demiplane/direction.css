@@ -324,8 +324,7 @@
   --dp-b-2: 2px;
   /* Control heights. */
   --dp-h-control: 40px;
-  /* The app's 44 px touch row (phone menu rows) and the brand button; the hotbar tiles are
-     40 since the detail round (two rows fit the bar's 90 px). */
+  /* The app's 44 px touch row: the phone menu rows and the brand button (nothing else). */
   --dp-h-tile: 44px;
   --dp-h-large: 48px;
   --dp-h-bar: 56px;
@@ -625,8 +624,9 @@
 :root[data-direction="demiplane"]:not([data-pref-theme="light"])
   .text-button:not(.combat-bar-heading .text-button):hover:not(:disabled) {
   color: var(--accent-strong);
-  text-decoration: none;
-  box-shadow: inset 0 calc(var(--dp-b-1) * -1) 0 currentColor;
+  text-decoration: underline;
+  text-decoration-thickness: var(--dp-b-1);
+  text-underline-offset: var(--space-1);
 }
 /* Nexus voice: inside the sheet, the Table, drawers and menus every button is a condensed
    caps slab (REST, REFOCUS, + ADD, HEAL, DAMAGE). */
@@ -672,7 +672,9 @@
     .action-dock > .toolbar .button
   ):hover:not(:disabled) {
   background: transparent;
-  box-shadow: inset 0 calc(var(--dp-b-1) * -1) 0 currentColor;
+  text-decoration: underline;
+  text-decoration-thickness: var(--dp-b-1);
+  text-underline-offset: var(--space-1);
 }
 :root[data-direction="demiplane"]:not([data-pref-theme="light"])
   :is(.character-sheet, .table-layout, dialog, .token-menu)
@@ -1266,7 +1268,7 @@
   .toolbar
   > .button {
   min-height: var(--dp-h-large);
-  padding-inline: var(--space-5);
+  padding-inline: var(--space-4);
   font-size: var(--text-md);
 }
 
@@ -2086,7 +2088,7 @@
   .character-sheet
   .shp-value:hover:not(:disabled) {
   border-color: #ffffff;
-  background: var(--dp-black);
+  background: var(--dp-panel);
 }
 :root[data-direction="demiplane"]:not([data-pref-theme="light"])
   .character-sheet
@@ -2251,7 +2253,7 @@
 }
 :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .conditions-segment:hover {
   border-color: var(--line-strong);
-  background: var(--dp-black);
+  background: var(--dp-panel);
 }
 :root[data-direction="demiplane"]:not([data-pref-theme="light"])
   .conditions-segment[aria-pressed="true"] {
@@ -2362,12 +2364,12 @@
   .character-sheet
   :is(
     .shp-chip:hover:not([aria-pressed="true"]),
-    .character-subtabs button:hover,
+    .character-subtabs button:hover:not(.active),
     .spl-chip:hover:not([aria-pressed="true"]),
     .invp-chip:hover:not(.active)
   ) {
   border-color: var(--line-strong);
-  background: var(--dp-black);
+  background: var(--dp-panel);
 }
 :root[data-direction="demiplane"]:not([data-pref-theme="light"])
   .character-sheet
@@ -2882,7 +2884,7 @@
    fitHud), so from 721 to 1600 px they covered the notice and «Avvia ora». The current chip
    ends 201 px under the map's top beside a one-row plate (8 + 77 + 8 + 4 + 104), 249 px when
    the plate's commands go under the scene's name (the DM's plate below about 1310 px).
-   Outside combat and on a phone the notices keep the app's place. */
+   Outside combat the notices keep the app's place. */
 @media (min-width: 721px) {
   :root[data-direction="demiplane"]:not([data-pref-theme="light"])
     .table-layout:has(> .initiative)
@@ -2895,6 +2897,16 @@
     .table-layout:has(> .initiative)
     .session-view-hud-stack {
     top: calc(249px + var(--space-2));
+  }
+}
+/* On a phone the turn strip lies over the map's top 111 px (the chips end there), so the
+   notices start 8 px under it too: «Sessione non avviata…» sat under the five portraits at
+   56 px, as in the app. */
+@media screen and (max-width: 720px) {
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-layout:has(> .initiative)
+    .session-view-hud-stack {
+    top: calc(111px + var(--space-2));
   }
 }
 /* Scale and hints: a black chip. */
@@ -3040,7 +3052,7 @@
 }
 :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-subtab:hover {
   border-color: var(--line-strong);
-  background: var(--dp-black);
+  background: var(--dp-panel);
 }
 :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-subtab.active {
   border-color: var(--dp-gold);
@@ -3161,7 +3173,7 @@
   .table-hotbar
   .combat-dock
   .sm-dock-toggle {
-  min-height: var(--dp-h-tile);
+  min-height: var(--dp-h-control);
   border: var(--dp-b-1) solid var(--line);
   border-radius: var(--radius-xs);
   background: var(--dp-inset);
@@ -3178,7 +3190,7 @@
   .combat-dock
   .sm-dock-toggle:hover {
   border-color: var(--line-strong);
-  background: var(--dp-black);
+  background: var(--dp-panel);
 }
 :root[data-direction="demiplane"]:not([data-pref-theme="light"])
   .table-hotbar
@@ -3193,7 +3205,7 @@
   outline-offset: -3px;
 }
 /* The group over the action name is the micro label (14 px small caps ≈ Demiplane's 10 px
-   caps), one solid line so the tile keeps 44 px. */
+   caps), one solid line so the tile keeps its 40 px. */
 :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .combat-group-tag {
   color: var(--muted);
   font-family: var(--font-label);
@@ -3415,16 +3427,18 @@
     right: var(--space-4);
     padding: 0 var(--space-1) 0 var(--space-4);
   }
-  /* The commands' foot: three 48 px circles per row, End turn a 104 px-high CTA slab; the
-     band stays at 118 px (≤ 120). */
+  /* The commands' foot: three 48 px circles per row, End turn a 100 px-high CTA slab; the
+     band stays at 113 px (≤ 120). The two rows stand 4 px apart and end 8 px over the
+     window's edge, on the foot of the identity and actions boxes beside them (892 at 900):
+     the 3 px focus ring, 3 px out, ends at 898 (at 4 px it was cut to 1 px by the window). */
   :root[data-direction="demiplane"]:not([data-pref-theme="light"])
     .table-layout
     > .action-dock.table-hotbar
     > .toolbar {
     grid-template-columns: repeat(3, var(--dp-h-large));
     grid-auto-rows: var(--dp-h-large);
-    gap: var(--space-2);
-    padding: var(--space-1) var(--space-4);
+    gap: var(--space-1) var(--space-2);
+    padding: var(--space-1) var(--space-4) var(--space-2);
     border-top: var(--dp-b-1) solid var(--line);
     border-left: var(--dp-b-1) solid var(--line);
     background: var(--dp-panel);
@@ -3456,7 +3470,7 @@
     > .toolbar
     > .button.primary[data-table="end-turn"] {
     width: 112px;
-    height: calc(var(--dp-h-large) * 2 + var(--space-2));
+    height: calc(var(--dp-h-large) * 2 + var(--space-1));
     padding: var(--space-2);
   }
   :root[data-direction="demiplane"]:not([data-pref-theme="light"])
@@ -3798,11 +3812,15 @@
     .table-hotbar:not(.is-tight)
     .combat-bar-heading
     .text-button {
+    /* Round 6 · I-250: the game's text action recipe, 8 × 0 and line height 1.2 in its 40 px
+       box, like «Annulla l'avvio» (it ran 0 × 0 on line height 1.5). */
+    padding-block: var(--space-2);
     font-family: var(--font-label);
     font-size: var(--text-lg);
     font-weight: 700;
     letter-spacing: var(--label-tracking);
     font-variant-caps: all-small-caps;
+    line-height: var(--dp-lh-tight);
   }
 }
 
@@ -4815,6 +4833,43 @@
   margin: var(--space-1) 0 var(--space-2);
 }
 
+/* Round 6 · The Creature panel's sections on one step: 24 px of room before every rule
+   («Forme e creature collegate», the turn detail, each extension panel) and before the
+   commands, 16 px from a rule to its heading. They ran 28, 52, 48 and 25 px (the forms
+   section's own 12 px padding and the toolbar's 24 px margin stacked on the 16 px gaps; the
+   app's 25 px panel margin was off the grid). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  > :is(.conditions-summary, .forms-summary, .combat-detail) {
+  margin-block-end: var(--space-5);
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  > .forms-summary {
+  padding-block: 0;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  > .forms-summary
+  .forms-toolbar {
+  margin-block-end: 0;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  > .combat-detail {
+  padding-block-end: 0;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  > .table-ext-panel {
+  margin-top: var(--space-5);
+}
+
 /* Creature panel commands: one column of full-width slabs, the drawer's list (two columns
    wrapped «Scheda completa» onto two lines, a 61 px button). */
 :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-layout .inspector-buttons {
@@ -4965,27 +5020,19 @@
 }
 
 @media screen and (max-width: 720px) {
-  /* The dice mode stands in the action tiles' row on a phone: the tiles' and «Mosse»' 44 px. */
-  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
-    .table-layout
-    .table-hotbar
-    .combat-bar-heading
-    select {
-    block-size: var(--dp-h-tile);
+  /* Round 6 · I-250: on a phone too every party tile keeps the HP bar's row (40 + 4 + 4 =
+     48 px), so the portraits stand one 56 px step apart; Doran, whose HP the player does not
+     see, ran 40 px and pulled Mira 8 px up. */
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-party-member {
+    grid-template-rows: auto var(--space-1);
   }
-  /* The tile row's edge: clear over its last 12 px, so the clipped next tile shows as a faint
-     edge only, never as stray letters. */
+  /* The tile row's edge: it fades over its last 8 px only, the 8 px gap after a whole tile
+     (the row shows one 140 px tile in 152 px), so a scrolled tile clipped at the edge melts
+     into it while a whole tile keeps its edge and cost mark (a 24 → 12 px fade lay on the
+     first tile's last 16 px). */
   :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .combat-actions {
-    -webkit-mask-image: linear-gradient(
-      to right,
-      #000 calc(100% - var(--space-5)),
-      transparent calc(100% - var(--space-3))
-    );
-    mask-image: linear-gradient(
-      to right,
-      #000 calc(100% - var(--space-5)),
-      transparent calc(100% - var(--space-3))
-    );
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - var(--space-2)), transparent);
+    mask-image: linear-gradient(to right, #000 calc(100% - var(--space-2)), transparent);
   }
 }
 
@@ -5241,7 +5288,7 @@
   .table-hotbar
   .qb-icon:hover:not(:disabled) {
   border-color: var(--line-strong);
-  background: var(--dp-black);
+  background: var(--dp-panel);
 }
 :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .qb-icon.active {
   border-color: var(--dp-gold);
@@ -5397,14 +5444,39 @@
   font-variant-caps: all-small-caps;
   line-height: var(--dp-lh-tight);
 }
-/* Disclosure rows stay 40 px: the encumbrance rule wraps to two lines of condensed caps in its
-   narrow box, so they stand on line height 1 (small caps are ≈ 9 px tall, so the lines still
-   clear each other; two lines of 1.2 made it 43). */
+/* Round 6 · I-250: a fold of the game is its text action, box and all — 40 px, 8 × 0, the
+   controls' 4 px corner that the focus ring follows — like «+ Effetto» and «Gestisci PE»
+   beside them (the folds ran 0 padding and square corners). */
 :root[data-direction="demiplane"]:not([data-pref-theme="light"])
   .character-sheet
-  .invp-rule
+  :is(.spl-window-why, .invp-rule, .invp-view)
+  > summary,
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  :is(.table-layout, .character-sheet, dialog)
+  .dt-more
   > summary {
-  line-height: var(--dp-lh-solid);
+  min-height: var(--dp-h-control);
+  padding-block: var(--space-2);
+  border-radius: var(--radius-xs);
+}
+/* The inventory summary's foot actions stand on one baseline. «Gestisci sintonia», «Gestisci
+   monete» and «Cambia set» are one line of game text action in a 40 px box (1 px transparent
+   edge, 8 px block padding, line height 1.2). «Regola d'ingombro: standard (SRD 2024)» wraps
+   to two lines in its narrow card: it takes the same edge, padding and line height in a
+   64 px box (40 + 24) and sets its lines at the box's foot, so its last line stands on its
+   neighbours' line (its two lines of line height 1 sat 9 px above and below it). On a phone
+   the card runs the column's width and the rule is one 40 px line. */
+@media (min-width: 721px) {
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .character-sheet
+    .invp-stat
+    > details.invp-rule:last-child
+    > summary {
+    align-items: flex-end;
+    min-height: calc(var(--dp-h-control) + var(--space-5));
+    padding-block: var(--space-2);
+    border-block: var(--dp-b-1) solid transparent;
+  }
 }
 :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet a.travel-source {
   color: var(--muted);
@@ -5578,14 +5650,9 @@
 }
 
 /* D01 · The hotbar's two rows of action tiles fit their 90 px box: tiles and «Mosse» at the
-   40 px control height (40 + 8 + 40 = 88; at 44 the second row lost 2 px of its edge and
-   of the focus ring). The group's micro label stands over the name, on the name's left edge
-   (8 + 20 + 8), so the glyph keeps its own column. */
-:root[data-direction="demiplane"]:not([data-pref-theme="light"])
-  .table-hotbar
-  :is(.combat-action, .combat-dock .sm-dock-toggle) {
-  min-height: var(--dp-h-control);
-}
+   40 px control height, set where the tiles are styled (40 + 8 + 40 = 88; at 44 the second
+   row lost 2 px of its edge and of the focus ring). The group's micro label stands over the
+   name, on the name's left edge (8 + 20 + 8), so the glyph keeps its own column. */
 :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .table-hotbar .combat-group-tag {
   left: calc(var(--space-2) * 2 + var(--dp-icon));
 }
@@ -5598,6 +5665,7 @@
   line-height: var(--dp-lh-tight);
 }
 @media screen and (max-width: 720px) {
+  /* The dice mode stands in the action tiles' row on a phone, at the tiles' 40 px. */
   :root[data-direction="demiplane"]:not([data-pref-theme="light"])
     .table-layout
     .table-hotbar
@@ -5791,19 +5859,20 @@
 }
 
 /* D05 · «Avvia ora · Non ora» are game buttons (18/700 caps, line height 1.2, 0 × 16; they were
-   16/700, 0 × 12) 8 px apart (their edges touched in a 2 px seam). */
+   16/700, 0 × 12). The notice is one flex block on the 8 px step: the sentence on its own
+   lines, the two buttons 8 px under it (they rode 4 px under its descenders) and 8 px apart
+   (their edges touched in a 2 px seam). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .session-view-start-chip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
 :root[data-direction="demiplane"]:not([data-pref-theme="light"])
   .session-view-start-chip
   .session-view-hud-button {
   padding: 0 var(--space-4);
   font-size: var(--text-lg);
   line-height: var(--dp-lh-tight);
-}
-:root[data-direction="demiplane"]:not([data-pref-theme="light"])
-  .session-view-start-chip
-  .session-view-hud-button
-  + .session-view-hud-button {
-  margin-inline-start: var(--space-2);
 }
 /* D16 · The session slabs over the map are square 40 px icons (they were 44 × 40 beside the
    40 × 40 «Nascondi interfaccia»); only «Gruppo» grows, with its presence dots. */
@@ -5857,6 +5926,14 @@
     .table-tab-label {
     max-width: none;
   }
+  /* «Creatura»'s portrait takes the glyphs' 20 px (the app's 22 dropped its label 1 px under
+     the other tabs' labels). */
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .table-sidebar-rail
+    .table-tab-portrait {
+    width: var(--dp-icon);
+    height: var(--dp-icon);
+  }
   :root[data-direction="demiplane"]:not([data-pref-theme="light"])
     .table-sidebar-rail
     > :is(.table-map-link, .table-panels-all):focus-visible {
@@ -5880,6 +5957,16 @@
    «Segna tutte come lette» and the news panel show whole (the text column stays put). */
 :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .conditions-segment:focus-visible {
   outline-offset: 3px;
+}
+/* Round 6 · «Tutte le sezioni della scheda» shares the sticky tab bar with the section tabs,
+   so it takes their inward ring and page-colour keyline (styles.css «Critique 29/09»): with
+   the bar stuck at the window's top its outward ring lost its whole top edge (6 px out). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tabs-bar
+  > .character-tabs-all:focus-visible {
+  outline-offset: -3px;
+  box-shadow: inset 0 0 0 5px var(--bg);
 }
 :root[data-direction="demiplane"]:not([data-pref-theme="light"])
   .character-sheet
@@ -5926,13 +6013,28 @@
   gap: var(--space-2);
 }
 /* The Table header's «App» and «Torna alla campagna» are the bar's text actions (no side
-   padding, as the game's ghost buttons): the ink steps brand → App → Torna are equal (they
-   were 42 and 58); hover is the site nav's #22B8CF. The phone keeps its 8 px sides. */
+   padding, as the game's ghost buttons): the boxes stand 24 px apart (the ink ran 42 and 58
+   px with the buttons' 8 px sides), and the optical nudges below even the ink; hover is the
+   site nav's #22B8CF. The phone keeps its 8 px sides. */
 @media (min-width: 721px) {
   :root[data-direction="demiplane"]:not([data-pref-theme="light"])
     .app-header.table-header
     > .button.quiet {
     padding-inline: 0;
+  }
+  /* Round 6 · Optical spacing on ink (measured at 2×): the boxes stand 24 px apart, but the
+     wordmark's «O» ends 4.6 px inside its box and «App» 1.5 px inside its own, so the ink ran
+     32.5 px (mark → menu glyph) and 29.5 px («App» → arrow). Whole-pixel nudges of the two
+     text actions (no layout change, no blur at 1×) make both 30.5 px. */
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .app-header.table-header
+    > [data-service="app-menu"] {
+    translate: calc(var(--dp-b-2) * -1) 0;
+  }
+  :root[data-direction="demiplane"]:not([data-pref-theme="light"])
+    .app-header.table-header
+    > [data-nav="campaign"] {
+    translate: calc(var(--dp-b-1) * -1) 0;
   }
 }
 :root[data-direction="demiplane"]:not([data-pref-theme="light"])
@@ -6107,6 +6209,24 @@
   column-gap: var(--space-4);
 }
 
+/* Round 6 · The summary tiles (Iniziativa, CA, Difese) carry no caption outside Edit (only
+   Edit writes «base …» under a value): there the label and the 40 px chip are one block
+   centred in the band's 108 px (they rode 17 px under the top over a 36 px empty foot). The
+   three tiles share the row, so their values still stand on one line; with a «base» note in
+   Edit every tile keeps the band's three rows. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-bar:not(:has(.shp-stats .shp-base-note))
+  .shp-stats
+  .shp-pill {
+  grid-template-rows: auto var(--dp-h-control);
+  align-content: center;
+  min-height: calc(
+    var(--space-3) * 2 + var(--space-1) * 2 + var(--dp-h-control) +
+      (var(--text-sm) + var(--text-md)) * var(--dp-lh-tight)
+  );
+}
+
 /* D09 · Inventory summary: each card's action on the card's foot, so «Regola d'ingombro»,
    «Gestisci sintonia» and «Gestisci monete» share one line (they stood at three heights);
    «Set d'armi» runs the summary's width, its sets side by side (it sat alone in a third). */
@@ -6131,11 +6251,19 @@
 }
 
 /* D10 · Magie on two edges only: the boxes and every unboxed line (group labels, chips,
-   search, spell rows) on the column's edge, the boxes' words 12 px in (the rows ran 4 px in,
-   a third edge). The number tiles share one row height; the four cards are one recipe —
-   56 px (8 + 40 + 8), no edge, 8 px apart (58, 65 and 56 tall, 8 and 12 apart). */
-:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .spl-row {
-  padding-inline: 0;
+   search, spell rows, the «Incantesimi dagli oggetti» rows) on the column's edge, the boxes'
+   words 12 px in, the number tiles' too (the rows ran 4 px in, the item rows 4, the tiles 8:
+   four edges). Item rows take the spell rows' 12 × 0; the number tiles are the Inventory
+   summary's tiles (label over value, 12 px all round). The number tiles share one row height;
+   the four cards are one recipe — 56 px (8 + 40 + 8), no edge, 8 px apart (58, 65 and 56
+   tall, 8 and 12 apart). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-row, .spl-item) {
+  padding: var(--space-3) 0;
+}
+:root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .spl-stat {
+  padding: var(--space-3);
 }
 :root[data-direction="demiplane"]:not([data-pref-theme="light"]) .character-sheet .spl-stats {
   grid-auto-rows: 1fr;
@@ -6217,8 +6345,26 @@
   background-clip: padding-box;
 }
 
+/* Round 6 · The ✕ of the token menu and of every drawer is MUI's IconButton with edge="end":
+   its 40 px box reaches 10 px past the column ((20 − 40) / 2), so its 20 px glyph box ends on
+   the column edge, on the rows' chevrons and on the drawer body's edge (the glyph stood
+   10 px inside). The ring, 3 px out, still lies inside the menu and the window. */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  :is(.token-menu .token-menu-close, .dialog-heading > .icon-button:last-child) {
+  margin-inline-end: calc((var(--dp-icon) - var(--dp-h-control)) / 2);
+}
+/* The token menu's PF row: «PF» and «/ 22» stand on the field's baseline, «Applica» on the
+   field's box (its baseline sat 0.8 px lower, so the two 40 px boxes did not line up). */
+:root[data-direction="demiplane"]:not([data-pref-theme="light"])
+  .token-menu
+  .token-menu-hp
+  > .button {
+  align-self: center;
+}
+
 /* D18 · Phone Home: the hero pair «Entra al Tavolo · Apri campagna» fills the column (it
-   stopped 12 px short of the right edge); both stay 48 px, a declared hero pair. */
+   stopped 12 px short of the right edge); both stay 48 px, a declared hero pair, with the
+   site button's 16 px sides at every width (round 6: 24 on the computer, 16 on the phone). */
 @media (max-width: 420px) {
   :root[data-direction="demiplane"]:not([data-pref-theme="light"])
     .home-page
@@ -6226,14 +6372,19 @@
     .toolbar
     > .button {
     flex: 1 1 auto;
-    padding-inline: var(--space-4);
   }
 }
 
 /* D20 · Hover, one grammar: what is boxed lightens (#202020, edge #686868), what is a word
    brightens or underlines. Home's closed tabs brighten like the sheet's; the effect switches
    lighten like buttons; the value chips lighten (they darkened to #000); the skill names
-   underline like every game text action; the site's links underline as they change colour. */
+   underline like every game text action; the site's links underline as they change colour.
+   Round 6: the underline is the app's own text underline, 1 px, 4 px under the words (it was
+   an inset rule at the foot of the 40 px box, 10–12 px under them and as wide as the box, so
+   it read as a selected tab's bar); the exhaustion steps, the hotbar tiles and «Mosse», the
+   Table's sub-tabs, the quick-bar icons and the sheet's filter chips lighten like every
+   boxed control, in their own rules above (they darkened to #000; a pressed button still
+   darkens, and the open sub-tab keeps its gold under the pointer). */
 :root[data-direction="demiplane"]:not([data-pref-theme="light"])
   .home-page
   .home-tabs
@@ -6248,19 +6399,18 @@
 }
 :root[data-direction="demiplane"]:not([data-pref-theme="light"])
   .character-sheet
-  .shp-value:hover:not(:disabled) {
-  background: var(--dp-panel);
-}
-:root[data-direction="demiplane"]:not([data-pref-theme="light"])
-  .character-sheet
   .shp-row-name:hover {
-  box-shadow: inset 0 calc(var(--dp-b-1) * -1) 0 currentColor;
+  text-decoration: underline;
+  text-decoration-thickness: var(--dp-b-1);
+  text-underline-offset: var(--space-1);
 }
 :root[data-direction="demiplane"]:not([data-pref-theme="light"])
   .home-dashboard
   .home-page
   .button.quiet:hover:not(:disabled) {
-  box-shadow: inset 0 calc(var(--dp-b-1) * -1) 0 currentColor;
+  text-decoration: underline;
+  text-decoration-thickness: var(--dp-b-1);
+  text-underline-offset: var(--space-1);
 }
 
 /* ------------------------------------------------------------------ Marchio (I-251)

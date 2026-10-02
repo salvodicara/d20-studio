@@ -345,7 +345,7 @@ telefono, tasti, celle del telefono), le altre nell'ultima sezione prima del mar
 | S11 Ritmo dell'Inizio (medio)             | I due comandi dell'appuntamento (325 px in 312) andavano a capo storti; titolo → contenuto 8 px, testo → comandi 32,9                                                               | I due comandi a tutta larghezza, uno sotto l'altro, a 8 px; titolo 16 px sopra il contenuto e ultimo testo 24 px sopra i comandi (24,9: la lastra prende l'altezza di «Continua a giocare» accanto)                                                                        |
 | S12 Finestra dell'iniziativa (medio)      | Casella di «Sorpreso» a x 458, sotto il numero; quella di inclusione a 486, il nome a 514. Al telefono i due pulsanti (306,5 px in 304) andavano a capo storti                      | «Sorpreso» con la casella a 486 sotto quella di inclusione e la parola a 514 sotto il nome. Al telefono i due pulsanti a tutta larghezza, il pieno in fondo; gli strumenti in una riga a ogni larghezza (8 px, poi 24 prima di «Nessuno»; righe a 8)                       |
 | S13 Anello del fuoco tagliato (medio)     | 4 px tagliati in alto sulle carte dei turni; al telefono le celle vicine coprivano l'anello dei comandi del turno                                                                   | Dove la fila scorre o le celle sono a 4 px l'anello di 3 px sta 4 px dentro il controllo, come sui riquadri delle azioni; sul ritratto un alone scuro di 6 px. Provato con la tastiera: 0 tagli su carte, comandi del turno, «Termina turno», schede in basso              |
-| S14 Strisce del telefono (medio)          | «Inventar» tagliato netto sotto «Tutte»; «Combattim…» coi puntini; 9 px fra «Scena» e «Tutti»                                                                                       | La striscia della scheda tiene 16 px d'aria quando porta in vista una scheda e sfuma i suoi bordi; le schede in basso sono larghe quanto il nome («Combattimento» intero, 79 px) e la fila sfuma verso «Tutti»                                                             |
+| S14 Strisce del telefono (medio)          | «Inventar» tagliato netto sotto «Tutte»; «Combattim…» coi puntini; 9 px fra «Scena» e «Tutti»                                                                                       | La striscia della scheda sfuma i suoi bordi (l'aria la decide l'app, non 16 px: vedi «Sesto giro»); le schede in basso sono larghe quanto il nome («Combattimento» intero, 79 px) e la fila sfuma verso «Tutti»                                                            |
 | S15 Icona e parola (medio)                | 0 px su «Tiri e risultati», 4 su «Tira l'iniziativa», 8 altrove                                                                                                                     | 8 px su ogni comando con icona (tutti misurati), 12 solo nelle righe da 40 px del menu della pedina; «Digitali» in maiuscoletto come le parole vicine                                                                                                                      |
 | S16 Menu della pedina (medio)             | La lettera «L» in un quadrato                                                                                                                                                       | Il ritratto dipinto della creatura, lo stesso del pannello Creatura                                                                                                                                                                                                        |
 | S17 Targa della scena al telefono (medio) | Comandi da 12 px; «Riposi» a fine riga 1 in esplorazione, in riga 2 a sinistra in combattimento                                                                                     | Comandi da 15 px come ogni pulsante; «Riposi» sempre a fine riga 1 (in combattimento lo stato va sotto il titolo e la targa passa da 82,8 a 57,1 px); i comandi del DM sempre in riga 2. L'intestazione del Tavolo resta su una riga                                       |
@@ -425,16 +425,108 @@ della riga «Personaggio · Iniziativa» che c'era già.
   geometria comune concede, 19 unità su 100) e a 1× diventa una macchia; a 2× si legge. Il
   «20» sulla faccia rame è il marchio comune a tutte le direzioni (I-251), quindi resta.
 
+## Sesto giro (01/10/2026)
+
+La verifica indipendente dopo il marchio e i dettagli (`notes/open-items-round6.json`) ha
+lasciato un punto medio e quattro bassi; il sesto giro li chiude tutti e unifica le ultime
+differenze fra componenti dello stesso tipo segnalate dallo strumento di coerenza (I-250).
+Misure, script, ritagli e catture di prova sono in
+`~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/polish6-solasta/` (i file di
+prima in `before/`). Le regole nuove stanno con la loro ricetta (barra in basso e striscia
+della scheda in «S14», righe dell'inventario in «S5», chip del punteggio con la fascia, blocco
+del PF con la barra del telefono, finestra dell'iniziativa con «S12»), le unificazioni
+nell'ultima sezione prima del marchio, «coherence (round 6)».
+
+| Punto                                         | Prima                                                                                                                                                                                                                                                      | Dopo                                                                                                                                                                                                                                                                                                                                                                                     |
+| --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Barra in basso del Tavolo al telefono (medio) | Sfumatura fissa di 16 px in fondo: a riposo mangiava l'ultima lettera di «Scena» («SCEN·»); in fondo allo scorrimento sfumava la coda di «Consultazione» (la parola finiva a 312,2, la sfumatura partiva da 304) e all'inizio restava «ONE» tagliato netto | Sfumatura di 32 px, così la scheda tagliata sfuma tutta («Scena» dalla S alla A); la fila scatta all'inizio di una scheda intera, a filo del bordo vicino; 32 px d'aria in fondo: «Consultazione» finisce a 288,2, dove la sfumatura comincia. Misurata in 7 posizioni di scorrimento (0, 62, 124, 207, 269 e la fine, 350): mai un frammento al bordo vicino (`crops/rail2-a2-all.png`) |
+| Striscia della scheda al telefono (basso)     | Sfumatura di 16 px; SOURCES diceva «16 px d'aria», ma l'aria la decide l'app (`scrollIntoStrip` in `ui.mjs`): «Azioni» a 7 px dal bordo e 9 px della sua riga rame sfumati                                                                                 | Sfumatura di 12 px, quanto il margine interno di una scheda: non tocca mai una lettera, nemmeno con la scheda a filo; con 7 px d'aria la riga rame sfuma per 5 px (fino a 0,58 invece di 0,44). La tastiera porta una scheda a 16 px dal bordo (`crops/stabs-final-all.png`)                                                                                                             |
+| Prima fila della barra al telefono (basso)    | La cella dei PF finiva a 68,6 e la legenda delle risorse cominciava a 78,6: 10 px                                                                                                                                                                          | 4 px come ogni gruppo della barra (legenda a 72,6): la seconda colonna del blocco, vuota al telefono, non ha più il suo spazio di 6 px                                                                                                                                                                                                                                                   |
+| Finestra dell'iniziativa al telefono (basso)  | Tre bordi sinistri in una riga: «Sorpreso» a 56, la casella d'inclusione a 85, la riga del d20 a 68,5                                                                                                                                                      | Un solo bordo, quello del numero d'ordine (56): la riga del tipo, la riga del d20 e «Sorpreso»; il totale resta sul bordo destro (334)                                                                                                                                                                                                                                                   |
+| Resti frazionari (basso)                      | Il chip del punteggio alto 20,3 px (interlinea 1,45); nelle righe con «Equipaggia» «Dettagli» schiacciato a 53 px e il secondo comando a 1232 invece di 1233,6                                                                                             | Il chip ha la riga da 16 px dei chip e 2 px sopra e sotto: 20 px. La colonna dei comandi dell'inventario passa da 208 a 224 px (il gruppo più largo, Dettagli · Equipaggia · menu, è 209,6): «Dettagli» 54,6 px a x 1139 e il secondo comando a 1217,6 in tutte le 18 righe, il menu a 1323                                                                                              |
+| Schermate e coppie                            | Fatte prima dell'ultima modifica                                                                                                                                                                                                                           | Le 15 schermate, il foglio riassuntivo e le 14 coppie rifatti alle 21:45–21:47, dopo l'ultima modifica del `direction.css` (21:43:30); `manifest.json` 15 su 15 senza errori                                                                                                                                                                                                             |
+
+Unificazioni (I-250), una ricetta per tipo:
+
+- **Icona e parola a 8 px** anche dove restavano i 6 px dell'app: le linguette del pannello
+  laterale («Creatura», «Riepilogo del gruppo»), le righe del menu dell'Inizio, «Tutte» della
+  scheda, i comandi della sessione sopra la mappa e la cella dei PF; 8 px anche fra i due
+  pulsanti con cornice della fila rapida del pannello Creatura (S3), fra l'etichetta e il
+  campo nella scheda e nelle righe delle mosse; l'avviso «Sessione non avviata» pende 8 px
+  sotto la barra della sessione, come le lastre della mappa.
+- **Righe di un elenco**: un solo margine di 8 px sopra e sotto in ogni elenco (magie 14,
+  inventario 6 e la sua testata 10, azioni, reazioni e tabella delle mosse 6, discussioni
+  dell'Inizio 10, con 16 px fra testo e «Apri» invece di 14). Una riga con un comando da
+  40 px è alta 56 px ovunque.
+- **Interruttori degli effetti** («Benedizione», «Anatema»): 8 px sopra e sotto come ogni
+  pulsante con cornice (6), sempre alti 40.
+- **Chip**: tutti alti 20 px, anche le componenti degli incantesimi («V», «S»: 22) e il
+  chip del punteggio; i **contatori** («Novità» 7, i 4 e 8 del menu della pedina) una sola
+  casella di 20 px con 4 px ai lati (6; quello del menu era alto 15,2).
+- **Menu della pedina al telefono**: righe da 40 px come ogni riga e comando (l'app le fa da
+  44 nel foglio del telefono).
+- **Casella «Solo pronte al lancio»**: senza i 3 px del browser, come quelle
+  dell'iniziativa.
+
+Sotto la piega: lo strumento ha misurato anche l'Inizio intero (`home-full`, a 1440 e a
+390, `polish6-solasta/audit-homefull/`): le righe delle discussioni erano le uniche fuori
+scala (10 / 14 px), ora sulla ricetta; nessun errore di contrasto (un solo «incerto», il nome
+della campagna sopra l'immagine nella cattura a pagina intera, che passa nello stato Inizio).
+La scheda intera (`sheet-full`) è nei 20 stati della misura.
+
+Le garanzie, rimisurate dopo le modifiche (`polish6-solasta/guards/`, giocatore e DM): barra
+alta 112 px a 1440 × 900, 1366 × 768 e 1280 × 800, nessun riquadro fuori dalla barra,
+«Termina turno», «Annulla ultima modifica» e «Annulla preparazione» visibili; a 390
+intestazione del Tavolo su una riga (63 px), rotaia fissata a 844 px, barra alta 149 px,
+nessuno scorrimento laterale su Inizio, scheda, magie, finestra dell'iniziativa e Tavolo
+(combattimento ed esplorazione); «Entra al Tavolo» finisce a 580 px; nessun comando sotto i
+40 px oltre ai collegamenti dentro il testo, come prima. Controlli statici:
+`tests/visual01-directions.test.mjs` 13 su 13, nessun `!important`, nessun
+`text-transform`, nessun testo in `content`; Prettier pulito.
+
+Restano, di proposito: i 6 e 10 px della geometria del Tavolo al telefono (margini della
+barra, della rotaia e della targa della scena, che portano le garanzie a 390), i 5 e 10 px
+della testata e del marchio (giro del marchio), i 3 px dell'interruttore «Il DM può
+modificare questa scheda» (l'app lo allinea alla prima riga del testo), le etichette da
+11 px dei distintivi sulla mappa (dimensionati dall'app sulla pedina) e le pagine «Azioni /
+Barra rapida» alte 42 px, metà di un riquadro da 84.
+
 ## Coerenza (I-250)
 
 Misure dello strumento `changes/visual-01/audit/audit.js --direction solasta` sui 10 stati del
-giro 1 a 1440 e a 390 (20 catture, tema scuro). Secondo giro: «prima» 01/10 alle 12:01, sul
+giro 1 a 1440 e a 390 (20 catture, tema scuro). Sesto giro: «prima» 01/10 alle 21:22 sul
+`direction.css` delle 20:12:31 (copia in `polish6-solasta/audit-before/`), «dopo» alle 21:44
+sul `direction.css` delle 21:43:30, l'ultima modifica (`audit/solasta/audit.md`, copia in
+`polish6-solasta/audit-after/`):
+
+| Misura (sesto giro)                      | Prima                                      | Dopo                                       |
+| ---------------------------------------- | ------------------------------------------ | ------------------------------------------ |
+| Elementi visibili                        | 2594                                       | 2602                                       |
+| Spazi (padding, margini, gap)            | 27 valori, passo 4 px all'86 %, 17 anomali | 27 valori, passo 4 px al 90 %, 17 anomali  |
+| Padding da 6 · 10 · 14 px (elementi)     | 90 · 3 · 5                                 | 4 · 1 · 1                                  |
+| Gap da 6 px · margini da 3 px (elementi) | 12 · 4                                     | 4 · 2                                      |
+| Altezze dei controlli                    | 17 (44 px ×13, 40 px ×558)                 | 17 (44 px ×3, 40 px ×570)                  |
+| Altezze dei chip                         | 9 (22 px ×6, 20 px ×35)                    | 8 (20 px ×43)                              |
+| Caratteri: misure · pesi · stili         | 10 · 3 · 70                                | 10 · 3 · 71 (il chip del punteggio, 14/16) |
+| Voci di menu: varianti                   | 2 (40 e 44 px)                             | 1                                          |
+| Pulsanti: classi visive · varianti       | 26 · 65 (10 classi con più varianti)       | 26 · 65 (10)                               |
+| Lastre: classi visive · varianti         | 21 · 43                                    | 21 · 43                                    |
+| Colori: testo · fondo · bordo            | 23 · 39 · 19 (2 coppie gemelle)            | 23 · 39 · 19 (2 coppie gemelle)            |
+| Pulsanti col riempimento del browser     | 0                                          | 0                                          |
+| Contrasto AA: errori su testi misurati   | 0 su 1221                                  | 0 su 1227                                  |
+
+Le varianti dei pulsanti e delle lastre che restano sono geometria per larghezza (le celle
+del telefono, la fila del gruppo alta 104 o 48 px, le linguette in basso da 52 px), il
+marchio e componenti diversi con lo stesso aspetto (segmenti con la linea a sinistra, la
+cella dei PF): nessuna è lo stesso componente disegnato in due modi.
+
+Giri precedenti. Secondo giro: «prima» 01/10 alle 12:01, sul
 `direction.css` delle 10:45 (copia in `polish2-solasta/audit-before/`); «dopo» sul
 `direction.css` delle 12:30:19, rimisurato alle 12:58 come punto di partenza del terzo giro
 (copia in `polish3-solasta/audit-before/`). Terzo giro: 01/10 alle 13:56, sul `direction.css`
 delle 13:52:00 (copia in `polish3-solasta/audit-after/` e, come punto di partenza del quarto
 giro, in `polish4-solasta/audit-before/`). Quarto giro: 01/10 alle 15:40, sul `direction.css`
-delle 15:38:47 (`audit/solasta/audit.md`, copia in `polish4-solasta/audit-after/`).
+delle 15:38:47 (copia in `polish4-solasta/audit-after/`).
 
 | Misura                                 | Secondo giro, prima                       | Secondo giro, dopo (terzo, prima)         | Terzo giro, dopo                          | Quarto giro, dopo                          |
 | -------------------------------------- | ----------------------------------------- | ----------------------------------------- | ----------------------------------------- | ------------------------------------------ |
@@ -519,8 +611,9 @@ Secondo giro, che cosa è stato unificato, una ricetta per tipo:
 
 Che cosa resta, di proposito:
 
-- le file compatte del Tavolo sul telefono (targa della scena, intestazione) tengono i
-  comandi da 12 px: è ciò che tiene l'intestazione su una riga a 390 px;
+- le file compatte del Tavolo sul telefono (targa della scena, intestazione) tenevano i
+  comandi da 12 px per stare su una riga a 390 px (dal quinto giro sono da 15 px, S17, e
+  l'intestazione resta su una riga);
 - le misure fuori scala che rimangono sono la geometria della mappa e del Tavolo dell'app
   (margini 80 / 88 / 168, colonne, i 10 px delle file compatte del telefono, le righe di 1 px
   fra i riquadri), i margini di 3 px dell'interruttore «Il DM può modificare questa scheda»

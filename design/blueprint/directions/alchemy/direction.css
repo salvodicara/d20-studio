@@ -663,6 +663,21 @@
   > :is(.button.quiet:has(+ .button:not(.quiet)), .button:not(.quiet):has(+ .button.quiet)) {
   margin-inline-end: var(--al-sp-2);
 }
+/* The same 32 px after a pill for the two commands that broke it: «+ Effetto» after the last
+   effect switch (25 px: the switch had no trailing step) and the inventory's round «Altre
+   azioni» glyph after a filled pill («Bevi», «Usa»: 26 px, the glyph sits 10 px inside its
+   round button where a label sits 17). */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .shp-effects
+  > .shp-switch:has(+ .button.quiet) {
+  margin-inline-end: var(--al-sp-2);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .invp-row-actions
+  > .button:not(.quiet)
+  + .button.quiet[data-invp="menu"] {
+  margin-inline-start: var(--al-sp-15);
+}
 /* The sheet heading's row (four quiet commands, then «Vai al Tavolo») on the same rhythm
    where the sheet is wide enough for one row; narrower it is a grid of two columns instead
    (section «Scheda»). */
@@ -693,7 +708,8 @@
     .table-inspector
       :is(.inspector-quick, .token-menu-panel, .invp-inspector-item-list)
       > .button.quiet,
-    .table-inspector .media-token-panel .toolbar > .button.quiet
+    .table-inspector .media-token-panel .toolbar > .button.quiet,
+    .home-page .home-aside .home-card > .button.quiet
   ) {
   margin-inline-start: calc(-1 * (var(--al-sp-4) + var(--al-bw)));
 }
@@ -1864,7 +1880,8 @@
     .cm-home,
     .chat-home,
     .community-home,
-    .home-aside
+    .home-aside,
+    .home-start
   ) {
   padding: var(--al-sp-6);
   border: var(--al-bw) solid;
@@ -1878,7 +1895,8 @@
     .cm-home,
     .chat-home,
     .community-home,
-    .home-aside
+    .home-aside,
+    .home-start
   ) {
   border-color: transparent;
   background:
@@ -1901,14 +1919,33 @@
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .home-page .home-bottom {
   gap: var(--al-sp-6);
 }
-/* One title-to-content step in every Home card (AL-D01): the title's own 12 px, as in the
-   appointment; the section heading round it added 16 more («Il tuo personaggio» started 64 px
-   under its title, «Dove eravamo rimasti» 33, the appointment 16). */
+/* One title-to-content step in every Home card (AL-D01): 12 px, as in the appointment; the
+   section heading round the title added 16 more («Il tuo personaggio» started 64 px under its
+   title, «Dove eravamo rimasti» 33, the appointment 16). The step is the heading row's, not
+   the title's, so the bare link beside a title («Tutte le campagne», «Tutte le discussioni»,
+   «Tutti gli annunci») stands centred on it (it sat 6 px low, the title's 12 px margin being
+   inside the row): the link's 40 px target overhangs the 28 px title line by 6 px each side.
+   On the phone the link wraps right under the title, as its subtitle. */
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
   .home-page
   :is(.home-bottom > section, .cm-home, .chat-home, .community-home)
   > .section-heading {
-  margin-bottom: 0;
+  row-gap: 0;
+  margin-bottom: var(--al-sp-3);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .home-page
+  :is(.home-bottom > section, .cm-home, .chat-home, .community-home)
+  > .section-heading
+  > h2 {
+  margin: 0;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .home-page
+  :is(.home-bottom > section, .cm-home, .chat-home, .community-home)
+  > .section-heading
+  > :is(.button.quiet, .text-button) {
+  margin-block: calc(-1 * var(--al-sp-15));
 }
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
   .home-page
@@ -1982,20 +2019,52 @@
 }
 /* «Il tuo personaggio»: the community card's avatar grammar, a round portrait with an accent
    ring (party list, T1). The row starts on the card's title step (no inset of its own) and
-   fits the card (AL-D01): 12 px between its parts, as the party list's rows, and the name
-   column may narrow (its kicker then wraps, balanced) instead of pushing the book glyph 5 px
-   into the card's padding. */
+   fits the card (AL-D01). One layout at every width, as a list row with a two-line body: the
+   portrait and the book centred at the row's two ends, 12 px from the body; in the body the
+   name with its kicker («Maga · Livello 3», one line), then the hit points 8 px under it, on
+   the name's edge. Side by side the name column was squeezed to 50 px at 1280–1439 px (the
+   kicker broke after «·», the hit points 12 px from the name), and a wrap that depended on
+   the card's width put the hit points at the row's end at 1101–1279. */
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
   .home-page
   .character-resume {
-  gap: var(--al-sp-3);
+  display: grid;
+  grid-template-columns: var(--al-av-xl) minmax(0, 1fr) var(--al-icon);
+  align-content: center;
+  align-items: center;
+  gap: var(--al-sp-2) var(--al-sp-3);
+  min-height: var(--al-av-xl);
   padding: 0;
 }
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
   .home-page
   .character-resume
+  > :is(.portrait, .icon) {
+  grid-row: 1 / span 2;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .home-page
+  .character-resume
   > span:not(.portrait, .hp-small) {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: end;
   min-width: 0;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .home-page
+  .character-resume
+  > .hp-small {
+  grid-column: 2;
+  grid-row: 2;
+  align-self: start;
+  margin-left: 0;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .home-page
+  .character-resume
+  > .icon {
+  grid-column: 3;
 }
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
   .home-page
@@ -2004,16 +2073,6 @@
   small {
   white-space: normal;
   text-wrap: balance;
-}
-/* Where the three cards are narrowest (1101–1279 px: 278–325 px cards) the hit points and the
-   book move to a second line, right-aligned, instead of crushing the name. */
-@media (min-width: 1101px) and (max-width: 1279px) {
-  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
-    .home-page
-    .character-resume {
-    flex-wrap: wrap;
-    row-gap: var(--al-sp-2);
-  }
 }
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
   .home-page
@@ -2067,6 +2126,67 @@
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .home-aside {
   top: var(--al-sp-4);
 }
+/* Where the column is a sticky card of the screen's height (from 1101 px), its open panel
+   scrolls inside the card under the tabs, as the Table's right column (AL-D07): the card keeps
+   its whole edge, the panel's content fades out over the card's 24 px bottom inset and scrolls
+   its last line clear of the fade; scrolled, it also fades under the tabs, over the 16 px
+   between them and the panel (the tabs' margin becomes the panel's top inset). Taller than the screen, the news column cut «Notizie
+   precedenti» hard at 1440 × 900 and the third item mid-sentence at 1280 × 800. The card's
+   24 px side insets move onto the tabs and the panel, so the panel spans the card from edge
+   to edge and the optically aligned commands and every focus ring stay inside the scrolling
+   box; the panel's own ring is the card's. */
+@media (min-width: 1101px) {
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .home-page
+    .home-layout
+    > .home-aside {
+    display: flex;
+    flex-direction: column;
+    padding: var(--al-sp-6) 0 0;
+    overflow: visible;
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .home-page
+    .home-aside
+    > .home-tabs {
+    flex: none;
+    margin: 0 var(--al-sp-6);
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .home-page
+    .home-aside
+    > .home-panel {
+    flex: 0 1 auto;
+    min-height: 0;
+    padding: var(--al-sp-4) var(--al-sp-6) var(--al-sp-6);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-mask-image: linear-gradient(
+      transparent,
+      #000 var(--al-sp-4),
+      #000 calc(100% - var(--al-sp-6)),
+      transparent
+    );
+    mask-image: linear-gradient(
+      transparent,
+      #000 var(--al-sp-4),
+      #000 calc(100% - var(--al-sp-6)),
+      transparent
+    );
+  }
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .home-page
+    .home-aside
+    > .home-panel:focus-visible {
+    outline: 0;
+  }
+  :root[data-direction="alchemy"]:not([data-pref-theme="light"])
+    .home-page
+    .home-aside:has(> .home-panel:focus-visible) {
+    outline: 3px solid var(--focus);
+    outline-offset: 3px;
+  }
+}
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .home-tabs {
   gap: var(--al-sp-1);
   margin: 0 0 var(--al-sp-4);
@@ -2104,11 +2224,23 @@
   background: var(--al-hover);
   color: var(--al-white);
 }
+/* The count bubble is the notification count's (10/12, Lexend 600: the face has no 700, and
+   the tab's 1.43 gave it a 14.29 px line); the news head's «7 da leggere» is a meta line of
+   the column, 14/20 like the other lines under the card titles (it was the page's 16). */
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .home-count {
   min-width: var(--al-count);
   height: var(--al-count);
   padding: 0 var(--al-sp-15);
+  font-family: var(--font-ui);
   font-size: var(--al-fs-2xs);
+  font-weight: var(--al-fw-ui-strong);
+  line-height: var(--al-lh-2xs);
+  letter-spacing: 0;
+  font-variant-caps: normal;
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .home-panel-head > p {
+  font-size: var(--al-fs-sm);
+  line-height: var(--al-lh-sm);
 }
 :root[data-direction="alchemy"]:not([data-pref-theme="light"]) .home-count {
   background: var(--al-accent);
@@ -2139,6 +2271,34 @@
   .button {
   padding-inline: var(--al-sp-4);
   font-size: var(--al-fs-caps);
+}
+/* Optical alignment on the Home too (AL-D05): «Segna tutte come lette» and «Segna come letta»
+   put their first letter on the column's text edge when they open a line (17 px in before).
+   «Segna tutte come lette» hangs 17 px out on both sides: alone on its line it starts on the
+   text edge, beside «7 da leggere» it ends on it. «Segna come letta» opens a line only when it
+   wraps under the item's pill: it hangs 17 px back and the pill keeps 24 px on its trailing
+   side, so beside the pill its label stands 32 px from it (8 + 24 − 17 + 17, the row rhythm)
+   and on its own line it starts on the text edge. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"])) .home-panel-head {
+  gap: var(--al-sp-2);
+  margin-bottom: var(--al-sp-2);
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .home-panel-head
+  > .button.quiet {
+  margin-inline: calc(-1 * (var(--al-sp-4) + var(--al-bw)));
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .home-news-item
+  .toolbar
+  > :is(.button.quiet:first-child, .button:not(.quiet) + .button.quiet) {
+  margin-inline-start: calc(-1 * (var(--al-sp-4) + var(--al-bw)));
+}
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .home-news-item
+  .toolbar
+  > .button:not(.quiet):has(+ .button.quiet) {
+  margin-inline-end: var(--al-sp-6);
 }
 :root[data-direction="alchemy"]:not([data-pref-theme="light"]) .home-badge-new {
   border-color: transparent;
@@ -4549,6 +4709,16 @@
     grid-template-columns: repeat(2, var(--al-h-control)) var(--al-h-large) auto;
     column-gap: var(--al-sp-3);
   }
+  /* Exploration has no «Termina turno»: the same tracks without it, so the 48 px dice sits
+     in a 48 px column 12 px from its neighbour, as in combat (its 40 px column with 8 px gaps
+     let the disc spill 4 px into each side: 8 then 4 px apart). */
+  :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar:not(:has(> [data-table="end-turn"])) {
+    grid-template-columns: repeat(2, var(--al-h-control)) var(--al-h-large);
+    column-gap: var(--al-sp-3);
+  }
   :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
     .table-layout
     > .action-dock.table-hotbar
@@ -4702,12 +4872,13 @@
     align-items: center;
     gap: var(--al-sp-1);
     padding: 0;
-    --al-fade: var(--al-sp-6);
+    --al-fade: var(--al-sp-12);
     scroll-snap-type: x mandatory;
   }
   /* Each tab as wide as its whole name, 8 px inside it (AL-D09: «Combattimento» showed as
      «Combatti…» in a 68 px tab), 4 px from the next; the strip snaps a tab to its start and
-     fades the one it cannot show. */
+     fades the one it cannot show over 48 px, nearly the narrowest tab (58): at 390 px the
+     25 px of «Scena» left beside «Tutti» lie wholly in the fade (with 24 px they read «Sc»). */
   :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
     .table-layout
     > .table-sidebar-rail
@@ -5088,6 +5259,18 @@
   font-weight: var(--al-fw-ui-strong);
   line-height: var(--al-lh-lg);
 }
+/* The coins are a list of four amounts, not one figure: one step smaller (16), so «30 mo · 45
+   ma · 120 mr · 12 sb» holds one line in its 266 px card (at 18 it broke between «12» and
+   «sb»); a narrower card balances its two lines. The app pins this line's size to --text-lg
+   with !important, so the step is set on that token, for this line only. */
+:root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
+  .character-sheet
+  .invp-stat
+  > strong.invp-coins-line {
+  --text-lg: var(--al-fs-base);
+  line-height: var(--al-lh-base);
+  text-wrap: balance;
+}
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
   .character-sheet
   :is(.spl-stat dd small, .invp-stat > strong small, .invp-stat > small) {
@@ -5245,9 +5428,11 @@
     margin-inline-end: calc(-1 * var(--al-sp-4));
   }
 }
+/* Every filter row of the sheet keeps its pills 8 px apart (the spell and action chips were
+   6 px apart, the inventory's 8). */
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))
   .character-sheet
-  :is(.spl-filters, .invp-filters, .invp-toolbar-row) {
+  :is(.spl-filters, .spl-chips, .shp-chips, .invp-filters, .invp-toolbar-row) {
   gap: var(--al-sp-2);
 }
 :root[data-direction="alchemy"]:where(:not([data-pref-theme="light"]))

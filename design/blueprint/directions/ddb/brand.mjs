@@ -57,7 +57,7 @@ export function directionLogo(className) {
       `<polygon points="${g.CENTER_FACE}" stroke-width="${EDGE}"/>` +
       `<polygon points="${g.OUTLINE}" stroke-width="${RIM}"/></g>` +
       g.numeral(
-        'font-family="Roboto Condensed, Arial Narrow, sans-serif" font-weight="800" fill="#ffffff"',
+        'font-family="DDB Roboto Condensed, Roboto Condensed, Arial Narrow, sans-serif" font-weight="800" fill="#ffffff"',
         19,
       ),
   );

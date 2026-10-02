@@ -163,7 +163,19 @@
    - the Table's edges and rhythms: header 24 px apart, tool columns 8 px apart on one top,
      the map pill on the scene card's top, 40/56 px initiative rows, 24 px panel sections with
      a fading foot, the dock's eyebrow and trailing cost mark, a centred turn grid, one party
-     pitch, the phone map ending above the dock, the bottom bar's whole names → O1, O5, O9 */
+     pitch, the phone map ending above the dock, the bottom bar's whole names → O1, O5, O9
+   (01/10/2026, sixth polish round after the verification of the brand and detail pass, block
+   «SIXTH POLISH ROUND»)
+   - phone: «Mosse» a round icon button like the dock's other commands; the dock, bottom bar
+     and sheet strips fade over the dense 12 px step, so the cut falls on a chip's or a tab's
+     icon; the bottom bar's tabs with BottomNavigation's 12 px sides → O9, MUI
+     BottomNavigationAction
+   - the second tool column as the first column's fly-out, one opaque surface; the turn order
+     8 px after it, its end rows concentric with the list → O1 toolbar, O5
+   - the dock's pages on the chip rows; the panel's stacked actions full width; the token in
+     focus in the one selected look → O1 dock, MUI Button fullWidth, O16 «CREATE», O13
+   - the map pill's glyphs at 20 px, the bell's count as MUI's Badge, the caption and the
+     dock's movement on the caption line → MUI IconButton small, Badge, typography */
 
 /* ------------------------------------------------------------------ Roboto (vendored) */
 @font-face {
@@ -357,8 +369,8 @@
   /* Glass (Owlbear's MUI Paper variant «transparent», overlayEffect GLASS): ONE recipe for
      every piece that floats over the map (detail round, I-252) — navy at 72 % under a 5 %
      white veil, a 20 px blur with 140 % saturation, a 1 px inner highlight at white 12 % and
-     shadows[8]. A piece that crosses the map's edge (the second tool column) reads as one
-     surface on the art and on the page alike. */
+     shadows[8]. The second tool column, which crosses the map's edge, takes the first
+     column's surface opaque (sixth polish round), so no seam shows inside it. */
   --ob-glass:
     linear-gradient(rgb(255 255 255 / 0.05), rgb(255 255 255 / 0.05)), rgb(30 34 49 / 0.72);
   --ob-glass-strong: var(--ob-glass);
@@ -490,7 +502,11 @@
   background: rgb(187 153 255 / 0.24);
   color: var(--accent-strong);
 }
-/* Icon buttons: MUI IconButton, round, white glyphs, 8 % hover. */
+/* Icon buttons: MUI IconButton, round, white glyphs, 8 % hover. A component rule, global on
+   purpose like the buttons (sixth polish round, after the verification asked to scope or
+   document it): the app bar on every route, dialog close buttons and the area tools all draw
+   the one icon button; scoped to the skinned surfaces, the Campaign and Library pages would
+   show the app's 10 px squares under the app bar's round ones. */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .icon-button {
   border-radius: var(--ob-radius-round);
   color: var(--text);
@@ -836,7 +852,10 @@
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .empty-state {
   border-color: var(--frame);
 }
-/* Key chips stay white inside the lavender text buttons (AA on the white 16 % chip). */
+/* Key chips stay white inside the lavender text buttons (AA on the white 16 % chip). A
+   component rule, global on purpose (sixth polish round, documented instead of scoped): a key
+   shows on the Table, in the token menu, the command palette and the shortcut guide, and reads
+   as the same chip in each of them. */
 :root[data-direction="owlbear"]:not([data-pref-theme="light"]) kbd {
   padding: 0 var(--ob-sp-05);
   border-color: transparent;
@@ -3475,7 +3494,7 @@
     width: 200px;
     max-width: none;
     max-height: calc(100% - 420px);
-    margin-left: calc(var(--ob-tools-edge) + var(--ob-sp-15));
+    margin-left: calc(var(--ob-tools-edge) + var(--ob-sp-1));
     padding: var(--ob-sp-1) 0;
     overflow: hidden auto;
     border-radius: var(--radius-lg);
@@ -5951,20 +5970,50 @@
     backdrop-filter: none;
     box-shadow: none;
   }
-  /* Phone dock (OB-14): the action strip fades over its last 24 px, which it keeps free at
-     the end of its scroll, so a chip cut by the edge reads as «more», never as a sliver; with
-     the keyboard inside the strip the fade steps aside (a chip can be wider than the strip's
-     clear part), so a focused chip and its ring are never dimmed. */
+  /* Phone dock (OB-14; sixth polish round): «Mosse» is a round 40 px icon button like the
+     dock's other commands on the phone (the app hides their words the same way; its name
+     stays «Mosse speciali»), so the action strip gets those 38 px: at 390 px the first chip
+     shows whole and the second one cut through its icon, at 360 px the first whole and the
+     second's rounded start, at 412 px the second's icon and words. The strip fades over its
+     last 12 px (MUI's dense step), which it keeps free at the end of its scroll, so the fade
+     lands on the cut chip and never on a whole chip's label or cost mark; with the keyboard
+     inside the strip the fade steps aside, so a focused chip and its ring are never dimmed. */
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
+    .table-hotbar
+    .combat-dock
+    .sm-dock-toggle {
+    justify-content: center;
+    min-width: var(--ob-h-sm);
+    padding-inline: var(--ob-sp-1);
+    border-width: 0;
+    border-radius: var(--ob-radius-pill);
+  }
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
+    .table-hotbar
+    .combat-dock
+    .sm-dock-toggle
+    > .dock-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
   :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-hotbar .combat-actions {
-    padding-inline-end: var(--ob-sp-3);
-    scroll-padding-inline-end: var(--ob-sp-3);
-    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - var(--ob-sp-3)), transparent);
-    mask-image: linear-gradient(90deg, #000 calc(100% - var(--ob-sp-3)), transparent);
+    padding-inline-end: var(--ob-sp-15);
+    scroll-padding-inline-end: var(--ob-sp-15);
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - var(--ob-sp-15)), transparent);
+    mask-image: linear-gradient(90deg, #000 calc(100% - var(--ob-sp-15)), transparent);
   }
   /* Phone bottom bar (OB-15): the bar's top rule is drawn inside its box, so its row is the
      tabs' own 52 px (it was 51: the app's 52 px tabs sat 1 px above it and their focus ring
      lost its top); every tab as tall as that row and as wide as its whole name at MUI's 12 px
-     label (BottomNavigation); the tab strip fades at its end like the dock. */
+     label (BottomNavigation), with MUI's 12 px a side and a 48 px minimum (sixth polish
+     round: 8 px and the app's 58), «Mappa» and «Tutti» flush with the strip; the tab strip
+     fades over its last 12 px like the dock. So at 360 px «Combattimento» ends whole before
+     the fade, and at 390 and 412 px the cut falls on «Scena»'s icon and the start of its name,
+     never on a lone letter. */
   :root[data-direction="owlbear"]:not([data-pref-theme="light"])
     .table-layout
     > .table-sidebar-rail {
@@ -5973,8 +6022,14 @@
   }
   :root[data-direction="owlbear"]:not([data-pref-theme="light"])
     :is(.table-tab, .table-map-link, .table-panels-all) {
+    min-width: var(--ob-h-md);
     height: auto;
-    padding-inline: var(--ob-sp-1);
+    padding-inline: var(--ob-sp-15);
+  }
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
+    .table-layout
+    > .table-sidebar-rail {
+    column-gap: 0;
   }
   :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-tab-label {
     max-width: none;
@@ -5983,14 +6038,178 @@
     line-height: var(--ob-lh-caption);
   }
   :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-sidebar-rail > .table-tabs {
-    padding-inline-end: var(--ob-sp-3);
-    scroll-padding-inline-end: var(--ob-sp-3);
-    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - var(--ob-sp-3)), transparent);
-    mask-image: linear-gradient(90deg, #000 calc(100% - var(--ob-sp-3)), transparent);
+    padding-inline-end: var(--ob-sp-15);
+    scroll-padding-inline-end: var(--ob-sp-15);
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - var(--ob-sp-15)), transparent);
+    mask-image: linear-gradient(90deg, #000 calc(100% - var(--ob-sp-15)), transparent);
+  }
+  /* The sheet's section strip (sixth polish round) fades at its end like the dock and the
+     bottom bar, so «Inventario» cut by the edge reads as «more», not as a hard slice. */
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"]) .character-sheet .character-tabs {
+    padding-inline-end: var(--ob-sp-15);
+    scroll-padding-inline-end: var(--ob-sp-15);
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - var(--ob-sp-15)), transparent);
+    mask-image: linear-gradient(90deg, #000 calc(100% - var(--ob-sp-15)), transparent);
   }
   :root[data-direction="owlbear"]:not([data-pref-theme="light"])
-    :is(.table-hotbar .combat-actions, .table-sidebar-rail > .table-tabs):focus-within {
+    :is(
+      .table-hotbar .combat-actions,
+      .table-sidebar-rail > .table-tabs,
+      .character-sheet .character-tabs
+    ):focus-within {
     -webkit-mask-image: none;
     mask-image: none;
   }
+}
+
+/* ================================================================== SIXTH POLISH ROUND */
+/* 01/10/2026, after the independent verification of the brand and detail pass
+   (verify-brand-owlbear): the open items and the I-250 coherence pass. The phone strips
+   (dock, bottom bar, the sheet's sections) were changed and the two global component rules
+   (icon button, key chip) documented where they are defined above; this block holds the rest. */
+
+/* The dock's pages on the chips' rows (desktop): two 40 px rows 8 px apart, so «Azioni» and
+   «Barra rapida» share the top and bottom edges of the two chip rows beside them (they sat
+   2 px off each row with the app's 4 px gap). */
+@media (min-width: 721px) {
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .hotbar-pages {
+    row-gap: var(--ob-sp-1);
+  }
+}
+
+/* The second tool column is the first column's fly-out: the same surface as the column it
+   opens from (the glass over the page, opaque), so it reads as one surface where it crosses
+   the map's edge instead of showing the page and the art side by side through its blur. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .table-stage .map-subtools {
+  background: linear-gradient(rgb(255 255 255 / 0.05), rgb(255 255 255 / 0.05)), var(--canvas);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* The turn order's first and last rows round their outer corners at the scale's dense 12 px,
+   which keeps them inside the list's 16 px corners over its 8 px padding, so the current
+   row's tint and the inset focus ring never poke past the list's rounded edge. */
+@media (min-width: 1440px) and (min-height: 860px) {
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token:first-child {
+    border-start-start-radius: var(--ob-radius-dense);
+    border-start-end-radius: var(--ob-radius-dense);
+  }
+  :root[data-direction="owlbear"]:not([data-pref-theme="light"])
+    .table-layout
+    > .initiative
+    .initiative-token:last-child {
+    border-end-start-radius: var(--ob-radius-dense);
+    border-end-end-radius: var(--ob-radius-dense);
+  }
+}
+
+/* Creature panel: the stacked outlined actions (damage and conditions, transform, linked
+   creatures) full width with their labels centred, as the panel's sheet / inventory / rest
+   column (MUI fullWidth buttons): one left and one right edge for every stacked action. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  > .conditions-summary.embedded
+  > .button:not(.quiet) {
+  justify-self: stretch;
+  justify-content: center;
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .table-layout
+  .forms-toolbar
+  > .button:not(.quiet) {
+  flex: 1 1 100%;
+  justify-content: center;
+}
+/* The section after the «Ultima mossa» line: that text button's 40 px box keeps 8 px of air
+   under its label, so the next section starts 16 px below it (the sections listed in the
+   detail round's 24 px rule), and the conditions without the app's own 8 px on top: about
+   30 px from the label's ink to the vital chip, as between the other sections. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  > .inspector-quick
+  + :is(
+    .conditions-summary.embedded,
+    .forms-summary,
+    #combat-detail,
+    .inspector-buttons,
+    .table-ext-panel
+  ) {
+  margin-top: var(--ob-sp-2);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  > .conditions-summary.embedded {
+  padding-top: 0;
+}
+
+/* «Pedine in scena»: the token in focus in the one selected look (lavender 16 % tint,
+   #c9adff ink, no outline), as the pages, tabs and chips. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  :is(.table-layout, .token-menu)
+  .token-menu-row.current {
+  border-color: transparent;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+}
+
+/* Type on the scale: the map caption's scale (12/18 on the desktop, the app's 10/15 on the
+   phone), the dock's movement (12/15.6) and the sheet's «Formula libera» label (14/21) on
+   the caption and body2 lines. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .map-container
+  > .map-caption
+  > span {
+  font-size: var(--ob-fs-caption);
+  line-height: var(--ob-lh-caption);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .table-hotbar
+  .hotbar-resources
+  .resources
+  > .movement {
+  line-height: var(--ob-lh-caption);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .character-sheet
+  .dtray-sheet-free
+  > .field {
+  line-height: var(--ob-lh-body2);
+}
+
+/* The map controls' pill: every round icon button 40 × 40 with MUI's small 20 px glyph, as the
+   dock's round buttons (8 px inside, 40 px wide, the glyph centred; the safety buttons were
+   42 px wide around 18 px glyphs). */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .session-view-hud-bar
+  .session-view-hud-button
+  > svg.icon {
+  width: var(--ob-icon-sm);
+  height: var(--ob-icon-sm);
+}
+:root[data-direction="owlbear"]:not([data-pref-theme="light"])
+  .session-view-hud-bar
+  .session-view-hud-button.safety-hud {
+  justify-content: center;
+  min-width: var(--ob-h-sm);
+  padding-inline: var(--ob-sp-1);
+}
+
+/* The app bar's notification count as MUI's Badge: 20 px, caption, medium. */
+:root[data-direction="owlbear"]:not([data-pref-theme="light"]) .app-header .ext-count {
+  min-width: var(--ob-icon-sm);
+  height: var(--ob-icon-sm);
+  padding: 0 var(--ob-sp-05);
+  border-radius: var(--ob-radius-pill);
+  font-size: var(--ob-fs-caption);
+  font-weight: 500;
+  line-height: var(--ob-lh-caption);
 }

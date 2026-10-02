@@ -155,9 +155,13 @@
 
 /* ------------------------------------------------------------------ fonts (vendored, OFL)
    Roboto and Roboto Condensed: the faces D&D Beyond's sheet and site use (facts §0.2).
-   Alegreya (heavy weights) stands in for Majesty, D&D Beyond's proprietary headline serif. */
+   Alegreya (heavy weights) stands in for Majesty, D&D Beyond's proprietary headline serif.
+   The two Roboto files are declared under their own names («DDB Roboto», «DDB Roboto
+   Condensed») and read only by the dark-guarded --font-* tokens: under the light theme the
+   app's stacks still find today's installed or fallback faces (a family declared as «Roboto»
+   replaced them while the direction was on, light included). */
 @font-face {
-  font-family: "Roboto";
+  font-family: "DDB Roboto";
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
@@ -167,7 +171,7 @@
     U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 @font-face {
-  font-family: "Roboto";
+  font-family: "DDB Roboto";
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
@@ -178,7 +182,7 @@
     U+A720-A7FF;
 }
 @font-face {
-  font-family: "Roboto Condensed";
+  font-family: "DDB Roboto Condensed";
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
@@ -189,7 +193,7 @@
     U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 @font-face {
-  font-family: "Roboto Condensed";
+  font-family: "DDB Roboto Condensed";
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
@@ -445,8 +449,12 @@
      site's headlines. */
   --font-display:
     "Alegreya", "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
-  --font-ui: "Roboto", system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-  --font-label: "Roboto Condensed", "Arial Narrow", "Helvetica Neue", system-ui, sans-serif;
+  --font-ui:
+    "DDB Roboto", "Roboto", system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial,
+    sans-serif;
+  --font-label:
+    "DDB Roboto Condensed", "Roboto Condensed", "Arial Narrow", "Helvetica Neue", system-ui,
+    sans-serif;
   --label-tracking: var(--ddb-track-caps);
   /* The app's type scale moved onto D&D Beyond's (the calc form of preferences.css is kept
      through the --ddb-fs-* steps): 12 · 12 · 13 · 14 · 16 · 22 · 26 · 32, so the words this file
@@ -773,6 +781,18 @@
 :root[data-direction="ddb"]:not([data-pref-theme="light"])
   :is(.field input, .field select, .field textarea, input[type="search"]):focus-visible {
   border-color: #e40712;
+}
+/* A field with an error keeps the app's red rim (homebrew-editor.css [aria-invalid]), in the
+   colour of its error line: the grey rim above had taken it away. */
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  :is(
+    .field input,
+    .field select,
+    .field textarea,
+    input[type="search"],
+    select
+  )[aria-invalid="true"] {
+  border-color: var(--danger);
 }
 :root[data-direction="ddb"]:not([data-pref-theme="light"]) .switch:checked {
   border-color: #e40712;
@@ -1534,7 +1554,9 @@
    D&D Beyond's character sheet in Underdark mode, «DDB Red» theme: everything in Roboto and
    Roboto Condensed, frames drawn in the theme colour over a dark fill on a painted backdrop. */
 :root[data-direction="ddb"]:not([data-pref-theme="light"]) .character-sheet {
-  --font-display: "Roboto Condensed", "Arial Narrow", "Helvetica Neue", system-ui, sans-serif;
+  --font-display:
+    "DDB Roboto Condensed", "Roboto Condensed", "Arial Narrow", "Helvetica Neue", system-ui,
+    sans-serif;
 }
 /* The backdrop: the owner's painted plate, fixed and darkened (D&D Beyond «Backdrop»). */
 :root[data-direction="ddb"]:not([data-pref-theme="light"])
@@ -3075,7 +3097,8 @@
    Maps is set in Roboto throughout: the scene name, the names and the button words too. */
 :root[data-direction="ddb"]:not([data-pref-theme="light"]) .workspace.is-table {
   --font-display:
-    "Roboto", system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    "DDB Roboto", "Roboto", system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial,
+    sans-serif;
 }
 :root[data-direction="ddb"]:not([data-pref-theme="light"]) .workspace.is-table .map-container {
   background: #12181c;
@@ -3206,7 +3229,15 @@
   background: #232b2f;
 }
 /* «Sessione non avviata»: the words, then «Avvia ora» and «Non ora» together on the row under
-   them at every width (on a phone they had sat inside the sentence's lines). */
+   them at every width (on a phone they had sat inside the sentence's lines). Every notice over
+   the map is padded 12 px on all four sides, so the 40 px buttons sit as far from the rim as
+   the words do (6 px above and below left them 7 px from the foot, the words 13 from the side). */
+:root[data-direction="ddb"]:not([data-pref-theme="light"])
+  .workspace.is-table
+  .session-view-hud
+  .session-view-chip {
+  padding: var(--ddb-space-12);
+}
 :root[data-direction="ddb"]:not([data-pref-theme="light"])
   .workspace.is-table
   .session-view-start-chip {
@@ -3216,20 +3247,38 @@
   gap: var(--ddb-space-8);
 }
 /* Maps never stacks panels over the initiative strip: in combat the session notices start
-   under the turn portraits (top of the portraits + their height + 6 px); on a phone, where the
-   strip spans the screen, they sit low on the map box, above the zoom cluster (the phone map
-   box is 100dvh − rail − 220 px tall, styles.css). */
+   6 px under the turn order's plate; on a phone, where the strip spans the screen, they sit low
+   on the map box, above the zoom cluster (the phone map box is 100dvh − rail − 220 px tall,
+   styles.css). The plate is 120 px tall and starts 8 px under the scene plate (fitHud), and the
+   scene plate starts 10 px into the map box: 194 px under a one-row scene plate (50 px), 238
+   under a two-row one (94 px; 240 from 721 to 1279 px, where the plate has 6 px more at its
+   foot). The scene plate has two rows from 721 to 1279 px; from
+   1280 px only when fitHud narrows it (an inline max-width) to clear the session buttons on its
+   right, as in the DM's view up to about 1290 px, so there the app's fixed cap (the column less
+   332 px, which wrapped the DM's plate up to 1315 px while the notices assumed one row) gives
+   way to the column's own 16 px edges. */
+@media (min-width: 1280px) {
+  :root[data-direction="ddb"]:not([data-pref-theme="light"]) .table-layout > .table-topline {
+    max-width: calc(100% - var(--ddb-space-32));
+  }
+}
 :root[data-direction="ddb"]:not([data-pref-theme="light"])
   .table-layout:has(> .initiative)
   .session-view-hud-stack {
-  /* 6 px under the turn order's plate (detail pass: the plate runs 9 px under the portraits). */
-  top: 187px;
+  top: 194px;
+}
+@media (min-width: 1280px) {
+  :root[data-direction="ddb"]:not([data-pref-theme="light"])
+    .table-layout:has(> .initiative):has(> .table-topline[style*="max-width"])
+    .session-view-hud-stack {
+    top: 238px;
+  }
 }
 @media (min-width: 721px) and (max-width: 1279px) {
   :root[data-direction="ddb"]:not([data-pref-theme="light"])
     .table-layout:has(> .initiative)
     .session-view-hud-stack {
-    top: 239px;
+    top: 240px;
   }
 }
 @media (max-width: 720px) {
@@ -5714,11 +5763,28 @@
     padding-block-start: var(--ddb-space-4);
   }
 }
-/* A narrow phone shows the die alone in its 40 px square: no extra room after the words. */
-@media (max-width: 420px) {
+/* A narrow phone shows the die alone in its 40 px square: no extra room after the words. From
+   421 to 450 px too (the app shows the words from 421 px, and there its services wrapped to a
+   third row of the header, 148 px tall): the words step aside as the app's narrow phone hides
+   them, visually only (the button's name is its aria-label), so the header keeps two rows. */
+@media (max-width: 450px) {
   :root[data-direction="ddb"]:not([data-pref-theme="light"]) .brand {
     margin-inline-end: 0;
     padding: 0;
+  }
+}
+@media (min-width: 421px) and (max-width: 450px) {
+  :root[data-direction="ddb"]:not([data-pref-theme="light"]) .app-header .brand > span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  :root[data-direction="ddb"]:not([data-pref-theme="light"]) .app-header .brand {
+    min-width: var(--ddb-control-40);
+    justify-content: center;
   }
 }
 
@@ -5757,10 +5823,50 @@
   :root[data-direction="ddb"]:not([data-pref-theme="light"]) .app-header .brand .logo {
     margin-inline-start: calc(var(--ddb-mark) * -0.084);
   }
-  /* The Table header: wordmark → App as far apart as App → «Torna alla campagna» (32 px of
-     air between the inks; it was 24 beside 33). */
+  /* The Table header: wordmark → App as far apart as App → «Torna alla campagna»: 38 px of air
+     between the inks, each (76 px at 2×; it was 24 beside 33, then 36.5 beside 38.5: the glyphs'
+     side bearings differ, so the brand's side takes the 2 px). */
   :root[data-direction="ddb"]:not([data-pref-theme="light"]) .app-header.table-header > .brand {
-    margin-inline-end: var(--ddb-space-4);
+    margin-inline-end: var(--ddb-space-6);
+  }
+}
+/* From 881 to 907 px the site header's one row is 2.5–22 px too wide for the page's 24 px
+   sides (the account button ran to 2.5 px from the window): the service buttons touch there,
+   as on a phone, and the row fits from 881 px with the account button on the page's edge. */
+@media (min-width: 881px) and (max-width: 907px) {
+  :root[data-direction="ddb"]:not([data-pref-theme="light"]) .app-header .service-nav {
+    gap: 0;
+  }
+}
+/* Where the links take their own row (up to 880 px), the row hangs the links' 8 px sides into
+   the header's: «Inizio» starts on the die's and the title's edge, «Biblioteca» ends on the
+   account button's (they sat 8 px inside). */
+@media (max-width: 880px) {
+  :root[data-direction="ddb"]:not([data-pref-theme="light"]) .app-header:not(.table-header) nav {
+    width: calc(100% + var(--ddb-space-16));
+    margin-inline: calc(var(--ddb-space-8) * -1);
+  }
+}
+/* Phone: the site header on the page's 16 px gutter, the die's ink on the title's edge (the
+   header had 12 px sides and the ink sat at 14.35 px, at 20.35 where the die stands alone in
+   its 40 px square; that square now hangs 8 px into the gutter, the ink at 16.35). The Table's
+   header keeps its 12 px sides, the scene plate's. With the words, the brand and the service
+   buttons share the first row from 451 px (449 before; below, the die stands alone, see
+   «Marchio»). */
+@media (max-width: 720px) {
+  :root[data-direction="ddb"]:not([data-pref-theme="light"]) .app-header:not(.table-header) {
+    padding-inline: var(--ddb-gutter);
+  }
+  :root[data-direction="ddb"]:not([data-pref-theme="light"]) .app-header .brand .logo {
+    margin-inline-start: calc(var(--ddb-mark) * -0.084);
+  }
+}
+@media (max-width: 450px) {
+  :root[data-direction="ddb"]:not([data-pref-theme="light"]) .app-header .brand {
+    margin-inline-start: calc(var(--ddb-space-8) * -1);
+  }
+  :root[data-direction="ddb"]:not([data-pref-theme="light"]) .app-header .brand .logo {
+    margin-inline-start: 0;
   }
 }
 
@@ -6040,10 +6146,10 @@
   /* The turn order on its own dark plate, the tool column's (#12181c, rounded 8 px, the 5 %
      hairline; 8 px inside): the door control under the strip no longer shows between the
      cards, and the cards' 3 px focus ring has room inside the strip's scroll box (it was cut
-     by 4 px). The plate grows round the cards, which stay where they were (fitHud sets the
-     strip's top margin inline, so the plate is drawn 7 px higher: 6 more padding, 1 rim). */
+     by 4 px). The plate starts where fitHud puts the strip, 8 px under the scene plate and on
+     the tool column's top line; the cards move 7 px down inside it (6 more padding, 1 rim).
+     It was drawn 7 px higher, and left a 1 px seam of map between the two dark plates. */
   :root[data-direction="ddb"]:not([data-pref-theme="light"]) .table-layout > .initiative {
-    translate: 0 calc((var(--ddb-space-8) + var(--ddb-line-1) - var(--ddb-space-2)) * -1);
     padding: var(--ddb-space-8);
     border: var(--ddb-line-1) solid rgb(255 255 255 / 0.05);
     border-radius: var(--ddb-radius-8);
@@ -6083,12 +6189,12 @@
     box-shadow: inset 0 var(--ddb-line-1) 0 #333c41;
   }
   /* The inspector's foot: a 24 px fade where the panel's content runs on under the turn panel,
-     and a focused command scrolls clear of it (SCHEDA COMPLETA was cut by the turn panel's
-     edge, its ring too). */
+     and a focused command scrolls clear of it with its ring (SCHEDA COMPLETA was cut by the turn
+     panel's edge, its ring too): 24 px for the fade and 6 for the ring's 3 px and its 3 px gap. */
   :root[data-direction="ddb"]:not([data-pref-theme="light"])
     .table-sidebar-panel
     > .table-inspector {
-    scroll-padding-block-end: var(--ddb-space-24);
+    scroll-padding-block-end: calc(var(--ddb-space-24) + var(--ddb-space-6));
     -webkit-mask-image: linear-gradient(#000000 calc(100% - var(--ddb-space-24)), transparent);
     mask-image: linear-gradient(#000000 calc(100% - var(--ddb-space-24)), transparent);
   }
@@ -6154,6 +6260,53 @@
     :is(button, a, [tabindex]):focus-visible {
     outline-offset: calc(var(--ddb-line-3) * -1);
     box-shadow: inset 0 0 0 calc(var(--ddb-line-3) + var(--ddb-line-2)) var(--bg);
+  }
+  /* Keyboard focus in these rows is never clipped or faded (Scena, Caratteristiche, «Consumabili
+     e cariche» and the hotbar's slots stayed under the fade, half out of the row or off-screen,
+     with part of their ring). The browser scrolls a focused item only when it lies wholly
+     outside the row's scroll padding, and then centres it there; so the padding leaves a 24 px
+     band in the row's middle. Every item that touches the band lies wholly in the row (the
+     items are at most half the row less 12 px wide: the widest tab 121 px of 270, pill 142 of
+     332, Table tab 97 of 250), and every other item is brought to the middle, whole. A slot of
+     the hotbar is wider than that, but the next slot is always outside the band of a centred
+     one, so walking the slots with the keyboard centres each in turn. While an item has the
+     keyboard ring the fade steps aside, and the slots draw their ring inside, as the pills. */
+  :root[data-direction="ddb"]:not([data-pref-theme="light"])
+    :is(
+      .table-hotbar .combat-actions,
+      .table-layout .table-tabs,
+      .character-sheet .character-tabs,
+      .character-sheet .shp-chips,
+      .character-sheet .spl-chips,
+      .character-sheet .invp-filters
+    ) {
+    scroll-padding-inline: calc(50% - var(--ddb-space-12));
+  }
+  :root[data-direction="ddb"]:not([data-pref-theme="light"])
+    .table-hotbar
+    .combat-actions
+    .combat-action:focus-visible {
+    outline-offset: calc(var(--ddb-line-3) * -1);
+    box-shadow: inset 0 0 0 calc(var(--ddb-line-3) + var(--ddb-line-2)) var(--bg);
+  }
+  /* The bottom tab bar's top rule drawn inside the bar (it was a 1 px border), so the 52 px tabs
+     fit its 52 px row: in 51 px the row scrolled a focused tab up by 1 px, under its top edge,
+     with the top pixel of its ring. */
+  :root[data-direction="ddb"]:not([data-pref-theme="light"]) .table-layout > .table-sidebar-rail {
+    border-top-width: 0;
+    box-shadow: inset 0 var(--ddb-line-1) 0 var(--line);
+  }
+  :root[data-direction="ddb"]:not([data-pref-theme="light"])
+    :is(
+      .table-hotbar .combat-actions,
+      .table-layout .table-tabs,
+      .character-sheet .character-tabs,
+      .character-sheet .shp-chips,
+      .character-sheet .spl-chips,
+      .character-sheet .invp-filters
+    ):has(:focus-visible) {
+    -webkit-mask-image: none;
+    mask-image: none;
   }
   /* The folded tool column as one 40 px tile on the session buttons' line (no 4 px well), the
      HUD's corners and plate. */

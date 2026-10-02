@@ -1871,12 +1871,6 @@
 :root[data-direction="roll20"]:not([data-pref-theme="light"])
   .character-sheet
   .shp-derived
-  .shp-value {
-  padding-inline: var(--r20-sp-3);
-}
-:root[data-direction="roll20"]:not([data-pref-theme="light"])
-  .character-sheet
-  .shp-derived
   .shp-row-name
   small {
   padding-inline: var(--r20-sp-2);
@@ -1913,8 +1907,9 @@
     0 0 0 var(--r20-bw-2) var(--r20-sheet-panel),
     0 0 0 calc(2 * var(--r20-bw-2)) var(--r20-prof-line);
 }
+/* One bonus box: 4 × 6 px around the figures in every list (saves, skills, actions). */
 :root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .shp-value {
-  padding: var(--r20-sp-2) var(--r20-sp-4);
+  padding: var(--r20-sp-2) var(--r20-sp-3);
   border: var(--r20-bw-2) solid transparent;
   border-radius: var(--r20-r-1);
   background: transparent;
@@ -2919,12 +2914,32 @@
   border-color: var(--r20-yellow);
   background: var(--r20-s1);
 }
+/* Its commands are the option's tertiary command at Grimoire's small size (polish round 6):
+   Nunito heavy with the button tracking at 14 px, 8 px sides, the tertiary lilac (they were
+   Figtree 700 with 12 px sides, the first one's words 12 px in from the text's edge). */
 :root[data-direction="roll20"]:not([data-pref-theme="light"])
   .session-view-chip
   .session-view-hud-button {
+  padding-inline: var(--r20-sp-4);
   border-color: transparent;
   background: transparent;
-  color: var(--r20-p6);
+  color: var(--r20-tertiary);
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: var(--r20-track-btn);
+}
+/* The start notice: the words on their lines, then the two commands on a line of their own,
+   the first on the text's edge and 16 px between their words, whatever the language. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .session-view-start-chip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .session-view-start-chip
+  > .session-view-hud-button:first-of-type {
+  margin-inline-start: calc(-1 * var(--r20-sp-4));
 }
 :root[data-direction="roll20"]:not([data-pref-theme="light"])
   .session-view-chip
@@ -3297,7 +3312,7 @@
 :root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-map-link,
 :root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-panels-all {
   border: var(--r20-bw-1) solid transparent;
-  border-radius: var(--r20-r-1);
+  border-radius: var(--r20-r-2);
   color: var(--text);
 }
 :root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-tab:hover,
@@ -3539,9 +3554,15 @@
   :root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout .hotbar-page-tab {
     padding: 0 var(--r20-sp-4);
   }
+  /* The party column and the zoom stand 8 px clear of the hotbar (polish round 6): the stage
+     runs 53 px under the 153 px hotbar, so the app's 40 px and 52 px left the last portrait
+     13 px under it and the zoom's foot on its edge («Attuale» cuts them the same way). */
   :root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout .table-party {
     left: var(--r20-sp-4);
-    bottom: calc(var(--r20-sp-8) + var(--r20-sp-4));
+    bottom: calc(var(--r20-sp-9) + var(--r20-sp-5));
+  }
+  :root[data-direction="roll20"]:not([data-pref-theme="light"]) .map-container > .map-zoom {
+    bottom: calc(var(--r20-sp-9) + var(--r20-sp-5));
   }
   /* Map tools and zoom over the map: Roll20's glass tiles. */
   :root[data-direction="roll20"]:not([data-pref-theme="light"])
@@ -4086,11 +4107,15 @@
   > .conditions-summary.embedded {
   margin-bottom: var(--r20-sp-6);
 }
+/* «Trasforma…» and «Creature collegate»: the panel's one stack of framed buttons (polish round
+   6) — full width, 8 px apart, the words on the start like «Scheda completa». */
 :root[data-direction="roll20"]:not([data-pref-theme="light"])
   .table-layout
   .table-inspector
   .forms-toolbar {
-  gap: var(--r20-sp-5);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--r20-sp-4);
   margin-block: var(--r20-sp-6) var(--r20-sp-7);
 }
 :root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout .combat-detail {
@@ -4391,12 +4416,15 @@
   flex-wrap: wrap;
   gap: var(--r20-sp-4) var(--r20-sp-6);
 }
-/* Tertiary commands (R20-06, extended): one box everywhere — the words 16 px inside it, the
-   box on the right edge when the command ends a heading. When the command opens a line (a
-   heading's command wrapped under its title, a news item's second command, the offline and
-   roll-policy commands on a phone) its padding moves into the gutter so the words start on
-   the text's edge; where it follows other words on the same line, the row's 16 px gap takes
-   the gutter instead. The home headings' text buttons take the same box. */
+/* Tertiary commands (R20-06, extended): one box everywhere — the words 16 px inside it. When
+   the command opens a line (a heading's command wrapped under its title, a news item's second
+   command, the offline and roll-policy commands on a phone) its padding moves into the gutter
+   so the words start on the text's edge; where it follows other words on the same line, the
+   row's 16 px gap takes the gutter instead. A heading's command also gives its end padding to
+   the gutter, so where it ends the heading its words stop on the content's right edge, level
+   with the framed buttons under it («Tutte le discussioni» over «Apri», «Cerca nella
+   Biblioteca» over the inventory's tiles; polish round 6 — the box stood there, the words
+   16 px in). The home headings' text buttons take the same box. */
 :root[data-direction="roll20"]:not([data-pref-theme="light"])
   :is(.home-page, .character-sheet)
   :is(.section-heading, .home-panel-head)
@@ -4405,7 +4433,7 @@
   .home-page
   .section-heading
   > .text-button {
-  margin-inline-start: calc(-1 * var(--r20-sp-6));
+  margin-inline: calc(-1 * var(--r20-sp-6));
 }
 :root[data-direction="roll20"]:not([data-pref-theme="light"])
   .home-page
@@ -5877,4 +5905,157 @@
   > .token-menu-icon
   > * {
   visibility: hidden;
+}
+
+/* ------------------------------------------------------------------ polish round 6 (I-250)
+   The sixth independent verification (notes/open-items-round6.json, «roll20») and the I-250
+   pass on the audit and the specimen. SOURCES.md «Sesto giro di rifinitura» has the record. */
+
+/* Keyboard focus, never cut at the screen's edge. Grimoire draws its focus ring inside the
+   control; the option does so wherever a ring outside could fall off the window or a scroller:
+   on every tertiary command (its box is often pulled into a gutter — on a phone the Sheet's
+   «← Personaggi» starts at x 0, the scene plate's «Riposi» at x 4), on every map tool (the
+   tool column is glued 4 px from the left edge) and, as before, on the HUD's chips and rows
+   (R20-03, R20-22). The inventory tiles' commands, whose words touch their box, keep the ring
+   outside (the tile's padding holds it). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .button.quiet:not(.invp-stat > .button):focus-visible,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .home-page
+  .section-heading
+  > .text-button:focus-visible,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .session-view-chip
+  .session-view-hud-button:focus-visible,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .map-tool:focus-visible {
+  outline-offset: calc(-1 * (var(--r20-bw-2) + var(--r20-bw-1)));
+}
+/* The party's layer buttons stand 4 px from the left edge too, but their names fill the 40 px
+   box («DORAN» runs from x 4.7 to 42.7), so the ring hugs the box instead of crossing the
+   letters: 3 px from x 1 to 4, wholly on screen. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-party-member:focus-visible {
+  outline-offset: 0;
+}
+/* One height for every layer button: the HP bar keeps its 4 px row also where the player does
+   not see a companion's HP (Doran stood 57.6 px high among 63.6 px buttons); a hidden name
+   (compact column, phone) leaves no row behind. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout .table-party-member {
+  grid-template-rows: auto var(--r20-sp-2);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .table-layout .table-party-name {
+  grid-row: 3;
+}
+
+/* The creature panel: one stack of framed buttons (low item of round 6). «Danni, cure e
+   condizioni», «Trasforma…», «Creature collegate», «Rivela aspetto…» and «Aggiungi immagine»
+   take the shape of «Scheda completa · Inventario · Riposa»: full width, 8 px apart, the
+   glyph and words on the start. */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  > .conditions-summary.embedded
+  > .button {
+  justify-self: stretch;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  .media-token-panel
+  > .toolbar
+  > .button:not(.quiet) {
+  flex: 1 1 100%;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  :is(
+    .conditions-summary.embedded > .button,
+    .forms-toolbar > .button,
+    .handouts-reveal-panel > .button,
+    .media-token-panel > .toolbar > .button:not(.quiet)
+  ) {
+  justify-content: flex-start;
+}
+/* Its tertiary commands follow R20-06 like the rest of the option: one that starts its line
+   keeps its words (or its glyph) on the text's edge, its 16 px padding out in the gutter
+   («Trova la mia pedina», the items to use, «Aspetto nella scheda»); one that follows words
+   stands 16 px from them and, when it wraps, starts on the edge («Cambia set →», «Monete e
+   scorta»); «Quota…» follows the distances' words 16 px after them (it stood 22 px). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  :is(.token-menu-panel, .invp-inspector-item-list, .media-token-panel > .toolbar)
+  > .button.quiet,
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  :is(.invp-inspector-set, .loot-inspector-purse)
+  > .button.quiet {
+  margin-inline-start: calc(-1 * var(--r20-sp-6));
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  :is(.invp-inspector-set, .loot-inspector-purse) {
+  column-gap: var(--r20-sp-6);
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  .invp-inspector-item-list
+  > .button.quiet {
+  justify-content: flex-start;
+  text-align: start;
+}
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  .annotations-dist-from
+  > .button.quiet {
+  margin-inline-start: calc(-1 * var(--r20-sp-3));
+}
+
+/* The phone's macro strip ends like the Sheet's tabs (R20-13): its last 24 px fade, so the
+   next chip shows as more to scroll instead of being cut flat by «Mosse»; the 24 px end
+   padding lets the last chip clear the fade, and a chip reached with the keyboard stops
+   before it. */
+@media (max-width: 720px) {
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-actions {
+    padding-inline-end: var(--r20-sp-7);
+    scroll-padding-inline-end: var(--r20-sp-7);
+    mask-image: linear-gradient(to right, #000000 calc(100% - var(--r20-sp-7)), transparent);
+  }
+}
+
+/* The spell window's notice is a sheet panel: the sheet's 4 px corners, not the 8 px of the
+   platform's buttons (it took them from --radius-sm). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"]) .character-sheet .spl-window {
+  border-radius: var(--r20-r-1);
+}
+
+/* A heading's toolbar and the sheet bar end on a tertiary command: like a heading's own
+   command, its end padding goes to the gutter, so «Cerca nella Biblioteca» (Inventario, Magie)
+   and «Gestisci PE» stop their words on the content's right edge, level with the tiles and the
+   section tabs under them (they stood 16 px in). */
+:root[data-direction="roll20"]:not([data-pref-theme="light"])
+  :is(.home-page, .character-sheet)
+  .section-heading
+  > .toolbar
+  > .button.quiet:last-child {
+  margin-inline-end: calc(-1 * var(--r20-sp-6));
+}
+@media (min-width: 721px) {
+  :root[data-direction="roll20"]:not([data-pref-theme="light"])
+    .character-sheet
+    .shp-xp
+    > .button.quiet:last-child {
+    margin-inline-end: calc(-1 * var(--r20-sp-6));
+  }
 }

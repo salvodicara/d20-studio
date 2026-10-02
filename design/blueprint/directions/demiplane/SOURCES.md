@@ -6,7 +6,7 @@ Fase C, round 1 «Scelta 1 — Direzione» (I-248), 01/10/2026. Pelle di svilupp
 riferimento (solo consultazione, mai nel repository):
 `~/Workspace/Codex/d20-studio-visual-assets/references/demiplane/` (`facts.md`, `manifest.md`).
 Schermate della nostra app: `~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/round1/demiplane/`
-(coppie affiancate in `_pairs/`, rifatte con `probe-demiplane/polish4/pairs.sh`).
+(coppie affiancate in `_pairs/`, rifatte il 02/10 con `polish6-demiplane/tools/pairs.sh`).
 
 ## In tre righe
 
@@ -40,47 +40,45 @@ foglio CSS pubblico estratto in `demiplane-code-css-excerpts-2026-10-01.txt`):
 | Una ricetta per tipo  | Pulsante di gioco 40 px, 18/700 maiuscoletto, 8 × 16 (anche i comandi del turno con le parole: «Rialzati», «Mappa», «Dettagli mossa»; solo i cinque comandi a icona sono cerchi); pulsante del sito Barlow 14/600, 8 × 16; azione di testo del sito: collegamento azzurro Barlow 14/600, 8 × 0, senza bordo (ogni pulsante leggero dell'Inizio); azione di testo e piega di gioco: maiuscoletto bianco 18/700 senza riquadro; linguetta 18/700 maiuscoletto con 12 px ai lati (56 px nella barra della Scheda, 40 nelle altre); etichetta-tag 24 px, 16/700, 0 × 8, raggio 4; campo di testo 40 px, Roboto 16, 0 × 12 (anche le tendine); campo numerico (d20 dell'iniziativa, ogni ±PF, anche quello del menu della pedina) Barlow Condensed 18/700 centrato, 0 × 8 (24 nel campo alto della fascia); interruttore MUI: pallino chiaro su binario bianco al 30 %, blu dei dadi quando è acceso; condizione attiva 40 px bordo compreso, 18/700 maiuscoletto, 0 × 12; riga di menu 40 px (44 nel foglio del telefono; anche il menu del calendario); titolo di voce dell'Inizio Barlow 16/700; titoletto di gruppo 18/700 grigio con filetto (anche «Abilità aggiuntive» e «Modifiche del DM») |
 
 Verifica con lo strumento di audit (`changes/visual-01/audit`, 10 stati × 2 larghezze): numeri
-prima e dopo il quarto giro di rifinitura in «Coerenza (I-250)» qui sotto. Restano fuori scala
+prima e dopo il sesto giro di rifinitura in «Coerenza (I-250)» qui sotto. Restano fuori scala
 solo i valori strutturali o vincolati dell'app elencati in «Differenze dichiarate».
 
 ## Coerenza (I-250)
 
 Audit dei valori (`node changes/visual-01/audit/audit.js --direction demiplane`, 20 stati, tema
-scuro). «Prima» è l'audit delle 15:30 del 01/10 (rilanciato all'inizio del quarto giro su
-`direction.css` delle 14:11, identico a quello della verifica indipendente), «dopo» quello delle
-16:01, lanciato dopo l'ultima modifica di `direction.css` (15:58). Rapporto completo:
+scuro). «Prima» è l'audit del 01/10 alle 20:42 su `direction.css` delle 20:40:55 (lo stato della
+verifica indipendente del sesto giro), «dopo» quello del 02/10 alle 06:00, lanciato dopo l'ultima
+modifica di `direction.css` (05:32:14). Rapporto completo:
 `~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/audit/demiplane/audit.md`; copie in
-`probe-demiplane/polish4/audit-before.md` e `audit-after.md`. I giri precedenti avevano portato gli
-spazi da 32 a 23 valori, i fuori scala da 20 a 11, le varianti dei pulsanti da 91 a 79 e gli stili
-di testo da 88 a 82.
+`polish6-demiplane/audit-before.md` e `audit-after.md`. I giri precedenti avevano portato gli
+spazi da 32 a 23 valori, i fuori scala da 20 a 11, le varianti dei pulsanti da 91 a 74 e gli stili
+di testo da 88 a 80.
 
-| Misura                                        | Prima (15:30)                                                             | Dopo (16:01)                                                                                             |
-| --------------------------------------------- | ------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| Elementi visibili                             | 2548                                                                      | 2548                                                                                                     |
-| Spazi (padding, margini, gap)                 | 23 valori; passo 4 px sul 100 %; 11 fuori scala                           | 23 valori; passo 4 px sul 100 %; 11 fuori scala (geometria dell'HUD, marchio, parole di regola)          |
-| Altezze dei controlli                         | 14                                                                        | 14                                                                                                       |
-| Caratteri                                     | 5 famiglie, 12 dimensioni, 3 pesi, 28 interlinee, 14 spaziature, 82 stili | 5 famiglie, 12 dimensioni, 3 pesi, 28 interlinee, 14 spaziature, 81 stili (testi in Roboto da 390 a 377) |
-| Raggi · bordi · ombre                         | 7 · 2 · 14                                                                | 7 · 2 · 14                                                                                               |
-| Colori (testo · fondo · bordo)                | 12 · 28 · 18                                                              | 12 · 28 · 18 (testi oro 35 → 28: le pieghe della Scheda sono bianche)                                    |
-| Pulsanti: varianti (classi con più varianti)  | 79 (16)                                                                   | 78 (16)                                                                                                  |
-| Campi · tendine · linguette · righe di menu   | 4 · 2 · 10 · 2                                                            | 4 · 2 · 10 · 2 (un tipo per variante: numerico, testo, ricerca, ±PF alto)                                |
-| Pulsanti con il padding di Chromium `1px 6px` | 0                                                                         | 0                                                                                                        |
-| Contrasto AA                                  | 0 errori, 0 incerti su 1192 testi                                         | 0 errori, 0 incerti su 1192 testi                                                                        |
+| Misura                                        | Prima (01/10, 20:42)                                                      | Dopo (02/10, 06:00)                                                                                                                                        |
+| --------------------------------------------- | ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Elementi visibili                             | 2540                                                                      | 2540                                                                                                                                                       |
+| Spazi (padding, margini, gap)                 | 24 valori; passo 4 px sul 100 %; 12 fuori scala                           | 25 valori; passo 4 px sul 99 %; 13 fuori scala (in più solo i −10 px del ✕, la geometria di MUI `edge="end"`: (20 − 40) / 2)                               |
+| Altezze dei controlli                         | 13                                                                        | 14 («Termina turno» 100 px, era 104 come la colonna degli strumenti; la piega a due righe della regola d'ingombro 64 px)                                   |
+| Caratteri                                     | 4 famiglie, 10 dimensioni, 3 pesi, 26 interlinee, 13 spaziature, 80 stili | 4 famiglie, 10 dimensioni, 3 pesi, 26 interlinee, 13 spaziature, 79 stili                                                                                  |
+| Raggi · bordi · ombre                         | 7 · 2 · 16                                                                | 7 · 2 · 16                                                                                                                                                 |
+| Colori (testo · fondo · bordo)                | 10 · 28 · 18                                                              | 10 · 28 · 18                                                                                                                                               |
+| Pulsanti: varianti (classi con più varianti)  | 74 (15)                                                                   | 70 (14): «Tiri e risultati» e «Annulla l'avvio» una variante sola; i ritratti del gruppo sul telefono tutti da 48; le azioni di testo dei riquadri a 8 × 0 |
+| Pulsanti con il padding di Chromium `1px 6px` | 0                                                                         | 0                                                                                                                                                          |
+| Contrasto AA                                  | 0 errori, 0 incerti su 1192 testi                                         | 0 errori, 0 incerti su 1193 testi                                                                                                                          |
 
-L'audit misura solo i dieci stati del round 1. Il grosso del quarto giro sta fuori da quegli stati
-e l'ho verificato dal vivo (`probe-demiplane/polish4/*-live.txt`): la barra delle azioni con una
-creatura Prona e con una mossa in anteprima sul telefono; Inizio sotto la piega e il menu del
-calendario aperto; le condizioni attive; il campionario.
+L'audit misura solo i dieci stati del round 1, senza passaggio del puntatore né fuoco: quelli del
+sesto giro li ho misurati a parte (sezione «Sesto giro di rifinitura» qui sotto), anche sotto la
+piega (Scheda intera, Inizio scorso fino in fondo a 1440 e 390).
 
 Le varianti che restano sono livelli di misura voluti: telefono e computer (barra delle azioni,
-ritratti del gruppo, schede del menu, tendina dei dadi 14/16 px), il pulsante tondo dei dadi, il
-grande «Termina turno», i riquadri della fascia (123 px, decisi dal riquadro dei PF), il campo ±PF
-da 84 px, le due voci dei pulsanti (sito e gioco) e le correzioni ottiche del marchio (in em,
-sezione «Marchio (I-251)»). Il campionario dei
-componenti (`directions/specimen.html?direction=demiplane`, prove in
-`probe-demiplane/polish4/specimen-after/`) mostra le stesse ricette, anche negli stati composti che
-l'esempio non raggiunge (condizioni attive, ora tutte da 40 px; pagina «Barra rapida»; pannello dei
-PF del Tavolo).
+ritratti del gruppo, schede del menu, tendina dei dadi 14/16 px, testa e piede del cassetto), il
+pulsante tondo dei dadi, il grande «Termina turno», i riquadri dei valori da 108 px, il campo ±PF
+da 84 px, le due voci dei pulsanti (sito e gioco), il numerico accanto ai campi di testo e le
+correzioni ottiche del marchio (in em, sezione «Marchio (I-251)»). Il campionario dei componenti
+(`directions/specimen.html?direction=demiplane`, rifatto il 02/10 in
+`polish6-demiplane/specimen-final/`, 1440 e 390) mostra le stesse ricette, anche negli stati
+composti che l'esempio non raggiunge (condizioni attive, tutte da 40 px; pagina «Barra rapida»;
+pannello dei PF del Tavolo).
 
 ## Elemento → prodotto copiato → fonte
 
@@ -201,9 +199,9 @@ piatto accanto a `demiplane-home-campaign-page-cyberpunk-2026.jpeg` e
     stesso delle righe dell'app, tenuto per i colori forzati). Sul telefono la barra delle
     azioni parla un gradino sotto (PF, tendina dei dadi e «Dadi» a 14 px, 16 dal computer a
     1440 px), le righe del menu della pedina sono da 44 px (la regola tattile dell'app) e la fila
-    delle tessere si schiarisce del tutto negli ultimi 12 px (sfuma dai 24): della tessera tagliata
-    dopo la prima resta solo un filo, mai lettere; la tendina dei dadi accanto alle tessere è alta
-    40 px come loro.
+    delle tessere sfuma solo nei suoi ultimi 8 px, lo spazio dopo una tessera intera: la prima
+    tessera resta intera con bordo e segno di costo, quella tagliata dopo si scioglie nel bordo;
+    la tendina dei dadi accanto alle tessere è alta 40 px come loro.
 12. **Cassetto solo da 721 px.** Sul telefono le finestre restano quelle dell'app (ricolorate). Il
     cassetto dell'iniziativa è largo 30 vw (al massimo 440 px, Demiplane 300–385): così ogni
     riga tiene nome, d20, tiro e totale; per starci la riga va su tre righe (chi, tiro, sorpresa)
@@ -220,9 +218,12 @@ piatto accanto a `demiplane-home-campaign-page-cyberpunk-2026.jpeg` e
 17. **Fuori ambito.** Il tema chiaro resta quello di oggi; contrasto elevato, palette per il
     daltonismo, carattere leggibile e movimento ridotto vincono sulla direzione. Demiplane non ha
     una scheda D&D: gli schemi d20 vengono da Pathfinder 2e, Cyberpunk RED e DC20.
-18. **Difetto già presente.** Nel Tavolo del DM l'avviso «Sessione non avviata» copre in parte i
-    ritratti dei turni, come nelle altre direzioni. Nelle schede Extra e Abilità i rimandi in riga
-    «SRD 5.2.1 IT p. N» restano sotto i 40 px come oggi (Fase D, dell'app).
+18. **Difetti già presenti (dell'app).** Nelle schede Extra e Abilità i rimandi in riga «SRD 5.2.1
+    IT p. N» restano sotto i 40 px come oggi (Fase D). La striscia delle schede della Scheda resta
+    attaccata in alto mentre si scorre e l'app non ha `scroll-padding`: un controllo che le sta
+    sotto (nella prova, «Aggiungi oggetto» e «Cerca nella Biblioteca» dell'Inventario) prende il
+    fuoco senza uscirne. Va corretto nell'app, per tutte le direzioni. L'avviso «Sessione non
+    avviata» del DM non copre più i ritratti dei turni, nemmeno sul telefono (sesto giro).
 19. **Linguette dell'Inizio a 48 px.** Le schede «Novità · Guide · Supporto» sono la Tab MUI del
     sito (48 px, 16 px ai lati, Barlow 16/700 come scritto), non la linguetta di gioco da 40: due
     voci, come i pulsanti.
@@ -236,6 +237,77 @@ piatto accanto a `demiplane-home-campaign-page-cyberpunk-2026.jpeg` e
     stessi angoli in ogni pagina; il minimo di 40 px di `.clib-link`, i collegamenti dell'elenco
     Personaggi, una garanzia di bersaglio («Copia» era 30 px). Le regole di superficie
     (condizioni, interruttore offline, menu del calendario) restano limitate alle loro pagine.
+
+## Sesto giro di rifinitura (02/10, verifica indipendente e I-250)
+
+I dodici rilievi di Demiplane in `notes/open-items-round6.json` (la verifica indipendente del
+01/10 sera, su `direction.css` delle 20:40:55) e il controllo I-250 di audit e campionario, in un
+solo giro dentro `direction.css` (commenti «Round 6»). «Prima» è `direction.css` delle 20:40:55
+(copia in `polish6-demiplane/before/`), «dopo» quello delle 05:32:14 del 02/10, l'ultima modifica.
+Misure negli stati del kit a 1440 e 390 px, cartella
+`~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/polish6-demiplane/` (sonde
+`tools/p6.cjs`, `r3.cjs`, `ringshot.cjs`, `topcut.cjs`; risultati in `probe/`).
+
+| Rilievo                                                 | Prima                                                                                                                                                  | Dopo                                                                                                                                                                                                                                                                                                                                       |
+| ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Anelli tagliati dalla finestra a 1440 (alto)            | «Termina turno», «Annulla ultima modifica», «Annulla preparazione» finivano a 896: l'anello (3 px, 3 px fuori) arrivava a 902, sotto se ne vedeva 1 px | Le due file di comandi stanno 4 px l'una dall'altra e 8 px sopra il bordo: cerchi e «Termina turno» (100 px, era 104) finiscono a 892, l'anello a 898. A 2× sotto ogni comando ci sono 6 px di #00ABFF e poi 4 px della barra (`probe/resume3-ring/`). La barra resta 113 px. Il rapporto del fuoco ora conta anche i bordi della finestra |
+| Sfumatura della fila delle tessere sul telefono (medio) | Trasparenza da 100 % − 32 a 100 % − 12 px, sulla prima tessera: «Bastone ferrato» perdeva il bordo destro, le ultime lettere e mezzo pallino verde     | Sfuma solo negli ultimi 8 px della fila (4–155,8), lo spazio dopo una tessera intera (8–147,8): la tessera è intera, con bordo e segno di costo                                                                                                                                                                                            |
+| Avviso del DM sul telefono (medio)                      | «Sessione non avviata…» 56 px sotto il bordo della mappa, sotto i cinque ritratti dei turni: illeggibile                                               | In combattimento, fino a 720 px, parte 8 px sotto la fila dei turni (fila fino a 192, avviso da 200), come già sul computer                                                                                                                                                                                                                |
+| Bordi di Magie (medio, D10)                             | Quattro bordi sinistri: 744, 748 (righe di «Incantesimi dagli oggetti»), 752 (parole nei tasselli), 756 (le quattro schede)                            | Due: le righe, anche quelle degli oggetti (12 × 0), a 744; le parole dei riquadri a 756 (i tasselli dei numeri ora 12 px tutt'intorno, come quelli dell'Inventario)                                                                                                                                                                        |
+| Coppie in `_pairs/` vecchie (medio)                     | Delle 16:00 del 01/10: marchio e barra di prima                                                                                                        | Tutte e 16 rifatte (05:39–05:42) dalle schermate delle 05:35–05:38, prese dopo l'ultima modifica, con `polish6-demiplane/tools/pairs.sh` (stessa impaginazione)                                                                                                                                                                            |
+| ✕, separatori e riga dei PF del menu (basso)            | Inchiostro del ✕ a circa 630 (frecce a 640,6), lo stesso nel cassetto dell'iniziativa; «Applica» 0,8 px più in basso del campo                         | Il ✕ è l'IconButton `edge="end"` di MUI: margine di −10 px, glifo fino a 640,6 come le frecce (anche nel cassetto). «Applica» centrato sul campo: tutti e due 349,8–389,8. Separatori: invariati, perché la linea dipinta va già da 364,6 a 640,6 (pixel 365–640 a 1×); i 363,6–641,6 misurati sono il filo trasparente di 1 px            |
+| Avviso a 1440 (basso)                                   | «Avvia ora · Non ora» 4 px sotto le discendenti del testo                                                                                              | Un blocco flessibile con 8 px fra testo e pulsanti e fra i due pulsanti                                                                                                                                                                                                                                                                    |
+| Spazi della barra laterale (basso)                      | 29, 52 e 48 px prima dei fili; pannelli delle estensioni a 25 px                                                                                       | 24 px prima di ogni filo (forme e creature, dettaglio del turno, comandi, pannelli delle estensioni), 16 px dal filo al titolo                                                                                                                                                                                                             |
+| Riquadri del riepilogo (basso)                          | Iniziativa, CA, Difese: valori 17 px sotto il bordo alto e 36 sopra quello basso (riga della didascalia vuota)                                         | Senza la nota «base» (la scrive solo Modifica) etichetta e tassello sono un blocco centrato nei 108 px; i tre valori restano su una linea                                                                                                                                                                                                  |
+| Passaggio del puntatore (basso)                         | Riga in fondo al riquadro da 40 px, 10–12 px sotto le parole e larga come il riquadro; gradini dell'indebolimento scuriti a #000                       | Sottolineatura vera, 1 px e 4 px sotto le parole, su nomi delle abilità e collegamenti; gradini, tessere, «Mosse», sottoschede e filtri si schiariscono a #202020 come ogni riquadro (premuto resta più scuro)                                                                                                                             |
+| Barra del telefono, testata, regola d'ingombro (basso)  | «Creatura» 1 px più in basso; scarti d'inchiostro della testata 31 e 29 px; la regola d'ingombro su due righe 10 px fuori linea                        | Il ritratto di «Creatura» è da 20 px come i glifi: etichette tutte a 816. Testata: spostamenti ottici di 2 e 1 px, scarti 30,5 e 30,5. La regola in un riquadro da 64 px (40 + 24) con le righe al piede: l'ultima sta sulla linea di «Gestisci sintonia / monete» (306,4 e 306,2)                                                         |
+| Debito di cascata (basso)                               | `--dp-h-tile` (44) sulle tessere e sulla tendina del telefono, poi riscritto a 40; commenti che dicevano 44                                            | Tessere e tendina dichiarano 40 una volta sola; il 44 resta solo dove vale (righe dei menu sul telefono, anche il calendario, e il pulsante del marchio); commenti corretti                                                                                                                                                                |
+
+In più, dal controllo I-250 (audit, campionario e fuoco):
+
+- **Ritratti del gruppo sul telefono.** Ogni tessera tiene la riga della barra dei PF (40 + 4 + 4 =
+  48 px): Doran, di cui il giocatore non vede i PF, era alto 40 e tirava su Mira di 8 px; ora i
+  ritratti hanno un passo solo di 56 px (sul computer era già così).
+- **«Tiri e risultati».** La ricetta dell'azione di testo di gioco, 8 × 0 e interlinea 1,2 nel suo
+  riquadro da 40 (era 0 × 0 su 1,5): una variante sola con «Annulla l'avvio».
+- **«Tutte le sezioni della scheda».** L'anello va verso l'interno, con il filo del colore della
+  pagina, come le linguette accanto (regola «Critique 29/09» di `styles.css`): con la striscia
+  attaccata in alto l'anello esterno perdeva tutto il lato alto. L'ha trovato il nuovo controllo
+  dei bordi della finestra.
+
+Tenuto, con il motivo:
+
+- **Raggio 10 della linguetta dei riquadri.** È fuori dal passo di 4, ma è copiato dal CSS di
+  Demiplane (`.sheet-box-component-header`) ed è uno solo per tipo.
+- **Regola d'ingombro su due righe.** Nella colonna stretta a 1440 non sta su una riga; ha la
+  stessa ricetta delle altre pieghe (carattere, interlinea, margini interni), cresce solo l'altezza.
+- **Glifi di ripiego.** ☆, ◎, ▣, ✦ e ⋯ sono testi dell'app che Barlow e Roboto non hanno (il
+  browser usa altri caratteri di sistema). Per cambiarli servono contenuti o maschere: fuori da
+  questo giro.
+- **Tre anelli tagliati in alto in Scheda · Inventario a 1440.** Sono un effetto della posizione
+  di scorrimento del kit, non della pelle. «Gestisci velocità» sta 1,6 px sotto il bordo della
+  finestra; «Aggiungi oggetto» e «Cerca nella Biblioteca» stanno sotto la striscia attaccata
+  dell'app (punto 18 delle differenze, `probe/resume3-topcut/`).
+
+### Verifiche (02/10, dopo l'ultima modifica delle 05:32:14)
+
+- Schermate del round 1 (15 e il foglio dei provini) rifatte fra le 05:35 e le 05:38 e aperte
+  tutte, nessun errore nel manifesto. Le riprese precedenti di questo giro (05:17–05:19) sono
+  state sostituite. Nelle garanzie tre stati del telefono sono andati in timeout sotto carico e
+  sono stati ripresi una volta.
+- Coppie: tutte e 16 rifatte dopo le schermate.
+- Garanzie (`round1/demiplane/guarantees-demiplane.txt`, 20 stati, tutti ok):
+  - a 1440 la barra delle azioni è 113 px, e «Termina turno», «Annulla» e «Annulla preparazione»
+    stanno a 792–892;
+  - a 390 nessuno scorrimento laterale e la barra del Tavolo è su una riga (63 px); i tre comandi
+    stanno a 732–772 e «Entra al Tavolo» finisce a 733 px;
+  - nessun bersaglio sotto i 40 px; il gruppo è a 471–631, sopra la barra (638).
+- axe-core 4.13 `color-contrast`: 0 violazioni in 18 prove (`axe-demiplane.txt`).
+- Fuoco (`focus-demiplane.txt`, 16 stati, ora con i bordi della finestra): 0 anelli tagliati, a
+  parte i tre dovuti allo scorrimento del kit spiegati sopra.
+- Audit: numeri in «Coerenza (I-250)». Campionario rifatto in `polish6-demiplane/specimen-final/`.
+- `node --test design/blueprint/tests/visual01-directions.test.mjs`: 13 test superati. Prettier
+  pulito su `directions/demiplane/`.
 
 ## Dettagli rifiniti (01/10, sera · critica indipendente dei dettagli, I-252)
 

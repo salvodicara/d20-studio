@@ -53,6 +53,8 @@ export function directionLogo(className) {
 // triangle in a hexagon (detail round R20-04: Roll20's own tab icon is a pink hexagon badge).
 // The silhouette ringed in the navbar black (4 units) holds the die on a light tab strip as well
 // as a dark one; the magenta face keeps a 3-unit rim; no numeral (it does not survive 16 px).
+// The spokes are 6 units (polish round 6): about one device pixel at 16 px, where 4-unit
+// spokes faded to nothing; at 32 px they stay under 2 px.
 const SPOKES = [
   [g.V.A, g.V.T],
   [g.V.B, g.V.LR],
@@ -62,7 +64,7 @@ const SPOKES = [
   .join(" ");
 export const favicon = g.faviconSvg(
   g.svgFaces((face) => ({ fill: FACE[face.id] })) +
-    `<path d="${SPOKES}" fill="none" stroke="${NAV}" stroke-width="4" stroke-linecap="round"/>` +
+    `<path d="${SPOKES}" fill="none" stroke="${NAV}" stroke-width="6" stroke-linecap="round"/>` +
     `<polygon points="${g.CENTER_FACE}" fill="none" stroke="${NAV}" stroke-width="3" stroke-linejoin="round"/>` +
     `<polygon points="${g.OUTLINE}" fill="none" stroke="${NAV}" stroke-width="4" stroke-linejoin="round"/>`,
 );

@@ -8,7 +8,9 @@ giro di coerenza dopo la terza verifica; poi il secondo giro di rifinitura dopo 
 verifica; poi il terzo giro di rifinitura dopo la quinta verifica; poi il quarto giro di
 rifinitura dopo la sesta verifica, vedi «Coerenza (I-250)» e «Controlli fatti»; infine il
 marchio proprio della direzione per I-251, vedi «Marchio»; poi il giro dei dettagli dopo la
-critica indipendente sui dettagli per I-252, vedi «Dettagli rifiniti»).
+critica indipendente sui dettagli per I-252, vedi «Dettagli rifiniti»; poi il sesto giro di
+rifinitura dopo la verifica del marchio e dei dettagli, vedi «Coerenza (I-250)» e «Controlli
+fatti»).
 Vale solo per il **tema scuro**: con il tema chiaro l'app resta com'è oggi (anche le icone). Le
 immagini di riferimento stanno fuori dal repository, in
 `~/Workspace/Codex/d20-studio-visual-assets/references/foundry-owlbear/` (solo consultazione): qui
@@ -112,18 +114,21 @@ oppure codice e documentazione citati nel `facts.md` della stessa cartella.
 | Le condizioni attive come i chip dei filtri (pillole alte 40 px su bianco 8 %, 14/20 medio; la concentrazione con l'anello lavanda dentro); i livelli d'Indebolimento raggiunti in ambra con l'inchiostro scuro; i menu a tendina con la ricetta dei campi (16/24, 12 px ai lati); i pulsanti delle borse dell'inventario come pulsanti icona da 40 px                                                                                                                                                                                                                                                                                         | Owlbear 2 (MUI Chip, OutlinedInput, IconButton)                                                 | `owlbear-dialog-player-permissions.jpg`, `owlbear-dialog-grid-controls-popover.jpg`                                                                                                                                                                                                                                                                                                                                                                                               |
 | «Torna al Tavolo» come striscia informativa (bianco 5 %, didascalia grigia) con il pulsante di testo lavanda sul bordo della barra in alto; lo stato vitale («Cosciente») come le etichette di stato con il pallino (24 px, didascalia 12/20), uguale nella Scheda e al Tavolo; didascalie e piccole note sulla riga di 20 px; proprietà delle armi come chip contornati alti 40 px (14/20 medio); novità come righe d'elenco (8 px sopra e sotto); titoli dell'Inizio che vanno a capo a 8 px da ciò che segue; le due azioni dell'appuntamento a tutta larghezza, una sopra l'altra, con gli stessi bordi (dal giro dei dettagli)            | Owlbear 2 (striscia informativa, MUI Chip, List, CardActions)                                   | `owlbear-dialog-assets-manager.jpg`, `owlbear-dialog-player-permissions.jpg`, `owlbear-home-rooms-list.jpg`                                                                                                                                                                                                                                                                                                                                                                       |
 | Marchio (I-251): un d20 originale come adesivo piatto a due toni (facce lavanda, faccia del «20» bianca, cuciture e bordo blu notte arrotondato, il taglio bianco dell'adesivo intorno, lucentezza di vetro; nella testata senza «20»), la scritta «d20» in Roboto grassetto bianco e «Studio» in Roboto normale lavanda, l'icona della scheda semplificata                                                                                                                                                                                                                                                                                    | Owlbear 2 (grammatica dei distintivi e dei titoli, mai il logo)                                 | `owlbear-map-room-players-toolbar-dock.jpg`, `owlbear-map-initiative-tracker-extension.jpg`, `owlbear-map-mobile-responsive-layout.jpg`; `facts.md` 1B; sezione «Marchio» qui sotto                                                                                                                                                                                                                                                                                               |
+| **Tavolo, telefono** (sesto giro): «Mosse» come pulsante rotondo a sola icona, come gli altri comandi del dock (il nome resta «Mosse speciali»); le strisce del dock, delle schede in basso e delle sezioni della Scheda sfumano sugli ultimi 12 px, così il taglio cade sull'icona del chip o della scheda seguente e mai su una lettera sola; le schede in basso con 12 px per lato e 48 px di minimo                                                                                                                                                                                                                                        | Owlbear 2, telefono (MUI IconButton, BottomNavigationAction)                                    | `owlbear-map-mobile-responsive-layout.jpg`; `facts.md` 1B                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| **Tavolo** (sesto giro): la seconda colonna degli strumenti con la superficie della prima, opaca, senza giunta sul bordo della mappa; l'ordine dei turni 8 px dopo, la prima e l'ultima riga arrotondate a 12 px dentro l'elenco; le pagine del dock sulle due righe di chip; nel pannello le azioni impilate a tutta larghezza e la sezione dopo «Ultima mossa» a circa 30 px dall'inchiostro come le altre; la pedina in focus di «Pedine in scena» nell'unico aspetto «scelto»; i glifi della pillola dei comandi a 20 px; il contatore della campanella come Badge di MUI; la scala e il movimento sulla riga di 20 px                     | Owlbear 2 (barra verticale, Initiative, dock; MUI Button fullWidth, Badge)                      | `owlbear-map-room-players-toolbar-dock.jpg`, `owlbear-map-initiative-tracker-extension.jpg`, `owlbear-home-create-room-dialog.jpg` («CREATE»)                                                                                                                                                                                                                                                                                                                                     |
 
 ## Coppie per il confronto
 
 Ogni coppia è un'immagine pronta per il proprietario in
 `~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/round1/owlbear/_pairs/` (rifatte il
-01/10/2026 alle 15:24–15:27, dopo il quarto giro di rifinitura, dalle schermate delle 15:21–15:23
-prese dopo l'ultima modifica di `direction.css` delle 15:19:07; la riga della scala cita anche il
-blocco «FOURTH POLISH ROUND» e la riga degli interruttori della Scheda dice «un solo interruttore»;
-quelle del 30/09 sono in `round1/owlbear/_previous-2026-09-30/pairs/`): titolo
-«4 · Owlbear Rodeo — <superficie>», il nostro screenshot a grandezza reale a sinistra, il
-riferimento (a volte ritagliato) a destra, sotto le righe «elemento → prodotto → fonte». Gli
-screenshot da soli sono nella cartella sopra (`round1/owlbear/`).
+01/10/2026 alle 21:55–21:57, dopo il sesto giro di rifinitura, dalle schermate delle 21:53 prese
+dopo l'ultima modifica di `direction.css` delle 21:49:02; nell'Inizio «Entra al Tavolo» è detto
+pieno lavanda, nel Tavolo le righe citano la seconda colonna, le pagine del dock, le azioni del
+pannello a tutta larghezza e la striscia del telefono; quelle del 30/09 sono in
+`round1/owlbear/_previous-2026-09-30/pairs/`): titolo «4 · Owlbear Rodeo — <superficie>», il
+nostro screenshot a grandezza reale a sinistra, il riferimento (a volte ritagliato) a destra,
+sotto le righe «elemento → prodotto → fonte». Gli screenshot da soli sono nella cartella sopra
+(`round1/owlbear/`).
 
 | Superficie                        | Coppia                       | Nostro screenshot                         | Riferimento (cartella `references/foundry-owlbear/`)                                                                                                       | Viewport   |
 | --------------------------------- | ---------------------------- | ----------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
@@ -634,6 +639,126 @@ telefono passano da 100 a 96 px e i numeri grandi con la loro unità («9 m», �
 (`1px 6px`): nessuno nei 20 stati, e nessuno sull'Inizio e sulle 7 schede della Scheda fatte
 scorrere fino in fondo, a 1440 e 390, dopo aver aperto il Tavolo (con la striscia «Torna al
 Tavolo»: prima erano 1 per pagina).
+
+### Sesto giro di rifinitura (01/10/2026, dopo la verifica del marchio e dei dettagli)
+
+Stesso strumento, stessi 20 stati; «prima» è il rapporto di `direction.css` delle 19:44:31 (sha256
+`b8ec71a6…`, il file della verifica indipendente; rapporto delle 20:22:29Z), «dopo» è il file delle
+21:49:02 (sha256 `af55fc3248011b63ea9e7119240cfb0e8ede7504538889df269f6289b2f38c7d`), senza
+modifiche dopo (rapporto delle 20:54:57Z, le 21:54:57 dell'orologio della macchina). Rapporti:
+`~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/polish6-owlbear/` (`audit-before/`,
+`audit-after/`; una corsa intermedia in `audit-iter1/`), copia del secondo in
+`round1/owlbear/final-audit.md`; numeri in `round1/owlbear/final-audit.txt`.
+
+| Misura (numeri del titolo del rapporto)     | Prima                      | Dopo                      |
+| ------------------------------------------- | -------------------------- | ------------------------- |
+| Elementi visibili                           | 2523                       | 2542                      |
+| Spazi diversi (imbottiture, margini, spazi) | 24 (14 fuori scala)        | 24 (14 fuori scala)       |
+| Spazi sulla griglia di 4 px                 | 97 %                       | 97 %                      |
+| Altezze di controllo diverse                | 16                         | 16                        |
+| Famiglie · misure · pesi di testo           | 1 · 13 · 3                 | 1 · 13 · 3                |
+| Interlinee diverse                          | 19                         | 16                        |
+| Stili di testo diversi                      | 55                         | 49                        |
+| Misure delle icone                          | 7 (32 icone da 18 × 18 px) | 7 (4 icone da 18 × 18 px) |
+| Raggi · spessori di bordo · ombre           | 4 · 3 · 12                 | 4 · 3 · 12                |
+| Colori testo · fondo · bordo                | 9 · 26 · 9                 | 9 · 26 · 9                |
+| Pulsanti: classi visive, varianti           | 23, 80                     | 23, 79                    |
+| Schede · chip · voci di menu: varianti      | 12 · 12 · 2                | 12 · 12 · 2               |
+| Campi e menu a tendina: varianti            | 1 e 1                      | 1 e 1                     |
+| Pannelli: classi visive, varianti           | 13, 43                     | 12, 42                    |
+| Testi sotto il contrasto AA                 | 0 su 1185                  | 0 su 1189                 |
+
+Le interlinee scendono da 19 a 16 e gli stili di testo da 55 a 49: la scala sotto la mappa (12/18 sul
+computer, 10/15 sul telefono), il movimento del dock (12/15,6) e l'etichetta «Formula libera» (14/21)
+stanno ora sulla riga di 20 px. Le icone da 18 px passano da 32 a 4: i glifi della pillola dei
+comandi della mappa sono a 20 px come quelli del dock, e i tre pulsanti di sicurezza sono 40 × 40
+come gli altri (erano 42 × 40). Un pannello in meno: la seconda colonna degli strumenti ha la
+superficie della prima. La corsa intermedia mostrava 25 spazi e 5 raggi: i 10 px di imbottitura di
+«Mosse» e dei pulsanti di sicurezza e il raggio di 8 px delle righe dei turni, introdotti in questo
+giro e riportati sulla scala (8 px di imbottitura con 40 px di larghezza minima, raggio denso di
+12 px) prima delle schermate finali. Pulsanti col riempimento del browser (`1px 6px`): nessuno.
+Contrasto: nessun errore, anche il #c9adff della pedina scelta sulla tinta lavanda.
+
+## Controlli fatti (01/10/2026, sesto giro di rifinitura dopo la verifica del marchio e dei dettagli)
+
+Punti aperti della verifica (`notes/open-items-round6.json`, «owlbear»; prove della verifica in
+`…/visual-01/verify-brand-owlbear/`) e che cosa è cambiato. Tutto in `direction.css`: il blocco
+«SIXTH POLISH ROUND» in fondo, più le regole del telefono cambiate dove sono definite (blocchi
+OB-14 e OB-15 del giro dei dettagli), lo spostamento dell'ordine dei turni e due commenti. Misure in
+px CSS, tema scuro, stati del kit di cattura; strumenti e prove in
+`~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/polish6-owlbear/`.
+
+- **Striscia delle azioni sul telefono (medio, OB-14).** «Mosse» diventa un pulsante rotondo da
+  40 px a sola icona, come gli altri comandi del dock sul telefono (l'app nasconde le loro parole
+  allo stesso modo; il nome resta «Mosse speciali»): la striscia guadagna 38 px. La sfumatura copre
+  gli ultimi 12 px (prima 24). A 390 px la striscia va da 8 a 184,7 (prima 146,6): il primo chip
+  intero (8–138,3, il pallino del costo a 127,3–134,3 fuori dalla sfumatura, che parte a 172,7), il
+  secondo tagliato sulla sua icona (icona 154,3–174,3, poi l'inizio delle parole sotto la
+  sfumatura). A 360 px (8–154,7) il primo chip è intero e fuori dalla sfumatura, del secondo si
+  vede l'inizio arrotondato; a 375 metà della sua icona; a 412 e 430 l'icona e parte delle parole
+  (`p-rail-final/`, ritagli `table-combat-<larghezza>-owlbear-dock.png`).
+- **Schede in basso (basso, OB-15).** Ogni scheda con i 12 px per lato di BottomNavigation e un
+  minimo di 48 px (prima 8 px e i 58 dell'app), «Mappa» e «Tutti» attaccati alla striscia, la
+  stessa sfumatura di 12 px. A 360 px «Combattimento» finisce intero prima della sfumatura (testo
+  fino a 290,8, sfumatura da 292) e la scheda aperta resta libera; a 390 il taglio cade sull'icona
+  di «Scena» con «Sc»; a 412 «Scena» si legge intera; a 375 e 430 il bordo cade nel margine vuoto
+  della scheda seguente. Nessuna lettera isolata a nessuna di queste larghezze.
+- **Pagine del dock (basso).** «Azioni» e «Barra rapida» a 796–836 e 844–884, le stesse righe dei
+  chip (prima 798 e 842): 8 px fra le due pagine come fra le due righe.
+- **Spazi sopra la mappa (basso).** L'ordine dei turni comincia a 128, 8 px dopo la seconda
+  colonna (prima 132). La seconda colonna ha la superficie della prima, opaca: dove attraversa il
+  bordo della mappa non si vede più la giunta fra pagina e disegno (`p-1440-a1/…-left.png`).
+- **Pannello «Creatura» (basso).** «Danni, cure e condizioni», «Trasforma…» e «Creature collegate»
+  a tutta larghezza (300 px, prima 218, 129 e 188), come «Scheda completa», «Inventario» e
+  «Riposa». La sezione dopo la riga di «Ultima mossa» parte 16 px sotto il suo pulsante di testo e
+  le condizioni perdono gli 8 px dell'app in alto: dall'inchiostro di «ULTIMA MOSSA» a «Cosciente»
+  circa 29 px (prima circa 43), come fra le altre sezioni.
+- **Angoli dell'anello sulla riga del turno (basso).** La prima e l'ultima riga dell'ordine dei
+  turni hanno gli angoli esterni a 12 px (il raggio denso della scala): la tinta della riga attuale
+  e l'anello di 3 px restano dentro gli angoli di 16 px dell'elenco (`p-initfocus/`, a 4×).
+- **Striscia delle sezioni della Scheda sul telefono (basso).** La stessa sfumatura di 12 px del
+  dock e delle schede in basso, che si toglie quando la tastiera è dentro: «Inv…» sfuma invece di
+  tagliarsi di netto.
+- **Un solo aspetto «scelto» (basso).** In «Pedine in scena» la pedina in focus è tinta lavanda al
+  16 %, testo #c9adff, senza bordo (misurato aperto: `p-rows/`). Le regole del pulsante icona e del
+  tasto (`kbd`) restano globali e sono documentate in `direction.css`: sono componenti, come i
+  pulsanti; limitate alle superfici vestite, Campagne e Biblioteca mostrerebbero i quadrati da
+  10 px dell'app sotto i pulsanti rotondi della barra in alto, e il campionario mostrerebbe due
+  tasti diversi.
+
+I-250, oltre ai punti sopra (rapporto e campionario, anche sotto la piega: scheda intera e Inizio
+fatto scorrere): i pulsanti di sicurezza della pillola dei comandi 40 × 40 con glifi da 20 px come
+il dock; il contatore della campanella come Badge di MUI (20 px, didascalia 12/20, peso 500; prima
+17 px, 11 px grassetto); la scala sotto la mappa, il movimento del dock e «Formula libera» sulla
+loro riga di 20 px. Campionario a metà giro e alla fine in `specimen-mid/` e `specimen-after/`
+(1440 e 390): pannello «Creatura» con le azioni a tutta larghezza, ordine dei turni, dock. Nessun
+pulsante col riempimento del browser negli stati del primo giro; contrasto AA senza errori.
+
+Prove (cartelle sotto `~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/`):
+
+- Garanzie (`round1/owlbear/final-guard.txt`, 28 stati, tutti su `direction.css` delle 21:49:02):
+  nessuno scorrimento orizzontale; testata del Tavolo su una riga a 390 e 412 (a 360 su due righe
+  come in «Attuale»); dock alto 112 px a 1280 × 800, 1366 × 768 (fondo a 768), 1440 × 900,
+  1500 × 900 e 1920 × 1080; «Termina turno» 148 × 56 (computer) e 150 × 40 (telefono);
+  «Annulla preparazione» e «Annulla ultima modifica» visibili a 390; «Entra al Tavolo» a 629–677
+  px a 390; nessuna etichetta di pulsante su due righe.
+- Fuoco (`round1/owlbear/final-focus.txt`): anelli di 3 px #e0d0ff interi su «Mosse», le schede in
+  basso, «Tutti», i pulsanti di sicurezza, le azioni del pannello, le righe dei turni (anche
+  l'ultima), le righe di «Pedine in scena» (aperte), i pulsanti icona della barra; giro col tasto
+  Tab su Inizio a 1440 e 390 e sulla Scheda a 1440 senza segnalazioni. Restano come nel giro dei
+  dettagli: l'anello tratteggiato delle pedine in SVG; sul telefono la striscia delle sezioni e tre
+  termini delle regole tagliano parte dell'anello quando Chrome lascia a metà un elemento già in
+  parte visibile (`strip-focus/strip-focus.txt`: «Azioni» e «Note» non vengono fatte scorrere).
+- `node --test design/blueprint/tests/*.test.mjs`: 2694 su 2694; `tests/visual01-directions.test.mjs`
+  13 su 13; controllo statico (`polish6-owlbear/lint.json`): ogni regola col prefisso, nessun
+  `!important`, nessun testo in `content`, nessuna trasformazione del testo, colori sotto la guardia
+  del tema scuro; Prettier pulito su `direction.css` e questa pagina.
+- Le 15 schermate del primo giro e il foglio dei contatti rifatti dopo l'ultima modifica (21:53,
+  due processi alla volta) e aperti uno per uno; `manifest.json` 15/15 senza errori. Un primo giro
+  di schermate (21:45) aveva due stati senza il foglio della direzione per un timeout di rete del
+  server sotto carico: rifatti, poi tutta la serie rifatta dopo l'ultima modifica. Le 15 coppie in
+  `round1/owlbear/_pairs/` rifatte alle 21:55–21:57 da quelle schermate, con le righe aggiornate
+  (copia del generatore precedente in `_pairs/_work/build.before-r8.py`).
 
 ## Controlli fatti (01/10/2026, quarto giro di rifinitura dopo la sesta verifica)
 

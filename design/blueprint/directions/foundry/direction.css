@@ -11,9 +11,10 @@
    colours also :not([data-pref-vision]:not([data-pref-vision="standard"])). No !important,
    no content text, no text-transform, no markup change; 40 px targets and the 3 px focus ring
    stay; the map box, caption and zoom offsets are unchanged (the tool column only loses its
-   plate: same height, narrower), the hotbar stays within 120 px (117 px at 1440 × 900: its
-   rows are unchanged, only the slots inside it become squares). Every spacing, type, radius,
-   border and control value reads the scales declared under «scales (I-250)».
+   plate: same height, narrower), the hotbar stays within 120 px (107 px at 1440 × 900: the
+   slots inside it become squares, the turn's commands two rows of 40 px squares). Every
+   spacing, type, radius, border and control value reads the scales declared under «scales
+   (I-250)».
 
    Elemento → prodotto → fonte (F = foundry-owlbear board; [O] sampled, [C] code, [D] docs)
    - UI font Signika ................. Foundry v13 core → facts «Typefaces» (CONFIG.defaultFontFamily)
@@ -63,7 +64,8 @@
    - Sheet · Inventory ............... D3 [O] dnd5e Inventory: slate-violet encumbrance meter
                                         (#443D5E → #6B618B on #393939), gold attunement diamonds,
                                         «Addosso» as the section bar, dark item squares
-   - Sheet primaries ................. dnd5e gold tile, black small caps (C apps.less tabs)
+   - Sheet primaries ................. the one orange primary (detail round, F05): 14/600 Roboto;
+                                        «Vai al Tavolo» orange in the banner's small-cap strip
    - Initiative dialog ............... F8/F18 [O] Combat Tracker rows: no cards, hairlines, the
                                         plum #302731 initiative box with cream digits; F12 footer
    - Token menu ...................... F7 [O] token HUD palette (black edge, glyph + label rows,
@@ -307,6 +309,19 @@
   /* FA Free 6.7.2 solid «magnifying-glass» (CC BY 4.0), filled in the sheet's secondary grey
      #9D9FA4: the search fields' leading glyph (a background, decorative). */
   --fv-glyph-search: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='%239d9fa4' d='M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z'/%3E%3C/svg%3E");
+  /* FA Free 6.7.2 solid «chevron-left» and «chevron-right» (CC BY 4.0), filled in the muted
+     #A99A95: the «more this way» mark in the phone action strip's end shades (decorative). */
+  --fv-glyph-chevron-left: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-147.2 -51.2 614.4 614.4'%3E%3Cpath fill='%23a99a95' d='M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z'/%3E%3C/svg%3E");
+  --fv-glyph-chevron-right: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-147.2 -51.2 614.4 614.4'%3E%3Cpath fill='%23a99a95' d='M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z'/%3E%3C/svg%3E");
+  /* The header's sync indicator in the same solid voice (sixth round: the app's outline cloud
+     stood among Font Awesome solids). FA Free 6.7.2 solid «cloud» (CC BY 4.0) with the state's
+     mark cut out of it: synced ✓, offline (a slash), to review (!); reconnecting is FA's own
+     «cloud-arrow-down». Cropped close, as the gears (the cloud is wide and low: 20.5 × 14 px in
+     the 21 px box). Masks: the app's own variables, so every cloud of the area follows. */
+  --offline-cloud: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-8 -72 656 656'%3E%3Cmask id='k'%3E%3Crect x='-64' y='-128' width='768' height='768' fill='white'/%3E%3Cpath fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='56' d='M232 304l64 64 112-112'/%3E%3C/mask%3E%3Cpath mask='url(%23k)' d='M0 336c0 79.5 64.5 144 144 144l368 0c70.7 0 128-57.3 128-128c0-61.9-44-113.6-102.4-125.4c4.1-10.7 6.4-22.4 6.4-34.6c0-53-43-96-96-96c-19.7 0-38.1 6-53.3 16.2C367 64.2 315.3 32 256 32C167.6 32 96 103.6 96 192c0 2.7 .1 5.4 .2 8.1C40.2 219.8 0 273.2 0 336z'/%3E%3C/svg%3E");
+  --offline-cloud-off: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-8 -72 656 656'%3E%3Cmask id='k'%3E%3Crect x='-64' y='-128' width='768' height='768' fill='white'/%3E%3Cpath fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='112' d='M40 40l560 440'/%3E%3C/mask%3E%3Cpath mask='url(%23k)' d='M0 336c0 79.5 64.5 144 144 144l368 0c70.7 0 128-57.3 128-128c0-61.9-44-113.6-102.4-125.4c4.1-10.7 6.4-22.4 6.4-34.6c0-53-43-96-96-96c-19.7 0-38.1 6-53.3 16.2C367 64.2 315.3 32 256 32C167.6 32 96 103.6 96 192c0 2.7 .1 5.4 .2 8.1C40.2 219.8 0 273.2 0 336z'/%3E%3Cpath fill='none' stroke='black' stroke-width='48' stroke-linecap='round' d='M40 40l560 440'/%3E%3C/svg%3E");
+  --offline-cloud-sync: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-8 -72 656 656'%3E%3Cpath d='M144 480C64.5 480 0 415.5 0 336c0-62.8 40.2-116.2 96.2-135.9c-.1-2.7-.2-5.4-.2-8.1c0-88.4 71.6-160 160-160c59.3 0 111 32.2 138.7 80.2C409.9 102 428.3 96 448 96c53 0 96 43 96 96c0 12.2-2.3 23.8-6.4 34.6C596 238.4 640 290.1 640 352c0 70.7-57.3 128-128 128l-368 0zm79-167l80 80c9.4 9.4 24.6 9.4 33.9 0l80-80c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-39 39L344 184c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 134.1-39-39c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9z'/%3E%3C/svg%3E");
+  --offline-cloud-alert: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-8 -72 656 656'%3E%3Cmask id='k'%3E%3Crect x='-64' y='-128' width='768' height='768' fill='white'/%3E%3Cpath fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='48' d='M320 184v104'/%3E%3Ccircle cx='320' cy='364' r='28' fill='black'/%3E%3C/mask%3E%3Cpath mask='url(%23k)' d='M0 336c0 79.5 64.5 144 144 144l368 0c70.7 0 128-57.3 128-128c0-61.9-44-113.6-102.4-125.4c4.1-10.7 6.4-22.4 6.4-34.6c0-53-43-96-96-96c-19.7 0-38.1 6-53.3 16.2C367 64.2 315.3 32 256 32C167.6 32 96 103.6 96 192c0 2.7 .1 5.4 .2 8.1C40.2 219.8 0 273.2 0 336z'/%3E%3C/svg%3E");
   /* FA Free 6.7.2 solid «graduation-cap» (CC BY 4.0) */
   --fv-mask-graduation-cap: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-64 -128 768 768'%3E%3Cpath d='M320 32c-8.1 0-16.1 1.4-23.7 4.1L15.8 137.4C6.3 140.9 0 149.9 0 160s6.3 19.1 15.8 22.6l57.9 20.9C57.3 229.3 48 259.8 48 291.9l0 28.1c0 28.4-10.8 57.7-22.3 80.8c-6.5 13-13.9 25.8-22.5 37.6C0 442.7-.9 448.3 .9 453.4s6 8.9 11.2 10.2l64 16c4.2 1.1 8.7 .3 12.4-2s6.3-6.1 7.1-10.4c8.6-42.8 4.3-81.2-2.1-108.7C90.3 344.3 86 329.8 80 316.5l0-24.6c0-30.2 10.2-58.7 27.9-81.5c12.9-15.5 29.6-28 49.2-35.7l157-61.7c8.2-3.2 17.5 .8 20.7 9s-.8 17.5-9 20.7l-157 61.7c-12.4 4.9-23.3 12.4-32.2 21.6l159.6 57.6c7.6 2.7 15.6 4.1 23.7 4.1s16.1-1.4 23.7-4.1L624.2 182.6c9.5-3.4 15.8-12.5 15.8-22.6s-6.3-19.1-15.8-22.6L343.7 36.1C336.1 33.4 328.1 32 320 32zM128 408c0 35.3 86 72 192 72s192-36.7 192-72L496.7 262.6 354.5 314c-11.1 4-22.8 6-34.5 6s-23.5-2-34.5-6L143.3 262.6 128 408z'/%3E%3C/svg%3E");
   /* Fix round 2: the own-SVG icons the core cannot swap (token menu rows, the session and
@@ -465,12 +480,10 @@
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .brand .logo {
   transition: filter var(--dur-base) ease-out;
 }
-/* Detail round (01/10, F09): in the header (28–36 px) the «20» was 6.8 px of ink, a dark smudge
-   on the hot face; there the face stays clean and the numeral shows from 48 px (the specimen's
-   «Marchio», the larger marks). The mark is aria-hidden: nothing is lost to a reader. */
-:root[data-direction="foundry"]:not([data-pref-theme="light"]) .app-header .brand .logo text {
-  visibility: hidden;
-}
+/* The «20» stays on the hot face at every size, the header's 28–36 px included (sixth round:
+   the detail round's rule that hid it in the header also matched the specimen's sized marks,
+   so the die showed no numeral anywhere, and the contract allows leaving it out only at
+   16 px). At 36 px it is a 6.8 px numeral, crisp on a 2× screen; brand.mjs is unchanged. */
 /* The words' optical centre on the die's: centred as a line box, the capitals sat 1 px and the
    small capitals 3.75 px below the die's centre (measured at 2×); 4 px under the line lift them
    2 px, so the die's centre falls between the two (1 px above, 1.75 px below). */
@@ -496,6 +509,14 @@
     gap: var(--fv-sp-4);
     font-size: var(--fv-fs-24);
   }
+}
+/* The sync indicator's cloud sits in the one 21 px icon box (the app's mask box is 24 px). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .app-header
+  .service-nav
+  [data-service="offline"]::before {
+  width: var(--fv-icon);
+  height: var(--fv-icon);
 }
 /* Header: Foundry's title strip (#050409 over a #29282F separator). */
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .app-header {
@@ -694,10 +715,41 @@
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   :is(
     .table-inspector .inspector-quick > .button.quiet:first-child,
-    .table-inspector .conditions-quick > .conditions-quick-add:first-child,
-    .character-sheet .character-breadcrumb > .button.quiet:first-child
+    :is(.table-inspector, .character-sheet) .conditions-quick > .conditions-quick-add:first-child,
+    .character-sheet .character-breadcrumb > .button.quiet:first-child,
+    .character-sheet .offline-switch-block > .button.quiet,
+    .character-sheet .sm-sheet > p.muted > .button.quiet
   ) {
   margin-inline-start: calc(-1 * var(--fv-sp-5));
+}
+/* «Apri al Tavolo» closes the generic actions' note on its own line (the app's inline button
+   always wrapped there), so it can start on the note's edge; «Offline e sincronizzazione»
+   always wraps under the sheet's offline switch. Sixth round: both stood 13 px in. */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  .sm-sheet
+  > p.muted
+  > .button.quiet {
+  display: flex;
+  width: fit-content;
+}
+/* The offline switch's command takes the one glyph gap (8 px; the app's 6 px glyph margin on
+   top of it made 14). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .offline-switch-block .button .icon {
+  margin-right: 0;
+}
+/* The inventory summary's commands («Gestisci sintonia», «Gestisci monete», «Cambia set») close
+   cards whose words are set on the left: their words start on the same edge, and the 12 px
+   inner margin taken back on both sides gives a two-word command its one line in a 140 px card
+   (sixth round: centred on two lines, 49 px tall, under left-set text). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .character-sheet
+  .invp-summary
+  > .invp-stat
+  > .button.quiet {
+  justify-content: flex-start;
+  margin-inline: calc(-1 * var(--fv-sp-5));
+  text-align: start;
 }
 /* «Registra concentrazione» opens its own line only in a narrow sheet (in a wide one it follows
    «Nessun effetto in corso.» on the card's line). */
@@ -712,7 +764,10 @@
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   :is(
     .table-inspector .inspector-quick > .button.quiet:first-child,
-    .table-inspector .conditions-quick > .conditions-quick-add:first-child
+    :is(.table-inspector, .character-sheet) .conditions-quick > .conditions-quick-add:first-child,
+    .character-sheet .invp-summary > .invp-stat > .button.quiet,
+    .character-sheet .offline-switch-block > .button.quiet,
+    .character-sheet .sm-sheet > p.muted > .button.quiet
   ):focus-visible {
   outline-offset: calc(-1 * var(--fv-bw-3));
 }
@@ -734,14 +789,28 @@
 }
 /* In a row of commands every command shows its box (detail round, F04): a quiet command takes
    the outlined button's hairline at 35 %, so the visible gap between two commands is the row's
-   gap (Lancia ↔ «Dettagli» read 16 px and «Dettagli» ↔ «Confronta» 28 px, both 4 px apart). */
+   gap (Lancia ↔ «Dettagli» read 16 px and «Dettagli» ↔ «Confronta» 28 px, both 4 px apart).
+   Sixth round: also the sheet's action rows («Bevi» · «Dettagli») and Inizio's news rows
+   («Apri l'aiuto» · «Segna come letta»), the last rows where a quiet command sat unboxed. */
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
-  :is(.spl-row-actions, .invp-row-actions, .ct-start-tools)
+  :is(
+    .spl-row-actions,
+    .invp-row-actions,
+    .ct-start-tools,
+    .shp-action-tools,
+    .home-news-item > .toolbar
+  )
   > .button.quiet {
   border-color: rgb(145 140 144 / 0.35);
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
-  :is(.spl-row-actions, .invp-row-actions, .ct-start-tools)
+  :is(
+    .spl-row-actions,
+    .invp-row-actions,
+    .ct-start-tools,
+    .shp-action-tools,
+    .home-news-item > .toolbar
+  )
   > .button.quiet:hover:not(:disabled) {
   border-color: var(--fv-outline);
 }
@@ -808,6 +877,82 @@
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .text-button:hover:not(:disabled) {
   color: var(--accent-strong);
+}
+/* Where the app folds «Tiri e risultati» to its bell (below 1440 px, the phone included, and in a
+   tight bar) the bell is a square control like the turn's commands beside it (sixth round: at
+   390 it was a bare glyph squeezed to 17 × 21 at the left of its 40 px box): the 40 px square,
+   the 1 px dark rim, the control fill, the 21 px glyph centred. The words stay its name. */
+@media (max-width: 1439px) {
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-bar-heading
+    .text-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--fv-ctl);
+    padding: 0;
+    border: var(--fv-bw-1) solid rgb(0 0 0 / 0.55);
+    border-radius: var(--fv-radius-2);
+    background: var(--fv-control);
+    color: var(--text);
+  }
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar.is-tight
+  .combat-bar-heading
+  .text-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--fv-ctl);
+  padding: 0;
+  border: var(--fv-bw-1) solid rgb(0 0 0 / 0.55);
+  border-radius: var(--fv-radius-2);
+  background: var(--fv-control);
+  color: var(--text);
+}
+@media (max-width: 1439px) {
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-bar-heading
+    .text-button
+    > .icon {
+    flex: none;
+    width: var(--fv-icon);
+    height: var(--fv-icon);
+  }
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-bar-heading
+    .text-button:hover:not(:disabled) {
+    border-color: var(--fv-outline);
+    background: #0c0a12;
+    color: #ffffff;
+  }
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar.is-tight
+  .combat-bar-heading
+  .text-button
+  > .icon {
+  flex: none;
+  width: var(--fv-icon);
+  height: var(--fv-icon);
+}
+:root[data-direction="foundry"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar.is-tight
+  .combat-bar-heading
+  .text-button:hover:not(:disabled) {
+  border-color: var(--fv-outline);
+  background: #0c0a12;
+  color: #ffffff;
 }
 /* An orange disclosure that stands alone is a link command too, with the link's one recipe
    (14/600, 6 px above and below, the buttons' leading): «Visualizzazione» over the inventory,
@@ -1422,13 +1567,16 @@
   > .section-heading:has(+ .character-resume) {
   margin-bottom: 0;
 }
+/* The «see all» link keeps its 40 px target inside the title's 26.4 px line: 8 px of it reach
+   out above and below (on the spacing scale; it was a fractional −6.8 px), and the row stays
+   the title's height, the link centred on it. */
 @media (min-width: 721px) {
   :root[data-direction="foundry"]:not([data-pref-theme="light"])
     .home-page
     :is(.home-recent, .cm-home, .chat-home, .community-home)
     .section-heading
     > :not(h2) {
-    margin-block: calc((var(--fv-fs-24) * var(--fv-lh-tight) - var(--fv-ctl)) / 2);
+    margin-block: calc(-1 * var(--fv-sp-4));
   }
 }
 /* The countdown in the UI face, bold (the display face has no regular weight here). */
@@ -3616,6 +3764,15 @@
   border-color: var(--fv-warm-1);
   background: rgb(11 10 19 / 0.92);
 }
+/* «Sessione non avviata»: the sentence on its own lines, then both commands together on the next
+   row, 6 px apart both ways (sixth round: at 390 «Avvia ora» sat inline after the second line,
+   which it pushed 40 px tall, and «Non ora» wrapped alone onto a third row). */
+:root[data-direction="foundry"]:not([data-pref-theme="light"]) .session-view-start-chip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--fv-sp-3);
+}
 /* The notice's commands («Avvia ora», «Non ora») take the one button size (14; they were 13). */
 :root[data-direction="foundry"]:not([data-pref-theme="light"])
   .session-view-chip
@@ -4351,6 +4508,13 @@
   border-color: rgb(0 0 0 / 0.8);
   border-radius: var(--fv-radius-2);
   background: #000000;
+}
+/* The hit-point box's inner margin on the spacing scale: 2 × 6 (the app's 1 × 7; still 28 px
+   tall). The phone keeps the app's 0 × 6 in its 40 px key. */
+@media (min-width: 721px) {
+  :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .hotbar-hp {
+    padding: var(--fv-sp-1) var(--fv-sp-3);
+  }
 }
 :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-layout .hotbar-hp-bar {
   border-radius: 0;
@@ -5195,7 +5359,10 @@
   }
 }
 /* The phone's action strip fades at the side where actions are hidden, with the sheet tabs'
-   sticky shades (scroll-state, not an animation), in the bar's colour. */
+   sticky shades (scroll-state, not an animation), in the bar's colour. Sixth round: the shade is
+   solid after a 4 px fade (the tabs' half-and-half ramp left the next action's rim showing
+   through, an empty bordered slot after «Bastone ferrato») and carries a chevron, so the cut
+   reads as «more this way». At rest at 390 it starts 1 px after the first action. */
 @media screen and (max-width: 720px) {
   :root[data-direction="foundry"]:not([data-pref-theme="light"])
     .table-layout
@@ -5220,6 +5387,7 @@
     flex: none;
     align-self: stretch;
     width: var(--fv-sp-7);
+    margin-block: calc(-1 * var(--fv-fade-pad));
     pointer-events: none;
     opacity: 0;
   }
@@ -5229,7 +5397,9 @@
     .combat-actions::before {
     inset-inline-start: calc(-1 * var(--fv-fade-pad));
     margin-inline-end: calc(-1 * (var(--fv-sp-7) + var(--fv-fade-gap)));
-    background: linear-gradient(to left, transparent, var(--fv-fade-to) 50%);
+    background:
+      var(--fv-glyph-chevron-left) left center / var(--fv-sp-6) no-repeat,
+      linear-gradient(to left, transparent, var(--fv-fade-to) var(--fv-sp-2));
   }
   :root[data-direction="foundry"]:not([data-pref-theme="light"])
     .table-layout
@@ -5237,7 +5407,9 @@
     .combat-actions::after {
     inset-inline-end: calc(-1 * var(--fv-fade-pad));
     margin-inline-start: calc(-1 * (var(--fv-sp-7) + var(--fv-fade-gap)));
-    background: linear-gradient(to right, transparent, var(--fv-fade-to) 50%);
+    background:
+      var(--fv-glyph-chevron-right) right center / var(--fv-sp-6) no-repeat,
+      linear-gradient(to right, transparent, var(--fv-fade-to) var(--fv-sp-2));
   }
   /* A focused action is lifted over the shades: its 3 px ring and its name stay whole. */
   :root[data-direction="foundry"]:not([data-pref-theme="light"])
@@ -5307,6 +5479,14 @@
     .table-tab-label {
     max-width: none;
     font-size: var(--fv-fs-11);
+  }
+  /* Their glyphs take the one 21 px icon box too (the app's phone tabs draw 20 px). */
+  :root[data-direction="foundry"]:not([data-pref-theme="light"])
+    .table-layout
+    :is(.table-tab, .table-map-link, .table-panels-all)
+    > .icon {
+    width: var(--fv-icon);
+    height: var(--fv-icon);
   }
   :root[data-direction="foundry"]:not([data-pref-theme="light"]) .table-sidebar-rail > .table-tabs {
     --fv-fade-to: var(--fv-cool-5);

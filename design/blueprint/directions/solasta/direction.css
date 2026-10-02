@@ -1614,14 +1614,15 @@
   order: 2;
   min-width: var(--space-6);
   margin-top: var(--space-1);
-  padding: 0 var(--space-1);
+  padding: var(--sl-2) var(--space-1);
   border: 0;
   border-radius: 0;
   background: var(--sl-mod-0);
   color: var(--sl-ink-bright);
   font-size: var(--text-sm);
   font-weight: var(--sl-w-strong);
-  line-height: var(--sl-lh-body);
+  /* The chips' 16 px line (round 6): a whole 20 px chip, not 20.3. */
+  line-height: var(--space-4);
   font-variant-numeric: lining-nums tabular-nums;
 }
 :root[data-direction="solasta"]:not([data-pref-theme="light"])
@@ -3766,6 +3767,16 @@
     background: var(--sl-panel);
     font-size: var(--text-sm);
   }
+  /* Round 6: the block holds only the HP cell here (the name and the turn line are visually
+     hidden), so its empty second column takes no 6 px gap: the cell and the resource legend
+     stand 4 px apart like every other cluster of the bar (they were 10). */
+  :root[data-direction="solasta"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .hotbar-identity
+    > div {
+    column-gap: 0;
+  }
   :root[data-direction="solasta"]:not([data-pref-theme="light"])
     .table-layout
     .table-hotbar
@@ -4704,10 +4715,12 @@
 }
 
 /* S5 — inventory rows on fixed columns wherever the list is wide enough: the icon, the name,
-   the three value columns (3 × the app's 52 px + 2 × 12) and the commands (208 px: «Dettagli»,
-   the item's own command, the menu at the far right; the widest set, Dettagli · Bevi · menu,
-   is 201 px). «Qtà», «Peso», «Cariche» and «Dettagli» stand on one x in every row (they
-   zig-zagged by up to 83 px with the width of the commands). */
+   the three value columns (3 × the app's 52 px + 2 × 12) and the commands (224 px: «Dettagli»,
+   the item's own command, the menu at the far right; the widest set, Dettagli · Equipaggia ·
+   menu, is 209.6 px: round 6 widened the column from 208, which squeezed «Dettagli» to 53 px
+   and the second command to x 1232 in those rows). «Qtà», «Peso», «Cariche» and «Dettagli»
+   stand on one x in every row (they zig-zagged by up to 83 px with the width of the
+   commands). */
 :root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet section.invp {
   container: sl-invp / inline-size;
 }
@@ -4718,7 +4731,7 @@
     display: grid;
     grid-template-columns:
       var(--sl-control) minmax(0, 1fr) calc(3 * 52px + 2 * var(--space-3))
-      calc(13 * var(--space-4));
+      calc(14 * var(--space-4));
     align-items: center;
   }
   :root[data-direction="solasta"]:not([data-pref-theme="light"])
@@ -4945,37 +4958,58 @@
     flex: 1 1 100%;
   }
 }
+/* Round 6: on a phone the row keeps one left edge, the order number's (56 px at 390): the kind
+   line, the d20 line and the «Sorpreso» box start there (the d20 line, pushed to the right,
+   began 12 px further in); the total keeps the row's right edge. */
+@media (max-width: 720px) {
+  :root[data-direction="solasta"]:not([data-pref-theme="light"]) .ct-start .ct-start-roll {
+    justify-content: flex-start;
+  }
+  :root[data-direction="solasta"]:not([data-pref-theme="light"]) .ct-start .ct-start-total {
+    margin-left: auto;
+  }
+}
 
-/* S14 — scrolling strips show that they scroll: the sheet's tab strip keeps 16 px of air at
-   both ends when it brings a tab into view and fades its ends over 16 px; the Table's bottom
-   bar fades its far end and sizes each tab to its name, so «Combattimento» is whole (it ended
-   in «…»), with 2 % tracking at 12 px. */
+/* S14 — scrolling strips show that they scroll: the sheet's tab strip fades its ends; the
+   Table's bottom bar fades its far end and sizes each tab to its name, so «Combattimento» is
+   whole (it ended in «…»), with 2 % tracking at 12 px. Round 6: the sheet strip's fade is
+   12 px, the tab's own side padding: wherever the app brings the open tab (ui.mjs
+   scrollIntoStrip sets scrollLeft itself, flush to the edge or a few px short of it) the fade
+   never reaches a letter, only the copper underline's tail (5 px at 7 px of air, where the
+   16 px fade ate 9 px), while a tab cut by the edge still fades out over more than a letter.
+   Keyboard focus scrolls a tab 16 px clear of the edge. */
 @media (max-width: 720px) {
   :root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .character-tabs {
     scroll-padding-inline: var(--space-4);
     -webkit-mask-image: linear-gradient(
       to right,
       transparent,
-      #000 var(--space-4),
-      #000 calc(100% - var(--space-4)),
+      #000 var(--space-3),
+      #000 calc(100% - var(--space-3)),
       transparent
     );
     mask-image: linear-gradient(
       to right,
       transparent,
-      #000 var(--space-4),
-      #000 calc(100% - var(--space-4)),
+      #000 var(--space-3),
+      #000 calc(100% - var(--space-3)),
       transparent
     );
   }
-  /* The bottom bar's tabs are filled when chosen: only its far end fades. */
+  /* The bottom bar's tabs are filled when chosen: only its far end fades (round 6). The
+     fade is 32 px, so the tab it cuts fades out as a whole («SCEN·» lost one letter to the
+     16 px fade); the strip snaps to the start of a whole tab, flush with its near edge (no
+     cut fragment there, «ONE»), and its 32 px end padding brings the last tab clear of the
+     fade at the end of the scroll («Consultazione» stays whole). */
   :root[data-direction="solasta"]:not([data-pref-theme="light"])
     .table-layout
     .table-sidebar-rail
     > .table-tabs {
-    scroll-padding-inline: var(--space-4);
-    -webkit-mask-image: linear-gradient(to left, transparent, #000 var(--space-4));
-    mask-image: linear-gradient(to left, transparent, #000 var(--space-4));
+    padding-inline-end: var(--space-6);
+    scroll-padding-inline: 0 var(--space-6);
+    scroll-snap-type: x mandatory;
+    -webkit-mask-image: linear-gradient(to left, transparent, #000 var(--space-6));
+    mask-image: linear-gradient(to left, transparent, #000 var(--space-6));
   }
   :root[data-direction="solasta"]:not([data-pref-theme="light"])
     .table-layout
@@ -4984,6 +5018,7 @@
     > .table-tab {
     flex: none;
     padding: 0 var(--space-2);
+    scroll-snap-align: start;
   }
   :root[data-direction="solasta"]:not([data-pref-theme="light"])
     .table-layout
@@ -5060,6 +5095,81 @@
   background: var(--sl-menu-face) var(--sl-menu-face-crop, center / cover) no-repeat
     var(--sl-backdrop);
   color: transparent;
+}
+
+/* ------------------------------------------------------------------ coherence (round 6) */
+/* Round 6 (01/10/2026, I-250): the audit's last same-kind differences, one recipe each
+   (SOURCES.md «Sesto giro» and «Coerenza» have the numbers). */
+
+/* A command's icon stands 8 px from its words (S15) also where the app's 6 px was left: the
+   sidebar's sub-tabs («Creatura», «Riepilogo del gruppo»), the Home menu rows, the sheet's
+   «Tutte», the session buttons over the map and the hotbar's HP cell; two boxed buttons
+   stand 8 px apart (S3) also in the Creature panel's quick row; the notice under the session
+   bar hangs 8 px under it, as the map's plates do (S20). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  :is(
+    .table-layout .table-subtab,
+    .home-page .home-tabs [role="tab"],
+    .character-sheet .character-tabs-all,
+    .table-layout .session-view-hud-button,
+    .table-layout .table-hotbar .hotbar-hp,
+    .table-layout .inspector-quick,
+    .table-layout .session-view-hud-stack,
+    .character-sheet .sm-list > li,
+    .character-sheet .field
+  ) {
+  gap: var(--space-2);
+}
+/* The rows of a list: one 8 px block padding, whatever the list (spells 14, inventory 6,
+   the inventory's head 10, the action and policy lists and the special-moves table 6, the
+   Home's discussions 10). With the 40 px commands a row holds, every command row is 56 px. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  :is(
+    .character-sheet .spl-row,
+    .character-sheet .spl-item,
+    .character-sheet .invp-row,
+    .character-sheet .invp-container-head,
+    .character-sheet .shp-action-list > li,
+    .character-sheet .ct-policy-list > li,
+    .character-sheet .sm-actions-table :is(th, td),
+    .home-page .chat-home-row
+  ) {
+  padding-block: var(--space-2);
+}
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .home-page .chat-home-row {
+  gap: var(--space-4);
+}
+/* The effect switches («Benedizione», «Anatema») take the 8 px block padding of every boxed
+   command (they had 6; the 40 px height stays). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .shp-switch {
+  padding-block: var(--space-2);
+}
+/* A checkbox drops the browser's 3 px margins everywhere, as in the initiative rows: the
+   label's 8 px gap spaces it («Solo pronte al lancio»). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .spl-check input {
+  margin: 0;
+}
+/* Chips are 20 px tall: the spell components («V», «S», «M») were 22. */
+:root[data-direction="solasta"]:not([data-pref-theme="light"]) .character-sheet .spl-badge {
+  height: 20px;
+}
+/* The counts in a row («Novità» 7, the token menu's 4 and 8): one 20 px box with 4 px sides
+   (6 before; the menu's count was 15.2 px tall). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  :is(.home-page .home-count, .token-menu-count) {
+  display: inline-grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 var(--space-1);
+  box-sizing: border-box;
+}
+/* The token menu's rows are 40 px on a phone too, like every row and command (the app's
+   sheet makes them 44). */
+:root[data-direction="solasta"]:not([data-pref-theme="light"])
+  .token-menu.sheet
+  :is(.token-menu-item, .token-menu-toggle, .token-menu-swatch, .token-menu-back) {
+  min-height: var(--sl-control);
 }
 
 /* ------------------------------------------------------------------ brand (I-251) */

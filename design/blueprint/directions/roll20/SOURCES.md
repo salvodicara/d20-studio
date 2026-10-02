@@ -3,7 +3,9 @@
 Scelta 1 — Direzione, primo giro (I-248), 01/10/2026. Tema scuro, a 1440 × 900 e 390 × 844, con
 ogni misura presa da una sola scala (I-250); secondo, terzo, quarto e quinto giro di rifinitura dopo
 le verifiche indipendenti, vedi «Coerenza (I-250)» e le sezioni dei giri di rifinitura in fondo; poi
-il giro dei dettagli (I-251, I-252) dopo la critica indipendente dei dettagli: «Dettagli rifiniti».
+il giro dei dettagli (I-251, I-252) dopo la critica indipendente dei dettagli: «Dettagli rifiniti»;
+infine il sesto giro di rifinitura (anelli del fuoco mai tagliati, pannello della creatura,
+allineamenti): «Sesto giro di rifinitura».
 Le schermate sono in `~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/round1/roll20/`;
 i confronti già montati (nostra schermata a sinistra, Roll20 a destra) in `round1/roll20/_pairs/`.
 Le immagini di riferimento sono in
@@ -47,7 +49,7 @@ componenti «Grimoire» `roll20.net/static-fallback/nav-bar/master/assets/main-D
 | Testo #E6E6E6, testo secondario #B3B3B3                                                                                                                                                                                                                                                                                                                                   | Roll20, scala dei grigi scura                                                   | [CSS] grayscale 1 e 2 (tema scuro)                                                                                                                                                                             |
 | Pulsante principale viola pieno #702C91 (al passaggio #8D56A7); secondario scuro dentro un filo lilla #A980BD; terziario: sole parole lilla #BA9ACA                                                                                                                                                                                                                       | Pulsanti «Grimoire» di Roll20                                                   | [CSS] `--button-primary-bg`, `--button-secondary-border`, `--button-tertiary-fg` (scuro); [O] D1 `roll20-dialog-convert-to-jumpgate.png` (<https://help.roll20.net/hc/en-us/articles/21569402281495-Jumpgate>) |
 | Pulsanti in Nunito 16 px pesante con 1 px di spaziatura tra le lettere, angoli da 8 px                                                                                                                                                                                                                                                                                    | `.grimoire__button`                                                             | [CSS] `border-radius:.5rem`, `letter-spacing` 50                                                                                                                                                               |
-| Un solo aspetto per i comandi terziari (pulsante «quiet», pulsante di testo, sommario a scomparsa, «Annulla» delle finestre): parole lilla #BA9ACA in Nunito pesante. Quando aprono una riga, le parole stanno sul bordo della riga (il margine interno esce a sinistra)                                                                                                  | `.grimoire__button--tertiary`                                                   | [CSS] `--button-tertiary-fg` #BA9ACA (scuro), estratto dei componenti                                                                                                                                          |
+| Un solo aspetto per i comandi terziari (pulsante «quiet», pulsante di testo, sommario a scomparsa, «Annulla» delle finestre, comandi degli avvisi della sessione): parole lilla #BA9ACA in Nunito pesante. Quando aprono una riga, le parole stanno sul bordo della riga (il margine interno esce a sinistra); quando chiudono un titolo, a destra                        | `.grimoire__button--tertiary`                                                   | [CSS] `--button-tertiary-fg` #BA9ACA (scuro), estratto dei componenti                                                                                                                                          |
 | Un solo gettone piccolo: 24 px, margini 2 × 8, 13 px grassetto, angoli da 4 px (etichette, V S M, tipi di azione, stato vitale, regole dell'iniziativa)                                                                                                                                                                                                                   | Gettoni della scheda e di «Grimoire»                                            | [O] S1 («Proficiency Bonus +3»), S14; [CSS] `--chip-*`                                                                                                                                                         |
 | Collegamenti e parole interattive lilla #A980BD                                                                                                                                                                                                                                                                                                                           | Roll20, colore primario per il testo (scuro)                                    | [CSS] `--el-color-primary` #a980bd                                                                                                                                                                             |
 | Campi: pozzo scuro dentro un filo grigio, angoli da 4 px; il filo diventa lilla al passaggio e al fuoco                                                                                                                                                                                                                                                                   | Campi «Grimoire» / Element Plus                                                 | [CSS] `.grimoire__input`; [O] D3 `roll20-dialog-scale-measurements-2026.png` (<https://blog.roll20.net/posts/align-to-grid-new/>)                                                                              |
@@ -55,7 +57,7 @@ componenti «Grimoire» `roll20.net/static-fallback/nav-bar/master/assets/main-D
 | Finestre: piatte #1F1F1F, nessun colore nella barra del titolo, titolo bianco, × grigia, grande ombra; in fondo «Annulla» in parole lilla e il viola pieno                                                                                                                                                                                                                | Finestre modali di Roll20                                                       | [O] D1; D8 `roll20-dialog-view-as-player-picker-2026.png` (<https://blog.roll20.net/posts/player-view-is-here/>)                                                                                               |
 | Pagina aperta nella navigazione: linguetta piena #702C91 con parole bianche                                                                                                                                                                                                                                                                                               | Linguette «Grimoire» («lined»)                                                  | [CSS] `--tabs-button-lined-background-color` #702c91                                                                                                                                                           |
 | Contatori di avvisi: pastiglia azzurra con il numero scuro                                                                                                                                                                                                                                                                                                                | Barra di navigazione di Roll20                                                  | [CSS] `--color-navbar-notification-badge`                                                                                                                                                                      |
-| Anello del fuoco lilla chiaro #D1BBDC, 3 px (anche sui sommari a scomparsa)                                                                                                                                                                                                                                                                                               | Fuoco del pulsante principale di Roll20                                         | [CSS] `--button-primary-focus` (scuro); lo spessore resta quello dell'app                                                                                                                                      |
+| Anello del fuoco lilla chiaro #D1BBDC, 3 px (anche sui sommari a scomparsa); disegnato dentro il controllo, come l'anello interno di «Grimoire», su comandi terziari, strumenti della mappa, gettoni e righe dei turni, così non è mai tagliato dal bordo dello schermo                                                                                                   | Fuoco del pulsante principale di Roll20                                         | [CSS] `--button-primary-focus` (scuro); lo spessore resta quello dell'app                                                                                                                                      |
 | Ombre a tre strati come Material                                                                                                                                                                                                                                                                                                                                          | Roll20, `--chat-shadow`, `--drop-shadow-xlarge`                                 | [CSS]                                                                                                                                                                                                          |
 | Icone piene monocromatiche (Font Awesome Free 6), ognuna scelta per lo strumento di Roll20 che rappresenta                                                                                                                                                                                                                                                                | Icone di Roll20 (Font Awesome e Pictos)                                         | [O] T6, T3; facts.md §0.6                                                                                                                                                                                      |
 | Selezione del testo viola pieno, cursore lilla, barre di scorrimento grigie                                                                                                                                                                                                                                                                                               | Roll20, colore primario                                                         | [CSS]                                                                                                                                                                                                          |
@@ -103,7 +105,7 @@ componenti «Grimoire» `roll20.net/static-fallback/nav-bar/master/assets/main-D
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Colonna degli strumenti nera #0C0C0C, piena altezza, incollata al bordo sinistro (48 px, circa il 3 % dello schermo); glifi pieni #E6E6E6 senza piastra; lo strumento attivo su una casella #353535 con filo #5D5D5D e angoli da 12 px                                                                                                                  | Jumpgate, colonna degli strumenti                   | [O] T6; T3 `roll20-table-jumpgate-dark-hexmap-full-ui-2026.png` (<https://blog.roll20.net/posts/10x-vtt-performance-update/>)                                                |
 | Il gruppo di strumenti aperto come pannello nero attaccato alla colonna                                                                                                                                                                                                                                                                                 | Menu a comparsa degli strumenti di Roll20           | [O] T6, T31 (crop numerato della colonna)                                                                                                                                    |
-| Ritratti del gruppo come i pulsanti «LAYERS» in fondo alla colonna: quadrati arrotondati, quello scelto acceso del suo verde (#30673C, filo #598563), piccole maiuscole sotto                                                                                                                                                                           | Pulsanti dei livelli di Jumpgate («TOKENS», «GM»)   | [O] T6, T3                                                                                                                                                                   |
+| Ritratti del gruppo come i pulsanti «LAYERS» in fondo alla colonna: quadrati arrotondati, quello scelto acceso del suo verde (#30673C, filo #598563), piccole maiuscole sotto; tutti della stessa altezza                                                                                                                                               | Pulsanti dei livelli di Jumpgate («TOKENS», «GM»)   | [O] T6, T3                                                                                                                                                                   |
 | La mappa dalla colonna degli strumenti fino al pannello laterale e al bordo in basso: lo zoom galleggia sull'illustrazione; la barra delle macro, i dadi e la targa galleggiano sulla mappa (si vede sotto di loro appena si ingrandisce o si sposta la vista); «Centra la scena» tiene la scena sopra la barra                                         | Jumpgate                                            | [O] T3, T4 `roll20-table-jumpgate-dark-map-pins-full-ui-2026.png` (<https://blog.roll20.net/posts/map-pins-customization/>)                                                  |
 | Comandi galleggianti di vetro scuro rgba(0,0,0,.6) con un filo #A5A1A7: la riga della sessione in alto a destra, lo zoom verticale sotto di essa                                                                                                                                                                                                        | Pulsante delle pagine e zoom di Jumpgate            | [O] T6, T3                                                                                                                                                                   |
 | Ordine dei turni come la finestra «Turn Order»: #1F1F1F galleggiante accanto alla colonna, una riga per creatura (gettone tondo, nome), la riga attuale verde #094424 con un filo più chiaro; sotto 1440 × 900 una colonna di ritratti da 40 px (come i pulsanti dei livelli) con il suo spazio sulla mappa, il turno attuale verde con la barra bianca | «Turn Order» di Roll20                              | [O] T15 `roll20-table-turn-order-dark-active-row-frame.png` (<https://help.roll20.net/hc/en-us/articles/360039178634-Turn-Tracker>)                                          |
@@ -159,7 +161,9 @@ Roll20 (la parola pesante è il nome del dado, «d20», e la parola leggera è �
 scheda con le stesse facce, la faccia magenta e i tre raggi neri che vanno dagli angoli del «20» alla
 sagoma (in alto, in basso a destra e a sinistra), così anche a 16 px è un dado sfaccettato come il
 marchio della barra e non un triangolo in un esagono, la cosa più vicina all'icona rosa a esagono di
-Roll20; contorno di 4 unità, filo della faccia di 3 (prima un anello di 6 e nessun raggio).
+Roll20; contorno di 4 unità, filo della faccia di 3, raggi di 6 (prima un anello di 6 e nessun
+raggio; nel sesto giro i raggi passano da 4 a 6 unità, circa un pixel a 16 px, dove quelli da 4
+sparivano).
 
 **Perché non è una copia del logo di Roll20.** L'emblema di Roll20 è un esagono ad angoli
 arrotondati, pieno di una sfumatura dal viola al magenta, con dentro un d20 disegnato a filo bianco
@@ -224,16 +228,78 @@ queste scale, copiate dal CSS di Roll20:
   13 px), 14 px per la freccina del menu e i segni delle risorse, 13 px per la matita del ritratto.
 
 Risultato della verifica dei valori (`changes/visual-01/audit/audit.js --direction roll20`, 20 stati,
-01/10/2026, dopo il quinto giro): spaziature su passo di 2 px nel 100 % dei casi, e quelle usate da
-almeno 3 elementi sono tutte sulla scala di «Grimoire» (più i 60 px della geometria del Tavolo); 12
-dimensioni di testo, tutte sulla scala tranne le etichette disegnate dentro la mappa (11 e 17 px,
-scalano con lo zoom) e il marchio d20 Studio (fermo fino alla fase D); 6 rapporti d'interlinea; 6
-raggi; 9 ombre; 85 varianti di pulsante, 14 classi con più di una variante; 4 misure di glifo;
-nessun comando con il margine predefinito del browser; contrasto: nessun testo sotto AA su 1221. Le
-altre eccezioni sono la geometria fissa del Tavolo (posizioni calcolate dal programma). Il confronto
-prima e dopo è in «Coerenza (I-250)».
+01/10/2026, dopo il sesto giro): spaziature su passo di 2 px nel 99 % dei casi (il −1 px che fa un
+filo solo tra le caselle dell'indebolimento), e quelle usate da almeno 3 elementi sono tutte sulla
+scala di «Grimoire» (più i 60 px della geometria del Tavolo); 11 dimensioni di testo, tutte sulla
+scala tranne le etichette disegnate dentro la mappa (11 e 17 px, scalano con lo zoom); 6 rapporti
+d'interlinea; 6 raggi; 10 ombre; 17 altezze dei comandi; 84 varianti di pulsante, 15 classi con più
+di una variante; 4 misure di glifo; nessun comando con il margine predefinito del browser;
+contrasto: nessun testo sotto AA su 1217. Le altre eccezioni sono la geometria fissa del Tavolo
+(posizioni calcolate dal programma). Il confronto prima e dopo è in «Coerenza (I-250)».
 
 ## Coerenza (I-250)
+
+### Sesto giro di rifinitura (01/10/2026)
+
+Strumento di verifica sui 20 stati del giro 1 (1440 e 390, tema scuro, compresa la scheda intera),
+prima (`…/visual-01/polish6-roll20/audit-before-r6.md`, il rapporto delle 19:38 su `direction.css`
+delle 19:35, rimasto invariato fino a questo giro) e dopo (`…/visual-01/audit/roll20/audit.md`, 21:49,
+copia in `…/polish6-roll20/audit-after-r6.md`, su `direction.css` delle 21:46:31, l'ultima
+modifica). Sotto la piega: Inizio e Scheda a pagina intera (`…/polish6-roll20/full-after/`), il
+pannello della creatura scorso fino in fondo (`…/polish6-roll20/probe/insp-r20-a.png`, `-b.png` prima,
+`…/insp-after/a.png`, `b.png` dopo) e il campionario dei componenti
+(`…/polish6-roll20/specimen-before/`, `specimen-after/`, 1440 e 390), letti uno per uno.
+
+| Misura (20 schermate del giro 1)                    | Prima             | Dopo              |
+| --------------------------------------------------- | ----------------- | ----------------- |
+| Elementi visibili                                   | 2572              | 2574              |
+| Valori di spazio distinti (fuori scala)             | 25 (12)           | 25 (12)           |
+| Spazi sul passo di 2 px                             | 99 %              | 99 %              |
+| Altezze dei comandi                                 | 18                | 17                |
+| Grandezze · pesi · stili dei caratteri              | 11 · 5 · 88       | 11 · 5 · 88       |
+| Raggi · spessori dei bordi · ombre                  | 6 · 3 · 10        | 6 · 3 · 10        |
+| Colori (testo · fondo · bordo; coppie quasi uguali) | 22 · 31 · 22 (11) | 22 · 31 · 22 (11) |
+| Pulsanti: classi visive, varianti (classi con più)  | 24, 89 (15)       | 24, 84 (15)       |
+| Campi: classi visive, varianti                      | 1, 2              | 1, 2              |
+| Misure dei glifi                                    | 4                 | 4                 |
+| Linguette · gettoni · pannelli: varianti            | 11 · 14 · 43      | 11 · 14 · 43      |
+| Bottoni con il margine predefinito del browser      | 0                 | 0                 |
+| Contrasto AA sotto soglia (incerti)                 | 0 su 1217 (1)     | 0 su 1217 (1)     |
+
+- **Un'altezza per i ritratti del gruppo.** Doran, di cui il giocatore non vede i punti ferita, era
+  alto 57,5 px tra ritratti da 63,5 (40 sul telefono tra quelli da 46): la riga della barra dei
+  punti ferita resta anche vuota, tutti 63,5 (46 sul telefono). Sparisce l'altezza da 57,5.
+- **Un solo bonus.** Il riquadro dei bonus della scheda aveva 6 px ai lati nei tiri salvezza e nelle
+  abilità e 8 nelle azioni (+5, +2): ora 6 ovunque (da 2 varianti a 1).
+- **Un raggio per i pulsanti.** Le linguette del pannello laterale, «Comprimi il pannello», «Tutti i
+  pannelli» e le linguette del telefono avevano angoli da 4 px accanto ai pulsanti da 8 della barra
+  (la stessa casella lilla #8D56A7 piena quando sono aperte): ora 8, come ogni pulsante. L'avviso
+  della finestra delle magie prendeva gli 8 px dei pulsanti dentro la scheda: ora 4, come i pannelli
+  della scheda.
+- **Un solo comando terziario anche negli avvisi della sessione.** «Avvia ora · Non ora» erano
+  Figtree 700 con 12 px ai lati, il primo 12 px dentro il bordo del testo: ora la misura piccola del
+  terziario (Nunito pesante 14 px con la spaziatura dei pulsanti, 8 px ai lati, lilla #BA9ACA), su una
+  riga loro, il primo con le parole sul bordo del testo, 16 px tra le parole dei due.
+- **Pannello della creatura** (sotto la piega degli stati): i pulsanti con la cornice uno per riga
+  sono tutti larghi quanto il pannello, con glifo e parole all'inizio, a 8 px l'uno dall'altro
+  («Danni, cure e condizioni», «Trasforma…», «Creature collegate», «Rivela aspetto…», «Aggiungi
+  immagine», come «Scheda completa · Inventario · Riposa»; prima larghi quanto le parole, a 12 px);
+  i comandi terziari seguono R20-06 («Trova la mia pedina», gli oggetti da usare, «Aspetto nella
+  scheda» sul bordo del testo; «Cambia set →» e «Monete e scorta» a 16 px dalle parole, sul bordo
+  quando vanno a capo; «Quota…» a 16 px dalle parole, prima 22).
+- **Comandi a destra sul bordo.** Il comando che chiude un titolo («Tutte le campagne», «Tutte le
+  discussioni», «Tutti gli annunci», «Segna tutte come lette», «Correggi monete»), quello che chiude
+  la barra di un titolo («Cerca nella Biblioteca» in Inventario e Magie) e «Gestisci PE» finiscono
+  con le parole sul bordo destro dei contenuti, alla stessa x dei pulsanti con la cornice e delle
+  caselle sotto (983, 1375, 1392 px a 1440); prima ci finiva la casella e le parole stavano 16 px
+  dentro. Effetto: «Segna tutte come lette» torna sulla riga di «7 da leggere».
+- **Restano**, come nel giro dei dettagli: i margini fissi della mappa (48, 56, 60, 76, 108, 120, 160
+  px e il −112 del telefono), il marchio d20 Studio sul Tavolo (20 px, −0,2 di spaziatura), i
+  ritratti del gruppo alti 63,5 px, le linguette inclinate sovrapposte di 6 px, i termini del
+  compendio alti 20,5 px, il −1 px delle caselle dell'indebolimento, i 10 px della disposizione del
+  Tavolo sul telefono e del titolo «Condizioni», la misura piccola senza spaziatura della targa della
+  scena sul telefono (dichiarata in «Differenze» 14), i sommari a 14 px dentro le caselle
+  dell'inventario e nell'avviso delle magie (la riga in cui stanno).
 
 ### Quinto giro di rifinitura (01/10/2026)
 
@@ -457,7 +523,7 @@ pagina intera (`…/probe-roll20/r2/before-full/`, `after-full/`) e il campionar
 ## Coppie per il confronto
 
 Montaggi pronti in `round1/roll20/_pairs/` (nostra schermata a sinistra, riferimento a destra),
-rifatti dopo l'ultima cattura del quinto giro con `…/probe-roll20/r5/pairs.py` (alti 700 px, sotto
+rifatti dopo l'ultima cattura del sesto giro con `…/polish6-roll20/work/pairs.py` (alti 700 px, sotto
 ogni immagine chi è e il nome del file).
 
 | Schermata                | Nostra schermata                         | Riferimenti Roll20                                                                                         |
@@ -533,12 +599,16 @@ Cose che Roll20 fa e noi no, o che facciamo diversamente, e perché.
     giocatori; l'Inizio dell'app ha una sola scheda «Continua a giocare», copiata come una riga in
     grande, senza quei dati. Il titolo resta bianco (come Roll20 Characters), non blu come la vecchia
     pagina chiara. Sul telefono la copertina non c'è (l'app la nasconde) e «Entra al Tavolo» resta
-    nei primi 844 px (597–643 px).
+    nei primi 844 px (549–595 px, dal giro dei dettagli).
 11. **Telefono:** Roll20 non ha un tavolo per telefono («optimized for tablet, not phones», Help
     Center). Il nostro Tavolo su telefono tiene la disposizione dell'app nella grammatica di Roll20
     Characters; niente pulsante tondo del d20 in basso a destra (servirebbe nuovo codice). Nella
     vista del master su telefono l'avviso «Sessione non avviata» comincia 8 px sotto i ritratti dei
-    turni (giro dei dettagli; in «Attuale» resta sotto i ritratti, illeggibile).
+    turni (giro dei dettagli; in «Attuale» resta sotto i ritratti, illeggibile). I ritratti del gruppo
+    e lo zoom stanno 7 px sopra la barra delle azioni (sesto giro; in «Attuale», come prima qui,
+    l'ultimo ritratto finisce 13–15 px sotto la barra e lo zoom ci appoggia il piede). Sotto i 390 px,
+    dove «Termina turno» va sulla riga sotto e la barra cresce, la barra li copre ancora in parte,
+    come in «Attuale».
 12. **Finestra dell'iniziativa:** Roll20 tira l'iniziativa dalla chat dentro la Turn Order; la nostra
     finestra è dell'app, disegnata come finestra di Roll20 con righe da Turn Order.
 13. **Menu della pedina:** le icone delle righe del menu principale (e la × e la freccia indietro)
@@ -832,6 +902,62 @@ filo visibile).
 **Attenzione:** `…/probe-roll20/build.sh` ricrea `direction.css` da `direction.src.css`, fermo al
 quinto giro (16:41): cancellerebbe il marchio e questo giro. Il file di partenza ora è
 `direction.css`.
+
+## Sesto giro di rifinitura (01/10/2026)
+
+Le osservazioni della sesta verifica indipendente (`notes/open-items-round6.json`, voce `roll20`) e
+il passaggio I-250 sullo strumento di verifica, sul campionario e sotto la piega. Le regole sono in
+fondo a `direction.css` («polish round 6 (I-250)»), più poche correzioni al loro posto (raggio delle
+linguette del pannello, riquadro dei bonus, pila «Forme e creature collegate», ritratti e zoom sul
+telefono, comandi dell'avviso della sessione, comandi dei titoli) e i raggi dell'icona in
+`brand.mjs`. Prove in `~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/polish6-roll20/`
+(sonde in `work/`; `direction.before-r6.css` e `brand.before-r6.mjs` sono i file di partenza).
+
+| Voce                                       | Osservazione                                                                                                                                                      | Correzione                                                                                                                                                                                                                                                                                                                                                                        |
+| ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Fuoco tagliato sul telefono (alta)         | «← Personaggi» della Scheda parte da x 0: il lato sinistro dell'anello (da x −6 a −3) fuori dallo schermo, in Azioni, Magie e Inventario                          | Ogni comando terziario disegna l'anello dentro il controllo (3 px, come R20-22 e l'anello interno di «Grimoire»), tranne quelli delle caselle dell'inventario, che hanno le parole sul bordo della loro casella: l'anello di «← Personaggi» va da x 0 a 3, intero (`focus-after/edge-390.png`)                                                                                    |
+| Fuoco al bordo sinistro del Tavolo (media) | Strumenti della mappa e ritratti del gruppo a x 4: 1 px dei 3 visibile a sinistra (7 controlli da giocatore, 9 da master); «Riposi» sul telefono a x 4, lo stesso | Strumenti della mappa (colonna, gruppo aperto, zoom): anello dentro. Ritratti del gruppo: anello attaccato al riquadro (da x 1 a 4), perché il nome riempie i 40 px («DORAN» da x 4,7 a 42,7) e un anello dentro taglierebbe le lettere. «Riposi» e gli altri comandi della targa: anello dentro, come ogni terziario (`focus-after/edge-1440-4x.png`)                            |
+| Pannello della creatura (bassa)            | «Trasforma…» e «Creature collegate» a 12 px; pulsanti larghi quanto le parole accanto a «Scheda completa · Inventario · Riposa» larghi quanto il pannello         | Una sola pila: tutti i pulsanti con la cornice che stanno da soli su una riga sono larghi quanto il pannello, glifo e parole all'inizio, 8 px tra loro; i terziari del pannello sul bordo del testo (vedi «Coerenza», sesto giro)                                                                                                                                                 |
+| Marchio a 16 px (bassa, facoltativa)       | A 16 px e 1× i raggi dell'icona della scheda quasi spariscono: si legge un triangolo in un esagono                                                                | Raggi da 6 unità invece di 4 (circa un pixel a 16 px, sotto i 2 px a 32): a 2× e a 32 px il dado sfaccettato è più netto; a 16 px e 1× il guadagno è piccolo, la faccia magenta resta il segno principale (`favicon/chrome-1x-3x.png`, `chrome-2x.png`, il primo dado è quello di prima)                                                                                          |
+| Strisce che scorrono sul telefono (bassa)  | Linguette della Scheda: «INVE» sfuma prima di «Tutte» (voluto, R20-13); il gettone «INCA…» della barra tagliato di netto da «Mosse» (uguale in «Attuale»)         | La striscia dei gettoni finisce come le linguette della Scheda: gli ultimi 24 px sfumano, 24 px di margine in fondo perché l'ultimo gettone esca dalla sfumatura, e un gettone raggiunto con la tastiera si ferma prima di essa. Le linguette della Scheda restano come in R20-13: fermarsi solo su parole intere chiederebbe di nascondere linguette, cioè cambiare il programma |
+| Termini del compendio (bassa, non roll20)  | Nella frase tagliata a due righe di un'azione l'anello di «TS», «azione bonus», «Reazione» è tagliato dal paragrafo (uguale in «Attuale»)                         | **Non applicato.** È della disposizione dell'app; nella pelle le due strade proposte mostrerebbero la cima della terza riga nascosta (un margine interno nel paragrafo tagliato) o metterebbero l'anello sopra le lettere (il termine non ha margine interno). Va risolto nel paragrafo dell'app                                                                                  |
+| Prove vecchie                              | Schermate e montaggi del giro dei dettagli                                                                                                                        | Tutto il giro 1 (15 schermate e il foglio di contatto) rifatto dopo l'ultima modifica di `direction.css` (21:46:31): 21:49:33–21:50:12, «Scheda» a 1440 rifatta una volta (21:49:52) per un tempo scaduto del server; i 12 montaggi in `_pairs/` rifatti alle 21:50:47–21:51:02                                                                                                   |
+| I-250                                      | Valori e forme lasciati (vedi «Coerenza», sesto giro)                                                                                                             | Un'altezza per i ritratti del gruppo, un riquadro dei bonus, un raggio per i pulsanti del pannello laterale, l'avviso delle magie con gli angoli della scheda, i comandi degli avvisi della sessione come terziari, i comandi a destra con le parole sul bordo                                                                                                                    |
+
+**Trovati nel giro e sistemati.**
+
+- Sul telefono l'ultimo ritratto del gruppo finiva 13 px sotto la barra delle azioni e lo zoom ci
+  appoggiava il piede (anche in «Attuale»): ora entrambi stanno 7 px sopra la barra (giocatore,
+  master, esplorazione). Il gruppo resta sopra la parte vuota sotto la mappa.
+- Nella vista del master «Avvia ora · Non ora» dell'avviso «Sessione non avviata» avevano un loro
+  carattere (Figtree 700) e il primo comando stava 12 px dentro il bordo del testo.
+- I comandi a destra dei titoli finivano con la casella sul bordo e le parole 16 px dentro: ora
+  finiscono con le parole, alla stessa x dei pulsanti e delle caselle sotto.
+
+**Controlli fatti** dopo l'ultima modifica di `direction.css` (21:46:31):
+
+- `node --test design/blueprint/tests/*.test.mjs`: 2694 su 2694; Prettier pulito su `direction.css`,
+  `brand.mjs` e `SOURCES.md`; nessun `!important` né `text-transform` (solo nel commento iniziale che
+  li vieta), solo `content: ""`; ogni selettore comincia con il prefisso dell'opzione.
+- Fuoco da tastiera: la sonda di tutta la pagina (`work/sweep.js`: ogni controllo visibile messo a
+  fuoco con la tastiera, l'anello confrontato con i bordi dello schermo e con ogni contenitore che
+  taglia) sui 18 stati del giro 1 a 1440 e 390. Prima: «← Personaggi» (Scheda, Magie, Inventario sul
+  telefono), «Riposi» (Tavolo sul telefono), 7 controlli da giocatore e 9 da master al bordo
+  sinistro a 1440 (`sweep-before/`). Dopo: nessun anello tagliato da questa opzione
+  (`sweep-after/`, `sweep-final/`); restano i termini del compendio (vedi sopra, come «Attuale») e,
+  nella finestra dell'iniziativa sul telefono, una casella di spunta mezza fuori dal bordo che
+  scorre (la finestra la porta in vista quando riceve il fuoco). Le pedine della mappa disegnano il
+  fuoco da sé, come in «Attuale».
+- Barra delle azioni a 1440 × 900: 112 px (giocatore, master, esplorazione), «Termina turno» 183 × 84,
+  Annulla e Annulla l'ultima mossa 40 × 40; a 1366 × 768: 112 px. A 390: barra 153 px, «Termina
+  turno» 146 × 40, Annulla e Annulla l'ultima mossa 40 × 40, tutti a schermo e non coperti;
+  intestazione del Tavolo su una riga (64 px); nessuno scorrimento di lato (Inizio, Scheda, Magie,
+  Inventario, Tavolo da giocatore, da master e in esplorazione, menu della pedina, finestra
+  dell'iniziativa); «Entra al Tavolo» finisce a 595 px. Comandi sotto i 40 px: solo i punti di
+  viaggio e le porte sulla mappa del master, come in «Attuale» (`guar-final/`).
+- Giro 1 rifatto con `--directions roll20` e aperto file per file; Inizio e Scheda a pagina intera
+  (`full-after/`), il campionario (`specimen-after/`) e il pannello della creatura scorso fino in
+  fondo (`insp-after/`) letti uno per uno.
 
 ## Licenze e attribuzioni
 
