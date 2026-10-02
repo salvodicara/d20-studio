@@ -4973,3 +4973,20 @@ resta aperto e l'intervista continua una domanda alla volta.
   risultato finale prende il meglio dei prodotti e lo supera, in un solo sistema coerente
   (I-250). Ogni opzione continua a essere rifinita nei dettagli (pulsanti, spazi, margini,
   icone, caratteri) anche prima della scelta.
+
+## I-253 — la direzione preferita è Baldur's Gate 3, magica e premium
+
+- **Provenienza:** owner, 02/10/2026, in chat dopo aver visto le dieci opzioni della Scelta 1:
+  «tutti mi piacciono, sono molto fighi»; «quello BG3 mi sembra quello che è più figo per me»;
+  «andrebbe rifinito nei dettagli, deve sembrare proprio premium»; «secondo me puoi fare di
+  meglio»; lo stile che piace è «alla Baldur's Gate 3, un po' magico». Chiede anche icone per le
+  varie armi e i vari incantesimi e «tante immagini» per tutto (anche generate con ChatGPT, o con
+  uno strumento a pagamento da valutare), chiede come funzioneranno le mappe e quali sono i
+  prossimi passi.
+- **Modo di lavorare (owner, stessa data):** quando c'è un dubbio fermarsi e fare domande invece
+  di decidere da soli; domande molto chiare, con esempi; spiegare ogni cosa nei dettagli, senza
+  dare niente per scontato e senza gergo tecnico.
+- **Effetto:** l'opzione 1 (Baldur's Gate 3) diventa la base della Scelta 1; le domande aperte
+  (tutta l'app in stile BG3 o qualche pezzo da altre opzioni, icone e immagini, mappe) si fanno
+  all'owner prima del Giro 2. Restano I-250 (un solo design curato in ogni dettaglio), I-251
+  (marchio d20) e I-252 (superare i modelli).
