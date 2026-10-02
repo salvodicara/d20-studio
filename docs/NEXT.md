@@ -11,8 +11,10 @@ coerente, curato in ogni padding, margine, bottone e carattere).
 
 ## Che cosa aspetta l'owner
 
-**Scelta 1 · Direzione**: un numero per superficie (Tavolo, Scheda, Inizio), anche diversi o
-mescolati («Tavolo 1 ma con i colori del 4»). Opzioni: 0 oggi · 1 Baldur's Gate 3 · 2 D&D Beyond
+**Scelta 1 · Direzione**: un numero per superficie (Tavolo, Scheda, Inizio, Marchio), anche
+diversi, oppure un mix («del 1 mi piace la barra delle azioni, del 4 i colori; non mi piacciono i
+pulsanti del 2»): il risultato finale supera i modelli in un solo design coerente (I-250, I-252).
+Ogni opzione ha il proprio marchio d20 (I-251). Opzioni: 0 oggi · 1 Baldur's Gate 3 · 2 D&D Beyond
 · 3 Foundry VTT · 4 Owlbear Rodeo · 5 Solasta · 6 Roll20 · 7 Pathfinder: Wrath of the Righteous ·
 8 Alchemy RPG · 9 Demiplane.
 
@@ -45,7 +47,7 @@ Poi <http://127.0.0.1:8881/?direction=bg3#table> (oppure `ddb`, `foundry`, `owlb
 
 ## Controlli per gli agenti
 
-- Suite Node 2688/2688 al 01/10 (base 2681 + 7 del selettore). Con nessuna direzione l'app è
+- Suite Node 2694/2694 al 02/10 (base 2681 + 13 del selettore, delle icone e del marchio). Garanzie: `node changes/visual-01/capture/guarantees.js --directions current,<id>` (server 8881 sorvegliato da `~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/notes/keep-8881.sh`). Con nessuna direzione l'app è
   identica al tag (prova di effetto nullo in [code-map](../changes/visual-01/code-map.md) e nel
   task).
 - Le direzioni non sono applicate a tutta l'app: valgono solo per gli screenshot e le prove.

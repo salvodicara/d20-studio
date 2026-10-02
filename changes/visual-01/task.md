@@ -108,6 +108,13 @@ scelta numerata dell'owner, non solo direzione, icone e caratteri. Registro dell
   [`capture/guarantees.js`](capture/guarantees.js). Punti residui per la fase di applicazione:
   `…/notes/open-items-for-application.json` (fuori dal repository).
 
+- 02/10/2026: controllo deterministico delle garanzie su tutte le opzioni (`capture/guarantees.js`):
+  tutte e nove le direzioni passano rispetto a «Attuale»; restano tre difetti già presenti
+  nell'app di oggi (anelli di fuoco delle azioni della hotbar e del marchio sul Tavolo al
+  telefono), registrati per la fase di applicazione. Cattura finale con i marchi (150 screenshot,
+  50 ritagli del campionario); pagine private aggiornate (Scelta 1 versione 4 con la sezione
+  «Marchio», Altri stati versione 3) e quattro griglie mandate all'owner.
+
 ## Prossima azione
 
 Attendere la risposta dell'owner alla Scelta 1; intanto chiudere il terzo giro di rifinitura,
