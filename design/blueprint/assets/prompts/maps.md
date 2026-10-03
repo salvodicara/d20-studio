@@ -98,3 +98,56 @@ Avoid: perspective or isometric view, 3D render look, photographic look, extra w
     (450) sits on its south face and its courtyard face is 12.5 units north of the guide band.
 - **Web copy:** blur 0×0.7, then `cwebp -q 80 -m 6` → 324 776 bytes (q 80 without the blur was
   466 KB).
+
+## Raccolta di partenza · three starter maps (style probe, 02/10/2026)
+
+**Why.** The owner asked how maps will look and work. Three starter maps in the same painted
+top-down style as MAP_01 show the range a DM starts from: an interior, an outdoor road and a
+dungeon. Probe only: nothing is wired into the app or published under `design/blueprint/assets/`.
+
+**Method (same as MAP_01).** Each map starts from a precise layout guide drawn in code
+(`make-guides.mjs`): 1 px per scene unit, grid 50 units = 1 cell = 1.5 m as in the app. Black =
+walls / solid rock, white = floor, brown bars = door leaves, light blue = windows, blue = water,
+grey = stone furniture, light brown = wood, orange = fire, pale striped = stairs, hatched =
+difficult terrain, purple = secret door. The generator gets the guide padded to 3:2 (or 2:3) with
+16.67 units of outside ground, and paints over it (`-i <id>-input.png`, prompt on stdin). The
+1536×1024 (1024×1536) output maps back to the scene frame by a uniform ×1.30208 scale and dropping
+the padding (`map.sh <id> <n>`); `<id>-overlay-v<n>.png` draws the guide's edges in red on top.
+**The guides are the wall data** for these scenes later (walls, doors, windows, secret door).
+
+| Map                                          | Scene (units / cells) | Plan                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| -------------------------------------------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| MAP_02 `tavern` «La locanda del Cinghiale»   | 2000×1300 / 40×26     | Building (200,150)–(1800,1150), outer walls 24 thick centred on the lines; partition x=1350 with open archways y 380–480 and 820–920; partition y=620 (x 1350–1800). Front door S x 650–750, back door E y 250–350 (the only two doors). Seven windows. Common room: hearth on the W wall (y 550–750), L bar (x 1130–1190, y 230–760, foot to x 1010), four barrels, four round tables r 50, long table with two benches. Kitchen (NE): cooking hearth, work table. Back hall (SE): stairs x 1620–1788, y 700–1100, crates. Yard around, cobbled street y ≥ 1165. |
+| MAP_03 `forest` «La strada nel bosco»        | 2000×1300 / 40×26     | Road 180 wide (two cubic curves, W→E); stream 150 wide (N→S); plank bridge (900,585) 240×110 with railings (thin walls) at y 577 and 693; ruined drystone L wall at top-left (the only walls); five boulders; eleven tree canopies r 90–130; tilted cart (14°) on the road at (1460,690) with its broken wheel at (1590,800); fallen log.                                                                                                                                                                                                                         |
+| MAP_04 `crypt` «La cripta sotto la cappella» | 1300×2000 / 26×40     | Everything solid except: vestibule (450,60) 400×290 with stairs up to the chapel; iron-bound door at y=350; corridor 100 wide to the burial hall (250,650) 800×600 with five sarcophagi and four pillars; secret door x 1050–1100, y 800–900 to a hidden vault with a chest; 1-cell passage W and S to the ossuary (75,1650) 375×250 with bone niches; corridor S to a collapsed chamber (500,1450) 650×450: rubble over its NE corner (850,1450) 300×280 and a choked passage E.                                                                                 |
+
+**Prompts.** The MAP_01 field structure, one subject per map; the full text of each attempt is in
+`prompt-<id>-v1.txt` beside the guides. Shared fields: hand-painted digital fantasy battle map,
+premium printed quality; strictly orthographic; every shape at its position and size; floors kept
+open for tokens; no grid, text, letters, numbers, labels, signs, logos, watermark, signature,
+border, compass rose, characters, creatures or tokens; no game, studio or artist named. Lighting
+per map: inn = evening firelight, warm inside and cool outside; road = late-afternoon dappled
+sun; crypt = cold gloom with a few candles and pale light down the stairs, floors still readable.
+
+**Settings:** as MAP_01 (`codex exec --skip-git-repo-check --sandbox read-only -c
+model_reasoning_effort="low" -i <id>-input.png < prompt-<id>-v1.txt`), run from
+`~/Workspace/Codex/d20-studio-visual-assets/masters/generated/maps-probe/`. Accept/reject as MAP_01.
+
+### Result (02/10/2026)
+
+- **Quota:** 3 generations, one per map, all accepted at attempt 1; no quota message. Codex
+  sessions: tavern `01a0fd7b-b8f9-7640-a65a-6bc7496f3b9b`, forest
+  `01a0fd7b-b907-7ff1-b2bb-0d5b0c4ae8b5`, crypt `01a0fd7b-b8f2-7741-89a0-b8278e4ea5d8`.
+- **Inn:** walls, both doors, windows, both archways, hearths, bar, barrels, tables, stairs and
+  crates sit on their shapes (visible offsets within about 5–10 units). Doors are painted as
+  plank leaves between posts in the gaps; the archways are open.
+- **Road:** road, stream banks, bridge deck and railings, wall, boulders, canopies, cart, wheel
+  and log on their shapes (within about 10 units; canopies are painted bushier at the rim).
+- **Crypt:** cut-stone wall bands are painted centred on the rock/floor lines (±12–16 units; the
+  hall's west face measures rock to x 234, band 234–266, floor from 268), which is how the app
+  draws a wall line. Consequence: the 1-cell passage reads about 30 units of visible floor — still
+  passable, visibly tight. The secret door is painted as wall with a seam and a carved rosette.
+- **Evidence:** guides, overlays, board and the 1440 crops (1000×645-unit windows at 0.88 px/unit,
+  44 px per cell as in `map-art/in-app.png`) in
+  `~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/round2/maps-probe/`; masters
+  (PNG, C2PA kept) `masters/generated/maps-probe/<id>-v1.png`.
