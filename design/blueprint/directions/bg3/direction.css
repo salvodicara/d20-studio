@@ -147,7 +147,22 @@
    - «Scena» with its own glyph, a framed landscape drawn for this project
      (assets/scene.svg), so it no longer repeats the Map link's map → facts A1 «Iconography».
    - One 20 px glyph in every button with words and in the item square; a menu's last row
-     without a line; the purse on two lines that break after a unit → B35, B41. */
+     without a line; the purse on two lines that break after a unit → B35, B41.
+   Detail fixes of 02/10/2026 (independent review of the premium pass, F1–F15; SOURCES.md
+   «Correzioni di dettaglio del 02/10»; rules at the end of this file):
+   - Deck slots one width (58 × 48) with BG3's 10 px red separator and its «II» mark between
+     groups (≥ 1280 px), 24 px glyphs, one-line names that rise whole on hover or focus; the
+     resource pips lit on one cast plate, 36 px cells, the slot levels over a gold hairline;
+     the rolls' bell as round chrome → facts A1 («Red group separator», «bar_resources»).
+   - One 6 px gap between round chrome buttons, the rail's group break 12 px with a bronze
+     line → facts A5 «Vertical rhythm»; the lozenge for every command (the Scheda's header,
+     the DM's scene commands on a computer, the session notice), the pill for filters → facts
+     A3 (Btn_big, btn_pil).
+   - Context menus as framed panels (near-black plate, bronze and gold lines, gold corner
+     lozenges) → facts A3 (framed panels, «Elevation»); a foe's turn card with cut corners as
+     its shape cue → facts A1 «Frame colours».
+   - Focus rings whole in the turn strip and in scrolling dialog lists; phone map names at a
+     legible size; the session notice docked at the map's foot. */
 
 /* ---------------------------------------------------------------- fonts (OFL, vendored) */
 @font-face {
@@ -6634,5 +6649,1649 @@
   :root[data-direction="bg3"]:not([data-pref-theme="light"]) .brand .logo {
     width: var(--bg3-mark-phone);
     height: var(--bg3-mark-phone);
+  }
+}
+
+/* ---------------------------------------------------------------- premium pass (02/10) */
+/* «Rifinitura premium del 02/10» (SOURCES.md): the skin had BG3's layout but flat material,
+   light in three places and no motion. One pass, in the critique's order, on top of the rules
+   above (same selectors, later in the file):
+   elemento → prodotto → fonte
+   - Table stage: the dark of the same world, the board dissolving into it → BG3 HUD over a
+     full-bleed scene, no opaque chrome → facts A1 «No opaque chrome»; hotbar-01-steam.jpg
+   - Hotbar: one cast object, layered rim, the resource plate on a raised arch → HotBar.xaml
+     frame lines (#77542C, dark gap, #3D2012, #B17D44) → facts A1 «Hotbar frame lines»
+   - Slots: near-black tiles with a dark edge vignette, glyphs lit by family → hotbarSlot_bg →
+     facts A1 «Slot», «Iconography»
+   - State light: hover lifts the band, selected glows amber, press darkens → facts A3
+     «Button states», «Selected tile», «List-row selection»
+   - Motion: eased bands, fading tooltips, the End Turn breath and turn sweep → facts A1
+     «End Turn states» (HotBar.xaml currentTurnAnim)
+   - Plates: warm shading over #0c0c0c with a faint grain → facts A0, A3 «Elevation»
+     (LeftSideSmoothShadingBrush, CenteredGradientShadingBrushBrown)
+   - Lozenges: cast double rule, top light, dark end caps → Btn_big_brown, BigBlue → facts A3
+     «Menu button»
+   - Display titles: cast gold with a dark stroke and the gold TextGlow → facts A0 «Text
+     outline», «Gold text glow»
+   - End Turn: rune ring, bottom diamond, pressed and unavailable states → btn_endTurn → facts
+     A1 «End Turn colours, states»
+   - Turn order: team metal, keylined and seated portraits → facts A1 «Frame colours»
+   - Home: warm torchlight against the cold hall → BG3 main menu → facts A2 «Main menu» */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) {
+  /* Materials: a 160 px warm stone grain (our own feTurbulence, about 3 % alpha), the plate's
+     warm shading, the stage's darkness. */
+  --bg3-grain: url("assets/grain.svg");
+  --bg3-plate-shade:
+    radial-gradient(120% 80% at 50% 0%, rgb(47 36 28 / 0.32), transparent 60%),
+    linear-gradient(#100d0b, #0b0908);
+  --bg3-plate-depth: inset 0 1px 0 rgb(201 160 110 / 0.1), 0 12px 40px rgb(0 0 0 / 0.75);
+  --bg3-stage-dark: radial-gradient(120% 90% at 50% 45%, #1a140f, #100d0b 38%, #050403 82%);
+  /* Light (BG3 lights its states, it does not fill them). */
+  --bg3-glow-gold: rgb(223 152 0 / 0.45);
+  --bg3-glow-cyan: rgb(50 169 190 / 0.55);
+  --bg3-glow-text: 0 0 8px rgb(223 152 0 / 0.45), 0 1px 1px rgb(0 0 0 / 0.8);
+  --bg3-light-hover:
+    inset 0 0 0 1px rgb(255 242 179 / 0.45), inset 0 -10px 14px -8px rgb(253 221 166 / 0.25);
+  --bg3-light-selected: 0 0 0 1px #eed1a7, 0 0 6px 2px rgb(223 152 0 / 0.45);
+  --bg3-light-row: inset 0 -20px 20px -12px rgb(223 152 0 / 0.22);
+  /* Gilt for display titles: the brand's cast gold, its dark stroke and a fainter glow. */
+  --bg3-gilt-stroke: drop-shadow(0 1px 0 #000) drop-shadow(0 0 2px rgb(0 0 0 / 0.9));
+  --bg3-gilt-title-glow: drop-shadow(0 0 10px rgb(223 152 0 / 0.3));
+  /* Lozenges: the cast layers over the body (end caps darker, a dark keyline under each gold
+     rule, a top light and a darker foot), and the primary's cyan underglow. */
+  --bg3-btn-cast:
+    linear-gradient(90deg, rgb(0 0 0 / 0.35), transparent 18%, transparent 82%, rgb(0 0 0 / 0.35)),
+    linear-gradient(
+      transparent 2px,
+      rgb(12 12 12 / 0.85) 2px 3px,
+      rgb(255 240 200 / 0.22) 3px 4px,
+      transparent 4px calc(100% - 7px),
+      rgb(0 0 0 / 0.45) calc(100% - 3px),
+      rgb(12 12 12 / 0.85) calc(100% - 3px) calc(100% - 2px),
+      transparent calc(100% - 2px)
+    );
+  --bg3-btn-glow: linear-gradient(transparent, transparent);
+}
+
+/* P1 · The Table stage is the dark of the same world: a warm-black vignette with the stone
+   grain, and the board's edges dissolve into it (the scene's own rect is masked; the margins,
+   the fitter and every filter stay untouched). */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .table-layout .map-container {
+  background: var(--bg3-grain), var(--bg3-stage-dark);
+  background-color: #080706;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  #battle-map
+  > :is(rect:first-of-type, image) {
+  -webkit-mask-image:
+    linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent),
+    linear-gradient(transparent, #000 9%, #000 91%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent),
+    linear-gradient(transparent, #000 9%, #000 91%, transparent);
+  mask-composite: intersect;
+}
+
+/* P2 · The hotbar as one cast object: the deck's rim in BG3's four lines (outer keyline,
+   bronze, brown, gold) drawn with shadows only (no box grows), a warm grain on its plate,
+   and the resource plate and the dice tab carried on a raised arch that runs into the deck's
+   top edge (assets/hotbar-arch.svg, mirrored on the right). */
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  > .action-dock.table-hotbar
+  > .hotbar-center,
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  > .action-dock.table-hotbar
+  > .toolbar::before {
+  background:
+    var(--bg3-grain), radial-gradient(90% 70% at 50% 0%, rgb(47 36 28 / 0.35), transparent 70%),
+    linear-gradient(rgb(20 16 12 / 0.96), rgb(8 7 6 / 0.98));
+  box-shadow:
+    inset 0 0 0 1px #0c0c0c,
+    inset 0 0 0 2px #3d2012,
+    inset 0 0 0 3px #b17d44,
+    inset 0 4px 0 0 rgb(222 206 133 / 0.18),
+    inset 0 0 18px rgb(0 0 0 / 0.55),
+    0 0 0 1px #0c0c0c,
+    0 -2px 14px rgb(0 0 0 / 0.55);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  :is(.hotbar-resources, .combat-bar-heading) {
+  background:
+    var(--bg3-grain), radial-gradient(90% 90% at 50% 0%, rgb(47 36 28 / 0.4), transparent 70%),
+    linear-gradient(rgb(20 16 12 / 0.97), rgb(8 7 6 / 0.98));
+}
+@media (min-width: 721px) {
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    :is(.hotbar-resources, .combat-bar-heading) {
+    box-shadow:
+      inset 0 0 0 1px #0c0c0c,
+      inset 0 1px 0 2px rgb(177 125 68 / 0.35),
+      inset 0 3px 0 2px rgb(222 206 133 / 0.12),
+      0 2px 0 #0c0c0c,
+      0 -2px 10px rgb(0 0 0 / 0.6);
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .hotbar-resources::before,
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-bar-heading::after {
+    content: "";
+    position: absolute;
+    bottom: calc(-1 * var(--bg3-space-2));
+    right: calc(100% - var(--bg3-line-1));
+    width: 28px;
+    height: 22px;
+    background: url("assets/hotbar-arch.svg") center / 100% 100% no-repeat;
+    pointer-events: none;
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-bar-heading::after {
+    right: auto;
+    left: calc(100% - var(--bg3-line-1));
+    transform: scaleX(-1);
+  }
+}
+
+/* P3 · Slot tiles: the #050D10 field with a dark edge vignette, the family's tint as a light
+   behind the glyph (blue-grey spells, brown weapons, blue areas, violet moves), the glyph lit
+   in its family colour over a hard dark foot. The slot's box is unchanged; the name keeps its
+   halo; the availability dot stays the non-colour cue. (The glyph stays 18 px: two lines of
+   Tiny names fill the 48 px slot, so a 22 px glyph would push them out.) */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .table-layout .table-hotbar {
+  --bg3-slot-tint: rgb(78 104 120 / 0.55);
+  --bg3-slot-glow: rgb(108 205 214 / 0.6);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-action {
+  background:
+    radial-gradient(ellipse at 50% 30%, var(--bg3-slot-tint), transparent 70%),
+    linear-gradient(#0a1418, #050d10);
+  box-shadow:
+    inset 0 0 0 1px rgb(0 0 0 / 0.85),
+    inset 0 0 8px rgb(0 0 0 / 0.9),
+    inset 0 1px 0 1px rgb(255 255 255 / 0.04);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-action[data-combat-kind="attack"] {
+  --bg3-slot-tint: rgb(125 72 44 / 0.62);
+  --bg3-slot-glow: rgb(254 113 29 / 0.6);
+  background:
+    radial-gradient(ellipse at 50% 30%, var(--bg3-slot-tint), transparent 70%),
+    linear-gradient(#170c08, #0a0605);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-action:is([data-combat-kind="multi"], [data-combat-kind="area"]) {
+  --bg3-slot-tint: rgb(46 108 138 / 0.6);
+  --bg3-slot-glow: rgb(51 204 255 / 0.55);
+  background:
+    radial-gradient(ellipse at 50% 30%, var(--bg3-slot-tint), transparent 70%),
+    linear-gradient(#08141a, #050d10);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-dock
+  .sm-dock-toggle {
+  background:
+    radial-gradient(ellipse at 50% 30%, rgb(98 90 140 / 0.55), transparent 70%),
+    linear-gradient(#100e1c, #0a0912);
+  box-shadow:
+    inset 0 0 0 1px rgb(0 0 0 / 0.85),
+    inset 0 0 8px rgb(0 0 0 / 0.9);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-action
+  .icon,
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-action[data-combat-kind="attack"]
+  .icon {
+  filter: drop-shadow(0 0 3px var(--bg3-slot-glow)) drop-shadow(0 1px 0 #000);
+}
+/* A slot under the pointer is lit, not refilled: a pale rim and a warm band rising from its
+   foot (P4); the chosen slot keeps BG3's white glow outline. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-action:hover {
+  background-color: transparent;
+  filter: brightness(1.12);
+  box-shadow:
+    var(--bg3-light-hover),
+    inset 0 0 8px rgb(0 0 0 / 0.9);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-action.active {
+  box-shadow:
+    inset 0 0 0 2px #fffefb,
+    inset 0 0 10px rgb(255 254 251 / 0.25),
+    0 0 8px 1px rgb(255 254 251 / 0.55);
+}
+/* Reserved for painted slot icons: an <img> in a slot sits in a 1 px dark bevel. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-action
+  img {
+  border-radius: var(--bg3-radius-1);
+  box-shadow:
+    0 0 0 1px #000,
+    inset 0 1px 0 rgb(255 255 255 / 0.12);
+}
+
+/* P9 · End Turn, alive: our own faint rune ring inside the disc (assets/endturn-runes.svg, on
+   the desktop disc only), BG3's small cyan diamond on the bottom of the rim, a pressed state
+   (a touch smaller, the well deeper) and BG3's unavailable state (grey rim, red-black centre).
+   The 98 px disc and its 4 + 5 px ring stack do not grow: the focus ring already touches the
+   window's edge at 1440 (bottom) and 390 (right). */
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  > .action-dock.table-hotbar
+  > .toolbar
+  > .button.primary[data-table="end-turn"] {
+  position: relative;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  > .action-dock.table-hotbar
+  > .toolbar
+  > .button.primary[data-table="end-turn"]::after {
+  content: "";
+  position: absolute;
+  bottom: -7px;
+  left: calc(50% - 5px);
+  width: 10px;
+  height: 10px;
+  background: linear-gradient(#e9fbff, #6ccdd6 55%, #2a8fa3);
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+  filter: drop-shadow(0 0 3px rgb(108 205 214 / 0.9));
+  pointer-events: none;
+}
+@media (min-width: 721px) {
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar
+    > .button.primary[data-table="end-turn"] {
+    background:
+      url("assets/endturn-runes.svg") center / 100% 100% no-repeat padding-box,
+      radial-gradient(circle at 50% 30%, #0a1330 0%, #050817 42%, #0c3b52 80%, #196a85 100%)
+        padding-box,
+      repeating-conic-gradient(#b8a27a 0deg 2.2deg, #4a3620 2.2deg 7.5deg) border-box;
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar
+    > .button.primary[data-table="end-turn"]:hover:not(:disabled) {
+    background:
+      url("assets/endturn-runes.svg") center / 100% 100% no-repeat padding-box,
+      radial-gradient(circle at 50% 30%, #0e1c44 0%, #07102a 42%, #11506e 80%, #2289ab 100%)
+        padding-box,
+      repeating-conic-gradient(#d6c196 0deg 2.2deg, #5b4428 2.2deg 7.5deg) border-box;
+  }
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  > .action-dock.table-hotbar
+  > .toolbar
+  > .button.primary[data-table="end-turn"]:active:not(:disabled) {
+  scale: 0.97;
+  box-shadow:
+    inset 0 0 0 1px #0c0c0c,
+    inset 0 4px 18px rgb(0 0 0 / 0.75),
+    inset 0 0 16px rgb(50 169 190 / 0.25),
+    0 0 0 1px #0c0c0c,
+    0 0 0 4px #6ccdd6,
+    0 0 0 5px #0f3a44,
+    0 0 16px 4px rgb(50 169 190 / 0.55);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  > .action-dock.table-hotbar
+  > .toolbar
+  > .button.primary[data-table="end-turn"]:disabled {
+  background:
+    radial-gradient(circle at 50% 35%, #2a0c0e 0%, #140506 60%, #1e0a0b 100%) padding-box,
+    repeating-conic-gradient(#6a6a6a 0deg 2.2deg, #2e2e2e 2.2deg 7.5deg) border-box;
+  color: #a39d94;
+  box-shadow:
+    inset 0 0 0 1px #0c0c0c,
+    0 0 0 1px #0c0c0c,
+    0 0 0 4px #4a4a4a,
+    0 0 0 5px #1c1c1c;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  > .action-dock.table-hotbar
+  > .toolbar
+  > .button.primary[data-table="end-turn"]:disabled::after {
+  background: #6a6a6a;
+  filter: none;
+}
+
+/* P10 · Turn-order cards in metal: the team gradient keeps its colours under a sheen and a
+   1 px top light, the portrait sits in a dark keyline with a seat of shadow; the current card
+   is silver with a soft white glow. Sizes and the strip's height are unchanged; the hostile
+   dashed ring stays the non-colour cue; the colour-vision palettes keep their own colours. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  .table-layout
+  > .initiative
+  .initiative-token {
+  background:
+    linear-gradient(
+      160deg,
+      rgb(255 255 255 / 0.32),
+      transparent 38%,
+      transparent 70%,
+      rgb(0 0 0 / 0.3)
+    ),
+    linear-gradient(135deg, #0058ac, #04d2eb);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.45),
+    0 0 0 1px #0c0c0c,
+    0 2px 8px rgb(0 0 0 / 0.85);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  .table-layout
+  > .initiative
+  .initiative-token:has(.token-dot.hostile) {
+  background:
+    linear-gradient(
+      160deg,
+      rgb(255 255 255 / 0.3),
+      transparent 38%,
+      transparent 70%,
+      rgb(0 0 0 / 0.3)
+    ),
+    linear-gradient(135deg, #9a0615, #e01949);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.4),
+    0 0 0 1px #0c0c0c,
+    0 2px 8px rgb(0 0 0 / 0.85);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  .table-layout
+  > .initiative
+  .initiative-token.current {
+  background:
+    linear-gradient(160deg, rgb(255 255 255 / 0.6), transparent 40%),
+    linear-gradient(135deg, #fffefb, #c9c4ba 55%, #9a9a9a);
+  box-shadow:
+    inset 0 1px 0 #ffffff,
+    0 0 0 1px #0c0c0c,
+    0 0 16px 2px rgb(255 254 251 / 0.45),
+    0 2px 8px rgb(0 0 0 / 0.85);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .table-layout > .initiative .token-dot {
+  box-shadow:
+    inset 0 0 0 1px #0c0c0c,
+    inset 0 0 10px rgb(0 0 0 / 0.8),
+    0 0 0 1px rgb(0 0 0 / 0.6);
+}
+
+/* P7 · Lozenges cast, not printed: the same rule, points and focus geometry as above, with the
+   cast layers between the corner triangles and the body (a dark keyline under each gold rule,
+   a top light, a darker foot, darker end caps) and the primary's cyan underglow, BigBlue's
+   family of the End Turn disc. States still swap only the body and the rim; hover adds the
+   gold text glow, press the #7D5838 band and a 1 px drop; unavailable is the dull #322318
+   band. Height, padding and the 40 px target are unchanged. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .button:not(.quiet) {
+  background:
+    linear-gradient(var(--bg3-btn-rim-top), var(--bg3-btn-rim-top)) 13px 0 / calc(100% - 26px) 2px
+      no-repeat,
+    linear-gradient(var(--bg3-btn-rim), var(--bg3-btn-rim)) 13px 100% / calc(100% - 26px) 2px
+      no-repeat,
+    linear-gradient(
+        to bottom right,
+        transparent calc(50% - var(--bg3-line-5)),
+        var(--bg3-btn-ring) calc(50% - var(--bg3-line-5)) calc(50% - var(--bg3-line-2)),
+        var(--bg3-btn-keyline) calc(50% - var(--bg3-line-2)) 50%,
+        var(--bg3-btn-rim-top) 50% calc(50% + 2px),
+        transparent calc(50% + 2px)
+      )
+      0 0 / 14px 50% no-repeat,
+    linear-gradient(
+        to top right,
+        transparent calc(50% - var(--bg3-line-5)),
+        var(--bg3-btn-ring) calc(50% - var(--bg3-line-5)) calc(50% - var(--bg3-line-2)),
+        var(--bg3-btn-keyline) calc(50% - var(--bg3-line-2)) 50%,
+        var(--bg3-btn-rim) 50% calc(50% + 2px),
+        transparent calc(50% + 2px)
+      )
+      0 100% / 14px 50% no-repeat,
+    linear-gradient(
+        to bottom left,
+        transparent calc(50% - var(--bg3-line-5)),
+        var(--bg3-btn-ring) calc(50% - var(--bg3-line-5)) calc(50% - var(--bg3-line-2)),
+        var(--bg3-btn-keyline) calc(50% - var(--bg3-line-2)) 50%,
+        var(--bg3-btn-rim-top) 50% calc(50% + 2px),
+        transparent calc(50% + 2px)
+      )
+      100% 0 / 14px 50% no-repeat,
+    linear-gradient(
+        to top left,
+        transparent calc(50% - var(--bg3-line-5)),
+        var(--bg3-btn-ring) calc(50% - var(--bg3-line-5)) calc(50% - var(--bg3-line-2)),
+        var(--bg3-btn-keyline) calc(50% - var(--bg3-line-2)) 50%,
+        var(--bg3-btn-rim) 50% calc(50% + 2px),
+        transparent calc(50% + 2px)
+      )
+      100% 100% / 14px 50% no-repeat,
+    var(--bg3-btn-cast),
+    var(--bg3-btn-glow),
+    var(--bg3-btn-body);
+  background-origin: border-box;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .button.primary {
+  --bg3-btn-glow: radial-gradient(60% 90% at 50% 125%, rgb(25 106 133 / 0.45), transparent 70%);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .button.primary:hover:not(:disabled) {
+  --bg3-btn-glow: radial-gradient(65% 95% at 50% 125%, rgb(50 169 190 / 0.5), transparent 72%);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .button:not(.quiet):hover:not(:disabled) {
+  text-shadow: var(--bg3-glow-text);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .button:not(.quiet):active:not(:disabled) {
+  --bg3-btn-body: linear-gradient(#2a1d13, #7d5838 50%, #2a1d13);
+  translate: 0 1px;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .button.primary:not([data-table="end-turn"]):active:not(:disabled) {
+  --bg3-btn-body: linear-gradient(#042a39, #0a4058 50%, #042a39);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .button:not(.quiet):disabled {
+  --bg3-btn-body: linear-gradient(#1e150e, #322318 50%, #1e150e);
+  --bg3-btn-glow: linear-gradient(transparent, transparent);
+  --bg3-btn-rim: #8a7a5c;
+  --bg3-btn-rim-top: #9a8a6a;
+  color: #a8957c;
+  text-shadow: none;
+}
+
+/* P4 · State light, one system: hover lifts a warm band from the foot with a pale rim, the
+   chosen state is a bright core with an amber glow at the edge (never outside like the 3 px
+   focus ring), press darkens and drops 1 px. Round medallions (map tools, rail tabs, the
+   turn commands), pills and list rows share it; each chosen state keeps its rim or fill cue. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  :is(.map-tool, .session-view-hud-button.is-icon):hover,
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  :is(.table-tab, .table-sidebar-toggle, .table-panels-all):hover,
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  > .action-dock.table-hotbar
+  > .toolbar
+  > .button:not([data-table="end-turn"]):hover:not(:disabled) {
+  box-shadow:
+    0 0 0 1px #0c0c0c,
+    var(--bg3-light-hover),
+    0 0 10px 1px var(--bg3-glow-gold),
+    0 2px 8px rgb(0 0 0 / 0.85);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  :is(.map-tool.active, .session-view-hud-button.is-icon.is-on),
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .table-layout .table-tab.active,
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  > .action-dock.table-hotbar
+  > .toolbar
+  > .button.active:not([data-table="end-turn"]) {
+  box-shadow:
+    0 0 0 1px #0c0c0c,
+    inset 0 0 0 1px rgb(255 254 251 / 0.3),
+    inset 0 2px 6px rgb(255 254 251 / 0.18),
+    0 0 8px 1px var(--bg3-glow-gold);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  :is(.map-tool, .session-view-hud-button.is-icon, .table-tab):active,
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  > .action-dock.table-hotbar
+  > .toolbar
+  > .button:not([data-table="end-turn"]):active:not(:disabled) {
+  translate: 0 1px;
+  filter: brightness(0.85);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  :is(
+    .spl-chip:hover:not([aria-pressed="true"]),
+    .invp-chip:hover:not(.active),
+    .shp-chip:hover:not([aria-pressed="true"]),
+    .table-layout .hotbar-page-tab:hover:not(.active),
+    .table-layout .table-subtab:hover:not(.active),
+    .table-layout .qb .qb-page-name:hover,
+    .character-sheet .character-subtabs button:hover:not(.active),
+    .session-view-hud .session-view-chip .session-view-hud-button:hover
+  ) {
+  text-shadow: var(--bg3-glow-text);
+  box-shadow:
+    var(--bg3-light-hover),
+    0 1px 3px rgb(0 0 0 / 0.7);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  :is(
+    .spl-chip[aria-pressed="true"],
+    .invp-chip.active,
+    .shp-chip[aria-pressed="true"],
+    .table-layout .hotbar-page-tab.active,
+    .table-layout .table-subtab.active,
+    .character-sheet .character-subtabs button.active
+  ) {
+  background:
+    radial-gradient(70% 90% at 50% 100%, rgb(238 209 167 / 0.28), transparent 70%),
+    linear-gradient(#3a2a1c, #7e5838 50%, #3a2a1c);
+  box-shadow:
+    inset 0 1px 0 rgb(255 242 179 / 0.75),
+    var(--bg3-light-selected);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-row, .invp-row):hover {
+  background: linear-gradient(rgb(19 15 11 / 0) 40%, #34312d);
+  box-shadow: var(--bg3-light-row);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .tabs button:hover {
+  text-shadow: var(--bg3-glow-text);
+}
+
+/* P6 · Plate material on Home and the sheet: the plate token becomes BG3's warm shading over
+   the near-black (a brown light from the top, darker edges) with the faint grain, its last
+   layer still the same translucent near-black, so the computed background colour (the one the
+   contrast checks read) is unchanged; the plate's shadow gains a 1 px inner top light and
+   more depth. No ornaments on ordinary plates (BG3's rule). The Table's inspector and scene
+   plate take the same material. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) :is(.home-page, .character-sheet) {
+  --bg3-panel:
+    var(--bg3-grain), radial-gradient(120% 80% at 50% 0%, rgb(47 36 28 / 0.32), transparent 60%),
+    linear-gradient(90deg, rgb(11 9 8 / 0.5), rgb(16 13 11 / 0.2) 30% 70%, rgb(11 9 8 / 0.5)),
+    rgb(12 12 12 / 0.9);
+  --shadow-3: var(--bg3-plate-depth);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .table-layout > .table-sidebar-panel {
+  background:
+    var(--bg3-grain), radial-gradient(140% 50% at 50% 0%, rgb(47 36 28 / 0.3), transparent 70%),
+    linear-gradient(90deg, #0b0908, #120e0b 12%, #100d0b 88%, #0b0908);
+  background-color: #0c0a08;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .table-layout > .table-topline {
+  background:
+    var(--bg3-grain), radial-gradient(120% 90% at 50% 0%, rgb(47 36 28 / 0.35), transparent 70%),
+    rgb(12 12 12 / 0.9);
+  box-shadow:
+    inset 0 0 0 2px #0c0c0c,
+    inset 0 0 0 3px rgb(177 125 68 / 0.35),
+    inset 0 4px 0 0 rgb(201 160 110 / 0.08),
+    var(--shadow-2);
+}
+
+/* P8 · Display titles cast in gold (24 px and up only; body text stays solid): the brand's
+   gilt clipped to the letters, one gradient per line, a dark stroke and a faint gold
+   TextGlow drawn as filters (a text shadow would show through clipped letters). The colour
+   stays the cream, so computed-colour checks still read a real colour; selected text gets its
+   fill back. High contrast keeps the plain titles. (The Table's scene title is 18-19 px: it
+   stays solid.) */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  :is(
+    .home-page .page-heading h1,
+    .home-page .resume-scene h2,
+    .character-sheet .character-heading h1,
+    dialog .dialog-heading h2
+  ) {
+  background: var(--bg3-gilt) 0 0 / 100% 1lh repeat-y;
+  background-origin: content-box;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
+  filter: var(--bg3-gilt-stroke) var(--bg3-gilt-title-glow);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  :is(
+    .home-page .page-heading h1,
+    .home-page .resume-scene h2,
+    .character-sheet .character-heading h1,
+    dialog .dialog-heading h2
+  )::selection {
+  -webkit-text-fill-color: var(--bg3-title);
+}
+
+/* P11 · Home: warm fire against cold stone. Our own torchlight pools (assets/home-torchlight.svg,
+   drawn on the hall's own 1672 × 941 frame, so «cover» lands them on its braziers and
+   candles) are screened over the cold grade, under the vignette, as BG3's main menu sets
+   pockets of orange torchlight in a cold blue-grey hall; the title's dark pool gains a
+   faint warm core. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) #app:has(.home-page) {
+  background:
+    radial-gradient(125% 100% at 50% 34%, rgb(7 9 11 / 0) 48%, rgb(7 9 11 / 0.72) 96%),
+    linear-gradient(rgb(7 9 11 / 0), rgb(7 9 11 / 0.22) 55%, rgb(7 9 11 / 0.7)),
+    url("assets/home-torchlight.svg") center 35% / cover no-repeat fixed,
+    linear-gradient(rgb(46 70 92 / 0.72), rgb(46 70 92 / 0.72)),
+    linear-gradient(rgb(40 50 62), rgb(40 50 62)),
+    url("assets/home-hall.webp") center 35% / cover no-repeat fixed,
+    #0b0c0d;
+  background-blend-mode: normal, normal, screen, color, screen, normal;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .home-page .page-heading {
+  background:
+    radial-gradient(30% 40% at 18% 50%, rgb(223 152 0 / 0.07), transparent 100%),
+    radial-gradient(45% 50% at 22% 50%, rgb(7 9 11 / 0.66), rgb(7 9 11 / 0) 100%);
+}
+
+/* P5 · A restrained motion layer, only when motion is welcome (the system asks for none and
+   the app's reduced-motion preference is off; the app's own reduced rule also stops every
+   animation). 120 ms eased light on every control of P4 and P7; tooltips and dialogs rise in
+   (160-180 ms, 2 px or .98 → 1); End Turn's outer glow breathes in alpha only (2.8 s, the
+   spread constant, so the ring never reaches the window's edge). --dur-* are not touched.
+   (BG3's one-shot sweep when a turn starts is not drawn: the app redraws the hotbar on every
+   action, so a CSS one-shot would replay on every click — it needs a turn-change hook.) */
+@keyframes bg3-rise {
+  from {
+    opacity: 0;
+    translate: 0 2px;
+  }
+}
+@keyframes bg3-open {
+  from {
+    opacity: 0;
+    scale: 0.98;
+  }
+}
+@keyframes bg3-breath {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-motion="reduced"])
+    :is(
+      .button,
+      .tabs button,
+      .spl-chip,
+      .invp-chip,
+      .shp-chip,
+      .table-layout .hotbar-page-tab,
+      .table-layout .table-subtab,
+      .character-sheet .character-subtabs button,
+      .table-layout .map-tool,
+      .table-layout .table-tab,
+      .table-layout .table-hotbar .combat-action,
+      .character-sheet .spl-row,
+      .character-sheet .invp-row
+    ) {
+    transition:
+      background-color 120ms ease-out,
+      box-shadow 120ms ease-out,
+      filter 120ms ease-out,
+      color 120ms ease-out,
+      text-shadow 120ms ease-out,
+      translate 80ms ease-out;
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-motion="reduced"])
+    :is(.shp-tip, .ui-tip) {
+    animation: bg3-rise 160ms ease-out;
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-motion="reduced"])
+    dialog[open] {
+    animation: bg3-open 180ms ease-out;
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-motion="reduced"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar
+    > .button.primary[data-table="end-turn"]:not(:disabled)::before {
+    content: "";
+    position: absolute;
+    inset: calc(-1 * var(--bg3-line-5));
+    border-radius: inherit;
+    box-shadow: 0 0 18px 4px rgb(108 205 214 / 0.35);
+    pointer-events: none;
+    animation: bg3-breath 2.8s ease-in-out infinite;
+  }
+}
+
+/* P6 (dialogs) · The framed panel takes the plate's warm shading and grain under its frame;
+   its computed colour stays #0c0c0c. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) dialog {
+  background:
+    var(--bg3-grain), radial-gradient(110% 55% at 50% 0%, rgb(47 36 28 / 0.38), transparent 70%),
+    radial-gradient(140% 100% at 50% 50%, transparent 55%, rgb(5 4 3 / 0.6));
+  background-color: #0c0c0c;
+}
+
+/* ---------------------------------------------------------------- detail fixes (02/10) */
+/* «Correzioni di dettaglio del 02/10» (SOURCES.md): the independent detail review of the
+   premium pass, findings F1–F15, each fixed with the tokens above. */
+
+/* F1 · The turn strip scrolls sideways, so it clipped the top 4 px of a focused card's ring
+   (3 px + 3 px out) and the next card painted over its right side. The strip gains 6 px over
+   the ring (8 px in all) and rises by the same 6 px, so the cards do not move; the focused
+   card stands above its neighbours. (The fitter writes the strip's margin-top inline, so the
+   rise is a translate with a matching negative margin under it, not a margin.) */
+@media (min-width: 721px) {
+  :root[data-direction="bg3"]:not([data-pref-theme="light"]) .table-layout > .initiative {
+    margin-bottom: calc(var(--bg3-space-1) - var(--bg3-space-4));
+    padding-top: var(--bg3-space-4);
+    translate: 0 calc(var(--bg3-space-1) - var(--bg3-space-4));
+  }
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  > .initiative
+  .initiative-token:focus-visible {
+  position: relative;
+  z-index: 2;
+}
+
+/* F2 · One slot width. The separator was cut out of each group's last column (52 + 6 px), so
+   «Mani brucianti» stood 52 wide beside a 58 px «Dardo incantato». Every slot is now 58 × 48
+   and BG3's separator is its own 10 px column between groups (#AA0101, 20 px@4K, with its
+   «II» mark: two dark 2 px ticks at mid-height, facts A1 «Red group separator»); the deck is
+   as wide as its slots and separators. Below 1280 px the deck is a scrolling window and keeps
+   the one 58 px pitch (separator inside the last column), so its edge still falls between
+   whole slots (verification of 01/10: «Dar… incar…» cut at 1024). The glyph is 24 px (BG3's
+   icons fill the slot) and the name one line under it, cut with an ellipsis; under the
+   pointer or focus the whole name rises on a dark band inside the slot, two lines at most,
+   as BG3 shows a slot's name on hover. */
+:root[data-direction="bg3"] {
+  --bg3-sep-w: 10px;
+  --bg3-icon-slot-lg: 24px;
+}
+@media (min-width: 1280px) {
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-actions
+    > :is(.combat-group, .combat-filters):not(:last-child) {
+    position: relative;
+    grid-template-columns: var(--bg3-slot-w);
+    border-right-width: var(--bg3-sep-w);
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-actions
+    > :is(
+      .combat-group:has(> .combat-action:nth-child(3)),
+      .combat-filters:has(> .combat-filter:nth-child(3))
+    ):not(:last-child) {
+    grid-template-columns: repeat(2, var(--bg3-slot-w));
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-actions
+    > .combat-group:has(> .combat-action:nth-child(5)):not(:last-child) {
+    grid-template-columns: repeat(3, var(--bg3-slot-w));
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-actions
+    > .combat-group:has(> .combat-action:nth-child(7)):not(:last-child) {
+    grid-template-columns: repeat(4, var(--bg3-slot-w));
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-actions
+    > .combat-group:has(> .combat-action:nth-child(9)):not(:last-child) {
+    grid-template-columns: repeat(5, var(--bg3-slot-w));
+  }
+  /* The «II» mark on each separator, and on the one before «Mosse». */
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-actions
+    > :is(.combat-group, .combat-filters):not(:last-child)::after,
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-dock::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: calc(-1 * var(--bg3-sep-w));
+    width: var(--bg3-sep-w);
+    height: var(--bg3-space-5);
+    translate: 0 -50%;
+    background: linear-gradient(
+      90deg,
+      transparent 2px,
+      #4a0303 2px 4px,
+      transparent 4px 6px,
+      #4a0303 6px 8px,
+      transparent 8px
+    );
+    pointer-events: none;
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-dock {
+    position: relative;
+    border-left-width: var(--bg3-sep-w);
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-dock::before {
+    right: auto;
+    left: calc(-1 * var(--bg3-sep-w));
+  }
+  /* The window: the deck's own width, never more than its column. */
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-actions {
+    width: max-content;
+    max-width: 100%;
+  }
+}
+@media (min-width: 721px) {
+  /* The slot: a 24 px glyph in its upper part, the name on one line at its foot. */
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    :is(.combat-action, .combat-dock .sm-dock-toggle) {
+    justify-content: flex-start;
+    padding: var(--bg3-space-3) 0 0;
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    :is(.combat-action, .combat-dock .sm-dock-toggle)
+    .icon,
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-filter
+    .combat-cost-reaction {
+    width: var(--bg3-icon-slot-lg);
+    height: var(--bg3-icon-slot-lg);
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-action
+    > span:not([class]) {
+    position: absolute;
+    inset: auto var(--bg3-space-1) var(--bg3-space-1);
+    display: block;
+    min-height: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: none;
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-action:is(:hover, :focus-visible)
+    > span:not([class]) {
+    z-index: 1;
+    display: -webkit-box;
+    padding: var(--bg3-space-1) 0;
+    border-radius: var(--bg3-radius-1);
+    background: rgb(5 13 16 / 0.94);
+    white-space: normal;
+    text-overflow: clip;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+}
+
+/* F3 · A list that scrolls inside a dialog (the initiative roll call on a phone) brought a
+   focused field flush to its edge and cut the ring's foot (6 px): the scroll stops 8 px short
+   of the edge, so the 3 px ring and its 3 px offset stay whole. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .dialog-body {
+  scroll-padding-block: var(--bg3-space-4);
+}
+
+/* F4 · One gap between round chrome buttons of the same size: 6 px (BG3's button rhythm, 12
+   units@4K, facts A5), as the map tools, the zoom and the session controls already stood.
+   The turn commands beside End Turn (8 px) and the rail's medallions (4 px) join it; the
+   rail's one group break, after «Tutti i pannelli», is an explicit 12 px (two gaps) parted
+   by the rail's 1 px line in bronze, not the 9 px it measured. */
+:root[data-direction="bg3"] {
+  --bg3-gap-round: var(--bg3-space-3);
+}
+@media (min-width: 721px) {
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    :is(
+      .table-stage > .map-toolbar,
+      .map-subtools,
+      .map-container > .map-zoom,
+      .session-view-hud-bar
+    ) {
+    gap: var(--bg3-gap-round);
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"]) .table-layout > .table-sidebar-rail,
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    > .table-sidebar-rail
+    > .table-tabs {
+    gap: var(--bg3-gap-round);
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    > .table-sidebar-rail
+    > .table-tabs {
+    padding-top: calc(2 * var(--bg3-gap-round) - var(--bg3-gap-round) - var(--bg3-line-1));
+    border-top-color: var(--bg3-bronze);
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar,
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar:has(> [data-table="end-turn"]) {
+    column-gap: var(--bg3-gap-round);
+    row-gap: var(--bg3-gap-round);
+  }
+}
+
+/* F5 · Three button shapes, one role each (I-250): the lozenge (Btn_big) is a command, the pill
+   (btn_pil) a filter, page or segment, and bare words only a link inside running text. The
+   Scheda's header commands («Riposa», «Correggi valori», «Avanza di livello», «Rivedi scelte»)
+   and the DM's scene commands after «Concludi incontro» («Scene», «Riposi», «Tempo») were
+   bare words beside lozenges: they take the brown lozenge, the same rule, points, cast layers
+   and focus geometry as every .button above («Vai al Tavolo» stays the blue one). The dice
+   field takes the hotbar tabs' type (Small 14/600), no longer a step larger than its row. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  :is(
+    .character-sheet .character-heading > .toolbar > .button.quiet,
+    .table-layout > .table-topline > .toolbar > .button.quiet,
+    .session-view-hud .session-view-start-chip .session-view-hud-button
+  ) {
+  padding-inline: var(--bg3-space-7);
+  border-color: transparent;
+  border-radius: 0;
+  white-space: nowrap;
+  color: var(--bg3-cream);
+  background:
+    linear-gradient(var(--bg3-btn-rim-top), var(--bg3-btn-rim-top)) 13px 0 / calc(100% - 26px) 2px
+      no-repeat,
+    linear-gradient(var(--bg3-btn-rim), var(--bg3-btn-rim)) 13px 100% / calc(100% - 26px) 2px
+      no-repeat,
+    linear-gradient(
+        to bottom right,
+        transparent calc(50% - var(--bg3-line-5)),
+        var(--bg3-btn-ring) calc(50% - var(--bg3-line-5)) calc(50% - var(--bg3-line-2)),
+        var(--bg3-btn-keyline) calc(50% - var(--bg3-line-2)) 50%,
+        var(--bg3-btn-rim-top) 50% calc(50% + 2px),
+        transparent calc(50% + 2px)
+      )
+      0 0 / 14px 50% no-repeat,
+    linear-gradient(
+        to top right,
+        transparent calc(50% - var(--bg3-line-5)),
+        var(--bg3-btn-ring) calc(50% - var(--bg3-line-5)) calc(50% - var(--bg3-line-2)),
+        var(--bg3-btn-keyline) calc(50% - var(--bg3-line-2)) 50%,
+        var(--bg3-btn-rim) 50% calc(50% + 2px),
+        transparent calc(50% + 2px)
+      )
+      0 100% / 14px 50% no-repeat,
+    linear-gradient(
+        to bottom left,
+        transparent calc(50% - var(--bg3-line-5)),
+        var(--bg3-btn-ring) calc(50% - var(--bg3-line-5)) calc(50% - var(--bg3-line-2)),
+        var(--bg3-btn-keyline) calc(50% - var(--bg3-line-2)) 50%,
+        var(--bg3-btn-rim-top) 50% calc(50% + 2px),
+        transparent calc(50% + 2px)
+      )
+      100% 0 / 14px 50% no-repeat,
+    linear-gradient(
+        to top left,
+        transparent calc(50% - var(--bg3-line-5)),
+        var(--bg3-btn-ring) calc(50% - var(--bg3-line-5)) calc(50% - var(--bg3-line-2)),
+        var(--bg3-btn-keyline) calc(50% - var(--bg3-line-2)) 50%,
+        var(--bg3-btn-rim) 50% calc(50% + 2px),
+        transparent calc(50% + 2px)
+      )
+      100% 100% / 14px 50% no-repeat,
+    var(--bg3-btn-cast),
+    var(--bg3-btn-glow),
+    var(--bg3-btn-body);
+  background-origin: border-box;
+  box-shadow: none;
+  clip-path: polygon(
+    14px 0,
+    calc(100% - 14px) 0,
+    100% 50%,
+    calc(100% - 14px) 100%,
+    14px 100%,
+    0 50%
+  );
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  :is(
+    .character-sheet .character-heading > .toolbar > .button.quiet,
+    .table-layout > .table-topline > .toolbar > .button.quiet,
+    .session-view-hud .session-view-start-chip .session-view-hud-button
+  ):hover:not(:disabled) {
+  color: var(--bg3-title);
+  text-shadow: var(--bg3-glow-text);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  :is(
+    .character-sheet .character-heading > .toolbar > .button.quiet,
+    .table-layout > .table-topline > .toolbar > .button.quiet,
+    .session-view-hud .session-view-start-chip .session-view-hud-button
+  ):active:not(:disabled) {
+  translate: 0 1px;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  :is(
+    .character-sheet .character-heading > .toolbar > .button.quiet,
+    .table-layout > .table-topline > .toolbar > .button.quiet,
+    .session-view-hud .session-view-start-chip .session-view-hud-button
+  ):focus-visible {
+  --bg3-btn-ring: var(--focus);
+  --bg3-btn-keyline: #0c0c0c;
+  outline-color: transparent;
+  box-shadow:
+    0 calc(-1 * var(--bg3-line-2)) 0 #0c0c0c,
+    0 var(--bg3-line-2) 0 #0c0c0c,
+    0 0 0 var(--bg3-space-4) var(--focus);
+  clip-path: polygon(
+    11.4px calc(-1 * var(--bg3-line-5)),
+    calc(100% - 11.4px) calc(-1 * var(--bg3-line-5)),
+    calc(100% + 6.1px) 50%,
+    calc(100% - 11.4px) calc(100% + var(--bg3-line-5)),
+    11.4px calc(100% + var(--bg3-line-5)),
+    -6.1px 50%
+  );
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-bar-heading
+  select {
+  font-size: var(--bg3-type-small);
+  font-weight: 600;
+}
+
+/* F6 · The menus join the framed panels. BG3's PC context menu is a warm grey plate (B35), but
+   ours stood lighter than every surface of this skin and had no frame: the token menu, a
+   row's menu and the calendar menu now take the panel recipe — a near-black translucent plate
+   (#0b0a09 at 92 %), the bronze line (#77542C) with the gold line 1 px inside it (#B17D44), a
+   gold lozenge at each corner as the dialogs' thorns (a small one, drawn here), the bright
+   rule across the top kept. The row under the pointer or the focus lifts the warm band from
+   its foot to a pale edge (P4). A touch screen has no Shift+Enter: the shortcut hints of the
+   rows step out of sight there (visually hidden: they stay in the rows' names). */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) {
+  --bg3-corner-gem: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9'%3E%3Cpath d='M4.5.5 8.5 4.5 4.5 8.5.5 4.5Z' fill='%23b17d44' stroke='%230c0c0c'/%3E%3C/svg%3E");
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  :is(.context-menu, .token-menu, .int-cal-menu > .int-cal-list) {
+  border-color: var(--bg3-bronze);
+  border-radius: 0;
+  background:
+    var(--bg3-corner-gem) 0 0 / 11px 11px no-repeat,
+    var(--bg3-corner-gem) 100% 0 / 11px 11px no-repeat,
+    var(--bg3-corner-gem) 0 100% / 11px 11px no-repeat,
+    var(--bg3-corner-gem) 100% 100% / 11px 11px no-repeat,
+    linear-gradient(90deg, transparent, rgb(255 242 179 / 0.4), transparent) 0 4px / 100% 1px
+      no-repeat,
+    var(--bg3-grain),
+    radial-gradient(110% 60% at 50% 0%, rgb(47 36 28 / 0.4), transparent 70%),
+    rgb(11 10 9 / 0.92);
+  background-origin: border-box;
+  box-shadow:
+    inset 0 0 0 1px #0c0c0c,
+    inset 0 0 0 2px var(--bg3-gold),
+    0 4px 25px rgb(0 0 0 / 0.8);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  :is(
+    .context-menu [role="menuitem"],
+    .token-menu .token-menu-item,
+    .token-menu .token-menu-back,
+    .token-menu .token-menu-toggle,
+    .token-menu .token-menu-swatch,
+    .int-cal-menu .int-cal-item
+  ):is(:hover, :focus-visible) {
+  background: linear-gradient(
+    rgb(126 88 56 / 0),
+    rgb(126 88 56 / 0.38) calc(100% - 1px),
+    rgb(222 206 133 / 0.55) calc(100% - 1px)
+  );
+}
+@media (pointer: coarse) {
+  :root[data-direction="bg3"]:not([data-pref-theme="light"]) .token-menu .token-menu-item kbd {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+/* The phone's sheet covers the hotbar: its plate is nearly opaque, so no slot name shows
+   through the rows. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .token-menu.sheet {
+  background-color: rgb(11 10 9 / 0.97);
+}
+
+/* F7 · The phone's map (the scene at about 0.39 of its size): token names and region labels
+   rendered 5–7 px tall. On a phone the names (and a foe's state, «Illeso») are drawn 2.2
+   times larger around their own centre (11 px on screen at the scene's fitted size; their
+   font size, 13 units, is unchanged); a region's name, 1.5 times, stands centred under its
+   mark with the tokens' dark halo, so «Scale per la cripta» ends inside its zone instead of
+   4 px from the screen's edge. (The empty band under the scene needs the app to fit a
+   landscape scene to the phone's height: its viewBox is the app's, out of CSS's reach.)
+   The doors' 42 px targets stay (the app scales them for touch); their plate turns lighter —
+   a see-through dark plate of the same box with a thin bronze rim and a smaller glyph — so
+   they no longer outweigh the names. */
+@media (max-width: 720px) {
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    #battle-map
+    .map-token
+    .token-display
+    > text:not([class]),
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    #battle-map
+    .map-token
+    .token-display
+    > .token-name,
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    #battle-map
+    .regions-mark
+    > .regions-label {
+    transform-box: fill-box;
+    transform-origin: center;
+    scale: 2.2;
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    #battle-map
+    .regions-mark
+    > .regions-label {
+    text-anchor: middle;
+    translate: -16px 36px;
+    scale: 1.5;
+    paint-order: stroke;
+    stroke: #0c0c0c;
+    stroke-width: 3px;
+    stroke-linejoin: round;
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    #battle-map
+    .door-display
+    rect {
+    fill: rgb(12 12 12 / 0.45);
+    stroke: rgb(177 125 68 / 0.75);
+    stroke-width: 1.5;
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    #battle-map
+    .door-display
+    text {
+    font-size: 18px;
+  }
+}
+
+/* F8 · The resource plate as BG3's one cast plate (bar_resources): the pips no longer sit in
+   flat black boxes of their own but on the plate itself (its grain, its bronze top line and
+   now an inner shadow), each lit from within (a pale core in its own colour) with a soft glow
+   of that colour around its shape; a used pip stays dull and unlit, so its state never rests
+   on colour alone. The cells are 36 px wide (facts A1, «bar_resources» 72 units@4K). Each
+   slot level's numeral is set in the serif's old-style figures over a gold hairline that
+   spans its squares. The rolls' bell beside the dice field is a 40 px round chrome button,
+   as the map tools. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  .action-dock.table-hotbar
+  .hotbar-resources
+  .resources
+  > span,
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .hotbar-slot-level {
+  border-color: transparent;
+  background: none;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  .action-dock.table-hotbar
+  .hotbar-resources
+  .resources
+  > span.available:nth-child(1)::before {
+  background: radial-gradient(circle at 50% 42%, #e9ffef 0 18%, var(--res-action) 62%);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  .action-dock.table-hotbar
+  .hotbar-resources
+  .resources
+  > span.available:nth-child(2)::before {
+  background: radial-gradient(circle at 50% 66%, #fff1dc 0 14%, var(--res-bonus) 58%);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  .action-dock.table-hotbar
+  .hotbar-resources
+  .resources
+  > span.available:nth-child(3)::before {
+  background: radial-gradient(circle, #ffe8fb 0 12%, var(--res-reaction) 46%);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  .action-dock.table-hotbar
+  .hotbar-resources
+  .resources
+  > span.available:nth-child(1) {
+  filter: drop-shadow(0 0 4px color-mix(in srgb, var(--res-action) 70%, transparent));
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  .action-dock.table-hotbar
+  .hotbar-resources
+  .resources
+  > span.available:nth-child(2) {
+  filter: drop-shadow(0 0 4px color-mix(in srgb, var(--res-bonus) 70%, transparent));
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  .action-dock.table-hotbar
+  .hotbar-resources
+  .resources
+  > span.available:nth-child(3) {
+  filter: drop-shadow(0 0 4px color-mix(in srgb, var(--res-reaction) 70%, transparent));
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .hotbar-slot-level::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: var(--bg3-space-1);
+  left: var(--bg3-space-1);
+  height: var(--bg3-line-1);
+  background: linear-gradient(90deg, transparent, rgb(222 206 133 / 0.6), transparent);
+  pointer-events: none;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .hotbar-slot-level
+  > small {
+  color: #dece85;
+  font-weight: 600;
+  font-variant-numeric: oldstyle-nums;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-bar-heading
+  .text-button {
+  width: var(--bg3-control);
+  height: var(--bg3-control);
+  border: var(--bg3-line-2) solid #61522d;
+  border-radius: var(--bg3-radius-round);
+  background: radial-gradient(circle at 50% 38%, #2b221a, #0c0c0c 72%);
+  color: #d9b77a;
+  box-shadow: inset 0 0 0 1px rgb(177 125 68 / 0.35);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-bar-heading
+  .text-button:hover {
+  border-color: var(--bg3-gold);
+  color: var(--bg3-highlight);
+}
+@media (min-width: 721px) {
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .action-dock.table-hotbar
+    .hotbar-resources
+    .resources
+    > span {
+    min-width: 36px;
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    :is(.hotbar-resources, .combat-bar-heading) {
+    box-shadow:
+      inset 0 0 0 1px #0c0c0c,
+      inset 0 1px 0 2px rgb(177 125 68 / 0.35),
+      inset 0 3px 0 2px rgb(222 206 133 / 0.12),
+      inset 0 6px 12px rgb(0 0 0 / 0.55),
+      0 2px 0 #0c0c0c,
+      0 -2px 10px rgb(0 0 0 / 0.6);
+  }
+}
+
+/* F9 · The Scheda's tab strip has one rule: the strip draws the bronze line and its gold
+   hairline once, under the scrolling tabs and «Tutte» alike (the tabs' rule was 2 px and
+   1 px lower than «Tutte»'s, a step at the junction); every cell is 44 px. On a phone the
+   tabs that run under «Tutte» fade out over their last 24 px, so a cut word reads as «more».
+   The open tab keeps its 2 px gold marker. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .character-sheet .character-tabs-bar {
+  border-bottom: var(--bg3-line-1) solid var(--bg3-border);
+  box-shadow:
+    0 1px 0 rgb(177 125 68 / 0.35),
+    0 8px 12px -12px rgb(0 0 0 / 0.75);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tabs-bar
+  > :is(.character-tabs, .character-tabs-all) {
+  border-bottom-width: 0;
+  box-shadow: none;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tabs-bar
+  > .character-tabs-all {
+  height: var(--bg3-control-lg);
+}
+@media (max-width: 720px) {
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-tabs-bar
+    > .character-tabs {
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - var(--bg3-space-7)), transparent);
+    mask-image: linear-gradient(90deg, #000 calc(100% - var(--bg3-space-7)), transparent);
+  }
+}
+/* On a phone the DM's scene commands stay words beside «Concludi incontro»: as lozenges they
+   took a second row and the scene plate covered 35 px more of the map. */
+@media (max-width: 720px) {
+  :root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+    .table-layout
+    > .table-topline
+    > .toolbar
+    > .button.quiet {
+    padding-inline: var(--bg3-space-4);
+    background: transparent;
+    clip-path: none;
+    color: var(--bg3-keyword);
+  }
+}
+
+/* F10 · «Sessione non avviata» no longer stands over the middle of the map (it hid a foe at
+   1440 and half the map on a phone): it docks as a slim notice at the map's foot — above the
+   status line on a computer (one row where the map is wide enough: the words, then «Avvia
+   ora» and «Non ora» as lozenges, the commands' shape), above the zoom row on a phone, where
+   the scene leaves an empty band. «Non ora» still dismisses it. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .session-view-hud
+  .session-view-start-chip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--bg3-space-3) var(--bg3-space-4);
+  padding: var(--bg3-space-3) var(--bg3-space-3) var(--bg3-space-3) var(--bg3-space-6);
+  font-size: var(--bg3-type-small);
+  line-height: var(--bg3-leading-snug);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .session-view-hud
+  .session-view-start-chip
+  .session-view-hud-button {
+  margin: 0;
+}
+@media (min-width: 721px) {
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .session-view-hud-stack:has(> .session-view-start-chip) {
+    top: auto;
+    right: 0;
+    bottom: 86px;
+    left: 0;
+    width: fit-content;
+    max-width: min(760px, calc(100% - 140px));
+    margin-inline: auto;
+    align-items: stretch;
+  }
+}
+@media (min-width: 721px) and (max-width: 1279px) {
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .session-view-hud-stack:has(> .session-view-start-chip) {
+    bottom: 146px;
+  }
+}
+@media (max-width: 720px) {
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .session-view-hud-stack:has(> .session-view-start-chip) {
+    top: auto;
+    bottom: 86px;
+  }
+}
+
+/* F11 · The Scheda's hit-point widget: the amount's «0» is its placeholder, set in the base
+   bronze. (84 px «Cura» and «Danno» do not fit: the amount field above them sets their
+   column, 141 px, and wider lozenges ran into the HP bar; the band's columns would have to
+   change.) The tooltip marker on a stat («CA», the saves) is a small gold lozenge, BG3's
+   ornament, instead of the near-white dot that read as a stain on the shield's corner. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .character-sheet
+  .dt-amount::placeholder {
+  color: var(--bg3-base);
+  opacity: 1;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .character-sheet .shp-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 0;
+  background: var(--bg3-gold);
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+}
+
+/* F12 · Small labels clear AA wherever they stand: the saves' and skills' small names step up
+   from #9a7a60 (4.4:1 over the plate's light) to #a8876b (5.1:1 on the lightest plate). The
+   labels that sit on the grained plates over the art — the scene plate's state line
+   («Combattimento · Round 1»), the inventory strip's labels and notes («Set d'armi», «Nessun
+   effetto sulla velocità») and the spellbook's facts («Libro») — take the keyword bronze
+   (#cbac95), whose worst ratio over the plate's lightest pixels is 5.2:1 (the base bronze fell
+   to 3.5:1); on a phone the scene plate is also a solid scrim. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .character-sheet .shp-row-name small {
+  color: #a8876b;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  > .table-topline
+  > div
+  > span,
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .character-sheet
+  .invp-stat
+  :is(.invp-stat-label, small, small > span, small > strong),
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .character-sheet
+  .invp-sets
+  li:not(.is-active)
+  > :is(span, strong),
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .character-sheet .spl-stat > dt {
+  color: var(--bg3-keyword);
+}
+@media (max-width: 720px) {
+  :root[data-direction="bg3"]:not([data-pref-theme="light"]) .table-layout > .table-topline {
+    background-color: rgb(7 9 11 / 0.85);
+  }
+}
+/* The load's effect on speed is the strip's one status line: it reads in the cream of the
+   text (its line touches the weight bar's light, 4.1:1 in the keyword bronze). */
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .character-sheet
+  .invp-stat.invp-load
+  small
+  > span {
+  color: var(--bg3-cream);
+}
+/* The DM's travel-point glyphs on an empty or hidden point («⋯», «▣») keep the doors' cream
+   ink with the tokens' dark halo too (2.7:1 over the map's light stones without it). */
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  #battle-map
+  .travel-point
+  text {
+  fill: var(--door-ink);
+  paint-order: stroke;
+  stroke: #0c0c0c;
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+/* F13 · A foe's card in the turn order keeps a shape cue that is not colour, now an ornament
+   of the frame instead of a dashed marquee over the portrait: the portrait's corners are cut
+   (an octagon in the red frame, BG3's spiked plates), where an ally's stay round. The map
+   token keeps the app's dashed ring. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  > .initiative
+  .token-dot.hostile {
+  outline: 0;
+  border-radius: 0;
+  clip-path: polygon(
+    var(--bg3-space-4) 0,
+    calc(100% - var(--bg3-space-4)) 0,
+    100% var(--bg3-space-4),
+    100% calc(100% - var(--bg3-space-4)),
+    calc(100% - var(--bg3-space-4)) 100%,
+    var(--bg3-space-4) 100%,
+    0 calc(100% - var(--bg3-space-4)),
+    0 var(--bg3-space-4)
+  );
+}
+
+/* F14 · Inventory and spellbook details: an item's glyph fills its square (28 px on a bronze
+   glow, as BG3's item art fills the slot); the inventory's filters are one row that scrolls
+   sideways, its last 24 px fading, instead of a ragged second row (a focused filter scrolls
+   clear of the fade); a spell level's filter («1°») is a pill like «Tutte», never a circle. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .character-sheet .invp-row-icon {
+  background:
+    radial-gradient(circle at 50% 45%, rgb(177 125 68 / 0.3), transparent 68%),
+    linear-gradient(#241a13, #211514);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .character-sheet .invp-row-icon > .icon {
+  width: 28px;
+  height: 28px;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .character-sheet .invp-filters {
+  flex-wrap: nowrap;
+  margin: calc(-1 * var(--bg3-space-3));
+  padding: var(--bg3-space-3);
+  overflow-x: auto;
+  scrollbar-width: none;
+  scroll-padding-inline: var(--bg3-space-7);
+  -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - var(--bg3-space-7)), transparent);
+  mask-image: linear-gradient(90deg, #000 calc(100% - var(--bg3-space-7)), transparent);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .character-sheet .invp-filters > * {
+  flex: none;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]) .character-sheet .spl-chip {
+  min-width: calc(1.6 * var(--bg3-control));
+}
+
+/* F15 · The Scheda's commands on a phone stand on an even grid instead of ragged lines: the
+   campaign tag on its own line, «Condividi» and «Gestisci personaggio» side by side in two
+   equal columns; under the name, the four lozenges two by two and «Vai al Tavolo» across
+   the full width. */
+@media (max-width: 720px) {
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-breadcrumb
+    .clib-sheet-bar {
+    display: grid;
+    flex: 1 1 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--bg3-space-4);
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-breadcrumb
+    .clib-sheet-bar
+    > :not(.button) {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-breadcrumb
+    .clib-sheet-bar
+    > .button,
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-heading
+    > .toolbar
+    > .button {
+    width: 100%;
+    min-width: 0;
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-heading
+    > .toolbar {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--bg3-space-4);
+    width: 100%;
+    margin-inline-start: 0;
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .character-sheet
+    .character-heading
+    > .toolbar
+    > .button:not(.quiet):last-child {
+    grid-column: 1 / -1;
   }
 }

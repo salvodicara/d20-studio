@@ -1077,6 +1077,210 @@ Verifiche dopo l'ultima modifica del foglio di stile (21:53:01; disegno di «Sce
   `polish6-bg3/pairs-kit/pairs.sh`, il menu del calendario e la finestra dei punti ferita
   rifotografati con `pairs-kit/cal.cjs` e `pairs-kit/items.cjs`.
 
+### Rifinitura premium del 02/10 (02/10/2026)
+
+L'owner ha chiesto un'interfaccia «magica», «premium», «rifinita in ogni dettaglio» (I-248 →
+I-254). La critica del 02/10 (`…/visual-01/round2/premium-critique/notes.md`) diceva: la
+disposizione è quella di BG3, ma i materiali sono piatti, la luce c'è solo in tre punti e non si
+muove niente. Questo giro aggiunge materiale, luce e un minimo di movimento, tutto in fondo a
+`direction.css` (sezione «premium pass (02/10)»), senza toccare misure, testi o markup. Prova
+prima/dopo: `…/visual-01/round2/premium/before/` e `…/round2/premium/after/`; le stesse foto
+nuove sono anche in `…/visual-01/board/shots/`. Strumenti e misure di questo giro in
+`…/round2/premium/b2/`.
+
+Cosa è cambiato, nell'ordine della critica:
+
+1. **Tavolo, il palco.** Prima la mappa era una scatola con bordi netti dentro fasce nere
+   (#0b0a09): la colonna degli strumenti, lo spazio sotto la mappa e, a 390, una fascia vuota di
+   circa 200 px. Ora il palco è «il buio dello stesso mondo»: una vignettatura nero-calda con una
+   grana di pietra quasi invisibile, e i bordi della mappa sfumano nel buio (una maschera sulla
+   sola immagine della scena). Margini della mappa, offset del sistema che sistema l'HUD e filtri
+   su mappa e pedine sono rimasti identici; i nomi delle pedine restano a 13 px.
+2. **La barra come un unico oggetto fuso.** Il bordo della barra ha le quattro linee di BG3
+   (filo scuro, bronzo, marrone, oro) disegnate solo con ombre, quindi nessuna misura cresce
+   (altezza 114 px a 1440, limite 120). La tavola delle risorse e la scheda «Digitali» poggiano
+   su un arco rialzato (`assets/hotbar-arch.svg`) che entra nel bordo della barra. I due
+   riccioli piccoli alle estremità della barra non ci sono: le estremità sono coperte dal
+   medaglione del ritratto e da «Termina turno», come in BG3, e lì non si vedrebbero.
+3. **Le caselle delle azioni.** Fondo quasi nero #050D10 con un bordo scuro sfumato; dietro
+   ogni icona una luce del colore della famiglia (blu-grigio gli incantesimi, marrone le armi,
+   blu le aree, viola le mosse) e l'icona stessa illuminata. Il pallino «disponibile» resta il
+   segnale che non è solo un colore. **Non fatto:** l'icona non è salita a 22-24 px, perché i
+   nomi su due righe riempiono già i 48 px della casella e verrebbero spinti fuori.
+4. **Luce degli stati.** Passare col puntatore accende una banda calda dal basso con un bordo
+   chiaro; lo stato scelto ha un cuore chiaro con un alone ambra sul bordo (mai fuori come
+   l'anello del fuoco di 3 px); premere scurisce e abbassa di 1 px. Vale per i medaglioni
+   rotondi (strumenti della mappa, schede laterali, comandi del turno), le pillole e le righe
+   degli elenchi. Lo stato scelto conserva il suo bordo o il suo riempimento, non solo il colore.
+5. **Movimento misurato.** Solo se il sistema non chiede movimento ridotto e la preferenza
+   dell'app è spenta: 120 ms di transizione sulle luci, i suggerimenti salgono di 2 px in
+   160 ms, i dialoghi si aprono da 0,98 a 1 in 180 ms, il bagliore di «Termina turno» «respira»
+   in 2,8 s cambiando solo la trasparenza (l'alone non si allarga, così non tocca il bordo della
+   finestra). Le durate `--dur-*` non sono toccate. **Non fatto:** il lampo ciano di BG3
+   all'inizio del turno. L'app ridisegna la barra a ogni azione, quindi un'animazione «una
+   volta sola» in CSS ripartirebbe a ogni clic; serve un aggancio al cambio di turno, fuori da
+   uno skin solo CSS.
+6. **Materiale delle tavole.** Su Inizio, nella scheda, nel pannello di destra del Tavolo, nel
+   titolo della scena e nei dialoghi: ombreggiatura calda di BG3 (luce bruna dall'alto, bordi
+   più scuri) e la stessa grana leggera, con un filo di luce interno in alto e un'ombra più
+   profonda. Il colore di fondo «calcolato» resta lo stesso quasi-nero, così i controlli di
+   contrasto leggono lo stesso valore. Nessun ornamento sulle tavole normali (regola di BG3).
+7. **Pulsanti a losanga fusi.** Stesse punte, stessa altezza, stesso anello del fuoco; in più
+   un filo scuro sotto ogni linea d'oro (doppia linea fusa), una luce in alto, un piede più
+   scuro e le estremità più scure. Il primario blu-verde ha un riflesso ciano dal basso, della
+   stessa famiglia del disco di fine turno. Al passaggio il testo prende il bagliore d'oro;
+   premuto prende la banda #7D5838 e scende di 1 px; non disponibile è la banda spenta #322318.
+8. **Titoli in oro fuso.** «La prossima avventura», «Le lanterne di Bruma», il nome nella
+   scheda («Livia») e il titolo dei dialoghi («Avvia combattimento»): lo stesso oro del marchio
+   ritagliato nelle lettere, un contorno scuro e un debole bagliore d'oro. Il colore resta la
+   crema (i controlli di contrasto leggono un colore vero), il testo selezionato torna leggibile,
+   l'alto contrasto mantiene i titoli semplici. **Non fatto** sul titolo della scena del Tavolo:
+   è di 18-19 px, sotto la soglia dei 24 px.
+9. **«Termina turno» vivo.** Un anello di rune tenui (`assets/endturn-runes.svg`, solo sul
+   disco del desktop), il piccolo rombo ciano in fondo al bordo, lo stato premuto (un filo più
+   piccolo, il pozzo più profondo) e lo stato non disponibile di BG3 (bordo grigio, centro
+   rosso-nero). Il disco resta di 98 px e l'anello del fuoco non cresce. Sul telefono la pillola
+   ha lo stesso rombo e gli stessi stati.
+10. **Ordine dei turni in metallo.** Le cornici di squadra hanno un riflesso diagonale e un
+    filo di luce in alto; il ritratto è seduto in un filo scuro con un'ombra interna; la carta
+    del turno attuale è argento con un alone bianco. Dimensioni invariate, l'anello tratteggiato
+    dei nemici resta, e con le tavolozze per il daltonismo valgono i colori di prima.
+11. **Inizio: fuoco caldo contro pietra fredda.** Pozze di luce di torcia
+    (`assets/home-torchlight.svg`) sopra il viraggio freddo della sala, sotto la vignettatura,
+    più un debole nucleo caldo dietro il titolo.
+
+Il testo della critica arrivato a questo giro si interrompe al punto 11 (di 24): i punti 12-24
+non sono stati letti, quindi non sono stati fatti.
+
+Controlli (02/10, `…/round2/premium/guarantees-after/`): barra 114 px a 1440; «Termina turno»
+e i due comandi per annullare visibili a 1440 e a 390; nessuno scorrimento orizzontale a 390; testata
+su una riga; «Entra al Tavolo» nei primi 844 px; gli unici due anelli del fuoco tagliati sono
+gli stessi di «Attuale» (marchio a 390 sul Tavolo, schede della scheda a 1440).
+
+### Correzioni di dettaglio del 02/10 (02/10/2026)
+
+Una revisione indipendente del giro premium ha trovato 15 difetti di dettaglio (F1-F15: 2 alti, 8
+medi, 5 bassi). Questo giro li corregge con i token di questa opzione, tutto in fondo a
+`direction.css` (sezione «detail fixes (02/10)»), senza toccare testi o markup. Strumenti, ritagli
+di prova e audit: `…/visual-01/round2/premium/fix/`; le foto nuove del giro 1 sono in
+`…/visual-01/board/shots/`.
+
+Fatto:
+
+1. **F1 · Anello del fuoco nell'ordine dei turni (alto).** A 1440 l'anello del ritratto
+   attivo perdeva 4 px in alto (la striscia scorre di lato e lo tagliava) e la carta accanto lo
+   copriva a destra. Ora la striscia ha 8 px sopra le carte e sale degli stessi 6 px in più,
+   quindi le carte restano dove erano; la carta col fuoco sta sopra le vicine. Misura: 0 px
+   tagliati su tutte e cinque le carte, giocatore e DM, 1440 e 390.
+2. **F2 · Caselle della barra tutte uguali (alto).** Prima «Mani brucianti» era larga 52 px
+   accanto ai 58 di «Dardo incantato». Ora da 1280 px in su ogni casella è 58 × 48 e il
+   separatore rosso di BG3 è una colonna sua di 10 px con il segno «II» (due tacche scure),
+   come nel gioco. Le icone passano da 18 a 24 px; il nome sta su una riga con i puntini e,
+   col puntatore o col fuoco, compare intero su una banda scura dentro la casella. Sotto i
+   1280 px la barra è una finestra che scorre e tiene il passo unico di 58 px, così il bordo
+   cade sempre tra due caselle intere (la verifica del 01/10 aveva bocciato «Dar… incar…»).
+3. **F3 · Anello tagliato nella finestra dell'iniziativa a 390 (medio).** Lo scorrimento si
+   ferma 8 px prima del bordo: il campo «d20 di Doran», le caselle «Sorpreso» e i pulsanti
+   hanno l'anello intero (0 px tagliati su 23 controlli).
+4. **F4 · Una sola distanza tra i pulsanti rotondi (medio).** 6 px ovunque (strumenti della
+   mappa, comandi della sessione, comandi del turno accanto a «Termina turno», che erano a
+   8 px, e la colonna di destra, che era a 4 px). Dopo «Tutti i pannelli» la pausa è di 12 px
+   esatti con una linea di bronzo, non più 9 px.
+5. **F5 · Tre forme di pulsante, una per ruolo (medio).** Losanga = comando, pillola = filtro o
+   pagina, parole semplici solo dentro un testo. Diventano losanghe: «Riposa», «Correggi
+   valori», «Avanza di livello», «Rivedi scelte» nella scheda; «Scene», «Riposi», «Tempo» del
+   DM al Tavolo (sul computer: sul telefono restano parole, altrimenti vanno a capo e la
+   targa copre 35 px di mappa in più); «Avvia ora» e «Non ora» dell'avviso di sessione. Il
+   menu «Digitali» passa a 14 px seminerassetto, come le schede della barra.
+6. **F6 · Menu contestuali come pannelli incorniciati (medio).** Il menu della pedina, quello
+   delle righe e quello del calendario avevano una tavola grigio-bruna più chiara di tutto il
+   resto (è il colore del menu di BG3 su PC, B35, ma qui stonava). Ora: tavola quasi nera
+   traslucida (#0b0a09 al 92 %, al 97 % nel foglio del telefono, così sotto non si leggono le
+   caselle), linea di bronzo #77542C con la linea d'oro #B17D44 subito dentro, una piccola
+   losanga d'oro a ogni angolo. Sul telefono il suggerimento «Maiusc+Invio» esce dalla vista
+   (resta nel nome della riga per i lettori di schermo).
+7. **F7 · Mappa del telefono (medio, in parte).** I nomi delle pedine erano alti 7 px: ora sono
+   disegnati 2,2 volte più grandi attorno al loro centro (circa 11 px sullo schermo; la loro
+   dimensione resta 13, come chiede il test dei 13 px), e così lo stato dei nemici («Illeso»).
+   I nomi delle zone stanno centrati sotto il segno, 1,5 volte, con l'alone scuro: «Scale per
+   la cripta» non arriva più a 4 px dal bordo. Le porte tengono il bersaglio di 42 px ma hanno
+   una tavola più leggera (fondo scuro trasparente, filo di bronzo, segno più piccolo).
+8. **F8 · La tavola delle risorse (medio).** I pallini di azione, bonus e reazione non stanno più
+   in scatole nere separate ma sulla tavola stessa, accesi dall'interno (un nucleo chiaro nel
+   loro colore) con un alone dello stesso colore; un pallino usato resta spento, quindi lo
+   stato non dipende solo dal colore. Celle di 36 px, la tavola con un'ombra interna; i numeri
+   dei livelli degli incantesimi sopra un filo d'oro che copre i loro quadratini. La campanella
+   «Tiri e risultati» è un pulsante rotondo di 40 px come gli strumenti della mappa.
+9. **F9 · Schede della scheda a 390 (medio).** Una sola linea sotto tutta la fila (prima c'era
+   un gradino di 1 px tra le schede e «Tutte»); «Tutte» è alta 44 px come le altre; le schede
+   che scorrono sotto «Tutte» sfumano negli ultimi 24 px.
+10. **F10 · Avviso «Sessione non avviata» (medio).** Non sta più al centro della mappa (a 1440
+    copriva l'Esploratore, a 390 metà mappa): è un avviso basso al piede della mappa, sopra la
+    riga di stato sul computer e sopra la riga dello zoom sul telefono, dove c'era la fascia
+    vuota. Le parole e i due comandi stanno su una o due righe.
+11. **F12 · Contrasto (basso).** I nomi piccoli di tiri salvezza e abilità passano da #9a7a60 a
+    #a8876b; le etichette sulle tavole con la grana (stato della scena «Combattimento · Round
+    1», etichette dell'inventario come «Set d'armi», i dati del libro come «Libro») passano al
+    bronzo chiaro #cbac95; sul telefono la targa della scena ha un fondo pieno. I segni dei
+    punti di viaggio del DM («⋯», «▣») hanno l'alone scuro.
+12. **F13 · Carte dei nemici (basso).** Il rettangolo tratteggiato bianco sul ritratto è
+    sostituito da angoli tagliati (un ottagono dentro la cornice rossa): resta un segnale di
+    forma, non di colore. Sulla mappa la pedina tiene l'anello tratteggiato.
+13. **F14 · Inventario e magie (basso, in parte).** L'icona dell'oggetto riempie la casella
+    (28 px su un alone di bronzo); i filtri dell'inventario sono una riga sola che scorre, con
+    la sfumatura finale; il filtro «1°» delle magie è una pillola, non un cerchio.
+14. **F15 · Comandi della scheda a 390 (basso).** Griglia regolare: l'etichetta «Solo
+    campagna» da sola, poi «Condividi» e «Gestisci personaggio» in due colonne uguali; sotto il
+    nome le quattro losanghe due per due e «Vai al Tavolo» su tutta la larghezza.
+15. **F11 · Punti ferita nella scheda (basso, in parte).** Lo «0» del campo è il suo segnaposto,
+    ora nel bronzo di base; il segno che indica un suggerimento su una statistica (l'angolo
+    dello scudo «CA») è una piccola losanga d'oro invece del puntino quasi bianco.
+
+Non fatto, e perché:
+
+- **Mappa del telefono che riempie l'altezza (F7).** La scena è orizzontale (1000 × 650) e l'app
+  la adatta alla larghezza; la cornice (`viewBox`) la decide l'app, non il CSS. Riempire
+  l'altezza richiede un adattamento iniziale nell'app (`table.mjs`). Nel frattempo la fascia
+  vuota ospita l'avviso di sessione del DM.
+- **Bordo sinistro del menu della pedina su un pixel intero (F6).** La posizione
+  (`left: 342.64px`) la scrive l'app in linea (`token-menu.mjs:3358`); il CSS non può
+  arrotondarla senza `!important`. Serve un `Math.round` nell'app.
+- **«Cura» e «Danno» da 84 px (F11).** Non entrano: il campo sopra fissa la loro colonna a
+  141 px e due losanghe da 84 finivano sulla barra dei punti ferita. Servirebbe cambiare le
+  colonne della fascia. Restano anche la griglia a tre colonne uguali di Iniziativa, CA e
+  Difese e le misure frazionarie dei riquadri delle caratteristiche.
+- **Intestazioni delle statistiche del libro su due righe fisse e spazio del triangolino nei
+  pulsanti «Lancia» (F14).** Nelle foto i valori stanno già su una riga comune; il resto non è
+  stato toccato.
+- **Il controllo automatico dell'anello sulle carte dei turni.** `guarantees.js` non controlla
+  `.initiative-token`; il file è fuori dai file riservati a questo giro, quindi il controllo
+  non è stato aggiunto (le misure sopra sono di `…/round2/premium/fix/focus.js`).
+
+Controlli (02/10): `guarantees.js --directions current,bg3` stampa «ok bg3» (gli unici due
+anelli tagliati sono gli stessi di «Attuale»); barra 114 px a 1440; a 1024 la finestra della
+barra tiene due caselle intere; nessuno scorrimento orizzontale a 390 in nessuno stato;
+`tests/visual01-directions.test.mjs` 20/20; Prettier pulito.
+
+Audit dei valori (`changes/visual-01/audit/audit.js --direction bg3`, 03/10 04:30 UTC, 20 foto,
+in `…/round2/premium/fix/audit-bg3/`):
+
+| Misura                             | Valore                                                                |
+| ---------------------------------- | --------------------------------------------------------------------- |
+| Elementi visibili                  | 2569                                                                  |
+| Spaziature                         | 26 valori; passo 2 px (copre il 99 %); 12 valori fuori scala          |
+| Altezze dei controlli              | 22 valori                                                             |
+| Tipografia                         | 1 famiglia (Alegreya), 16 dimensioni, 5 pesi, 34 interlinee, 66 stili |
+| Raggi · spessori dei bordi · ombre | 5 · 4 · 53                                                            |
+| Colori (testo · fondo · bordo)     | 19 · 29 · 32                                                          |
+| Pulsanti                           | 575 elementi, 15 classi visive, 76 varianti                           |
+| Contrasto AA                       | 1 errore, 339 incerti, su 1199 testi                                  |
+
+L'unico errore rimasto è un artefatto della misura: «Nessun effetto sulla velocità» è una parola
+dentro un paragrafo che va a capo, e l'anello di pixel attorno al suo riquadro prende le lettere
+delle parole vicine (mediana 13,4:1; crema #e6dbc2 su #0c0c0c fa circa 14:1). Dei 339 incerti, 305
+sono nella scheda intera sotto la piega (pixel non leggibili nella foto), gli altri sono piccoli
+segni sulla mappa.
+
 ## Marchio (I-251)
 
 Il marchio di questa opzione è un **d20 fuso in oro brunito**, con la faccia del «20» smaltata di
@@ -1218,17 +1422,21 @@ quello di sbed (confronto numerico del 30/09/2026).
 
 Gli ornamenti Openclipart del primo giro (angoli 281797 e svolazzi 308075) sono stati tolti: erano
 timbri separati negli angoli, la famiglia che l'owner ha già scartato. Al loro posto, file SVG
-disegnati a mano il 30/09/2026 per questo progetto (tracciati scritti da zero, nessuna immagine di
+disegnati a mano il 30/09/2026 per questo progetto (gli ultimi quattro della tabella il 02/10/2026) (tracciati scritti da zero, nessuna immagine di
 riferimento ricalcata o inclusa): copiano solo la grammatica di BG3 (filo con spine agli angoli,
 arco in alto, filetti che si assottigliano, riccioli ai lati della striscia). Nessun diritto di
 terzi; seguono la licenza del repository.
 
-| File                                                                  | Cosa disegna                                                                                                  | Imitato da (solo grammatica)                     | sha256                                                                                                                                                                                                                                                                         |
-| --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `assets/frame-tl.svg`, `frame-tr.svg`, `frame-bl.svg`, `frame-br.svg` | angolo della cornice: spina, due uncini, arco a quarto di cerchio (quattro orientamenti dello stesso disegno) | `bg3-panels-subclass-select-steam.jpg`           | `b478f87e3fc62cc302101cf0bbad4d419b78dc6d7b13ba0d10ed83a366732a6b`, `6b272f023e59fb3daa7682881962f77722e79adbcbf81f7ec9dbea60b9f61846`, `89925185dc2f12b23f3cd3587d46e179d894d7778384b5658900e8db9a1a8bcd`, `c6cd19fde712e3b32d8db2278f1340641ec0a3df4bda88d0987f8eb4682ea85a` |
-| `assets/frame-crest.svg`                                              | arco in alto al centro con due rombi                                                                          | `bg3-panels-subclass-select-steam.jpg`           | `2ffa552bc1c19d8e9b52afbeef3cf7837e883a1ef2c67981f274fd0eca4b815a`                                                                                                                                                                                                             |
-| `assets/rule-left.svg`, `rule-right.svg`                              | filetto sottile che si assottiglia e finisce in un ricciolo                                                   | `bg3-sheet-examine-enemy.jpg` («~ Conditions ~») | `3bcf5b43f3576ff3b8b97420b8756f67fa1dcc12bc08a41156f138f0959168f6`, `f940b7d8a65ab0c554ac0bb9e2b878f2428630e700964b713138e905ba4f414b`                                                                                                                                         |
-| `assets/endcap-left.svg`, `endcap-right.svg`                          | ricciolo d'oro a metà altezza ai lati della striscia dei turni                                                | `bg3-table-crop-turn-order-strip.png`            | `efb62bdfba761015a8642130119253135ead87c79f67318ec2e88f5ecf62feec`, `0b773bf3d4631d6204bebfd82e9f6946aa9160e379a3c28b75d64c3a32d90cdb`                                                                                                                                         |
+| File                                                                  | Cosa disegna                                                                                                                                           | Imitato da (solo grammatica)                                                  | sha256                                                                                                                                                                                                                                                                         |
+| --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `assets/frame-tl.svg`, `frame-tr.svg`, `frame-bl.svg`, `frame-br.svg` | angolo della cornice: spina, due uncini, arco a quarto di cerchio (quattro orientamenti dello stesso disegno)                                          | `bg3-panels-subclass-select-steam.jpg`                                        | `b478f87e3fc62cc302101cf0bbad4d419b78dc6d7b13ba0d10ed83a366732a6b`, `6b272f023e59fb3daa7682881962f77722e79adbcbf81f7ec9dbea60b9f61846`, `89925185dc2f12b23f3cd3587d46e179d894d7778384b5658900e8db9a1a8bcd`, `c6cd19fde712e3b32d8db2278f1340641ec0a3df4bda88d0987f8eb4682ea85a` |
+| `assets/frame-crest.svg`                                              | arco in alto al centro con due rombi                                                                                                                   | `bg3-panels-subclass-select-steam.jpg`                                        | `2ffa552bc1c19d8e9b52afbeef3cf7837e883a1ef2c67981f274fd0eca4b815a`                                                                                                                                                                                                             |
+| `assets/rule-left.svg`, `rule-right.svg`                              | filetto sottile che si assottiglia e finisce in un ricciolo                                                                                            | `bg3-sheet-examine-enemy.jpg` («~ Conditions ~»)                              | `3bcf5b43f3576ff3b8b97420b8756f67fa1dcc12bc08a41156f138f0959168f6`, `f940b7d8a65ab0c554ac0bb9e2b878f2428630e700964b713138e905ba4f414b`                                                                                                                                         |
+| `assets/endcap-left.svg`, `endcap-right.svg`                          | ricciolo d'oro a metà altezza ai lati della striscia dei turni                                                                                         | `bg3-table-crop-turn-order-strip.png`                                         | `efb62bdfba761015a8642130119253135ead87c79f67318ec2e88f5ecf62feec`, `0b773bf3d4631d6204bebfd82e9f6946aa9160e379a3c28b75d64c3a32d90cdb`                                                                                                                                         |
+| `assets/hotbar-arch.svg`                                              | arco rialzato che porta la tavola delle risorse e la scheda dei dadi fin dentro il bordo superiore della barra (a destra lo stesso disegno specchiato) | `bg3-table-crop-hotbar-4k.png`                                                | `adfdd949bb868f7a75b1babecfba2cb6a380f7c017bc60f046f004ce3ca38a63`                                                                                                                                                                                                             |
+| `assets/endturn-runes.svg`                                            | anello di diciotto rune inventate, molto tenue (10 % di crema), dentro il disco di «Termina turno»                                                     | `bg3-table-crop-endturn.png` (solo l'idea di un anello inciso)                | `bd4563ab9f4b96e4f0f7612f1acd99fbdd178afe64594409ad564bf4f1aa6d32`                                                                                                                                                                                                             |
+| `assets/grain.svg`                                                    | grana di pietra calda (rumore `feTurbulence`, circa 3 % di opacità) per il palco del Tavolo, le tavole, la barra e i dialoghi                          | `bg3-table-hud-4k-exploration.jpg` (nessun pixel: solo «niente tinta piatta») | `99ed31ad4a39003a1f9d0ffd33b88de93b15d58381bfc3114a0e1497432bf731`                                                                                                                                                                                                             |
+| `assets/home-torchlight.svg`                                          | pozze di luce di torcia (gradienti radiali arancio) disegnate sul riquadro 1672 × 941 della sala d'esempio dell'owner                                  | `bg3-home-main-menu-annotated.jpg`                                            | `d5499f714fc2491d1a735a83a3873b25cc9f9920aa084981dd53c9f4d4b11391`                                                                                                                                                                                                             |
 
 ### Dipinti d'esempio (dell'owner)
 
@@ -1272,6 +1480,11 @@ Segue la licenza del repository.
 
 La spunta delle caselle (un tracciato SVG di tre punti dentro `direction.css`) è disegnata per
 questo progetto il 01/10/2026; segue la licenza del repository.
+
+La losanga d'oro agli angoli dei menu contestuali (un tracciato SVG di quattro punti in
+`--bg3-corner-gem`) e il segno «II» dei separatori della barra (due gradienti lineari) sono
+disegnati per questo progetto il 02/10/2026 nello stesso file; seguono la licenza del
+repository.
 
 ### Caratteri
 
