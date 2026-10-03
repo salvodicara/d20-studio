@@ -42,6 +42,12 @@ perl -e 'alarm 150; exec @ARGV' -- node changes/visual-01/capture/shoot.js \
   --states table-explore,sheet-spells,sheet-inventory,dialog-initiative,token-menu \
   --widths 1440,390 --directions current,bg3 --jobs 4
 
+# Round 2 (02/10/2026): one combination of numbered options inside the BG3 direction per run
+# (directions/README.md «Variants»): colours 2 + fonts 3 → home-dark-1440-bg3+c2.t3.png, …
+perl -e 'alarm 150; exec @ARGV' -- node changes/visual-01/capture/shoot.js \
+  --out ~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/round-2 \
+  --states home,sheet,table-combat --widths 1440,390 --directions bg3 --variants c2,t3 --jobs 4
+
 # Known states, full help
 node changes/visual-01/capture/shoot.js --list
 node changes/visual-01/capture/shoot.js --help
@@ -60,6 +66,7 @@ the contact sheets from every successful viewport shot listed there.
 | `--themes <list>`     | `dark`                                     | `dark`, `light`: the app's own device preference (see below).                                                                                  |
 | `--widths <list>`     | `1440,390`                                 | `1440` → 1440×900, `390` → 390×844, or any `WxH`. Below 768 px: touch phone (`isMobile`, `hasTouch`).                                          |
 | `--directions <list>` | `off`                                      | `off` removes `d20-dev-direction` (the plain app); `current` («Attuale») or an id (`[a-z0-9-]`) is written there before load (direction mode). |
+| `--variants <list>`   | none                                       | Round 2: one combination (`c2,t3`) inside the run's one direction id; one per axis `c t b i`, the last wins (below).                           |
 | `--combo <s:t:w[:d]>` | —                                          | Explicit combos, repeatable (`table-combat-dm:dark:390:bg3`; `d` defaults to `off`); replaces the cartesian product.                           |
 | `--now <iso\|real>`   | `2026-09-30T19:00:00+02:00`                | Fixed `Date` for the page (Playwright `clock.setFixedTime`; timers keep running). `real` = live clock.                                         |
 | `--dpr <n>`           | 1 desktop, 2 phone                         | Device pixel ratio. Phone shots are 780×1688 px at the default.                                                                                |
@@ -73,7 +80,9 @@ File names: `<state>-<theme>-<width>-<direction>.png`, e.g. `home-dark-1440-curr
 `table-combat-dark-390-bg3.png`, `sheet-dark-1440-off.png`. Each shot is the viewport only unless
 the state ends in `-full`. A shot whose checks fail is written to `<out>/_failed/` instead, and the
 exit code is 1. (The `before/` matrix of 30/09 predates this naming: its files carry no suffix and
-were taken with no key, i.e. `off`.)
+were taken with no key, i.e. `off`.) With `--variants c2,t3` the direction gains
+`+<list with dots>`: `home-dark-1440-bg3+c2.t3.png`; the manifest row carries `"variant": "c2,t3"`
+and a re-run replaces only the row of the same state, theme, width, direction and list.
 
 ### Directions (the dev-only «Direzione» selector)
 
@@ -88,6 +97,28 @@ were taken with no key, i.e. `off`.)
   know shows «Attuale».
 - Take every numbered I-248 screenshot with `current` and the ids, never `off`, so the options
   differ only by the direction.
+
+### Variants (round 2, numbered options inside a direction)
+
+- `--variants c2,t3` writes `d20-dev-variant` = `c2,t3` before every load; the loader links
+  `directions/<id>/variants/c2.css` and `t3.css` after the direction sheet and sets
+  `data-variant="c2 t3"` on `<html>`. Option 1 of an axis is the direction itself: shoot it
+  without `--variants` (`home-dark-1440-bg3.png`).
+- The check is strict: the shot fails (`_failed/`) unless the key and `data-variant` equal the
+  requested list, so a variant with no file under `directions/<id>/variants/` cannot pass as the
+  plain direction.
+- One combination per run, so a matrix of combinations is a loop of runs into the same folder.
+- Without `--variants` the kit is unchanged: on 02/10/2026 all 20 shots (home, sheet, Table in
+  combat, campaign, library; 1440 and 390; `bg3` and `off`) of the new kit and loader were
+  byte-identical to the old ones, with the same `#app` DOM, `<html>` attributes and `<head>`
+  links (17 against the first old run; the other 3 against a second old run, because the first
+  one had differed from itself there by anti-aliased pixels). Evidence:
+  `~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/variants-scaffold/`.
+- A bad name, `off`/`current` or several directions are refused. Contact sheets of a variant
+  run are `contact-<theme>-<direction>+<list with dots>.png`.
+- The live guarantees take the same list (`--variant`, applied to every direction id, not to
+  «Attuale»): `guarantees.js --directions current,bg3 --variant c2,t3` prints `ok bg3+c2.t3`.
+  Its static check covers every `directions/<id>/variants/*.css` with the variant prefix.
 
 ## How each state is reached
 
@@ -171,7 +202,8 @@ to `BASES` in `shoot.js` with `route`, `check` and, if needed, `combat: true`, `
 - **Directions**: a direction without `directions/<id>/icons.mjs` (today the five skeletons
   `solasta`, `roll20`, `owlcat`, `alchemy`, `demiplane`) makes the browser log one 404 per page
   load (two per shot; the loader's import is caught); the manifest row lists them under `errors`,
-  and the shot is still ok.
+  and the shot is still ok. With `--variants`, each listed variant that lacks its `.css` or its
+  `.icons.mjs` adds one 404 per load (the loader's HEAD probe), listed the same way.
 - Italian only, Player or DM only; no English or signed-out states. Native `<select>` controls
   look different in Chromium and WebKit.
 - `manifest.json` top-level fields (base, browser, `capturedAt`) describe the latest invocation;

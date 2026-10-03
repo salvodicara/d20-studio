@@ -216,6 +216,124 @@ licence, author, sha256, edits), in `directions/<id>/SOURCES.md`. Shared files g
 fonts, textures, logos or frame art; reference images stay in
 `~/Workspace/Codex/d20-studio-visual-assets/references/`.
 
+## Variants (round 2): numbered options inside a direction
+
+Round 2 (02/10/2026, I-248…I-254) shows the owner numbered options **inside** the chosen
+direction on four axes, and any combination of them (colours 2 + fonts 3):
+
+| Axis letter | Axis               | Example names |
+| ----------- | ------------------ | ------------- |
+| `c`         | colours            | `c1`, `c2`, … |
+| `t`         | fonts (type)       | `t1`, `t2`, … |
+| `b`         | buttons and fields | `b1`, `b2`, … |
+| `i`         | icons              | `i1`, `i2`, … |
+
+A variant name is the axis letter and a number (`^[ctbi]\d{1,2}$`). Option 1 of an axis is
+normally the direction as it is (no file); `c2`, `c3`… are the alternatives.
+
+### Using variants
+
+- `http://127.0.0.1:8881/?direction=bg3&variant=c2,t3#table` applies colours 2 and fonts 3 of
+  BG3. The list persists in localStorage under `d20-dev-variant` (canonical form `c2,t3`);
+  `?variant=off` removes it. A later `?variant=` replaces the whole list.
+- **One per axis, the last wins:** `?variant=c2,t3,c4` means `c4,t3`. Names are applied in axis
+  order **c, t, b, i**, whatever order they were typed in. Invalid names are ignored; a list with
+  no valid name removes the key.
+- Variants apply only while a direction id is active (never with «Attuale» or off) and only on
+  loopback, like the direction. Switching direction keeps the key: the new direction's own
+  `variants/` folder answers (usually nothing).
+- The specimen takes the same query:
+  `http://127.0.0.1:8881/directions/specimen.html?direction=bg3&variant=c2,t3`; its masthead
+  names the applied variants.
+- Captures (one combination per run, one direction id):
+  `shoot.js --directions bg3 --variants c2,t3` writes `home-dark-1440-bg3+c2.t3.png`; the
+  specimen tools take `--variants` too (`spec-buttons-dark-1440-bg3+c2.t3.png`); and
+  `guarantees.js --directions current,bg3 --variant c2,t3` measures the combination
+  (`ok bg3+c2.t3`). All three live in `changes/visual-01/`.
+
+### How variants are applied
+
+After the direction's sheets, sprite and sample-map probe (step 2 above), `applyDirection(id)`:
+
+1. reads the list (`activeVariants()`, empty unless a direction id is active on loopback);
+2. sends a HEAD request for `directions/<id>/variants/<name>.css` and
+   `directions/<id>/variants/<name>.icons.mjs` of each listed name (no request at all when the
+   list is empty);
+3. appends one `<link rel="stylesheet" data-direction-sheet="dev-direction-variant">` per
+   existing `.css`, **after** `directions/<id>/direction.css`, in axis order: they are the last
+   links in `<head>`. A change appends the new links, awaits them (load or error, at most 3 s)
+   and only then removes the old ones;
+4. sets `data-variant="c2 t3"` on `<html>` (space-separated, axis order) with the names that have
+   at least one file, together with `data-direction`. A name with no file is not applied and not
+   named, so captures of a typo fail instead of showing the plain direction;
+5. **icons:** if one or more listed variants have an `.icons.mjs` exporting `directionIcon`, the
+   **last** of them (axis order) is asked first; its `null` (or anything that is not an `<svg…`
+   string, or a throw) falls back to the direction's `icons.mjs`, then to the core icon. Under the
+   light theme every override steps aside, as for the direction.
+
+`?variant=off`, an empty list, «Attuale», off or another direction remove the variant links and
+`data-variant`: the page is exactly the direction-only page (or the plain app).
+
+**Zero effect with no variant.** No key → no HEAD request, no link, no attribute, the same icon
+and logo output: the direction is byte-for-byte as before the variant layer. Proof:
+`~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/variants-scaffold/`.
+
+**Known noise.** Each listed variant without one of its two files logs one 404 for the HEAD probe
+(nothing is imported or linked).
+
+### Contract for a variant builder
+
+Write only `directions/<id>/variants/<name>.css` and, for the icon axis, optionally
+`directions/<id>/variants/<name>.icons.mjs` (plus assets with provenance, as for the direction).
+Never edit `direction.css`, `icons.mjs` or `brand.mjs` to make a variant: the variant is a layer on
+top, and it must work combined with every option of the other axes.
+
+- **Every style rule starts with `:root[data-direction="<id>"][data-variant~="<name>"]`**, also
+  inside `@media`, `@supports` and `@container`; `@font-face` and `@keyframes` are the only
+  unprefixed blocks. Write the direction's own selector with the variant attribute inserted right
+  after `[data-direction="<id>"]`, **keeping every guard the direction rule has**:
+
+  ```css
+  /* direction.css */
+  :root[data-direction="bg3"]:not([data-pref-theme="light"]) {
+    --accent: #c9a25e;
+  }
+  /* variants/c2.css */
+  :root[data-direction="bg3"][data-variant~="c2"]:not([data-pref-theme="light"]) {
+    --accent: #b8863b;
+  }
+  ```
+
+  The extra attribute makes the variant rule more specific than the direction rule it copies, and
+  it loads later, so it wins without `!important`.
+
+- **The same guards as the direction:** colours and textures under
+  `:not([data-pref-theme="light"])`; the eight contrast-sensitive tokens also under
+  `:not([data-pref-contrast="high"])`; map-colour tokens under
+  `:not([data-pref-vision]:not([data-pref-vision="standard"]))`; never `--dur-*`.
+- **Tokens first, then components.** Override the direction's custom properties (`--accent`,
+  `--surface`, `--font-display`, `--font-ui`, `--font-label`, the radius and frame tokens…) before
+  any component rule; write a component rule only where the direction paints a literal value
+  that no token reaches, and copy that direction rule's full selector.
+- **Stay on your axis:** `c` colours and textures only; `t` font families, weights, sizes in the
+  `calc(Npx * var(--pref-text-scale,1) * var(--pref-ui-scale,1))` form, letter-spacing and
+  `font-variant-caps`; `b` buttons, fields, tabs and their states; `i` icons (`.icons.mjs`) and
+  icon CSS (sizes, masks). Two variants of different axes must combine without fighting.
+- **The same bans and guarantees as `direction.css`:** no `!important`, no `text-transform` (small
+  caps via `font-variant-caps`), no `content:` text, no markup, no `display: none` on named text
+  or controls; 40 px targets, the 3 px focus ring never clipped, never colour alone, AA contrast,
+  the hotbar ≤ 120 px at 1440×900, at 390 no sideways scroll, the Table header on one row and End
+  turn / Undo / Cancel visible.
+- **`<name>.icons.mjs`** follows the `icons.mjs` contract above: it exports
+  `directionIcon(name)`, which returns a full `<svg class="icon" … aria-hidden="true">…</svg>`
+  or `null` (then the direction's icon, then the core icon).
+- At the top, the same comment table **«elemento → prodotto → fonte»**, for the numbered choice.
+
+`tests/visual01-directions.test.mjs` checks every file in every `directions/<id>/variants/`: the
+name (`<c|t|b|i><n>.css` or `.icons.mjs`), the prefix of every selector, no `!important`, no
+`text-transform`, and the `directionIcon` export. `guarantees.js` repeats the static check and
+measures the live guarantees with `--variant`.
+
 ## Shared sample art
 
 `sample.css` paints the same owner-generated art under every direction (records:

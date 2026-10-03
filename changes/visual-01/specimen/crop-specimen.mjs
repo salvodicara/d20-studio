@@ -11,6 +11,9 @@
 //       Pulsanti                                    -> spec-buttons-dark-1440-<dir>.png
 //       Campi dei moduli                            -> spec-fields-dark-1440-<dir>.png
 //       Finestre di dialogo + Avvisi e suggerimenti -> spec-dialogs-dark-1440-<dir>.png
+// With --variants <list> (round 2, one combination per run, one direction id) the page is
+// specimen.html?direction=<id>&variant=<list> and every name gets «+<list with dots>» after the
+// direction: specimen-bg3+c2.t3.png, spec-buttons-dark-1440-bg3+c2.t3.png.
 // Sections are found by their visible title text, not by id, and the run fails when a title is
 // missing. Never writes inside the worktree. First written for the board (evidence folder,
 // 01/10/2026); this is the canonical copy, the board's crop-specimen.mjs runs it.
@@ -18,11 +21,16 @@
 // Usage (from the worktree root, server on 8881; GNU timeout is not installed):
 //   perl -e 'alarm 150; exec @ARGV' -- node changes/visual-01/specimen/crop-specimen.mjs \
 //     --specimen-out <dir> --shots-out <dir> --directions off,current,bg3 [--crops brand] [--jobs 3]
+//   … --directions bg3 --variants c2,t3
 import fs from "node:fs";
 import path from "node:path";
 import { parseArgs } from "node:util";
 import { fileURLToPath } from "node:url";
+import { createRequire } from "node:module";
 import { chromium } from "playwright";
+
+// The capture kit's own parser: the same list, the same errors, the same file suffix.
+const { variantList } = createRequire(import.meta.url)("../capture/shoot.js");
 
 const WORKTREE = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../..");
 const HELP = `Usage: node crop-specimen.mjs --specimen-out <dir> --shots-out <dir> --directions <list>
@@ -30,6 +38,8 @@ const HELP = `Usage: node crop-specimen.mjs --specimen-out <dir> --shots-out <di
   --directions <list>   'off' (no key), 'current' («Attuale») or direction ids     [required]
   --specimen-out <dir>  full pages and sections.json                              [required]
   --shots-out <dir>     the spec-<crop>-dark-1440-<dir>.png crops                 [required]
+  --variants <list>     round-2 options inside the one direction id, one per axis
+                        c,t,b,i (e.g. c2,t3; the last per axis wins)               [none]
   --crops <list>        brand,type,buttons,fields,dialogs                           [all]
   --base <url>          app URL                                    [http://127.0.0.1:8881/]
   --jobs <n>            directions captured in parallel                               [3]`;
@@ -38,6 +48,7 @@ const { values } = parseArgs({
   options: {
     base: { type: "string", default: "http://127.0.0.1:8881/" },
     directions: { type: "string" },
+    variants: { type: "string" },
     crops: { type: "string" },
     jobs: { type: "string", default: "3" },
     "specimen-out": { type: "string" },
@@ -58,6 +69,14 @@ const base = values.base.endsWith("/") ? values.base : values.base + "/";
 const directions = list(values.directions);
 for (const d of directions)
   if (!/^[a-z0-9][a-z0-9-]*$/.test(d)) throw new Error(`Bad direction «${d}»`);
+// --variants: one combination per run, inside the run's one direction (an id, not off/current).
+const variant = variantList(values.variants);
+if (values.variants !== undefined && !variant) throw new Error("--variants names no variant");
+if (variant && (directions.length !== 1 || ["off", "current"].includes(directions[0])))
+  throw new Error(`--variants needs exactly one direction id, not «${directions.join(",")}»`);
+// `variant` "c2,t3" is written "+c2.t3" after the direction (as capture/shoot.js).
+const suffix = (direction, variant) =>
+  direction + (variant ? "+" + variant.split(",").join(".") : "");
 const specimenOut = path.resolve(values["specimen-out"]);
 const shotsOut = path.resolve(values["shots-out"]);
 for (const dir of [specimenOut, shotsOut])
@@ -78,7 +97,8 @@ const wanted = values.crops ? list(values.crops) : ALL_CROPS.map((c) => c.key);
 const CROPS = ALL_CROPS.filter((c) => wanted.includes(c.key));
 if (CROPS.length !== wanted.length)
   throw new Error(`Unknown crop in «${values.crops}»: ${ALL_CROPS.map((c) => c.key).join(",")}`);
-const KNOWN_ABORTS = /old-watch\.webp|\/directions\/[a-z0-9-]+\/(icons|brand)\.mjs$/;
+const KNOWN_ABORTS =
+  /old-watch\.webp|\/directions\/[a-z0-9-]+\/(icons|brand)\.mjs$|\/directions\/[a-z0-9-]+\/variants\/[ctbi]\d{1,2}\.(css|icons\.mjs)$/;
 const NOISE = /Failed to load resource: the server responded with a status of 404/;
 
 async function run(browser, direction) {
@@ -103,10 +123,13 @@ async function run(browser, direction) {
     page.on("requestfailed", (r) => {
       const msg = `request failed: ${r.url()} (${r.failure()?.errorText})`;
       // Known noise (directions/README.md): the loader's HEAD probe of the sample map, and the
-      // caught import of a direction's optional icons.mjs or brand.mjs when the file is absent.
+      // caught import of a direction's optional icons.mjs or brand.mjs when the file is absent,
+      // and the HEAD probes of the variant files (Chromium reports a HEAD fetch as aborted; a
+      // variant sheet that did not load is caught by specimenReport.missing instead).
       (KNOWN_ABORTS.test(r.url()) ? noise : problems).push(msg);
     });
-    await page.goto(`${base}directions/specimen.html?direction=${direction}`, {
+    const query = `?direction=${direction}` + (variant ? `&variant=${variant}` : "");
+    await page.goto(`${base}directions/specimen.html${query}`, {
       waitUntil: "load",
     });
     await page.locator('#specimen[data-ready="true"]').waitFor({ timeout: 20000 });
@@ -196,6 +219,8 @@ async function run(browser, direction) {
         report: globalThis.specimenReport ?? null,
         attribute: document.documentElement.dataset.direction ?? null,
         stored: localStorage.getItem("d20-dev-direction"),
+        variant: document.documentElement.dataset.variant ?? null,
+        variantKey: localStorage.getItem("d20-dev-variant"),
         pageWidth: document.documentElement.scrollWidth,
         pageHeight: document.documentElement.scrollHeight,
         overflowX: document.documentElement.scrollWidth - innerWidth,
@@ -215,9 +240,18 @@ async function run(browser, direction) {
       if (id && !info.report.direction?.some((h) => h.endsWith(`directions/${id}/direction.css`)))
         problems.push(`directions/${id}/direction.css not linked`);
     }
+    // Every requested variant applied (one with no file in variants/ is not: a typo fails).
+    const wanted = variant ? variant.split(",").join(" ") : null;
+    if (info.variant !== wanted)
+      problems.push(`data-variant is «${info.variant}», expected «${wanted}»`);
+    if (info.variantKey !== (variant || null)) problems.push(`variant key is ${info.variantKey}`);
     if (info.overflowX > 0) problems.push(`page scrolls sideways by ${info.overflowX} px`);
+    // A variant that did not apply writes no image: a «+c5» file showing the plain direction
+    // would mislead the board.
+    if (info.variant !== wanted)
+      return { direction, ...(variant ? { variant } : {}), ok: false, problems, noise };
 
-    const fullFile = path.join(specimenOut, `specimen-${direction}.png`);
+    const fullFile = path.join(specimenOut, `specimen-${suffix(direction, variant)}.png`);
     fs.writeFileSync(
       fullFile,
       await page.screenshot({ fullPage: true, animations: "disabled", caret: "hide" }),
@@ -250,7 +284,10 @@ async function run(browser, direction) {
         width: Math.min(info.pageWidth, right + MARGIN) - Math.max(0, left - MARGIN),
         height: Math.min(info.pageHeight, bottom + MARGIN) - Math.max(0, top - MARGIN),
       };
-      const file = path.join(shotsOut, `spec-${crop.key}-dark-1440-${direction}.png`);
+      const file = path.join(
+        shotsOut,
+        `spec-${crop.key}-dark-1440-${suffix(direction, variant)}.png`,
+      );
       fs.writeFileSync(
         file,
         await page.screenshot({ fullPage: true, clip, animations: "disabled", caret: "hide" }),
@@ -260,6 +297,7 @@ async function run(browser, direction) {
 
     return {
       direction,
+      ...(variant ? { variant } : {}),
       ok: problems.length === 0,
       problems,
       noise,
@@ -271,6 +309,7 @@ async function run(browser, direction) {
   } catch (error) {
     return {
       direction,
+      ...(variant ? { variant } : {}),
       ok: false,
       problems: ["failed: " + error.message.split("\n")[0], ...problems],
       noise,
@@ -289,7 +328,8 @@ try {
       const row = await run(browser, d);
       results.push(row);
       console.log(
-        `${row.ok ? "ok  " : "FAIL"} ${d}` + (row.crops ? ` (${row.crops.length} crops)` : ""),
+        `${row.ok ? "ok  " : "FAIL"} ${suffix(d, variant)}` +
+          (row.crops ? ` (${row.crops.length} crops)` : ""),
       );
       for (const p of row.problems) console.log(`     ${p}`);
       for (const c of row.crops ?? [])
@@ -304,9 +344,11 @@ try {
   try {
     previous = JSON.parse(fs.readFileSync(manifestFile, "utf8")).directions ?? [];
   } catch {}
-  const fresh = new Set(results.map((r) => r.direction));
-  const merged = [...previous.filter((r) => !fresh.has(r.direction)), ...results].sort((a, b) =>
-    a.direction.localeCompare(b.direction),
+  // One entry per direction and variant list: a re-run replaces it.
+  const key = (r) => suffix(r.direction, r.variant);
+  const fresh = new Set(results.map(key));
+  const merged = [...previous.filter((r) => !fresh.has(key(r))), ...results].sort((a, b) =>
+    key(a).localeCompare(key(b)),
   );
   fs.writeFileSync(
     manifestFile,

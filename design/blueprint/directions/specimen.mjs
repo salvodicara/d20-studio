@@ -2,6 +2,7 @@
 // component of the blueprint on one page, with the app's real markup and stylesheets, skinned
 // by a direction through the same loader the app uses. Open it on a loopback host:
 //   http://127.0.0.1:8881/directions/specimen.html?direction=bg3   (or current, off, an id)
+//   …specimen.html?direction=bg3&variant=c2,t3   (round-2 options, directions/README.md «Variants»)
 // The page is never linked from the app and nothing in the app imports this module.
 //
 // Fidelity rules (changes/visual-01/specimen/README.md):
@@ -1492,6 +1493,11 @@ function masthead(report) {
     : directionMode()
       ? "Attuale (modalità direzione)"
       : "nessuna (app senza direzione)";
+  // Round 2: the applied variants (the loader's data-variant), named only when there are some.
+  const variant = document.documentElement.dataset.variant;
+  const variants = variant
+    ? ` · varianti <strong>${esc(variant.split(" ").join(" + "))}</strong>`
+    : "";
   const missing = report.missing.length;
   const problems = [
     report.drift ? "i fogli statici non corrispondono più a index.html" : "",
@@ -1503,7 +1509,7 @@ function masthead(report) {
   return h(
     `<header class="specimen-masthead">`,
     `<div class="specimen-masthead-title" role="heading" aria-level="1">Campionario dei componenti</div>`,
-    `<div>Direzione: <strong>${esc(label)}</strong> · <span class="specimen-code">?direction=off | current | ${DIRECTIONS.map((d) => d.id).join(" | ")}</span></div>`,
+    `<div>Direzione: <strong>${esc(label)}</strong>${variants} · <span class="specimen-code">?direction=off | current | ${DIRECTIONS.map((d) => d.id).join(" | ")}</span></div>`,
     `<div class="specimen-masthead-status${report.drift || missing ? " is-warning" : ""}">${esc(status)}</div>`,
     `<div>Ogni riquadro mostra un componente con il markup reale dell’app, nel suo contesto (Inizio, Scheda, Tavolo), sullo sfondo della pagina: sotto, il nome, la classe e il file che lo disegna. «composto» indica uno stato che l’esempio non raggiunge, scritto con lo stesso modello del modulo.</div>`,
     `</header>`,
@@ -1612,7 +1618,12 @@ async function boot() {
     root.innerHTML = render(report);
     fitStages();
   });
-  const result = { direction: activeDirection(), directionMode: directionMode(), ...report };
+  const result = {
+    direction: activeDirection(),
+    directionMode: directionMode(),
+    variant: document.documentElement.dataset.variant ?? null,
+    ...report,
+  };
   globalThis.specimenReport = result;
   if (report.drift || report.missing.length)
     globalThis.console?.warn("Specimen stylesheets: see specimenReport", result);

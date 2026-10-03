@@ -18,6 +18,13 @@ export const DIRECTIONS = Object.freeze([
   { id: "demiplane", label: "9 · Demiplane" },
 ]);
 const KEY = "d20-dev-direction"; // "current" (Attuale) or a direction id; absent = off
+// Round 2 (02/10/2026): numbered options inside a direction on four axes, combinable (c2 + t3):
+// c colours, t fonts, b buttons and fields, i icons. Files: directions/<id>/variants/<name>.css
+// and, optionally, <name>.icons.mjs. The key holds the canonical list ("c2,t3"); absent = none.
+const VARIANT_KEY = "d20-dev-variant";
+export const VARIANT_AXES = Object.freeze(["c", "t", "b", "i"]);
+const VARIANT_NAME = /^[ctbi]\d{1,2}$/;
+const VARIANT_SHEET = "dev-direction-variant"; // data-direction-sheet of every variant <link>
 const LOOPBACK = ["127.0.0.1", "localhost", "[::1]"]; // as the ?fixture= gate in app.mjs
 // Sample art shared by every direction (assets/PROVENANCE.json); painted by directions/sample.css.
 // The 1:1 busts fill the token; the 4:5 goblin figures show a 370 px face square (x offset and
@@ -41,17 +48,17 @@ function loopback() {
     return false;
   }
 }
-function read() {
+function read(key = KEY) {
   try {
-    return globalThis.localStorage?.getItem(KEY) ?? null;
+    return globalThis.localStorage?.getItem(key) ?? null;
   } catch {
     return null;
   }
 }
-function write(value) {
+function write(value, key = KEY) {
   try {
-    if (value === null) globalThis.localStorage?.removeItem(KEY);
-    else globalThis.localStorage?.setItem(KEY, value);
+    if (value === null) globalThis.localStorage?.removeItem(key);
+    else globalThis.localStorage?.setItem(key, value);
   } catch {
     // Storage blocked: the direction lasts for this page only.
   }
@@ -74,16 +81,35 @@ export function activeDirection() {
   return known(value) ? value : null;
 }
 
-/** Once at boot, after the area stylesheets: ?direction=<id>|current|off, then apply. */
+/** A variant list ("t3,c2", or the attribute's "c2 t3") → valid names, one per axis (the last
+ * wins), in axis order c, t, b, i. Anything else names no variant. */
+export function parseVariants(value) {
+  if (typeof value !== "string") return [];
+  const byAxis = new Map();
+  for (const name of value.split(/[\s,]+/)) if (VARIANT_NAME.test(name)) byAxis.set(name[0], name);
+  return VARIANT_AXES.filter((axis) => byAxis.has(axis)).map((axis) => byAxis.get(axis));
+}
+/** The variants asked for while a direction is active (loopback only); [] otherwise. */
+export function activeVariants() {
+  return activeDirection() ? parseVariants(read(VARIANT_KEY)) : [];
+}
+
+/** Once at boot, after the area stylesheets: ?direction=<id>|current|off and
+ * ?variant=<list>|off, then apply. */
 export async function startDirection() {
   if (!loopback()) return;
   let query = null;
+  let variant = null;
   try {
-    query = new URLSearchParams(globalThis.location.search ?? "").get("direction");
+    const params = new URLSearchParams(globalThis.location.search ?? "");
+    query = params.get("direction");
+    variant = params.get("variant");
   } catch {
     query = null;
+    variant = null;
   }
   if (query !== null) write(query === "off" ? null : known(query) ? query : "current");
+  if (variant !== null) write(parseVariants(variant).join(",") || null, VARIANT_KEY);
   await applyDirection(activeDirection());
 }
 
@@ -97,6 +123,7 @@ export function applyDirection(id) {
 }
 
 async function apply(id) {
+  let variants = []; // [{ name, css, icons }] of the active direction, files that exist only
   const doc = documentOf();
   if (!doc) {
     setIconOverride(null);
@@ -113,21 +140,35 @@ async function apply(id) {
     await ensureLink(doc, "dev-direction-css", `directions/${id}/direction.css`, true);
     const map = await exists(SAMPLE_MAP);
     sprite(doc, map);
+    variants = await variantsOf(id);
+    await ensureVariantLinks(
+      doc,
+      variants.filter((v) => v.css).map((v) => v.css),
+    );
     try {
       root.dataset.direction = id;
       if (map) root.dataset.sampleMap = "on";
       else delete root.dataset.sampleMap;
+      if (variants.length) root.dataset.variant = variants.map((v) => v.name).join(" ");
+      else delete root.dataset.variant;
     } catch {}
   } else {
     try {
       delete root.dataset.direction;
       delete root.dataset.sampleMap;
+      delete root.dataset.variant;
     } catch {}
+    await ensureVariantLinks(doc, []);
     removeLink(doc, "dev-direction-css");
     removeLink(doc, "dev-direction-sample");
     sprite(doc, null);
   }
-  setIconOverride(id ? await iconsOf(id) : null);
+  // The last variant that exports directionIcon wins, then the direction's icons, then the core.
+  const variantPicks = await Promise.all(
+    variants.filter((v) => v.icons).map((v) => iconPickOf(v.icons)),
+  );
+  const directionPick = id ? await iconPickOf(`./${id}/icons.mjs`) : null;
+  setIconOverride(combineIcons([variantPicks.findLast(Boolean), directionPick]));
   const brand = id ? await brandOf(id) : null;
   setLogoOverride(brand?.logo ?? null);
   favicon(doc, brand?.favicon ?? null);
@@ -143,8 +184,7 @@ function removeLink(doc, key) {
 async function ensureLink(doc, key, href, last = false) {
   try {
     const old = doc.getElementById(key);
-    if (old && old.getAttribute("href") === href && (!last || old === doc.head.lastElementChild))
-      return;
+    if (old && old.getAttribute("href") === href && (!last || followedByVariantsOnly(old))) return;
     const link = doc.createElement("link");
     link.rel = "stylesheet";
     link.setAttribute("href", href);
@@ -162,6 +202,69 @@ async function ensureLink(doc, key, href, last = false) {
     await loaded;
     old?.remove();
     link.id = key;
+  } catch {}
+}
+
+// The direction sheet stays last in <head> except for the variant sheets after it.
+function followedByVariantsOnly(el) {
+  for (let next = el.nextElementSibling; next; next = next.nextElementSibling)
+    if (next.getAttribute("data-direction-sheet") !== VARIANT_SHEET) return false;
+  return true;
+}
+
+// The active variants of `id` that have a file: HEAD directions/<id>/variants/<name>.css and
+// <name>.icons.mjs (paths from the app root, like SAMPLE_MAP; the import is module-relative).
+async function variantsOf(id) {
+  const found = await Promise.all(
+    activeVariants().map(async (name) => {
+      const [css, icons] = await Promise.all([
+        exists(`directions/${id}/variants/${name}.css`),
+        exists(`directions/${id}/variants/${name}.icons.mjs`),
+      ]);
+      return {
+        name,
+        css: css ? `directions/${id}/variants/${name}.css` : null,
+        icons: icons ? `./${id}/variants/${name}.icons.mjs` : null,
+      };
+    }),
+  );
+  return found.filter((v) => v.css || v.icons);
+}
+
+// One <link> per variant sheet right after the direction sheet, in axis order: the last links
+// in <head>. A change appends the new links, awaits them, and only then removes the old ones.
+async function ensureVariantLinks(doc, hrefs) {
+  try {
+    const old = [...doc.head.children].filter(
+      (el) => el.getAttribute("data-direction-sheet") === VARIANT_SHEET,
+    );
+    const base = doc.getElementById("dev-direction-css");
+    const tail = [];
+    for (let next = base?.nextElementSibling; next; next = next.nextElementSibling) tail.push(next);
+    const same = (list) => list.map((el) => el.getAttribute("href")).join() === hrefs.join();
+    if (same(old) && (!hrefs.length || (tail.length === old.length && same(tail)))) return;
+    const links = hrefs.map((href) => {
+      const link = doc.createElement("link");
+      link.rel = "stylesheet";
+      link.setAttribute("href", href);
+      link.setAttribute("data-direction-sheet", VARIANT_SHEET);
+      return link;
+    });
+    const loaded = links.map(
+      (link) =>
+        new Promise((resolve) => {
+          const timer = setTimeout(resolve, LOAD_LIMIT);
+          const done = () => {
+            clearTimeout(timer);
+            resolve();
+          };
+          link.addEventListener("load", done, { once: true });
+          link.addEventListener("error", done, { once: true });
+        }),
+    );
+    for (const link of links) doc.head.append(link);
+    await Promise.all(loaded);
+    for (const el of old) el.remove();
   } catch {}
 }
 
@@ -218,24 +321,34 @@ function lightTheme() {
   }
 }
 
-// directions/<id>/icons.mjs (optional) exports directionIcon(name) → full svg string or null.
-async function iconsOf(id) {
+// directions/<id>/icons.mjs and variants/<name>.icons.mjs (optional) export directionIcon(name)
+// → full svg string or null. The module's picker, or null when it is absent or exports none.
+async function iconPickOf(path) {
   try {
-    const mod = await import(`./${id}/icons.mjs`);
-    const pick = mod?.directionIcon;
-    if (typeof pick !== "function") return null;
-    return (name) => {
-      if (lightTheme()) return null;
+    const pick = (await import(path))?.directionIcon;
+    return typeof pick === "function" ? pick : null;
+  } catch {
+    return null; // no module: the next picker, then the core icons
+  }
+}
+
+/** The icon override from pickers in precedence order: the first svg answer wins; null (no
+ * override) when there is no picker. Steps aside under the light theme. */
+export function combineIcons(picks) {
+  const list = picks.filter((pick) => typeof pick === "function");
+  if (!list.length) return null;
+  return (name) => {
+    if (lightTheme()) return null;
+    for (const pick of list) {
       try {
         const svg = pick(name);
-        return typeof svg === "string" && svg.startsWith("<svg") ? svg : null;
+        if (typeof svg === "string" && svg.startsWith("<svg")) return svg;
       } catch {
-        return null;
+        // A broken picker falls through to the next one.
       }
-    };
-  } catch {
-    return null; // no icons.mjs: the core icons stay
-  }
+    }
+    return null;
+  };
 }
 
 // directions/<id>/brand.mjs (optional, I-251) exports directionLogo(className) → full svg string

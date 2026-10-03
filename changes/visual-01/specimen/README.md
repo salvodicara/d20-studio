@@ -33,6 +33,12 @@ specimen with `?direction=bg3` also turns bg3 on for the app in that browser, an
 Like the loader, the page only works on `127.0.0.1`, `localhost` and `[::1]`; anywhere else it
 shows one line and loads nothing else.
 
+**Round 2 variants** (directions/README.md «Variants»): add `&variant=<list>`, e.g.
+`specimen.html?direction=bg3&variant=c2,t3` (colours 2 + fonts 3; one per axis `c t b i`, the
+last wins; `&variant=off` removes them). The list goes to the same key as the app's,
+`d20-dev-variant`; the masthead then reads «Direzione: 1 · Baldur's Gate 3 · varianti c2 + t3»
+and `specimenReport.variant` is `"c2 t3"`. With no variant the page is unchanged.
+
 ## What makes it faithful
 
 **Stylesheets, in the app's order.** `specimen.html` carries the eleven static links of
@@ -138,6 +144,7 @@ jobs; split long direction lists over several commands.)
 | `--out`        | (required)               | output folder                                         |
 | `--base`       | `http://127.0.0.1:8881/` | app URL; the page is `<base>directions/specimen.html` |
 | `--directions` | `off`                    | `off`, `current` or direction ids, comma separated    |
+| `--variants`   | none                     | round 2: one combination (`c2,t3`), one direction id  |
 | `--widths`     | `1440,390`               | 1440 (desktop, 900 high) and/or 390 (phone, touch)    |
 | `--dpr`        | `1`                      | device pixel ratio of every shot                      |
 | `--jobs`       | `3`                      | shots in parallel                                     |
@@ -145,14 +152,19 @@ jobs; split long direction lists over several commands.)
 Chromium from the worktree's Playwright 1.63, dark colour scheme, Italian, service workers
 blocked, a fresh context per shot. Files: `specimen-<direction>.png` (1440, full page) and
 `specimen-<direction>-390.png`, plus `manifest.json` (one row per file: height, checks, sheet
-counts, console noise). A shot that fails a check goes to `_failed/`.
+counts, console noise). A shot that fails a check goes to `_failed/`. With `--variants c2,t3`
+(one combination per run, exactly one direction id) the names gain `+<list with dots>`:
+`specimen-bg3+c2.t3.png`, `specimen-bg3+c2.t3-390.png`, and the row carries `"variant"`.
 
 Checks per shot: the page reports ready; `data-direction` is the requested id (none for `off`
 and `current`); the key is removed for `off` and set otherwise; the direction sheet is linked;
-every app and direction sheet loaded; the static links match `index.html`; the app-sheet list
+every app and direction sheet loaded; with `--variants`, `data-variant` and the key equal the
+requested list (a variant with no file fails); the static links match `index.html`; the app-sheet list
 equals the running app's; no page error, console error or failed request; no sideways page
 scroll. Known noise is recorded, not failed: the loader's 404 for a direction without
-`icons.mjs` or `brand.mjs`, and an aborted request for `old-watch.webp` (the loader's HEAD probe).
+`icons.mjs` or `brand.mjs`, and an aborted request for `old-watch.webp` (the loader's HEAD probe);
+with variants, the HEAD probes of `variants/<name>.css` and `.icons.mjs` (aborted when the file
+exists, 404 when it does not).
 
 Exit code: 0 every shot ok, 1 a shot failed, 2 the stylesheet list drifted from the app.
 
@@ -168,7 +180,11 @@ Loads the specimen at 1440 (dark, dpr 1) per direction, writes the full page and
 title, with a 16 px margin, into `--shots-out`: `spec-brand-dark-1440-<dir>.png` («Marchio»),
 `spec-type-…` («Tipografia»), `spec-buttons-…` («Pulsanti»), `spec-fields-…` («Campi dei
 moduli») and `spec-dialogs-…` («Finestre di dialogo» with «Avvisi e suggerimenti»). `--crops`
-picks some (`brand,type,buttons,fields,dialogs`). It refuses to write inside the worktree. The
+picks some (`brand,type,buttons,fields,dialogs`). `--variants c2,t3` (one direction id) loads
+`?direction=<id>&variant=c2,t3` and names the files `specimen-bg3+c2.t3.png` and
+`spec-buttons-dark-1440-bg3+c2.t3.png`; `sections.json` keeps one entry per direction and list.
+When the variant did not apply (no file) it writes no image and fails. It refuses to write inside
+the worktree. The
 board's `…/visual-01/board/specimen/crop-specimen.mjs` is a shim that runs this file with the
 board's folders as defaults.
 

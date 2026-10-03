@@ -4,8 +4,9 @@
 // Every shot runs in a fresh browser context (empty storage), so the app seeds its own
 // example; the kit then runs the app's own "Ripristina esempio" and reaches the state through
 // the app's UI and its own hash routes. The only localStorage writes are the device theme
-// preference the app itself stores and the dev-only direction key 'd20-dev-direction'
-// ('off' removes it; 'current' and direction ids put the app in direction mode).
+// preference the app itself stores, the dev-only direction key 'd20-dev-direction'
+// ('off' removes it; 'current' and direction ids put the app in direction mode) and the
+// round-2 variant key 'd20-dev-variant' (set by --variants, removed otherwise).
 // Game state is read (never written) to assert that a shot shows what its name claims.
 //
 // Usage and parameters: see README.md next to this file, or run with --help.
@@ -26,6 +27,8 @@ const HELP = `Usage: node shoot.js --out <dir> [options]
   --directions <list>  'off' (key removed: the plain app), 'current' (direction mode,
                        «Attuale») or direction ids (bg3,ddb,foundry,owlbear,solasta,
                        roll20,owlcat,alchemy,demiplane)                            [off]
+  --variants <list>    round-2 options inside the one direction of the run, one per axis
+                       c,t,b,i (e.g. c2,t3; the last per axis wins); one combination per run
   --combo <s:t:w[:d]>  explicit combo (d defaults to off), repeatable; replaces the product
   --now <iso|real>     fixed Date.now for the page                [2026-09-30T19:00:00+02:00]
   --dpr <n>            device pixel ratio         [1 at desktop widths, 2 below 768 px]
@@ -39,12 +42,15 @@ const HELP = `Usage: node shoot.js --out <dir> [options]
 
 States: <base>[-dm][-full]. '-dm' visits as DM (default: Player, or DM for a DM-only state
 such as dialog-initiative); '-full' is a full-page capture.
-Files: <state>-<theme>-<width>-<direction>.png (e.g. home-dark-1440-current.png).`;
+Files: <state>-<theme>-<width>-<direction>.png (e.g. home-dark-1440-current.png), with
+--variants <state>-<theme>-<width>-<direction>+<list with dots>.png (home-dark-1440-bg3+c2.t3.png).`;
 
 // ---------------------------------------------------------------- states
 
 const THEME_KEY = "d20-studio-setting:preferences-look.theme"; // the app's own device setting
 const DIRECTION_KEY = "d20-dev-direction"; // dev-only «Direzione» selector (Phase C)
+const VARIANT_KEY = "d20-dev-variant"; // round-2 options inside a direction (directions/README.md)
+const VARIANT_AXES = ["c", "t", "b", "i"];
 const OFF = "off"; // no key: the plain app, no «Direzione» control
 const STATE_KEY = "d20-studio-blueprint-v1"; // read only, to assert game state
 
@@ -391,9 +397,9 @@ async function stableShot(page, fullPage) {
   return { buf: prev, stable: false };
 }
 
-async function globalChecks(page, { theme, role, direction, def }) {
+async function globalChecks(page, { theme, role, direction, variant, def }) {
   const got = await page.evaluate(
-    (key) => ({
+    ({ key, variantKey }) => ({
       lang: document.documentElement.lang,
       theme: document.documentElement.dataset.prefTheme,
       role: document.querySelector("#demo-role")?.value,
@@ -401,6 +407,8 @@ async function globalChecks(page, { theme, role, direction, def }) {
       loading: Boolean(document.querySelector(".app-loading")),
       direction: localStorage.getItem(key),
       applied: document.documentElement.dataset.direction ?? null,
+      variantKey: localStorage.getItem(variantKey),
+      variant: document.documentElement.dataset.variant ?? null,
       control: document.querySelector("#demo-direction")
         ? {
             value: document.querySelector("#demo-direction").value,
@@ -408,7 +416,7 @@ async function globalChecks(page, { theme, role, direction, def }) {
           }
         : null,
     }),
-    DIRECTION_KEY,
+    { key: DIRECTION_KEY, variantKey: VARIANT_KEY },
   );
   const problems = [];
   if (got.lang !== "it") problems.push(`language is ${got.lang}`);
@@ -432,6 +440,12 @@ async function globalChecks(page, { theme, role, direction, def }) {
     if (got.control.value !== expected) problems.push(`«Direzione» shows ${got.control.value}`);
     if ((got.applied ?? "current") !== expected) problems.push(`data-direction is ${got.applied}`);
   }
+  // Variants: the key as written, and every requested variant applied (a variant with no file
+  // in directions/<id>/variants/ is not, so a typo fails instead of shooting the plain direction).
+  if (got.variantKey !== (variant || null)) problems.push(`variant key is ${got.variantKey}`);
+  const wanted = variant ? variant.split(",").join(" ") : null;
+  if (got.variant !== wanted)
+    problems.push(`data-variant is «${got.variant}», expected «${wanted}»`);
   return problems;
 }
 
@@ -447,12 +461,31 @@ function viewportOf(width) {
   return { width: w, height: h };
 }
 
-const fileName = (state, theme, width, direction) => `${state}-${theme}-${width}-${direction}.png`;
+// `variant` (optional): the canonical list "c2,t3", written "+c2.t3" after the direction.
+const suffix = (direction, variant) =>
+  direction + (variant ? "+" + variant.split(",").join(".") : "");
+const fileName = (state, theme, width, direction, variant) =>
+  `${state}-${theme}-${width}-${suffix(direction, variant)}.png`;
+
+/** "t3,c2" → "c2,t3": valid names (axis c|t|b|i, then a number), one per axis, the last wins,
+ * in axis order (as directions/index.mjs parseVariants). Any other name is an error here. */
+function variantList(value) {
+  const byAxis = new Map();
+  for (const name of String(value ?? "")
+    .split(/[\s,]+/)
+    .filter(Boolean)) {
+    if (!/^[ctbi]\d{1,2}$/.test(name)) throw new Error(`Bad variant «${name}» (e.g. c2,t3)`);
+    byAxis.set(name[0], name);
+  }
+  return VARIANT_AXES.filter((a) => byAxis.has(a))
+    .map((a) => byAxis.get(a))
+    .join(",");
+}
 
 // A group shares base state, role, theme, width and direction: one setup, then the viewport
 // and/or full-page capture.
 async function shootGroup(browser, group, opts) {
-  const { def, role, theme, width, direction, variants } = group;
+  const { def, role, theme, width, direction, variant = "", variants } = group;
   const vp = viewportOf(width);
   const mobile = vp.width < 768;
   const started = Date.now();
@@ -472,14 +505,23 @@ async function shootGroup(browser, group, opts) {
   try {
     if (opts.now !== "real") await context.clock.setFixedTime(new Date(opts.now));
     await context.addInitScript(
-      ({ themeKey, theme, dirKey, direction }) => {
+      ({ themeKey, theme, dirKey, direction, variantKey, variant }) => {
         try {
           localStorage.setItem(themeKey, JSON.stringify(theme));
           if (direction === "off") localStorage.removeItem(dirKey);
           else localStorage.setItem(dirKey, direction);
+          if (variant) localStorage.setItem(variantKey, variant);
+          else localStorage.removeItem(variantKey);
         } catch {} // about:blank has no storage
       },
-      { themeKey: THEME_KEY, theme, dirKey: DIRECTION_KEY, direction },
+      {
+        themeKey: THEME_KEY,
+        theme,
+        dirKey: DIRECTION_KEY,
+        direction,
+        variantKey: VARIANT_KEY,
+        variant,
+      },
     );
     const page = await context.newPage();
     page.on("pageerror", (e) => errors.push("pageerror: " + e.message.split("\n")[0]));
@@ -496,7 +538,7 @@ async function shootGroup(browser, group, opts) {
     const warning = await settle(page, Boolean(def.keepFocus));
     const problems = [...(await globalChecks(page, group)), await def.check(page)].filter(Boolean);
     for (const variant of variants) {
-      const file = fileName(variant.state, theme, vp.width, direction);
+      const file = fileName(variant.state, theme, vp.width, direction, group.variant);
       const { buf, stable } = await stableShot(page, variant.full);
       const target = problems.length
         ? path.join(opts.out, "_failed", file)
@@ -511,6 +553,7 @@ async function shootGroup(browser, group, opts) {
         width: vp.width,
         height: vp.height,
         direction,
+        ...(group.variant ? { variant: group.variant } : {}),
         fullPage: variant.full,
         route: "#" + def.route,
         ok: problems.length === 0,
@@ -538,6 +581,7 @@ async function shootGroup(browser, group, opts) {
         theme,
         width: vp.width,
         direction,
+        ...(group.variant ? { variant: group.variant } : {}),
         ok: false,
         problems: ["failed: " + error.message.split("\n")[0]],
         errors,
@@ -568,6 +612,14 @@ function buildGroups(values) {
           ),
         ),
       );
+  // --variants: one combination per run, inside the run's one direction (an id, not off/current).
+  const variant = variantList(values.variants);
+  if (values.variants !== undefined && !variant) throw new Error("--variants names no variant");
+  if (variant) {
+    const ids = [...new Set(combos.map((c) => c.direction))];
+    if (ids.length !== 1 || ["off", "current"].includes(ids[0]))
+      throw new Error(`--variants needs exactly one direction id, not «${ids.join(",")}»`);
+  }
   const groups = new Map();
   for (const c of combos) {
     if (!["dark", "light"].includes(c.theme)) throw new Error(`Bad theme «${c.theme}»`);
@@ -577,7 +629,7 @@ function buildGroups(values) {
     const s = parseState(c.state);
     const key = [s.base, s.role, c.theme, c.width, c.direction].join("|");
     if (!groups.has(key))
-      groups.set(key, { ...c, def: s.def, base: s.base, role: s.role, variants: [] });
+      groups.set(key, { ...c, variant, def: s.def, base: s.base, role: s.role, variants: [] });
     const g = groups.get(key);
     if (!g.variants.some((v) => v.state === c.state))
       g.variants.push({ state: c.state, full: s.full });
@@ -588,7 +640,7 @@ function buildGroups(values) {
 function writeManifest(out, meta, results) {
   const file = path.join(out, "manifest.json");
   // One row per combo: a re-run replaces the earlier row, also when it now fails.
-  const key = (r) => [r.state, r.theme, r.width, r.direction].join("|");
+  const key = (r) => [r.state, r.theme, r.width, suffix(r.direction, r.variant)].join("|");
   const fresh = new Set(results.map(key));
   const merged = [...readShots(out).filter((r) => !fresh.has(key(r))), ...results].sort((a, b) =>
     key(a).localeCompare(key(b)),
@@ -613,7 +665,7 @@ function contactSheets(out, shots) {
   const rank = (r) => [order.indexOf(parseState(r.state).base), r.role === "dm" ? 1 : 0, -r.width];
   const bySheet = new Map();
   for (const r of ok) {
-    const key = r.theme + "-" + r.direction;
+    const key = r.theme + "-" + suffix(r.direction, r.variant);
     if (!bySheet.has(key)) bySheet.set(key, []);
     bySheet.get(key).push(r);
   }
@@ -678,6 +730,7 @@ async function main() {
       themes: { type: "string", default: "dark" },
       widths: { type: "string", default: "1440,390" },
       directions: { type: "string", default: OFF },
+      variants: { type: "string" },
       combo: { type: "string", multiple: true },
       now: { type: "string", default: "2026-09-30T19:00:00+02:00" },
       dpr: { type: "string" },
@@ -755,7 +808,16 @@ async function main() {
 }
 
 // Reused by the design-value audit (changes/visual-01/audit/audit.js); the CLI is unchanged.
-module.exports = { BASES, parseState, buildGroups, shootGroup, pool, viewportOf, fileName };
+module.exports = {
+  BASES,
+  parseState,
+  buildGroups,
+  shootGroup,
+  pool,
+  viewportOf,
+  fileName,
+  variantList,
+};
 
 if (require.main === module)
   main().catch((error) => {

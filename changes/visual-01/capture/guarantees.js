@@ -2,6 +2,13 @@
 // Phase C guarantees, measured deterministically for any list of directions (no agent judgement).
 //
 //   node changes/visual-01/capture/guarantees.js --directions bg3,ddb [--out <dir>] [--jobs 3]
+//   node changes/visual-01/capture/guarantees.js --directions current,bg3 --variant c2,t3
+//
+// --variant <list> (round 2, directions/README.md «Variants»): the combination is applied to
+// every direction id of the run (not to «Attuale», the baseline); the report line and the
+// guarantees.json key become «<id>+<list with dots>», e.g. «ok bg3+c2.t3». A variant with no
+// file under directions/<id>/variants/ fails the kit's check instead of measuring the plain
+// direction.
 //
 // Live checks (Chromium, dark, Italian, through the capture kit's own states):
 //   - hotbar ≤ 120 px at 1440×900 in combat (player and DM);
@@ -12,18 +19,48 @@
 //   - keyboard focus ring (after a real Tab) visible and not clipped by the viewport or by an
 //     overflow-clipping ancestor, on the brand button, End turn, a hotbar action and a sheet tab.
 // Static checks on directions/<id>/direction.css: no !important, no text-transform, every
-// selector (split on top-level commas) starts with :root[data-direction="<id>"].
+// selector (split on top-level commas) starts with :root[data-direction="<id>"]; and on every
+// directions/<id>/variants/<name>.css (all of them, not only the run's): the same bans, every
+// selector starting with :root[data-direction="<id>"][data-variant~="<name>"].
 "use strict";
 const fs = require("node:fs");
 const path = require("node:path");
 const { parseArgs } = require("node:util");
-const { buildGroups, shootGroup, pool } = require("./shoot.js");
+const { buildGroups, shootGroup, pool, variantList } = require("./shoot.js");
 
 const ROOT = path.resolve(__dirname, "../../..");
 const DIRS = path.join(ROOT, "design/blueprint/directions");
 
+// direction.css with the direction prefix, then each variants/<name>.css with its own prefix;
+// the counts add up, the samples name the variant file.
 function staticCheck(id) {
-  const file = path.join(DIRS, id, "direction.css");
+  const result = sheetCheck(path.join(DIRS, id, "direction.css"), `:root[data-direction="${id}"]`);
+  const folder = path.join(DIRS, id, "variants");
+  const files = fs.existsSync(folder)
+    ? fs
+        .readdirSync(folder)
+        .filter((f) => f.endsWith(".css"))
+        .sort()
+    : [];
+  for (const file of files) {
+    const name = /^([ctbi]\d{1,2})\.css$/.exec(file)?.[1];
+    const prefix = `:root[data-direction="${id}"][data-variant~="${name ?? file}"]`;
+    const r = sheetCheck(path.join(folder, file), prefix);
+    if (!name) {
+      r.unprefixed++;
+      r.unprefixedSample.unshift(`file name «${file}» is not <c|t|b|i><n>.css`);
+    }
+    result.important += r.important;
+    result.textTransform += r.textTransform;
+    result.unprefixed += r.unprefixed;
+    result.unprefixedSample.push(...r.unprefixedSample.map((x) => `variants/${file}: ${x}`));
+    (result.variants ??= []).push(file);
+  }
+  result.unprefixedSample = result.unprefixedSample.slice(0, 3);
+  return result;
+}
+
+function sheetCheck(file, prefix) {
   if (!fs.existsSync(file))
     return { important: 0, textTransform: 0, unprefixed: 0, unprefixedSample: [], skipped: true };
   const css = fs.readFileSync(file, "utf8").replace(/\/\*[\s\S]*?\*\//g, "");
@@ -54,8 +91,7 @@ function staticCheck(id) {
         const inert = stack.some((a) => /keyframes|font-face/.test(a));
         if (!inert && !/^(from|to|\d+%)/.test(sel))
           for (const s of splitTop(sel))
-            if (!s.trim().startsWith(`:root[data-direction="${id}"]`))
-              unprefixed.push(s.trim().slice(0, 100));
+            if (!s.trim().startsWith(prefix)) unprefixed.push(s.trim().slice(0, 100));
         stack.push("rule");
       }
     } else if (ch === "}") {
@@ -176,8 +212,14 @@ async function main() {
       },
       base: { type: "string", default: "http://127.0.0.1:8881/" },
       jobs: { type: "string", default: "3" },
+      variant: { type: "string" },
     },
   });
+  const variant = variantList(values.variant);
+  if (values.variant !== undefined && !variant) throw new Error("--variant names no variant");
+  // The report key: the id, or «<id>+c2.t3» for a variant run (the capture kit's file suffix).
+  const label = (id) =>
+    variant && id !== "current" ? `${id}+${variant.split(",").join(".")}` : id;
   const ids = values.directions
     .split(",")
     .map((s) => s.trim())
@@ -187,20 +229,30 @@ async function main() {
   const report = {};
   try {
     for (const id of ids) {
+      // The variant goes to every direction id; «Attuale» (and off) stay the plain baseline.
+      const variants = variant && !["current", "off"].includes(id) ? variant : undefined;
       const groups = [
         ...buildGroups({
           states: "table-combat,table-combat-dm",
           themes: "dark",
           widths: "1440,390",
           directions: id,
+          variants,
         }),
         ...buildGroups({
           states: "home,sheet",
           themes: "dark",
           widths: "1440,390",
           directions: id,
+          variants,
         }),
-        ...buildGroups({ states: "table-explore", themes: "dark", widths: "390", directions: id }),
+        ...buildGroups({
+          states: "table-explore",
+          themes: "dark",
+          widths: "390",
+          directions: id,
+          variants,
+        }),
       ];
       const opts = {
         out: path.join(values.out, id),
@@ -213,7 +265,7 @@ async function main() {
       const rows = (
         await pool(groups, Number(values.jobs) || 3, (g) => shootGroup(browser, g, opts))
       ).flat();
-      report[id] = {
+      report[label(id)] = {
         static: staticCheck(id),
         live: rows.map((r) => ({
           state: r.state,

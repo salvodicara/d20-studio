@@ -330,6 +330,255 @@ test("?direction= writes the key on loopback: an id, current, or off", async () 
   }
 });
 
+// Round 2 (02/10/2026): numbered options inside a direction on four axes, c colours, t fonts,
+// b buttons and fields, i icons, combinable (c2 + t3). Dev-only, like the direction itself.
+const memoryStorage = (store) => ({
+  getItem: (k) => (store.has(k) ? store.get(k) : null),
+  setItem: (k, v) => store.set(k, String(v)),
+  removeItem: (k) => store.delete(k),
+});
+
+test("parseVariants: a comma list, one per axis in c, t, b, i order, the last one wins", () => {
+  const parse = directions.parseVariants;
+  assert.deepEqual(directions.VARIANT_AXES, ["c", "t", "b", "i"]);
+  assert.deepEqual(parse("c2,t3"), ["c2", "t3"]);
+  assert.deepEqual(parse("t3,c2"), ["c2", "t3"], "axis order, not the order typed");
+  assert.deepEqual(parse("i2, b1 ,t3,c2"), ["c2", "t3", "b1", "i2"]);
+  assert.deepEqual(parse("c2,t3,c4"), ["c4", "t3"], "one per axis: the last c wins");
+  assert.deepEqual(parse("c2 t3"), ["c2", "t3"], "the attribute's space form reads back");
+  assert.deepEqual(parse("c12"), ["c12"]);
+  for (const nothing of [null, undefined, "", "off", ",", "x2", "c", "2", "C2", "c2x", "cc2", 42])
+    assert.deepEqual(parse(nothing), [], `«${String(nothing)}» names no variant`);
+  assert.deepEqual(parse("x2,c2,c,t3!"), ["c2"], "invalid names are ignored, valid ones kept");
+});
+
+test("?variant= writes the variant key on loopback: a list, off, or nothing valid", async () => {
+  const store = new Map();
+  globalThis.localStorage = memoryStorage(store);
+  try {
+    for (const [search, expected] of [
+      ["?direction=bg3&variant=t3,c2", "c2,t3"],
+      ["?variant=c2,c4", "c4"],
+      ["?direction=current", "c4"], // no ?variant=: the key stays
+      ["?variant=off", null],
+      ["?variant=b1", "b1"],
+      ["?variant=zz", null], // nothing valid: no variant
+    ]) {
+      globalThis.location = { hostname: "127.0.0.1", search };
+      await directions.startDirection(); // no document: only the keys change
+      assert.equal(store.get("d20-dev-variant") ?? null, expected, search);
+    }
+    store.set("d20-dev-variant", "c2");
+    globalThis.location = { hostname: "example.org", search: "?variant=off" };
+    await directions.startDirection();
+    assert.equal(store.get("d20-dev-variant"), "c2", "ignored off loopback");
+  } finally {
+    delete globalThis.location;
+    delete globalThis.localStorage;
+  }
+});
+
+test("variants are active only with an active direction, on loopback", () => {
+  const store = new Map();
+  globalThis.localStorage = memoryStorage(store);
+  try {
+    assert.deepEqual(directions.activeVariants(), [], "no browser location: none");
+    globalThis.location = { hostname: "127.0.0.1", search: "" };
+    store.set("d20-dev-variant", "t3,c2");
+    assert.deepEqual(directions.activeVariants(), [], "no direction key: none");
+    store.set("d20-dev-direction", "current");
+    assert.deepEqual(directions.activeVariants(), [], "«Attuale»: none");
+    store.set("d20-dev-direction", "bg3");
+    assert.deepEqual(directions.activeVariants(), ["c2", "t3"]);
+    store.delete("d20-dev-variant");
+    assert.deepEqual(directions.activeVariants(), []);
+    store.set("d20-dev-variant", "c2");
+    globalThis.location = { hostname: "example.org", search: "" };
+    assert.deepEqual(directions.activeVariants(), [], "never off loopback");
+  } finally {
+    delete globalThis.location;
+    delete globalThis.localStorage;
+  }
+});
+
+// The smallest document the loader touches: <html> dataset, <head> links (load fires on append),
+// the body sprite, getElementById. fetch answers HEAD requests from `files`.
+function fakeDocument(files) {
+  const element = (tag, parent) => {
+    const attrs = new Map();
+    const el = {
+      tagName: tag,
+      parent,
+      listeners: {},
+      dataset: {},
+      setAttribute: (k, v) => attrs.set(k, String(v)),
+      getAttribute: (k) => (attrs.has(k) ? attrs.get(k) : null),
+      removeAttribute: (k) => attrs.delete(k),
+      hasAttribute: (k) => attrs.has(k),
+      addEventListener: (type, fn) => (el.listeners[type] = fn),
+      remove() {
+        const kids = el.parent?.children;
+        if (kids?.includes(el)) kids.splice(kids.indexOf(el), 1);
+      },
+      get nextElementSibling() {
+        const kids = el.parent?.children ?? [];
+        return kids[kids.indexOf(el) + 1] ?? null;
+      },
+    };
+    return el;
+  };
+  const head = element("head");
+  head.children = [];
+  head.append = (el) => {
+    el.parent = head;
+    head.children.push(el);
+    const done = files.has(el.getAttribute("href")) ? "load" : "error";
+    queueMicrotask(() => el.listeners[done]?.());
+  };
+  Object.defineProperty(head, "lastElementChild", { get: () => head.children.at(-1) ?? null });
+  const body = element("body");
+  body.children = [];
+  body.insertAdjacentHTML = (where, html) => {
+    const svg = element("svg", body);
+    svg.id = /id="([^"]+)"/.exec(html)[1];
+    svg.setAttribute("data-art", /data-art="([^"]+)"/.exec(html)[1]);
+    body.children.push(svg);
+  };
+  for (const href of ["styles.css", "combat.css", "registry.css"]) {
+    const link = element("link", head);
+    link.setAttribute("href", href);
+    head.children.push(link);
+  }
+  const doc = {
+    documentElement: element("html"),
+    head,
+    body,
+    createElement: (tag) => element(tag, null),
+    getElementById: (id) => [...head.children, ...body.children].find((el) => el.id === id) ?? null,
+    querySelector: () => null, // no <link rel="icon">: the favicon swap has nothing to do
+  };
+  const requests = [];
+  const fetch = async (path, init) => {
+    requests.push(`${init?.method ?? "GET"} ${path}`);
+    return { ok: files.has(path) };
+  };
+  return { doc, requests, fetch, hrefs: () => head.children.map((el) => el.getAttribute("href")) };
+}
+
+test("the loader links existing variant sheets after the direction's, in axis order, and restores exactly", async () => {
+  const store = new Map();
+  const files = new Set([
+    "directions/dev.css",
+    "directions/sample.css",
+    "directions/bg3/direction.css",
+    "directions/bg3/variants/c2.css",
+    "directions/bg3/variants/t3.css",
+  ]);
+  const page = fakeDocument(files);
+  const own = { fetch: globalThis.fetch, document: globalThis.document };
+  globalThis.localStorage = memoryStorage(store);
+  globalThis.document = page.doc;
+  globalThis.fetch = page.fetch;
+  const root = page.doc.documentElement;
+  const plain = page.hrefs();
+  const direction = [...plain, "directions/dev.css", "directions/sample.css"];
+  try {
+    // No variant key: exactly today's direction (no attribute, no link, no variant request).
+    globalThis.location = { hostname: "127.0.0.1", search: "?direction=bg3" };
+    await directions.startDirection();
+    assert.deepEqual(page.hrefs(), [...direction, "directions/bg3/direction.css"]);
+    assert.deepEqual(Object.keys(root.dataset), ["direction"]);
+    assert.deepEqual(page.requests, ["HEAD assets/maps/sample/old-watch.webp"]);
+
+    // Typed out of order: linked in axis order, after the direction sheet, last in <head>.
+    globalThis.location = { hostname: "127.0.0.1", search: "?variant=t3,c2" };
+    await directions.startDirection();
+    assert.deepEqual(page.hrefs(), [
+      ...direction,
+      "directions/bg3/direction.css",
+      "directions/bg3/variants/c2.css",
+      "directions/bg3/variants/t3.css",
+    ]);
+    assert.equal(root.dataset.direction, "bg3");
+    assert.equal(root.dataset.variant, "c2 t3");
+    const sheets = page.doc.head.children.slice(-2);
+    assert.deepEqual(
+      sheets.map((el) => el.getAttribute("data-direction-sheet")),
+      ["dev-direction-variant", "dev-direction-variant"],
+      "variant links are direction sheets (the specimen counts them)",
+    );
+
+    // Only files that exist: b9 has none, so neither a link nor the attribute names it.
+    store.set("d20-dev-variant", "c2,b9");
+    await directions.applyDirection("bg3");
+    assert.deepEqual(page.hrefs().slice(-2), [
+      "directions/bg3/direction.css",
+      "directions/bg3/variants/c2.css",
+    ]);
+    assert.equal(root.dataset.variant, "c2");
+
+    // Another direction: its own variants folder (none here), so no variant link or attribute.
+    files.add("directions/ddb/direction.css");
+    store.set("d20-dev-direction", "ddb");
+    await directions.applyDirection("ddb");
+    assert.deepEqual(page.hrefs(), [...direction, "directions/ddb/direction.css"]);
+    assert.equal(root.dataset.variant, undefined);
+    assert.equal(root.dataset.direction, "ddb");
+
+    // Back to bg3, then variants off: the page is exactly the direction-only page.
+    store.set("d20-dev-direction", "bg3");
+    await directions.applyDirection("bg3");
+    assert.equal(root.dataset.variant, "c2");
+    globalThis.location = { hostname: "127.0.0.1", search: "?variant=off" };
+    await directions.startDirection();
+    assert.deepEqual(page.hrefs(), [...direction, "directions/bg3/direction.css"]);
+    assert.equal(root.dataset.variant, undefined);
+
+    // Variants on, then the direction off: nothing of either is left.
+    store.set("d20-dev-variant", "c2,t3");
+    await directions.applyDirection("bg3");
+    assert.equal(page.hrefs().length, direction.length + 3);
+    globalThis.location = { hostname: "127.0.0.1", search: "?direction=off" };
+    await directions.startDirection();
+    assert.deepEqual(page.hrefs(), plain);
+    assert.deepEqual(Object.keys(root.dataset), []);
+    assert.equal(icon("ruler"), original("ruler"), "the core icons are back");
+    assert.equal(store.get("d20-dev-variant"), "c2,t3", "the variant key waits for a direction");
+  } finally {
+    delete globalThis.location;
+    delete globalThis.localStorage;
+    globalThis.document = own.document;
+    globalThis.fetch = own.fetch;
+    if (own.document === undefined) delete globalThis.document;
+    await directions.applyDirection(null);
+    setIconOverride(null);
+    setLogoOverride(null);
+  }
+});
+
+test("variant icons win over the direction's, then the direction's, then the core", () => {
+  const svg = (id) => `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true" id="${id}"></svg>`;
+  const variant = (name) => (name === "ruler" ? svg("variant") : name === "bad" ? 42 : null);
+  const direction = (name) => (name === "home" || name === "bad" ? svg("direction") : null);
+  const pick = directions.combineIcons([variant, direction]);
+  assert.equal(pick("ruler"), svg("variant"));
+  assert.equal(pick("home"), svg("direction"), "the variant's null falls back to the direction");
+  assert.equal(pick("bad"), svg("direction"), "a non-svg answer falls back too");
+  assert.equal(pick("sword"), null, "neither answers: the core icon");
+  const thrower = () => {
+    throw new Error("broken");
+  };
+  assert.equal(directions.combineIcons([thrower, direction])("home"), svg("direction"));
+  assert.equal(directions.combineIcons([]), null, "no picker: no override");
+  assert.equal(directions.combineIcons([null, undefined]), null);
+  globalThis.document = { documentElement: { dataset: { prefTheme: "light" } } };
+  try {
+    assert.equal(pick("ruler"), null, "the light theme keeps the core icons");
+  } finally {
+    delete globalThis.document;
+  }
+});
+
 // Every direction stylesheet stays inert without its root attribute (code-map §c zero effect).
 const stripComments = (css) => css.replace(/\/\*[\s\S]*?\*\//g, "");
 function selectorsOf(css) {
@@ -412,4 +661,65 @@ test("direction, sample and dev stylesheets only match in direction mode", () =>
   }
   const dev = readFileSync(here("directions/dev.css"), "utf8");
   for (const head of selectorsOf(dev)) assert.match(head, /#demo-direction/);
+});
+
+// directions/<id>/variants/<name>.css (round 2): inert without both the direction and the
+// variant on <html>; the same bans as direction.css (README «Contract for a variant builder»).
+function variantProblems(css, id, name) {
+  const prefix = `:root[data-direction="${id}"][data-variant~="${name}"]`;
+  const problems = [];
+  const plain = stripComments(css);
+  if (/!important/.test(plain)) problems.push("!important");
+  if (/text-transform/.test(plain)) problems.push("text-transform");
+  for (const head of selectorsOf(css))
+    for (const selector of selectorList(head))
+      if (!selector.startsWith(prefix)) problems.push(`«${selector}» must start with ${prefix}`);
+  return problems;
+}
+
+test("the variant check rejects what the contract forbids", () => {
+  const good = `@font-face { font-family: "X"; src: url(x.woff2); }
+    :root[data-direction="bg3"][data-variant~="c2"]:not([data-pref-theme="light"]) { --accent: #c9a25e; }
+    @media (max-width: 720px) { :root[data-direction="bg3"][data-variant~="c2"] .brand, :root[data-direction="bg3"][data-variant~="c2"] .brand b { gap: 4px; } }`;
+  assert.deepEqual(variantProblems(good, "bg3", "c2"), []);
+  for (const [bad, why] of [
+    [`:root[data-direction="bg3"] { --accent: red; }`, "no variant attribute"],
+    [`:root[data-direction="bg3"][data-variant~="t3"] { --accent: red; }`, "another variant"],
+    [`:root[data-variant~="c2"] { --accent: red; }`, "no direction"],
+    [`:root[data-direction="bg3"][data-variant~="c2"] a, .brand { color: red; }`, "a bare part"],
+    [`:root[data-direction="bg3"][data-variant~="c2"] a { color: red !important; }`, "!important"],
+    [`:root[data-direction="bg3"][data-variant~="c2"] a { text-transform: none; }`, "transform"],
+  ])
+    assert.notDeepEqual(variantProblems(bad, "bg3", "c2"), [], why);
+});
+
+test("every variant stylesheet and icon module keeps the contract", async () => {
+  const name = /^([ctbi]\d{1,2})\.(css|icons\.mjs)$/;
+  for (const { id } of directions.DIRECTIONS) {
+    const folder = `directions/${id}/variants`;
+    if (!existsSync(here(folder))) continue;
+    for (const file of readdirSync(here(folder))) {
+      if (!/\.(css|mjs)$/.test(file)) continue;
+      const m = name.exec(file);
+      assert.ok(m, `${folder}/${file}: named <axis c|t|b|i><number>.css or .icons.mjs`);
+      if (m[2] === "css")
+        assert.deepEqual(
+          variantProblems(readFileSync(here(`${folder}/${file}`), "utf8"), id, m[1]),
+          [],
+          `${folder}/${file}`,
+        );
+      else {
+        const mod = await import(here(`${folder}/${file}`).href);
+        assert.equal(typeof mod.directionIcon, "function", `${folder}/${file}: directionIcon`);
+        for (const icon of ["ruler", "home", "sword", "no-such-icon"]) {
+          const svg = mod.directionIcon(icon);
+          assert.ok(
+            svg === null ||
+              (typeof svg === "string" && /^<svg class="icon"[^>]* aria-hidden="true"/.test(svg)),
+            `${folder}/${file}: ${icon} is null or a full decorative <svg class="icon">`,
+          );
+        }
+      }
+    }
+  }
 });

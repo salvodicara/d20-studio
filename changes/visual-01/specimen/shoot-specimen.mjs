@@ -1,17 +1,23 @@
 #!/usr/bin/env node
 // Captures the dev-only component specimen (design/blueprint/directions/specimen.html) as one
 // full-page screenshot per direction and width: specimen-<direction>.png at 1440 and
-// specimen-<direction>-390.png on a phone. Before shooting it checks that the specimen loads
+// specimen-<direction>-390.png on a phone; with --variants (round 2, directions/README.md)
+// specimen-<direction>+<list with dots>[-390].png, e.g. specimen-bg3+c2.t3.png. Before shooting it checks that the specimen loads
 // exactly the stylesheets of a running app page, in the same order (it fails otherwise).
 //
 // Usage (from the worktree root, server on 8881; GNU timeout is not installed):
 //   perl -e 'alarm 150; exec @ARGV' -- node changes/visual-01/specimen/shoot-specimen.mjs \
 //     --out <dir> --directions off,current,bg3,owlbear
+//   … --out <dir> --directions bg3 --variants c2,t3     (one combination per run)
 // Options: see --help. Never writes inside the repository unless --out points there.
 import fs from "node:fs";
 import path from "node:path";
 import { parseArgs } from "node:util";
+import { createRequire } from "node:module";
 import { chromium } from "playwright";
+
+// The capture kit's own parser: the same list, the same errors, the same file suffix.
+const { variantList } = createRequire(import.meta.url)("../capture/shoot.js");
 
 const HELP = `Usage: node shoot-specimen.mjs --out <dir> [options]
 
@@ -21,14 +27,18 @@ const HELP = `Usage: node shoot-specimen.mjs --out <dir> [options]
   --directions <list>  'off' (no key), 'current' («Attuale», direction mode) or direction
                        ids (bg3,ddb,foundry,owlbear,solasta,roll20,owlcat,alchemy,demiplane)
                                                                                   [off]
+  --variants <list>    round-2 options inside the run's one direction id, one per axis
+                       c,t,b,i (e.g. c2,t3; the last per axis wins)                [none]
   --widths <list>      1440 and/or 390 (390 is a phone: touch, mobile)        [1440,390]
   --dpr <n>            device pixel ratio for every shot                             [1]
   --jobs <n>           shots captured in parallel                                    [3]
 
-Files: specimen-<direction>.png (1440), specimen-<direction>-390.png (390), manifest.json.
+Files: specimen-<direction>.png (1440), specimen-<direction>-390.png (390), manifest.json;
+with --variants specimen-<direction>+<list with dots>[-390].png (specimen-bg3+c2.t3.png).
 Exit code: 0 all ok, 1 a shot failed its checks, 2 the stylesheet list drifted from the app.`;
 
 const DIRECTION_KEY = "d20-dev-direction";
+const VARIANT_KEY = "d20-dev-variant";
 // Console noise the loader documents (directions/README.md «Known noise»): a direction with no
 // icons.mjs, or the sample map missing, logs one 404; the page is still complete.
 const NOISE = /Failed to load resource: the server responded with a status of 404/;
@@ -38,6 +48,7 @@ const { values } = parseArgs({
     out: { type: "string" },
     base: { type: "string", default: "http://127.0.0.1:8881/" },
     directions: { type: "string", default: "off" },
+    variants: { type: "string" },
     widths: { type: "string", default: "1440,390" },
     dpr: { type: "string", default: "1" },
     jobs: { type: "string", default: "3" },
@@ -60,11 +71,19 @@ const widths = list(values.widths).map(Number);
 for (const d of directions)
   if (!/^[a-z0-9][a-z0-9-]*$/.test(d)) throw new Error(`Bad direction «${d}»`);
 for (const w of widths) if (![1440, 390].includes(w)) throw new Error(`Width must be 1440 or 390`);
+// --variants: one combination per run, inside the run's one direction (an id, not off/current).
+const variant = variantList(values.variants);
+if (values.variants !== undefined && !variant) throw new Error("--variants names no variant");
+if (variant && (directions.length !== 1 || ["off", "current"].includes(directions[0])))
+  throw new Error(`--variants needs exactly one direction id, not «${directions.join(",")}»`);
 fs.mkdirSync(out, { recursive: true });
 
 const viewport = (width) => ({ width, height: width === 390 ? 844 : 900 });
+// `variant` "c2,t3" is written "+c2.t3" after the direction (as capture/shoot.js).
+const suffix = (direction, variant) =>
+  direction + (variant ? "+" + variant.split(",").join(".") : "");
 const fileName = (direction, width) =>
-  `specimen-${direction}${width === 1440 ? "" : "-" + width}.png`;
+  `specimen-${suffix(direction, variant)}${width === 1440 ? "" : "-" + width}.png`;
 // Stylesheet hrefs as paths from the app root, so the app's absolute and relative hrefs compare.
 const normalise = (hrefs) => hrefs.map((href) => new URL(href, base).pathname.replace(/^\//, ""));
 
@@ -122,7 +141,8 @@ async function shoot(browser, direction, width, expected) {
       const why = r.failure()?.errorText ?? "";
       (why === "net::ERR_ABORTED" ? noise : errors).push(`request failed (${why}): ${r.url()}`);
     });
-    await page.goto(`${base}directions/specimen.html?direction=${direction}`, {
+    const query = `?direction=${direction}` + (variant ? `&variant=${variant}` : "");
+    await page.goto(`${base}directions/specimen.html${query}`, {
       waitUntil: "load",
     });
     await page.locator('#specimen[data-ready="true"]').waitFor({ timeout: 20000 });
@@ -151,6 +171,8 @@ async function shoot(browser, direction, width, expected) {
       ...globalThis.specimenReport,
       attribute: document.documentElement.dataset.direction ?? null,
       stored: localStorage.getItem("d20-dev-direction"),
+      variant: document.documentElement.dataset.variant ?? null,
+      variantKey: localStorage.getItem("d20-dev-variant"),
       height: document.documentElement.scrollHeight,
       overflowX: document.documentElement.scrollWidth - innerWidth,
     }));
@@ -163,6 +185,12 @@ async function shoot(browser, direction, width, expected) {
     if (direction !== "off" && report.stored === null) problems.push("direction key not set");
     if (id && !report.direction.some((href) => href.endsWith(`directions/${id}/direction.css`)))
       problems.push(`directions/${id}/direction.css not linked`);
+    // Every requested variant applied (one with no file in variants/ is not: a typo fails).
+    const wanted = variant ? variant.split(",").join(" ") : null;
+    if (report.variant !== wanted)
+      problems.push(`data-variant is «${report.variant}», expected «${wanted}»`);
+    if (report.variantKey !== (variant || null))
+      problems.push(`variant key is ${report.variantKey}`);
     if (report.missing.length) problems.push(`sheets not loaded: ${report.missing.join(", ")}`);
     if (report.drift) problems.push(`static sheets drifted from index.html`);
     if (expected && normalise(report.app).join() !== expected.join())
@@ -177,6 +205,7 @@ async function shoot(browser, direction, width, expected) {
     return {
       file: path.relative(out, target),
       direction,
+      ...(variant ? { variant } : {}),
       width,
       height: report.height,
       ok: problems.length === 0,
@@ -189,6 +218,7 @@ async function shoot(browser, direction, width, expected) {
     return {
       file: null,
       direction,
+      ...(variant ? { variant } : {}),
       width,
       ok: false,
       problems: ["failed: " + error.message.split("\n")[0], ...errors],
@@ -221,7 +251,7 @@ async function main() {
     try {
       previous = JSON.parse(fs.readFileSync(manifestFile, "utf8")).shots ?? [];
     } catch {}
-    const key = (r) => `${r.direction}|${r.width}`;
+    const key = (r) => `${suffix(r.direction, r.variant)}|${r.width}`;
     const fresh = new Set(results.map(key));
     const shots = [...previous.filter((r) => !fresh.has(key(r))), ...results].sort((a, b) =>
       key(a).localeCompare(key(b)),
