@@ -1,0 +1,27 @@
+/* Variant «i1 · Glifi dorati» of the bg3 direction (round 2, icon axis, 03/10/2026): icon CSS
+   only. The glyphs and their gilt come from i1.icons.mjs.
+
+   elemento → prodotto → fonte
+   - gilt glyphs keep the app's state colours where a colour tells something: the gold is
+     mixed with 30 % of the text colour by default (--i1-keep), with more of it on the danger
+     buttons and on a blocked hotbar slot → BG3 keeps red on hostile/danger chrome and greys an
+     unusable slot → facts A1 «Iconography (actions)», bg3-table-crop-hotbar-4k.png (the
+     greyed slots); the shape and the text stay the non-colour cues.
+   - the Scene tab keeps the direction's own framed-landscape mask: the gilt glyph's shadow
+     copy, painted with its own fill, is hidden there with the rest of the glyph → direction.css
+     «Scena» (assets/scene.svg). */
+
+:root[data-direction="bg3"][data-variant~="i1"]:not([data-pref-theme="light"])
+  .table-layout
+  #table-tab-scene
+  > .icon
+  > * {
+  visibility: hidden;
+}
+
+/* Danger buttons and blocked slots: the state colour leads, the gold only warms it. */
+:root[data-direction="bg3"][data-variant~="i1"]:not([data-pref-theme="light"])
+  :is(.danger, .button.danger, .icon-button.danger, [aria-disabled="true"], :disabled)
+  > .icon {
+  --i1-keep: 72%;
+}

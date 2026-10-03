@@ -1,0 +1,149 @@
+/* Variant «i3 · Dipinti» of the bg3 direction (round 2, icon axis, 03/10/2026): icon CSS only.
+   The glyphs come from i3.icons.mjs (the «i1 · Glifi dorati» voice).
+
+   elemento → prodotto → fonte
+   - spell and weapon slots of the hotbar are painted pictures that fill the slot inside a
+     1 px dark bevel, the slot's name over a dark foot → BG3's hotbar: «Items and spells are
+     painted», the icon is as big as the 44 px slot → facts A1 «Iconography (actions)»,
+     «Hotbar slot size»; bg3-table-crop-hotbar-4k.png (the right half: scrolls, potions),
+     bg3-table-hotbar-spellslot-tooltip.jpg.
+   - the pictures: four SAMPLE previews of the round-2 painted-icon probe, style A «Dipinto»
+     (owner-generated with the Codex image tool on 02/10/2026; assets/prompts/icons.md),
+     128 px WebP flattened on #120e0b: Dardo di fuoco, Dardo incantato, and the longsword and
+     longbow for the weapons of the same name (Doran's turn). Records: ICONS-LICENSE.md.
+   - a spell or weapon slot with no picture yet (Bastone ferrato, Mani brucianti) shows the
+     same painted frame, warm umber ground lit from above, with its gilt glyph in the
+     picture's place → the probe's style A ground (assets/prompts/icons.md); the production
+     set will paint every spell and item.
+   - class and common actions (Scatto, Schivata, Disimpegno, Mosse) stay the direction's lit
+     glyph tiles → BG3's «Class/action icons are white or tinted line-art glyphs … on dark
+     tinted square tiles» → facts A1.
+   The slot keeps its box, its name, its cost pip, its hover light, its chosen-slot white rim
+   (the picture sits 2 px inside it) and its inner 3 px focus ring. */
+
+:root[data-direction="bg3"][data-variant~="i3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-action:is(
+    [data-combat-kind="attack"],
+    [data-combat-kind="multi"],
+    [data-combat-kind="area"]
+  ) {
+  isolation: isolate;
+}
+/* The frame: the glyph's box becomes the slot's picture plate, behind the name and the pip. */
+:root[data-direction="bg3"][data-variant~="i3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-action:is(
+    [data-combat-kind="attack"],
+    [data-combat-kind="multi"],
+    [data-combat-kind="area"]
+  )
+  > .icon {
+  position: absolute;
+  inset: 2px;
+  z-index: -1;
+  box-sizing: border-box;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 2px 18px 28px;
+  border-radius: 2px;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 30%, rgb(214 156 82 / 0.34), transparent 70%),
+    linear-gradient(#2b1e13, #120e0b 78%);
+  box-shadow:
+    inset 0 0 0 1px rgb(0 0 0 / 0.9),
+    inset 0 1px 0 1px rgb(255 236 190 / 0.1),
+    inset 0 -24px 14px -8px rgb(6 5 4 / 0.92);
+  filter: none;
+}
+/* The plate leaves the slot's column: the name keeps its place at the slot's foot. */
+:root[data-direction="bg3"][data-variant~="i3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-action:is(
+    [data-combat-kind="attack"],
+    [data-combat-kind="multi"],
+    [data-combat-kind="area"]
+  )
+  > span:not([class]) {
+  margin-top: auto;
+}
+@media (min-width: 1280px) {
+  :root[data-direction="bg3"][data-variant~="i3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-action:is(
+      [data-combat-kind="attack"],
+      [data-combat-kind="multi"],
+      [data-combat-kind="area"]
+    )
+    > .icon {
+    width: auto;
+    height: auto;
+    padding: 4px 15px 16px;
+    box-shadow:
+      inset 0 0 0 1px rgb(0 0 0 / 0.9),
+      inset 0 1px 0 1px rgb(255 236 190 / 0.1),
+      inset 0 -18px 10px -8px rgb(6 5 4 / 0.92);
+  }
+}
+
+/* The pictures: the glyph steps aside and the art fills the plate (cover, subject kept). */
+:root[data-direction="bg3"][data-variant~="i3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-action:is(
+    [data-combat-action="fire-bolt"],
+    [data-combat-action="magic-missile"],
+    [data-combat-action="longsword"],
+    [data-combat-action="longbow"]
+  )
+  > .icon
+  > * {
+  visibility: hidden;
+}
+:root[data-direction="bg3"][data-variant~="i3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-action[data-combat-action="fire-bolt"]
+  > .icon {
+  background: url("assets/i-painted-firebolt.webp") 50% 30% / cover no-repeat #120e0b;
+}
+:root[data-direction="bg3"][data-variant~="i3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-action[data-combat-action="magic-missile"]
+  > .icon {
+  background: url("assets/i-painted-magicmissile.webp") 50% 30% / cover no-repeat #120e0b;
+}
+:root[data-direction="bg3"][data-variant~="i3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-action[data-combat-action="longsword"]
+  > .icon {
+  background: url("assets/i-painted-longsword.webp") 50% 40% / cover no-repeat #120e0b;
+}
+:root[data-direction="bg3"][data-variant~="i3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-action[data-combat-action="longbow"]
+  > .icon {
+  background: url("assets/i-painted-longbow.webp") 50% 40% / cover no-repeat #120e0b;
+}
+
+/* A blocked painted slot is greyed, as BG3 greys an unusable picture; the name and the
+   blocked reason stay the cue. */
+:root[data-direction="bg3"][data-variant~="i3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-action:is(
+    [data-combat-kind="attack"],
+    [data-combat-kind="multi"],
+    [data-combat-kind="area"]
+  ):is([aria-disabled="true"], .is-off-turn)
+  > .icon {
+  filter: grayscale(0.85) brightness(0.7);
+}

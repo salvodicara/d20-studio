@@ -1,0 +1,53 @@
+/* Variant «i2 · Contorni incisi» of the bg3 direction (round 2, icon axis, 03/10/2026): icon
+   CSS only. The glyphs come from i2.icons.mjs (Lucide 1.49.0, ISC).
+
+   elemento → prodotto → fonte
+   - outline glyphs keep the app's state colours where a colour tells something: the pale
+     gold is mixed with 40 % of the text colour by default (--i2-keep), with more of it on
+     the danger buttons and on a blocked slot → BG3 keeps red on danger chrome and greys an
+     unusable slot → facts A1 «Iconography (actions)», bg3-table-crop-hotbar-4k.png; the shape
+     and the text stay the non-colour cues.
+   - the Scene tab keeps its own picture, distinct from the Map link (direction.css «Scena»),
+     in this voice: the outline framed landscape (Lucide «image», ISC, drawn at the same 1.4
+     line) as the tab's mask in the text colour; the engraved glyph underneath is hidden.
+   - a thin line reads lighter than a filled glyph of the same box: the hotbar's glyph grows
+     from 18 to 20 px below 1280 px (the 48 px slot still holds two lines of names) → BG3's
+     icon fills its slot → facts A1 «Hotbar slot size». */
+
+:root[data-direction="bg3"][data-variant~="i2"]:not([data-pref-theme="light"])
+  .table-layout
+  #table-tab-scene
+  > .icon {
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect width='18' height='18' x='3' y='3' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect width='18' height='18' x='3' y='3' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+}
+:root[data-direction="bg3"][data-variant~="i2"]:not([data-pref-theme="light"])
+  .table-layout
+  #table-tab-scene
+  > .icon
+  > * {
+  visibility: hidden;
+}
+
+/* Danger buttons and blocked slots: the state colour leads, the gold only warms it. */
+:root[data-direction="bg3"][data-variant~="i2"]:not([data-pref-theme="light"])
+  :is(.danger, .button.danger, .icon-button.danger, [aria-disabled="true"], :disabled)
+  > .icon {
+  --i2-keep: 75%;
+}
+
+:root[data-direction="bg3"][data-variant~="i2"] {
+  --bg3-icon-slot: 20px;
+}
+
+/* The connection cloud in the header joins the outline row: Lucide cloud-check, cloud-off,
+   cloud-sync and cloud-alert (ISC) as the masks offline.css paints in the text colour, in
+   place of the direction's filled cloud. */
+:root[data-direction="bg3"][data-variant~="i2"]:not([data-pref-theme="light"]) {
+  --offline-cloud: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m17 15-5.5 5.5L9 18'/%3E%3Cpath d='M5.516 16.07A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 3.501 7.327'/%3E%3C/svg%3E");
+  --offline-cloud-off: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10.94 5.274A7 7 0 0 1 15.71 10h1.79a4.5 4.5 0 0 1 4.222 6.057'/%3E%3Cpath d='M18.796 18.81A4.5 4.5 0 0 1 17.5 19H9A7 7 0 0 1 5.79 5.78'/%3E%3Cpath d='m2 2 20 20'/%3E%3C/svg%3E");
+  --offline-cloud-sync: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m17 18-1.535 1.605a5 5 0 0 1-8-1.5'/%3E%3Cpath d='M17 22v-4h-4'/%3E%3Cpath d='M20.996 15.251A4.5 4.5 0 0 0 17.495 8h-1.79a7 7 0 1 0-12.709 5.607'/%3E%3Cpath d='M7 10v4h4'/%3E%3Cpath d='m7 14 1.535-1.605a5 5 0 0 1 8 1.5'/%3E%3C/svg%3E");
+  --offline-cloud-alert: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 12v4'/%3E%3Cpath d='M12 20h.01'/%3E%3Cpath d='M8.128 16.949A7 7 0 1 1 15.71 8h1.79a1 1 0 0 1 0 9h-1.642'/%3E%3C/svg%3E");
+}
