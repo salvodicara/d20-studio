@@ -51,3 +51,35 @@
   --offline-cloud-sync: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m17 18-1.535 1.605a5 5 0 0 1-8-1.5'/%3E%3Cpath d='M17 22v-4h-4'/%3E%3Cpath d='M20.996 15.251A4.5 4.5 0 0 0 17.495 8h-1.79a7 7 0 1 0-12.709 5.607'/%3E%3Cpath d='M7 10v4h4'/%3E%3Cpath d='m7 14 1.535-1.605a5 5 0 0 1 8 1.5'/%3E%3C/svg%3E");
   --offline-cloud-alert: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 12v4'/%3E%3Cpath d='M12 20h.01'/%3E%3Cpath d='M8.128 16.949A7 7 0 1 1 15.71 8h1.79a1 1 0 0 1 0 9h-1.642'/%3E%3C/svg%3E");
 }
+
+/* Round-2 fix (04/10/2026): the six pictograms the icon hook does not reach (they are drawn
+   inline by their own modules): the map tools «Trova la mia pedina» and «Centra la scena», the
+   safety buttons Stop, Rallenta and Alza la mano, and the special-moves glyphs («Mosse»).
+   They keep their line shapes, in the same 1.4 pale-gold line over a shaded groove, so the
+   map tools (pawn, target, +, −) read as one set → I-250 «one coherent system». */
+:root[data-direction="bg3"][data-variant~="i2"]:not([data-pref-theme="light"])
+  :is(
+    .map-tool[data-table="find-token"] > .icon,
+    .map-tool[data-table="fit"] > .icon,
+    .session-view-hud-button.safety-hud > .icon,
+    .icon.sm-glyph
+  ) {
+  filter: drop-shadow(0 -0.6px 0 rgb(0 0 0 / 0.72));
+}
+:root[data-direction="bg3"][data-variant~="i2"]:not([data-pref-theme="light"])
+  :is(
+    .map-tool[data-table="find-token"] > .icon,
+    .map-tool[data-table="fit"] > .icon,
+    .session-view-hud-button.safety-hud > .icon,
+    .icon.sm-glyph
+  )
+  > * {
+  stroke: color-mix(in srgb, currentColor var(--i2-keep, 40%), #f2deaa);
+  stroke-width: 1.4px;
+}
+/* Stop keeps its red: the colour warns, the gold only warms it. */
+:root[data-direction="bg3"][data-variant~="i2"]:not([data-pref-theme="light"])
+  .session-view-hud-button.safety-hud.is-stop
+  > .icon {
+  --i2-keep: 75%;
+}

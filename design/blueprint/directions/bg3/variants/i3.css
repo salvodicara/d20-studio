@@ -7,10 +7,12 @@
      painted», the icon is as big as the 44 px slot → facts A1 «Iconography (actions)»,
      «Hotbar slot size»; bg3-table-crop-hotbar-4k.png (the right half: scrolls, potions),
      bg3-table-hotbar-spellslot-tooltip.jpg.
-   - the pictures: four SAMPLE previews of the round-2 painted-icon probe, style A «Dipinto»
-     (owner-generated with the Codex image tool on 02/10/2026; assets/prompts/icons.md),
-     128 px WebP flattened on #120e0b: Dardo di fuoco, Dardo incantato, and the longsword and
-     longbow for the weapons of the same name (Doran's turn). Records: ICONS-LICENSE.md.
+   - the pictures: a SAMPLE of four paintings from the round-2 painted-icon probe, style A
+     «Dipinto» (owner-generated with the Codex image tool on 02/10/2026; assets/prompts/icons.md),
+     128 px WebP flattened on #120e0b: Dardo di fuoco, Dardo incantato (Livia's turn), and the
+     longsword and longbow for the weapons of the same name (Doran's turn: the hotbar names
+     them «special-moves.weapon.invp-doran-longsword», hence the suffix match). This option
+     shows the look on a sample; it is not a complete painted set. Records: ICONS-LICENSE.md.
    - a spell or weapon slot with no picture yet (Bastone ferrato, Mani brucianti) shows the
      same painted frame, warm umber ground lit from above, with its gilt glyph in the
      picture's place → the probe's style A ground (assets/prompts/icons.md); the production
@@ -19,7 +21,11 @@
      glyph tiles → BG3's «Class/action icons are white or tinted line-art glyphs … on dark
      tinted square tiles» → facts A1.
    The slot keeps its box, its name, its cost pip, its hover light, its chosen-slot white rim
-   (the picture sits 2 px inside it) and its inner 3 px focus ring. */
+   (the picture sits 2 px inside it) and its inner 3 px focus ring.
+   - the name reads on a dark foot that is at least 4.5:1 under the name even against the
+     brightest painted pixel (round-2 fix, 04/10/2026, review-i: 2.32:1 before): the foot is
+     taller and darker and the picture sits above it (on a phone, where the name takes two lines,
+     the picture is a 32 px medallion over the foot; from 1280 px it fills the plate, raised). */
 
 :root[data-direction="bg3"][data-variant~="i3"]:not([data-pref-theme="light"])
   .table-layout
@@ -56,7 +62,7 @@
   box-shadow:
     inset 0 0 0 1px rgb(0 0 0 / 0.9),
     inset 0 1px 0 1px rgb(255 236 190 / 0.1),
-    inset 0 -24px 14px -8px rgb(6 5 4 / 0.92);
+    inset 0 -30px 8px -4px rgb(6 5 4 / 0.94);
   filter: none;
 }
 /* The plate leaves the slot's column: the name keeps its place at the slot's foot. */
@@ -87,11 +93,11 @@
     box-shadow:
       inset 0 0 0 1px rgb(0 0 0 / 0.9),
       inset 0 1px 0 1px rgb(255 236 190 / 0.1),
-      inset 0 -18px 10px -8px rgb(6 5 4 / 0.92);
+      inset 0 -22px 12px -4px rgb(6 5 4 / 0.94);
   }
 }
 
-/* The pictures: the glyph steps aside and the art fills the plate (cover, subject kept). */
+/* The pictures: the glyph steps aside and the art takes the plate above the name's foot. */
 :root[data-direction="bg3"][data-variant~="i3"]:not([data-pref-theme="light"])
   .table-layout
   .table-hotbar
@@ -99,7 +105,9 @@
     [data-combat-action="fire-bolt"],
     [data-combat-action="magic-missile"],
     [data-combat-action="longsword"],
-    [data-combat-action="longbow"]
+    [data-combat-action$="-longsword"],
+    [data-combat-action="longbow"],
+    [data-combat-action$="-longbow"]
   )
   > .icon
   > * {
@@ -108,30 +116,61 @@
 :root[data-direction="bg3"][data-variant~="i3"]:not([data-pref-theme="light"])
   .table-layout
   .table-hotbar
+  .combat-action:is(
+    [data-combat-action="fire-bolt"],
+    [data-combat-action="magic-missile"],
+    [data-combat-action="longsword"],
+    [data-combat-action$="-longsword"],
+    [data-combat-action="longbow"],
+    [data-combat-action$="-longbow"]
+  )
+  > .icon {
+  background: #120e0b no-repeat 50% 0 / 32px 32px;
+}
+@media (min-width: 1280px) {
+  :root[data-direction="bg3"][data-variant~="i3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-action:is(
+      [data-combat-action="fire-bolt"],
+      [data-combat-action="magic-missile"],
+      [data-combat-action="longsword"],
+      [data-combat-action$="-longsword"],
+      [data-combat-action="longbow"],
+      [data-combat-action$="-longbow"]
+    )
+    > .icon {
+    background-position: 50% 100%;
+    background-size: cover;
+  }
+}
+:root[data-direction="bg3"][data-variant~="i3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
   .combat-action[data-combat-action="fire-bolt"]
   > .icon {
-  background: url("assets/i-painted-firebolt.webp") 50% 30% / cover no-repeat #120e0b;
+  background-image: url("assets/i-painted-firebolt.webp");
 }
 :root[data-direction="bg3"][data-variant~="i3"]:not([data-pref-theme="light"])
   .table-layout
   .table-hotbar
   .combat-action[data-combat-action="magic-missile"]
   > .icon {
-  background: url("assets/i-painted-magicmissile.webp") 50% 30% / cover no-repeat #120e0b;
+  background-image: url("assets/i-painted-magicmissile.webp");
 }
 :root[data-direction="bg3"][data-variant~="i3"]:not([data-pref-theme="light"])
   .table-layout
   .table-hotbar
-  .combat-action[data-combat-action="longsword"]
+  .combat-action:is([data-combat-action="longsword"], [data-combat-action$="-longsword"])
   > .icon {
-  background: url("assets/i-painted-longsword.webp") 50% 40% / cover no-repeat #120e0b;
+  background-image: url("assets/i-painted-longsword.webp");
 }
 :root[data-direction="bg3"][data-variant~="i3"]:not([data-pref-theme="light"])
   .table-layout
   .table-hotbar
-  .combat-action[data-combat-action="longbow"]
+  .combat-action:is([data-combat-action="longbow"], [data-combat-action$="-longbow"])
   > .icon {
-  background: url("assets/i-painted-longbow.webp") 50% 40% / cover no-repeat #120e0b;
+  background-image: url("assets/i-painted-longbow.webp");
 }
 
 /* A blocked painted slot is greyed, as BG3 greys an unusable picture; the name and the
@@ -146,4 +185,72 @@
   ):is([aria-disabled="true"], .is-off-turn)
   > .icon {
   filter: grayscale(0.85) brightness(0.7);
+}
+
+/* As in «i1 · Glifi dorati» (i1.css), whose glyphs this option uses: the Scene tab keeps the
+   direction's framed-landscape mask; danger buttons, blocked slots and Stop keep their colour
+   under the gold; the six pictograms drawn inline by their own modules (map tools «Trova la mia
+   pedina» and «Centra la scena», safety Stop, Rallenta, Alza la mano, the special-moves
+   glyphs) take the same gold, outline and foot shadow (round-2 fix, 04/10/2026, I-250). */
+:root[data-direction="bg3"][data-variant~="i3"]:not([data-pref-theme="light"])
+  .table-layout
+  #table-tab-scene
+  > .icon
+  > * {
+  visibility: hidden;
+}
+:root[data-direction="bg3"][data-variant~="i3"]:not([data-pref-theme="light"])
+  :is(.danger, .button.danger, .icon-button.danger, [aria-disabled="true"], :disabled)
+  > .icon,
+:root[data-direction="bg3"][data-variant~="i3"]:not([data-pref-theme="light"])
+  .session-view-hud-button.safety-hud.is-stop
+  > .icon {
+  --i1-keep: 72%;
+}
+:root[data-direction="bg3"][data-variant~="i3"]:not([data-pref-theme="light"])
+  :is(
+    .map-tool[data-table="find-token"] > .icon,
+    .map-tool[data-table="fit"] > .icon,
+    .session-view-hud-button.safety-hud > .icon,
+    .icon.sm-glyph
+  ) {
+  filter: drop-shadow(0 0 0.5px rgb(18 10 3 / 0.9)) drop-shadow(0 1px 0 rgb(0 0 0 / 0.78));
+}
+:root[data-direction="bg3"][data-variant~="i3"]:not([data-pref-theme="light"])
+  :is(
+    .map-tool[data-table="find-token"] > .icon,
+    .map-tool[data-table="fit"] > .icon,
+    .session-view-hud-button.safety-hud > .icon,
+    .icon.sm-glyph
+  )
+  > * {
+  stroke: color-mix(in srgb, currentColor var(--i1-keep, 18%), #ebbd5f);
+}
+
+/* The connection cloud in the header (a mask offline.css paints in the text colour) takes the
+   same gilt ramp when all is synced; offline, reconnecting and to-review keep their colour
+   (72 %), with the cloud's own slash, arrow or mark as the non-colour cue. */
+:root[data-direction="bg3"][data-variant~="i3"]:not([data-pref-theme="light"])
+  .service-nav
+  [data-service="offline"]::before {
+  background: linear-gradient(
+    color-mix(in srgb, currentColor var(--i1-keep, 18%), #fff7dc) 22%,
+    color-mix(in srgb, currentColor var(--i1-keep, 18%), #f7d684) 38%,
+    color-mix(in srgb, currentColor var(--i1-keep, 18%), #d29a3a) 54%,
+    color-mix(in srgb, currentColor var(--i1-keep, 18%), #6b3f12) 64%,
+    color-mix(in srgb, currentColor var(--i1-keep, 18%), #a87228) 70%,
+    color-mix(in srgb, currentColor var(--i1-keep, 18%), #f2cb76) 78%
+  );
+}
+:root[data-direction="bg3"][data-variant~="i3"]:not([data-pref-theme="light"])
+  .service-nav
+  [data-service="offline"]:is(
+    [title^="Senza rete"],
+    [title^="Offline"],
+    [title^="Riconnessione"],
+    [title^="Reconnecting"],
+    [title^="Da rivedere"],
+    [title^="To review"]
+  ) {
+  --i1-keep: 72%;
 }
