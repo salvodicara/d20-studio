@@ -1,0 +1,386 @@
+/* b1 · Losanga (round 2, 04/10/2026, I-248…I-254): today's lozenge buttons, refined.
+ * One silhouette for every command, one metric per kind, measured in the specimen, the Table
+ * and the sheet (work-b1/measure.js). Colours, fonts and icons stay the direction's.
+ *
+ * elemento → prodotto → fonte
+ * | Elemento                                              | Prodotto                         | Fonte                                   |
+ * | Punte della losanga di 12 px (erano 14): più corte    | BG3 · Btn_big (menu, conferme)   | bg3-home-main-menu-annotated.jpg; facts A3 (428×80@4K) |
+ * | Incisione sotto il filo d'oro anche lungo le punte    | BG3 · Btn_big_brown_d            | bg3-home-main-menu-annotated.jpg        |
+ * | Anello di fuoco 3 px che segue le punte nuove         | direzione D14, geometria 12 px   | bg3-panels-modal-delete-campaign.jpg    |
+ * | 8 px fra pulsanti tondi e fra pulsanti di un gruppo   | scala 4 px (I-250)               | bg3-table-crop-hotbar-4k.png            |
+ * | Schede: etichetta al centro, 4 px fra una e l'altra   | BG3 · schede della scheda        | bg3-sheet-character-panel.png           |
+ * | Pulsanti testo e righe con casella: 40 px, al centro  | BG3 · pannello Reazioni (B30)    | bg3-panels-reactions-menu.png           |
+ * | Colonne di losanghe: 12 px una sotto l'altra          | BG3 · menu principale (A4)       | bg3-home-main-menu-annotated.jpg        |
+ *
+ * Geometry. A 40 px lozenge with 12 px points: its sides run from (12, 0) to (0, 20). The
+ * focus clip is the lozenge's 5 px parallel offset (the 2 px keyline and the 3 px ring):
+ * 20x + 12y = 240 − 5·√(12² + 20²) gives the shoulders 9.17 px in at y = −5 and the points
+ * 5.83 px out (the direction's 14 px points gave 11.4 and 6.1).
+ */
+
+/* ---------------------------------------------------------------- tokens */
+:root[data-direction="bg3"][data-variant~="b1"] {
+  /* F4's round-chrome gap (map tools, zoom, session controls, rail, turn commands): 6 → 8 px,
+     the lozenges' own gap, on the 4 px scale. */
+  --bg3-gap-round: var(--bg3-space-4);
+  --b1-point: var(--bg3-space-5);
+  --b1-rule-start: calc(var(--b1-point) - var(--bg3-line-1));
+  --b1-rule-w: calc(100% - 2 * var(--b1-point) + 2 * var(--bg3-line-1));
+  --b1-ring-x: 9.17px;
+  --b1-ring-tip: 5.83px;
+  /* Under the gold rule along the points: the cast's dark keyline (1 px) and, at the top, its
+     1 px light — the engraving no longer stops at the shoulders. */
+  --b1-cut-dark: rgb(12 12 12 / 0.85);
+  --b1-cut-light: rgb(255 240 200 / 0.22);
+}
+
+/* ---------------------------------------------------------------- the lozenge */
+:root[data-direction="bg3"][data-variant~="b1"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  .button:not(.quiet, .sm-dock-toggle) {
+  background:
+    linear-gradient(var(--bg3-btn-rim-top), var(--bg3-btn-rim-top)) var(--b1-rule-start) 0 /
+      var(--b1-rule-w) var(--bg3-line-2) no-repeat,
+    linear-gradient(var(--bg3-btn-rim), var(--bg3-btn-rim)) var(--b1-rule-start) 100% /
+      var(--b1-rule-w) var(--bg3-line-2) no-repeat,
+    linear-gradient(
+        to bottom right,
+        transparent calc(50% - var(--bg3-line-5)),
+        var(--bg3-btn-ring) calc(50% - var(--bg3-line-5)) calc(50% - var(--bg3-line-2)),
+        var(--bg3-btn-keyline) calc(50% - var(--bg3-line-2)) 50%,
+        var(--bg3-btn-rim-top) 50% calc(50% + var(--bg3-line-2)),
+        var(--b1-cut-dark) calc(50% + var(--bg3-line-2)) calc(50% + var(--bg3-line-3)),
+        var(--b1-cut-light) calc(50% + var(--bg3-line-3))
+          calc(50% + var(--bg3-line-3) + var(--bg3-line-1)),
+        transparent calc(50% + var(--bg3-line-3) + var(--bg3-line-1))
+      )
+      0 0 / var(--b1-point) 50% no-repeat,
+    linear-gradient(
+        to top right,
+        transparent calc(50% - var(--bg3-line-5)),
+        var(--bg3-btn-ring) calc(50% - var(--bg3-line-5)) calc(50% - var(--bg3-line-2)),
+        var(--bg3-btn-keyline) calc(50% - var(--bg3-line-2)) 50%,
+        var(--bg3-btn-rim) 50% calc(50% + var(--bg3-line-2)),
+        var(--b1-cut-dark) calc(50% + var(--bg3-line-2)) calc(50% + var(--bg3-line-3)),
+        transparent calc(50% + var(--bg3-line-3))
+      )
+      0 100% / var(--b1-point) 50% no-repeat,
+    linear-gradient(
+        to bottom left,
+        transparent calc(50% - var(--bg3-line-5)),
+        var(--bg3-btn-ring) calc(50% - var(--bg3-line-5)) calc(50% - var(--bg3-line-2)),
+        var(--bg3-btn-keyline) calc(50% - var(--bg3-line-2)) 50%,
+        var(--bg3-btn-rim-top) 50% calc(50% + var(--bg3-line-2)),
+        var(--b1-cut-dark) calc(50% + var(--bg3-line-2)) calc(50% + var(--bg3-line-3)),
+        var(--b1-cut-light) calc(50% + var(--bg3-line-3))
+          calc(50% + var(--bg3-line-3) + var(--bg3-line-1)),
+        transparent calc(50% + var(--bg3-line-3) + var(--bg3-line-1))
+      )
+      100% 0 / var(--b1-point) 50% no-repeat,
+    linear-gradient(
+        to top left,
+        transparent calc(50% - var(--bg3-line-5)),
+        var(--bg3-btn-ring) calc(50% - var(--bg3-line-5)) calc(50% - var(--bg3-line-2)),
+        var(--bg3-btn-keyline) calc(50% - var(--bg3-line-2)) 50%,
+        var(--bg3-btn-rim) 50% calc(50% + var(--bg3-line-2)),
+        var(--b1-cut-dark) calc(50% + var(--bg3-line-2)) calc(50% + var(--bg3-line-3)),
+        transparent calc(50% + var(--bg3-line-3))
+      )
+      100% 100% / var(--b1-point) 50% no-repeat,
+    var(--bg3-btn-cast),
+    var(--bg3-btn-glow),
+    var(--bg3-btn-body);
+  background-origin: border-box;
+  clip-path: polygon(
+    var(--b1-point) 0,
+    calc(100% - var(--b1-point)) 0,
+    100% 50%,
+    calc(100% - var(--b1-point)) 100%,
+    var(--b1-point) 100%,
+    0 50%
+  );
+}
+/* The keyboard ring keeps the direction's colours and shadows; only its clip follows the
+   shorter points. */
+:root[data-direction="bg3"][data-variant~="b1"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  .button:not(.quiet, .sm-dock-toggle):focus-visible {
+  clip-path: polygon(
+    var(--b1-ring-x) calc(-1 * var(--bg3-line-5)),
+    calc(100% - var(--b1-ring-x)) calc(-1 * var(--bg3-line-5)),
+    calc(100% + var(--b1-ring-tip)) 50%,
+    calc(100% - var(--b1-ring-x)) calc(100% + var(--bg3-line-5)),
+    var(--b1-ring-x) calc(100% + var(--bg3-line-5)),
+    calc(-1 * var(--b1-ring-tip)) 50%
+  );
+}
+
+/* F5's lozenge commands that are .quiet in the markup (the sheet's header commands, the DM's
+   scene commands, «Avvia ora» / «Non ora»): the same points, engraving and ring. */
+:root[data-direction="bg3"][data-variant~="b1"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  :is(
+    .character-sheet .character-heading > .toolbar > .button.quiet,
+    .table-layout > .table-topline > .toolbar > .button.quiet,
+    .session-view-hud .session-view-start-chip .session-view-hud-button
+  ) {
+  background:
+    linear-gradient(var(--bg3-btn-rim-top), var(--bg3-btn-rim-top)) var(--b1-rule-start) 0 /
+      var(--b1-rule-w) var(--bg3-line-2) no-repeat,
+    linear-gradient(var(--bg3-btn-rim), var(--bg3-btn-rim)) var(--b1-rule-start) 100% /
+      var(--b1-rule-w) var(--bg3-line-2) no-repeat,
+    linear-gradient(
+        to bottom right,
+        transparent calc(50% - var(--bg3-line-5)),
+        var(--bg3-btn-ring) calc(50% - var(--bg3-line-5)) calc(50% - var(--bg3-line-2)),
+        var(--bg3-btn-keyline) calc(50% - var(--bg3-line-2)) 50%,
+        var(--bg3-btn-rim-top) 50% calc(50% + var(--bg3-line-2)),
+        var(--b1-cut-dark) calc(50% + var(--bg3-line-2)) calc(50% + var(--bg3-line-3)),
+        var(--b1-cut-light) calc(50% + var(--bg3-line-3))
+          calc(50% + var(--bg3-line-3) + var(--bg3-line-1)),
+        transparent calc(50% + var(--bg3-line-3) + var(--bg3-line-1))
+      )
+      0 0 / var(--b1-point) 50% no-repeat,
+    linear-gradient(
+        to top right,
+        transparent calc(50% - var(--bg3-line-5)),
+        var(--bg3-btn-ring) calc(50% - var(--bg3-line-5)) calc(50% - var(--bg3-line-2)),
+        var(--bg3-btn-keyline) calc(50% - var(--bg3-line-2)) 50%,
+        var(--bg3-btn-rim) 50% calc(50% + var(--bg3-line-2)),
+        var(--b1-cut-dark) calc(50% + var(--bg3-line-2)) calc(50% + var(--bg3-line-3)),
+        transparent calc(50% + var(--bg3-line-3))
+      )
+      0 100% / var(--b1-point) 50% no-repeat,
+    linear-gradient(
+        to bottom left,
+        transparent calc(50% - var(--bg3-line-5)),
+        var(--bg3-btn-ring) calc(50% - var(--bg3-line-5)) calc(50% - var(--bg3-line-2)),
+        var(--bg3-btn-keyline) calc(50% - var(--bg3-line-2)) 50%,
+        var(--bg3-btn-rim-top) 50% calc(50% + var(--bg3-line-2)),
+        var(--b1-cut-dark) calc(50% + var(--bg3-line-2)) calc(50% + var(--bg3-line-3)),
+        var(--b1-cut-light) calc(50% + var(--bg3-line-3))
+          calc(50% + var(--bg3-line-3) + var(--bg3-line-1)),
+        transparent calc(50% + var(--bg3-line-3) + var(--bg3-line-1))
+      )
+      100% 0 / var(--b1-point) 50% no-repeat,
+    linear-gradient(
+        to top left,
+        transparent calc(50% - var(--bg3-line-5)),
+        var(--bg3-btn-ring) calc(50% - var(--bg3-line-5)) calc(50% - var(--bg3-line-2)),
+        var(--bg3-btn-keyline) calc(50% - var(--bg3-line-2)) 50%,
+        var(--bg3-btn-rim) 50% calc(50% + var(--bg3-line-2)),
+        var(--b1-cut-dark) calc(50% + var(--bg3-line-2)) calc(50% + var(--bg3-line-3)),
+        transparent calc(50% + var(--bg3-line-3))
+      )
+      100% 100% / var(--b1-point) 50% no-repeat,
+    var(--bg3-btn-cast),
+    var(--bg3-btn-glow),
+    var(--bg3-btn-body);
+  background-origin: border-box;
+  clip-path: polygon(
+    var(--b1-point) 0,
+    calc(100% - var(--b1-point)) 0,
+    100% 50%,
+    calc(100% - var(--b1-point)) 100%,
+    var(--b1-point) 100%,
+    0 50%
+  );
+}
+:root[data-direction="bg3"][data-variant~="b1"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  :is(
+    .character-sheet .character-heading > .toolbar > .button.quiet,
+    .table-layout > .table-topline > .toolbar > .button.quiet,
+    .session-view-hud .session-view-start-chip .session-view-hud-button
+  ):focus-visible {
+  clip-path: polygon(
+    var(--b1-ring-x) calc(-1 * var(--bg3-line-5)),
+    calc(100% - var(--b1-ring-x)) calc(-1 * var(--bg3-line-5)),
+    calc(100% + var(--b1-ring-tip)) 50%,
+    calc(100% - var(--b1-ring-x)) calc(100% + var(--bg3-line-5)),
+    var(--b1-ring-x) calc(100% + var(--bg3-line-5)),
+    calc(-1 * var(--b1-ring-tip)) 50%
+  );
+}
+/* On the phone the scene line's commands stay quiet words, as in the direction. */
+@media (max-width: 720px) {
+  :root[data-direction="bg3"][data-variant~="b1"]:not([data-pref-theme="light"]):not(
+      [data-pref-contrast="high"]
+    )
+    .table-layout
+    > .table-topline
+    > .toolbar
+    > .button.quiet {
+    background: transparent;
+    clip-path: none;
+  }
+}
+
+/* ---------------------------------------------------------------- gaps on the 4 px scale */
+/* Two button groups still stood 6 px apart (the knowledge panel's «Nasconditi…» row, the
+   sheet's «Bevi» / «Usa» tools): 8 px, the toolbar's gap. Section tabs stood 3 px apart: 4. */
+:root[data-direction="bg3"][data-variant~="b1"]:not([data-pref-theme="light"])
+  :is(.knowledge-actions, .shp-action-tools) {
+  gap: var(--bg3-space-4);
+}
+:root[data-direction="bg3"][data-variant~="b1"]:not([data-pref-theme="light"]) .tabs {
+  gap: var(--bg3-space-2);
+}
+/* The session bar's safety pair («Stop · carta X», «Rallenta») is round chrome too: the round
+   gap. The sheet's filter pills («Tutte 21», «Attacco 3»), its property pills and the
+   spellbook's filters are the Table's pills (40 px, 16 px inside): their 4 px gap. */
+:root[data-direction="bg3"][data-variant~="b1"]:not([data-pref-theme="light"]) .safety-hud-group {
+  gap: var(--bg3-gap-round);
+}
+:root[data-direction="bg3"][data-variant~="b1"]:not([data-pref-theme="light"])
+  :is(.shp-chips, .shp-props, .spl-chips) {
+  gap: var(--bg3-space-2);
+}
+
+/* ---------------------------------------------------------------- labels on the centre */
+/* Section tabs (the sheet's, a campaign's, Home's): the 2 px marker line under a tab had no
+   twin on top, so the words sat 1 px above the box's centre, plus 0.3 px from a line box set
+   at the top of a taller box. A transparent 2 px line on top and a 24 px line box fill the
+   44 px exactly (2 + 8 + 24 + 8 + 2): the words sit on the centre. A count badge keeps its
+   own line (it would raise the tab to 46.9 px). Home's tabs stood 2 px apart and 6 px from
+   their count: 4 and 8, the section tabs' gap and the buttons' icon gap. */
+:root[data-direction="bg3"][data-variant~="b1"]:not([data-pref-theme="light"])
+  :is(.tabs button, .home-page .home-tabs [role="tab"]) {
+  border-top: var(--bg3-line-2) solid transparent;
+  line-height: calc(var(--bg3-control-lg) - 2 * var(--bg3-space-4) - 2 * var(--bg3-line-2));
+}
+:root[data-direction="bg3"][data-variant~="b1"]:not([data-pref-theme="light"])
+  :is(.tabs button, .home-page .home-tabs [role="tab"])
+  > * {
+  line-height: var(--bg3-leading-snug);
+}
+:root[data-direction="bg3"][data-variant~="b1"]:not([data-pref-theme="light"])
+  .home-page
+  .home-tabs {
+  gap: var(--bg3-space-2);
+}
+:root[data-direction="bg3"][data-variant~="b1"]:not([data-pref-theme="light"])
+  .home-page
+  .home-tabs
+  [role="tab"] {
+  gap: var(--bg3-space-4);
+}
+/* Text buttons: the same in their 40 px target (8 + 24 + 8); with a glyph, glyph and words
+   share one centre line, 8 px apart like every button's icon and label (the glyph stood
+   1.3 px below the words). One inside running text keeps the paragraph's leading, and the
+   hotbar's round «Tiri e risultati» keeps its medallion, as in the direction. */
+:root[data-direction="bg3"][data-variant~="b1"]:not([data-pref-theme="light"])
+  .text-button:not(p *, .combat-bar-heading *) {
+  line-height: calc(var(--bg3-control) - 2 * var(--bg3-space-4));
+}
+:root[data-direction="bg3"][data-variant~="b1"]:not([data-pref-theme="light"])
+  .text-button:not(p *, .combat-bar-heading *):has(> .icon) {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bg3-space-4);
+}
+/* A check row is the 40 px target exactly (it measured 40.4 px, 43.2 on the phone): 4 px
+   above and below the words, the row's 40 px minimum doing the rest. */
+:root[data-direction="bg3"][data-variant~="b1"]:not([data-pref-theme="light"]) .check-field {
+  padding-block: var(--bg3-space-2);
+}
+
+/* ---------------------------------------------------------------- paddings on the 4 px scale */
+/* Every button kind (lozenge, quiet, danger, primary, disabled) stood 6 px above and below its
+   words: 8, the scale's step. The height does not move (40 px: 1 + 8 + 17.5 + 8 + 1 is under
+   the 40 px minimum); only the value joins the scale. */
+:root[data-direction="bg3"][data-variant~="b1"]:not([data-pref-theme="light"]) .button {
+  padding-block: var(--bg3-space-4);
+}
+/* On the phone every lozenge is 16 px inside; the sheet's header commands kept the desktop's
+   24 px. */
+@media (max-width: 720px) {
+  :root[data-direction="bg3"][data-variant~="b1"]:not([data-pref-theme="light"]):not(
+      [data-pref-contrast="high"]
+    )
+    .character-sheet
+    .character-heading
+    > .toolbar
+    > .button.quiet {
+    padding-inline: var(--bg3-space-6);
+  }
+}
+
+/* ---------------------------------------------------------------- more gaps on the scale */
+/* «Trasforma…» and its neighbour stood 12 px apart, «Aggiungi immagine» and «Aspetto nella
+   scheda» 6 px: 8, like every other pair of lozenges. */
+:root[data-direction="bg3"][data-variant~="b1"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  .forms-toolbar,
+:root[data-direction="bg3"][data-variant~="b1"]:not([data-pref-theme="light"])
+  .media-token-panel
+  .toolbar {
+  gap: var(--bg3-space-4);
+}
+/* On the phone the map tools, their sub-tools, the zoom column and the session bar keep the
+   round gap too (6 → 8 px). The phone's quick bar and rail strip stay 4 px: at 8 the five
+   round commands and «Termina turno» need 376 px of a 374 px row. */
+@media (max-width: 720px) {
+  :root[data-direction="bg3"][data-variant~="b1"]:not([data-pref-theme="light"])
+    .table-layout
+    :is(
+      .table-stage > .map-toolbar,
+      .map-subtools,
+      .map-container > .map-zoom,
+      .session-view-hud-bar
+    ) {
+    gap: var(--bg3-gap-round);
+  }
+  /* The header's «Torna alla campagna» square: 8 px inside like every quiet command (it was 6;
+     the 40 px square does not move). */
+  :root[data-direction="bg3"][data-variant~="b1"]:not([data-pref-theme="light"])
+    .app-header.table-header
+    > .button.quiet {
+    padding-inline: var(--bg3-space-4);
+  }
+}
+/* Btn_big columns (Home's «Entra al Tavolo» / «Apri campagna», the app menu, the inspector's
+   «Scheda completa» / «Inventario»): one above the other 12 px, BG3's main-menu rhythm (12 px
+   at 1080p); side by side 8, like every group. The inspector's column stood 8. */
+:root[data-direction="bg3"][data-variant~="b1"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  .inspector-buttons {
+  row-gap: var(--bg3-space-5);
+}
+
+/* ---------------------------------------------------------------- fields */
+/* The quick bar's two menus («Dadi della barra rapida», «Modalità del d20») were 12 px words
+   8 px inside the capsule outside the Table (the specimen) and 12 px inside it: the dice-mode
+   menu's metric everywhere, 40 px capsule, 16 px inside, Small 14 (the hotbar's type). */
+:root[data-direction="bg3"][data-variant~="b1"]:not([data-pref-theme="light"])
+  :is(.table-layout .qb, .qb)
+  .qb-select
+  select {
+  padding-inline: var(--bg3-space-6);
+  border-radius: var(--bg3-radius-pill);
+  font-size: var(--bg3-type-small);
+}
+
+/* Home's «Tutte le campagne» / «Tutti gli annunci» are quiet commands drawn on a text button:
+   8 px above and below, like the quiet buttons (8 + 24 + 8 = 40). */
+:root[data-direction="bg3"][data-variant~="b1"]:not([data-pref-theme="light"])
+  .home-page
+  .section-heading
+  > .text-button {
+  padding-block: var(--bg3-space-4);
+}
+/* The quick bar's round arrows and tools stood 4 px apart: the round gap (8), on the desktop
+   (the phone bar keeps its compact row). */
+@media (min-width: 721px) {
+  :root[data-direction="bg3"][data-variant~="b1"]:not([data-pref-theme="light"])
+    .qb
+    :is(.qb-pages, .qb-tools) {
+    gap: var(--bg3-gap-round);
+  }
+}

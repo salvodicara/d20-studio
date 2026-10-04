@@ -1,0 +1,578 @@
+/* BG3 · round 2 «Pulsanti e campi» · option b2 «Lastra dorata» (I-248…I-254, 04/10/2026).
+   A layer on directions/bg3/direction.css, loaded only with ?variant=b2 (directions/README.md
+   «Variants»). Buttons-and-fields axis only: shapes, frames and states. The direction's
+   colours, fonts and icons stay as they are; dark theme only, like the direction; high
+   contrast keeps the direction's plain boxes (only the square shape carries over).
+
+   elemento → prodotto → fonte
+   - Pulsanti: lastra rettangolare scura con un filo d'oro sottile e quattro angolari dorati
+     (due bracci di 8 px e una borchia di 2 px in ogni angolo), al posto della losanga → BG3,
+     pulsanti dei menu e delle finestre su lastra scura con angoli ornati → facts A3 «Framed
+     panels» (single thin bronze line, corner flourishes), bg3-panels-subclass-select-steam.jpg,
+     bg3-home-main-menu-annotated.jpg.
+   - Stessi colori di corpo per stato (marrone, blu-verde primario, rosso pericolo, bronzo
+     acceso scelto, spento opaco): cambia solo la forma → facts A3 «Button states», BigBlue.
+   - Una sola misura per tipo: lastra 40 px, 8/16 px dentro, 14 px; lastra quadrata 40 px per i
+     comandi a sola icona (barra, mappa, linguette laterali), 8 px l'una dall'altra, 44 px sul
+     telefono come oggi; filtri e sotto-linguette 40 px, 4/16 px dentro → I-250; facts A1
+     «Iconography», A3.
+   - Telefono, barra in basso (linguette, «Vai alla mappa», «Tutti»): la stessa lastra per
+     tutte e tre; angolari solo in alto e due bracci senza borchia in basso, 4 px fra la
+     parola e il bordo → I-250.
+   - Pulsanti silenziosi e icone dell'intestazione: nessuna lastra, gli angolari compaiono al
+     passaggio del puntatore → BG3, selezione fatta di luce, non di riempimenti → facts A3
+     «Selection».
+   - Scelto (filtro, linguetta aperta, strumento attivo): angolari chiari #fff2b3 sopra il corpo
+     acceso; il testo o l'icona dicono anche lo stato → facts A3 «Selected tile» (#EED1A7 core).
+   - Campi: pozzetto scuro incassato #050d10 con un filo d'oro, bordo superiore in ombra e
+     inferiore che prende luce, angoli vivi → BG3 search field and hotbar well #050D10 → facts
+     A1, A3 (OBS B41), bg3-panels-context-menu-inventory.jpg.
+   - Fuoco: l'anello di 3 px del colore di fuoco fuori dalla lastra, con un filo scuro fra i
+     due; nessun ritaglio → the direction's D14 ring, now on a plain rectangle. */
+
+/* ---------------------------------------------------------------- tokens */
+:root[data-direction="bg3"][data-variant~="b2"]:not([data-pref-theme="light"]) {
+  --b2-arm: var(--bg3-space-4);
+  --b2-bar: var(--bg3-line-2);
+  --b2-stud-at: var(--bg3-space-2);
+  --b2-c: var(--bg3-gold-rule);
+  --b2-r: rgb(177 125 68 / 0.7);
+  --b2-c-lit: var(--bg3-highlight);
+  --b2-chrome: radial-gradient(circle at 50% 38%, #2b221a, #0c0c0c 72%);
+  --b2-chrome-hover: radial-gradient(circle at 50% 38%, #4a3726, #120e0b 72%);
+  --b2-chrome-on: radial-gradient(circle at 50% 32%, #7b909a, #4e5d65 55%, #29333a);
+  --b2-pill: linear-gradient(#1f1610, #342218 50%, #1f1610);
+  --b2-pill-hover: linear-gradient(#2b1f15, #5a3f29 50%, #2b1f15);
+  --b2-pill-on: linear-gradient(#3a2a1c, #7e5838 50%, #3a2a1c);
+  --b2-well: linear-gradient(#020507, #050d10 45%, #071114);
+  --b2-well-side: #9a7444;
+  --b2-well-top: #5a4128;
+  --b2-well-foot: #c9a25e;
+  --b2-ring-gap: #0c0c0c;
+  /* One gap between square plates of the same kind (map tools, zoom, session icons, the turn
+     commands beside End Turn, the rail): 8 px on the 4 px step (I-250), as in b1, not the
+     6 px the round medallions kept. At 4 px the next plate covered the lower side of the
+     focus ring (2 px gap + 3 px ring = 5 px). */
+  --bg3-gap-round: var(--bg3-space-4);
+}
+/* The frame layers, declared on every control so that each one paints them in its own corner
+   (--b2-c) and rim (--b2-r) colours: four corner brackets, four studs, then the hairline. */
+:root[data-direction="bg3"][data-variant~="b2"]:not([data-pref-theme="light"])
+  :is(button, a.button, [role="tab"]) {
+  --b2-corners:
+    linear-gradient(var(--b2-c), var(--b2-c)) 0 0 / var(--b2-arm) var(--b2-bar) no-repeat,
+    linear-gradient(var(--b2-c), var(--b2-c)) 0 0 / var(--b2-bar) var(--b2-arm) no-repeat,
+    linear-gradient(var(--b2-c), var(--b2-c)) 100% 0 / var(--b2-arm) var(--b2-bar) no-repeat,
+    linear-gradient(var(--b2-c), var(--b2-c)) 100% 0 / var(--b2-bar) var(--b2-arm) no-repeat,
+    linear-gradient(var(--b2-c), var(--b2-c)) 0 100% / var(--b2-arm) var(--b2-bar) no-repeat,
+    linear-gradient(var(--b2-c), var(--b2-c)) 0 100% / var(--b2-bar) var(--b2-arm) no-repeat,
+    linear-gradient(var(--b2-c), var(--b2-c)) 100% 100% / var(--b2-arm) var(--b2-bar) no-repeat,
+    linear-gradient(var(--b2-c), var(--b2-c)) 100% 100% / var(--b2-bar) var(--b2-arm) no-repeat,
+    linear-gradient(var(--b2-c), var(--b2-c)) var(--b2-stud-at) var(--b2-stud-at) / var(--b2-bar)
+      var(--b2-bar) no-repeat,
+    linear-gradient(var(--b2-c), var(--b2-c)) calc(100% - var(--b2-stud-at)) var(--b2-stud-at) /
+      var(--b2-bar) var(--b2-bar) no-repeat,
+    linear-gradient(var(--b2-c), var(--b2-c)) var(--b2-stud-at) calc(100% - var(--b2-stud-at)) /
+      var(--b2-bar) var(--b2-bar) no-repeat,
+    linear-gradient(var(--b2-c), var(--b2-c)) calc(100% - var(--b2-stud-at))
+      calc(100% - var(--b2-stud-at)) / var(--b2-bar) var(--b2-bar) no-repeat;
+  --b2-frame:
+    var(--b2-corners),
+    linear-gradient(var(--b2-r), var(--b2-r)) 0 0 / 100% var(--bg3-line-1) no-repeat,
+    linear-gradient(var(--b2-r), var(--b2-r)) 0 100% / 100% var(--bg3-line-1) no-repeat,
+    linear-gradient(var(--b2-r), var(--b2-r)) 0 0 / var(--bg3-line-1) 100% no-repeat,
+    linear-gradient(var(--b2-r), var(--b2-r)) 100% 0 / var(--bg3-line-1) 100% no-repeat;
+}
+
+/* ---------------------------------------------------------------- plates (text buttons) */
+/* Normal, primary, danger, chosen, unavailable, dialog buttons and the three heading commands
+   the direction draws as lozenges: one rectangle, 40 px, 6/16 px inside, square corners. */
+:root[data-direction="bg3"][data-variant~="b2"]:not([data-pref-theme="light"])
+  :is(
+    .button:not(.quiet, .sm-dock-toggle, [data-table="end-turn"]),
+    .character-sheet .character-heading > .toolbar > .button.quiet,
+    .table-layout > .table-topline > .toolbar > .button.quiet,
+    .session-view-hud .session-view-start-chip .session-view-hud-button
+  ) {
+  border-radius: 0;
+}
+:root[data-direction="bg3"][data-variant~="b2"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  :is(
+    .button:not(.quiet, .sm-dock-toggle, [data-table="end-turn"]),
+    .character-sheet .character-heading > .toolbar > .button.quiet,
+    .table-layout > .table-topline > .toolbar > .button.quiet,
+    .session-view-hud .session-view-start-chip .session-view-hud-button
+  ) {
+  --b2-c: var(--bg3-btn-rim);
+  padding-inline: var(--bg3-space-6);
+  border-color: transparent;
+  background: var(--b2-frame), var(--bg3-btn-cast), var(--bg3-btn-glow), var(--bg3-btn-body);
+  background-origin: border-box;
+  clip-path: none;
+}
+:root[data-direction="bg3"][data-variant~="b2"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  :is(
+    .character-sheet .character-heading > .toolbar > .button.quiet,
+    .table-layout > .table-topline > .toolbar > .button.quiet,
+    .session-view-hud .session-view-start-chip .session-view-hud-button
+  ) {
+  --bg3-btn-body: linear-gradient(#2c2016, #473425 50%, #2d2117);
+}
+:root[data-direction="bg3"][data-variant~="b2"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  :is(
+    .button:not(.quiet, .sm-dock-toggle, [data-table="end-turn"]),
+    .character-sheet .character-heading > .toolbar > .button.quiet,
+    .table-layout > .table-topline > .toolbar > .button.quiet,
+    .session-view-hud .session-view-start-chip .session-view-hud-button
+  ):hover:not(:disabled) {
+  --b2-c: var(--b2-c-lit);
+  --b2-r: var(--bg3-gold);
+}
+:root[data-direction="bg3"][data-variant~="b2"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  .button.danger:not(:disabled) {
+  --b2-r: rgb(224 25 73 / 0.7);
+}
+/* Focus: the 3 px ring outside a 2 px dark gap, on the rectangle (nothing to clip). */
+:root[data-direction="bg3"][data-variant~="b2"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  :is(
+    .button:not(.quiet, .sm-dock-toggle, [data-table="end-turn"]),
+    .character-sheet .character-heading > .toolbar > .button.quiet,
+    .table-layout > .table-topline > .toolbar > .button.quiet,
+    .session-view-hud .session-view-start-chip .session-view-hud-button
+  ):focus-visible {
+  --b2-c: var(--b2-c-lit);
+  outline: var(--bg3-line-3) solid var(--focus);
+  outline-offset: var(--bg3-line-2);
+  box-shadow: 0 0 0 var(--bg3-line-2) var(--b2-ring-gap);
+  clip-path: none;
+}
+
+/* ---------------------------------------------------------------- quiet commands */
+/* Quiet buttons and icon buttons (header services, close): no plate; square, and the gilded
+   corners appear with the warm light on hover and focus. */
+:root[data-direction="bg3"][data-variant~="b2"]:not([data-pref-theme="light"])
+  :is(.button.quiet, .icon-button) {
+  border-radius: 0;
+}
+:root[data-direction="bg3"][data-variant~="b2"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  :is(.button.quiet, .icon-button):is(:hover, :focus-visible):not(:disabled) {
+  background:
+    var(--b2-corners), radial-gradient(70% 90% at 50% 100%, rgb(223 152 0 / 0.2), transparent);
+  background-origin: border-box;
+}
+
+/* ---------------------------------------------------------------- square plates (icon chrome) */
+/* The Table's icon commands (turn commands, quick-bar arrows and tools, map tools and zoom,
+   session icons, rail tabs, the rolls' bell) and the inventory's two round icon commands:
+   square plates of the same 40 px (44 on the phone, as the direction sizes them). */
+:root[data-direction="bg3"][data-variant~="b2"]:not([data-pref-theme="light"])
+  :is(
+    .table-layout > .action-dock.table-hotbar > .toolbar > .button:not([data-table="end-turn"]),
+    .table-layout .qb .qb-icon,
+    .table-layout .map-tool,
+    .table-layout .session-view-hud-button.is-icon,
+    .table-layout .session-view-hud-bar > .safety-hud-group > .session-view-hud-button,
+    .table-layout .table-tab,
+    .table-layout .table-sidebar-toggle,
+    .table-layout .table-panels-all,
+    .table-layout .table-map-link,
+    .table-layout .table-hotbar .combat-bar-heading .text-button,
+    .token-menu .token-menu-close,
+    .character-sheet .invp-row-actions > .button.quiet[data-invp="menu"],
+    .character-sheet .invp-toggle
+  ) {
+  border-radius: 0;
+}
+:root[data-direction="bg3"][data-variant~="b2"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  :is(
+    .table-layout > .action-dock.table-hotbar > .toolbar > .button:not([data-table="end-turn"]),
+    .table-layout .qb .qb-icon,
+    .table-layout .map-tool,
+    .table-layout .session-view-hud-button.is-icon,
+    .table-layout .session-view-hud-bar > .safety-hud-group > .session-view-hud-button,
+    .table-layout .table-tab,
+    .table-layout .table-sidebar-toggle,
+    .table-layout .table-panels-all,
+    .table-layout .table-map-link,
+    .table-layout .table-hotbar .combat-bar-heading .text-button,
+    .token-menu .token-menu-close,
+    .character-sheet .invp-row-actions > .button.quiet[data-invp="menu"],
+    .character-sheet .invp-toggle
+  ) {
+  --b2-body: var(--b2-chrome);
+  padding: var(--b2-pad, 0);
+  border: var(--bg3-line-1) solid transparent;
+  background: var(--b2-frame), var(--b2-body);
+  background-origin: border-box;
+  box-shadow:
+    0 0 0 var(--bg3-line-1) #0c0c0c,
+    0 2px 6px rgb(0 0 0 / 0.8);
+  clip-path: none;
+}
+:root[data-direction="bg3"][data-variant~="b2"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  :is(
+    .table-layout > .action-dock.table-hotbar > .toolbar > .button:not([data-table="end-turn"]),
+    .table-layout .qb .qb-icon,
+    .table-layout .map-tool,
+    .table-layout .session-view-hud-button.is-icon,
+    .table-layout .session-view-hud-bar > .safety-hud-group > .session-view-hud-button,
+    .table-layout .table-tab,
+    .table-layout .table-sidebar-toggle,
+    .table-layout .table-panels-all,
+    .table-layout .table-map-link,
+    .table-layout .table-hotbar .combat-bar-heading .text-button,
+    .token-menu .token-menu-close,
+    .character-sheet .invp-row-actions > .button.quiet[data-invp="menu"],
+    .character-sheet .invp-toggle
+  ):hover:not(:disabled) {
+  --b2-body: var(--b2-chrome-hover);
+  --b2-c: var(--b2-c-lit);
+  --b2-r: var(--bg3-gold);
+  color: var(--bg3-highlight);
+}
+/* Chosen: the steel-blue body of the direction, light corners and the gold rim. */
+:root[data-direction="bg3"][data-variant~="b2"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  :is(
+    .table-layout
+      > .action-dock.table-hotbar
+      > .toolbar
+      > .button.active:not([data-table="end-turn"]),
+    .table-layout .map-tool.active,
+    .table-layout .session-view-hud-button.is-icon.is-on,
+    .table-layout .table-tab.active
+  ) {
+  --b2-body: var(--b2-chrome-on);
+  --b2-c: var(--b2-c-lit);
+  --b2-r: var(--bg3-gold);
+  color: var(--bg3-title);
+  box-shadow:
+    0 0 0 var(--bg3-line-1) #0c0c0c,
+    0 0 8px rgb(223 152 0 / 0.35);
+}
+/* Stop keeps its red rim, Slow down its amber one (shape and icon also tell them). */
+:root[data-direction="bg3"][data-variant~="b2"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  .table-layout
+  .session-view-hud-button.safety-hud.is-stop {
+  --b2-r: #e01949;
+}
+:root[data-direction="bg3"][data-variant~="b2"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  .table-layout
+  .session-view-hud-button.safety-hud.is-pace {
+  --b2-r: #c58a2c;
+}
+:root[data-direction="bg3"][data-variant~="b2"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  :is(
+    .table-layout > .action-dock.table-hotbar > .toolbar > .button:not([data-table="end-turn"]),
+    .table-layout .qb .qb-icon,
+    .table-layout .map-tool,
+    .table-layout .session-view-hud-button.is-icon,
+    .table-layout .session-view-hud-bar > .safety-hud-group > .session-view-hud-button,
+    .table-layout .table-tab,
+    .table-layout .table-sidebar-toggle,
+    .table-layout .table-panels-all,
+    .table-layout .table-map-link,
+    .table-layout .table-hotbar .combat-bar-heading .text-button,
+    .token-menu .token-menu-close,
+    .character-sheet .invp-row-actions > .button.quiet[data-invp="menu"],
+    .character-sheet .invp-toggle
+  ):disabled {
+  --b2-c: #8a7a5c;
+  --b2-r: rgb(138 122 92 / 0.6);
+}
+:root[data-direction="bg3"][data-variant~="b2"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  :is(
+    .table-layout > .action-dock.table-hotbar > .toolbar > .button:not([data-table="end-turn"]),
+    .table-layout .qb .qb-icon,
+    .table-layout .map-tool,
+    .table-layout .session-view-hud-button.is-icon,
+    .table-layout .session-view-hud-bar > .safety-hud-group > .session-view-hud-button,
+    .table-layout .table-tab,
+    .table-layout .table-sidebar-toggle,
+    .table-layout .table-panels-all,
+    .table-layout .table-map-link,
+    .table-layout .table-hotbar .combat-bar-heading .text-button,
+    .token-menu .token-menu-close,
+    .character-sheet .invp-row-actions > .button.quiet[data-invp="menu"],
+    .character-sheet .invp-toggle
+  ):focus-visible {
+  outline: var(--bg3-line-3) solid var(--focus);
+  outline-offset: var(--bg3-line-2);
+  box-shadow: 0 0 0 var(--bg3-line-2) var(--b2-ring-gap);
+}
+/* «This tool has more»: the gold stud moves inside the lower-right bracket. */
+:root[data-direction="bg3"][data-variant~="b2"]:not([data-pref-theme="light"])
+  .table-layout
+  .map-tool-group::after {
+  right: var(--bg3-space-3);
+  bottom: var(--bg3-space-3);
+  border-radius: 0;
+  rotate: 45deg;
+}
+
+/* ---------------------------------------------------------------- filters and sub-tabs */
+/* Every pill (filters, page tabs, sub-tabs, the quick-bar page, the session chips) becomes a
+   small plate: the hairline only; the gilded corners appear on hover and stay lit when
+   chosen. Same 40 px, 4/16 px inside, 14 px as today. */
+:root[data-direction="bg3"][data-variant~="b2"]:not([data-pref-theme="light"])
+  :is(
+    .spl-chip,
+    .invp-chip,
+    .shp-chip,
+    .table-layout .hotbar-page-tab,
+    .table-layout .table-subtab,
+    .table-layout .qb .qb-page-name,
+    .character-sheet .character-subtabs button,
+    .session-view-hud .session-view-chip .session-view-hud-button,
+    .table-layout .session-view-hud-bar > .session-view-hud-button:not(.is-icon),
+    .table-layout .session-view-hud-bar > .session-view-menu-wrap > .session-view-menu-button
+  ) {
+  border-radius: 0;
+}
+:root[data-direction="bg3"][data-variant~="b2"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  :is(
+    .spl-chip,
+    .invp-chip,
+    .shp-chip,
+    .table-layout .hotbar-page-tab,
+    .table-layout .table-subtab,
+    .table-layout .qb .qb-page-name,
+    .character-sheet .character-subtabs button,
+    .session-view-hud .session-view-chip .session-view-hud-button,
+    .table-layout .session-view-hud-bar > .session-view-hud-button:not(.is-icon),
+    .table-layout .session-view-hud-bar > .session-view-menu-wrap > .session-view-menu-button
+  ) {
+  --b2-c: transparent;
+  --b2-body: var(--b2-pill);
+  padding-inline: var(--bg3-space-6);
+  border-color: transparent;
+  background: var(--b2-frame), var(--b2-body);
+  background-origin: border-box;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.7);
+}
+:root[data-direction="bg3"][data-variant~="b2"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  :is(
+    .spl-chip,
+    .invp-chip,
+    .shp-chip,
+    .table-layout .hotbar-page-tab,
+    .table-layout .table-subtab,
+    .table-layout .qb .qb-page-name,
+    .character-sheet .character-subtabs button,
+    .session-view-hud .session-view-chip .session-view-hud-button,
+    .table-layout .session-view-hud-bar > .session-view-hud-button:not(.is-icon),
+    .table-layout .session-view-hud-bar > .session-view-menu-wrap > .session-view-menu-button
+  ):hover:not(:disabled) {
+  --b2-c: var(--bg3-gold-rule);
+  --b2-body: var(--b2-pill-hover);
+  color: var(--bg3-highlight);
+}
+:root[data-direction="bg3"][data-variant~="b2"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  :is(
+    .spl-chip[aria-pressed="true"],
+    .invp-chip.active,
+    .shp-chip[aria-pressed="true"],
+    .table-layout .hotbar-page-tab.active,
+    .table-layout .table-subtab.active,
+    .character-sheet .character-subtabs button.active,
+    .table-layout .session-view-hud-bar > .session-view-hud-button.is-on:not(.is-icon)
+  ) {
+  --b2-c: var(--b2-c-lit);
+  --b2-r: var(--bg3-gold);
+  --b2-body: var(--b2-pill-on);
+  color: var(--bg3-highlight);
+  box-shadow: 0 0 8px rgb(223 152 0 / 0.35);
+}
+:root[data-direction="bg3"][data-variant~="b2"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  :is(
+    .spl-chip,
+    .invp-chip,
+    .shp-chip,
+    .table-layout .hotbar-page-tab,
+    .table-layout .table-subtab,
+    .table-layout .qb .qb-page-name,
+    .character-sheet .character-subtabs button,
+    .session-view-hud .session-view-chip .session-view-hud-button,
+    .table-layout .session-view-hud-bar > .session-view-hud-button:not(.is-icon),
+    .table-layout .session-view-hud-bar > .session-view-menu-wrap > .session-view-menu-button
+  ):focus-visible {
+  outline: var(--bg3-line-3) solid var(--focus);
+  outline-offset: var(--bg3-line-2);
+  box-shadow: 0 0 0 var(--bg3-line-2) var(--b2-ring-gap);
+}
+
+/* ---------------------------------------------------------------- section tabs */
+/* The open section tab stands on the gilt rule as a plate with lit corners; the others stay
+   words. Same 44 px, 8/16 px inside, 18 px as today. */
+:root[data-direction="bg3"][data-variant~="b2"]:not([data-pref-theme="light"]) .tabs button {
+  border-radius: 0;
+}
+:root[data-direction="bg3"][data-variant~="b2"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  .tabs
+  button:hover:not(.active) {
+  --b2-c: rgb(217 189 124 / 0.6);
+  background:
+    var(--b2-corners), radial-gradient(60% 80% at 50% 100%, rgb(223 152 0 / 0.12), transparent);
+  background-origin: border-box;
+}
+:root[data-direction="bg3"][data-variant~="b2"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  .tabs
+  button.active {
+  --b2-c: var(--b2-c-lit);
+  background:
+    var(--b2-corners), radial-gradient(60% 80% at 50% 100%, rgb(223 152 0 / 0.22), transparent),
+    linear-gradient(rgb(44 32 22 / 0.85), rgb(71 52 37 / 0.6));
+  background-origin: border-box;
+}
+
+/* ---------------------------------------------------------------- fields */
+/* Every text, number, search, menu and long-text field: a dark well sunk into the plate, a
+   gold hairline round it (the top lip in shadow, the foot catching the light), square corners.
+   40 px, 16 px inside, 16 px type as today; the hotbar's compact menus keep their size. */
+:root[data-direction="bg3"][data-variant~="b2"]:not([data-pref-theme="light"])
+  :is(
+    .field input:not([type="checkbox"], [type="radio"]),
+    .field select,
+    .field textarea,
+    input[type="search"],
+    input[type="number"],
+    input[type="text"],
+    select,
+    textarea
+  ) {
+  border-radius: 0;
+}
+:root[data-direction="bg3"][data-variant~="b2"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  :is(
+    .field input:not([type="checkbox"], [type="radio"]),
+    .field select,
+    .field textarea,
+    input[type="search"],
+    input[type="number"],
+    input[type="text"],
+    select,
+    textarea
+  ) {
+  border-color: var(--b2-well-side);
+  border-top-color: var(--b2-well-top);
+  border-bottom-color: var(--b2-well-foot);
+  background-color: #050d10;
+  background-image: var(--b2-well);
+  box-shadow:
+    inset 0 2px 4px rgb(0 0 0 / 0.9),
+    inset 0 0 0 var(--bg3-line-1) rgb(0 0 0 / 0.55),
+    0 1px 0 rgb(255 240 200 / 0.06);
+}
+:root[data-direction="bg3"][data-variant~="b2"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  :is(
+    .field input:not([type="checkbox"], [type="radio"]),
+    .field select,
+    .field textarea,
+    input[type="search"],
+    input[type="number"],
+    input[type="text"],
+    select,
+    textarea
+  ):hover:not(:disabled) {
+  border-color: var(--bg3-gold);
+  border-top-color: var(--b2-well-side);
+  border-bottom-color: var(--bg3-gold-rule);
+}
+:root[data-direction="bg3"][data-variant~="b2"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  :is(
+    .field input:not([type="checkbox"], [type="radio"]),
+    .field select,
+    .field textarea,
+    input[type="search"],
+    input[type="number"],
+    input[type="text"],
+    select,
+    textarea
+  ):focus-visible {
+  border-color: var(--bg3-gold-rule);
+  border-bottom-color: var(--bg3-highlight);
+}
+/* A creature row's «Centra» command keeps the quiet button's 40 px instead of stretching to
+   the row's 49 px (one height per kind, I-250). */
+:root[data-direction="bg3"][data-variant~="b2"]:not([data-pref-theme="light"])
+  .token-menu-rows
+  .button.quiet.token-menu-find {
+  align-self: center;
+}
+
+/* ---------------------------------------------------------------- paddings on the 4 px scale */
+/* Every button kind (plate, quiet, danger, primary, dialog) stood 6 px above and below its
+   words: 8, the scale's step. The 40 px box does not move (1 + 8 + 17.5 + 8 + 1 is under the
+   40 px minimum); the square plates keep their own 0. */
+:root[data-direction="bg3"][data-variant~="b2"]:not([data-pref-theme="light"]) .button {
+  padding-block: var(--bg3-space-4);
+}
+
+/* ---------------------------------------------------------------- phone dock */
+/* On the phone the rail is the bottom bar: its tabs, «Vai alla mappa» and «Tutti» are one kind
+   of control with one plate. The label stands 4 px inside the plate's foot (the square plate's
+   0 left it 1 px from the edge), and the lower corners keep only their flat arm: no bracket
+   or stud on the label line. */
+@media (max-width: 720px) {
+  :root[data-direction="bg3"][data-variant~="b2"]:not([data-pref-theme="light"]):not(
+      [data-pref-contrast="high"]
+    )
+    .table-layout
+    :is(.table-tab, .table-map-link, .table-panels-all) {
+    --b2-pad: var(--bg3-space-2);
+    --b2-corners:
+      linear-gradient(var(--b2-c), var(--b2-c)) 0 0 / var(--b2-arm) var(--b2-bar) no-repeat,
+      linear-gradient(var(--b2-c), var(--b2-c)) 0 0 / var(--b2-bar) var(--b2-arm) no-repeat,
+      linear-gradient(var(--b2-c), var(--b2-c)) 100% 0 / var(--b2-arm) var(--b2-bar) no-repeat,
+      linear-gradient(var(--b2-c), var(--b2-c)) 100% 0 / var(--b2-bar) var(--b2-arm) no-repeat,
+      linear-gradient(var(--b2-c), var(--b2-c)) var(--b2-stud-at) var(--b2-stud-at) / var(--b2-bar)
+        var(--b2-bar) no-repeat,
+      linear-gradient(var(--b2-c), var(--b2-c)) calc(100% - var(--b2-stud-at)) var(--b2-stud-at) /
+        var(--b2-bar) var(--b2-bar) no-repeat,
+      linear-gradient(var(--b2-c), var(--b2-c)) 0 100% / var(--b2-arm) var(--b2-bar) no-repeat,
+      linear-gradient(var(--b2-c), var(--b2-c)) 100% 100% / var(--b2-arm) var(--b2-bar) no-repeat;
+  }
+}

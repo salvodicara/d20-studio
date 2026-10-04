@@ -1,0 +1,472 @@
+/* b3 · Capsula (round 2, 04/10/2026, I-248…I-254): one rounded family for every command.
+ * A layer on directions/bg3/direction.css, loaded only with ?variant=b3 (directions/README.md
+ * «Variants»). Buttons-and-fields axis only: shapes, rims and states. The direction's colours
+ * (brown, the primary's teal-blue, danger red), fonts and icons stay as they are; dark theme
+ * only, like the direction; high contrast keeps the direction's plain framed boxes and takes
+ * only the rounded shape.
+ *
+ * elemento → prodotto → fonte
+ * | Elemento                                                       | Prodotto                              | Fonte |
+ * | Comandi (normale, principale, pericolo, scelto, spento): la     | BG3 · pillole della barra (btn_pil)   | facts A1 «Tab pills» (XAML FilterButton, fill #342218), bg3-table-crop-hotbar-4k.png |
+ * |   losanga diventa una capsula, stessi colori di corpo per stato |   e pulsante «Chiudi» a capsula blu   | facts B34 «Close button» (teal-blue capsule #0D2A39) |
+ * | Un solo bordo per ogni capsula: 2 px di bronzo, più chiaro in   | BG3 · campo di ricerca                | facts B41 «Search field» (2–3 px rim, #9C8164 top, #674F37 foot, fill #151513) |
+ * |   alto (#9C8164), più scuro in basso (#674F37)                  |   dell'inventario                     | bg3-panels-context-menu-inventory.jpg |
+ * | Scelto (filtro, linguetta, comando acceso): bordo chiaro        | BG3 · casella scelta                  | facts B31 «Selected tile» (core #EED1A7, amber glow) |
+ * |   #EED1A7 e un alone ambra; anche il corpo cambia                |                                       | bg3-panels-subclass-select-steam.jpg |
+ * | Silenziosi e icone: solo parole; al passaggio compare la        | BG3 · selezione fatta di luce         | facts A3 «Selection» |
+ * |   capsula col filo di bronzo                                    |                                       | |
+ * | Campi: pozzetto a capsula, 2 px di bronzo, ombra dentro; testo   | BG3 · campo di ricerca                | facts B41, bg3-sheet-party-inventory-steam.jpg |
+ * |   lungo con angoli di 8 px; caselle con angoli di 6 px          |                                       | bg3-panels-reactions-menu.png (B30) |
+ * | Una misura per tipo: 40 px, 8 px sopra e sotto, 24 ai lati (16  | scala 4 px (I-250)                    | facts A3 «Modal button pair», bg3-panels-modal-delete-campaign.jpg |
+ * |   sul telefono); 8 px fra i tondi; anello di fuoco 3 px intero  |                                       | |
+ *
+ * Focus: the browser's outline (3 px, the focus colour) 2 px outside the capsule, a 2 px dark
+ * keyline between them; nothing is clipped, so the ring follows the rounded ends.
+ */
+
+/* ---------------------------------------------------------------- tokens */
+:root[data-direction="bg3"][data-variant~="b3"] {
+  /* The round chrome's gap (map tools, zoom, session controls, rail, turn commands): 6 → 8 px,
+     on the 4 px scale, and wider than the focus ring (2 px gap + 3 px ring). */
+  --bg3-gap-round: var(--bg3-space-4);
+  --b3-rim-w: var(--bg3-line-2);
+}
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"]) {
+  /* One rim for every capsule (inherited, so a state only changes the three values). */
+  --b3-rim: #7a6046;
+  --b3-rim-top: #9c8164;
+  --b3-rim-foot: #674f37;
+  --b3-keyline: rgb(12 12 12 / 0.85);
+  --b3-light: linear-gradient(
+    rgb(255 240 200 / 0.14),
+    transparent 42%,
+    transparent 62%,
+    rgb(0 0 0 / 0.32)
+  );
+  --b3-drop: 0 1px 3px rgb(0 0 0 / 0.7);
+  --b3-chosen-glow: 0 0 6px 2px rgb(223 152 0 / 0.45);
+  --b3-ring-gap: #0c0c0c;
+}
+
+/* ---------------------------------------------------------------- capsules (commands) */
+/* Normal, primary, danger, chosen, unavailable and dialog buttons and the three heading
+   commands the direction draws as lozenges: one capsule. The quick bar's round turn commands,
+   the token menu's close and the inventory's round toggle stay medallions. */
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"])
+  :is(
+    .button:not(
+      .quiet,
+      .sm-dock-toggle,
+      [data-table="end-turn"],
+      .table-hotbar > .toolbar > .button,
+      .token-menu-close,
+      .invp-toggle
+    ),
+    .character-sheet .character-heading > .toolbar > .button.quiet,
+    .table-layout > .table-topline > .toolbar > .button.quiet,
+    .session-view-hud .session-view-start-chip .session-view-hud-button
+  ) {
+  border-radius: var(--bg3-radius-pill);
+}
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  :is(
+    .button:not(
+      .quiet,
+      .sm-dock-toggle,
+      [data-table="end-turn"],
+      .table-hotbar > .toolbar > .button,
+      .token-menu-close,
+      .invp-toggle
+    ),
+    .character-sheet .character-heading > .toolbar > .button.quiet,
+    .table-layout > .table-topline > .toolbar > .button.quiet,
+    .session-view-hud .session-view-start-chip .session-view-hud-button
+  ) {
+  border: var(--b3-rim-w) solid var(--b3-rim);
+  border-top-color: var(--b3-rim-top);
+  border-bottom-color: var(--b3-rim-foot);
+  background: var(--b3-light), var(--bg3-btn-glow), var(--bg3-btn-body);
+  box-shadow:
+    inset 0 0 0 var(--bg3-line-1) var(--b3-keyline),
+    var(--b3-drop);
+  clip-path: none;
+}
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  :is(
+    .button:not(.quiet, .sm-dock-toggle, [data-table="end-turn"]),
+    .character-sheet .character-heading > .toolbar > .button.quiet,
+    .table-layout > .table-topline > .toolbar > .button.quiet,
+    .session-view-hud .session-view-start-chip .session-view-hud-button
+  ):hover:not(:disabled) {
+  --b3-rim: var(--bg3-gold);
+  --b3-rim-top: var(--bg3-highlight);
+  --b3-rim-foot: var(--bg3-gold-rule);
+}
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  .button.danger:not(:disabled) {
+  --b3-rim: rgb(224 25 73 / 0.7);
+  --b3-rim-top: rgb(255 140 160 / 0.75);
+  --b3-rim-foot: rgb(150 12 40 / 0.85);
+}
+/* Chosen: BG3's selected tile — a pale-gold core and an amber glow round the capsule (the
+   brighter body says it too, not only the colour). */
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  .button.active:not(.table-hotbar > .toolbar > .button) {
+  --b3-rim: #eed1a7;
+  --b3-rim-top: #fff2b3;
+  --b3-rim-foot: #eed1a7;
+  box-shadow:
+    inset 0 0 0 var(--bg3-line-1) var(--b3-keyline),
+    var(--b3-chosen-glow);
+}
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  .button:not(.quiet):disabled {
+  --b3-rim: #4e4232;
+  --b3-rim-top: #6d5e48;
+  --b3-rim-foot: #3e3428;
+}
+/* Focus: the 3 px ring 2 px outside the capsule with the dark keyline between (nothing to
+   clip: the ring follows the rounded ends). */
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  :is(
+    .button:not(
+      .quiet,
+      .sm-dock-toggle,
+      [data-table="end-turn"],
+      .table-hotbar > .toolbar > .button,
+      .token-menu-close,
+      .invp-toggle
+    ),
+    .character-sheet .character-heading > .toolbar > .button.quiet,
+    .table-layout > .table-topline > .toolbar > .button.quiet,
+    .session-view-hud .session-view-start-chip .session-view-hud-button
+  ):focus-visible {
+  outline: var(--bg3-line-3) solid var(--focus);
+  outline-offset: var(--bg3-line-2);
+  box-shadow: 0 0 0 var(--bg3-line-2) var(--b3-ring-gap);
+  clip-path: none;
+}
+/* On the phone the scene line's commands stay quiet words, as in the direction. */
+@media (max-width: 720px) {
+  :root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"]):not(
+      [data-pref-contrast="high"]
+    )
+    .table-layout
+    > .table-topline
+    > .toolbar
+    > .button.quiet {
+    border-color: transparent;
+    background: transparent;
+    box-shadow: none;
+  }
+}
+
+/* ---------------------------------------------------------------- quiet commands */
+/* Quiet buttons and icon buttons (header services, close): words or a glyph at rest; on
+   hover the capsule appears as a bronze hairline in the warm light. */
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"])
+  :is(.button.quiet, .icon-button) {
+  border-radius: var(--bg3-radius-pill);
+}
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  :is(.button.quiet, .icon-button):hover:not(:disabled) {
+  box-shadow: inset 0 0 0 var(--bg3-line-1) rgb(156 129 100 / 0.7);
+}
+
+/* ---------------------------------------------------------------- pills (filters, pages) */
+/* Every pill (filters, page tabs, sub-tabs, the quick-bar page, the session chips) takes the
+   commands' rim: 2 px of bronze, lighter on top. Same 40 px, 4/16 px inside, 14 px as today. */
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  :is(
+    .spl-chip,
+    .invp-chip,
+    .shp-chip,
+    .table-layout .hotbar-page-tab,
+    .table-layout .table-subtab,
+    .table-layout .qb .qb-page-name,
+    .character-sheet .character-subtabs button,
+    .session-view-hud .session-view-chip .session-view-hud-button
+  ) {
+  border: var(--b3-rim-w) solid var(--b3-rim);
+  border-top-color: var(--b3-rim-top);
+  border-bottom-color: var(--b3-rim-foot);
+}
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  :is(
+    .spl-chip,
+    .invp-chip,
+    .shp-chip,
+    .table-layout .hotbar-page-tab,
+    .table-layout .table-subtab,
+    .table-layout .qb .qb-page-name,
+    .character-sheet .character-subtabs button,
+    .session-view-hud .session-view-chip .session-view-hud-button
+  ):hover:not(:disabled) {
+  --b3-rim: var(--bg3-gold);
+  --b3-rim-top: var(--bg3-highlight);
+  --b3-rim-foot: var(--bg3-gold-rule);
+}
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  :is(
+    .spl-chip[aria-pressed="true"],
+    .invp-chip.active,
+    .shp-chip[aria-pressed="true"],
+    .table-layout .hotbar-page-tab.active,
+    .table-layout .table-subtab.active,
+    .character-sheet .character-subtabs button.active
+  ) {
+  --b3-rim: #eed1a7;
+  --b3-rim-top: #fff2b3;
+  --b3-rim-foot: #eed1a7;
+}
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  :is(
+    .spl-chip,
+    .invp-chip,
+    .shp-chip,
+    .table-layout .hotbar-page-tab,
+    .table-layout .table-subtab,
+    .table-layout .qb .qb-page-name,
+    .character-sheet .character-subtabs button,
+    .session-view-hud .session-view-chip .session-view-hud-button
+  ):focus-visible {
+  outline: var(--bg3-line-3) solid var(--focus);
+  outline-offset: var(--bg3-line-2);
+  box-shadow: 0 0 0 var(--bg3-line-2) var(--b3-ring-gap);
+}
+
+/* ---------------------------------------------------------------- fields */
+/* Every text, number, search and menu field: the inventory search capsule with its full 2 px
+   bronze rim and a well's shadow inside; long text rounds its corners to 8 px (a capsule
+   end would cut the first line). 40 px, 16 px inside, 16 px type as today. */
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"]) textarea {
+  border-radius: var(--radius-lg);
+}
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  :is(
+    .field input:not([type="checkbox"], [type="radio"]),
+    .field select,
+    .field textarea,
+    input[type="search"],
+    input[type="number"],
+    input[type="text"],
+    select,
+    textarea
+  ) {
+  border-width: var(--b3-rim-w);
+  border-color: var(--b3-rim-foot);
+  border-top-color: var(--b3-rim-top);
+  box-shadow:
+    inset 0 2px 4px rgb(0 0 0 / 0.85),
+    inset 0 0 0 var(--bg3-line-1) rgb(0 0 0 / 0.5);
+}
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  :is(
+    .field input:not([type="checkbox"], [type="radio"]),
+    .field select,
+    .field textarea,
+    input[type="search"],
+    input[type="number"],
+    input[type="text"],
+    select,
+    textarea
+  ):hover:not(:disabled, :focus-visible) {
+  border-color: var(--bg3-gold-rule);
+  border-top-color: var(--bg3-highlight);
+}
+
+/* ---------------------------------------------------------------- check boxes */
+/* The square check rounds to match (6 px corners) and takes the 2 px rim; radios stay round. */
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  :is(
+    input[type="checkbox"]:not(
+        :where(.switch, :is(.cs-switch, .dtray-switch, .offline-switch) > input)
+      ),
+    input[type="radio"]
+  ) {
+  border-width: var(--b3-rim-w);
+}
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  input[type="checkbox"]:not(
+    :where(.switch, :is(.cs-switch, .dtray-switch, .offline-switch) > input)
+  ) {
+  border-radius: var(--radius-md);
+}
+
+/* ---------------------------------------------------------------- gaps on the 4 px scale */
+/* Two button groups stood 6 px apart (the knowledge panel's «Nasconditi…» row, the sheet's
+   «Bevi» / «Usa» tools): 8 px, the toolbar's gap. Section tabs stood 3 px apart: 4. The
+   safety pair is round chrome (the round gap); the sheet's and the spellbook's pills 4. */
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"])
+  :is(.knowledge-actions, .shp-action-tools) {
+  gap: var(--bg3-space-4);
+}
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"]) .tabs {
+  gap: var(--bg3-space-2);
+}
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"]) .safety-hud-group {
+  gap: var(--bg3-gap-round);
+}
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"])
+  :is(.shp-chips, .shp-props, .spl-chips) {
+  gap: var(--bg3-space-2);
+}
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  .forms-toolbar,
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"])
+  .media-token-panel
+  .toolbar {
+  gap: var(--bg3-space-4);
+}
+/* Capsule columns (Home's «Entra al Tavolo» / «Apri campagna», the inspector's «Scheda
+   completa» / «Inventario»): 12 px one above the other, BG3's main-menu rhythm. */
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  .inspector-buttons {
+  row-gap: var(--bg3-space-5);
+}
+@media (max-width: 720px) {
+  /* On the phone the map tools, sub-tools, zoom and session bar keep the round gap too; the
+     quick bar and the rail strip stay 4 px (at 8 the row needs 376 px of 374). */
+  :root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"])
+    .table-layout
+    :is(
+      .table-stage > .map-toolbar,
+      .map-subtools,
+      .map-container > .map-zoom,
+      .session-view-hud-bar
+    ) {
+    gap: var(--bg3-gap-round);
+  }
+  /* The header's «Torna alla campagna» square: 8 px inside like every quiet command. */
+  :root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"])
+    .app-header.table-header
+    > .button.quiet {
+    padding-inline: var(--bg3-space-4);
+  }
+  /* Every capsule is 16 px inside on the phone; the sheet's header commands kept 24. */
+  :root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"]):not(
+      [data-pref-contrast="high"]
+    )
+    .character-sheet
+    .character-heading
+    > .toolbar
+    > .button.quiet {
+    padding-inline: var(--bg3-space-6);
+  }
+}
+@media (min-width: 721px) {
+  /* The quick bar's round arrows and tools stood 4 px apart: the round gap on the desktop. */
+  :root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"])
+    .qb
+    :is(.qb-pages, .qb-tools) {
+    gap: var(--bg3-gap-round);
+  }
+}
+
+/* ---------------------------------------------------------------- paddings and centres */
+/* Every button kind stood 6 px above and below its words (the session's start commands 4): 8,
+   the scale's step (the 40 px box does not move). The quick bar's round medallions keep their
+   own 0 around the glyph. */
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"])
+  .button:not(:where(.table-hotbar > .toolbar > .button)),
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"])
+  .session-view-hud
+  .session-view-start-chip
+  .session-view-hud-button {
+  padding-block: var(--bg3-space-4);
+}
+/* Section tabs: a transparent 2 px line on top twins the marker below, and a 24 px line box
+   fills the 44 px (2 + 8 + 24 + 8 + 2): the words sit on the centre. */
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"])
+  :is(.tabs button, .home-page .home-tabs [role="tab"]) {
+  border-top: var(--bg3-line-2) solid transparent;
+  line-height: calc(var(--bg3-control-lg) - 2 * var(--bg3-space-4) - 2 * var(--bg3-line-2));
+}
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"])
+  :is(.tabs button, .home-page .home-tabs [role="tab"])
+  > * {
+  line-height: var(--bg3-leading-snug);
+}
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"])
+  .home-page
+  .home-tabs {
+  gap: var(--bg3-space-2);
+}
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"])
+  .home-page
+  .home-tabs
+  [role="tab"] {
+  gap: var(--bg3-space-4);
+}
+/* Text buttons: the words on the centre of their 40 px target (8 + 24 + 8); a glyph shares
+   the words' centre line, 8 px apart. */
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"])
+  .text-button:not(p *, .combat-bar-heading *) {
+  line-height: calc(var(--bg3-control) - 2 * var(--bg3-space-4));
+}
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"])
+  .text-button:not(p *, .combat-bar-heading *):has(> .icon) {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bg3-space-4);
+}
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"])
+  .home-page
+  .section-heading
+  > .text-button {
+  padding-block: var(--bg3-space-4);
+}
+/* A check row is the 40 px target exactly: 4 px above and below the words. */
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"]) .check-field {
+  padding-block: var(--bg3-space-2);
+}
+/* The quick bar's two menus: the dice-mode menu's metric everywhere (40 px capsule, 16 px
+   inside, Small 14). */
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"])
+  :is(.table-layout .qb, .qb)
+  .qb-select
+  select {
+  padding-inline: var(--bg3-space-6);
+  border-radius: var(--bg3-radius-pill);
+  font-size: var(--bg3-type-small);
+}
+/* A creature row's «Centra» keeps the quiet button's 40 px instead of the row's 49 px. */
+:root[data-direction="bg3"][data-variant~="b3"]:not([data-pref-theme="light"])
+  .token-menu-rows
+  .button.quiet.token-menu-find {
+  align-self: center;
+}
