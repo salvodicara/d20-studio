@@ -1,0 +1,252 @@
+/* BG3 · round 2 «Caratteri» · option t3 «Cormorant Garamond + Alegreya Sans» (I-248…I-254,
+   04/10/2026). A layer on directions/bg3/direction.css, loaded only with ?variant=t3
+   (directions/README.md «Variants»). Fonts axis only: font families, weights, sizes on BG3's
+   scale, font-style. Titles and names are set in a book Garamond; every other word, number,
+   label and control in BG3's own sans. Dark theme only, like the direction: the light theme
+   keeps today's look; the legible-font preference keeps its own face.
+
+   elemento → prodotto → fonte
+   - Titoli e nomi in un Garamond da libro (Cormorant Garamond, OFL), solo da 19 px in su →
+     the type study measured it beside Quadraat as rendered in BG3: a display Garamond, «display
+     use only» → references/bg3-solasta/facts.md A0.1 (OFL substitutes table),
+     bg3-type-ofl-candidates-specimen.png; the book page as a title voice → Owlcat, Wrath of
+     the Righteous: menu lettering set on an open book page → references/owlcat/facts.md
+     «Main menu lettering», wotr-home-main-menu-book-1440.jpg.
+   - Testo, etichette, pulsanti e numeri in Alegreya Sans → BG3 ships it as the controller UI's
+     SpecialFont beside Alegreya (Controller.Fonts.xaml); the type study names it «the sans
+     partner if one is needed» → facts A0.1 «Controller UI faces», OFL table.
+   - Un passo più grande sulla scala di BG3 per ogni titolo e nome: Cormorant's x-height is
+     0.386 em against Alegreya's 0.456 (section titles Big 22 → Title 24, plate titles Default
+     18 → Large 20, names one step up, the Tavolo's scene title Default 18 → Intermediate 19;
+     page titles 40, the resume scene 35 and dialog titles 28 keep their steps) → facts A0.1
+     metrics table. One size per role: every plate title (h3, the Scheda's group headers and the
+     Tavolo's panels alike) is Large 20.
+   - Pesi: titoli grandi 600, titoli di riquadro e nomi 700, because Cormorant's hairlines thin
+     out under 24 px → facts A0.1 «hairline contrast»; Alegreya Sans is vendored at 400 and 700
+     only (directions/README.md «Fonts»), so the direction's 500 text renders at Regular 400
+     and its 600 labels at Bold 700 (the family has no 600).
+   - Nessun corsivo finto: the sans has no italic file here, so the two italic lines (the
+     Scheda's «Scheda controllata da te», the hotbar's turn line) stand upright instead of a
+     slanted Regular.
+   - I nomi sotto i ritratti del gruppo (12 px) restano nella senza grazie: at 12 px Cormorant's
+     x-height would be under 5 px.
+   Figures stay lining (the direction's "lnum" on :root reaches Cormorant and Alegreya Sans
+   alike); gilt, colours and leading are the direction's. */
+
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("../../../assets/fonts/cormorant-garamond/cormorant-garamond-latin-wght-normal.woff2")
+    format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("../../../assets/fonts/cormorant-garamond/cormorant-garamond-latin-ext-wght-normal.woff2")
+    format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
+}
+@font-face {
+  font-family: "Alegreya Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../../../assets/fonts/alegreya-sans/alegreya-sans-latin-400-normal.woff2")
+    format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Alegreya Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../../../assets/fonts/alegreya-sans/alegreya-sans-latin-ext-400-normal.woff2")
+    format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
+}
+@font-face {
+  font-family: "Alegreya Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../../../assets/fonts/alegreya-sans/alegreya-sans-latin-700-normal.woff2")
+    format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Alegreya Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../../../assets/fonts/alegreya-sans/alegreya-sans-latin-ext-700-normal.woff2")
+    format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
+}
+
+/* ---------------------------------------------------------------- tokens */
+:root[data-direction="bg3"][data-variant~="t3"]:not([data-pref-theme="light"]) {
+  --font-display: "Alegreya Sans", "Gill Sans", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-ui: "Alegreya Sans", "Gill Sans", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-label: "Alegreya Sans", "Gill Sans", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --bg3-font-book:
+    "Cormorant Garamond", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+}
+
+/* ---------------------------------------------------------------- titles */
+:root[data-direction="bg3"][data-variant~="t3"]:not([data-pref-theme="light"]) :is(h1, h2) {
+  font-family: var(--bg3-font-book);
+  font-weight: 600;
+}
+:root[data-direction="bg3"][data-variant~="t3"]:not([data-pref-theme="light"]) h3 {
+  font-family: var(--bg3-font-book);
+  font-size: var(--bg3-type-large);
+  font-weight: 700;
+}
+:root[data-direction="bg3"][data-variant~="t3"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tab-content
+  :is(
+    section.panel > .section-heading > h2,
+    section.panel > h2:first-child,
+    .dtray-sheet-head > h3,
+    .ct-policy-box > h3,
+    .cs-sheet > h2
+  ) {
+  font-family: var(--bg3-font-book);
+  font-size: var(--bg3-type-title);
+  font-weight: 600;
+}
+:root[data-direction="bg3"][data-variant~="t3"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-derived .shp-col h3, .shp-action-group h3, .spl-group h3) {
+  font-family: var(--bg3-font-book);
+  font-size: var(--bg3-type-large);
+  font-weight: 700;
+}
+:root[data-direction="bg3"][data-variant~="t3"]:not([data-pref-theme="light"])
+  .character-sheet
+  .sm-sheet
+  > h4 {
+  font-family: var(--bg3-font-book);
+  font-size: var(--bg3-type-large);
+  font-weight: 700;
+}
+:root[data-direction="bg3"][data-variant~="t3"]:not([data-pref-theme="light"])
+  .home-page
+  .section-heading
+  h2,
+:root[data-direction="bg3"][data-variant~="t3"]:not([data-pref-theme="light"])
+  .home-page
+  :is(:is(.cm-home, .chat-home, .community-home) .section-heading h2, .home-appointment h2) {
+  font-size: var(--bg3-type-title);
+}
+:root[data-direction="bg3"][data-variant~="t3"]:not([data-pref-theme="light"])
+  .table-layout
+  > .table-topline
+  h1 {
+  font-size: var(--bg3-type-intermediate);
+  font-weight: 700;
+}
+:root[data-direction="bg3"][data-variant~="t3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  .forms-summary
+  > h3 {
+  font-family: var(--bg3-font-book);
+  font-size: var(--bg3-type-large);
+  font-weight: 700;
+}
+
+/* ---------------------------------------------------------------- names */
+:root[data-direction="bg3"][data-variant~="t3"]:not([data-pref-theme="light"])
+  .home-page
+  .character-resume
+  strong {
+  font-family: var(--bg3-font-book);
+  font-size: var(--bg3-type-title);
+  font-weight: 700;
+}
+:root[data-direction="bg3"][data-variant~="t3"]:not([data-pref-theme="light"])
+  .ct-start
+  .ct-start-who
+  strong,
+:root[data-direction="bg3"][data-variant~="t3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .hotbar-name
+  > strong {
+  font-family: var(--bg3-font-book);
+  font-size: var(--bg3-type-large);
+  font-weight: 700;
+}
+:root[data-direction="bg3"][data-variant~="t3"]:not([data-pref-theme="light"])
+  .token-menu
+  .token-menu-title
+  strong {
+  font-family: var(--bg3-font-book);
+  font-size: var(--bg3-type-big);
+  font-weight: 700;
+}
+:root[data-direction="bg3"][data-variant~="t3"]:not([data-pref-theme="light"])
+  .table-layout
+  .inspector-person
+  h2 {
+  font-size: var(--bg3-type-title);
+  font-weight: 700;
+}
+:root[data-direction="bg3"][data-variant~="t3"]:not([data-pref-theme="light"])
+  .table-layout
+  > .initiative
+  .initiative-token.current
+  > span:last-child {
+  font-family: var(--bg3-font-book);
+  font-size: var(--bg3-type-large);
+  font-weight: 700;
+}
+:root[data-direction="bg3"][data-variant~="t3"]:not([data-pref-theme="light"])
+  .table-layout
+  > .initiative
+  .initiative-token.current
+  > span:last-child
+  small {
+  font-family: var(--font-ui);
+}
+
+/* ---------------------------------------------------------------- brand */
+:root[data-direction="bg3"][data-variant~="t3"]:not([data-pref-theme="light"]) .brand {
+  font-family: var(--bg3-font-book);
+  font-weight: 700;
+}
+
+/* ---------------------------------------------------------------- no false italics */
+:root[data-direction="bg3"][data-variant~="t3"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-heading-note,
+:root[data-direction="bg3"][data-variant~="t3"]:not([data-pref-theme="light"])
+  .table-layout
+  .action-dock.table-hotbar
+  > .hotbar-identity
+  > div
+  > span {
+  font-style: normal;
+}

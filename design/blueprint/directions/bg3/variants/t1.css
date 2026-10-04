@@ -1,0 +1,109 @@
+/* BG3 · round 2 «Caratteri» · option t1 «Alegreya» (I-248…I-254, 02/10/2026).
+   A layer on directions/bg3/direction.css, loaded only with ?variant=t1 (directions/README.md
+   «Variants»). Fonts axis only. Today's face, BG3's own controller-UI face, kept everywhere
+   and refined: the same family, sizes and colours, with the weights, figures and line breaks
+   brought to BG3's typographic rules. Dark theme only, like the direction; the legible-font
+   preference keeps its own face.
+
+   elemento → prodotto → fonte
+   - Un solo carattere, Alegreya, per titoli, testo, etichette e numeri → BG3
+     (Controller.Fonts.xaml DefaultFont = Alegreya; metrics within 1–3 % of Quadraat, the PC
+     face) → references/bg3-solasta/facts.md A0.1, bg3-type-ofl-candidates-specimen.png.
+   - I titoli d'oro (Inizio, nome in Scheda, finestre) in DemiBold 600 invece di 500, così il
+     gradiente oro ha corpo e resta nitido → BG3's most used weight is DemiBold (107 XAML
+     uses) and its title lettering is cast gold → facts A0.1 «Weights used»,
+     bg3-home-main-menu-annotated.jpg.
+   - Solo i pesi di BG3: Medium 500, SemiBold/DemiBold 600, Bold 700 (il marchio passa da 800
+     a 700; l'unico 400 resta «Termina turno», regolare come in BG3) → facts A0.1 «Weights
+     used» (no ExtraBold/Black anywhere), bg3-table-crop-endturn.png.
+   - Etichette piccole (11–12 px: azioni della barra, stato del turno, sottotitoli del Tavolo,
+     linguette del telefono) in 600: a quella misura BG3 scrive in DemiBold e con il contorno
+     scuro → facts A0.1 «Text stroke», «Weights used»; bg3-table-crop-hotbar-4k.png.
+   - Cifre allineate e a larghezza fissa in ogni colonna di numeri (modificatori, PF, slot,
+     CA, totali), così +1 e +3 stanno in colonna → BG3: Quadraat has lining figures and its
+     sheet values sit in columns → facts A0.1 «Default numerals», bg3-sheet-character-panel.png.
+   - A capo curati: titoli bilanciati, nessuna parola sola sull'ultima riga dei paragrafi →
+     BG3 journal and tooltips set short titles on one line and wrap prose evenly →
+     ~/Workspace/bg3-ui-study/corpus/journal-01-deltias.png, bg3-panels-tooltip-skill.png.
+   Sizes, leading, colours and the gilt treatment are the direction's (facts A0.1). */
+
+/* ---------------------------------------------------------------- weights */
+:root[data-direction="bg3"][data-variant~="t1"]:not([data-pref-theme="light"])
+  :is(
+    .home-page .page-heading h1,
+    .home-page .resume-scene h2,
+    .character-sheet .character-heading h1,
+    dialog .dialog-heading h2
+  ) {
+  font-weight: 600;
+}
+:root[data-direction="bg3"][data-variant~="t1"]:not([data-pref-theme="light"]) .brand {
+  font-weight: 700;
+}
+:root[data-direction="bg3"][data-variant~="t1"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  :is(.combat-action, .combat-filter, .combat-dock .sm-dock-toggle),
+:root[data-direction="bg3"][data-variant~="t1"]:not([data-pref-theme="light"])
+  .table-layout
+  .action-dock.table-hotbar
+  > .hotbar-identity
+  > div
+  > span,
+:root[data-direction="bg3"][data-variant~="t1"]:not([data-pref-theme="light"])
+  .table-layout
+  > .table-topline
+  > div
+  > span,
+:root[data-direction="bg3"][data-variant~="t1"]:not([data-pref-theme="light"])
+  .table-layout
+  .inspector-person
+  .muted,
+:root[data-direction="bg3"][data-variant~="t1"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-tab-label,
+:root[data-direction="bg3"][data-variant~="t1"]:not([data-pref-theme="light"])
+  .table-layout
+  .map-container
+  > .map-caption
+  > span,
+:root[data-direction="bg3"][data-variant~="t1"]:not([data-pref-theme="light"])
+  .token-menu
+  .token-menu-count {
+  font-weight: 600;
+}
+
+/* ---------------------------------------------------------------- figures */
+:root[data-direction="bg3"][data-variant~="t1"]:not([data-pref-theme="light"])
+  :is(
+    .character-sheet .shp-ability-box strong,
+    .character-sheet .character-band .character-vitals .stat > strong,
+    .character-sheet .character-hp .character-hp-value strong,
+    .character-sheet .shp-value,
+    .character-sheet .shp-pill strong,
+    .character-sheet .spl-stat dd,
+    .character-sheet .spl-slot strong,
+    .character-sheet .invp-stat > strong,
+    .character-sheet .conditions-segment,
+    .table-layout .conditions-segment,
+    .table-layout .table-hotbar .hotbar-hp,
+    .table-layout .action-dock.table-hotbar .hotbar-resources .resources > span,
+    .table-layout .table-hotbar .hotbar-slot-level > small,
+    .table-layout .inspector-ac strong,
+    .home-page .hp-small,
+    .ct-start .ct-start-total
+  ) {
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+/* ---------------------------------------------------------------- line breaks */
+:root[data-direction="bg3"][data-variant~="t1"]:not([data-pref-theme="light"])
+  :is(.home-page, .character-sheet, .table-layout)
+  h3 {
+  text-wrap: balance;
+}
+:root[data-direction="bg3"][data-variant~="t1"]:not([data-pref-theme="light"])
+  :is(.home-page, .character-sheet)
+  p {
+  text-wrap: pretty;
+}

@@ -1,0 +1,210 @@
+/* BG3 · round 2 «Caratteri» · option t2 «Cinzel + Alegreya» (I-248…I-254, 02/10/2026).
+   A layer on directions/bg3/direction.css, loaded only with ?variant=t2 (directions/README.md
+   «Variants»). Fonts axis only: font families, weights, sizes on BG3's scale, letter-spacing.
+   Titles and names are set in wide inscriptional capitals (Cinzel); every other word, number,
+   label and control keeps the direction's Alegreya. Dark theme only, like the direction: the
+   light theme keeps today's look; the legible-font preference keeps its own face and spacing.
+
+   elemento → prodotto → fonte
+   - Titoli e nomi in capitali lapidarie larghe (Cinzel 600, OFL) → Demiplane, Pathfinder
+     Nexus: box headers and big titles in Taroca, wide Roman inscriptional caps; Cinzel 600–700
+     is the measured OFL substitute → references/demiplane/facts.md §1.2 «PF2e box headers»,
+     demiplane-sheet-crop-pf2e-header-stat-panels.png.
+   - Nomi e titoli in maiuscole e maiuscoletto con testo corrente in tondo → Solasta: names,
+     quest titles and headings in spaced caps / small caps serif, body in mixed case →
+     references/bg3-solasta/facts.md B5, solasta-home-character-creation-identity-steam.jpg.
+   - Testo, etichette, pulsanti e numeri restano Alegreya, in tondo, cifre allineate → BG3
+     (Controller.Fonts.xaml DefaultFont = Alegreya) → facts A0.1.
+   - Nessuna spaziatura forzata sul testo; solo le capitali lapidarie hanno la loro spaziatura
+     (+0.02 em sui titoli grandi, come le iscrizioni) → facts A0.1 «Casing» (BG3 tracks
+     nothing) e Demiplane PF2e header crop.
+   - Il marchio «d20 Studio» in capitali lapidarie, oro fuso → BG3 title lettering (cast gold)
+     on the main menu → bg3-home-main-menu-annotated.jpg; the words and colours stay the
+     direction's (I-251).
+   Sizes stay on BG3's type scale (facts A0.1): Cinzel's capitals stand taller than Alegreya's
+   lower case, so a Cinzel title takes the scale step under the direction's (Gigantic 35 →
+   Massive 28, Massive 28 → Title 24, Big 22 → Large 20, Default 18 → Medium 16) where the
+   direction's step crowded its plate; the page titles keep Humongous 40. One size per role:
+   page titles 40, section titles 20, every plate title (h3, the Scheda's group headers and
+   the Tavolo's panels alike) 16, names at their plate's step. The Tavolo's scene title stays
+   Alegreya (see below). --font-display is not overridden: in this direction it also carries
+   the numerals (ability scores, HP, AC), which stay Alegreya, so the titles and names are
+   named one by one, each with the direction rule's full selector. Figures stay lining (the
+   direction's "lnum" on :root); Cinzel's own figures appear only inside titles. */
+
+@font-face {
+  font-family: "Cinzel";
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url("../../../assets/fonts/cinzel/cinzel-latin-wght-normal.woff2") format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Cinzel";
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url("../../../assets/fonts/cinzel/cinzel-latin-ext-wght-normal.woff2") format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
+}
+
+/* ---------------------------------------------------------------- token */
+:root[data-direction="bg3"][data-variant~="t2"]:not([data-pref-theme="light"]) {
+  --bg3-font-inscription:
+    "Cinzel", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+}
+
+/* ---------------------------------------------------------------- titles */
+:root[data-direction="bg3"][data-variant~="t2"]:not([data-pref-theme="light"]) :is(h1, h2, h3) {
+  font-family: var(--bg3-font-inscription);
+  font-weight: 600;
+}
+:root[data-direction="bg3"][data-variant~="t2"]:not([data-pref-theme="light"]) h3 {
+  font-size: var(--bg3-type-medium);
+}
+:root[data-direction="bg3"][data-variant~="t2"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-tab-content
+  :is(
+    section.panel > .section-heading > h2,
+    section.panel > h2:first-child,
+    .dtray-sheet-head > h3,
+    .ct-policy-box > h3,
+    .cs-sheet > h2
+  ) {
+  font-family: var(--bg3-font-inscription);
+  font-size: var(--bg3-type-large);
+  font-weight: 600;
+}
+:root[data-direction="bg3"][data-variant~="t2"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.shp-derived .shp-col h3, .shp-action-group h3, .spl-group h3) {
+  font-family: var(--bg3-font-inscription);
+  font-size: var(--bg3-type-medium);
+  font-weight: 600;
+}
+:root[data-direction="bg3"][data-variant~="t2"]:not([data-pref-theme="light"])
+  .character-sheet
+  .sm-sheet
+  > h4 {
+  font-family: var(--bg3-font-inscription);
+  font-size: var(--bg3-type-medium);
+}
+:root[data-direction="bg3"][data-variant~="t2"]:not([data-pref-theme="light"])
+  .home-page
+  .resume-scene
+  h2 {
+  font-size: var(--bg3-type-massive);
+}
+:root[data-direction="bg3"][data-variant~="t2"]:not([data-pref-theme="light"])
+  .home-page
+  .section-heading
+  h2,
+:root[data-direction="bg3"][data-variant~="t2"]:not([data-pref-theme="light"])
+  .home-page
+  :is(:is(.cm-home, .chat-home, .community-home) .section-heading h2, .home-appointment h2) {
+  font-size: var(--bg3-type-large);
+}
+:root[data-direction="bg3"][data-variant~="t2"]:not([data-pref-theme="light"]) .dialog-heading h2 {
+  font-size: var(--bg3-type-title);
+}
+/* The Table's scene title stays in the text face: the scene plate is fitted to one row (title
+   and commands), and Cinzel's wider capitals, even at Smallish 15, pushed the commands to a
+   second row and shortened the map (measured 03/10/2026). */
+:root[data-direction="bg3"][data-variant~="t2"]:not([data-pref-theme="light"])
+  .table-layout
+  > .table-topline
+  h1 {
+  font-family: var(--font-display);
+  font-weight: 500;
+}
+:root[data-direction="bg3"][data-variant~="t2"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-inspector
+  .forms-summary
+  > h3 {
+  font-family: var(--bg3-font-inscription);
+  font-size: var(--bg3-type-medium);
+  font-weight: 600;
+}
+
+/* ---------------------------------------------------------------- names */
+:root[data-direction="bg3"][data-variant~="t2"]:not([data-pref-theme="light"])
+  .home-page
+  .character-resume
+  strong,
+:root[data-direction="bg3"][data-variant~="t2"]:not([data-pref-theme="light"])
+  .ct-start
+  .ct-start-who
+  strong,
+:root[data-direction="bg3"][data-variant~="t2"]:not([data-pref-theme="light"])
+  .token-menu
+  .token-menu-title
+  strong {
+  font-family: var(--bg3-font-inscription);
+  font-weight: 600;
+}
+:root[data-direction="bg3"][data-variant~="t2"]:not([data-pref-theme="light"])
+  .table-layout
+  .inspector-person
+  h2 {
+  font-size: var(--bg3-type-large);
+  font-weight: 600;
+}
+:root[data-direction="bg3"][data-variant~="t2"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .hotbar-name
+  > strong {
+  font-family: var(--bg3-font-inscription);
+  font-weight: 600;
+}
+:root[data-direction="bg3"][data-variant~="t2"]:not([data-pref-theme="light"])
+  .table-layout
+  > .initiative
+  .initiative-token.current
+  > span:last-child {
+  font-family: var(--bg3-font-inscription);
+  font-size: var(--bg3-type-medium);
+  font-weight: 600;
+}
+:root[data-direction="bg3"][data-variant~="t2"]:not([data-pref-theme="light"])
+  .table-layout
+  > .initiative
+  .initiative-token.current
+  > span:last-child
+  small {
+  font-family: var(--font-ui);
+  font-weight: 500;
+}
+:root[data-direction="bg3"][data-variant~="t2"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-party-name {
+  font-family: var(--bg3-font-inscription);
+  font-weight: 700;
+}
+
+/* ---------------------------------------------------------------- brand */
+:root[data-direction="bg3"][data-variant~="t2"]:not([data-pref-theme="light"]) .brand {
+  font-family: var(--bg3-font-inscription);
+  font-weight: 700;
+}
+
+/* ---------------------------------------------------------------- inscriptional spacing */
+:root[data-direction="bg3"][data-variant~="t2"]:not([data-pref-theme="light"]):not(
+    [data-pref-font="legible"]
+  )
+  :is(
+    .home-page .page-heading h1,
+    .home-page .resume-scene h2,
+    .character-sheet .character-heading h1,
+    dialog .dialog-heading h2
+  ) {
+  letter-spacing: 0.02em;
+}

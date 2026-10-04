@@ -47,6 +47,7 @@ at commit `9710da1eacb3be272583c3224dcb70f9da6eadbb`. A direction declares its o
 | `fonts/unbounded/`          | Unbounded (variable wght 200–900; latin + latin-ext; used by direction 8)                 | Copyright 2022 The Unbounded Project Authors (https://github.com/googlefonts/unbounded)               |
 | `fonts/vollkorn/`           | Vollkorn (variable wght 400–900, normal + italic; latin + latin-ext; used by direction 7) | Copyright 2017 The Vollkorn Project Authors (https://github.com/FAlthausen/Vollkorn-Typeface)         |
 | `fonts/im-fell-english-sc/` | IM FELL English SC (400; latin only, drop caps; used by direction 7)                      | Copyright (c) 2010, Igino Marini (mail@iginomarini.com)                                               |
+| `fonts/cormorant-garamond/` | Cormorant Garamond (variable wght 300–700; latin + latin-ext; used by BG3 variant t3)     | Copyright 2015 the Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)                    |
 
 ## Direction-specific files and icons
 
