@@ -8,10 +8,10 @@ risposta si registra parola per parola come decisione I-2xx.
 | #   | Scelta                                                                         | Dipende da | Giro | Stato                                                   |
 | --- | ------------------------------------------------------------------------------ | ---------- | ---- | ------------------------------------------------------- |
 | 1   | Direzione generale, per superficie (Inizio, Scheda, Tavolo)                    | —          | 1    | **scelta: Baldur's Gate 3, tutta l'app (I-253, I-254)** |
-| 2   | Colori (palette e colore del tema)                                             | 1          | 2    | da fare                                                 |
-| 3   | Caratteri (titoli, interfaccia, etichette)                                     | 1          | 2    | da fare                                                 |
-| 4   | Icone (voce: glifi pieni di gioco o contorni; set)                             | 1          | 2    | da fare                                                 |
-| 5   | Pulsanti e campi                                                               | 1–3        | 2    | da fare                                                 |
+| 2   | Colori (palette e colore del tema)                                             | 1          | 2    | opzioni pubblicate 05/10                                |
+| 3   | Caratteri (titoli, interfaccia, etichette)                                     | 1          | 2    | opzioni pubblicate 05/10                                |
+| 4   | Icone (voce: glifi pieni di gioco o contorni; set)                             | 1          | 2    | opzioni pubblicate 05/10                                |
+| 5   | Pulsanti e campi                                                               | 1–3        | 2    | opzioni pubblicate 05/10                                |
 | 6   | Schede, pannelli, dialoghi, barre laterali (anche nomi visibili: arretrato P3) | 1–5        | 3    | da fare                                                 |
 | 7   | Pedine e mappa (anelli, bersaglio, barre, didascalia: arretrato P2)            | 1–2        | 3    | da fare                                                 |
 | 8   | Barra delle azioni (hotbar, risorse, Fine turno)                               | 1–4        | 3    | da fare                                                 |
@@ -86,3 +86,19 @@ Le voci dell'[arretrato grafico](../interview-01/visual-phase-backlog.md) entran
 indicata; gli elementi «con stile minimo» si ridisegnano nella scelta della loro superficie.
 Dopo la scelta 15: applicazione a tutte le aree con prima/dopo, controllo visivo e di
 accessibilità, revisione separata, approvazione finale («Approvi l'aspetto?»).
+
+## Scelte 2–5 — dentro Baldur's Gate 3 (Giro 2)
+
+- **Pagina privata:** [Giro 2 · Baldur's Gate 3](https://claude.ai/artifact/Frmp7PQc8YG2ZPBUpAKnox),
+  più sette immagini per il telefono (icone dipinte, mappe pronte, una per scelta).
+- **Opzioni (combinabili, `?direction=bg3&variant=c2,t3`):** 2 · Colori: 2.1 Oro di Baldur, 2.2
+  Arcano, 2.3 Rosso infernale · 3 · Caratteri: 3.1 Alegreya, 3.2 Cinzel e Alegreya, 3.3 Libro e
+  senza grazie (Cormorant Garamond e Alegreya Sans) · 4 · Icone: 4.1 Glifi dorati, 4.2 Contorni
+  incisi, 4.3 Dipinti nella barra · 5 · Pulsanti e campi: 5.1 Losanga, 5.2 Lastra dorata, 5.3
+  Capsula. File in `design/blueprint/directions/bg3/variants/`; note per l'owner in
+  `~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/round2/variants-<asse>/`.
+- **Prove di immagini (I-254):** 18 icone dipinte (3 stili × 6 soggetti) e 3 mappe pronte con
+  pianta, generate con l'imagegen di Codex sull'abbonamento dell'owner; prompt e criteri in
+  `design/blueprint/assets/prompts/icons.md` e `maps.md`.
+- **Domande aperte all'owner:** le quattro scelte, lo stile delle icone dipinte (A, B, C), la
+  raccolta di mappe e dove prende le mappe il DM del gruppo. **In attesa della risposta.**

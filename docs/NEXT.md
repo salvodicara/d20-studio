@@ -19,28 +19,14 @@ della produzione; pacchetti a pagamento solo con un sì esplicito. Mappe: carica
 import da Dungeondraft (già nel blueprint) più una piccola raccolta di mappe pronte nello stesso
 stile dipinto, con muri e porte già messi. Da chiedere ancora: dove prende le mappe il DM del gruppo.
 
-## Giro 2 in corso (02/10)
+## Giro 2: in attesa dell'owner (05/10)
 
-1. Rifinitura premium della direzione bg3 (critica, costruzione, caccia ai dettagli, correzione).
-2. Prove di stile: icone dipinte (3 stili × 6 soggetti) e tre mappe pronte (locanda, strada nel
-   bosco, cripta), generate con Codex; tavole di confronto in
-   `~/Workspace/Codex/d20-blueprint-evidence/2026-09-30/visual-01/round2/`.
-3. Varianti numerate dentro BG3, combinabili (`?variant=c2,t3`): colori c1–c3, caratteri t1–t3,
-   pulsanti e campi b1–b3, icone i1–i3. File in `design/blueprint/directions/bg3/variants/`.
-4. Poi: pagina privata «Scelta 2–5» con screenshot affiancati ai riferimenti e domande numerate
-   all'owner; scelte 6–15; fusione in un solo sistema (I-250).
-
-## Come aprire l'app con una direzione
-
-```sh
-cd ~/Workspace/Codex/d20-studio-visual-01
-python3 changes/visual-01/serve.py
-```
-
-Poi <http://127.0.0.1:8881/?direction=bg3#table> (oppure `ddb`, `foundry`, `owlbear`, `solasta`,
-`roll20`, `owlcat`, `alchemy`, `demiplane`; `current` per l'aspetto di oggi col selettore,
-`off` per toglierlo). Campionario dei componenti:
-<http://127.0.0.1:8881/directions/specimen.html?direction=bg3>.
+Pagina privata: <https://claude.ai/artifact/Frmp7PQc8YG2ZPBUpAKnox>. Le domande, con esempi:
+scelte 2 Colori, 3 Caratteri, 4 Icone, 5 Pulsanti e campi (tre opzioni ciascuna, combinabili con
+`?direction=bg3&variant=c2,t3,b1,i1`); stile delle icone dipinte (A, B, C); raccolta di mappe
+pronte; dove prende le mappe il DM del gruppo. Registro e dettagli:
+[choices](../changes/visual-01/choices.md). In corso: seconda parte della rifinitura premium
+(P12–P24, `…/notes/phase-c-premium2.js`).
 
 ## Dopo il Giro 2
 

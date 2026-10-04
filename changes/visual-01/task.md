@@ -121,7 +121,18 @@ scelta numerata dell'owner, non solo direzione, icone e caratteri. Registro dell
   prove di icone dipinte e mappe pronte con Codex, varianti combinabili (`?variant=`) per colori,
   caratteri, pulsanti e campi, icone.
 
+- 03–05/10/2026: Giro 2. Il primo workflow ha prodotto la rifinitura premium (P1–P11 e correzioni
+  F1–F15), le opzioni combinabili (`?variant=`), le prove di icone dipinte e mappe pronte; i
+  quattro costruttori delle varianti si sono bloccati. Causa principale: il Mac in stop durante la
+  notte (un agente lo riporta), più contesti pieni di screenshot grandi. Secondo workflow con un
+  agente per opzione, foto delle opzioni fatte da uno script deterministico
+  (`…/notes/round2-capture.sh`), revisione indipendente per asse e correzioni: 12 opzioni pronte
+  (commit `4011e0e`…`de1e0bc`), suite Node 2701/2701, garanzie «ok» per ogni opzione. Pubblicata la
+  pagina privata del Giro 2 e mandate sette immagini all'owner. In corso la seconda parte della
+  rifinitura premium (P12–P24) e la correzione dei nomi tagliati nella barra delle azioni.
+
 ## Prossima azione
 
-Chiudere il Giro 2: catture, pagina privata «Scelte 2–5», griglie per il telefono e domande
-numerate all'owner secondo [NEXT](../../docs/NEXT.md).
+Chiudere la rifinitura premium (P12–P24), ricatturare «base» e aggiornare la pagina; registrare le
+risposte dell'owner alle scelte 2–5 e alle domande su immagini e mappe secondo
+[NEXT](../../docs/NEXT.md).
