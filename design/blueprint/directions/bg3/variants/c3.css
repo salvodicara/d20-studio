@@ -1,0 +1,851 @@
+/* BG3 · round 2 «Colori» · option c3 «Rosso infernale» (I-248…I-254, 04/10/2026).
+   A layer on directions/bg3/direction.css, loaded only with ?variant=c3 (directions/README.md
+   «Variants»). Colours axis only: the same layout, fonts, sizes and icons. Dark theme only,
+   like the direction; high contrast keeps its own eight tokens and the colour-vision palettes
+   keep their own map colours (the same guards as the direction).
+
+   elemento → prodotto → fonte (references/round2-colours/c3/; measured colours in facts.md)
+   - Blackened-crimson grounds: page, panels, bottom bar, dialogs and Home tinted with a black
+     that turns toward dark red (#100607, #170909) → Diablo IV, the official Steam store header
+     (black #0C0204, deep red #200304 / #2B0303) → c3-d4-store-header.jpg.
+   - Clotted-blood borders and lines (#6e2c2c, #4a1414) instead of brown bronze → BG3, the red
+     keyline around the action bar's indicators (#591A16) → c3-bg3-combat-hud.jpg.
+   - Old gold for frames, bezels and titles (#b8915e, #dcc08a), duller and less orange than
+     today's gold → BG3, the metal of the action bar (#BA9D61) → c3-bg3-combat-hud.jpg; the
+     forge glow for the palest lights and the focus ring (#FFCC83) → c3-bg3-forge-lava.jpg.
+   - Full crimson for the lit details (section underline, active slot, bar keyline, lacquered
+     primary buttons) (#a9231c) → Diablo IV, the «IV» of the logo (#9A0F0F / #9F2221) →
+     c3-d4-store-header.jpg.
+   - End turn: a blackened-crimson disc lit red toward its edge, an old-gold bezel, an ember rim
+     (#bf3a2b) and a red glow instead of BG3's blue (#4F9FB4) → the logo's ember edge (#BD3E30)
+     → c3-d4-store-header.jpg; the ember-lit floor (#582822 / #9B473C) →
+     c3-d4-dungeon-red.jpg.
+   - Cream text barely rosy (#eadbc6) and a rose-tobacco secondary (#c39886) → BG3, the fire's
+     light on the red robe (#C2624F / #E08A73) → c3-bg3-infernal-fire.jpg.
+   Kept on purpose: resource colours (action green, bonus orange, slots blue…), HP red, the
+   ally blue and hostile red on the map, danger, warning and info. They are BG3's meanings,
+   not decoration, and must stay apart from a red skin. */
+
+/* ---------------------------------------------------------------- tokens */
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]) {
+  --bg: #100607;
+  --surface: #170909;
+  --raised: #2b1113;
+  --canvas: #0a0405;
+  --accent: #ecc994;
+  --accent-ink: #1c0807;
+  --surface-2: #120607;
+  --sunken: #080304;
+  --header-bg: rgb(17 5 6 / 0.9);
+  --sidebar-bg: #120607;
+  --rail-bg: #0c0506;
+  --hotbar-bg: rgb(17 5 6 / 0.92);
+  --float-bg: rgb(17 5 6 / 0.88);
+  --float-border: #6e2c2c;
+  --scrim: rgb(8 1 2 / 0.74);
+  --accent-strong: #fdd98c;
+  --accent-soft: rgb(186 120 40 / 0.18);
+  --accent-line: rgb(236 201 148 / 0.55);
+  --toast-bg: #261012;
+  --toast-error-bg: #3d0606;
+  --hp-track: #2e0507;
+  --res-spent: #3d2a2a;
+  --turn-done: #4b3b3b;
+  --endturn-bg: #170304;
+  --door-fill: #1c0a0a;
+  --door-rim: #b8915e;
+  --map-gold: #b8915e;
+  --map-gold-bright: #fde3a6;
+  --map-halo: #0b0506;
+  --map-chip: #100506;
+  --bg3-panel: rgb(17 5 6 / 0.9);
+  --bg3-panel-solid: #120607;
+  --bg3-border: #6e2c2c;
+  --bg3-bronze: #86493a;
+  --bg3-gold: #b8915e;
+  --bg3-gold-rule: #dcc08a;
+  --bg3-cream: #eadbc6;
+  --bg3-highlight: #fde3a6;
+  --bg3-title: #fff6e8;
+  --bg3-keyword: #d0a493;
+  --bg3-base: #b0826f;
+  --bg3-field: #0c0405;
+  --bg3-red: #a9231c;
+  --bg3-steel: #5e4a4c;
+  --bg3-teal: #4a0f16;
+  --bg3-btn-rim: #d4b27a;
+  --bg3-btn-rim-top: #e2c58e;
+  --bg3-btn-body: linear-gradient(#2e0f10, #4d1a1a 50%, #2f1011);
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  ) {
+  --text: #eadbc6;
+  --muted: #c39886;
+  --line: #4a2120;
+  --focus: #fdd98c;
+  --line-strong: #86493a;
+  --frame: #b8915e;
+  --frame-soft: rgb(134 73 58 / 0.9);
+  --placeholder: #a6837a;
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  ) {
+  --token-ally-ring: #b8915e;
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]) body {
+  background: #100607;
+}
+
+/* ---------------------------------------------------------------- End Turn */
+/* A blackened-crimson disc lit red toward its lower edge, an old-gold bezel with ticks, an
+   ember rim (#bf3a2b: the pale-gold focus ring still reads 4:1 on it) and a red glow. */
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .table-layout
+  > .action-dock.table-hotbar
+  > .toolbar
+  > .button.primary[data-table="end-turn"] {
+  background:
+    radial-gradient(circle at 50% 30%, #2a0606 0%, #170304 42%, #5c0d0e 80%, #a9231c 100%)
+      padding-box,
+    repeating-conic-gradient(#d4b27a 0deg 2.2deg, #4a1a14 2.2deg 7.5deg) border-box;
+  color: #fff6e8;
+  box-shadow:
+    inset 0 0 0 1px #0c0c0c,
+    inset 0 0 16px rgb(224 83 42 / 0.35),
+    0 0 0 1px #0c0c0c,
+    0 0 0 4px #bf3a2b,
+    0 0 0 5px #3d0b0b,
+    0 0 16px 4px rgb(210 60 36 / 0.5);
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .table-layout
+  > .action-dock.table-hotbar
+  > .toolbar
+  > .button.primary[data-table="end-turn"]:hover:not(:disabled) {
+  background:
+    radial-gradient(circle at 50% 30%, #380909 0%, #1f0405 42%, #741314 80%, #c8352a 100%)
+      padding-box,
+    repeating-conic-gradient(#e6cb98 0deg 2.2deg, #5e2418 2.2deg 7.5deg) border-box;
+  color: #ffffff;
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .table-layout
+  > .action-dock.table-hotbar
+  > .toolbar
+  > .button.primary[data-table="end-turn"]::after {
+  background: linear-gradient(#fff2d6, #e0a84e 55%, #a9231c);
+  filter: drop-shadow(0 0 3px rgb(224 83 42 / 0.9));
+}
+@media (min-width: 721px) {
+  :root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar
+    > .button.primary[data-table="end-turn"] {
+    background:
+      url("../assets/endturn-runes.svg") center / 100% 100% no-repeat padding-box,
+      radial-gradient(circle at 50% 30%, #2a0606 0%, #170304 42%, #5c0d0e 80%, #a9231c 100%)
+        padding-box,
+      repeating-conic-gradient(#d4b27a 0deg 2.2deg, #4a1a14 2.2deg 7.5deg) border-box;
+  }
+  :root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar
+    > .button.primary[data-table="end-turn"]:hover:not(:disabled) {
+    background:
+      url("../assets/endturn-runes.svg") center / 100% 100% no-repeat padding-box,
+      radial-gradient(circle at 50% 30%, #380909 0%, #1f0405 42%, #741314 80%, #c8352a 100%)
+        padding-box,
+      repeating-conic-gradient(#e6cb98 0deg 2.2deg, #5e2418 2.2deg 7.5deg) border-box;
+  }
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .table-layout
+  > .action-dock.table-hotbar
+  > .toolbar
+  > .button.primary[data-table="end-turn"]:active:not(:disabled) {
+  box-shadow:
+    inset 0 0 0 1px #0c0c0c,
+    inset 0 4px 18px rgb(0 0 0 / 0.75),
+    inset 0 0 16px rgb(224 83 42 / 0.25),
+    0 0 0 1px #0c0c0c,
+    0 0 0 4px #bf3a2b,
+    0 0 0 5px #3d0b0b,
+    0 0 16px 4px rgb(210 60 36 / 0.5);
+}
+/* Unavailable: BG3's grey rim on a charcoal centre, so it never reads as the lit red disc. */
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .table-layout
+  > .action-dock.table-hotbar
+  > .toolbar
+  > .button.primary[data-table="end-turn"]:disabled {
+  background:
+    radial-gradient(circle at 50% 35%, #1e1a1a 0%, #100d0d 60%, #171313 100%) padding-box,
+    repeating-conic-gradient(#6a6a6a 0deg 2.2deg, #2e2e2e 2.2deg 7.5deg) border-box;
+}
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]):not(
+      [data-motion="reduced"]
+    )
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar
+    > .button.primary[data-table="end-turn"]:not(:disabled)::before {
+    box-shadow: 0 0 18px 4px rgb(210 60 36 / 0.38);
+  }
+}
+@media screen and (max-width: 720px) {
+  :root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar
+    > .button.primary[data-table="end-turn"] {
+    border-color: #bf3a2b;
+    background: radial-gradient(
+      120% 140% at 50% 20%,
+      #2a0606 0%,
+      #170304 45%,
+      #5c0d0e 85%,
+      #a9231c
+    );
+    box-shadow:
+      0 0 0 1px #0c0c0c,
+      0 0 0 3px #9b7a4e,
+      0 0 12px 2px rgb(210 60 36 / 0.5);
+  }
+}
+
+/* ---------------------------------------------------------------- materials and light */
+/* The premium pass's tokens: the plate's light from the top turns from brown to a banked red,
+   the stage's darkness to blackened crimson; gold light stays gold (an older, duller gold) and
+   the cyan underglow of primary actions becomes an ember glow. */
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]) {
+  --bg3-plate-shade:
+    radial-gradient(120% 80% at 50% 0%, rgb(72 18 16 / 0.34), transparent 60%),
+    linear-gradient(#140708, #0d0506);
+  --bg3-plate-depth: inset 0 1px 0 rgb(214 170 110 / 0.1), 0 12px 40px rgb(0 0 0 / 0.75);
+  --bg3-stage-dark: radial-gradient(120% 90% at 50% 45%, #220a0a, #120607 38%, #060203 82%);
+  --bg3-glow-gold: rgb(214 150 60 / 0.45);
+  --bg3-glow-cyan: rgb(210 60 36 / 0.55);
+  --bg3-glow-text: 0 0 8px rgb(214 150 60 / 0.45), 0 1px 1px rgb(0 0 0 / 0.8);
+  --bg3-light-hover:
+    inset 0 0 0 1px rgb(253 227 166 / 0.45), inset 0 -10px 14px -8px rgb(224 120 60 / 0.25);
+  --bg3-light-selected: 0 0 0 1px #ecc994, 0 0 6px 2px rgb(214 150 60 / 0.45);
+  --bg3-light-row: inset 0 -20px 20px -12px rgb(190 60 36 / 0.24);
+  --bg3-gilt: linear-gradient(#fff2d0, #ecd09a 38%, #b88a4e 62%, #946a38 78%, #d4b27a);
+  --bg3-gilt-glow: drop-shadow(0 0 7px rgb(196 64 36 / 0.5));
+  --bg3-gilt-title-glow: drop-shadow(0 0 10px rgb(196 64 36 / 0.38));
+  --bg3-corner-gem: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9'%3E%3Cpath d='M4.5.5 8.5 4.5 4.5 8.5.5 4.5Z' fill='%23a9231c' stroke='%230c0c0c'/%3E%3C/svg%3E");
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .table-layout
+  .map-container {
+  background-color: #0a0405;
+}
+
+/* ---------------------------------------------------------------- buttons (Btn_big) */
+/* Ordinary lozenges in oxblood lacquer under the old-gold rim; the primary lit crimson with
+   the ember underglow (the End Turn disc's family); danger keeps its pink-red rim and words
+   on a charred body, so it never reads as the primary. Pressed and selected follow. */
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .button:hover:not(:disabled) {
+  --bg3-btn-body: linear-gradient(#3f1414, #7a2a22 50%, #3f1414);
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .button:active:not(:disabled),
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .button:not(.quiet):active:not(:disabled) {
+  --bg3-btn-body: linear-gradient(#2c0d0d, #6e2620 50%, #2c0d0d);
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]) .button.primary {
+  --bg3-btn-body: linear-gradient(#4a0c0e, #8a1a18 50%, #4a0c0e);
+  --bg3-btn-glow: radial-gradient(60% 90% at 50% 125%, rgb(224 83 42 / 0.4), transparent 70%);
+  border-color: #9b7a4e;
+  color: #fff6e8;
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .button.primary:hover:not(:disabled) {
+  --bg3-btn-body: linear-gradient(#5c1012, #a9231c 50%, #5c1012);
+  --bg3-btn-glow: radial-gradient(65% 95% at 50% 125%, rgb(240 110 50 / 0.5), transparent 72%);
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .button.primary:not([data-table="end-turn"]):active:not(:disabled) {
+  --bg3-btn-body: linear-gradient(#3a090b, #74151a 50%, #3a090b);
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]) .button.danger {
+  --bg3-btn-body: linear-gradient(#1c0608, #300a0e 50%, #1c0608);
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .button.danger:hover:not(:disabled) {
+  --bg3-btn-body: linear-gradient(#3e0710, #6e0a18 50%, #3e0710);
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]) .button.active {
+  --bg3-btn-body: linear-gradient(#3f1414, #6a2a20 50%, #3f1414);
+  --bg3-btn-rim: #fde3a6;
+  --bg3-btn-rim-top: #fff6e8;
+  border-color: #ecc994;
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .button.quiet:hover:not(:disabled) {
+  background: radial-gradient(70% 90% at 50% 100%, rgb(190 60 36 / 0.24), transparent);
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .button:not(.quiet):disabled {
+  --bg3-btn-body: linear-gradient(#1a1010, #2a1c1b 50%, #1a1010);
+}
+/* Selected tabs and chips: the same oxblood light as a pressed lozenge, the pale rim kept. */
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  :is(
+    .spl-chip[aria-pressed="true"],
+    .invp-chip.active,
+    .shp-chip[aria-pressed="true"],
+    .table-layout .hotbar-page-tab.active,
+    .table-layout .table-subtab.active,
+    .character-sheet .character-subtabs button.active
+  ) {
+  background:
+    radial-gradient(70% 90% at 50% 100%, rgb(236 201 148 / 0.26), transparent 70%),
+    linear-gradient(#3f1414, #7a2a22 50%, #3f1414);
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(.spl-row, .invp-row):hover {
+  background: linear-gradient(rgb(19 7 8 / 0) 40%, #3a1a1a);
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  :where(.button:not(.quiet)) {
+  border-color: #7e5440;
+}
+
+/* ---------------------------------------------------------------- fields */
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  :is(.field input, .field select, .field textarea, input[type="search"]),
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]) select {
+  background: #160a0a;
+  border-color: #7a4438;
+  border-top-color: #a87e68;
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  :is(input[type="number"], input[type="text"]) {
+  border-color: #7a4438;
+  border-top-color: #a87e68;
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]) kbd {
+  border-color: #7e5440;
+  background: #1c0a0a;
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  input[type="checkbox"]:not(
+    :where(.switch, :is(.cs-switch, .dtray-switch, .offline-switch) > input)
+  ):checked {
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M4.5 10.5l3.5 3.5 7.5-8' fill='none' stroke='%23fde3a6' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+      center / 100% no-repeat,
+    linear-gradient(#2e0f10, #4d1a1a);
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  input[type="radio"]:checked {
+  background:
+    radial-gradient(circle, #fde3a6 0 26%, transparent 32%), linear-gradient(#2e0f10, #4d1a1a);
+}
+
+/* ---------------------------------------------------------------- Home: the hall in fire */
+/* The same owner hall, graded with the infernal red instead of the cold blue (a «color»
+   layer keeps the hall's light and shade), its shadows lifted toward a warm black, the
+   torchlight pools kept; the vignette is blackened crimson. */
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  #app:has(.home-page) {
+  background:
+    radial-gradient(125% 100% at 50% 34%, rgb(12 4 5 / 0) 48%, rgb(12 4 5 / 0.74) 96%),
+    linear-gradient(rgb(12 4 5 / 0), rgb(12 4 5 / 0.24) 55%, rgb(12 4 5 / 0.72)),
+    url("../assets/home-torchlight.svg") center 35% / cover no-repeat fixed,
+    linear-gradient(rgb(112 24 20 / 0.72), rgb(112 24 20 / 0.72)),
+    linear-gradient(rgb(52 30 26), rgb(52 30 26)),
+    url("../assets/home-hall.webp") center 35% / cover no-repeat fixed,
+    #100607;
+  background-blend-mode: normal, normal, screen, color, screen, normal;
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .home-page
+  .page-heading {
+  background:
+    radial-gradient(30% 40% at 18% 50%, rgb(214 120 50 / 0.08), transparent 100%),
+    radial-gradient(45% 50% at 22% 50%, rgb(12 4 5 / 0.66), rgb(12 4 5 / 0) 100%);
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  :is(.home-page, .character-sheet) {
+  --bg3-panel:
+    var(--bg3-grain), radial-gradient(120% 80% at 50% 0%, rgb(72 18 16 / 0.34), transparent 60%),
+    linear-gradient(90deg, rgb(12 4 5 / 0.5), rgb(20 8 9 / 0.2) 30% 70%, rgb(12 4 5 / 0.5)),
+    rgb(17 5 6 / 0.9);
+}
+@media screen and (max-width: 720px) {
+  :root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+    #app:has(.home-page) {
+    background:
+      linear-gradient(rgb(12 4 5 / 0.15), rgb(12 4 5 / 0.45) 560px, #100607 900px),
+      linear-gradient(rgb(112 24 20 / 0.66), rgb(112 24 20 / 0.66)),
+      url("../assets/home-hall.webp") 12% 0 / auto 900px no-repeat,
+      #100607;
+    background-blend-mode: normal, color, normal;
+  }
+  :root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+    .home-page
+    .resume-scene {
+    background: rgb(17 5 6 / 0.8);
+  }
+}
+
+/* ---------------------------------------------------------------- Scheda */
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  #app:has(.character-sheet) {
+  background: radial-gradient(90% 60% at 50% 0%, rgb(80 20 18 / 0.36), transparent 70%), #100607;
+}
+/* Portrait cards in every place: an old-gold frame on an oxblood keyline. */
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-portrait,
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]) .home-page .portrait,
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-party-portrait,
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .table-layout
+  .inspector-person
+  .portrait {
+  border-color: #957040;
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .character-sheet
+  .character-portrait,
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-party-portrait {
+  box-shadow:
+    inset 0 0 0 1px #0c0c0c,
+    0 0 0 1px #2e0a0b,
+    0 2px 10px rgb(0 0 0 / 0.85);
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .home-page
+  .portrait {
+  box-shadow:
+    inset 0 0 0 1px #0c0c0c,
+    0 0 0 1px #2e0a0b,
+    0 2px 8px rgb(0 0 0 / 0.8);
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .table-layout
+  .inspector-person
+  .portrait {
+  box-shadow:
+    inset 0 0 0 1px #0c0c0c,
+    0 0 0 1px #2e0a0b;
+}
+
+/* ---------------------------------------------------------------- plates, tooltips, dialogs */
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .table-layout
+  .map-container
+  > .map-caption,
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .session-view-hud
+  .session-view-chip {
+  border-color: #957040;
+  border-top-color: #c29a62;
+  border-bottom-color: #a57c4a;
+  background: linear-gradient(rgb(38 14 15 / 0.96), rgb(28 9 10 / 0.96));
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  :is(.shp-tip, .ui-tip) {
+  border-color: #957040;
+  border-top-color: #c29a62;
+  border-bottom-color: #a57c4a;
+  background: linear-gradient(#260e0f, #1c090a);
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]) #toast {
+  border-color: #957040;
+  border-top-color: #c29a62;
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]) dialog {
+  background:
+    url("../assets/grain.svg"),
+    radial-gradient(110% 55% at 50% 0%, rgb(80 20 18 / 0.4), transparent 70%),
+    radial-gradient(140% 100% at 50% 50%, transparent 55%, rgb(6 2 3 / 0.6));
+  background-color: #110506;
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  :is(.context-menu, .token-menu, .int-cal-menu > .int-cal-list) {
+  background:
+    var(--bg3-corner-gem) 0 0 / 11px 11px no-repeat,
+    var(--bg3-corner-gem) 100% 0 / 11px 11px no-repeat,
+    var(--bg3-corner-gem) 0 100% / 11px 11px no-repeat,
+    var(--bg3-corner-gem) 100% 100% / 11px 11px no-repeat,
+    linear-gradient(90deg, transparent, rgb(253 227 166 / 0.4), transparent) 0 4px / 100% 1px
+      no-repeat,
+    url("../assets/grain.svg"),
+    radial-gradient(110% 60% at 50% 0%, rgb(80 20 18 / 0.42), transparent 70%),
+    rgb(14 5 6 / 0.92);
+  background-origin: border-box;
+}
+
+/* ---------------------------------------------------------------- Tavolo */
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .table-layout
+  > .table-sidebar-panel {
+  background:
+    url("../assets/grain.svg"),
+    radial-gradient(140% 50% at 50% 0%, rgb(80 20 18 / 0.32), transparent 70%),
+    linear-gradient(90deg, #0c0405, #150708 12%, #120607 88%, #0c0405);
+  background-color: #0e0506;
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .table-layout
+  > .table-topline {
+  background:
+    url("../assets/grain.svg"),
+    radial-gradient(120% 90% at 50% 0%, rgb(80 20 18 / 0.36), transparent 70%), rgb(17 5 6 / 0.9);
+  box-shadow:
+    inset 0 0 0 2px #0c0c0c,
+    inset 0 0 0 3px rgb(184 145 94 / 0.38),
+    inset 0 4px 0 0 rgb(214 170 110 / 0.08),
+    var(--shadow-2);
+}
+/* The hotbar as one cast object: the brown line of its rim turns oxblood, the gold line old
+   gold, its plate takes the red light from the top. */
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .table-layout
+  > .action-dock.table-hotbar
+  > .hotbar-center,
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .table-layout
+  > .action-dock.table-hotbar
+  > .toolbar::before {
+  background:
+    url("../assets/grain.svg"),
+    radial-gradient(90% 70% at 50% 0%, rgb(80 20 18 / 0.38), transparent 70%),
+    linear-gradient(rgb(22 8 9 / 0.96), rgb(9 3 4 / 0.98));
+  box-shadow:
+    inset 0 0 0 1px #0c0c0c,
+    inset 0 0 0 2px #4a1414,
+    inset 0 0 0 3px var(--bg3-gold),
+    inset 0 4px 0 0 rgb(226 197 142 / 0.18),
+    inset 0 0 18px rgb(0 0 0 / 0.55),
+    0 0 0 1px #0c0c0c,
+    0 -2px 14px rgb(0 0 0 / 0.55);
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  :is(.hotbar-resources, .combat-bar-heading) {
+  background:
+    url("../assets/grain.svg"),
+    radial-gradient(90% 90% at 50% 0%, rgb(80 20 18 / 0.42), transparent 70%),
+    linear-gradient(rgb(22 8 9 / 0.97), rgb(9 3 4 / 0.98));
+}
+/* Slot tiles: the plain slot's field turns from blue-black to blackened crimson; the family
+   tints (blue-grey spells, brown weapons, blue areas, violet moves) keep their meaning. The
+   chosen slot's white outline becomes the pale gold of this option's selected light. */
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-action {
+  background:
+    radial-gradient(ellipse at 50% 30%, var(--bg3-slot-tint), transparent 70%),
+    linear-gradient(#180809, #0c0405);
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-action.active {
+  box-shadow:
+    inset 0 0 0 2px #fde3a6,
+    inset 0 0 10px rgb(253 227 166 / 0.25),
+    0 0 8px 1px rgb(253 217 140 / 0.55);
+}
+/* Turn order: the current card in pale old gold instead of silver; ally blue and hostile red
+   keep their team colours and the hostile dashed ring. */
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  .table-layout
+  > .initiative
+  .initiative-token.current {
+  background:
+    linear-gradient(160deg, rgb(255 255 255 / 0.55), transparent 40%),
+    linear-gradient(135deg, #fff2d6, #dcc08a 55%, #9b7a4e);
+  box-shadow:
+    inset 0 1px 0 #fffaf0,
+    0 0 0 1px #0c0c0c,
+    0 0 16px 2px rgb(253 217 140 / 0.45),
+    0 2px 8px rgb(0 0 0 / 0.85);
+}
+/* The deck's frame lines and the portrait medallion's outer line: oxblood for brown. */
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-actions {
+  border-color: #4a1414;
+  border-bottom-color: #a9231c;
+}
+@media (min-width: 721px) {
+  :root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .combat-dock {
+    border-color: #4a1414;
+  }
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .hotbar-portrait {
+  box-shadow:
+    0 0 0 1px #0c0c0c,
+    0 0 0 3px var(--bg3-gold),
+    0 0 0 4px #4a1414,
+    inset 0 0 0 1px #0c0c0c,
+    0 4px 12px rgb(0 0 0 / 0.8);
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  :is(.character-sheet, .table-layout)
+  .conditions-segments,
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .character-sheet
+  .invp-bar {
+  border-color: #6a3a30;
+}
+/* The sheet's dice-mode switch: a charred well, the pressed half in oxblood light. */
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-mode {
+  border-color: #7e5440;
+  background: linear-gradient(#1c0a0a, #2e1012);
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-mode
+  button
+  + button {
+  border-left-color: #4a2120;
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-mode
+  button[aria-pressed="true"] {
+  background: linear-gradient(#3f1414, #7a2a22 50%, #3f1414);
+}
+
+/* ---------------------------------------------------------------- frames still in brown */
+/* The direction's few frame colours that are not tokens: the same old-gold frame on a
+   blackened-crimson plate as the tooltips above, the same oxblood lozenge as the buttons, the
+   same bronze keyline (--bg3-bronze) for dividers. High contrast keeps the direction's own. */
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]) {
+  --toast-ink: #eadbc6;
+  --token-initial: #eadbc6;
+  --door-ink: #eadbc6;
+  --map-ink: #eadbc6;
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]) * {
+  scrollbar-color: #86493a transparent;
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  :is(
+    .spl-window,
+    .ct-start-call,
+    .ct-rollcall,
+    .ct-mob-rule,
+    :is(.character-sheet, .table-layout) :is(.conditions-vital, .conditions-chip)
+  ) {
+  border-color: #957040;
+  border-top-color: #c29a62;
+  background: linear-gradient(#260e0f, #1c090a);
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  :is(.spl-window, .ct-start-call, .ct-rollcall, .ct-mob-rule) {
+  border-bottom-color: #a57c4a;
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  :is(
+    .spl-chip,
+    .invp-chip,
+    .shp-chip,
+    .table-layout .hotbar-page-tab,
+    .table-layout .table-subtab,
+    .table-layout .qb .qb-page-name,
+    .character-sheet .character-subtabs button
+  ):not(.active, [aria-pressed="true"]) {
+  border-color: #7e5440;
+  background: linear-gradient(#1f0a0a, #3a1414 50%, #1f0a0a);
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  :is(.badge, .spl-state, .ct-badge) {
+  border-color: #7e5440;
+  background: #1c0a0a;
+}
+/* The armour-class shield: old gold cooling to oxblood, a blackened-crimson face. */
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .character-sheet
+  [data-shp-stat="ac"]
+  .shp-pill::before,
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .table-layout
+  .inspector-ac::before {
+  background: linear-gradient(#c29a62, #6e2c2c);
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .table-layout
+  .inspector-ac::after {
+  background: linear-gradient(#2a1011, #110506);
+}
+/* Dividers: the bronze keyline at the same strength. */
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .character-sheet
+  :is(
+    .character-band [data-shp-stat="pb"],
+    .character-band [data-character-speed],
+    .character-band .character-inspiration,
+    .character-band .character-hp,
+    .spl-stat + .spl-stat,
+    .invp-stat + .invp-stat
+  ) {
+  border-left-color: rgb(134 73 58 / 0.7);
+}
+@media screen and (max-width: 720px) {
+  :root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+    .character-sheet
+    :is(.spl-stat, .invp-stat) {
+    border-top-color: rgb(134 73 58 / 0.7);
+    border-left-color: rgb(134 73 58 / 0.7);
+  }
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .hotbar-hp {
+  box-shadow:
+    0 0 0 1px #0c0c0c,
+    0 0 0 2px rgb(134 73 58 / 0.8);
+}
+@media (min-width: 721px) {
+  :root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-hotbar
+    .hotbar-hp::before {
+    box-shadow:
+      0 0 0 1px #0c0c0c,
+      0 0 0 2px rgb(134 73 58 / 0.8);
+  }
+}
+/* Round icon buttons (Table tabs, sidebar toggles, the bar heading's commands): a dim
+   old-gold ring on a charred crimson well, the same rim colour as every lozenge. :where()
+   keeps the direction's hover and selected rules on top. The tabs and «Tutti i pannelli» get
+   the well only where the direction draws one (the desktop rail): on a phone the rail is the
+   bottom bar, flat like «Mappa», with only the open tab lit (round 2 review, 04/10/2026). */
+@media (min-width: 721px) {
+  :root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]):not(
+      [data-pref-contrast="high"]
+    )
+    :where(.table-layout :is(.table-tab, .table-panels-all)) {
+    border-color: #7e5440;
+    background: radial-gradient(circle at 50% 38%, #2e1011, #0a0405 72%);
+    color: #dcc08a;
+    box-shadow: inset 0 0 0 1px rgb(184 145 94 / 0.35);
+  }
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  :where(.table-layout .table-sidebar-toggle),
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  .table-layout
+  .table-hotbar
+  .combat-bar-heading
+  .text-button:not(:hover) {
+  border-color: #7e5440;
+  background: radial-gradient(circle at 50% 38%, #2e1011, #0a0405 72%);
+  color: #dcc08a;
+  box-shadow: inset 0 0 0 1px rgb(184 145 94 / 0.35);
+}
+/* Selected round tools (Table tab, map tool, view chip, hotbar toggle, quick-bar icon): BG3
+   lights them steel; here the same light is oxblood under the old-gold rim, darker at the
+   centre so the pale icon reads 6:1 instead of 3:1. */
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .table-layout
+  :is(.map-tool.active, .session-view-hud-button.is-icon.is-on),
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .table-layout
+  > .action-dock.table-hotbar
+  > .toolbar
+  > .button.active:not([data-table="end-turn"]),
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .table-layout
+  .qb
+  .qb-icon.active,
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-tab.active {
+  background: radial-gradient(circle at 50% 32%, #8e4c42, #5e2424 55%, #2e0f10);
+}
+@media screen and (max-width: 720px) {
+  :root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-tab.active {
+    background: radial-gradient(90% 90% at 50% 30%, #6a2a26, #3a1214 70%);
+  }
+}
+/* The sheet's experience bar and switch knobs: a crimson-black track, an old-gold fill and
+   ring. Heal stays teal and Damage red: a meaning pair, not decoration. */
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-xpbar {
+  background: #2a1012;
+  box-shadow:
+    0 0 0 2px #0c0c0c,
+    0 0 0 3px rgb(184 145 94 / 0.5);
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-xpbar
+  > span {
+  background: linear-gradient(#ecd09a, #b8915e);
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-switch
+  .shp-switch-knob {
+  background: radial-gradient(circle at 50% 38%, #2e1011, #0a0405 72%);
+  box-shadow:
+    inset 0 0 0 2px #9b7a4e,
+    inset 0 0 0 3px #0c0c0c,
+    0 1px 3px rgb(0 0 0 / 0.8);
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"])
+  .character-sheet
+  .shp-switch:is([aria-checked="true"], .is-static.is-on)
+  .shp-switch-knob {
+  background: radial-gradient(circle at 50% 38%, #5a2420, #140607 72%);
+  box-shadow:
+    inset 0 0 0 2px #dcc08a,
+    inset 0 0 0 3px #0c0c0c,
+    0 0 6px rgb(214 150 60 / 0.5);
+}

@@ -1,0 +1,401 @@
+/* BG3 · round 2 «Colori» · option c1 «Oro di Baldur» (I-248…I-254, 04/10/2026).
+   A layer on directions/bg3/direction.css, loaded only with ?variant=c1 (directions/README.md
+   «Variants»). Colours axis only. The reference option: today's bronze and gold on warm black,
+   kept and tidied into one system — four warm blacks, one gold ramp shared by rims, text and
+   glow, one cyan for magic and End turn. Dark theme only, like the direction; high contrast
+   and the colour-vision palettes keep their own colours (same guards as the direction).
+
+   elemento → prodotto → fonte
+   - Quattro neri caldi (fondo pagina, pagina, pannello, rialzo) invece di nove quasi uguali →
+     BG3: panels #0c0c0c at 90 %, warm side shading #0b0908 / #100d0b, brown centre #2f241c →
+     references/bg3-solasta/facts.md A0 «Panel background», «Warm shading gradients»;
+     bg3-sheet-inventory-equipment.jpg.
+   - Una sola scala d'oro per bordi e cornici: #3a2d21 → #523c28 → #77542c → #93663a →
+     #b17d44 → #c99a55 → #d9bd7c → #e9d19e → #fff2b3 → #fffced → BG3: inventory surround
+     #3A2D21, panel border #523c28, hotbar bronze #77542C and gold #B17D44, tutorial highlight
+     #E9D19E, special #fff2b3, extraspecial #fffced → facts A0, A1 «Hotbar frame lines»;
+     bg3-table-crop-hotbar-4k.png.
+   - Il testo sulla stessa scala di bronzo di BG3: crema #E6DBC2, parole chiave #cbac95, testo
+     base #af8768 → BG3 accent100 / accent75 / baseColor → facts A0; bg3-panels-tooltip-spell.jpg.
+   - La luce d'oro è sempre lo stesso #df9800, a intensità fisse (8, 16, 22, 30, 45 %) → BG3
+     TextGlow #df9800 → facts A0 «Gold text glow»; bg3-home-main-menu-annotated.jpg.
+   - Il dorato dei titoli (marchio, Inizio, Scheda, finestre) fuso dalla stessa scala d'oro →
+     BG3 cast-gold title lettering → bg3-home-main-menu-annotated.jpg.
+   - Un solo azzurro (tinta del bagliore di Fine turno) per magia, slot, informazioni, alleati e
+     Fine turno; i blu notte del disco diventano il fondo scuro della stessa scala → BG3 End
+     Turn outer glow #32A9BE, rim #6CCDD6, disc #050817 → #196A85 → facts A1 «End Turn
+     colours»; bg3-table-crop-endturn.png.
+   - Le tacche della ghiera di Fine turno e l'anello del telefono passano dall'oro grigio
+     all'oro della scala → BG3 bronze tick bezel #9B8764 / #785A38 → facts A1;
+     bg3-table-crop-endturn.png.
+   - Caselle della barra: magia e aree accese dello stesso azzurro; armi restano arancio (il
+     colore dell'azione bonus) → BG3 hotbar slots and the spell-slot cyan → facts A1;
+     bg3-table-crop-hotbar-4k.png.
+   - Inizio: la sala resta pietra fredda con le torce, ma l'ombra ai bordi è il nero caldo della
+     scala (non più nero bluastro) → BG3 main menu, cold hall with warm torchlight →
+     bg3-home-main-menu-annotated.jpg.
+   Layout, fonts, icons, frame art and the relation colours of the turn strip are the
+   direction's. */
+
+/* ---------------------------------------------------------------- the ramps and the tokens */
+:root[data-direction="bg3"][data-variant~="c1"]:not([data-pref-theme="light"]) {
+  /* Warm blacks, four steps (OKLCH L .125 / .15 / .18 / .235, hue 62). */
+  --bg3-c1-black-0: #070605;
+  --bg3-c1-black-1: #0d0b08;
+  --bg3-c1-black-2: #15110d;
+  --bg3-c1-black-3: #241c16;
+  /* Gold, from line to light: one ramp for rims, rules and lit text. */
+  --bg3-c1-gold-900: #3a2d21;
+  --bg3-c1-gold-800: #523c28;
+  --bg3-c1-gold-700: #77542c;
+  --bg3-c1-gold-600: #93663a;
+  --bg3-c1-gold-500: #b17d44;
+  --bg3-c1-gold-400: #c99a55;
+  --bg3-c1-gold-300: #d9bd7c;
+  --bg3-c1-gold-200: #e9d19e;
+  --bg3-c1-gold-100: #fff2b3;
+  --bg3-c1-gold-50: #fffced;
+  /* BG3's bronze text ramp. */
+  --bg3-c1-ink-faint: #9a8068;
+  --bg3-c1-ink-base: #af8768;
+  --bg3-c1-ink-keyword: #cbac95;
+  --bg3-c1-ink: #e6dbc2;
+  /* The gold light (#df9800) at its fixed strengths. */
+  --bg3-c1-glow-8: rgb(223 152 0 / 0.08);
+  --bg3-c1-glow-16: rgb(223 152 0 / 0.16);
+  --bg3-c1-glow-22: rgb(223 152 0 / 0.22);
+  --bg3-c1-glow-30: rgb(223 152 0 / 0.3);
+  --bg3-c1-glow-45: rgb(223 152 0 / 0.45);
+  /* One cyan (hue 212, End Turn's glow), from light to the disc's dark. */
+  --bg3-c1-cyan-50: #e9fbff;
+  --bg3-c1-cyan-300: #49d2ea;
+  --bg3-c1-cyan-400: #39bed5;
+  --bg3-c1-cyan-500: #33a9be;
+  --bg3-c1-cyan-600: #248598;
+  --bg3-c1-cyan-700: #196b7f;
+  --bg3-c1-cyan-800: #0c4a5b;
+  --bg3-c1-cyan-900: #083342;
+  --bg3-c1-cyan-925: #061a2a;
+  --bg3-c1-cyan-950: #00111f;
+  --bg3-c1-cyan-glow: rgb(51 169 190 / 0.55);
+  --bg3-c1-cyan-light: rgb(73 210 234 / 0.6);
+
+  /* The app's tokens on the ramps. */
+  --bg: var(--bg3-c1-black-1);
+  --surface: var(--bg3-c1-black-2);
+  --raised: var(--bg3-c1-black-3);
+  --canvas: var(--bg3-c1-black-0);
+  --surface-2: var(--bg3-c1-black-2);
+  --sunken: var(--bg3-c1-black-0);
+  --header-bg: rgb(13 11 8 / 0.9);
+  --sidebar-bg: var(--bg3-c1-black-2);
+  --rail-bg: var(--bg3-c1-black-1);
+  --hotbar-bg: rgb(13 11 8 / 0.92);
+  --float-bg: rgb(13 11 8 / 0.88);
+  --float-border: var(--bg3-c1-gold-800);
+  --accent: var(--bg3-c1-gold-200);
+  --accent-strong: var(--bg3-c1-gold-100);
+  --accent-soft: var(--bg3-c1-glow-16);
+  --accent-line: rgb(233 209 158 / 0.55);
+  --danger-ink: var(--bg3-c1-gold-50);
+  --info: var(--bg3-c1-cyan-300);
+  --info-soft: rgb(73 210 234 / 0.12);
+  --toast-bg: var(--bg3-c1-black-3);
+  --toast-ink: var(--bg3-c1-ink);
+  --res-slot: var(--bg3-c1-cyan-300);
+  --turn-ally: var(--bg3-c1-cyan-300);
+  --endturn-bg: var(--bg3-c1-cyan-950);
+  --token-initial: var(--bg3-c1-ink);
+  --token-label: var(--bg3-c1-gold-50);
+  --door-fill: var(--bg3-c1-black-3);
+  --door-rim: var(--bg3-c1-gold-500);
+  --door-ink: var(--bg3-c1-ink);
+  --map-gold: var(--bg3-c1-gold-500);
+  --map-gold-bright: var(--bg3-c1-gold-100);
+  --map-ink: var(--bg3-c1-ink);
+  --map-halo: var(--bg3-c1-black-1);
+
+  /* The direction's own tokens on the ramps. */
+  --bg3-panel: rgb(13 11 8 / 0.9);
+  --bg3-panel-solid: var(--bg3-c1-black-2);
+  --bg3-border: var(--bg3-c1-gold-800);
+  --bg3-bronze: var(--bg3-c1-gold-700);
+  --bg3-gold: var(--bg3-c1-gold-500);
+  --bg3-gold-rule: var(--bg3-c1-gold-300);
+  --bg3-cream: var(--bg3-c1-ink);
+  --bg3-highlight: var(--bg3-c1-gold-100);
+  --bg3-title: var(--bg3-c1-gold-50);
+  --bg3-keyword: var(--bg3-c1-ink-keyword);
+  --bg3-base: var(--bg3-c1-ink-base);
+  --bg3-teal: var(--bg3-c1-cyan-900);
+  --bg3-btn-rim: var(--bg3-c1-gold-300);
+  --bg3-btn-rim-top: var(--bg3-c1-gold-200);
+  --bg3-gilt: linear-gradient(
+    var(--bg3-c1-gold-100),
+    var(--bg3-c1-gold-200) 38%,
+    var(--bg3-c1-gold-400) 62%,
+    var(--bg3-c1-gold-500) 78%,
+    var(--bg3-c1-gold-300)
+  );
+  --bg3-gilt-glow: drop-shadow(0 0 7px var(--bg3-c1-glow-45));
+  --bg3-gilt-title-glow: drop-shadow(0 0 10px var(--bg3-c1-glow-30));
+  --bg3-plate-shade:
+    radial-gradient(120% 80% at 50% 0%, rgb(47 36 28 / 0.32), transparent 60%),
+    linear-gradient(var(--bg3-c1-black-2), var(--bg3-c1-black-1));
+  --bg3-plate-depth: inset 0 1px 0 rgb(201 154 85 / 0.1), 0 12px 40px rgb(0 0 0 / 0.75);
+  --bg3-stage-dark: radial-gradient(
+    120% 90% at 50% 45%,
+    var(--bg3-c1-black-2),
+    var(--bg3-c1-black-1) 38%,
+    var(--bg3-c1-black-0) 82%
+  );
+  --bg3-glow-gold: var(--bg3-c1-glow-45);
+  --bg3-glow-cyan: var(--bg3-c1-cyan-glow);
+  --bg3-glow-text: 0 0 8px var(--bg3-c1-glow-45), 0 1px 1px rgb(0 0 0 / 0.8);
+  --bg3-light-selected: 0 0 0 1px var(--bg3-c1-gold-200), 0 0 6px 2px var(--bg3-c1-glow-45);
+  --bg3-light-row: inset 0 -20px 20px -12px var(--bg3-c1-glow-22);
+}
+/* The eight contrast-sensitive tokens, as the direction, step aside for high contrast. */
+:root[data-direction="bg3"][data-variant~="c1"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  ) {
+  --text: var(--bg3-c1-ink);
+  --line: var(--bg3-c1-gold-900);
+  --line-strong: var(--bg3-c1-gold-700);
+  --frame: var(--bg3-c1-gold-500);
+  --frame-soft: rgb(119 84 44 / 0.9);
+  --placeholder: var(--bg3-c1-ink-faint);
+}
+
+/* ---------------------------------------------------------------- hotbar slots */
+/* Spells and areas lit by the one cyan (the direction's teal and sky blue become one hue);
+   weapons keep BG3's bonus-action orange. */
+:root[data-direction="bg3"][data-variant~="c1"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar {
+  --bg3-slot-glow: var(--bg3-c1-cyan-light);
+}
+:root[data-direction="bg3"][data-variant~="c1"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  .combat-action:is([data-combat-kind="multi"], [data-combat-kind="area"]) {
+  --bg3-slot-tint: rgb(25 107 127 / 0.6);
+  --bg3-slot-glow: rgb(57 190 213 / 0.55);
+}
+
+/* ---------------------------------------------------------------- End turn */
+/* The disc on the cyan ramp: the deep centre, the lit lower edge, the rim and the glow; the
+   bezel ticks in the gold ramp. Every direction rule that paints the disc is repeated here in
+   its order (base, hover, phone, diamond, desktop runes, press, unavailable, breath), so
+   the states keep winning over the base exactly as in the direction. */
+:root[data-direction="bg3"][data-variant~="c1"]:not([data-pref-theme="light"])
+  .table-layout
+  > .action-dock.table-hotbar
+  > .toolbar
+  > .button.primary[data-table="end-turn"] {
+  background:
+    radial-gradient(
+        circle at 50% 30%,
+        var(--bg3-c1-cyan-925) 0%,
+        var(--bg3-c1-cyan-950) 42%,
+        var(--bg3-c1-cyan-800) 80%,
+        var(--bg3-c1-cyan-700) 100%
+      )
+      padding-box,
+    repeating-conic-gradient(
+        var(--bg3-c1-gold-400) 0deg 2.2deg,
+        var(--bg3-c1-gold-800) 2.2deg 7.5deg
+      )
+      border-box;
+  color: var(--bg3-c1-gold-50);
+  box-shadow:
+    inset 0 0 0 1px #0c0c0c,
+    inset 0 0 16px rgb(51 169 190 / 0.35),
+    0 0 0 1px #0c0c0c,
+    0 0 0 4px var(--bg3-c1-cyan-300),
+    0 0 0 5px var(--bg3-c1-cyan-900),
+    0 0 16px 4px var(--bg3-c1-cyan-glow);
+}
+:root[data-direction="bg3"][data-variant~="c1"]:not([data-pref-theme="light"])
+  .table-layout
+  > .action-dock.table-hotbar
+  > .toolbar
+  > .button.primary[data-table="end-turn"]:hover:not(:disabled) {
+  background:
+    radial-gradient(
+        circle at 50% 30%,
+        var(--bg3-c1-cyan-900) 0%,
+        var(--bg3-c1-cyan-925) 42%,
+        var(--bg3-c1-cyan-700) 80%,
+        var(--bg3-c1-cyan-600) 100%
+      )
+      padding-box,
+    repeating-conic-gradient(
+        var(--bg3-c1-gold-300) 0deg 2.2deg,
+        var(--bg3-c1-gold-700) 2.2deg 7.5deg
+      )
+      border-box;
+  color: #ffffff;
+}
+@media screen and (max-width: 720px) {
+  :root[data-direction="bg3"][data-variant~="c1"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar
+    > .button.primary[data-table="end-turn"] {
+    border: var(--bg3-line-2) solid var(--bg3-c1-cyan-300);
+    background: radial-gradient(
+      120% 140% at 50% 20%,
+      var(--bg3-c1-cyan-925) 0%,
+      var(--bg3-c1-cyan-950) 45%,
+      var(--bg3-c1-cyan-800) 85%,
+      var(--bg3-c1-cyan-700)
+    );
+    box-shadow:
+      0 0 0 1px #0c0c0c,
+      0 0 0 3px var(--bg3-c1-gold-500),
+      0 0 12px 2px rgb(51 169 190 / 0.5);
+  }
+}
+:root[data-direction="bg3"][data-variant~="c1"]:not([data-pref-theme="light"])
+  .table-layout
+  > .action-dock.table-hotbar
+  > .toolbar
+  > .button.primary[data-table="end-turn"]::after {
+  background: linear-gradient(
+    var(--bg3-c1-cyan-50),
+    var(--bg3-c1-cyan-300) 55%,
+    var(--bg3-c1-cyan-600)
+  );
+  filter: drop-shadow(0 0 3px rgb(73 210 234 / 0.9));
+}
+@media (min-width: 721px) {
+  :root[data-direction="bg3"][data-variant~="c1"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar
+    > .button.primary[data-table="end-turn"] {
+    background:
+      url("../assets/endturn-runes.svg") center / 100% 100% no-repeat padding-box,
+      radial-gradient(
+          circle at 50% 30%,
+          var(--bg3-c1-cyan-925) 0%,
+          var(--bg3-c1-cyan-950) 42%,
+          var(--bg3-c1-cyan-800) 80%,
+          var(--bg3-c1-cyan-700) 100%
+        )
+        padding-box,
+      repeating-conic-gradient(
+          var(--bg3-c1-gold-400) 0deg 2.2deg,
+          var(--bg3-c1-gold-800) 2.2deg 7.5deg
+        )
+        border-box;
+  }
+  :root[data-direction="bg3"][data-variant~="c1"]:not([data-pref-theme="light"])
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar
+    > .button.primary[data-table="end-turn"]:hover:not(:disabled) {
+    background:
+      url("../assets/endturn-runes.svg") center / 100% 100% no-repeat padding-box,
+      radial-gradient(
+          circle at 50% 30%,
+          var(--bg3-c1-cyan-900) 0%,
+          var(--bg3-c1-cyan-925) 42%,
+          var(--bg3-c1-cyan-700) 80%,
+          var(--bg3-c1-cyan-600) 100%
+        )
+        padding-box,
+      repeating-conic-gradient(
+          var(--bg3-c1-gold-300) 0deg 2.2deg,
+          var(--bg3-c1-gold-700) 2.2deg 7.5deg
+        )
+        border-box;
+  }
+}
+:root[data-direction="bg3"][data-variant~="c1"]:not([data-pref-theme="light"])
+  .table-layout
+  > .action-dock.table-hotbar
+  > .toolbar
+  > .button.primary[data-table="end-turn"]:active:not(:disabled) {
+  box-shadow:
+    inset 0 0 0 1px #0c0c0c,
+    inset 0 4px 18px rgb(0 0 0 / 0.75),
+    inset 0 0 16px rgb(51 169 190 / 0.25),
+    0 0 0 1px #0c0c0c,
+    0 0 0 4px var(--bg3-c1-cyan-300),
+    0 0 0 5px var(--bg3-c1-cyan-900),
+    0 0 16px 4px var(--bg3-c1-cyan-glow);
+}
+/* Unavailable stays BG3's grey rim and red-black centre (repeated only to keep its place). */
+:root[data-direction="bg3"][data-variant~="c1"]:not([data-pref-theme="light"])
+  .table-layout
+  > .action-dock.table-hotbar
+  > .toolbar
+  > .button.primary[data-table="end-turn"]:disabled {
+  background:
+    radial-gradient(circle at 50% 35%, #2a0c0e 0%, #140506 60%, #1e0a0b 100%) padding-box,
+    repeating-conic-gradient(#6a6a6a 0deg 2.2deg, #2e2e2e 2.2deg 7.5deg) border-box;
+  color: #a39d94;
+  box-shadow:
+    inset 0 0 0 1px #0c0c0c,
+    0 0 0 1px #0c0c0c,
+    0 0 0 4px #4a4a4a,
+    0 0 0 5px #1c1c1c;
+}
+:root[data-direction="bg3"][data-variant~="c1"]:not([data-pref-theme="light"])
+  .table-layout
+  > .action-dock.table-hotbar
+  > .toolbar
+  > .button.primary[data-table="end-turn"]:disabled::after {
+  background: #6a6a6a;
+  filter: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-direction="bg3"][data-variant~="c1"]:not([data-pref-theme="light"]):not(
+      [data-motion="reduced"]
+    )
+    .table-layout
+    > .action-dock.table-hotbar
+    > .toolbar
+    > .button.primary[data-table="end-turn"]:not(:disabled)::before {
+    box-shadow: 0 0 18px 4px rgb(73 210 234 / 0.35);
+  }
+}
+
+/* ---------------------------------------------------------------- dialogs */
+/* The framed plate on the warm black of the ramp (the direction's #0c0c0c is neutral). */
+:root[data-direction="bg3"][data-variant~="c1"]:not([data-pref-theme="light"]) dialog {
+  background-color: var(--bg3-c1-black-1);
+}
+
+/* ---------------------------------------------------------------- Home hall */
+/* The hall stays cold stone with its torchlight; the vignette, the floor colour and the title's
+   pool become the ramp's warm black, and the pool's gold core takes the 8 % step. */
+:root[data-direction="bg3"][data-variant~="c1"]:not([data-pref-theme="light"])
+  #app:has(.home-page) {
+  background:
+    radial-gradient(125% 100% at 50% 34%, rgb(7 6 5 / 0) 48%, rgb(7 6 5 / 0.72) 96%),
+    linear-gradient(rgb(7 6 5 / 0), rgb(7 6 5 / 0.22) 55%, rgb(7 6 5 / 0.7)),
+    url("../assets/home-torchlight.svg") center 35% / cover no-repeat fixed,
+    linear-gradient(rgb(46 70 92 / 0.72), rgb(46 70 92 / 0.72)),
+    linear-gradient(rgb(40 50 62), rgb(40 50 62)),
+    url("../assets/home-hall.webp") center 35% / cover no-repeat fixed,
+    var(--bg3-c1-black-1);
+}
+:root[data-direction="bg3"][data-variant~="c1"]:not([data-pref-theme="light"])
+  .home-page
+  .page-heading {
+  background:
+    radial-gradient(30% 40% at 18% 50%, var(--bg3-c1-glow-8), transparent 100%),
+    radial-gradient(45% 50% at 22% 50%, rgb(7 6 5 / 0.66), rgb(7 6 5 / 0) 100%);
+}
+
+/* ---------------------------------------------------------------- map tokens */
+/* The ally ring on the gold ramp; fills and the hostile red stay (BG3's relation colours), and
+   the colour-vision palettes keep their own, as in the direction. */
+:root[data-direction="bg3"][data-variant~="c1"]:not([data-pref-theme="light"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  ) {
+  --token-ally-ring: var(--bg3-c1-gold-500);
+}
