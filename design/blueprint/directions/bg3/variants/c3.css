@@ -24,7 +24,9 @@
      light on the red robe (#C2624F / #E08A73) → c3-bg3-infernal-fire.jpg.
    Kept on purpose: resource colours (action green, bonus orange, slots blue…), HP red, the
    ally blue and hostile red on the map, danger, warning and info. They are BG3's meanings,
-   not decoration, and must stay apart from a red skin. */
+   not decoration, and must stay apart from a red skin. The arcane cyan and violet of the
+   direction's part two (spell tips, lit spell slots) stay too: magic is cold light in BG3.
+   The part-two materials (P12–P24) are recoloured at the end of this file (05/10/2026). */
 
 /* ---------------------------------------------------------------- tokens */
 :root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]) {
@@ -848,4 +850,227 @@
     inset 0 0 0 2px #dcc08a,
     inset 0 0 0 3px #0c0c0c,
     0 0 6px rgb(214 150 60 / 0.5);
+}
+
+/* ---------------------------------------------------------------- premium part two (05/10) */
+/* The direction's «premium pass, part two» (P12–P24, 04/10) in this palette: the same layers,
+   bezels, plates, strips, tracks and shadows, recoloured through its tokens; where an older
+   rule of this option paints the same property one attribute higher, the part-two structure is
+   re-emitted here with the same guard as the direction (high contrast keeps the rules above).
+   Medallions: an old-gold bezel cooling to clotted blood on a charred crimson well, the chosen
+   one oxblood with an ember inner light; plates, tooltips, dialogs, the XP track and the
+   shield in blackened crimson with old-gold lines. The arcane cyan and violet (spell tips,
+   spell slots, P18) are kept on purpose: magic is cold light in BG3, a meaning like the
+   resource colours, not decoration (round 2 compatibility review, 05/10/2026). */
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  ) {
+  --bg3-medal-bezel: conic-gradient(
+    from 315deg,
+    #dcc08a,
+    #b8915e 25%,
+    #4a1414 50%,
+    #b8915e 75%,
+    #dcc08a
+  );
+  --bg3-medal-bezel-lit: conic-gradient(
+    from 315deg,
+    #fde3a6,
+    #d4b27a 25%,
+    #6e2c2c 50%,
+    #d4b27a 75%,
+    #fde3a6
+  );
+  --bg3-medal-well: radial-gradient(circle at 50% 40%, #2a0f10, #0a0405 72%);
+  --bg3-medal-well-lit: radial-gradient(circle at 50% 40%, #431819, #120607 72%);
+  --bg3-medal-steel: radial-gradient(circle at 50% 32%, #8e4c42, #5e2424 55%, #2e0f10);
+  --bg3-medal-cyan: inset 0 0 10px rgb(191 58 43 / 0.28);
+  --bg3-glyph-glow: drop-shadow(0 0 3px rgb(214 150 60 / 0.75));
+  --bg3-glow-hero: 0 0 12px rgb(214 150 60 / 0.35), 0 1px 0 #000, 0 0 2px rgb(0 0 0 / 0.9);
+  --bg3-xp-track: linear-gradient(#4a1a1c, #2a1012 75%);
+  --bg3-shield-rim: linear-gradient(160deg, #dcc08a, #b8915e 45%, #6e2c2c);
+  --bg3-shield-rim-lit: linear-gradient(160deg, #fde3a6, #d4b27a 45%, #86493a);
+  --bg3-shield-field:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' width='100' height='100' preserveAspectRatio='none'%3E%3Cg fill='none' stroke-linejoin='miter'%3E%3Cpath stroke='%236e2c2c' stroke-width='4' vector-effect='non-scaling-stroke' d='M0 0H100V62L50 100 0 62Z'/%3E%3Cpath stroke='%231c0807' stroke-width='2' vector-effect='non-scaling-stroke' d='M0 0H100V62L50 100 0 62Z'/%3E%3C/g%3E%3C/svg%3E")
+      0 0 / 100% 100% no-repeat,
+    linear-gradient(135deg, rgb(253 227 166 / 0.08), transparent 40%),
+    radial-gradient(120% 90% at 50% 30%, #2a1011, #110506);
+  --bg3-party-bevel: linear-gradient(
+    160deg,
+    rgb(236 208 154 / 0.55),
+    transparent 50%,
+    rgb(0 0 0 / 0.3)
+  );
+  --bg3-party-bevel-lit: linear-gradient(
+    160deg,
+    rgb(253 227 166 / 0.7),
+    rgb(236 208 154 / 0.1) 50%,
+    rgb(0 0 0 / 0.2)
+  );
+  --bg3-header-line: linear-gradient(
+    90deg,
+    transparent,
+    #b8915e 20%,
+    #dcc08a 50%,
+    #b8915e 80%,
+    transparent
+  );
+  --bg3-header-shade: radial-gradient(120% 80% at 50% 0%, rgb(80 20 18 / 0.32), transparent 60%);
+}
+/* P12: the chosen medallion keeps its lit bezel (the oxblood well is this option's steel). */
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  .table-layout
+  .map-tool.active,
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  .table-layout
+  > .action-dock.table-hotbar
+  > .toolbar
+  > .button.active:not([data-table="end-turn"]) {
+  background:
+    var(--bg3-medal-steel) padding-box,
+    var(--bg3-medal-bezel-lit) border-box;
+}
+@media (min-width: 721px) {
+  :root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]):not(
+      [data-pref-contrast="high"]
+    )
+    .table-layout
+    .table-tab.active {
+    background:
+      var(--bg3-medal-steel) padding-box,
+      var(--bg3-medal-bezel-lit) border-box;
+  }
+  /* P13: the inspector and the rail as shaded plates, the crest recoloured on the edge line. */
+  :root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]):not(
+      [data-pref-contrast="high"]
+    )
+    .table-layout
+    > .table-sidebar-panel {
+    border-image: linear-gradient(transparent, #6e2c2c 14%, #dcc08a 50%, #6e2c2c 86%, transparent) 0
+      0 0 1 / 0 0 0 var(--bg3-line-1);
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 72' width='14' height='72'%3E%3Cpath fill='%23080304' d='M0 6C0 22 6.5 26 6.5 36S0 50 0 66Z'/%3E%3Cpath fill='none' stroke='%236e2c2c' stroke-width='1' stroke-linecap='round' d='M.5 6C.5 22 6.5 26 6.5 36S.5 50 .5 66'/%3E%3Cpath fill='%23b8915e' d='M10.2 33.2 13 36 10.2 38.8 7.4 36Z'/%3E%3Cpath fill='none' stroke='%236e2c2c' stroke-width='1' d='M10.2 25V30.5M10.2 41.5V47'/%3E%3C/svg%3E")
+        0 var(--bg3-space-7) / 14px 72px no-repeat border-box,
+      url("../assets/grain.svg"),
+      radial-gradient(140% 50% at 50% 0%, rgb(80 20 18 / 0.32), transparent 70%),
+      linear-gradient(to left, #0e0506 70%, rgb(14 5 6 / 0.88));
+    background-color: transparent;
+  }
+  :root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]):not(
+      [data-pref-contrast="high"]
+    )
+    .table-layout
+    > .table-sidebar-rail {
+    background:
+      url("../assets/grain.svg"), linear-gradient(to left, #0c0506 70%, rgb(12 5 6 / 0.88));
+  }
+}
+/* P14: the tooltip's header strip, spell tint and footer band over this option's body. */
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  .ui-tip {
+  background: var(--bg3-tip-head), linear-gradient(#260e0f, #1c090a);
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  .shp-tip {
+  background:
+    var(--bg3-tip-head) 0 0 / 100% var(--bg3-tip-head-h) no-repeat,
+    linear-gradient(#260e0f, #1c090a);
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  .shp-action[data-shp-action^="spell:"]
+  .shp-tip {
+  background:
+    var(--bg3-tip-head) 0 0 / 100% var(--bg3-tip-head-h) no-repeat,
+    var(--bg3-tip-magic),
+    linear-gradient(#260e0f, #1c090a);
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  #toast {
+  background: linear-gradient(#260e0f, #1c090a);
+}
+/* P15: the smoke plate inside the drawn frame only, blackened crimson; no fill under the frame. */
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  dialog {
+  background:
+    radial-gradient(110% 55% at 50% 0%, rgb(80 20 18 / 0.38), transparent 70%) 8px 8px /
+      calc(100% - 16px) calc(100% - 16px) no-repeat,
+    radial-gradient(farthest-corner at 50% 45%, rgb(6 2 3 / 0.92) 35%, rgb(12 4 5 / 0.86)) 8px 8px /
+      calc(100% - 16px) calc(100% - 16px) no-repeat;
+  background-color: transparent;
+}
+/* P17: the XP track's shine and gilt under-rule on the crimson-black track. */
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  .character-sheet
+  .shp-xpbar {
+  background: var(--bg3-xp-track);
+  box-shadow:
+    inset 0 1px 0 rgb(234 150 120 / 0.2),
+    0 0 0 2px #0c0c0c,
+    0 0 0 3px rgb(184 145 94 / 0.5),
+    0 10px 0 -4px rgb(220 192 138 / 0.75);
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  .character-sheet
+  .shp-xpbar
+  > span {
+  background: linear-gradient(#fde3a6, #ecd09a 35%, #b8915e);
+}
+/* P21: the shield's bevelled rim and keyline face, drawn from the tokens above. */
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  .character-sheet
+  [data-shp-stat="ac"]
+  .shp-pill::before,
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  .table-layout
+  .inspector-ac::before {
+  background: var(--bg3-shield-rim);
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  .table-layout
+  .inspector-ac::after {
+  background: var(--bg3-shield-field);
+}
+/* P23: the portrait seated in its frame (the inner vignette) under the oxblood keyline. */
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  .table-layout
+  .table-party-portrait {
+  box-shadow:
+    inset 0 0 0 1px #0c0c0c,
+    var(--bg3-party-seat),
+    0 0 0 1px #2e0a0b,
+    0 2px 10px rgb(0 0 0 / 0.85);
+}
+:root[data-direction="bg3"][data-variant~="c3"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  .character-sheet
+  [data-shp-stat="ac"]
+  .shp-pill:hover::before {
+  background: var(--bg3-shield-rim-lit);
 }

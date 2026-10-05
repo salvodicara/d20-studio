@@ -28,7 +28,11 @@
      inferiore che prende luce, angoli vivi → BG3 search field and hotbar well #050D10 → facts
      A1, A3 (OBS B41), bg3-panels-context-menu-inventory.jpg.
    - Fuoco: l'anello di 3 px del colore di fuoco fuori dalla lastra, con un filo scuro fra i
-     due; nessun ritaglio → the direction's D14 ring, now on a plain rectangle. */
+     due; nessun ritaglio → the direction's D14 ring, now on a plain rectangle.
+   On purpose, every icon-only control is a square slab too: this option supersedes the
+   direction's round medallions (part two, P12: conic bezel, recessed well, steel and cyan
+   chosen state) with its corner-bracket slab; the glyph's emboss and gold glow stay. Round
+   chrome that is not a button (the sheet's portrait, party frames, End turn) stays round. */
 
 /* ---------------------------------------------------------------- tokens */
 :root[data-direction="bg3"][data-variant~="b2"]:not([data-pref-theme="light"]) {

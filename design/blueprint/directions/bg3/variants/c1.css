@@ -368,6 +368,34 @@
 :root[data-direction="bg3"][data-variant~="c1"]:not([data-pref-theme="light"]) dialog {
   background-color: var(--bg3-c1-black-1);
 }
+/* With the part-two smoke plate (P15, 04/10) the plate is painted only inside the drawn frame
+   and is already the ramp's warm black: no fill under the frame's outer 8 px. */
+:root[data-direction="bg3"][data-variant~="c1"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  )
+  dialog {
+  background-color: transparent;
+}
+
+/* ---------------------------------------------------------------- lit spell slots */
+/* P17's glowing pips: the halo takes the ramp's one cyan, like the pip's border. */
+:root[data-direction="bg3"][data-variant~="c1"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  ):not([data-pref-vision]:not([data-pref-vision="standard"]))
+  .table-layout
+  .table-hotbar
+  .hotbar-slot-level
+  > i.is-full,
+:root[data-direction="bg3"][data-variant~="c1"]:not([data-pref-theme="light"]):not(
+    [data-pref-contrast="high"]
+  ):not([data-pref-vision]:not([data-pref-vision="standard"]))
+  .character-sheet
+  .spl-slot:not([data-spl-slot="pact"])
+  .spl-pip.is-on {
+  box-shadow:
+    0 0 3px var(--res-slot),
+    0 0 6px color-mix(in srgb, var(--res-slot) 45%, transparent);
+}
 
 /* ---------------------------------------------------------------- Home hall */
 /* The hall stays cold stone with its torchlight; the vignette, the floor colour and the title's
