@@ -5007,3 +5007,27 @@ resta aperto e l'intervista continua una domanda alla volta.
   Dungeondraft (già nel blueprint) più una piccola raccolta di mappe pronte nello stesso stile
   dipinto, con muri e porte già messi; nessun negozio (esclusione invariata); (4) la fonte delle
   mappe del DM del gruppo resta da chiedere.
+
+## I-255 — Stile BG3 approvato in generale; caccia completa ai difetti di posizione, spaziatura e raggiungibilità
+
+- **Provenienza:** owner, 06/10/2026, in chat dopo la pagina del Giro 2 e la rifinitura premium:
+  «per me in generale come stile ci siamo. Mi piace anche questo stile molto ispirato a BG3»;
+  «ci sono dei bottoni che sono disposti dove non dovrebbero essere», «dei margini, dei padding
+  che sono completamente a cazzo e che proprio sembrano un pugno nell'occhio», «danno
+  quell'effetto di AI slop»; «dovresti comportarti come se fossi un team di design e andare a
+  caccia di tutte le robe che non vanno bene», «in particolare la posizione di alcuni comandi»,
+  «i margini», «la dimensione»; «devi assicurarti che vengano seguite tutte le best practice» e
+  «che vengano seguiti e imitati i prodotti a cui ci ispiriamo»; «soprattutto che tutte le
+  funzionalità che noi vogliamo esporre siano facilmente raggiungibili», da far rispettare
+  («enforced»).
+- **Decisione:** lo stile Baldur's Gate 3 (direzione bg3 con la rifinitura premium) è approvato in
+  linea generale. Prima di proseguire con le altre scelte si fa una revisione completa, come un
+  team di design, di tutte le schermate (giocatore e DM, computer e telefono): posizione dei
+  comandi, margini, padding, spazi, misure dei controlli, buone pratiche, fedeltà ai prodotti di
+  riferimento per superficie (BG3 per il Tavolo, D&D Beyond per scheda e Biblioteca, Kanka e
+  World Anvil per la campagna, Owlbear e Foundry per la mappa) e raggiungibilità di ogni funzione
+  del contratto funzionale. Ogni difetto si corregge con prima e dopo; un controllo automatico
+  rende la regola permanente (I-250).
+- **Ancora aperto:** le risposte alle scelte 2–5 (colori, caratteri, icone, pulsanti e campi),
+  allo stile delle icone dipinte, alla raccolta di mappe e alla fonte delle mappe del DM. Finché
+  l'owner non sceglie, si lavora sull'opzione 1 di ogni asse (l'aspetto attuale della direzione).
