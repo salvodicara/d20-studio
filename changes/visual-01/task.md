@@ -131,6 +131,16 @@ scelta numerata dell'owner, non solo direzione, icone e caratteri. Registro dell
   pagina privata del Giro 2 e mandate sette immagini all'owner. In corso la seconda parte della
   rifinitura premium (P12–P24) e la correzione dei nomi tagliati nella barra delle azioni.
 
+- 05/10/2026: seconda parte della rifinitura premium (P12–P24, `b52f4fa`) e correzioni dopo una
+  revisione indipendente (ritratto della scheda ripristinato, divisori in metallo nella barra delle
+  azioni, luce al passaggio sugli slot, cifre allineate nei numeri grandi: `616cf8c`); opzioni di
+  colore e pulsanti allineate ai nuovi materiali (`02fe6c2`). Suite Node 2701/2701; garanzie «ok»
+  per bg3 e per ogni opzione; ricattura di base e delle 12 opzioni; pagina privata aggiornata
+  (versione 9) e immagine «prima e adesso» mandata all'owner. Restano per la fase di applicazione
+  (servono modifiche al codice, non solo allo stile): suggerimenti ricchi sugli slot della barra
+  delle azioni, mappa a tutta altezza al telefono, posizione intera del menu della pedina
+  (`…/notes/open-items-for-application.json`, sezione `round2`).
+
 ## Prossima azione
 
 Chiudere la rifinitura premium (P12–P24), ricatturare «base» e aggiornare la pagina; registrare le
