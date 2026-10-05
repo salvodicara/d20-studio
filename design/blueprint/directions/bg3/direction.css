@@ -7429,13 +7429,13 @@
    «II» mark: two dark 2 px ticks at mid-height, facts A1 «Red group separator»); the deck is
    as wide as its slots and separators. Below 1280 px the deck is a scrolling window and keeps
    the one 58 px pitch (separator inside the last column), so its edge still falls between
-   whole slots (verification of 01/10: «Dar… incar…» cut at 1024). The glyph is 24 px (BG3's
-   icons fill the slot) and the name one line under it, cut with an ellipsis; under the
-   pointer or focus the whole name rises on a dark band inside the slot, two lines at most,
-   as BG3 shows a slot's name on hover. */
+   whole slots (verification of 01/10: «Dar… incar…» cut at 1024). The glyph is 20 px (the
+   chrome glyph's size, on whole pixels) and the name always whole under it: two lines at Tiny,
+   centred, across the slot's full width (04/10: the 24 px glyph left the name one line, and
+   «Dardo inc…», «Mani bruc…», «Disimp…» lost their ends). */
 :root[data-direction="bg3"] {
   --bg3-sep-w: 10px;
-  --bg3-icon-slot-lg: 24px;
+  --bg3-icon-slot-lg: 20px;
 }
 @media (min-width: 1280px) {
   :root[data-direction="bg3"]:not([data-pref-theme="light"])
@@ -7529,13 +7529,14 @@
   }
 }
 @media (min-width: 721px) {
-  /* The slot: a 24 px glyph in its upper part, the name on one line at its foot. */
+  /* The slot: the glyph 2 px from its top, 2 px of air, then the name's two-line box
+     (2 + 20 + 2 + 24 px: the slot's 48). */
   :root[data-direction="bg3"]:not([data-pref-theme="light"])
     .table-layout
     .table-hotbar
     :is(.combat-action, .combat-dock .sm-dock-toggle) {
     justify-content: flex-start;
-    padding: var(--bg3-space-3) 0 0;
+    padding: var(--bg3-space-1) 0 0;
   }
   :root[data-direction="bg3"]:not([data-pref-theme="light"])
     .table-layout
@@ -7549,35 +7550,6 @@
     .combat-cost-reaction {
     width: var(--bg3-icon-slot-lg);
     height: var(--bg3-icon-slot-lg);
-  }
-  :root[data-direction="bg3"]:not([data-pref-theme="light"])
-    .table-layout
-    .table-hotbar
-    .combat-action
-    > span:not([class]) {
-    position: absolute;
-    inset: auto var(--bg3-space-1) var(--bg3-space-1);
-    display: block;
-    min-height: 0;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: none;
-  }
-  :root[data-direction="bg3"]:not([data-pref-theme="light"])
-    .table-layout
-    .table-hotbar
-    .combat-action:is(:hover, :focus-visible)
-    > span:not([class]) {
-    z-index: 1;
-    display: -webkit-box;
-    padding: var(--bg3-space-1) 0;
-    border-radius: var(--bg3-radius-1);
-    background: rgb(5 13 16 / 0.94);
-    white-space: normal;
-    text-overflow: clip;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
   }
 }
 
@@ -8294,4 +8266,983 @@
     > .button:not(.quiet):last-child {
     grid-column: 1 / -1;
   }
+}
+
+/* ---------------------------------------------------------------- premium pass, part two (04/10) */
+/* «Rifinitura premium, seconda parte (04/10)» (SOURCES.md), items P12–P15 of the premium
+   critique, on top of the rules above (same selectors, later in the file; high contrast keeps
+   the plainer rules above). */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]) {
+  /* P12: the convex bezel, lit top left and shadowed bottom right, its lit twin for hover,
+     the recessed well and the chosen steel well. */
+  --bg3-medal-bezel: conic-gradient(
+    from 315deg,
+    #e2c58f,
+    #8a6a3e 25%,
+    #3e2c18 50%,
+    #8a6a3e 75%,
+    #e2c58f
+  );
+  --bg3-medal-bezel-lit: conic-gradient(
+    from 315deg,
+    #fff2c8,
+    #c49a62 25%,
+    #5a4226 50%,
+    #c49a62 75%,
+    #fff2c8
+  );
+  --bg3-medal-well: radial-gradient(circle at 50% 40%, #1a1410, #0a0806 72%);
+  --bg3-medal-well-lit: radial-gradient(circle at 50% 40%, #2e2318, #0e0b08 72%);
+  --bg3-medal-steel: radial-gradient(circle at 50% 32%, #8fa6b0, #4e5d65 55%, #29333a);
+  --bg3-medal-depth: inset 0 2px 5px rgb(0 0 0 / 0.9);
+  --bg3-medal-cyan: inset 0 0 10px color-mix(in srgb, var(--bg3-arcane-cyan) 28%, transparent);
+  --bg3-glyph-glow: drop-shadow(0 0 3px rgb(223 152 0 / 0.75));
+  /* P14: the tooltip's header strip (BG3 #44000000 → #20000000), its footer band, the magic
+     tint and the soft shadow. */
+  --bg3-tip-head: linear-gradient(rgb(0 0 0 / 0.27), rgb(0 0 0 / 0.125));
+  --bg3-tip-head-h: calc(var(--bg3-space-5) + 1.4 * var(--text-lg) + var(--bg3-space-2));
+  --bg3-tip-foot: inset 0 -36px 0 rgb(0 0 0 / 0.25);
+  --bg3-tip-magic: radial-gradient(
+    120% 120% at 100% 100%,
+    color-mix(in srgb, var(--bg3-arcane-violet) 90%, transparent),
+    transparent 70%
+  );
+  --bg3-tip-shadow: 0 10px 40px rgb(0 0 0 / 0.85);
+  /* P15/P19: a hero numeral's gold TextGlow over its dark stroke. */
+  --bg3-glow-hero: 0 0 12px rgb(223 152 0 / 0.35), 0 1px 0 #000, 0 0 2px rgb(0 0 0 / 0.9);
+}
+
+/* P12 · Round chrome as convex medallions (map tools, zoom and centre, the rail's
+   medallions, the hotbar's round commands): a 2 px bezel painted by the border box's conic
+   light, a recessed dark well, the chosen one steel with a faint cyan inner light; under the
+   pointer the bezel brightens and the glyph takes the gold glow. The 40 px box, the 3 px
+   focus ring and the «more tools» stud are unchanged. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .table-layout
+  .map-tool,
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .table-layout
+  > .action-dock.table-hotbar
+  > .toolbar
+  > .button:not([data-table="end-turn"]) {
+  border-color: transparent;
+  background:
+    var(--bg3-medal-well) padding-box,
+    var(--bg3-medal-bezel) border-box;
+  box-shadow:
+    0 0 0 1px #0c0c0c,
+    var(--bg3-medal-depth),
+    0 2px 8px rgb(0 0 0 / 0.85);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .table-layout
+  .map-tool:hover,
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .table-layout
+  > .action-dock.table-hotbar
+  > .toolbar
+  > .button:not([data-table="end-turn"]):hover:not(:disabled) {
+  border-color: transparent;
+  background:
+    var(--bg3-medal-well-lit) padding-box,
+    var(--bg3-medal-bezel-lit) border-box;
+  box-shadow:
+    0 0 0 1px #0c0c0c,
+    var(--bg3-light-hover),
+    0 0 10px 1px var(--bg3-glow-gold),
+    0 2px 8px rgb(0 0 0 / 0.85);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .table-layout
+  .map-tool.active,
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .table-layout
+  > .action-dock.table-hotbar
+  > .toolbar
+  > .button.active:not([data-table="end-turn"]) {
+  border-color: transparent;
+  background:
+    var(--bg3-medal-steel) padding-box,
+    var(--bg3-medal-bezel-lit) border-box;
+  box-shadow:
+    0 0 0 1px #0c0c0c,
+    var(--bg3-medal-cyan),
+    inset 0 2px 4px rgb(255 254 251 / 0.2),
+    0 0 8px 1px var(--bg3-glow-gold);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .table-layout
+  .map-tool:hover
+  .icon,
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .table-layout
+  > .action-dock.table-hotbar
+  > .toolbar
+  > .button:not([data-table="end-turn"]):hover:not(:disabled)
+  .icon {
+  filter: var(--bg3-glyph-emboss) var(--bg3-glyph-glow);
+}
+/* The rail's medallions (round from 721 px; the phone's rail is a bar of tabs). */
+@media (min-width: 721px) {
+  :root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+    .table-layout
+    :is(.table-tab, .table-sidebar-toggle, .table-panels-all) {
+    border-color: transparent;
+    background:
+      var(--bg3-medal-well) padding-box,
+      var(--bg3-medal-bezel) border-box;
+    box-shadow:
+      0 0 0 1px #0c0c0c,
+      var(--bg3-medal-depth);
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+    .table-layout
+    :is(.table-tab, .table-sidebar-toggle, .table-panels-all):hover {
+    border-color: transparent;
+    background:
+      var(--bg3-medal-well-lit) padding-box,
+      var(--bg3-medal-bezel-lit) border-box;
+    box-shadow:
+      0 0 0 1px #0c0c0c,
+      var(--bg3-light-hover),
+      0 0 10px 1px var(--bg3-glow-gold);
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+    .table-layout
+    .table-tab.active {
+    border-color: transparent;
+    background:
+      var(--bg3-medal-steel) padding-box,
+      var(--bg3-medal-bezel-lit) border-box;
+    box-shadow:
+      0 0 0 1px #0c0c0c,
+      var(--bg3-medal-cyan),
+      inset 0 2px 4px rgb(255 254 251 / 0.2),
+      0 0 8px 1px var(--bg3-glow-gold);
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+    .table-layout
+    :is(.table-tab, .table-sidebar-toggle, .table-panels-all):hover
+    > .icon {
+    filter: var(--bg3-glyph-emboss) var(--bg3-glyph-glow);
+  }
+}
+
+/* P13 · The inspector and the rail as shaded plates (LeftSideSmoothShadingBrush): the
+   near-black thins toward the map, with the grain; the map-facing edge is a 1 px line, gold in
+   the middle and bronze fading at its ends, with a small crest near its top (our own
+   assets/edge-crest.svg, seated on the line). Width and position are unchanged; the
+   inspector lets the plate show through. */
+@media (min-width: 721px) {
+  :root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+    .table-layout
+    > .table-sidebar-panel {
+    border-image: linear-gradient(transparent, #77542c 14%, #e2c58f 50%, #77542c 86%, transparent) 0
+      0 0 1 / 0 0 0 var(--bg3-line-1);
+    background:
+      url("assets/edge-crest.svg") 0 var(--bg3-space-7) / 14px 72px no-repeat border-box,
+      var(--bg3-grain),
+      radial-gradient(140% 50% at 50% 0%, rgb(47 36 28 / 0.3), transparent 70%),
+      linear-gradient(to left, #0b0908 70%, rgb(11 9 8 / 0.88));
+    background-color: transparent;
+    box-shadow: inset 8px 0 8px -8px rgb(0 0 0 / 0.8);
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+    .table-layout
+    > .table-sidebar-panel
+    > .table-inspector {
+    background-color: transparent;
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+    .table-layout
+    > .table-sidebar-rail {
+    background: var(--bg3-grain), linear-gradient(to left, #0b0908 70%, rgb(11 9 8 / 0.88));
+  }
+}
+
+/* P14 · Tooltip anatomy (TT_full_bg): a darker header strip behind the title (the whole line
+   of a one-line tip), a darker footer band where the tip ends in its hint, a violet tint
+   toward the lower right on spell tips only, and a larger soft shadow. Padding is unchanged
+   (placeTip measures the tip); the 160 ms fade is P5's. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .ui-tip {
+  background: var(--bg3-tip-head), linear-gradient(#231d17, #1c1612);
+  box-shadow: var(--bg3-tip-shadow);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .shp-tip {
+  background:
+    var(--bg3-tip-head) 0 0 / 100% var(--bg3-tip-head-h) no-repeat,
+    linear-gradient(#231d17, #1c1612);
+  box-shadow: var(--bg3-tip-shadow);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .shp-tip:has(> .shp-tip-hint) {
+  box-shadow: var(--bg3-tip-foot), var(--bg3-tip-shadow);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .shp-action[data-shp-action^="spell:"]
+  .shp-tip {
+  background:
+    var(--bg3-tip-head) 0 0 / 100% var(--bg3-tip-head-h) no-repeat,
+    var(--bg3-tip-magic),
+    linear-gradient(#231d17, #1c1612);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]) #toast {
+  background: linear-gradient(#231d17, #1c1612);
+  box-shadow: var(--bg3-tip-shadow);
+}
+
+/* P15 · Dialogs on a smoke plate (Messagebox): the plate fills only the drawn frame (8 px
+   in), black at 92 % in the middle thinning to 86 % at the line, so no hard rectangle shows
+   outside it; the backdrop is BG3's vignette, no blur. The frame, crest, size and scroll
+   area are unchanged. In the initiative roll call each row is a plate with only a bottom
+   separator (dashed when the row does not fight, as the dashed card before), a fighting row
+   is lit from below, and the d20 total takes the gold glow. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]) dialog {
+  background:
+    radial-gradient(110% 55% at 50% 0%, rgb(47 36 28 / 0.38), transparent 70%) 8px 8px /
+      calc(100% - 16px) calc(100% - 16px) no-repeat,
+    radial-gradient(farthest-corner at 50% 45%, rgb(0 0 0 / 0.92) 35%, rgb(5 4 3 / 0.86)) 8px 8px /
+      calc(100% - 16px) calc(100% - 16px) no-repeat;
+  background-color: transparent;
+  box-shadow: none;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  dialog::backdrop {
+  background: radial-gradient(120% 100% at 50% 45%, rgb(0 0 0 / 0.55), rgb(0 0 0 / 0.85));
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .ct-start
+  .ct-start-row {
+  border-color: transparent transparent rgb(119 84 44 / 0.7);
+  border-radius: 0;
+  background: radial-gradient(120% 90% at 50% 0%, rgb(47 36 28 / 0.35), transparent 70%);
+  box-shadow: none;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .ct-start
+  .ct-start-row.is-included {
+  box-shadow: var(--bg3-light-row);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .ct-start
+  .ct-start-row:not(.is-included) {
+  background: transparent;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .ct-start
+  .ct-start-total {
+  text-shadow: var(--bg3-glow-hero);
+}
+
+/* «Rifinitura premium, seconda parte (04/10)», items P16–P19: the sheet's header as BG3's
+   character panel, pips that glow, the arcane accents and hero numerals. Same guard as above:
+   high contrast keeps the plainer rules; the hue rules also step aside for the colour-vision
+   palettes. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]) {
+  /* P16: the sheet's portrait medallion (72–88 px on 4 px steps, by the sheet's width), the
+     knotwork rule's height and the XP track's inner shine. */
+  --bg3-sheet-medal: round(down, clamp(72px, 6.6cqi, 88px), 4px);
+  --bg3-rule-knot-h: 14px;
+  --bg3-xp-track: linear-gradient(#2d5568, #1c303e 75%);
+  /* P17: the spell slot's lit core (#85FDFF over #00D2FF) and a spent pip's dimming. */
+  --bg3-slot-lit: radial-gradient(circle, #fff 0 8%, #85fdff 30%, #00d2ff 72%);
+  --bg3-pip-spent: 0.3;
+  /* P18: magic is cold light; gold stays for wealth and status. */
+  --bg3-arcane-cyan: #33ccff;
+  --bg3-arcane-violet: #271e2b;
+  --bg3-arcane-glow: rgb(0 210 255 / 0.35);
+  --bg3-arcane-arch: #0f0c15;
+  --bg3-arcane-edge: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--bg3-arcane-violet) 90%, transparent),
+    transparent 38%
+  );
+  --bg3-arcane-wash: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--bg3-arcane-violet) 90%, transparent),
+    transparent 60%
+  );
+  --bg3-arcane-text: 0 0 8px rgb(0 210 255 / 0.6), 0 1px 1px rgb(0 0 0 / 0.8);
+  --bg3-arcane-radius: var(--bg3-radius-pill) var(--bg3-radius-pill) var(--bg3-radius-2)
+    var(--bg3-radius-2);
+  /* P19: a hero numeral's fill (#FFFCED). */
+  --bg3-hero-numeral: #fffced;
+}
+
+/* P16 · The sheet's header as BG3's character panel: the portrait is the hotbar's round
+   bronze medallion (72–88 px) with P12's convex bezel and recessed well, its edit badge moved
+   inside the round; a full-width gilt knotwork rule (assets/rule-knot.svg) sits in the gap
+   between the header and the ability strip; the XP bar keeps its frame and gains an inner
+   shine and a gold rule under it; the open tab is lit from below (P4), its 2 px marker now a
+   bar of light. The name already takes P8's gilt; the header's wrap rule is unchanged. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .character-sheet
+  .character-heading
+  .character-portrait.small {
+  inline-size: var(--bg3-sheet-medal);
+  block-size: var(--bg3-sheet-medal);
+  border: var(--bg3-line-3) solid transparent;
+  border-radius: var(--bg3-radius-round);
+  background:
+    var(--bg3-medal-well) padding-box,
+    var(--bg3-medal-bezel) border-box;
+  box-shadow:
+    0 0 0 1px #0c0c0c,
+    0 0 0 3px var(--bg3-gold),
+    0 0 0 4px #3d2012,
+    var(--bg3-medal-depth),
+    0 4px 12px rgb(0 0 0 / 0.8);
+  color: var(--bg3-title);
+  font-size: var(--bg3-type-gigantic);
+  text-shadow: var(--bg3-glow-hero);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .character-sheet
+  .character-heading
+  .character-portrait.small:hover {
+  border-color: transparent;
+  background:
+    var(--bg3-medal-well-lit) padding-box,
+    var(--bg3-medal-bezel-lit) border-box;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .character-sheet
+  .character-heading
+  .character-portrait-edit {
+  right: 12%;
+  bottom: 12%;
+  box-shadow:
+    0 0 0 1px #0c0c0c,
+    0 1px 3px rgb(0 0 0 / 0.8);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .character-sheet
+  .character-heading {
+  position: relative;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .character-sheet
+  .character-heading::after {
+  content: "";
+  position: absolute;
+  top: calc(100% + var(--bg3-space-4));
+  right: 0;
+  left: 0;
+  height: var(--bg3-rule-knot-h);
+  background:
+    url("assets/rule-knot.svg") center / 120px var(--bg3-rule-knot-h) no-repeat,
+    linear-gradient(90deg, transparent, rgb(154 112 64 / 0.85)) left center / calc(50% - 60px)
+      var(--bg3-line-1) no-repeat,
+    linear-gradient(90deg, rgb(154 112 64 / 0.85), transparent) right center / calc(50% - 60px)
+      var(--bg3-line-1) no-repeat;
+  pointer-events: none;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .character-sheet
+  .shp-xpbar {
+  background: var(--bg3-xp-track);
+  box-shadow:
+    inset 0 1px 0 rgb(133 253 255 / 0.18),
+    0 0 0 2px #0c0c0c,
+    0 0 0 3px rgb(177 125 68 / 0.5),
+    0 10px 0 -4px rgb(222 206 133 / 0.75);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .character-sheet
+  .shp-xpbar
+  > span {
+  background: linear-gradient(#f3dc9c, #e6c47a 35%, #b17d44);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .character-sheet
+  .character-tabs
+  button.active {
+  border-bottom-color: transparent;
+  background:
+    linear-gradient(90deg, transparent, #fff2c8 50%, transparent) 50% 100% / 100% var(--bg3-line-2)
+      no-repeat border-box,
+    radial-gradient(60% 90% at 50% 100%, rgb(223 152 0 / 0.32), transparent) border-box;
+  text-shadow: var(--bg3-glow-text);
+}
+
+/* P17 · Pips that glow (bar_resources): each available pip is lit from a white core (at
+   30 %) in its own colour with a 3 px halo of that colour; a spent pip keeps its shape in its
+   own colour at 30 %, with no core and no halo, so lit against dim is a change of fill, not
+   of colour alone. The movement bar runs #EAB94A to #FFC951 under a 1 px shine. Spell slots,
+   on the hotbar and on the sheet, are BG3's #85FDFF core over #00D2FF; a spent slot is the
+   hollow outline at 30 %. The plate and its height are unchanged. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  .table-layout
+  .action-dock.table-hotbar
+  .hotbar-resources
+  .resources
+  > span.available:nth-child(1)::before {
+  background: radial-gradient(circle at 50% 42%, #fff 0 8%, #a8f5c3 30%, var(--res-action) 68%);
+  box-shadow: none;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  .table-layout
+  .action-dock.table-hotbar
+  .hotbar-resources
+  .resources
+  > span.available:nth-child(2)::before {
+  background: radial-gradient(circle at 50% 66%, #fff 0 7%, #ffc49a 30%, var(--res-bonus) 64%);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  .table-layout
+  .action-dock.table-hotbar
+  .hotbar-resources
+  .resources
+  > span.available:nth-child(3)::before {
+  background: radial-gradient(circle, #fff 0 7%, #ffc6fb 30%, var(--res-reaction) 56%);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  .table-layout
+  .action-dock.table-hotbar
+  .hotbar-resources
+  .resources
+  > span.available:nth-child(1) {
+  filter: drop-shadow(0 0 3px var(--res-action));
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  .table-layout
+  .action-dock.table-hotbar
+  .hotbar-resources
+  .resources
+  > span.available:nth-child(2) {
+  filter: drop-shadow(0 0 3px var(--res-bonus));
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  .table-layout
+  .action-dock.table-hotbar
+  .hotbar-resources
+  .resources
+  > span.available:nth-child(3) {
+  filter: drop-shadow(0 0 3px var(--res-reaction));
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  .table-layout
+  .action-dock.table-hotbar
+  .hotbar-resources
+  .resources
+  > span:not(.available)::before {
+  box-shadow: none;
+  opacity: var(--bg3-pip-spent);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  .table-layout
+  .action-dock.table-hotbar
+  .hotbar-resources
+  .resources
+  > span:not(.available):nth-child(1)::before {
+  background: var(--res-action);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  .table-layout
+  .action-dock.table-hotbar
+  .hotbar-resources
+  .resources
+  > span:not(.available):nth-child(2)::before {
+  background: var(--res-bonus);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  .table-layout
+  .action-dock.table-hotbar
+  .hotbar-resources
+  .resources
+  > span:not(.available):nth-child(3)::before {
+  background: var(--res-reaction);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  .table-layout
+  .action-dock.table-hotbar
+  .hotbar-resources
+  .resources
+  > span.movement:not(.available)::before {
+  background: var(--res-move);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  .table-layout
+  .action-dock.table-hotbar
+  .hotbar-resources
+  .resources
+  > span.available.movement::before {
+  background:
+    linear-gradient(rgb(255 248 220 / 0.9), rgb(255 248 220 / 0.9)) 0 0 / 100% var(--bg3-line-1)
+      no-repeat,
+    linear-gradient(to top, #eab94a, #ffc951);
+  box-shadow:
+    0 0 3px var(--res-move),
+    0 0 6px rgb(255 201 81 / 0.45);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  .table-layout
+  .table-hotbar
+  .hotbar-slot-level
+  > i.is-full,
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  .character-sheet
+  .spl-slot:not([data-spl-slot="pact"])
+  .spl-pip.is-on {
+  border-color: var(--res-slot);
+  background: var(--bg3-slot-lit);
+  box-shadow:
+    0 0 3px var(--res-slot),
+    0 0 6px rgb(0 210 255 / 0.45);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  .table-layout
+  .table-hotbar
+  .hotbar-slot-level
+  > i:not(.is-full),
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  .character-sheet
+  .spl-slot:not([data-spl-slot="pact"])
+  .spl-pip:not(.is-on) {
+  border-color: var(--res-slot);
+  background: transparent;
+  opacity: var(--bg3-pip-spent);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  .character-sheet
+  .spl-slot[data-spl-slot="pact"]
+  .spl-pip.is-on {
+  background: radial-gradient(circle, #fff 0 8%, #f6c4fb 30%, var(--res-pact) 72%);
+  box-shadow:
+    0 0 3px var(--res-pact),
+    0 0 6px rgb(224 67 243 / 0.45);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  .character-sheet
+  .spl-slot[data-spl-slot="pact"]
+  .spl-pip:not(.is-on) {
+  border-color: var(--res-pact);
+  background: transparent;
+  opacity: var(--bg3-pip-spent);
+}
+
+/* P18 · Arcane accents, on the sheet and at the Table only: magic is cold light, gold stays
+   for wealth and status. A spell row carries a faint violet tint at its left edge (also under
+   the pointer's light); «Lancia» lit by the pointer or the keyboard glows cyan (the lozenge's
+   underglow and its words); the concentration block stands on the same violet; the hotbar's
+   spell slots take a violet field with a cyan-lit glyph; in «Avvia combattimento» each
+   creature's die column (d20, roll, total) sits on BG3's violet roll arch (#0F0C15) with our
+   own rune ring (assets/rune-ring.svg, 8 %) and a gold outline. Cream on #271E2B is about
+   15:1. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  .character-sheet
+  .spl-row {
+  background: var(--bg3-arcane-edge);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  .character-sheet
+  .spl-row:hover {
+  background: var(--bg3-arcane-edge), linear-gradient(rgb(19 15 11 / 0) 40%, #34312d);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  .character-sheet
+  .spl-cast:is(:hover, :focus-visible):not(:disabled) {
+  --bg3-btn-glow: radial-gradient(65% 95% at 50% 125%, rgb(0 210 255 / 0.5), transparent 72%);
+  text-shadow: var(--bg3-arcane-text);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  .character-sheet
+  .spl-concentration {
+  background: var(--bg3-arcane-wash);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  .character-sheet
+  .spl-concentration:not(.is-idle) {
+  background:
+    radial-gradient(40% 100% at 0 50%, var(--bg3-arcane-glow), transparent), var(--bg3-arcane-wash);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  .table-layout
+  .table-hotbar
+  .combat-group:is([aria-label="Incantesimi"], [aria-label="Spells"])
+  > .combat-action {
+  --bg3-slot-tint: rgb(92 64 132 / 0.55);
+  --bg3-slot-glow: color-mix(in srgb, var(--bg3-arcane-cyan) 60%, transparent);
+  background:
+    radial-gradient(ellipse at 50% 30%, var(--bg3-slot-tint), transparent 70%),
+    linear-gradient(#15101d, var(--bg3-arcane-arch));
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  .ct-start
+  .ct-start-roll {
+  position: relative;
+  isolation: isolate;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  .ct-start
+  .ct-start-roll::before {
+  content: "";
+  position: absolute;
+  inset: calc(-1 * var(--bg3-space-1)) calc(-1 * var(--bg3-space-3));
+  z-index: -1;
+  border-radius: var(--bg3-arcane-radius);
+  background:
+    url("assets/rune-ring.svg") right center / auto 100% no-repeat,
+    radial-gradient(120% 140% at 50% 0%, #1d1626, var(--bg3-arcane-arch) 70%);
+  box-shadow:
+    inset 0 0 0 var(--bg3-line-1) rgb(177 125 68 / 0.55),
+    inset 0 1px 0 var(--bg3-line-1) rgb(222 206 133 / 0.15);
+  pointer-events: none;
+}
+
+/* P19 · Hero numerals: lining, tabular figures wherever numbers stand in columns (the band,
+   the stat and skill rows, the passive senses, the hit points, the slot table, the hotbar's
+   counters, the initiative totals); the headline numbers (Armor Class, current hit points,
+   the initiative bonus) in #FFFCED with BG3's gold TextGlow over the dark stroke, the
+   maximum after «/» unlit. The «CA» over the shield is set in small capitals from its own capitals
+   (all-small-caps, never a case transform); every other label stays title case. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .character-sheet
+  :is(
+    .character-band,
+    .character-summary,
+    .shp-row,
+    .shp-stats,
+    .shp-facts,
+    .character-hp,
+    .spl-slots
+  ),
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .table-layout
+  .table-hotbar
+  :is(.hotbar-hp-text, .resources > span.movement),
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .ct-start
+  .ct-start-total {
+  font-variant-numeric: lining-nums tabular-nums;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .character-sheet
+  :is(
+    [data-shp-stat="ac"] .shp-pill > strong,
+    [data-shp-stat="initiative"] .shp-pill > strong,
+    .character-hp-value > strong
+  ) {
+  color: var(--bg3-hero-numeral);
+  text-shadow: var(--bg3-glow-hero);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .character-sheet
+  .character-hp-value
+  > strong
+  > small {
+  text-shadow: 0 1px 0 #000;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .character-sheet
+  [data-shp-stat="ac"]
+  .shp-pill-label {
+  font-variant-caps: all-small-caps;
+}
+
+/* «Rifinitura premium, seconda parte (04/10)», items P20–P24: glyphs in relief, the shield's
+   double keyline, gilt section rules with a gem, bevelled party frames and the header's gilt
+   hairline. Same guard as above: high contrast keeps the plainer rules. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]) {
+  /* P20/P22: gilt cast in relief, a dark edge under it and a pale light over it; the glyphs'
+     copy, which the icon axis switches off (below). */
+  --bg3-relief: drop-shadow(0 1px 0 rgb(0 0 0 / 0.9)) drop-shadow(0 -1px 0 rgb(255 236 190 / 0.22));
+  --bg3-glyph-emboss: var(--bg3-relief);
+  /* P21: the shield's bronze rim lit from the top left, its lit twin, and the field: the
+     double keyline (assets/shield-keyline.svg: #1A120B, then #77542C), the top-left sheen
+     and the dark radial face. */
+  --bg3-shield-rim: linear-gradient(160deg, #d9bd7c, #b17d44 45%, #77542c);
+  --bg3-shield-rim-lit: linear-gradient(160deg, #fff2c8, #c49a62 45%, #8a6a3e);
+  --bg3-shield-field:
+    url("assets/shield-keyline.svg") 0 0 / 100% 100% no-repeat,
+    linear-gradient(135deg, rgb(255 236 190 / 0.08), transparent 40%),
+    radial-gradient(120% 90% at 50% 30%, #241a13, #0b0908);
+  /* P23: the party frame's bevel over the frame's own colour (bronze #81572F reads #C9A56A at
+     the top left and #5A3C20 at the foot), its lit twin, the silver one, and the portrait
+     seated in the frame. */
+  --bg3-party-bevel: linear-gradient(
+    160deg,
+    rgb(255 226 160 / 0.55),
+    transparent 50%,
+    rgb(0 0 0 / 0.3)
+  );
+  --bg3-party-bevel-lit: linear-gradient(
+    160deg,
+    rgb(255 236 190 / 0.7),
+    rgb(255 226 160 / 0.1) 50%,
+    rgb(0 0 0 / 0.2)
+  );
+  --bg3-party-bevel-silver: linear-gradient(
+    160deg,
+    rgb(255 255 255 / 0.5),
+    transparent 50%,
+    rgb(0 0 0 / 0.2)
+  );
+  --bg3-party-seat: inset 0 0 14px rgb(0 0 0 / 0.85);
+  /* P24: the header's gilt hairline, its warm top light and its shadow over the page. */
+  --bg3-header-line: linear-gradient(
+    90deg,
+    transparent,
+    #b17d44 20%,
+    #e2c58f 50%,
+    #b17d44 80%,
+    transparent
+  );
+  --bg3-header-shade: radial-gradient(120% 80% at 50% 0%, rgb(47 36 28 / 0.32), transparent 60%);
+  --bg3-header-depth: 0 1px 0 rgb(0 0 0 / 0.9), 0 8px 24px rgb(0 0 0 / 0.6);
+}
+/* The icon axis (variants i1–i3) draws its own outline and foot shadow into each glyph: the
+   relief steps aside there, so the glyph is not shadowed twice. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]):is(
+    [data-variant~="i1"],
+    [data-variant~="i2"],
+    [data-variant~="i3"]
+  ) {
+  --bg3-glyph-emboss: opacity(1);
+}
+
+/* P20 · Glyphs in relief: every glyph in a control (the header's services, the top tabs, the
+   buttons' domain glyphs, the round chrome) is cast like BG3's gilded icons, a dark edge under
+   it and a pale light over it; under the pointer or keyboard focus it also takes the gold glow
+   (P12's token). :where() keeps the weight low, so the hotbar slots' own family light and the
+   brand's gilt keep theirs. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  :where(
+    .button,
+    .text-button,
+    .icon-button,
+    .nav-link,
+    .map-tool,
+    .table-tab,
+    .table-sidebar-toggle,
+    .table-panels-all
+  )
+  > .icon {
+  filter: var(--bg3-glyph-emboss);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  :where(.button, .text-button, .icon-button, .nav-link):where(
+    :hover:not(:disabled),
+    :focus-visible
+  )
+  > .icon {
+  filter: var(--bg3-glyph-emboss) var(--bg3-glyph-glow);
+}
+
+/* P21 · The Armor Class shield (the sheet's and the inspector's) as BG3's heater shield: the
+   same shape and size, now a bronze rim lit from the top left over a dark keyline and a thin
+   inner bronze line (one hand-drawn stroke file whose lines keep their pixel width at any
+   size), a dark radial face with a faint sheen at the top left, and the numeral lit as P19's
+   hero numerals. The sheet's shield, a button, lights its rim under the pointer. Each selector
+   stands on its own, so the colour variants' shields keep theirs. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .character-sheet
+  [data-shp-stat="ac"]
+  .shp-pill::before,
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .table-layout
+  .inspector-ac::before {
+  background: var(--bg3-shield-rim);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .character-sheet
+  [data-shp-stat="ac"]
+  .shp-pill:hover::before {
+  background: var(--bg3-shield-rim-lit);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .character-sheet
+  [data-shp-stat="ac"]
+  .shp-pill::after,
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .table-layout
+  .inspector-ac::after {
+  background: var(--bg3-shield-field);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .table-layout
+  .inspector-ac
+  strong {
+  color: var(--bg3-hero-numeral);
+  font-variant-numeric: lining-nums tabular-nums;
+  text-shadow: var(--bg3-glow-hero);
+}
+
+/* P22 · Section rules in gilt (the sheet's centred section titles): the same tapered rule and
+   curl, now inked from bronze #B17D44 at the title to pale gold #D9BD7C at the curl, a small
+   lozenge gem at each outer tip (assets/rule-gilt-left.svg, rule-gilt-right.svg), cast with a
+   pale hairline above and a dark one below. The rules still give way before the title wraps,
+   losing the curl and its gem first. Home's and the dialogs' plates keep no rules (P6: no
+   ornaments on ordinary plates). */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .character-sheet
+  :is(.shp-derived .shp-col h3, .shp-action-group h3, .spl-group h3)::before {
+  background-image: url("assets/rule-gilt-left.svg");
+  filter: var(--bg3-relief);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .character-sheet
+  :is(.shp-derived .shp-col h3, .shp-action-group h3, .spl-group h3)::after {
+  background-image: url("assets/rule-gilt-right.svg");
+  filter: var(--bg3-relief);
+}
+
+/* P23 · Party frames with a bevel and a seated portrait (PlayerPortraits): the frame keeps its
+   colour and width (bronze, steel blue in a colour variant, silver when chosen) under a bevel
+   lit from the top left and dark at the foot, drawn as a ring over the frame only; the
+   portrait sits deep inside it (a dark inner vignette under the keyline). Under the pointer the
+   bevel brightens; the chosen frame takes a cool silver bevel and keeps its soft white glow.
+   Sizes are unchanged, and the portrait's picture stays the app's. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .table-layout
+  .table-party-portrait {
+  --bg3-party-frame-w: var(--bg3-line-3);
+  position: relative;
+  box-shadow:
+    inset 0 0 0 1px #0c0c0c,
+    var(--bg3-party-seat),
+    0 0 0 1px #2a1d12,
+    0 2px 10px rgb(0 0 0 / 0.85);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .table-layout
+  .table-party.is-compact
+  .table-party-portrait {
+  --bg3-party-frame-w: var(--bg3-line-2);
+}
+@media screen and (max-width: 720px) {
+  :root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+    .table-layout
+    .table-party-portrait {
+    --bg3-party-frame-w: var(--bg3-line-2);
+  }
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .table-layout
+  .table-party-portrait::before {
+  content: "";
+  position: absolute;
+  inset: calc(-1 * var(--bg3-party-frame-w));
+  padding: var(--bg3-party-frame-w);
+  border-radius: inherit;
+  background: var(--bg3-party-bevel);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+  pointer-events: none;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .table-layout
+  .table-party-member:hover
+  .table-party-portrait::before {
+  background: var(--bg3-party-bevel-lit);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .table-layout
+  .table-party-member.is-selected
+  .table-party-portrait::before {
+  background: var(--bg3-party-bevel-silver);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .table-layout
+  .table-party-member.is-selected
+  .table-party-portrait {
+  box-shadow:
+    inset 0 0 0 1px #0c0c0c,
+    var(--bg3-party-seat),
+    0 0 0 1px #5d5d5d,
+    0 0 10px rgb(255 255 255 / 0.3),
+    0 2px 10px rgb(0 0 0 / 0.85);
+}
+
+/* P24 · The header's gilt hairline and depth (Home, the sheet, the Table): the plate's warm
+   top light over the same near-black, its foot a 1 px gold line fading at both ends with a
+   small gem at the centre (assets/header-node.svg) over a dark keyline, and a soft shadow
+   cast on the page, so the bar sits above it (the header is lifted one layer; its menus are
+   dialogs, on the top layer). No height is added: the line and the gem are drawn on the
+   header's edge, under the header's own controls (a focus ring near the edge stays whole),
+   and the Table's header keeps its one row at 390. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .app-header {
+  position: relative;
+  z-index: 1;
+  background:
+    var(--bg3-grain), var(--bg3-header-shade),
+    linear-gradient(rgb(12 12 12 / 0.95), rgb(12 12 12 / 0.84));
+  border-bottom-color: #0c0c0c;
+  box-shadow: var(--bg3-header-depth);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .app-header::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: calc(-1 * (var(--bg3-space-2) + var(--bg3-line-1)));
+  left: 0;
+  z-index: -1;
+  height: calc(2 * var(--bg3-space-2) + var(--bg3-line-1));
+  background:
+    url("assets/header-node.svg") center / 40px 100% no-repeat,
+    var(--bg3-header-line) center / 100% var(--bg3-line-1) no-repeat;
+  pointer-events: none;
 }

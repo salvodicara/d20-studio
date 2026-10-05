@@ -1281,6 +1281,134 @@ delle parole vicine (mediana 13,4:1; crema #e6dbc2 su #0c0c0c fa circa 14:1). De
 sono nella scheda intera sotto la piega (pixel non leggibili nella foto), gli altri sono piccoli
 segni sulla mappa.
 
+### Rifinitura premium, seconda parte (04/10)
+
+Seconda parte della critica premium (`…/visual-01/round2/premium-critique/items-P12-P24.md`),
+voci P12–P24, più una regressione; tutto in fondo a `direction.css` (sezione «premium pass, part
+two (04/10)»), salvo la correzione dei nomi, fatta dove era nata (F2). Nessun testo, misura o
+markup cambiato; il contrasto alto tiene le regole più semplici di prima.
+
+- **Nomi delle caselle della barra di nuovo interi.** Dopo la prima rifinitura i nomi stavano su
+  una riga e venivano tagliati («Dardo inc…», «Mani bruc…», «Disimp…»). Ora l'icona è di 20 px
+  (era 24) a 2 px dal bordo alto, e sotto il nome va su due righe in corpo Tiny (11 px),
+  centrato, su tutta la larghezza della casella, con il suo alone scuro. La casella resta
+  58 × 48 e la barra non cresce (114 px a 1440 × 900, il limite è 120). Tolta la fascia scura
+  che mostrava il nome intero solo al passaggio del puntatore: non serve più.
+- **P12 · Pulsanti rotondi come medaglioni in rilievo** (strumenti della mappa, zoom e centra,
+  medaglioni della colonna destra, comandi rotondi della barra). La cornice di bronzo è
+  illuminata in alto a sinistra e in ombra in basso a destra (un gradiente conico), il fondo è
+  un pozzetto scuro incavato; quello scelto è blu acciaio con una luce ciano tenue dentro. Al
+  passaggio del puntatore la cornice si schiarisce e il simbolo prende il bagliore dorato.
+  Misure (40 px), anello di fuoco e borchia «altri strumenti» invariati. Sul telefono la colonna
+  destra è una barra di schede e resta com'era.
+- **P13 · Ispettore e colonna destra come tavole sfumate.** Il nero quasi pieno si alleggerisce
+  verso la mappa, con la grana; il bordo verso la mappa è un filo di 1 px, oro al centro e
+  bronzo che svanisce alle estremità, con un piccolo stemma vicino all'alto (nuovo disegno
+  `assets/edge-crest.svg`). Larghezza e posizione invariate.
+- **P14 · Anatomia dei suggerimenti.** Una striscia più scura dietro il titolo (per i
+  suggerimenti di una riga, dietro tutta la riga), una fascia più scura in fondo dove c'è la
+  riga d'aiuto («Clic sul nome…»), una tinta viola verso il basso a destra solo sugli
+  incantesimi, un'ombra morbida più ampia; anche l'avviso in basso (#toast) prende la tavola e
+  l'ombra. Spaziature invariate (il posizionamento misura il riquadro); la dissolvenza di
+  160 ms è quella della prima parte. Il bronzo della riga d'aiuto resta sopra 5,6:1.
+- **P15 · Dialoghi su una tavola di fumo.** La tavola riempie solo l'interno della cornice
+  disegnata: nera al 92 % al centro, all'86 % vicino al filo, e fuori dal filo non c'è più il
+  rettangolo nero; dietro, una vignetta (dal 55 % all'85 % di nero) senza sfocatura, come in
+  BG3. Cornice, stemma, misure e scorrimento invariati. Nell'appello dell'iniziativa ogni riga
+  è una tavola con il solo filo in basso (tratteggiato se la creatura non combatte, come il
+  bordo tratteggiato di prima), chi combatte è illuminato dal basso, e il totale del d20 ha il
+  bagliore dorato.
+
+- **P16 · Intestazione della scheda come il pannello del personaggio di BG3.** Il ritratto è
+  ora il medaglione rotondo di bronzo della barra (88 px sul computer, 72 sul telefono, a passi
+  di 4 px secondo la larghezza della scheda), con la cornice in rilievo e il pozzetto di P12;
+  al passaggio del puntatore la cornice si schiarisce. Il bollino «modifica» è spostato dentro
+  il cerchio, così non viene tagliato. Tra l'intestazione e la striscia delle caratteristiche
+  c'è un filetto dorato a tutta larghezza con un nodo al centro (nuovo disegno
+  `assets/rule-knot.svg`, 14 px), nello spazio che c'era già. La barra dei PE tiene la sua
+  cornice e prende una luce interna (da #2D5568 a #1C303E) e un filo d'oro sotto. La scheda
+  aperta non ha più la riga piatta: sotto il nome c'è una barra di luce di 2 px, chiara al
+  centro, con il bagliore che sale dal basso (P4). Il nome aveva già l'oro di P8. Altezza
+  dell'intestazione, a capo dei comandi e larghezza invariati a 1440 e a 390.
+- **P17 · Segnalini che brillano.** Azione, azione bonus e reazione disponibili hanno un cuore
+  bianco (al 30 %) nel loro colore e un alone di 3 px dello stesso colore; la barra del
+  movimento va da #EAB94A a #FFC951 con un filo di luce in alto. Un segnalino speso tiene la
+  sua forma nel suo colore al 30 %, senza cuore né alone: acceso e spento differiscono per il
+  riempimento, non solo per il colore. Gli slot incantesimo, nella barra e nella scheda, hanno
+  il cuore #85FDFF su #00D2FF; quelli spesi sono il solo contorno al 30 %. Altezza della barra
+  invariata (114 px a 1440 × 900).
+- **P18 · Accenti arcani (ciano e viola per la magia, l'oro per l'oro)**, solo nella scheda e
+  al Tavolo. Ogni riga di incantesimo ha una tinta viola tenue sul bordo sinistro (anche sotto
+  il puntatore); «Lancia», al passaggio del puntatore o con la tastiera, si accende di ciano;
+  il riquadro della concentrazione sta sullo stesso viola (con una luce ciano quando è attiva);
+  nella barra le caselle del gruppo «Incantesimi» hanno un fondo viola e il simbolo acceso di
+  ciano; in «Avvia combattimento» la colonna del dado di ogni creatura (d20, tiro, totale) sta
+  su un arco viola scuro (#0F0C15) bordato d'oro, con un anello di rune nostro all'8 % (nuovo
+  disegno `assets/rune-ring.svg`). Il crema sul viola #271E2B resta circa 15:1. Nuovi gettoni
+  `--bg3-arcane-cyan`, `--bg3-arcane-violet`, `--bg3-arcane-glow` e altri tre.
+- **P19 · Numeri da eroe.** Cifre allineate e di larghezza fissa dove i numeri stanno in
+  colonna (striscia, righe di tiri salvezza e abilità, sensi passivi, punti ferita, tabella
+  degli slot, contatori della barra, totali d'iniziativa). Classe Armatura, punti ferita
+  attuali e bonus d'iniziativa sono #FFFCED con il bagliore dorato di BG3 sopra il filo scuro;
+  il massimo dopo «/» resta senza bagliore. «CA» sopra lo scudo è in maiuscoletto ricavato
+  dalle sue maiuscole (font-variant-caps, nessuna trasformazione del testo); le altre
+  etichette restano con l'iniziale maiuscola.
+- **P20 · Simboli in rilievo.** Ogni simbolo dentro un comando (i servizi dell'intestazione, le
+  schede in alto, i simboli dei pulsanti, i comandi rotondi) ha un filo scuro sotto e una luce
+  chiara sopra, come le icone dorate di BG3; al passaggio del puntatore o con la tastiera prende
+  anche il bagliore d'oro di P12. Solo CSS: la doratura vera dentro le icone (`icons.mjs`) è già
+  la variante «i1 · Glifi dorati», e con le varianti di icone (i1–i3) il rilievo si spegne,
+  perché quei simboli hanno già il loro contorno e la loro ombra. Le caselle della barra e il
+  marchio tengono la loro luce.
+- **P21 · Scudo della Classe Armatura con doppio filo.** Stessa forma e stessa misura (scheda
+  78 × 88, ispettore 52 × 55). Il bordo di bronzo è acceso in alto a sinistra (#D9BD7C →
+  #B17D44 → #77542C); dentro, un filo scuro #1A120B e un filo sottile di bronzo #77542C, poi un
+  campo scuro radiale (#241A13 → #0B0908) con un velo di luce in alto a sinistra. I due fili
+  stanno in un disegno nuovo (`assets/shield-keyline.svg`) che tiene lo spessore di 1 px a
+  qualsiasi misura. Lo scudo della scheda, che è un pulsante, accende il bordo sotto il
+  puntatore; il numero dello scudo nell'ispettore è ora #FFFCED con il bagliore di P19, come
+  quello della scheda. Iniziativa e velocità non sono distintivi nel nostro tema (righe
+  etichetta-sopra-valore, come la finestra di esame di BG3): restano come sono.
+- **P22 · Filetti delle sezioni in oro, con una gemma.** I titoli centrati della scheda («Tiri
+  salvezza», «Abilità», «Azione», «Trucchetti», «Livello 1»…) hanno lo stesso filetto con
+  ricciolo, ora più visibile: va dal bronzo #B17D44 vicino al titolo all'oro chiaro #D9BD7C sul
+  ricciolo, con un piccolo rombo-gemma alla punta esterna e un filo di luce sopra e uno scuro
+  sotto. Disegni nuovi `assets/rule-gilt-left.svg` e `rule-gilt-right.svg`; i vecchi restano per
+  il contrasto alto. Quando lo spazio manca, il filetto perde prima il ricciolo e la gemma, come
+  prima. Le tavole della Home e i dialoghi restano senza filetti (P6: niente ornamenti sulle
+  tavole normali).
+- **P23 · Ritratti del gruppo incassati nella cornice.** Al Tavolo (colonna a sinistra e pila del
+  telefono) la cornice tiene colore e spessore (bronzo, blu acciaio in una variante di colore,
+  argento per chi è scelto) e ha sopra una smussatura: chiara in alto a sinistra, scura in basso
+  (il bronzo #81572F si legge da #C9A56A a #5A3C20). Il ritratto sta più in fondo, con un'ombra
+  interna sotto il filo scuro. Sotto il puntatore la smussatura si schiarisce; la cornice scelta
+  ha una smussatura d'argento fredda e tiene il suo alone bianco. Misure invariate (60 × 84 a
+  1440, 40 × 48 a 390); l'immagine del ritratto resta quella dell'app.
+- **P24 · Intestazione con filo d'oro e profondità** (Home, scheda, Tavolo). Il fondo prende la
+  luce calda delle tavole (P6) sullo stesso nero; il bordo in basso è un filo d'oro di 1 px che
+  sfuma ai due capi, con una piccola gemma al centro (disegno nuovo `assets/header-node.svg`)
+  sopra un filo scuro; sotto, un'ombra morbida sulla pagina, così la barra sta sopra di essa
+  (l'intestazione è alzata di un livello; i suoi menu sono dialoghi, sempre sopra). Nessuna
+  altezza aggiunta: 81 px sulla Home e sulla scheda a 1440, 63 px al Tavolo, che a 390 resta su
+  una riga.
+- **Coerenza della seconda parte.** Un solo gettone per il rilievo dell'oro (`--bg3-relief`), usato
+  dai simboli e dai filetti; il bagliore dei comandi rotondi di P12 ora è lo stesso dei simboli
+  (rilievo più bagliore). Il ciano e il viola arcani (`--bg3-arcane-cyan`, `--bg3-arcane-violet`)
+  sono ora la sola fonte di quei colori: li usano la luce del comando scelto (P12), la tinta
+  magica dei suggerimenti (P14), il bordo delle righe d'incantesimo, il riquadro della
+  concentrazione (nuovo gettone `--bg3-arcane-wash`) e il bagliore delle caselle d'incantesimo
+  (P18). Colori risultanti invariati.
+
+Fonti: facts A3 («Iconography (UI chrome)», «Tooltip», «Modal dialog frame»), A4 («Medallion
+tabs»), A0 e A3 (LeftSideSmoothShadingBrush); immagini `bg3-sheet-character-panel.png`,
+`bg3-panels-subclass-select-steam.jpg`, `bg3-panels-tooltip-spell.jpg`; per P16–P19 facts A0.1
+(«Casing», TextGlow), A1 («Resource pips row»), A2 («Roll frame»), A3 e A4; immagini
+`bg3-sheet-character-panel.png` e `bg3-dice-crop-roll-panel-advantage.png`; per P20–P24 facts A1
+(«Iconography», «Party frame colours»), A3 («Iconography (UI chrome)», «Elevation») e A4 («AC
+badge»); immagini `bg3-panels-subclass-select-steam.jpg` (icona «Wild Magic»),
+`bg3-sheet-examine-enemy.jpg`, `bg3-table-crop-party-portraits-4k.png` e
+`bg3-sheet-character-panel.png`.
+
 ## Marchio (I-251)
 
 Il marchio di questa opzione è un **d20 fuso in oro brunito**, con la faccia del «20» smaltata di
@@ -1422,21 +1550,27 @@ quello di sbed (confronto numerico del 30/09/2026).
 
 Gli ornamenti Openclipart del primo giro (angoli 281797 e svolazzi 308075) sono stati tolti: erano
 timbri separati negli angoli, la famiglia che l'owner ha già scartato. Al loro posto, file SVG
-disegnati a mano il 30/09/2026 per questo progetto (gli ultimi quattro della tabella il 02/10/2026) (tracciati scritti da zero, nessuna immagine di
+disegnati a mano il 30/09/2026 per questo progetto (i quattro prima degli ultimi sei il 02/10/2026, gli ultimi sei il 04/10/2026) (tracciati scritti da zero, nessuna immagine di
 riferimento ricalcata o inclusa): copiano solo la grammatica di BG3 (filo con spine agli angoli,
 arco in alto, filetti che si assottigliano, riccioli ai lati della striscia). Nessun diritto di
 terzi; seguono la licenza del repository.
 
-| File                                                                  | Cosa disegna                                                                                                                                           | Imitato da (solo grammatica)                                                  | sha256                                                                                                                                                                                                                                                                         |
-| --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `assets/frame-tl.svg`, `frame-tr.svg`, `frame-bl.svg`, `frame-br.svg` | angolo della cornice: spina, due uncini, arco a quarto di cerchio (quattro orientamenti dello stesso disegno)                                          | `bg3-panels-subclass-select-steam.jpg`                                        | `b478f87e3fc62cc302101cf0bbad4d419b78dc6d7b13ba0d10ed83a366732a6b`, `6b272f023e59fb3daa7682881962f77722e79adbcbf81f7ec9dbea60b9f61846`, `89925185dc2f12b23f3cd3587d46e179d894d7778384b5658900e8db9a1a8bcd`, `c6cd19fde712e3b32d8db2278f1340641ec0a3df4bda88d0987f8eb4682ea85a` |
-| `assets/frame-crest.svg`                                              | arco in alto al centro con due rombi                                                                                                                   | `bg3-panels-subclass-select-steam.jpg`                                        | `2ffa552bc1c19d8e9b52afbeef3cf7837e883a1ef2c67981f274fd0eca4b815a`                                                                                                                                                                                                             |
-| `assets/rule-left.svg`, `rule-right.svg`                              | filetto sottile che si assottiglia e finisce in un ricciolo                                                                                            | `bg3-sheet-examine-enemy.jpg` («~ Conditions ~»)                              | `3bcf5b43f3576ff3b8b97420b8756f67fa1dcc12bc08a41156f138f0959168f6`, `f940b7d8a65ab0c554ac0bb9e2b878f2428630e700964b713138e905ba4f414b`                                                                                                                                         |
-| `assets/endcap-left.svg`, `endcap-right.svg`                          | ricciolo d'oro a metà altezza ai lati della striscia dei turni                                                                                         | `bg3-table-crop-turn-order-strip.png`                                         | `efb62bdfba761015a8642130119253135ead87c79f67318ec2e88f5ecf62feec`, `0b773bf3d4631d6204bebfd82e9f6946aa9160e379a3c28b75d64c3a32d90cdb`                                                                                                                                         |
-| `assets/hotbar-arch.svg`                                              | arco rialzato che porta la tavola delle risorse e la scheda dei dadi fin dentro il bordo superiore della barra (a destra lo stesso disegno specchiato) | `bg3-table-crop-hotbar-4k.png`                                                | `adfdd949bb868f7a75b1babecfba2cb6a380f7c017bc60f046f004ce3ca38a63`                                                                                                                                                                                                             |
-| `assets/endturn-runes.svg`                                            | anello di diciotto rune inventate, molto tenue (10 % di crema), dentro il disco di «Termina turno»                                                     | `bg3-table-crop-endturn.png` (solo l'idea di un anello inciso)                | `bd4563ab9f4b96e4f0f7612f1acd99fbdd178afe64594409ad564bf4f1aa6d32`                                                                                                                                                                                                             |
-| `assets/grain.svg`                                                    | grana di pietra calda (rumore `feTurbulence`, circa 3 % di opacità) per il palco del Tavolo, le tavole, la barra e i dialoghi                          | `bg3-table-hud-4k-exploration.jpg` (nessun pixel: solo «niente tinta piatta») | `99ed31ad4a39003a1f9d0ffd33b88de93b15d58381bfc3114a0e1497432bf731`                                                                                                                                                                                                             |
-| `assets/home-torchlight.svg`                                          | pozze di luce di torcia (gradienti radiali arancio) disegnate sul riquadro 1672 × 941 della sala d'esempio dell'owner                                  | `bg3-home-main-menu-annotated.jpg`                                            | `d5499f714fc2491d1a735a83a3873b25cc9f9920aa084981dd53c9f4d4b11391`                                                                                                                                                                                                             |
+| File                                                                  | Cosa disegna                                                                                                                                                                                    | Imitato da (solo grammatica)                                                  | sha256                                                                                                                                                                                                                                                                         |
+| --------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `assets/frame-tl.svg`, `frame-tr.svg`, `frame-bl.svg`, `frame-br.svg` | angolo della cornice: spina, due uncini, arco a quarto di cerchio (quattro orientamenti dello stesso disegno)                                                                                   | `bg3-panels-subclass-select-steam.jpg`                                        | `b478f87e3fc62cc302101cf0bbad4d419b78dc6d7b13ba0d10ed83a366732a6b`, `6b272f023e59fb3daa7682881962f77722e79adbcbf81f7ec9dbea60b9f61846`, `89925185dc2f12b23f3cd3587d46e179d894d7778384b5658900e8db9a1a8bcd`, `c6cd19fde712e3b32d8db2278f1340641ec0a3df4bda88d0987f8eb4682ea85a` |
+| `assets/frame-crest.svg`                                              | arco in alto al centro con due rombi                                                                                                                                                            | `bg3-panels-subclass-select-steam.jpg`                                        | `2ffa552bc1c19d8e9b52afbeef3cf7837e883a1ef2c67981f274fd0eca4b815a`                                                                                                                                                                                                             |
+| `assets/rule-left.svg`, `rule-right.svg`                              | filetto sottile che si assottiglia e finisce in un ricciolo                                                                                                                                     | `bg3-sheet-examine-enemy.jpg` («~ Conditions ~»)                              | `3bcf5b43f3576ff3b8b97420b8756f67fa1dcc12bc08a41156f138f0959168f6`, `f940b7d8a65ab0c554ac0bb9e2b878f2428630e700964b713138e905ba4f414b`                                                                                                                                         |
+| `assets/endcap-left.svg`, `endcap-right.svg`                          | ricciolo d'oro a metà altezza ai lati della striscia dei turni                                                                                                                                  | `bg3-table-crop-turn-order-strip.png`                                         | `efb62bdfba761015a8642130119253135ead87c79f67318ec2e88f5ecf62feec`, `0b773bf3d4631d6204bebfd82e9f6946aa9160e379a3c28b75d64c3a32d90cdb`                                                                                                                                         |
+| `assets/hotbar-arch.svg`                                              | arco rialzato che porta la tavola delle risorse e la scheda dei dadi fin dentro il bordo superiore della barra (a destra lo stesso disegno specchiato)                                          | `bg3-table-crop-hotbar-4k.png`                                                | `adfdd949bb868f7a75b1babecfba2cb6a380f7c017bc60f046f004ce3ca38a63`                                                                                                                                                                                                             |
+| `assets/endturn-runes.svg`                                            | anello di diciotto rune inventate, molto tenue (10 % di crema), dentro il disco di «Termina turno»                                                                                              | `bg3-table-crop-endturn.png` (solo l'idea di un anello inciso)                | `bd4563ab9f4b96e4f0f7612f1acd99fbdd178afe64594409ad564bf4f1aa6d32`                                                                                                                                                                                                             |
+| `assets/grain.svg`                                                    | grana di pietra calda (rumore `feTurbulence`, circa 3 % di opacità) per il palco del Tavolo, le tavole, la barra e i dialoghi                                                                   | `bg3-table-hud-4k-exploration.jpg` (nessun pixel: solo «niente tinta piatta») | `99ed31ad4a39003a1f9d0ffd33b88de93b15d58381bfc3114a0e1497432bf731`                                                                                                                                                                                                             |
+| `assets/home-torchlight.svg`                                          | pozze di luce di torcia (gradienti radiali arancio) disegnate sul riquadro 1672 × 941 della sala d'esempio dell'owner                                                                           | `bg3-home-main-menu-annotated.jpg`                                            | `d5499f714fc2491d1a735a83a3873b25cc9f9920aa084981dd53c9f4d4b11391`                                                                                                                                                                                                             |
+| `assets/edge-crest.svg`                                               | piccolo stemma seduto sul filo dell'ispettore verso la mappa: un arco scuro bordato di bronzo e un rombo d'oro tra due trattini (04/10/2026)                                                    | `bg3-panels-subclass-select-steam.jpg` (pannello di destra)                   | `093dc8dd72e1dda7aa8705ce519765f3c6289532dc077b7b943a0fec059907b0`                                                                                                                                                                                                             |
+| `assets/rule-knot.svg`                                                | filetto dorato con un nodo al centro: due trecce che si incrociano due volte attorno a un piccolo rombo d'oro, tra l'intestazione della scheda e la striscia delle caratteristiche (04/10/2026) | `bg3-sheet-character-panel.png` (filetto sotto le schede rotonde)             | `966d943fd36dda2d5dea154515969c25fdc2bac74e0de17bb777e7d7b242bcdd`                                                                                                                                                                                                             |
+| `assets/rune-ring.svg`                                                | anello di rune nostre (tre cerchi, 24 tacche, otto segni angolari inventati) all'8 %, dietro la colonna del dado nell'avvio del combattimento (04/10/2026)                                      | `bg3-dice-crop-roll-panel-advantage.png` (motivo radiale nell'arco del tiro)  | `67081e7436fbde48160b4449d234f9ace65251478562f351533276eb605e346a`                                                                                                                                                                                                             |
+| `assets/rule-gilt-left.svg`, `rule-gilt-right.svg`                    | il filetto con ricciolo dei titoli della scheda in oro (dal bronzo #B17D44 all'oro chiaro #D9BD7C sul ricciolo), con un piccolo rombo-gemma alla punta esterna (04/10/2026)                     | `bg3-sheet-examine-enemy.jpg` (filetti dorati ai lati del titolo)             | `a9b7603ebbfd003703029bba1c076e52c3af1304ba8c9f150454f421efb00b2d`, `f8bb0d951376c0e59ee17e96f38b54b76c0b517e17c302543edd48ddec9a1b0e`                                                                                                                                         |
+| `assets/shield-keyline.svg`                                           | i due fili interni dello scudo della Classe Armatura (scuro #1A120B, poi bronzo #77542C), di 1 px a qualsiasi misura (04/10/2026)                                                               | `bg3-sheet-character-panel.png` (scudo «AC»)                                  | `aa24fc293dbb60d95dedb0e904bbe89f9fc89f3d9f594baafe44c85595d0f37b`                                                                                                                                                                                                             |
+| `assets/header-node.svg`                                              | piccola gemma d'oro tra due rombi minori, al centro del filo d'oro sotto l'intestazione (04/10/2026)                                                                                            | `bg3-sheet-character-panel.png` (nodo del filetto sotto le schede rotonde)    | `97e384a226df4a802e34914f254ad507db904eed6cf93a13bb8eb346641173d6`                                                                                                                                                                                                             |
 
 ### Dipinti d'esempio (dell'owner)
 
