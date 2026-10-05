@@ -8964,6 +8964,18 @@
     .spl-slots
   ),
 :root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .character-sheet
+  :is(
+    .character-band,
+    .character-summary,
+    .shp-row,
+    .shp-stats,
+    .shp-facts,
+    .character-hp,
+    .spl-slots
+  )
+  *,
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
   .table-layout
   .table-hotbar
   :is(.hotbar-hp-text, .resources > span.movement),
@@ -8981,6 +8993,7 @@
   ) {
   color: var(--bg3-hero-numeral);
   text-shadow: var(--bg3-glow-hero);
+  font-variant-numeric: lining-nums tabular-nums;
 }
 :root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
   .character-sheet
@@ -9245,4 +9258,307 @@
     url("assets/header-node.svg") center / 40px 100% no-repeat,
     var(--bg3-header-line) center / 100% var(--bg3-line-1) no-repeat;
   pointer-events: none;
+}
+
+/* ---------------------------------------------------------------- review fixes (05/10) */
+/* «Correzioni dopo la revisione (05/10)» (SOURCES.md): the independent review of the premium
+   pass, part two, items R1–R10, on top of the rules above (same selectors, later in the file).
+   Same guard as P12–P24 (high contrast keeps the plainer rules above), except the focus rings
+   (R5), which every mode shares. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]) {
+  /* R4: the hotbar's group divider as cast metal (a dark recess, a 1 px gilt light, a 2 px
+     dark-bronze bar and its shadow), its garnet stud in a bronze setting at mid-height. */
+  --bg3-sep-metal: linear-gradient(
+    90deg,
+    #070504 calc(50% - 2px),
+    #e2c58f calc(50% - 2px) calc(50% - 1px),
+    #3d2a18 calc(50% - 1px) calc(50% + 1px),
+    #1b120a calc(50% + 1px) calc(50% + 2px),
+    #070504 calc(50% + 2px)
+  );
+  --bg3-sep-stud: radial-gradient(
+    circle closest-side,
+    #d8352a 0 18%,
+    #8a0606 50%,
+    #3a0202 56%,
+    #f0d9a8 62%,
+    #b48a52 72%,
+    #4a3420 84%,
+    #0c0c0c 90%,
+    transparent 98%
+  );
+  /* R7: the tooltip's header and footer bands are drawn by the title and the hint themselves
+     (below), so they follow their real heights; P14's two tokens stay valid and draw nothing. */
+  --bg3-tip-head: linear-gradient(transparent, transparent);
+  --bg3-tip-foot: 0 0 transparent;
+  --bg3-tip-pad-b: 12px;
+  --bg3-tip-pad-i: 14px;
+  --bg3-tip-inner-r: calc(var(--bg3-radius-4) - var(--bg3-line-2));
+}
+
+/* R1 · The sheet's portrait medallion shows the character again (P16's background shorthand
+   had covered the shared sample art with the empty well, so Livia read «L» on her own sheet
+   while the Table showed her face): the art is painted in the well layer, inside P12's bezel,
+   with the same crops as directions/sample.css; the initial gives way to it. A character
+   without sample art keeps the well and the initial; an uploaded <img> stays round (its
+   radius inherits the medallion's 50 %). */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .character-sheet
+  .character-heading
+  .character-portrait.small {
+  overflow: visible;
+  background:
+    var(--bg3-sheet-art, var(--bg3-medal-well)) padding-box,
+    var(--bg3-medal-bezel) border-box;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .character-sheet
+  .character-heading
+  .character-portrait.small:hover {
+  background:
+    var(--bg3-sheet-art, var(--bg3-medal-well-lit)) padding-box,
+    var(--bg3-medal-bezel-lit) border-box;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .character-sheet:has([data-shp-band="livia"])
+  .character-heading
+  .character-portrait.small {
+  --bg3-sheet-art: url("../../assets/portraits/sample/livia.webp") center / cover no-repeat;
+  color: transparent;
+  text-shadow: none;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .character-sheet:has([data-shp-band="doran"])
+  .character-heading
+  .character-portrait.small {
+  --bg3-sheet-art: url("../../assets/portraits/sample/doran.webp") center / cover no-repeat;
+  color: transparent;
+  text-shadow: none;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .character-sheet:has([data-shp-band="mira"])
+  .character-heading
+  .character-portrait.small {
+  --bg3-sheet-art: url("../../assets/portraits/sample/mira.webp") center / cover no-repeat;
+  color: transparent;
+  text-shadow: none;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .character-sheet:has([data-shp-band="goblin-1"])
+  .character-heading
+  .character-portrait.small {
+  --bg3-sheet-art: url("../../assets/portraits/sample/goblin-1.webp") 52% 0 / 181.6% auto no-repeat;
+  color: transparent;
+  text-shadow: none;
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .character-sheet:has([data-shp-band="goblin-2"])
+  .character-heading
+  .character-portrait.small {
+  --bg3-sheet-art: url("../../assets/portraits/sample/goblin-2.webp") 43.4% 0 / 181.6% auto
+    no-repeat;
+  color: transparent;
+  text-shadow: none;
+}
+
+/* R2 · The edit badge sits on the bezel at the lower right, as BG3's rim pips (it had sat 12 %
+   inside the round, on the initial's foot and, with the art back, on the face). The medallion
+   no longer clips its children (R1), so the 22 px disc and its dark keyline stay whole. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .character-sheet
+  .character-heading
+  .character-portrait-edit {
+  right: calc(-1 * var(--bg3-line-2));
+  bottom: calc(-1 * var(--bg3-line-2));
+}
+
+/* R3 · On the phone's Table the header scrolls away under the scene's plate: its gilt line is
+   drawn on its own last pixel row and the gem is left out, so nothing pokes out below it. */
+@media (max-width: 720px) {
+  :root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+    .app-header.table-header::after {
+    bottom: 0;
+    height: var(--bg3-line-1);
+    background: var(--bg3-header-line);
+  }
+}
+
+/* R4 · The deck's group dividers as cast metal instead of BG3's flat red bar (the review: the
+   6–10 px saturated red read as an alert beside the red HP plate and the hostile frames).
+   The divider keeps its width, so the 58 px pitch and the window's whole slots are unchanged;
+   the border turns transparent and the group's own background paints, in the border's place,
+   the dark-bronze bar with its gilt light and a garnet stud at mid-height (BG3's group red
+   kept as a jewel), which replaces the «II» mark. The colour option c2 keeps its red bars. */
+@media (min-width: 721px) {
+  :root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]):not(
+      [data-variant~="c2"]
+    )
+    .table-layout
+    .table-hotbar
+    .combat-actions
+    > :is(.combat-group, .combat-filters):not(:last-child) {
+    --bg3-sep-now: var(--bg3-line-6);
+    border-right-color: transparent;
+    background:
+      var(--bg3-sep-stud) right center / var(--bg3-sep-now) var(--bg3-sep-now) no-repeat border-box,
+      var(--bg3-sep-metal) right center / var(--bg3-sep-now) 100% no-repeat border-box,
+      linear-gradient(90deg, rgb(0 0 0 / 0.75) 1px, transparent 1px) 0 0 / var(--bg3-slot-w)
+        var(--bg3-slot-h),
+      linear-gradient(rgb(0 0 0 / 0.75) 1px, transparent 1px) 0 0 / var(--bg3-slot-w)
+        var(--bg3-slot-h),
+      radial-gradient(circle at 50% 50%, rgb(255 255 255 / 0.035), transparent 70%) 0 0 /
+        var(--bg3-slot-w) var(--bg3-slot-h),
+      #0a1216;
+    box-shadow: inset -1px 0 0 #0c0c0c;
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]):not(
+      [data-variant~="c2"]
+    )
+    .table-layout
+    .table-hotbar
+    .combat-dock {
+    --bg3-sep-now: var(--bg3-line-6);
+    border-left-color: transparent;
+    background:
+      var(--bg3-sep-stud) left center / var(--bg3-sep-now) var(--bg3-sep-now) no-repeat border-box,
+      var(--bg3-sep-metal) left center / var(--bg3-sep-now) 100% no-repeat border-box,
+      linear-gradient(rgb(0 0 0 / 0.75) 1px, transparent 1px) 0 0 / var(--bg3-slot-w)
+        var(--bg3-slot-h),
+      #0a1216;
+  }
+}
+@media (min-width: 1280px) {
+  :root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]):not(
+      [data-variant~="c2"]
+    )
+    .table-layout
+    .table-hotbar
+    :is(.combat-actions > :is(.combat-group, .combat-filters):not(:last-child), .combat-dock) {
+    --bg3-sep-now: var(--bg3-sep-w);
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]):not(
+      [data-variant~="c2"]
+    )
+    .table-layout
+    .table-hotbar
+    .combat-actions
+    > :is(.combat-group, .combat-filters):not(:last-child)::after,
+  :root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]):not(
+      [data-variant~="c2"]
+    )
+    .table-layout
+    .table-hotbar
+    .combat-dock::before {
+    background: none;
+  }
+}
+
+/* R6 · A slot under the pointer speaks P12's hover: a gold rim inside a pale one, the warm band
+   rising from its foot a little stronger, and its glyph in relief with its family's light
+   doubled (the slot's box, its brightness step and the chosen slot's white glow unchanged). */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .table-layout
+  .table-hotbar
+  .combat-action:hover:not(.active, :disabled) {
+  box-shadow:
+    inset 0 0 0 1px var(--bg3-gold),
+    inset 0 0 0 2px rgb(255 242 179 / 0.3),
+    inset 0 -16px 18px -8px rgb(253 221 166 / 0.3),
+    inset 0 0 14px rgb(223 152 0 / 0.16);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .table-layout
+  .table-hotbar
+  .combat-action:hover:not(.active, :disabled)
+  .icon {
+  filter: var(--bg3-glyph-emboss) drop-shadow(0 0 5px var(--bg3-slot-glow))
+    drop-shadow(0 0 2px var(--bg3-slot-glow));
+}
+
+/* R5 · Focus rings. In the deck the ring is drawn 4 px inside the slot (it was flush with the
+   scrolling window's edge, its top row cut at 1440); on the rail it stands outside the medallion,
+   as on the map tools and the hotbar's round commands: 2 px out, not 3, since the rail's
+   scrolling column has a 5 px inset above its first medallion (the phone's bottom bar keeps
+   the core's inner ring). */
+:root[data-direction="bg3"]:not([data-pref-theme="light"])
+  .table-layout
+  .table-hotbar
+  :is(.combat-action, .combat-filter, .combat-dock .sm-dock-toggle):focus-visible {
+  outline-offset: calc(-1 * var(--bg3-space-2));
+}
+@media (min-width: 721px) {
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    .table-tabs
+    .table-tab:focus-visible {
+    outline-offset: var(--bg3-line-2);
+  }
+}
+
+/* R7 · Tooltip anatomy, drawn by its parts: the title is a full-width header band (black at
+   32 % → 18 % over the plate) closed by a 1 px gilt rule that fades at both ends; the hint
+   that ends a tip is a footer band of its own height (black at 25 %, a bronze rule on top), so
+   a two-line hint is never cut. The tip's padding is the same 12 × 14 px, stated here. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .shp-tip {
+  padding: var(--bg3-tip-pad-b) var(--bg3-tip-pad-i);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .shp-tip
+  > .shp-tip-title {
+  margin: calc(-1 * var(--bg3-tip-pad-b)) calc(-1 * var(--bg3-tip-pad-i)) var(--bg3-space-3);
+  padding: var(--bg3-tip-pad-b) var(--bg3-tip-pad-i) var(--bg3-space-3);
+  border-radius: var(--bg3-tip-inner-r) var(--bg3-tip-inner-r) 0 0;
+  background:
+    var(--bg3-header-line) center bottom / 100% var(--bg3-line-1) no-repeat,
+    linear-gradient(rgb(0 0 0 / 0.32), rgb(0 0 0 / 0.18));
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"])
+  .shp-tip
+  > .shp-tip-hint:last-child {
+  margin: var(--bg3-space-4) calc(-1 * var(--bg3-tip-pad-i)) calc(-1 * var(--bg3-tip-pad-b));
+  padding: var(--bg3-space-3) var(--bg3-tip-pad-i) var(--bg3-space-4);
+  border-top: var(--bg3-line-1) solid rgb(119 84 44 / 0.6);
+  border-radius: 0 0 var(--bg3-tip-inner-r) var(--bg3-tip-inner-r);
+  background: rgb(0 0 0 / 0.25);
+}
+
+/* R8 · The door's plate on the phone's map is opaque enough to hold its glyph (the «+» had
+   sunk into the painted door and wall), and the glyph takes the map labels' dark stroke. */
+@media (max-width: 720px) {
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    #battle-map
+    .door-display
+    rect {
+    fill: rgb(12 12 12 / 0.72);
+  }
+  :root[data-direction="bg3"]:not([data-pref-theme="light"])
+    .table-layout
+    #battle-map
+    .door-display
+    text {
+    paint-order: stroke;
+    stroke: #0c0c0c;
+    stroke-width: 3px;
+    stroke-linejoin: round;
+  }
+}
+
+/* R9 · The initiative roll call: «d20» stands inside the violet strip, clear of its rounded
+   cap, and the smoke plate is denser (96 % at the centre, 92 % at the line), so the Table's
+   chrome no longer reads through the dialog's header. */
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]):not(
+    [data-pref-vision]:not([data-pref-vision="standard"])
+  )
+  .ct-start
+  .ct-start-d20 {
+  padding-inline-start: var(--bg3-space-5);
+}
+:root[data-direction="bg3"]:not([data-pref-theme="light"]):not([data-pref-contrast="high"]) dialog {
+  background:
+    radial-gradient(110% 55% at 50% 0%, rgb(47 36 28 / 0.38), transparent 70%) 8px 8px /
+      calc(100% - 16px) calc(100% - 16px) no-repeat,
+    radial-gradient(farthest-corner at 50% 45%, rgb(0 0 0 / 0.96) 35%, rgb(5 4 3 / 0.92)) 8px 8px /
+      calc(100% - 16px) calc(100% - 16px) no-repeat;
 }

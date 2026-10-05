@@ -1409,6 +1409,42 @@ badge»); immagini `bg3-panels-subclass-select-steam.jpg` (icona «Wild Magic»)
 `bg3-sheet-examine-enemy.jpg`, `bg3-table-crop-party-portraits-4k.png` e
 `bg3-sheet-character-panel.png`.
 
+### Correzioni dopo la revisione (05/10)
+
+Revisione indipendente della seconda parte (`…/visual-01/round2/review-premium2/`). Tutto in
+fondo a `direction.css`, sezione «review fixes (05/10)», voci R1–R9. Nessun testo, markup o
+opzione cambiati; il contrasto alto tiene le regole più semplici. Prove e misure in
+`…/visual-01/round2/fix-0510/`.
+
+- **R1 · Il ritratto della scheda torna visibile.** P16 copriva il dipinto con il pozzetto vuoto:
+  Livia era una «L» sulla sua scheda e un volto al Tavolo. Ora il dipinto sta dentro la cornice,
+  con i ritagli di `sample.css`; senza dipinto restano pozzetto e iniziale.
+- **R2 · La matita sta sul bordo.** Il bollino di modifica copriva il piede della «L» (e poi il
+  volto); ora siede sulla cornice in basso a destra, come le gemme di bordo di BG3.
+- **R3 · Nessuna gemma che sporge sul telefono.** Al Tavolo a 390 px metà della gemma restava in
+  cima allo schermo; lì il filetto d'oro è l'ultima riga dell'intestazione, senza gemma.
+- **R4 · Separatori della barra in metallo.** Il rosso pieno di 6–10 px sembrava un allarme
+  accanto ai PF e ai nemici. Ora è bronzo scuro con una luce d'oro di 1 px, nello stesso spazio
+  (passo di 58 px invariato), e una borchia granata al centro al posto di «II»: il rosso dei
+  gruppi di BG3 (facts A1, misurato) resta come gioiello. L'opzione c2 tiene il suo rosso.
+- **R5 · Anelli di attenzione.** Nella barra l'anello sta 4 px dentro la casella; nella colonna
+  destra sta fuori dal medaglione come sugli strumenti della mappa, a 2 px (a 3 px la colonna lo
+  tagliava di 1 px in alto).
+- **R6 · Caselle accese al passaggio.** Bordo d'oro, banda calda dal basso più forte e simbolo in
+  rilievo con la luce della sua famiglia raddoppiata; la casella non cambia misura.
+- **R7 · Suggerimenti con testata e piede veri.** La fascia della testata non si vedeva (circa
+  1,2:1) e il piede era fisso a 36 px. Ora il titolo è una fascia chiusa da un filetto d'oro e
+  l'ultima riga d'aiuto ha la sua fascia, alta quanto il testo; i gettoni di P14 restano validi.
+- **R8 · La porta sulla mappa del telefono si legge.** Targhetta al 72 % (era 45 %) e «+» con il
+  contorno scuro delle altre etichette della mappa.
+- **R9 · Finestra dell'iniziativa.** «d20» sta dentro la fascia viola, lontano dal bordo
+  arrotondato; il fumo è più denso (96 % al centro, 92 % al bordo) e il Tavolo non traspare più.
+
+Lasciate alla regia: i suggerimenti ricchi sulle caselle e sui medaglioni del Tavolo (servono
+attributi nel markup o nel codice; P14 è pronto); i nomi delle caselle a 12 px (non entrano in
+48 px con l'icona da 20, e a 52 px la barra supera i 120); il ritratto scelto coperto a 390 px,
+dovuto alla striscia demo in cima e uguale in «Attuale» (senza striscia è libero).
+
 ## Marchio (I-251)
 
 Il marchio di questa opzione è un **d20 fuso in oro brunito**, con la faccia del «20» smaltata di
@@ -1618,6 +1654,9 @@ questo progetto il 01/10/2026; segue la licenza del repository.
 La losanga d'oro agli angoli dei menu contestuali (un tracciato SVG di quattro punti in
 `--bg3-corner-gem`) e il segno «II» dei separatori della barra (due gradienti lineari) sono
 disegnati per questo progetto il 02/10/2026 nello stesso file; seguono la licenza del
+repository. Dal 05/10/2026 il segno «II» resta solo nell'opzione c2 e nel contrasto alto:
+altrove lo sostituisce la borchia granata dei separatori (`--bg3-sep-stud`, un gradiente
+radiale, con la barra di bronzo `--bg3-sep-metal`), disegnata per questo progetto nello stesso file; segue la licenza del
 repository.
 
 ### Caratteri
